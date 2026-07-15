@@ -1,0 +1,244 @@
+{
+  "finance": [
+    {"table": "customer_kyc", "fields": [
+      {"name": "customer_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "id_card", "type": "VARCHAR", "level": "L4"},
+      {"name": "real_name", "type": "VARCHAR", "level": "L3"},
+      {"name": "phone", "type": "VARCHAR", "level": "L3"},
+      {"name": "email", "type": "VARCHAR", "level": "L2"},
+      {"name": "address", "type": "TEXT", "level": "L3"},
+      {"name": "kyc_date", "type": "DATE", "level": "L1"},
+      {"name": "risk_rating", "type": "ENUM", "level": "L1"}
+    ]},
+    {"table": "transactions", "fields": [
+      {"name": "txn_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "customer_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "amount", "type": "DECIMAL", "level": "L3"},
+      {"name": "currency", "type": "VARCHAR", "level": "L1"},
+      {"name": "counterparty_account", "type": "VARCHAR", "level": "L3"},
+      {"name": "txn_time", "type": "TIMESTAMP", "level": "L1"},
+      {"name": "channel", "type": "ENUM", "level": "L1"}
+    ]},
+    {"table": "cards", "fields": [
+      {"name": "card_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "card_number", "type": "VARCHAR", "level": "L4"},
+      {"name": "customer_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "cvv", "type": "VARCHAR", "level": "L4"},
+      {"name": "expiry_date", "type": "DATE", "level": "L2"},
+      {"name": "credit_limit", "type": "DECIMAL", "level": "L3"},
+      {"name": "status", "type": "ENUM", "level": "L1"}
+    ]},
+    {"table": "loans", "fields": [
+      {"name": "loan_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "customer_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "loan_amount", "type": "DECIMAL", "level": "L3"},
+      {"name": "interest_rate", "type": "DECIMAL", "level": "L2"},
+      {"name": "guarantor_id_card", "type": "VARCHAR", "level": "L4"},
+      {"name": "start_date", "type": "DATE", "level": "L1"},
+      {"name": "status", "type": "ENUM", "level": "L1"}
+    ]},
+    {"table": "accounts", "fields": [
+      {"name": "account_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "customer_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "balance", "type": "DECIMAL", "level": "L3"},
+      {"name": "account_type", "type": "ENUM", "level": "L1"},
+      {"name": "open_date", "type": "DATE", "level": "L1"},
+      {"name": "branch", "type": "VARCHAR", "level": "L1"}
+    ]},
+    {"table": "credit_scores", "fields": [
+      {"name": "customer_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "score", "type": "INT", "level": "L2"},
+      {"name": "rating", "type": "ENUM", "level": "L1"},
+      {"name": "eval_date", "type": "DATE", "level": "L1"}
+    ]},
+    {"table": "payment_methods", "fields": [
+      {"name": "pm_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "customer_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "bank_card", "type": "VARCHAR", "level": "L4"},
+      {"name": "bind_phone", "type": "VARCHAR", "level": "L3"},
+      {"name": "type", "type": "ENUM", "level": "L1"}
+    ]},
+    {"table": "insurance_claims", "fields": [
+      {"name": "claim_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "policyholder_id_card", "type": "VARCHAR", "level": "L4"},
+      {"name": "claim_amount", "type": "DECIMAL", "level": "L3"},
+      {"name": "claim_type", "type": "ENUM", "level": "L1"},
+      {"name": "hospital", "type": "VARCHAR", "level": "L2"},
+      {"name": "submit_date", "type": "DATE", "level": "L1"}
+    ]},
+    {"table": "risk_alerts", "fields": [
+      {"name": "alert_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "customer_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "alert_type", "type": "ENUM", "level": "L1"},
+      {"name": "severity", "type": "ENUM", "level": "L1"},
+      {"name": "detail", "type": "TEXT", "level": "L2"}
+    ]},
+    {"table": "compliance_records", "fields": [
+      {"name": "record_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "regulation", "type": "VARCHAR", "level": "L1"},
+      {"name": "status", "type": "ENUM", "level": "L1"},
+      {"name": "audit_date", "type": "DATE", "level": "L1"}
+    ]}
+  ],
+  "medical": [
+    {"table": "patients", "fields": [
+      {"name": "patient_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "id_card", "type": "VARCHAR", "level": "L4"},
+      {"name": "name", "type": "VARCHAR", "level": "L3"},
+      {"name": "gender", "type": "ENUM", "level": "L1"},
+      {"name": "birth_date", "type": "DATE", "level": "L2"},
+      {"name": "phone", "type": "VARCHAR", "level": "L3"},
+      {"name": "address", "type": "TEXT", "level": "L3"},
+      {"name": "emergency_contact_phone", "type": "VARCHAR", "level": "L3"}
+    ]},
+    {"table": "diagnoses", "fields": [
+      {"name": "diag_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "patient_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "icd_code", "type": "VARCHAR", "level": "L2"},
+      {"name": "diagnosis_text", "type": "TEXT", "level": "L3"},
+      {"name": "doctor_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "diag_date", "type": "DATE", "level": "L1"}
+    ]},
+    {"table": "prescriptions", "fields": [
+      {"name": "rx_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "patient_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "drug_name", "type": "VARCHAR", "level": "L2"},
+      {"name": "dosage", "type": "VARCHAR", "level": "L1"},
+      {"name": "frequency", "type": "VARCHAR", "level": "L1"},
+      {"name": "prescribe_date", "type": "DATE", "level": "L1"}
+    ]},
+    {"table": "medical_records", "fields": [
+      {"name": "record_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "patient_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "visit_type", "type": "ENUM", "level": "L1"},
+      {"name": "chief_complaint", "type": "TEXT", "level": "L4"},
+      {"name": "treatment_plan", "type": "TEXT", "level": "L3"},
+      {"name": "admission_date", "type": "DATE", "level": "L1"},
+      {"name": "discharge_date", "type": "DATE", "level": "L1"}
+    ]},
+    {"table": "lab_results", "fields": [
+      {"name": "lab_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "patient_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "test_name", "type": "VARCHAR", "level": "L2"},
+      {"name": "result_value", "type": "VARCHAR", "level": "L3"},
+      {"name": "reference_range", "type": "VARCHAR", "level": "L1"},
+      {"name": "test_date", "type": "DATE", "level": "L1"}
+    ]},
+    {"table": "billing", "fields": [
+      {"name": "bill_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "patient_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "amount", "type": "DECIMAL", "level": "L3"},
+      {"name": "insurance_id", "type": "VARCHAR", "level": "L3"},
+      {"name": "pay_method", "type": "ENUM", "level": "L1"},
+      {"name": "bill_date", "type": "DATE", "level": "L1"}
+    ]},
+    {"table": "insurance_info", "fields": [
+      {"name": "insurance_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "patient_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "policy_number", "type": "VARCHAR", "level": "L3"},
+      {"name": "provider", "type": "VARCHAR", "level": "L1"},
+      {"name": "coverage_amount", "type": "DECIMAL", "level": "L3"}
+    ]},
+    {"table": "appointments", "fields": [
+      {"name": "appt_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "patient_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "doctor_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "department", "type": "VARCHAR", "level": "L1"},
+      {"name": "appt_time", "type": "TIMESTAMP", "level": "L1"},
+      {"name": "status", "type": "ENUM", "level": "L1"}
+    ]},
+    {"table": "allergies", "fields": [
+      {"name": "allergy_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "patient_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "allergen", "type": "VARCHAR", "level": "L3"},
+      {"name": "severity", "type": "ENUM", "level": "L2"},
+      {"name": "reaction", "type": "TEXT", "level": "L3"}
+    ]},
+    {"table": "immunizations", "fields": [
+      {"name": "imm_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "patient_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "vaccine_name", "type": "VARCHAR", "level": "L1"},
+      {"name": "dose_number", "type": "INT", "level": "L1"},
+      {"name": "admin_date", "type": "DATE", "level": "L1"}
+    ]}
+  ],
+  "ecommerce": [
+    {"table": "users", "fields": [
+      {"name": "user_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "username", "type": "VARCHAR", "level": "L1"},
+      {"name": "phone", "type": "VARCHAR", "level": "L3"},
+      {"name": "email", "type": "VARCHAR", "level": "L2"},
+      {"name": "id_card", "type": "VARCHAR", "level": "L4"},
+      {"name": "register_date", "type": "DATE", "level": "L1"},
+      {"name": "status", "type": "ENUM", "level": "L1"}
+    ]},
+    {"table": "orders", "fields": [
+      {"name": "order_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "user_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "total_amount", "type": "DECIMAL", "level": "L2"},
+      {"name": "status", "type": "ENUM", "level": "L1"},
+      {"name": "create_time", "type": "TIMESTAMP", "level": "L1"},
+      {"name": "pay_time", "type": "TIMESTAMP", "level": "L1"}
+    ]},
+    {"table": "payments", "fields": [
+      {"name": "payment_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "order_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "amount", "type": "DECIMAL", "level": "L3"},
+      {"name": "pay_channel", "type": "ENUM", "level": "L1"},
+      {"name": "bank_card", "type": "VARCHAR", "level": "L4"},
+      {"name": "pay_time", "type": "TIMESTAMP", "level": "L1"}
+    ]},
+    {"table": "addresses", "fields": [
+      {"name": "addr_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "user_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "receiver_name", "type": "VARCHAR", "level": "L3"},
+      {"name": "receiver_phone", "type": "VARCHAR", "level": "L3"},
+      {"name": "detail_address", "type": "TEXT", "level": "L3"},
+      {"name": "is_default", "type": "BOOLEAN", "level": "L1"}
+    ]},
+    {"table": "products", "fields": [
+      {"name": "product_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "name", "type": "VARCHAR", "level": "L1"},
+      {"name": "category", "type": "VARCHAR", "level": "L1"},
+      {"name": "price", "type": "DECIMAL", "level": "L1"},
+      {"name": "stock", "type": "INT", "level": "L1"}
+    ]},
+    {"table": "reviews", "fields": [
+      {"name": "review_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "user_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "product_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "rating", "type": "INT", "level": "L1"},
+      {"name": "content", "type": "TEXT", "level": "L1"},
+      {"name": "create_time", "type": "TIMESTAMP", "level": "L1"}
+    ]},
+    {"table": "coupons", "fields": [
+      {"name": "coupon_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "user_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "discount", "type": "DECIMAL", "level": "L1"},
+      {"name": "expire_date", "type": "DATE", "level": "L1"},
+      {"name": "status", "type": "ENUM", "level": "L1"}
+    ]},
+    {"table": "shipping", "fields": [
+      {"name": "ship_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "order_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "carrier", "type": "VARCHAR", "level": "L1"},
+      {"name": "tracking_no", "type": "VARCHAR", "level": "L1"},
+      {"name": "status", "type": "ENUM", "level": "L1"}
+    ]},
+    {"table": "user_profiles", "fields": [
+      {"name": "user_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "avatar_url", "type": "VARCHAR", "level": "L1"},
+      {"name": "gender", "type": "ENUM", "level": "L2"},
+      {"name": "birth_date", "type": "DATE", "level": "L2"},
+      {"name": "real_name", "type": "VARCHAR", "level": "L3"}
+    ]},
+    {"table": "refund_records", "fields": [
+      {"name": "refund_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "order_id", "type": "VARCHAR", "level": "L1"},
+      {"name": "amount", "type": "DECIMAL", "level": "L3"},
+      {"name": "reason", "type": "TEXT", "level": "L1"},
+      {"name": "refund_account", "type": "VARCHAR", "level": "L4"},
+      {"name": "status", "type": "ENUM", "level": "L1"}
+    ]}
+  ]
+}

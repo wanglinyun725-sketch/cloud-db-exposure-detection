@@ -1,0 +1,31 @@
+# EIC-Agent Gate·Score 配置
+# Gate 硬约束阈值（任何一个不满足则 Gate=0）
+gate_thresholds:
+  entry: 0.3      # 入口暴露最低阈值
+  reach: 0.5      # 网络可达最低阈值
+  perm: 0.5       # 权限授予最低阈值
+
+# Score 加权几何均值权重（sum=1.0）
+score_weights:
+  entry: 0.20
+  reach: 0.30
+  perm: 0.20
+  target: 0.15
+  sense: 0.15
+
+# 风险等级划分阈值
+risk_levels:
+  high: 0.80      # score >= 0.80 → Observed_Risk
+  medium: 0.50    # score >= 0.50 → Potential_Exposure
+  # score < 0.50 → Low_Risk
+
+# Observed-EIC 审计证据扩展
+audit:
+  tau_audit: 0.6  # 审计证据阈值
+  gamma: 0.95     # 时间衰减因子
+  delta_t_hours: 24  # 衰减时间单位（小时）
+
+# 搜索配置
+search:
+  max_depth: 8
+  min_depth: 4

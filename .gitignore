@@ -1,0 +1,36 @@
+# ─── Python ───
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# ─── 环境变量与密钥 ───
+.env
+*.env.local
+
+# ─── 操作系统垃圾 ───
+.DS_Store
+Thumbs.db
+
+# ─── 编辑器 / 工具本地状态 ───
+.qoder/
+.idea/
+.vscode/
+
+# ─── 时间戳备份（历史版本快照，不入库）───
+*.bak
+*.bak_*
+
+# ─── LaTeX 编译中间产物 ───
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# ─── 运行时结果（如需保留可删掉此段）───
+experiments/results/*.jsonl

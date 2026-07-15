@@ -1,0 +1,428 @@
+{
+  "seed_id": "rds_snapshot",
+  "source": "CloudGoat (RhinoSecurityLabs, BSD-3-Clause)",
+  "scenario_ref": "rds_snapshot",
+  "nodes": [
+    {
+      "id": "cg-ec2-instance-profile",
+      "type": "Identity",
+      "attrs": {
+        "name": "cg-ec2-instance-profile",
+        "tf_type": "aws_iam_instance_profile",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "compute",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "cg-ec2-instance",
+      "type": "Identity",
+      "attrs": {
+        "name": "cg-ec2-instance",
+        "tf_type": "aws_instance",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "compute",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "cg-david",
+      "type": "Identity",
+      "attrs": {
+        "name": "cg-david",
+        "tf_type": "aws_iam_user",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "user",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "cg-ec2-admin-role",
+      "type": "Identity",
+      "attrs": {
+        "name": "cg-ec2-admin-role",
+        "tf_type": "aws_iam_role",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "role",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "cg-rds-db_instance",
+      "type": "DBInstance",
+      "attrs": {
+        "name": "cg-rds-db_instance",
+        "tf_type": "aws_db_instance",
+        "source": "cloudgoat:rds_snapshot",
+        "engine": "mysql",
+        "publicly_accessible": false,
+        "encrypted": false,
+        "audit_on": false
+      }
+    },
+    {
+      "id": "cg-rds_snapshot",
+      "type": "DBObject",
+      "attrs": {
+        "name": "cg-rds_snapshot",
+        "tf_type": "aws_db_snapshot",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "snapshot"
+      }
+    },
+    {
+      "id": "cg-data-s3-bucket",
+      "type": "DBObject",
+      "attrs": {
+        "name": "cg-data-s3-bucket",
+        "tf_type": "aws_s3_bucket",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "bucket"
+      }
+    },
+    {
+      "id": "object",
+      "type": "DBObject",
+      "attrs": {
+        "name": "object",
+        "tf_type": "aws_s3_object",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "object"
+      }
+    },
+    {
+      "id": "cg-vpc",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-vpc",
+        "tf_type": "aws_vpc",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "vpc",
+        "is_infra": true,
+        "public_exposed": false,
+        "parent_vpc": null
+      }
+    },
+    {
+      "id": "cg-internet-gateway",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-internet-gateway",
+        "tf_type": "aws_internet_gateway",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "igw",
+        "is_infra": true,
+        "public_exposed": false,
+        "parent_vpc": "cg-vpc"
+      }
+    },
+    {
+      "id": "cg-public-subnet-route-table",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-public-subnet-route-table",
+        "tf_type": "aws_route_table",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "route_table",
+        "is_infra": true,
+        "public_exposed": false,
+        "cidr": "0.0.0.0/0",
+        "parent_vpc": "cg-vpc"
+      }
+    },
+    {
+      "id": "cg-ec2-ssh-security-group",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-ec2-ssh-security-group",
+        "tf_type": "aws_security_group",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "sg",
+        "is_infra": false,
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0",
+        "parent_vpc": "cg-vpc"
+      }
+    },
+    {
+      "id": "allow_mysql",
+      "type": "Network",
+      "attrs": {
+        "name": "allow_mysql",
+        "tf_type": "aws_security_group",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "sg",
+        "is_infra": false,
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0",
+        "parent_vpc": "cg-vpc"
+      }
+    },
+    {
+      "id": "cg-subnet-1",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-subnet-1",
+        "tf_type": "aws_subnet",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "subnet",
+        "is_infra": false,
+        "public_exposed": false,
+        "parent_vpc": "cg-vpc"
+      }
+    },
+    {
+      "id": "cg-subnet-2",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-subnet-2",
+        "tf_type": "aws_subnet",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "subnet",
+        "is_infra": false,
+        "public_exposed": false,
+        "parent_vpc": "cg-vpc"
+      }
+    },
+    {
+      "id": "cg-db-subnet-group",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-db-subnet-group",
+        "tf_type": "aws_db_subnet_group",
+        "source": "cloudgoat:rds_snapshot",
+        "kind": "subnet_group",
+        "is_infra": true,
+        "public_exposed": false,
+        "parent_vpc": null
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "cg-ec2-instance-profile",
+      "target": "cg-ec2-admin-role",
+      "type": "can_assume",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-ec2-instance",
+      "target": "cg-ec2-instance-profile",
+      "type": "can_assume",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-subnet-1",
+      "target": "cg-ec2-instance",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-ec2-ssh-security-group",
+      "target": "cg-ec2-instance",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-ec2-instance",
+      "target": "cg-rds-db_instance",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 0.6,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-db-subnet-group",
+      "target": "cg-rds-db_instance",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "allow_mysql",
+      "target": "cg-rds-db_instance",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-rds-db_instance",
+      "target": "cg-rds_snapshot",
+      "type": "contains",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-rds_snapshot",
+      "target": "cg-ec2-instance",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 0.6,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-data-s3-bucket",
+      "target": "object",
+      "type": "contains",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-vpc",
+      "target": "cg-internet-gateway",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-vpc",
+      "target": "cg-public-subnet-route-table",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-internet-gateway",
+      "target": "cg-public-subnet-route-table",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-vpc",
+      "target": "cg-ec2-ssh-security-group",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-vpc",
+      "target": "allow_mysql",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-vpc",
+      "target": "cg-subnet-1",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-vpc",
+      "target": "cg-subnet-2",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-subnet-1",
+      "target": "cg-db-subnet-group",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-subnet-2",
+      "target": "cg-db-subnet-group",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-david",
+      "target": "cg-rds-db_instance",
+      "type": "has_permission",
+      "attrs": {
+        "strength": 0.9,
+        "source": "cloudgoat_iam_policy",
+        "privilege": "rds:AddTagsToResource,rds:DescribeDBInstances,rds:DescribeDBSnapshots,rds:ModifyDBInstance,rds:RestoreDBInstanceFromDBSnapshot"
+      }
+    },
+    {
+      "source": "cg-ec2-admin-role",
+      "target": "cg-data-s3-bucket",
+      "type": "has_permission",
+      "attrs": {
+        "strength": 0.9,
+        "source": "cloudgoat_iam_policy",
+        "privilege": "s3:*"
+      }
+    },
+    {
+      "source": "cg-ec2-admin-role",
+      "target": "object",
+      "type": "has_permission",
+      "attrs": {
+        "strength": 0.9,
+        "source": "cloudgoat_iam_policy",
+        "privilege": "s3:*"
+      }
+    },
+    {
+      "source": "cg-ec2-instance",
+      "target": "cg-data-s3-bucket",
+      "type": "has_permission",
+      "attrs": {
+        "strength": 0.85,
+        "source": "cloudgoat_cred_lateral",
+        "privilege": "s3:*"
+      }
+    },
+    {
+      "source": "cg-ec2-instance",
+      "target": "object",
+      "type": "has_permission",
+      "attrs": {
+        "strength": 0.85,
+        "source": "cloudgoat_cred_lateral",
+        "privilege": "s3:*"
+      }
+    }
+  ]
+}

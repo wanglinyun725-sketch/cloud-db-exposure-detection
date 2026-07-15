@@ -1,0 +1,2708 @@
+{
+  "CG_rds_snapshot_000": {
+    "scenario": "CG-rds_snapshot",
+    "scenario_name": "[CloudGoat] rds_snapshot",
+    "industry": "finance",
+    "expected": "Observed_Risk",
+    "elapsed": 26.54,
+    "node_count": 20,
+    "edge_count": 29,
+    "node_types": {
+      "Identity": 4,
+      "DBInstance": 1,
+      "DBObject": 6,
+      "Network": 8,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "cg-ec2-ssh-security-group",
+      "allow_mysql"
+    ],
+    "targets": [
+      "fld_CG_rds_snapshot_000",
+      "tag_CG_rds_snapshot_000"
+    ],
+    "results": [
+      {
+        "path": [
+          "cg-ec2-ssh-security-group",
+          "cg-ec2-instance",
+          "cg-rds-db_instance",
+          "tbl_CG_rds_snapshot_000",
+          "fld_CG_rds_snapshot_000",
+          "tag_CG_rds_snapshot_000"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.87,
+          "target": 0.95,
+          "sense": 0.95
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8216,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.87,
+            "target": 0.95,
+            "sense": 0.95
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.8216)。证据链显示：入口点（entry=1.0）完全暴露，通过SSH安全组可直达EC2实例；横向移动至RDS数据库实例（reach=0.6），权限利用度较高（perm=0.87）；目标资产为RDS快照（target=0.95），敏感数据泄露风险显著（sense=0.95）。关键风险点：SSH安全组过度开放导致攻击者从公网入侵EC2，进而利用实例权限访问RDS并窃取快照中的敏感数据。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：删除或加密RDS快照tag_CG_rds_snapshot_000，防止数据泄露。\n2. 权限收敛：移除cg-ec2-ssh-security-group对cg-ec2-instance的SSH入站规则，限制为仅必要IP。\n3. 网络隔离：将cg-rds-db_instance移入私有子网，关闭公网访问。\n4. 长期改进：启用RDS自动备份加密，并审计安全组规则。"
+      },
+      {
+        "path": [
+          "cg-ec2-ssh-security-group",
+          "cg-ec2-instance",
+          "cg-rds-db_instance",
+          "tbl_CG_rds_snapshot_000",
+          "fld_CG_rds_snapshot_000"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.87,
+          "target": 0.95,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1042,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.87,
+            "target": 0.95,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1042）。证据链分析：入口点（entry=1.0）确认攻击者可通过SSH安全组访问EC2实例；可达性（reach=0.6）表明从EC2到RDS实例的横向移动受限；权限（perm=0.87）显示攻击者具备较高权限；目标价值（target=0.95）极高，但感知能力（sense=0.0）为零，表明攻击者无法检测或枚举RDS快照。关键风险点：攻击者虽能进入EC2并具备高权限，但无法感知目标快照，导致实际利用路径断裂，整体风险较低。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：删除公开快照tbl_CG_rds_snapshot_000，防止数据泄露。\n2. 权限收敛：修改cg-ec2-ssh-security-group入站规则，移除0.0.0.0/0对SSH端口的开放。\n3. 网络隔离：将cg-ec2-instance移入私有子网，限制公网访问。\n4. 长期改进：启用RDS自动备份加密，并定期审计安全组配置。"
+      },
+      {
+        "path": [
+          "allow_mysql",
+          "cg-rds-db_instance",
+          "tbl_CG_rds_snapshot_000",
+          "fld_CG_rds_snapshot_000",
+          "tag_CG_rds_snapshot_000"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.87,
+          "target": 0.95,
+          "sense": 0.95
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9577,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.87,
+            "target": 0.95,
+            "sense": 0.95
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9577)。证据链分析：入口点allow_mysql暴露于公网（entry=1.0），攻击者可直达RDS实例（reach=1.0），通过快照标签（tag_CG_rds_snapshot_000）获取高权限访问（perm=0.87），目标数据资产敏感度极高（target=0.95），且攻击行为可被感知（sense=0.95）。关键风险点：RDS快照标签未实施访问控制，结合公网可达的数据库入口，形成从外部攻击到内部敏感数据泄露的完整路径。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对资源cg-rds-db_instance执行快照回滚，使用tbl_CG_rds_snapshot_000前序快照恢复数据。\n2. 权限收敛：撤销allow_mysql策略中针对fld_CG_rds_snapshot_000的公开访问权限，仅保留必要IAM角色。\n3. 网络隔离：为cg-rds-db_instance启用安全组，限制入站流量仅允许特定IP段。\n4. 长期改进：启用RDS自动备份并配置审计日志，定期审查tag_CG_rds_snapshot_000标签策略。"
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_rds_snapshot_001": {
+    "scenario": "CG-rds_snapshot",
+    "scenario_name": "[CloudGoat] rds_snapshot",
+    "industry": "medical",
+    "expected": "Observed_Risk",
+    "elapsed": 24.54,
+    "node_count": 20,
+    "edge_count": 29,
+    "node_types": {
+      "Identity": 4,
+      "DBInstance": 1,
+      "DBObject": 6,
+      "Network": 8,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "cg-ec2-ssh-security-group",
+      "allow_mysql"
+    ],
+    "targets": [
+      "fld_CG_rds_snapshot_001",
+      "tag_CG_rds_snapshot_001"
+    ],
+    "results": [
+      {
+        "path": [
+          "cg-ec2-ssh-security-group",
+          "cg-ec2-instance",
+          "cg-rds-db_instance",
+          "tbl_CG_rds_snapshot_001",
+          "fld_CG_rds_snapshot_001",
+          "tag_CG_rds_snapshot_001"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.94,
+          "target": 0.94,
+          "sense": 0.94
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8318,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.94,
+            "target": 0.94,
+            "sense": 0.94
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.8318)。证据链显示：入口点（entry=1.0）为cg-ec2-ssh-security-group，表明SSH端口暴露于公网；可达性（reach=0.6）表明攻击者可横向移动至cg-rds-db_instance；权限（perm=0.94）与目标（target=0.94）高度匹配，指示攻击者已获取数据库快照访问权限；敏感性（sense=0.94）确认数据为高敏感度。关键风险点：SSH安全组配置不当导致入口暴露，结合高权限访问RDS快照，构成数据泄露直接威胁。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即删除RDS快照tag_CG_rds_snapshot_001，并撤销cg-ec2-ssh-security-group对cg-ec2-instance的SSH入站规则。\n2. 权限收敛：移除cg-ec2-instance对cg-rds-db_instance的访问权限，限制仅必要IAM角色访问。\n3. 网络隔离：将cg-rds-db_instance移入私有子网，关闭公网访问。\n4. 长期改进：启用RDS自动备份加密，定期审计安全组规则。"
+      },
+      {
+        "path": [
+          "cg-ec2-ssh-security-group",
+          "cg-ec2-instance",
+          "cg-rds-db_instance",
+          "tbl_CG_rds_snapshot_001",
+          "fld_CG_rds_snapshot_001"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.94,
+          "target": 0.94,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1057,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.94,
+            "target": 0.94,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1057）。证据链分析：入口点（entry=1.0）完全暴露，但可达性（reach=0.6）中等，权限（perm=0.94）极高，目标敏感度（target=0.94）极高，而感知能力（sense=0.0）缺失。关键风险点：攻击者可通过SSH安全组暴露的EC2实例横向移动至RDS数据库，利用高权限访问快照数据，但当前缺乏检测机制（sense=0.0）导致风险评分较低。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：删除RDS快照tbl_CG_rds_snapshot_001中的敏感字段fld_CG_rds_snapshot_001。\n2. 权限收敛：移除安全组cg-ec2-ssh-security-group对EC2实例cg-ec2-instance的SSH入站规则。\n3. 网络隔离：限制cg-ec2-instance与RDS实例cg-rds-db_instance之间的网络访问，仅允许必要端口。\n4. 长期改进：启用RDS自动快照加密，并定期审计安全组规则。"
+      },
+      {
+        "path": [
+          "allow_mysql",
+          "cg-rds-db_instance",
+          "tbl_CG_rds_snapshot_001",
+          "fld_CG_rds_snapshot_001",
+          "tag_CG_rds_snapshot_001"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.94,
+          "target": 0.94,
+          "sense": 0.94
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9695,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.94,
+            "target": 0.94,
+            "sense": 0.94
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9695)。证据链分析：入口点allow_mysql暴露度1.0，表明数据库服务存在外部可达接口；reach=1.0确认攻击者可遍历至RDS实例；perm=0.94与target=0.94显示攻击者具备高权限访问快照表tbl_CG_rds_snapshot_001及字段fld_CG_rds_snapshot_001的能力；sense=0.94表明敏感数据可被感知。关键风险点：RDS快照表权限配置不当，结合高暴露入口，形成从外部访问到敏感数据泄露的完整攻击路径。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即删除快照tbl_CG_rds_snapshot_001，执行命令：aws rds delete-db-snapshot --db-snapshot-identifier tbl_CG_rds_snapshot_001。\n2. 权限收敛：撤销cg-rds-db_instance对allow_mysql的公开访问权限，修改安全组规则移除0.0.0.0/0。\n3. 网络隔离：将cg-rds-db_instance移入私有子网，禁用公网访问。\n4. 长期改进：启用RDS自动备份加密，定期审计快照共享配置。"
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_rds_snapshot_002": {
+    "scenario": "CG-rds_snapshot",
+    "scenario_name": "[CloudGoat] rds_snapshot",
+    "industry": "ecommerce",
+    "expected": "Observed_Risk",
+    "elapsed": 32.9,
+    "node_count": 20,
+    "edge_count": 29,
+    "node_types": {
+      "Identity": 4,
+      "DBInstance": 1,
+      "DBObject": 6,
+      "Network": 8,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "cg-ec2-ssh-security-group",
+      "allow_mysql"
+    ],
+    "targets": [
+      "fld_CG_rds_snapshot_002",
+      "tag_CG_rds_snapshot_002"
+    ],
+    "results": [
+      {
+        "path": [
+          "cg-ec2-ssh-security-group",
+          "cg-ec2-instance",
+          "cg-rds-db_instance",
+          "tbl_CG_rds_snapshot_002",
+          "fld_CG_rds_snapshot_002",
+          "tag_CG_rds_snapshot_002"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.86,
+          "target": 0.85,
+          "sense": 0.85
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.7928,
+          "path_type": "Potential_Exposure",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.86,
+            "target": 0.85,
+            "sense": 0.85
+          }
+        },
+        "attribution": "该路径被判定为Potential_Exposure (Score=0.7928)。证据链分析：入口点（entry=1.0）完全暴露，通过cg-ec2-ssh-security-group允许SSH访问；可达性（reach=0.6）表明攻击者可横向移动至cg-rds-db_instance；权限（perm=0.86）与目标（target=0.85）显示攻击者具备高权限访问RDS快照tbl_CG_rds_snapshot_002的能力；敏感度（sense=0.85）确认快照包含敏感数据。关键风险点：SSH安全组过度开放导致入口暴露，结合高权限RDS快照访问，形成数据泄露路径。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：删除或加密RDS快照tag_CG_rds_snapshot_002，防止数据泄露。\n2. 权限收敛：移除安全组cg-ec2-ssh-security-group对EC2实例cg-ec2-instance的SSH入站规则，限制来源IP。\n3. 网络隔离：将RDS实例cg-rds-db_instance移入私有子网，关闭公网访问。\n4. 长期改进：启用RDS自动加密和快照加密，定期审计安全组规则。"
+      },
+      {
+        "path": [
+          "cg-ec2-ssh-security-group",
+          "cg-ec2-instance",
+          "cg-rds-db_instance",
+          "tbl_CG_rds_snapshot_002",
+          "fld_CG_rds_snapshot_002"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.86,
+          "target": 0.85,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1023,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.86,
+            "target": 0.85,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk (Score=0.1023)。证据链分析：入口点（entry=1.0）明确，但可达性（reach=0.6）受限，表明从EC2实例到RDS数据库的横向移动存在网络隔离或访问控制；权限（perm=0.86）较高，但目标敏感度（sense=0.0）为零，表明RDS快照数据不包含敏感信息。关键风险点：入口暴露与高权限组合存在潜在威胁，但数据无敏感价值且可达性不足，整体风险可控。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：删除RDS快照tbl_CG_rds_snapshot_002中字段fld_CG_rds_snapshot_002的公开访问权限。\n2. 权限收敛：对cg-ec2-ssh-security-group实施最小权限原则，移除SSH端口对0.0.0.0/0的开放。\n3. 网络隔离：将cg-ec2-instance移入私有子网，仅允许通过堡垒机访问。\n4. 长期改进：启用RDS自动快照加密，并配置AWS Config规则监控安全组变更。"
+      },
+      {
+        "path": [
+          "allow_mysql",
+          "cg-rds-db_instance",
+          "tbl_CG_rds_snapshot_002",
+          "fld_CG_rds_snapshot_002",
+          "tag_CG_rds_snapshot_002"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.86,
+          "target": 0.85,
+          "sense": 0.85
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9241,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.86,
+            "target": 0.85,
+            "sense": 0.85
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9241)。证据链分析：入口点allow_mysql具备完全暴露（entry=1.0），攻击可达性高（reach=1.0），权限提升至0.86，目标敏感度0.85，检测能力0.85。关键风险点：攻击者可通过allow_mysql直接访问RDS实例，利用cg-rds-db_instance权限链，经tbl_CG_rds_snapshot_002表及字段fld_CG_rds_snapshot_002，最终操纵tag_CG_rds_snapshot_002标签，实现数据库快照的未授权访问与篡改。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对资源cg-rds-db_instance执行快照回滚，撤销tbl_CG_rds_snapshot_002的allow_mysql访问权限。\n2. 权限收敛：移除tag_CG_rds_snapshot_002的公开访问标签，限制fld_CG_rds_snapshot_002仅授权特定IP。\n3. 网络隔离：为cg-rds-db_instance启用安全组，禁止公网入站。\n4. 长期改进：启用RDS审计日志，定期审查快照共享策略。"
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_rds_snapshot_003": {
+    "scenario": "CG-rds_snapshot",
+    "scenario_name": "[CloudGoat] rds_snapshot",
+    "industry": "finance",
+    "expected": "Insufficient_Evidence",
+    "elapsed": 0.85,
+    "node_count": 20,
+    "edge_count": 29,
+    "node_types": {
+      "Identity": 4,
+      "DBInstance": 1,
+      "DBObject": 6,
+      "Network": 8,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "cg-ec2-ssh-security-group",
+      "allow_mysql"
+    ],
+    "targets": [
+      "fld_CG_rds_snapshot_003",
+      "tag_CG_rds_snapshot_003"
+    ],
+    "results": [
+      {
+        "path": [
+          "cg-ec2-ssh-security-group",
+          "cg-ec2-instance",
+          "cg-rds-db_instance",
+          "tbl_CG_rds_snapshot_003",
+          "fld_CG_rds_snapshot_003",
+          "tag_CG_rds_snapshot_003"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.0132
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.01<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.0132
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.01<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      },
+      {
+        "path": [
+          "cg-ec2-ssh-security-group",
+          "cg-ec2-instance",
+          "cg-rds-db_instance",
+          "tbl_CG_rds_snapshot_003",
+          "fld_CG_rds_snapshot_003"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.0132
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.01<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.0132
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.01<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      },
+      {
+        "path": [
+          "allow_mysql",
+          "cg-rds-db_instance",
+          "tbl_CG_rds_snapshot_003",
+          "fld_CG_rds_snapshot_003",
+          "tag_CG_rds_snapshot_003"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.18
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.18<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.18
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.18<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_rce_web_app_004": {
+    "scenario": "CG-rce_web_app",
+    "scenario_name": "[CloudGoat] rce_web_app",
+    "industry": "finance",
+    "expected": "Observed_Risk",
+    "elapsed": 176.52,
+    "node_count": 30,
+    "edge_count": 32,
+    "node_types": {
+      "Identity": 5,
+      "Network": 13,
+      "DBInstance": 1,
+      "DBObject": 10,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "ec2_ssh",
+      "lb_http",
+      "rds"
+    ],
+    "targets": [
+      "fld_CG_rce_web_app_004",
+      "tag_CG_rce_web_app_004"
+    ],
+    "results": [
+      {
+        "path": [
+          "ec2_ssh",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_004",
+          "fld_CG_rce_web_app_004",
+          "tag_CG_rce_web_app_004"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.95
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8272,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.95
+          }
+        },
+        "attribution": "判定: Observed_Risk (Score=0.8272)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.90); 高敏数据确认(ε=0.95)。",
+        "remediation": "1. 收紧安全组 ec2_ssh 的入站规则，移除 0.0.0.0/0\n4. 为账号 ubuntu 启用 MFA 多因素认证\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_004 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "ec2_ssh",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_004",
+          "fld_CG_rce_web_app_004"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1049,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.0
+          }
+        },
+        "attribution": "判定: Low_Risk (Score=0.1049)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.90)。",
+        "remediation": "1. 收紧安全组 ec2_ssh 的入站规则，移除 0.0.0.0/0\n4. 为账号 ubuntu 启用 MFA 多因素认证\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_004 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "rds",
+          "postgres",
+          "tbl_CG_rce_web_app_004",
+          "fld_CG_rce_web_app_004",
+          "tag_CG_rce_web_app_004"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.95
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9642,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.95
+          }
+        },
+        "attribution": "判定: Observed_Risk (Score=0.9642)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=1.00); 权限授予(ε=0.90); 高敏数据确认(ε=0.95)。",
+        "remediation": "1. 收紧安全组 rds 的入站规则，移除 0.0.0.0/0\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_004 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "lb_http",
+          "ec2_http",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_004",
+          "fld_CG_rce_web_app_004"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1049,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.0
+          }
+        },
+        "attribution": "判定: Low_Risk (Score=0.1049)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.90)。",
+        "remediation": "1. 收紧安全组 lb_http 的入站规则，移除 0.0.0.0/0\n4. 为账号 ubuntu 启用 MFA 多因素认证\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_004 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "lb_http",
+          "ec2_http",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_004",
+          "fld_CG_rce_web_app_004",
+          "tag_CG_rce_web_app_004"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.95
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8272,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.95
+          }
+        },
+        "attribution": "判定: Observed_Risk (Score=0.8272)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.90); 高敏数据确认(ε=0.95)。",
+        "remediation": "1. 收紧安全组 lb_http 的入站规则，移除 0.0.0.0/0\n4. 为账号 ubuntu 启用 MFA 多因素认证\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_004 开启列级访问控制和动态脱敏"
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_rce_web_app_005": {
+    "scenario": "CG-rce_web_app",
+    "scenario_name": "[CloudGoat] rce_web_app",
+    "industry": "medical",
+    "expected": "Observed_Risk",
+    "elapsed": 27.84,
+    "node_count": 30,
+    "edge_count": 32,
+    "node_types": {
+      "Identity": 5,
+      "Network": 13,
+      "DBInstance": 1,
+      "DBObject": 10,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "ec2_ssh",
+      "lb_http",
+      "rds"
+    ],
+    "targets": [
+      "fld_CG_rce_web_app_005",
+      "tag_CG_rce_web_app_005"
+    ],
+    "results": [
+      {
+        "path": [
+          "ec2_ssh",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_005",
+          "fld_CG_rce_web_app_005"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.93,
+          "target": 0.93,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1053,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.93,
+            "target": 0.93,
+            "sense": 0.0
+          }
+        },
+        "attribution": "判定: Low_Risk (Score=0.1053)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.93)。",
+        "remediation": "1. 收紧安全组 ec2_ssh 的入站规则，移除 0.0.0.0/0\n4. 为账号 ubuntu 启用 MFA 多因素认证\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_005 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "rds",
+          "postgres",
+          "tbl_CG_rce_web_app_005",
+          "fld_CG_rce_web_app_005",
+          "tag_CG_rce_web_app_005"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.93,
+          "target": 0.93,
+          "sense": 0.93
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9644,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.93,
+            "target": 0.93,
+            "sense": 0.93
+          }
+        },
+        "attribution": "判定: Observed_Risk (Score=0.9644)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=1.00); 权限授予(ε=0.93); 高敏数据确认(ε=0.93)。",
+        "remediation": "1. 收紧安全组 rds 的入站规则，移除 0.0.0.0/0\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_005 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "ec2_ssh",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_005",
+          "fld_CG_rce_web_app_005",
+          "tag_CG_rce_web_app_005"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.93,
+          "target": 0.93,
+          "sense": 0.93
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8273,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.93,
+            "target": 0.93,
+            "sense": 0.93
+          }
+        },
+        "attribution": "判定: Observed_Risk (Score=0.8273)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.93); 高敏数据确认(ε=0.93)。",
+        "remediation": "1. 收紧安全组 ec2_ssh 的入站规则，移除 0.0.0.0/0\n4. 为账号 ubuntu 启用 MFA 多因素认证\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_005 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "lb_http",
+          "ec2_http",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_005",
+          "fld_CG_rce_web_app_005"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.93,
+          "target": 0.93,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1053,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.93,
+            "target": 0.93,
+            "sense": 0.0
+          }
+        },
+        "attribution": "判定: Low_Risk (Score=0.1053)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.93)。",
+        "remediation": "1. 收紧安全组 lb_http 的入站规则，移除 0.0.0.0/0\n4. 为账号 ubuntu 启用 MFA 多因素认证\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_005 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "lb_http",
+          "ec2_http",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_005",
+          "fld_CG_rce_web_app_005",
+          "tag_CG_rce_web_app_005"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.93,
+          "target": 0.93,
+          "sense": 0.93
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8273,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.93,
+            "target": 0.93,
+            "sense": 0.93
+          }
+        },
+        "attribution": "判定: Observed_Risk (Score=0.8273)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.93); 高敏数据确认(ε=0.93)。",
+        "remediation": "1. 收紧安全组 lb_http 的入站规则，移除 0.0.0.0/0\n4. 为账号 ubuntu 启用 MFA 多因素认证\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_005 开启列级访问控制和动态脱敏"
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_rce_web_app_006": {
+    "scenario": "CG-rce_web_app",
+    "scenario_name": "[CloudGoat] rce_web_app",
+    "industry": "ecommerce",
+    "expected": "Observed_Risk",
+    "elapsed": 28.58,
+    "node_count": 30,
+    "edge_count": 32,
+    "node_types": {
+      "Identity": 5,
+      "Network": 13,
+      "DBInstance": 1,
+      "DBObject": 10,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "ec2_ssh",
+      "lb_http",
+      "rds"
+    ],
+    "targets": [
+      "fld_CG_rce_web_app_006",
+      "tag_CG_rce_web_app_006"
+    ],
+    "results": [
+      {
+        "path": [
+          "ec2_ssh",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_006",
+          "fld_CG_rce_web_app_006"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.92,
+          "target": 0.93,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1051,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.92,
+            "target": 0.93,
+            "sense": 0.0
+          }
+        },
+        "attribution": "判定: Low_Risk (Score=0.1051)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.92)。",
+        "remediation": "1. 收紧安全组 ec2_ssh 的入站规则，移除 0.0.0.0/0\n4. 为账号 ubuntu 启用 MFA 多因素认证\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_006 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "rds",
+          "postgres",
+          "tbl_CG_rce_web_app_006",
+          "fld_CG_rce_web_app_006",
+          "tag_CG_rce_web_app_006"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.92,
+          "target": 0.93,
+          "sense": 0.93
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9623,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.92,
+            "target": 0.93,
+            "sense": 0.93
+          }
+        },
+        "attribution": "判定: Observed_Risk (Score=0.9623)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=1.00); 权限授予(ε=0.92); 高敏数据确认(ε=0.93)。",
+        "remediation": "1. 收紧安全组 rds 的入站规则，移除 0.0.0.0/0\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_006 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "ec2_ssh",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_006",
+          "fld_CG_rce_web_app_006",
+          "tag_CG_rce_web_app_006"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.92,
+          "target": 0.93,
+          "sense": 0.93
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8256,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.92,
+            "target": 0.93,
+            "sense": 0.93
+          }
+        },
+        "attribution": "判定: Observed_Risk (Score=0.8256)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.92); 高敏数据确认(ε=0.93)。",
+        "remediation": "1. 收紧安全组 ec2_ssh 的入站规则，移除 0.0.0.0/0\n4. 为账号 ubuntu 启用 MFA 多因素认证\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_006 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "lb_http",
+          "ec2_http",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_006",
+          "fld_CG_rce_web_app_006"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.92,
+          "target": 0.93,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1051,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.92,
+            "target": 0.93,
+            "sense": 0.0
+          }
+        },
+        "attribution": "判定: Low_Risk (Score=0.1051)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.92)。",
+        "remediation": "1. 收紧安全组 lb_http 的入站规则，移除 0.0.0.0/0\n4. 为账号 ubuntu 启用 MFA 多因素认证\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_006 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "lb_http",
+          "ec2_http",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_006",
+          "fld_CG_rce_web_app_006",
+          "tag_CG_rce_web_app_006"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.92,
+          "target": 0.93,
+          "sense": 0.93
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8256,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.92,
+            "target": 0.93,
+            "sense": 0.93
+          }
+        },
+        "attribution": "判定: Observed_Risk (Score=0.8256)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.92); 高敏数据确认(ε=0.93)。",
+        "remediation": "1. 收紧安全组 lb_http 的入站规则，移除 0.0.0.0/0\n4. 为账号 ubuntu 启用 MFA 多因素认证\n2. 为实例 postgres 开启 TDE 透明数据加密\n5. 对字段 fld_CG_rce_web_app_006 开启列级访问控制和动态脱敏"
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_rce_web_app_007": {
+    "scenario": "CG-rce_web_app",
+    "scenario_name": "[CloudGoat] rce_web_app",
+    "industry": "finance",
+    "expected": "Insufficient_Evidence",
+    "elapsed": 1.43,
+    "node_count": 30,
+    "edge_count": 32,
+    "node_types": {
+      "Identity": 5,
+      "Network": 13,
+      "DBInstance": 1,
+      "DBObject": 10,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "ec2_ssh",
+      "lb_http",
+      "rds"
+    ],
+    "targets": [
+      "fld_CG_rce_web_app_007",
+      "tag_CG_rce_web_app_007"
+    ],
+    "results": [
+      {
+        "path": [
+          "ec2_ssh",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_007",
+          "fld_CG_rce_web_app_007"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.018
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.02<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.018
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.02<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      },
+      {
+        "path": [
+          "rds",
+          "postgres",
+          "tbl_CG_rce_web_app_007",
+          "fld_CG_rce_web_app_007",
+          "tag_CG_rce_web_app_007"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.13
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.13<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.13
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.13<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      },
+      {
+        "path": [
+          "ec2_ssh",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_007",
+          "fld_CG_rce_web_app_007",
+          "tag_CG_rce_web_app_007"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.018
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.02<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.018
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.02<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      },
+      {
+        "path": [
+          "lb_http",
+          "ec2_http",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_007",
+          "fld_CG_rce_web_app_007"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.0008
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.00<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.0008
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.00<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      },
+      {
+        "path": [
+          "lb_http",
+          "ec2_http",
+          "ubuntu",
+          "postgres",
+          "tbl_CG_rce_web_app_007",
+          "fld_CG_rce_web_app_007",
+          "tag_CG_rce_web_app_007"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.0008
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.00<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.0008
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.00<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_vpc_peering_overexposed_008": {
+    "scenario": "CG-vpc_peering_overexposed",
+    "scenario_name": "[CloudGoat] vpc_peering_overexposed",
+    "industry": "finance",
+    "expected": "Observed_Risk",
+    "elapsed": 48.27,
+    "node_count": 25,
+    "edge_count": 30,
+    "node_types": {
+      "Identity": 7,
+      "Network": 13,
+      "DBInstance": 1,
+      "DBObject": 3,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "dev_sg",
+      "prod_sg",
+      "db_sg",
+      "ssm_endpoint_sg"
+    ],
+    "targets": [
+      "fld_CG_vpc_peering_overexposed_008",
+      "tag_CG_vpc_peering_overexposed_008"
+    ],
+    "results": [
+      {
+        "path": [
+          "prod_sg",
+          "prod_ec2",
+          "customer_db",
+          "tbl_CG_vpc_peering_overexposed_008",
+          "fld_CG_vpc_peering_overexposed_008"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.93,
+          "target": 0.97,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.106,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.93,
+            "target": 0.97,
+            "sense": 0.0
+          }
+        },
+        "attribution": "判定: Low_Risk (Score=0.106)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.93)。",
+        "remediation": "1. 收紧安全组 prod_sg 的入站规则，移除 0.0.0.0/0\n4. 为账号 prod_ec2 启用 MFA 多因素认证\n2. 为实例 customer_db 开启 TDE 透明数据加密\n5. 对字段 fld_CG_vpc_peering_overexposed_008 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "db_sg",
+          "customer_db",
+          "tbl_CG_vpc_peering_overexposed_008",
+          "fld_CG_vpc_peering_overexposed_008",
+          "tag_CG_vpc_peering_overexposed_008"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.93,
+          "target": 0.97,
+          "sense": 0.97
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9766,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.93,
+            "target": 0.97,
+            "sense": 0.97
+          }
+        },
+        "attribution": "判定: Observed_Risk (Score=0.9766)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=1.00); 权限授予(ε=0.93); 高敏数据确认(ε=0.97)。",
+        "remediation": "1. 收紧安全组 db_sg 的入站规则，移除 0.0.0.0/0\n2. 为实例 customer_db 开启 TDE 透明数据加密\n5. 对字段 fld_CG_vpc_peering_overexposed_008 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_008",
+          "tbl_CG_vpc_peering_overexposed_008",
+          "fld_CG_vpc_peering_overexposed_008"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.85,
+          "target": 0.97,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1213,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.85,
+            "target": 0.97,
+            "sense": 0.0
+          }
+        },
+        "attribution": "判定: Low_Risk (Score=0.1213)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=1.00); 权限授予(ε=0.85)。",
+        "remediation": "1. 收紧安全组 dev_sg 的入站规则，移除 0.0.0.0/0\n4. 为账号 dev_ec2 启用 MFA 多因素认证\n2. 为实例 customer_db 开启 TDE 透明数据加密\n5. 对字段 fld_CG_vpc_peering_overexposed_008 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "prod_sg",
+          "prod_ec2",
+          "customer_db",
+          "tbl_CG_vpc_peering_overexposed_008",
+          "fld_CG_vpc_peering_overexposed_008",
+          "tag_CG_vpc_peering_overexposed_008"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.93,
+          "target": 0.97,
+          "sense": 0.97
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8379,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.93,
+            "target": 0.97,
+            "sense": 0.97
+          }
+        },
+        "attribution": "判定: Observed_Risk (Score=0.8379)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=0.60); 权限授予(ε=0.93); 高敏数据确认(ε=0.97)。",
+        "remediation": "1. 收紧安全组 prod_sg 的入站规则，移除 0.0.0.0/0\n4. 为账号 prod_ec2 启用 MFA 多因素认证\n2. 为实例 customer_db 开启 TDE 透明数据加密\n5. 对字段 fld_CG_vpc_peering_overexposed_008 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_008",
+          "tbl_CG_vpc_peering_overexposed_008",
+          "fld_CG_vpc_peering_overexposed_008",
+          "tag_CG_vpc_peering_overexposed_008"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.85,
+          "target": 0.97,
+          "sense": 0.97
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9592,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.85,
+            "target": 0.97,
+            "sense": 0.97
+          }
+        },
+        "attribution": "判定: Observed_Risk (Score=0.9592)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=1.00); 权限授予(ε=0.85); 高敏数据确认(ε=0.97)。",
+        "remediation": "1. 收紧安全组 dev_sg 的入站规则，移除 0.0.0.0/0\n4. 为账号 dev_ec2 启用 MFA 多因素认证\n2. 为实例 customer_db 开启 TDE 透明数据加密\n5. 对字段 fld_CG_vpc_peering_overexposed_008 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "dev_ec2_profile",
+          "dev_ec2_role",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_008",
+          "tbl_CG_vpc_peering_overexposed_008",
+          "fld_CG_vpc_peering_overexposed_008"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.9,
+          "target": 0.97,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1227,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.9,
+            "target": 0.97,
+            "sense": 0.0
+          }
+        },
+        "attribution": "判定: Low_Risk (Score=0.1227)。证据: 入口暴露(public_exposed, ε=1.00); 网络可达(ε=1.00); 权限授予(ε=0.90)。",
+        "remediation": "1. 收紧安全组 dev_sg 的入站规则，移除 0.0.0.0/0\n4. 为账号 dev_ec2 启用 MFA 多因素认证\n4. 为账号 dev_ec2_profile 启用 MFA 多因素认证\n4. 为账号 dev_ec2_role 启用 MFA 多因素认证\n2. 为实例 customer_db 开启 TDE 透明数据加密\n5. 对字段 fld_CG_vpc_peering_overexposed_008 开启列级访问控制和动态脱敏"
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "dev_ec2_profile",
+          "dev_ec2_role",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_008",
+          "tbl_CG_vpc_peering_overexposed_008",
+          "fld_CG_vpc_peering_overexposed_008",
+          "tag_CG_vpc_peering_overexposed_008"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.9,
+          "target": 0.97,
+          "sense": 0.97
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9702,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.9,
+            "target": 0.97,
+            "sense": 0.97
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9702)。证据链显示：入口点(entry=1.0)与可达性(reach=1.0)完全暴露，权限(perm=0.9)接近完全，目标敏感度(target=0.97)极高，感知度(sense=0.97)表明攻击面显著。关键风险点：dev_ec2通过角色关联customer_db，结合VPC对等连接过度暴露(tag_CG_vpc_peering_overexposed_008)，形成从开发环境到生产数据库的横向移动路径，攻击者可利用EC2实例权限直接访问数据库。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即删除VPC对等连接`db_CG_vpc_peering_overexposed_008`，阻断跨VPC访问路径。\n2. 权限收敛：从`dev_ec2_role`中移除对`customer_db`的访问策略，并撤销`dev_ec2_profile`关联。\n3. 网络隔离：在`customer_db`安全组入站规则中，拒绝来自`dev_sg`的流量。\n4. 长期改进：实施最小权限原则，定期审计VPC对等连接及IAM角色绑定。"
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_vpc_peering_overexposed_009": {
+    "scenario": "CG-vpc_peering_overexposed",
+    "scenario_name": "[CloudGoat] vpc_peering_overexposed",
+    "industry": "medical",
+    "expected": "Observed_Risk",
+    "elapsed": 59.96,
+    "node_count": 25,
+    "edge_count": 30,
+    "node_types": {
+      "Identity": 7,
+      "Network": 13,
+      "DBInstance": 1,
+      "DBObject": 3,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "dev_sg",
+      "prod_sg",
+      "db_sg",
+      "ssm_endpoint_sg"
+    ],
+    "targets": [
+      "fld_CG_vpc_peering_overexposed_009",
+      "tag_CG_vpc_peering_overexposed_009"
+    ],
+    "results": [
+      {
+        "path": [
+          "prod_sg",
+          "prod_ec2",
+          "customer_db",
+          "tbl_CG_vpc_peering_overexposed_009",
+          "fld_CG_vpc_peering_overexposed_009"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.94,
+          "target": 0.86,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1043,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.94,
+            "target": 0.86,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk (Score=0.1043)。证据链分析：入口点(entry=1.0)完全暴露，但可达性(reach=0.6)中等，权限(perm=0.94)极高，目标敏感度(target=0.86)高，然而感知能力(sense=0.0)缺失，表明无监控或日志记录。关键风险点：尽管攻击者可通过prod_sg→prod_ec2访问customer_db，并利用高权限操作tbl_CG_vpc_peering_overexposed_009表，但缺乏感知机制导致风险评分偏低，实际威胁被低估。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对prod_ec2实例执行临时网络ACL规则，阻断tbl_CG_vpc_peering_overexposed_009的入站流量。\n2. 权限收敛：修改prod_sg安全组，移除fld_CG_vpc_peering_overexposed_009的过度暴露规则。\n3. 网络隔离：将customer_db移入独立子网，仅允许prod_ec2通过特定端口访问。\n4. 长期改进：启用VPC流日志监控，定期审计安全组规则。"
+      },
+      {
+        "path": [
+          "db_sg",
+          "customer_db",
+          "tbl_CG_vpc_peering_overexposed_009",
+          "fld_CG_vpc_peering_overexposed_009",
+          "tag_CG_vpc_peering_overexposed_009"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.94,
+          "target": 0.86,
+          "sense": 0.86
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.944,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.94,
+            "target": 0.86,
+            "sense": 0.86
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.944)。证据向量显示：入口暴露度(entry=1.0)与可达性(reach=1.0)均为最高，表明攻击者可直接从公网访问安全组；权限暴露度(perm=0.94)极高，暗示存在过度授权；目标敏感度(target=0.86)与感知度(sense=0.86)较高，指向数据库核心表tbl_CG_vpc_peering_overexposed_009。关键风险点：VPC对等连接配置过度暴露，结合高权限与公网可达，形成从外部直接攻击数据库的完整路径。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对资源tbl_CG_vpc_peering_overexposed_009执行临时阻断，暂停所有跨VPC对等连接流量。\n2. 权限收敛：撤销fld_CG_vpc_peering_overexposed_009字段的公开读取权限，仅授权必要服务账户。\n3. 网络隔离：在db_sg安全组中添加入站规则，拒绝来自非授权VPC的CIDR范围访问customer_db。\n4. 长期改进：为tag_CG_vpc_peering_overexposed_009启用自动化审计，定期扫描过度暴露配置。"
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_009",
+          "tbl_CG_vpc_peering_overexposed_009",
+          "fld_CG_vpc_peering_overexposed_009"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.85,
+          "target": 0.86,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1191,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.85,
+            "target": 0.86,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1191）。证据链显示：入口（entry=1.0）与可达性（reach=1.0）完全暴露，权限（perm=0.85）与目标（target=0.86）接近高危阈值，但敏感度（sense=0.0）为零，表明数据字段无敏感内容。关键风险点在于VPC对等连接过度暴露（db_CG_vpc_peering_overexposed_009），虽可访问数据库表结构，但因目标字段无敏感属性，实际攻击收益极低，风险等级被有效抑制。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：检查dev_sg安全组入站规则，移除对dev_ec2的0.0.0.0/0开放端口。\n2. 权限收敛：在customer_db数据库层面，撤销dev_ec2的非必要访问权限。\n3. 网络隔离：删除或收紧db_CG_vpc_peering_overexposed_009对等连接，限制仅允许特定VPC访问。\n4. 长期改进：对tbl_CG_vpc_peering_overexposed_009表启用审计日志，定期审查fld_CG_vpc_peering_overexposed_009字段访问记录。"
+      },
+      {
+        "path": [
+          "prod_sg",
+          "prod_ec2",
+          "customer_db",
+          "tbl_CG_vpc_peering_overexposed_009",
+          "fld_CG_vpc_peering_overexposed_009",
+          "tag_CG_vpc_peering_overexposed_009"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.94,
+          "target": 0.86,
+          "sense": 0.86
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8099,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.94,
+            "target": 0.86,
+            "sense": 0.86
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.8099)。证据链分析：入口点(entry=1.0)完全暴露，权限(perm=0.94)极高，目标敏感度(target=0.86)高，但可达性(reach=0.6)中等，表明攻击者可通过prod_sg进入prod_ec2，利用高权限访问customer_db中的过度暴露VPC对等表(tbl_CG_vpc_peering_overexposed_009)。关键风险点：高权限与高敏感目标组合，结合完全暴露的入口，构成严重数据泄露威胁。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即删除prod_sg安全组中针对tbl_CG_vpc_peering_overexposed_009的过度暴露规则，阻断非必要对等连接流量。\n2. 权限收敛：修改prod_ec2实例关联的IAM角色，移除对customer_db的未授权访问权限。\n3. 网络隔离：在prod_ec2与customer_db间启用VPC端点策略，仅允许特定标签tag_CG_vpc_peering_overexposed_009的流量。\n4. 长期改进：对fld_CG_vpc_peering_overexposed_009字段实施加密存储，并定期审计安全组规则。"
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_009",
+          "tbl_CG_vpc_peering_overexposed_009",
+          "fld_CG_vpc_peering_overexposed_009",
+          "tag_CG_vpc_peering_overexposed_009"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.85,
+          "target": 0.86,
+          "sense": 0.86
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9252,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.85,
+            "target": 0.86,
+            "sense": 0.86
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9252)。证据链显示：入口点(entry=1.0)与可达性(reach=1.0)完全暴露，权限(perm=0.85)与目标敏感度(target=0.86)均处于高风险阈值，感知能力(sense=0.86)表明攻击者具备充分探测条件。关键风险点在于：开发环境安全组(dev_sg)通过EC2实例直接连通客户数据库(customer_db)，且VPC对等连接(tbl_CG_vpc_peering_overexposed_009)存在过度暴露配置，形成从非生产环境到核心数据资产的横向移动路径。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：删除VPC对等连接db_CG_vpc_peering_overexposed_009，阻断dev_ec2至customer_db的异常访问路径。\n2. 权限收敛：撤销dev_sg安全组中对dev_ec2的0.0.0.0/0入站规则，仅允许必要IP。\n3. 网络隔离：将customer_db移入独立VPC，禁止跨VPC对等连接暴露。\n4. 长期改进：启用AWS Config规则监控VPC对等连接暴露，设置自动修复。"
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "dev_ec2_profile",
+          "dev_ec2_role",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_009",
+          "tbl_CG_vpc_peering_overexposed_009",
+          "fld_CG_vpc_peering_overexposed_009"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.9,
+          "target": 0.86,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1205,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.9,
+            "target": 0.86,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk (Score=0.1205)。证据链显示：入口点(entry=1.0)与可达性(reach=1.0)完全暴露，权限(perm=0.9)接近完全，目标敏感度(target=0.86)较高，但感知能力(sense=0.0)缺失，表明攻击路径虽完整但缺乏实际利用价值。关键风险点在于：dev_ec2通过角色关联customer_db，且VPC对等连接过度暴露，但数据库无感知机制导致攻击无法触发告警或数据泄露，风险被有效抑制。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：检查dev_ec2实例是否存在异常访问，终止可疑进程。\n2. 权限收敛：撤销dev_ec2_role对customer_db的过度授权，仅保留必要表级权限。\n3. 网络隔离：删除db_CG_vpc_peering_overexposed_009对等连接，限制dev_sg入站规则仅允许特定IP。\n4. 长期改进：实施最小权限策略，定期审计VPC对等连接与IAM角色。"
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "dev_ec2_profile",
+          "dev_ec2_role",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_009",
+          "tbl_CG_vpc_peering_overexposed_009",
+          "fld_CG_vpc_peering_overexposed_009",
+          "tag_CG_vpc_peering_overexposed_009"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.9,
+          "target": 0.86,
+          "sense": 0.86
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9358,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.9,
+            "target": 0.86,
+            "sense": 0.86
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9358)。证据链显示：入口点(entry=1.0)与可达性(reach=1.0)完全暴露，权限(perm=0.9)接近完全，目标敏感度(target=0.86)与感知度(sense=0.86)均高。关键风险点：dev_ec2通过角色关联customer_db，且db_CG_vpc_peering_overexposed_009组件暴露VPC对等连接，导致攻击者可从dev_sg经EC2实例横向移动至数据库，利用过度暴露的对等连接访问敏感数据表及字段。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即删除tag_CG_vpc_peering_overexposed_009中暴露的敏感数据标签，并审计fld_CG_vpc_peering_overexposed_009字段访问日志。\n2. 权限收敛：撤销dev_ec2_role对customer_db的过度授权，仅保留最小必要权限。\n3. 网络隔离：移除或限制db_CG_vpc_peering_overexposed_009的VPC对等连接，仅允许特定IP范围访问。\n4. 长期改进：实施定期权限审查与网络策略自动化验证。"
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_vpc_peering_overexposed_010": {
+    "scenario": "CG-vpc_peering_overexposed",
+    "scenario_name": "[CloudGoat] vpc_peering_overexposed",
+    "industry": "ecommerce",
+    "expected": "Observed_Risk",
+    "elapsed": 60.21,
+    "node_count": 25,
+    "edge_count": 30,
+    "node_types": {
+      "Identity": 7,
+      "Network": 13,
+      "DBInstance": 1,
+      "DBObject": 3,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "dev_sg",
+      "prod_sg",
+      "db_sg",
+      "ssm_endpoint_sg"
+    ],
+    "targets": [
+      "fld_CG_vpc_peering_overexposed_010",
+      "tag_CG_vpc_peering_overexposed_010"
+    ],
+    "results": [
+      {
+        "path": [
+          "prod_sg",
+          "prod_ec2",
+          "customer_db",
+          "tbl_CG_vpc_peering_overexposed_010",
+          "fld_CG_vpc_peering_overexposed_010"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.9,
+          "target": 0.88,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1037,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.9,
+            "target": 0.88,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk (Score=0.1037)。证据链分析：入口点(entry=1.0)完全暴露，但可达性(reach=0.6)中等，权限(perm=0.9)极高，目标敏感度(target=0.88)高，而感知能力(sense=0.0)缺失。关键风险点：prod_sg安全组允许外部访问，经prod_ec2可达customer_db，且tbl_CG_vpc_peering_overexposed_010表存在VPC对等过度暴露字段，但低风险评分表明攻击路径受限或存在补偿控制。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对prod_ec2实例执行临时网络访问控制，限制对customer_db的入站流量。\n2. 权限收敛：修改prod_sg安全组规则，移除tbl_CG_vpc_peering_overexposed_010中fld_CG_vpc_peering_overexposed_010字段对应的过度暴露VPC对等连接。\n3. 网络隔离：在prod_ec2与customer_db间启用AWS Network ACL，限制非必要子网访问。\n4. 长期改进：定期审计VPC对等连接策略，实施最小权限原则。"
+      },
+      {
+        "path": [
+          "db_sg",
+          "customer_db",
+          "tbl_CG_vpc_peering_overexposed_010",
+          "fld_CG_vpc_peering_overexposed_010",
+          "tag_CG_vpc_peering_overexposed_010"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.9,
+          "target": 0.88,
+          "sense": 0.88
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9423,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.9,
+            "target": 0.88,
+            "sense": 0.88
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9423)。证据链分析：入口点（entry=1.0）完全暴露，可达性（reach=1.0）确保攻击者能直接访问数据库安全组（db_sg）；权限（perm=0.9）接近完全控制，目标（target=0.88）指向敏感表tbl_CG_vpc_peering_overexposed_010，感知（sense=0.88）表明攻击者具备高隐蔽性。关键风险点：VPC对等连接过度暴露（tag_CG_vpc_peering_overexposed_010）导致非授权访问路径，结合高权限与低感知，构成严重数据泄露威胁。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对资源db_sg执行访问控制列表（ACL）更新，撤销tbl_CG_vpc_peering_overexposed_010的入站规则。\n2. 权限收敛：将customer_db的访问权限从公共范围修改为仅授权内部IP段。\n3. 网络隔离：对tag_CG_vpc_peering_overexposed_010关联的VPC对等连接实施流量过滤，限制非必要协议。\n4. 长期改进：启用云数据库审计日志，定期审查fld_CG_vpc_peering_overexposed_010的暴露配置。"
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_010",
+          "tbl_CG_vpc_peering_overexposed_010",
+          "fld_CG_vpc_peering_overexposed_010"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.85,
+          "target": 0.88,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1196,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.85,
+            "target": 0.88,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk (Score=0.1196)。证据链显示：入口点(entry=1.0)与可达性(reach=1.0)完全暴露，但权限(perm=0.85)与目标敏感度(target=0.88)存在中等限制，且感知能力(sense=0.0)缺失。关键风险点在于：攻击者可通过dev_sg经dev_ec2抵达customer_db，但db_CG_vpc_peering_overexposed_010组件暴露面过大，因缺乏感知监控(sense=0.0)导致风险未被有效识别，整体风险较低。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：检查dev_sg安全组规则，移除对dev_ec2的过度开放入站端口。\n2. 权限收敛：限制dev_ec2对customer_db的访问权限，仅允许必要端口和协议。\n3. 网络隔离：审查db_CG_vpc_peering_overexposed_010对等连接，收紧路由表，仅允许特定CIDR通信。\n4. 长期改进：对tbl_CG_vpc_peering_overexposed_010和fld_CG_vpc_peering_overexposed_010实施最小权限策略，定期审计VPC对等连接暴露面。"
+      },
+      {
+        "path": [
+          "prod_sg",
+          "prod_ec2",
+          "customer_db",
+          "tbl_CG_vpc_peering_overexposed_010",
+          "fld_CG_vpc_peering_overexposed_010",
+          "tag_CG_vpc_peering_overexposed_010"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.6,
+          "perm": 0.9,
+          "target": 0.88,
+          "sense": 0.88
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8084,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.6,
+            "perm": 0.9,
+            "target": 0.88,
+            "sense": 0.88
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.8084)。证据链分析：入口点（entry=1.0）完全暴露，权限（perm=0.9）极高，目标敏感度（target=0.88）与感知度（sense=0.88）均高，但可达性（reach=0.6）受限。关键风险点：prod_sg安全组允许外部访问prod_ec2，进而通过customer_db访问过度暴露的VPC对等连接表（tbl_CG_vpc_peering_overexposed_010），攻击者可利用高权限获取敏感字段（fld/tag_CG_vpc_peering_overexposed_010），构成数据泄露与横向移动风险。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即删除prod_ec2实例上关联的prod_sg安全组中针对customer_db的过度暴露规则。\n2. 权限收敛：修改tbl_CG_vpc_peering_overexposed_010表，移除fld_CG_vpc_peering_overexposed_010字段的公共访问权限。\n3. 网络隔离：在VPC对等连接中，对tag_CG_vpc_peering_overexposed_010标记的资源实施最小权限策略。\n4. 长期改进：定期审计安全组规则与VPC对等连接配置，防止过度暴露。"
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_010",
+          "tbl_CG_vpc_peering_overexposed_010",
+          "fld_CG_vpc_peering_overexposed_010",
+          "tag_CG_vpc_peering_overexposed_010"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.85,
+          "target": 0.88,
+          "sense": 0.88
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9316,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.85,
+            "target": 0.88,
+            "sense": 0.88
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9316)。证据链显示：入口点(entry=1.0)与可达性(reach=1.0)完全暴露，权限(perm=0.85)与目标敏感度(target=0.88)均处于高风险阈值。关键风险点在于：dev_sg通过dev_ec2直连customer_db，且db_CG_vpc_peering_overexposed_010组件存在VPC对等连接过度暴露，导致攻击者可从开发环境横向移动至生产数据库，结合高权限与数据感知(sense=0.88)，构成数据泄露与权限滥用的复合风险。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即删除dev_sg安全组中允许对customer_db的0.0.0.0/0入站规则。\n2. 权限收敛：撤销dev_ec2对customer_db的非必要访问权限，仅保留最小必要端口。\n3. 网络隔离：解除db_CG_vpc_peering_overexposed_010对等连接，或添加严格ACL限制。\n4. 长期改进：对tbl_CG_vpc_peering_overexposed_010实施定期审计，标记tag_CG_vpc_peering_overexposed_010资源为高风险并监控。"
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "dev_ec2_profile",
+          "dev_ec2_role",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_010",
+          "tbl_CG_vpc_peering_overexposed_010",
+          "fld_CG_vpc_peering_overexposed_010"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.9,
+          "target": 0.88,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1209,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.9,
+            "target": 0.88,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk (Score=0.1209)。证据链显示：入口点(entry=1.0)与可达性(reach=1.0)完全暴露，权限(perm=0.9)接近完全，目标资产敏感度(target=0.88)较高，但感知能力(sense=0.0)缺失，表明无数据泄露或异常行为检测机制。关键风险点在于：攻击者可通过dev_sg经dev_ec2及角色链访问customer_db，利用VPC对等连接过度暴露(tbl_CG_vpc_peering_overexposed_010)横向移动，但因缺乏感知层监控，实际攻击行为无法被识别，导致风险评分偏低。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：在dev_ec2实例上终止与customer_db的VPC对等连接db_CG_vpc_peering_overexposed_010。\n2. 权限收敛：从dev_ec2_role中移除对customer_db的访问权限，并删除dev_ec2_profile中关联的冗余策略。\n3. 网络隔离：在customer_db安全组中限制入站规则，仅允许必要IP范围。\n4. 长期改进：实施最小权限原则，定期审计VPC对等连接及IAM角色绑定。"
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "dev_ec2_profile",
+          "dev_ec2_role",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_010",
+          "tbl_CG_vpc_peering_overexposed_010",
+          "fld_CG_vpc_peering_overexposed_010",
+          "tag_CG_vpc_peering_overexposed_010"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 1.0,
+          "perm": 0.9,
+          "target": 0.88,
+          "sense": 0.88
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9423,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 1.0,
+            "perm": 0.9,
+            "target": 0.88,
+            "sense": 0.88
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9423)。证据向量显示：入口暴露度(entry=1.0)与可达性(reach=1.0)均为最高，表明攻击者可从外部直接访问；权限(perm=0.9)接近完全，目标敏感度(target=0.88)与感知度(sense=0.88)均高。关键风险点：dev_ec2通过角色关联customer_db，且db_CG_vpc_peering_overexposed_010组件暴露VPC对等连接，导致非授权访问路径完整。风险核心在于过度暴露的VPC对等连接与高权限角色组合，使攻击者能直接访问敏感数据库。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即删除dev_ec2_role与customer_db之间的关联角色，阻断dev_ec2对customer_db的访问。\n2. 权限收敛：移除dev_ec2_profile中附加的dev_ec2_role，限制dev_ec2实例权限。\n3. 网络隔离：删除db_CG_vpc_peering_overexposed_010对等连接，或添加安全组规则仅允许必要IP访问。\n4. 长期改进：对tag_CG_vpc_peering_overexposed_010标记资源实施最小权限原则，定期审计VPC对等连接。"
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_vpc_peering_overexposed_011": {
+    "scenario": "CG-vpc_peering_overexposed",
+    "scenario_name": "[CloudGoat] vpc_peering_overexposed",
+    "industry": "finance",
+    "expected": "Insufficient_Evidence",
+    "elapsed": 1.07,
+    "node_count": 25,
+    "edge_count": 30,
+    "node_types": {
+      "Identity": 7,
+      "Network": 13,
+      "DBInstance": 1,
+      "DBObject": 3,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "dev_sg",
+      "prod_sg",
+      "db_sg",
+      "ssm_endpoint_sg"
+    ],
+    "targets": [
+      "fld_CG_vpc_peering_overexposed_011",
+      "tag_CG_vpc_peering_overexposed_011"
+    ],
+    "results": [
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "dev_ec2_profile",
+          "dev_ec2_role",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_011",
+          "tbl_CG_vpc_peering_overexposed_011",
+          "fld_CG_vpc_peering_overexposed_011"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.09
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.09<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.09
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.09<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "dev_ec2_profile",
+          "dev_ec2_role",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_011",
+          "tbl_CG_vpc_peering_overexposed_011",
+          "fld_CG_vpc_peering_overexposed_011",
+          "tag_CG_vpc_peering_overexposed_011"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.09
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.09<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.09
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.09<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_011",
+          "tbl_CG_vpc_peering_overexposed_011",
+          "fld_CG_vpc_peering_overexposed_011"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.09
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.09<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.09
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.09<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      },
+      {
+        "path": [
+          "dev_sg",
+          "dev_ec2",
+          "customer_db",
+          "db_CG_vpc_peering_overexposed_011",
+          "tbl_CG_vpc_peering_overexposed_011",
+          "fld_CG_vpc_peering_overexposed_011",
+          "tag_CG_vpc_peering_overexposed_011"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.09
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.09<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.09
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.09<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      },
+      {
+        "path": [
+          "prod_sg",
+          "prod_ec2",
+          "customer_db",
+          "tbl_CG_vpc_peering_overexposed_011",
+          "fld_CG_vpc_peering_overexposed_011",
+          "tag_CG_vpc_peering_overexposed_011"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.0198
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.02<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.0198
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.02<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      },
+      {
+        "path": [
+          "prod_sg",
+          "prod_ec2",
+          "customer_db",
+          "tbl_CG_vpc_peering_overexposed_011",
+          "fld_CG_vpc_peering_overexposed_011"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.0198
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.02<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.0198
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.02<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      },
+      {
+        "path": [
+          "db_sg",
+          "customer_db",
+          "tbl_CG_vpc_peering_overexposed_011",
+          "fld_CG_vpc_peering_overexposed_011",
+          "tag_CG_vpc_peering_overexposed_011"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.06
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.06<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.06
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.06<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_data_secrets_012": {
+    "scenario": "CG-data_secrets",
+    "scenario_name": "[CloudGoat] data_secrets",
+    "industry": "finance",
+    "expected": "Observed_Risk",
+    "elapsed": 18.3,
+    "node_count": 17,
+    "edge_count": 17,
+    "node_types": {
+      "Identity": 7,
+      "Network": 5,
+      "DBInstance": 1,
+      "DBObject": 3,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "sg"
+    ],
+    "targets": [
+      "fld_CG_data_secrets_012",
+      "tag_CG_data_secrets_012"
+    ],
+    "results": [
+      {
+        "path": [
+          "sg",
+          "ec2_instance",
+          "sensitive_lambda",
+          "lambda_user",
+          "final_flag",
+          "db_CG_data_secrets_012",
+          "tbl_CG_data_secrets_012",
+          "fld_CG_data_secrets_012"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.8,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1144,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.8,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk (Score=0.1144)。证据向量显示：入口点(entry=1.0)完全暴露，可达性(reach=0.8)较高，权限(perm=0.9)充足，目标敏感度(target=0.95)极高，但感知能力(sense=0.0)缺失。关键风险点在于：攻击者可通过sg→ec2_instance→sensitive_lambda→lambda_user→final_flag路径访问db_CG_data_secrets_012数据库，并操作tbl_CG_data_secrets_012表的fld_CG_data_secrets_012字段。然而，由于sense=0.0，系统完全无法感知该攻击行为，导致无法触发告警或阻断，使得攻击路径虽被利用但未被检测，整体风险因缺乏监控而显著降低。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即终止sg至ec2_instance的入站规则中来源为0.0.0.0/0的SSH端口（22）访问。\n2. 权限收敛：移除ec2_instance关联的IAM角色对sensitive_lambda的lambda:InvokeFunction权限。\n3. 网络隔离：将ec2_instance移入私有子网，禁止直接互联网访问。\n4. 长期改进：对db_CG_data_secrets_012实施动态数据脱敏策略，并启用CloudTrail审计。"
+      },
+      {
+        "path": [
+          "sg",
+          "ec2_instance",
+          "sensitive_lambda",
+          "lambda_user",
+          "final_flag",
+          "db_CG_data_secrets_012",
+          "tbl_CG_data_secrets_012",
+          "fld_CG_data_secrets_012",
+          "tag_CG_data_secrets_012"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.8,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.95
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9018,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.8,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.95
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9018)。证据链分析显示：入口点sg（entry=1.0）完全暴露，攻击者可通过ec2_instance横向移动至sensitive_lambda，利用lambda_user权限（perm=0.9）访问final_flag，最终触及数据库敏感字段tag_CG_data_secrets_012（target=0.95, sense=0.95）。关键风险点在于lambda_user权限过高，且敏感数据标签未隔离，导致从外部入口至核心数据层的完整攻击链可达（reach=0.8）。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即隔离ec2_instance，终止其与sensitive_lambda的网络连接。\n2. 权限收敛：撤销lambda_user对db_CG_data_secrets_012的访问权限，移除tag_CG_data_secrets_012标签。\n3. 网络隔离：在sg安全组中删除允许ec2_instance访问sensitive_lambda的入站规则。\n4. 长期改进：对tbl_CG_data_secrets_012启用审计日志，定期审查fld_CG_data_secrets_012字段访问记录。"
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_data_secrets_013": {
+    "scenario": "CG-data_secrets",
+    "scenario_name": "[CloudGoat] data_secrets",
+    "industry": "medical",
+    "expected": "Observed_Risk",
+    "elapsed": 21.58,
+    "node_count": 17,
+    "edge_count": 17,
+    "node_types": {
+      "Identity": 7,
+      "Network": 5,
+      "DBInstance": 1,
+      "DBObject": 3,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "sg"
+    ],
+    "targets": [
+      "fld_CG_data_secrets_013",
+      "tag_CG_data_secrets_013"
+    ],
+    "results": [
+      {
+        "path": [
+          "sg",
+          "ec2_instance",
+          "sensitive_lambda",
+          "lambda_user",
+          "final_flag",
+          "db_CG_data_secrets_013",
+          "tbl_CG_data_secrets_013",
+          "fld_CG_data_secrets_013"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.8,
+          "perm": 0.9,
+          "target": 0.87,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1129,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.8,
+            "perm": 0.9,
+            "target": 0.87,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk (Score=0.1129)。证据链分析：入口点(sg)可达性0.8，权限(perm)0.9，目标敏感度(target)0.87，但感知层(sense)为0.0，表明数据泄露检测机制缺失。关键风险点：从sg经ec2_instance至sensitive_lambda的横向移动路径中，lambda_user权限过高(0.9)，且最终数据库字段fld_CG_data_secrets_013暴露敏感数据，但因缺乏数据感知能力，实际泄露概率低。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即终止sg安全组对ec2_instance的异常入站规则，删除允许0.0.0.0/0访问的端口。\n2. 权限收敛：撤销lambda_user对sensitive_lambda的过度权限，仅保留必要执行角色。\n3. 网络隔离：将db_CG_data_secrets_013移入私有子网，禁止公网访问。\n4. 长期改进：对tbl_CG_data_secrets_013启用列级加密，审计fld_CG_data_secrets_013访问日志。"
+      },
+      {
+        "path": [
+          "sg",
+          "ec2_instance",
+          "sensitive_lambda",
+          "lambda_user",
+          "final_flag",
+          "db_CG_data_secrets_013",
+          "tbl_CG_data_secrets_013",
+          "fld_CG_data_secrets_013",
+          "tag_CG_data_secrets_013"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.8,
+          "perm": 0.9,
+          "target": 0.87,
+          "sense": 0.87
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8783,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.8,
+            "perm": 0.9,
+            "target": 0.87,
+            "sense": 0.87
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.8783)。证据链分析：入口点sg（entry=1.0）暴露于公网，攻击者可通过ec2_instance横向移动至sensitive_lambda，利用lambda_user权限（perm=0.9）访问数据库db_CG_data_secrets_013。目标可达性（reach=0.8）与敏感数据识别（target=0.87, sense=0.87）表明攻击者能定位并提取tbl_CG_data_secrets_013中的fld_CG_data_secrets_013字段，最终通过tag_CG_data_secrets_013完成数据外泄。关键风险点：sg入口未限制来源IP，lambda_user权限过高，数据库未启用字段级加密。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即终止sg安全组对ec2_instance的入站规则，阻断攻击路径。\n2. 权限收敛：撤销lambda_user对sensitive_lambda的调用权限，移除final_flag对db_CG_data_secrets_013的访问权限。\n3. 网络隔离：将ec2_instance移入隔离子网，限制其出站流量。\n4. 长期改进：对tbl_CG_data_secrets_013实施列级加密，并启用审计日志。"
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_data_secrets_014": {
+    "scenario": "CG-data_secrets",
+    "scenario_name": "[CloudGoat] data_secrets",
+    "industry": "ecommerce",
+    "expected": "Observed_Risk",
+    "elapsed": 17.73,
+    "node_count": 17,
+    "edge_count": 17,
+    "node_types": {
+      "Identity": 7,
+      "Network": 5,
+      "DBInstance": 1,
+      "DBObject": 3,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "sg"
+    ],
+    "targets": [
+      "fld_CG_data_secrets_014",
+      "tag_CG_data_secrets_014"
+    ],
+    "results": [
+      {
+        "path": [
+          "sg",
+          "ec2_instance",
+          "sensitive_lambda",
+          "lambda_user",
+          "final_flag",
+          "db_CG_data_secrets_014",
+          "tbl_CG_data_secrets_014",
+          "fld_CG_data_secrets_014"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.8,
+          "perm": 0.9,
+          "target": 0.98,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1149,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.8,
+            "perm": 0.9,
+            "target": 0.98,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk (Score=0.1149)。证据链分析：入口点(sg)可达性0.8，权限等级0.9，目标资产敏感度0.98，但感知层(sense)为0.0，表明攻击路径在数据感知或监控层面完全不可见，导致整体风险评分被显著抑制。关键风险点：尽管攻击链具备高权限和高价值目标，但缺乏感知能力意味着攻击行为无法被实时检测或阻断，风险暴露度低但潜在危害高，需强化对敏感Lambda及数据库字段的访问审计与异常感知机制。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即断开sg安全组至ec2_instance的入站规则，阻断路径起点。\n2. 权限收敛：撤销ec2_instance对sensitive_lambda的调用权限，移除lambda_user对final_flag的访问策略。\n3. 网络隔离：对db_CG_data_secrets_014数据库实例启用VPC内网访问限制，禁止公网连接。\n4. 长期改进：审计tbl_CG_data_secrets_014表及fld_CG_data_secrets_014字段的访问日志，实施最小权限原则。"
+      },
+      {
+        "path": [
+          "sg",
+          "ec2_instance",
+          "sensitive_lambda",
+          "lambda_user",
+          "final_flag",
+          "db_CG_data_secrets_014",
+          "tbl_CG_data_secrets_014",
+          "fld_CG_data_secrets_014",
+          "tag_CG_data_secrets_014"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.8,
+          "perm": 0.9,
+          "target": 0.98,
+          "sense": 0.98
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9102,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.8,
+            "perm": 0.9,
+            "target": 0.98,
+            "sense": 0.98
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9102)。证据链分析：入口点sg（entry=1.0）暴露于公网，通过ec2_instance（reach=0.8）横向移动至sensitive_lambda，lambda_user具备高权限（perm=0.9），最终精准命中目标数据库资产（target=0.98）及敏感字段（sense=0.98）。关键风险点：Lambda函数权限过度授予，导致攻击者可利用其访问凭证直接查询数据库敏感字段（fld_CG_data_secrets_014），形成从网络入口到数据泄露的完整攻击链。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即断开sg安全组对ec2_instance的入站规则，阻断攻击路径。\n2. 权限收敛：撤销lambda_user对sensitive_lambda的调用权限，移除final_flag对db_CG_data_secrets_014的访问权限。\n3. 网络隔离：将ec2_instance移入隔离子网，限制其出站流量。\n4. 长期改进：对tbl_CG_data_secrets_014实施列级加密，审计tag_CG_data_secrets_014的访问日志。"
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_data_secrets_015": {
+    "scenario": "CG-data_secrets",
+    "scenario_name": "[CloudGoat] data_secrets",
+    "industry": "finance",
+    "expected": "Insufficient_Evidence",
+    "elapsed": 0.81,
+    "node_count": 17,
+    "edge_count": 17,
+    "node_types": {
+      "Identity": 7,
+      "Network": 5,
+      "DBInstance": 1,
+      "DBObject": 3,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "sg"
+    ],
+    "targets": [
+      "fld_CG_data_secrets_015",
+      "tag_CG_data_secrets_015"
+    ],
+    "results": [
+      {
+        "path": [
+          "sg",
+          "ec2_instance",
+          "sensitive_lambda",
+          "lambda_user",
+          "final_flag",
+          "db_CG_data_secrets_015",
+          "tbl_CG_data_secrets_015",
+          "fld_CG_data_secrets_015"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.0342
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.03<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.0342
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.03<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      },
+      {
+        "path": [
+          "sg",
+          "ec2_instance",
+          "sensitive_lambda",
+          "lambda_user",
+          "final_flag",
+          "db_CG_data_secrets_015",
+          "tbl_CG_data_secrets_015",
+          "fld_CG_data_secrets_015",
+          "tag_CG_data_secrets_015"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.0342
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.03<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.0342
+          },
+          "early_terminated": true,
+          "dims_checked": 2
+        },
+        "attribution": "路径在硬证据维度 reach(0.03<0.5) 未达阈值，经确定性 Gate 一票否决提前终止，判定为证据不足（Insufficient_Evidence）。",
+        "remediation": ""
+      }
+    ],
+    "no_path_reason": ""
+  },
+  "CG_secrets_in_the_cloud_016": {
+    "scenario": "CG-secrets_in_the_cloud",
+    "scenario_name": "[CloudGoat] secrets_in_the_cloud",
+    "industry": "finance",
+    "expected": "Observed_Risk",
+    "elapsed": 0.02,
+    "node_count": 21,
+    "edge_count": 20,
+    "node_types": {
+      "DBInstance": 2,
+      "Identity": 8,
+      "Network": 5,
+      "DBObject": 5,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "web_app_sg"
+    ],
+    "targets": [
+      "fld_CG_secrets_in_the_cloud_016",
+      "tag_CG_secrets_in_the_cloud_016"
+    ],
+    "results": [],
+    "no_path_reason": "图不连通：入口与敏感目标之间无物理路径（种子数据链路缺失）"
+  },
+  "CG_secrets_in_the_cloud_017": {
+    "scenario": "CG-secrets_in_the_cloud",
+    "scenario_name": "[CloudGoat] secrets_in_the_cloud",
+    "industry": "medical",
+    "expected": "Observed_Risk",
+    "elapsed": 0.01,
+    "node_count": 21,
+    "edge_count": 20,
+    "node_types": {
+      "DBInstance": 2,
+      "Identity": 8,
+      "Network": 5,
+      "DBObject": 5,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "web_app_sg"
+    ],
+    "targets": [
+      "fld_CG_secrets_in_the_cloud_017",
+      "tag_CG_secrets_in_the_cloud_017"
+    ],
+    "results": [],
+    "no_path_reason": "图不连通：入口与敏感目标之间无物理路径（种子数据链路缺失）"
+  },
+  "CG_secrets_in_the_cloud_018": {
+    "scenario": "CG-secrets_in_the_cloud",
+    "scenario_name": "[CloudGoat] secrets_in_the_cloud",
+    "industry": "ecommerce",
+    "expected": "Observed_Risk",
+    "elapsed": 0.01,
+    "node_count": 21,
+    "edge_count": 20,
+    "node_types": {
+      "DBInstance": 2,
+      "Identity": 8,
+      "Network": 5,
+      "DBObject": 5,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "web_app_sg"
+    ],
+    "targets": [
+      "fld_CG_secrets_in_the_cloud_018",
+      "tag_CG_secrets_in_the_cloud_018"
+    ],
+    "results": [],
+    "no_path_reason": "图不连通：入口与敏感目标之间无物理路径（种子数据链路缺失）"
+  },
+  "CG_secrets_in_the_cloud_019": {
+    "scenario": "CG-secrets_in_the_cloud",
+    "scenario_name": "[CloudGoat] secrets_in_the_cloud",
+    "industry": "finance",
+    "expected": "Insufficient_Evidence",
+    "elapsed": 0.01,
+    "node_count": 21,
+    "edge_count": 20,
+    "node_types": {
+      "DBInstance": 2,
+      "Identity": 8,
+      "Network": 5,
+      "DBObject": 5,
+      "SensitiveTag": 1
+    },
+    "entries": [
+      "web_app_sg"
+    ],
+    "targets": [
+      "fld_CG_secrets_in_the_cloud_019",
+      "tag_CG_secrets_in_the_cloud_019"
+    ],
+    "results": [],
+    "no_path_reason": "图不连通：入口与敏感目标之间无物理路径（种子数据链路缺失）"
+  }
+}

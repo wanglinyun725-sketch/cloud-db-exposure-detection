@@ -1,0 +1,197 @@
+[
+  {
+    "sample_id": "S1_public_exposure_001",
+    "scenario": "S1",
+    "scenario_name": "公网暴露+高敏数据未保护",
+    "industry": "finance",
+    "nodes": [
+      {"id": "internet", "type": "Network", "attrs": {"kind": "eip", "public_exposed": true, "cidr": "0.0.0.0/0"}},
+      {"id": "sg_open_3306", "type": "Network", "attrs": {"kind": "sg", "public_exposed": true, "cidr": "0.0.0.0/0", "port": 3306}},
+      {"id": "vpc_finance", "type": "Network", "attrs": {"kind": "vpc", "cidr": "10.0.0.0/16"}},
+      {"id": "rds_crm", "type": "DBInstance", "attrs": {"engine": "MySQL", "version": "8.0", "port": 3306, "encrypted": false, "audit_on": true, "region": "cn-hangzhou", "vpc": "vpc_finance"}},
+      {"id": "db_crm", "type": "DBObject", "attrs": {"kind": "db", "name": "crm"}},
+      {"id": "table_user_kyc", "type": "DBObject", "attrs": {"kind": "table", "name": "customer_kyc", "parent": "db_crm"}},
+      {"id": "field_id_card", "type": "DBObject", "attrs": {"kind": "field", "name": "id_card", "parent": "table_user_kyc"}},
+      {"id": "field_phone", "type": "DBObject", "attrs": {"kind": "field", "name": "phone", "parent": "table_user_kyc"}},
+      {"id": "tag_idcard_L4", "type": "SensitiveTag", "attrs": {"category": "身份证号", "level": 4, "confidence": 0.97}},
+      {"id": "tag_phone_L3", "type": "SensitiveTag", "attrs": {"category": "手机号", "level": 3, "confidence": 0.92}},
+      {"id": "ctrl_tde_off", "type": "Control", "attrs": {"kind": "TDE", "enabled": false, "scope": "rds_crm"}},
+      {"id": "ctrl_audit_on", "type": "Control", "attrs": {"kind": "Audit", "enabled": true, "scope": "rds_crm"}},
+      {"id": "user_app_readonly", "type": "Identity", "attrs": {"kind": "user", "is_external": false, "mfa": false, "name": "app_readonly"}},
+      {"id": "audit_event_001", "type": "AuditEvent", "attrs": {"action": "SELECT * FROM customer_kyc", "success": true, "src_ip": "203.0.113.42", "anomaly_score": 0.85, "t": "2025-01-15T02:30:00"}},
+      {"id": "risk_bulk_export", "type": "RiskFinding", "attrs": {"rule": "bulk_export_night", "severity": "high", "observed_at": "2025-01-15T02:31:00"}}
+    ],
+    "edges": [
+      {"source": "internet", "target": "sg_open_3306", "type": "can_connect", "attrs": {"strength": 1.0, "evidence_ref": "ev_sg_rule_001"}},
+      {"source": "sg_open_3306", "target": "rds_crm", "type": "can_connect", "attrs": {"strength": 0.95, "evidence_ref": "ev_net_route_001"}},
+      {"source": "rds_crm", "target": "user_app_readonly", "type": "owns", "attrs": {"strength": 1.0, "evidence_ref": "ev_owns_001"}},
+      {"source": "user_app_readonly", "target": "table_user_kyc", "type": "has_permission", "attrs": {"strength": 0.9, "evidence_ref": "ev_grant_select_001", "privilege": "SELECT"}},
+      {"source": "rds_crm", "target": "db_crm", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_001"}},
+      {"source": "db_crm", "target": "table_user_kyc", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_002"}},
+      {"source": "table_user_kyc", "target": "field_id_card", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_003"}},
+      {"source": "table_user_kyc", "target": "field_phone", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_004"}},
+      {"source": "field_id_card", "target": "tag_idcard_L4", "type": "classified_as", "attrs": {"strength": 0.97, "evidence_ref": "ev_dlp_001"}},
+      {"source": "field_phone", "target": "tag_phone_L3", "type": "classified_as", "attrs": {"strength": 0.92, "evidence_ref": "ev_dlp_002"}},
+      {"source": "rds_crm", "target": "ctrl_tde_off", "type": "protected_by", "attrs": {"strength": 1.0, "evidence_ref": "ev_ctrl_001"}},
+      {"source": "rds_crm", "target": "ctrl_audit_on", "type": "protected_by", "attrs": {"strength": 1.0, "evidence_ref": "ev_ctrl_002"}},
+      {"source": "user_app_readonly", "target": "table_user_kyc", "type": "accessed", "attrs": {"strength": 0.85, "evidence_ref": "ev_audit_001", "via": "audit_event_001"}},
+      {"source": "audit_event_001", "target": "risk_bulk_export", "type": "triggered", "attrs": {"strength": 0.8, "evidence_ref": "ev_risk_001"}},
+      {"source": "table_user_kyc", "target": "risk_bulk_export", "type": "has_risk", "attrs": {"strength": 0.8, "evidence_ref": "ev_risk_002"}}
+    ],
+    "gold_paths": [
+      ["internet", "sg_open_3306", "rds_crm", "db_crm", "table_user_kyc", "field_id_card", "tag_idcard_L4"]
+    ],
+    "expected_type": "Observed_Risk"
+  },
+
+  {
+    "sample_id": "S2_excess_privilege_001",
+    "scenario": "S2",
+    "scenario_name": "低权限账号权限过宽",
+    "industry": "finance",
+    "nodes": [
+      {"id": "internet", "type": "Network", "attrs": {"kind": "eip", "public_exposed": true, "cidr": "0.0.0.0/0"}},
+      {"id": "sg_internal", "type": "Network", "attrs": {"kind": "sg", "public_exposed": false, "cidr": "10.0.0.0/8", "port": 3306}},
+      {"id": "user_intern", "type": "Identity", "attrs": {"kind": "user", "is_external": false, "mfa": false, "name": "intern_001"}},
+      {"id": "role_analyst", "type": "Identity", "attrs": {"kind": "role", "is_external": false, "name": "data_analyst"}},
+      {"id": "rds_biz", "type": "DBInstance", "attrs": {"engine": "MySQL", "version": "8.0", "port": 3306, "encrypted": true, "audit_on": true, "region": "cn-shanghai"}},
+      {"id": "db_biz", "type": "DBObject", "attrs": {"kind": "db", "name": "business_db"}},
+      {"id": "table_payments", "type": "DBObject", "attrs": {"kind": "table", "name": "payments", "parent": "db_biz"}},
+      {"id": "field_bank_card", "type": "DBObject", "attrs": {"kind": "field", "name": "bank_card", "parent": "table_payments"}},
+      {"id": "tag_bankcard_L4", "type": "SensitiveTag", "attrs": {"category": "银行卡号", "level": 4, "confidence": 0.95}},
+      {"id": "ctrl_tde_on", "type": "Control", "attrs": {"kind": "TDE", "enabled": true, "scope": "rds_biz"}},
+      {"id": "ctrl_audit_on", "type": "Control", "attrs": {"kind": "Audit", "enabled": true, "scope": "rds_biz"}}
+    ],
+    "edges": [
+      {"source": "internet", "target": "sg_internal", "type": "can_connect", "attrs": {"strength": 0.65, "evidence_ref": "ev_sg_rule_002"}},
+      {"source": "sg_internal", "target": "rds_biz", "type": "can_connect", "attrs": {"strength": 0.8, "evidence_ref": "ev_net_route_002"}},
+      {"source": "rds_biz", "target": "user_intern", "type": "owns", "attrs": {"strength": 1.0, "evidence_ref": "ev_owns_002"}},
+      {"source": "user_intern", "target": "role_analyst", "type": "can_assume", "attrs": {"strength": 0.9, "evidence_ref": "ev_iam_trust_001"}},
+      {"source": "role_analyst", "target": "table_payments", "type": "has_permission", "attrs": {"strength": 0.75, "evidence_ref": "ev_grant_wildcard_001", "privilege": "SELECT *.*"}},
+      {"source": "rds_biz", "target": "db_biz", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_010"}},
+      {"source": "db_biz", "target": "table_payments", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_011"}},
+      {"source": "table_payments", "target": "field_bank_card", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_012"}},
+      {"source": "field_bank_card", "target": "tag_bankcard_L4", "type": "classified_as", "attrs": {"strength": 0.95, "evidence_ref": "ev_dlp_010"}},
+      {"source": "rds_biz", "target": "ctrl_tde_on", "type": "protected_by", "attrs": {"strength": 1.0, "evidence_ref": "ev_ctrl_010"}},
+      {"source": "rds_biz", "target": "ctrl_audit_on", "type": "protected_by", "attrs": {"strength": 1.0, "evidence_ref": "ev_ctrl_011"}}
+    ],
+    "gold_paths": [
+      ["internet", "sg_internal", "rds_biz", "db_biz", "table_payments", "field_bank_card", "tag_bankcard_L4"]
+    ],
+    "expected_type": "Potential_Exposure"
+  },
+
+  {
+    "sample_id": "S3_abnormal_access_001",
+    "scenario": "S3",
+    "scenario_name": "异常IP/夜间访问+批量查询",
+    "industry": "medical",
+    "nodes": [
+      {"id": "internet", "type": "Network", "attrs": {"kind": "eip", "public_exposed": true, "cidr": "0.0.0.0/0"}},
+      {"id": "sg_open_5432", "type": "Network", "attrs": {"kind": "sg", "public_exposed": true, "cidr": "0.0.0.0/0", "port": 5432}},
+      {"id": "rds_hospital", "type": "DBInstance", "attrs": {"engine": "PostgreSQL", "version": "14", "port": 5432, "encrypted": false, "audit_on": true, "region": "cn-beijing"}},
+      {"id": "db_hospital", "type": "DBObject", "attrs": {"kind": "db", "name": "hospital_db"}},
+      {"id": "table_patients", "type": "DBObject", "attrs": {"kind": "table", "name": "patients", "parent": "db_hospital"}},
+      {"id": "field_patient_idcard", "type": "DBObject", "attrs": {"kind": "field", "name": "id_card", "parent": "table_patients"}},
+      {"id": "field_chief_complaint", "type": "DBObject", "attrs": {"kind": "field", "name": "chief_complaint", "parent": "table_patients"}},
+      {"id": "tag_idcard_L4_med", "type": "SensitiveTag", "attrs": {"category": "身份证号", "level": 4, "confidence": 0.98}},
+      {"id": "tag_complaint_L4", "type": "SensitiveTag", "attrs": {"category": "主诉病历", "level": 4, "confidence": 0.90}},
+      {"id": "user_nurse", "type": "Identity", "attrs": {"kind": "user", "is_external": false, "mfa": false, "name": "nurse_zhang"}},
+      {"id": "audit_night_dump", "type": "AuditEvent", "attrs": {"action": "SELECT * FROM patients LIMIT 50000", "success": true, "src_ip": "198.51.100.77", "anomaly_score": 0.92, "t": "2025-02-10T03:15:00"}},
+      {"id": "risk_night_bulk", "type": "RiskFinding", "attrs": {"rule": "night_bulk_export", "severity": "critical", "observed_at": "2025-02-10T03:16:00"}},
+      {"id": "ctrl_audit_on_med", "type": "Control", "attrs": {"kind": "Audit", "enabled": true, "scope": "rds_hospital"}}
+    ],
+    "edges": [
+      {"source": "internet", "target": "sg_open_5432", "type": "can_connect", "attrs": {"strength": 1.0, "evidence_ref": "ev_sg_rule_003"}},
+      {"source": "sg_open_5432", "target": "rds_hospital", "type": "can_connect", "attrs": {"strength": 0.95, "evidence_ref": "ev_net_route_003"}},
+      {"source": "rds_hospital", "target": "user_nurse", "type": "owns", "attrs": {"strength": 1.0, "evidence_ref": "ev_owns_003"}},
+      {"source": "user_nurse", "target": "table_patients", "type": "has_permission", "attrs": {"strength": 0.7, "evidence_ref": "ev_grant_select_003", "privilege": "SELECT"}},
+      {"source": "rds_hospital", "target": "db_hospital", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_020"}},
+      {"source": "db_hospital", "target": "table_patients", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_021"}},
+      {"source": "table_patients", "target": "field_patient_idcard", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_022"}},
+      {"source": "table_patients", "target": "field_chief_complaint", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_023"}},
+      {"source": "field_patient_idcard", "target": "tag_idcard_L4_med", "type": "classified_as", "attrs": {"strength": 0.98, "evidence_ref": "ev_dlp_020"}},
+      {"source": "field_chief_complaint", "target": "tag_complaint_L4", "type": "classified_as", "attrs": {"strength": 0.90, "evidence_ref": "ev_dlp_021"}},
+      {"source": "user_nurse", "target": "table_patients", "type": "accessed", "attrs": {"strength": 0.92, "evidence_ref": "ev_audit_003", "via": "audit_night_dump"}},
+      {"source": "audit_night_dump", "target": "risk_night_bulk", "type": "triggered", "attrs": {"strength": 0.9, "evidence_ref": "ev_risk_003"}},
+      {"source": "table_patients", "target": "risk_night_bulk", "type": "has_risk", "attrs": {"strength": 0.9, "evidence_ref": "ev_risk_004"}},
+      {"source": "rds_hospital", "target": "ctrl_audit_on_med", "type": "protected_by", "attrs": {"strength": 1.0, "evidence_ref": "ev_ctrl_020"}}
+    ],
+    "gold_paths": [
+      ["internet", "sg_open_5432", "rds_hospital", "db_hospital", "table_patients", "field_patient_idcard", "tag_idcard_L4_med"]
+    ],
+    "expected_type": "Observed_Risk"
+  },
+
+  {
+    "sample_id": "S4_external_entity_001",
+    "scenario": "S4",
+    "scenario_name": "外部主体+白名单过宽",
+    "industry": "ecommerce",
+    "nodes": [
+      {"id": "internet", "type": "Network", "attrs": {"kind": "eip", "public_exposed": true, "cidr": "0.0.0.0/0"}},
+      {"id": "sg_wide_cidr", "type": "Network", "attrs": {"kind": "sg", "public_exposed": true, "cidr": "0.0.0.0/0", "port": 3306}},
+      {"id": "external_vendor", "type": "Identity", "attrs": {"kind": "user", "is_external": true, "mfa": false, "name": "vendor_data_export"}},
+      {"id": "role_export", "type": "Identity", "attrs": {"kind": "role", "is_external": false, "name": "data_export_role"}},
+      {"id": "rds_ecom", "type": "DBInstance", "attrs": {"engine": "MySQL", "version": "8.0", "port": 3306, "encrypted": true, "audit_on": false, "region": "cn-shenzhen"}},
+      {"id": "db_ecom", "type": "DBObject", "attrs": {"kind": "db", "name": "ecommerce_db"}},
+      {"id": "table_users", "type": "DBObject", "attrs": {"kind": "table", "name": "users", "parent": "db_ecom"}},
+      {"id": "field_user_idcard", "type": "DBObject", "attrs": {"kind": "field", "name": "id_card", "parent": "table_users"}},
+      {"id": "tag_user_idcard_L4", "type": "SensitiveTag", "attrs": {"category": "身份证号", "level": 4, "confidence": 0.96}},
+      {"id": "ctrl_audit_off", "type": "Control", "attrs": {"kind": "Audit", "enabled": false, "scope": "rds_ecom"}}
+    ],
+    "edges": [
+      {"source": "internet", "target": "sg_wide_cidr", "type": "can_connect", "attrs": {"strength": 0.6, "evidence_ref": "ev_sg_rule_004"}},
+      {"source": "sg_wide_cidr", "target": "rds_ecom", "type": "can_connect", "attrs": {"strength": 0.55, "evidence_ref": "ev_net_route_004"}},
+      {"source": "rds_ecom", "target": "external_vendor", "type": "owns", "attrs": {"strength": 1.0, "evidence_ref": "ev_owns_004"}},
+      {"source": "external_vendor", "target": "role_export", "type": "can_assume", "attrs": {"strength": 0.85, "evidence_ref": "ev_iam_trust_004"}},
+      {"source": "role_export", "target": "table_users", "type": "has_permission", "attrs": {"strength": 0.7, "evidence_ref": "ev_grant_select_004", "privilege": "SELECT"}},
+      {"source": "rds_ecom", "target": "db_ecom", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_030"}},
+      {"source": "db_ecom", "target": "table_users", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_031"}},
+      {"source": "table_users", "target": "field_user_idcard", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_032"}},
+      {"source": "field_user_idcard", "target": "tag_user_idcard_L4", "type": "classified_as", "attrs": {"strength": 0.96, "evidence_ref": "ev_dlp_030"}},
+      {"source": "rds_ecom", "target": "ctrl_audit_off", "type": "protected_by", "attrs": {"strength": 1.0, "evidence_ref": "ev_ctrl_030"}}
+    ],
+    "gold_paths": [
+      ["internet", "sg_wide_cidr", "rds_ecom", "db_ecom", "table_users", "field_user_idcard", "tag_user_idcard_L4"]
+    ],
+    "expected_type": "Potential_Exposure"
+  },
+
+  {
+    "sample_id": "S5_no_protection_001",
+    "scenario": "S5",
+    "scenario_name": "未开启审计/保护+高敏资产",
+    "industry": "finance",
+    "nodes": [
+      {"id": "internet", "type": "Network", "attrs": {"kind": "eip", "public_exposed": true, "cidr": "0.0.0.0/0"}},
+      {"id": "sg_open_1433", "type": "Network", "attrs": {"kind": "sg", "public_exposed": true, "cidr": "0.0.0.0/0", "port": 1433}},
+      {"id": "rds_legacy", "type": "DBInstance", "attrs": {"engine": "SQLServer", "version": "2019", "port": 1433, "encrypted": false, "audit_on": false, "region": "cn-hangzhou"}},
+      {"id": "db_legacy", "type": "DBObject", "attrs": {"kind": "db", "name": "legacy_finance"}},
+      {"id": "table_insurance", "type": "DBObject", "attrs": {"kind": "table", "name": "insurance_claims", "parent": "db_legacy"}},
+      {"id": "field_claimer_idcard", "type": "DBObject", "attrs": {"kind": "field", "name": "policyholder_id_card", "parent": "table_insurance"}},
+      {"id": "tag_claimer_L4", "type": "SensitiveTag", "attrs": {"category": "身份证号", "level": 4, "confidence": 0.94}},
+      {"id": "user_legacy_admin", "type": "Identity", "attrs": {"kind": "user", "is_external": false, "mfa": false, "name": "legacy_admin"}},
+      {"id": "ctrl_tde_off_legacy", "type": "Control", "attrs": {"kind": "TDE", "enabled": false, "scope": "rds_legacy"}},
+      {"id": "ctrl_audit_off_legacy", "type": "Control", "attrs": {"kind": "Audit", "enabled": false, "scope": "rds_legacy"}},
+      {"id": "ctrl_backup_off", "type": "Control", "attrs": {"kind": "Backup", "enabled": false, "scope": "rds_legacy"}}
+    ],
+    "edges": [
+      {"source": "internet", "target": "sg_open_1433", "type": "can_connect", "attrs": {"strength": 1.0, "evidence_ref": "ev_sg_rule_005"}},
+      {"source": "sg_open_1433", "target": "rds_legacy", "type": "can_connect", "attrs": {"strength": 0.95, "evidence_ref": "ev_net_route_005"}},
+      {"source": "rds_legacy", "target": "user_legacy_admin", "type": "owns", "attrs": {"strength": 1.0, "evidence_ref": "ev_owns_005"}},
+      {"source": "user_legacy_admin", "target": "table_insurance", "type": "has_permission", "attrs": {"strength": 0.95, "evidence_ref": "ev_grant_all_005", "privilege": "ALL"}},
+      {"source": "rds_legacy", "target": "db_legacy", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_040"}},
+      {"source": "db_legacy", "target": "table_insurance", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_041"}},
+      {"source": "table_insurance", "target": "field_claimer_idcard", "type": "contains", "attrs": {"strength": 1.0, "evidence_ref": "ev_schema_042"}},
+      {"source": "field_claimer_idcard", "target": "tag_claimer_L4", "type": "classified_as", "attrs": {"strength": 0.94, "evidence_ref": "ev_dlp_040"}},
+      {"source": "rds_legacy", "target": "ctrl_tde_off_legacy", "type": "protected_by", "attrs": {"strength": 1.0, "evidence_ref": "ev_ctrl_040"}},
+      {"source": "rds_legacy", "target": "ctrl_audit_off_legacy", "type": "protected_by", "attrs": {"strength": 1.0, "evidence_ref": "ev_ctrl_041"}},
+      {"source": "rds_legacy", "target": "ctrl_backup_off", "type": "protected_by", "attrs": {"strength": 1.0, "evidence_ref": "ev_ctrl_042"}}
+    ],
+    "gold_paths": [
+      ["internet", "sg_open_1433", "rds_legacy", "db_legacy", "table_insurance", "field_claimer_idcard", "tag_claimer_L4"]
+    ],
+    "expected_type": "Observed_Risk"
+  }
+]

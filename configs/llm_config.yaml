@@ -1,0 +1,14 @@
+# DeepSeek API 配置
+# API Key 从环境变量 DEEPSEEK_API_KEY 读取
+llm:
+  provider: "deepseek"
+  model: "deepseek-chat"
+  base_url: "https://api.deepseek.com"
+  temperature: 0.1
+  max_tokens: 2048
+  timeout: 30
+
+# 备选模型（实验对比用）
+alternatives:
+  - model: "deepseek-reasoner"
+    note: "DeepSeek R1 推理模型，适合复杂分析"
