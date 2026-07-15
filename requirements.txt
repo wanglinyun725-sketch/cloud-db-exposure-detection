@@ -1,0 +1,18 @@
+# EIC-Agent 中期原型依赖
+# 图引擎
+networkx>=3.0
+
+# Agent框架
+langgraph>=0.2.0
+langchain-core>=0.2.0
+langchain-openai>=0.1.0
+
+# LLM API (Qwen DashScope 兼容 OpenAI 接口)
+openai>=1.0.0
+
+# 配置与数据
+pyyaml>=6.0
+pydantic>=2.0
+
+# 工具
+python-dotenv>=1.0.0

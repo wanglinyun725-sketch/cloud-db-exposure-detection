@@ -1,0 +1,568 @@
+{
+  "seed_id": "rce_web_app",
+  "source": "CloudGoat (RhinoSecurityLabs, BSD-3-Clause)",
+  "scenario_ref": "rce_web_app",
+  "nodes": [
+    {
+      "id": "ec2",
+      "type": "Identity",
+      "attrs": {
+        "name": "ec2",
+        "tf_type": "aws_iam_role",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "role",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "iam_instance_profile_ec2",
+      "type": "Identity",
+      "attrs": {
+        "name": "ec2",
+        "tf_type": "aws_iam_instance_profile",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "compute",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "ec2_ssh",
+      "type": "Network",
+      "attrs": {
+        "name": "ec2_ssh",
+        "tf_type": "aws_security_group",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "sg",
+        "is_infra": false,
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0",
+        "parent_vpc": "vpc_this"
+      }
+    },
+    {
+      "id": "ec2_http",
+      "type": "Network",
+      "attrs": {
+        "name": "ec2_http",
+        "tf_type": "aws_security_group",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "sg",
+        "is_infra": false,
+        "public_exposed": false,
+        "parent_vpc": "vpc_this"
+      }
+    },
+    {
+      "id": "ubuntu",
+      "type": "Identity",
+      "attrs": {
+        "name": "ubuntu",
+        "tf_type": "aws_instance",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "compute",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "lara",
+      "type": "Identity",
+      "attrs": {
+        "name": "lara",
+        "tf_type": "aws_iam_user",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "user",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "mcduck",
+      "type": "Identity",
+      "attrs": {
+        "name": "mcduck",
+        "tf_type": "aws_iam_user",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "user",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "lb_http",
+      "type": "Network",
+      "attrs": {
+        "name": "lb_http",
+        "tf_type": "aws_security_group",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "sg",
+        "is_infra": false,
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0",
+        "parent_vpc": "vpc_this"
+      }
+    },
+    {
+      "id": "rds",
+      "type": "Network",
+      "attrs": {
+        "name": "rds",
+        "tf_type": "aws_security_group",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "sg",
+        "is_infra": false,
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0",
+        "parent_vpc": "vpc_this"
+      }
+    },
+    {
+      "id": "db_subnet_group_this",
+      "type": "Network",
+      "attrs": {
+        "name": "db_subnet_group:this",
+        "tf_type": "aws_db_subnet_group",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "subnet_group",
+        "is_infra": true,
+        "public_exposed": false,
+        "parent_vpc": null
+      }
+    },
+    {
+      "id": "postgres",
+      "type": "DBInstance",
+      "attrs": {
+        "name": "postgres",
+        "tf_type": "aws_db_instance",
+        "source": "cloudgoat:rce_web_app",
+        "engine": "postgres",
+        "publicly_accessible": false,
+        "encrypted": false,
+        "audit_on": false
+      }
+    },
+    {
+      "id": "logs",
+      "type": "DBObject",
+      "attrs": {
+        "name": "logs",
+        "tf_type": "aws_s3_bucket",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "bucket"
+      }
+    },
+    {
+      "id": "lb_logs",
+      "type": "DBObject",
+      "attrs": {
+        "name": "lb_logs",
+        "tf_type": "aws_s3_object",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "object"
+      }
+    },
+    {
+      "id": "secret",
+      "type": "DBObject",
+      "attrs": {
+        "name": "secret",
+        "tf_type": "aws_s3_bucket",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "bucket"
+      }
+    },
+    {
+      "id": "db_credentials",
+      "type": "DBObject",
+      "attrs": {
+        "name": "db_credentials",
+        "tf_type": "aws_s3_object",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "object"
+      }
+    },
+    {
+      "id": "keystore",
+      "type": "DBObject",
+      "attrs": {
+        "name": "keystore",
+        "tf_type": "aws_s3_bucket",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "bucket"
+      }
+    },
+    {
+      "id": "ssh_private_key",
+      "type": "DBObject",
+      "attrs": {
+        "name": "ssh_private_key",
+        "tf_type": "aws_s3_object",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "object"
+      }
+    },
+    {
+      "id": "ssh_public_key",
+      "type": "DBObject",
+      "attrs": {
+        "name": "ssh_public_key",
+        "tf_type": "aws_s3_object",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "object"
+      }
+    },
+    {
+      "id": "vpc_this",
+      "type": "Network",
+      "attrs": {
+        "name": "vpc:this",
+        "tf_type": "aws_vpc",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "vpc",
+        "is_infra": true,
+        "public_exposed": false,
+        "parent_vpc": null
+      }
+    },
+    {
+      "id": "internet_gateway_this",
+      "type": "Network",
+      "attrs": {
+        "name": "internet_gateway:this",
+        "tf_type": "aws_internet_gateway",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "igw",
+        "is_infra": true,
+        "public_exposed": false,
+        "parent_vpc": "vpc_this"
+      }
+    },
+    {
+      "id": "public_1",
+      "type": "Network",
+      "attrs": {
+        "name": "public_1",
+        "tf_type": "aws_subnet",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "subnet",
+        "is_infra": false,
+        "public_exposed": false,
+        "parent_vpc": "vpc_this"
+      }
+    },
+    {
+      "id": "public_2",
+      "type": "Network",
+      "attrs": {
+        "name": "public_2",
+        "tf_type": "aws_subnet",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "subnet",
+        "is_infra": false,
+        "public_exposed": false,
+        "parent_vpc": "vpc_this"
+      }
+    },
+    {
+      "id": "private_1",
+      "type": "Network",
+      "attrs": {
+        "name": "private_1",
+        "tf_type": "aws_subnet",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "subnet",
+        "is_infra": false,
+        "public_exposed": false,
+        "parent_vpc": "vpc_this"
+      }
+    },
+    {
+      "id": "private_2",
+      "type": "Network",
+      "attrs": {
+        "name": "private_2",
+        "tf_type": "aws_subnet",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "subnet",
+        "is_infra": false,
+        "public_exposed": false,
+        "parent_vpc": "vpc_this"
+      }
+    },
+    {
+      "id": "public",
+      "type": "Network",
+      "attrs": {
+        "name": "public",
+        "tf_type": "aws_route_table",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "route_table",
+        "is_infra": true,
+        "public_exposed": false,
+        "cidr": "0.0.0.0/0",
+        "parent_vpc": "vpc_this"
+      }
+    },
+    {
+      "id": "private",
+      "type": "Network",
+      "attrs": {
+        "name": "private",
+        "tf_type": "aws_route_table",
+        "source": "cloudgoat:rce_web_app",
+        "kind": "route_table",
+        "is_infra": true,
+        "public_exposed": false,
+        "parent_vpc": "vpc_this"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "iam_instance_profile_ec2",
+      "target": "ec2",
+      "type": "can_assume",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc_this",
+      "target": "ec2_ssh",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc_this",
+      "target": "ec2_http",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "lb_http",
+      "target": "ec2_http",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "ubuntu",
+      "target": "iam_instance_profile_ec2",
+      "type": "can_assume",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "public_1",
+      "target": "ubuntu",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "ec2_ssh",
+      "target": "ubuntu",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "ec2_http",
+      "target": "ubuntu",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "ubuntu",
+      "target": "postgres",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 0.6,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc_this",
+      "target": "lb_http",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc_this",
+      "target": "rds",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "private_1",
+      "target": "db_subnet_group_this",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "private_2",
+      "target": "db_subnet_group_this",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "db_subnet_group_this",
+      "target": "postgres",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "rds",
+      "target": "postgres",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "logs",
+      "target": "lb_logs",
+      "type": "contains",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "secret",
+      "target": "db_credentials",
+      "type": "contains",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "keystore",
+      "target": "ssh_private_key",
+      "type": "contains",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "keystore",
+      "target": "ssh_public_key",
+      "type": "contains",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc_this",
+      "target": "internet_gateway_this",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc_this",
+      "target": "public_1",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc_this",
+      "target": "public_2",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc_this",
+      "target": "private_1",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc_this",
+      "target": "private_2",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc_this",
+      "target": "public",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "internet_gateway_this",
+      "target": "public",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc_this",
+      "target": "private",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    }
+  ]
+}

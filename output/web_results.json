@@ -1,0 +1,858 @@
+{
+  "S1_public_exposure_001": {
+    "scenario": "S1",
+    "scenario_name": "公网暴露+高敏数据未保护",
+    "industry": "finance",
+    "expected": "Observed_Risk",
+    "elapsed": 56.14,
+    "node_count": 15,
+    "edge_count": 15,
+    "node_types": {
+      "Network": 3,
+      "DBInstance": 1,
+      "DBObject": 4,
+      "SensitiveTag": 2,
+      "Control": 2,
+      "Identity": 1,
+      "AuditEvent": 1,
+      "RiskFinding": 1
+    },
+    "entries": [
+      "internet",
+      "sg_open_3306"
+    ],
+    "targets": [
+      "field_id_card",
+      "tag_idcard_L4"
+    ],
+    "results": [
+      {
+        "path": [
+          "sg_open_3306",
+          "rds_crm",
+          "user_app_readonly",
+          "table_user_kyc",
+          "field_id_card"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.9,
+          "target": 0.97,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1208,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.9,
+            "target": 0.97,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径风险较低，因为虽然攻击者可通过开放3306端口的安全组（entry=1.0）高概率访问RDS数据库（reach=0.95），并拥有对敏感字段（field_id_card）的读取权限（perm=0.9），但证据向量中“sense”值为0.0，表明该路径缺乏实际利用的上下文或威胁情报支撑，导致整体风险评分仅0.1208。关键风险点在于权限与敏感数据可达，但缺乏真实攻击场景验证。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径 `sg_open_3306 → rds_crm → user_app_readonly → table_user_kyc → field_id_card`，我给出以下 3-5 条可执行的处置建议。该路径风险等级为 Low_Risk，但涉及敏感字段 `field_id_card`（身份证号），建议采取预防性加固措施。\n\n1. **[修改安全组规则]** `sg_open_3306` - 当前安全组规则允许对 3306 端口（MySQL）的开放访问。建议将源 IP 范围从 `0.0.0.0/0` 或过大的 CIDR 修改为仅允许特定应用服务器或堡垒机的 IP 地址，例如 `10.0.1.0/24`。操作：在云控制台的安全组 `sg_open_3306` 中，编辑入站规则，将 3306 端口的源 IP 改为最小必要范围。\n\n2. **[启用数据库审计日志]** `rds_crm` - 针对 `rds_crm` 实例，开启详细的 SQL 审计日志功能，记录所有对 `table_user_kyc` 表的查询操作，特别是涉及 `field_id_card` 字段的 SELECT 语句。操作：在 RDS 控制台 `rds_crm` 的“日志管理”中，开启“审计日志”，并配置日志保留周期（如 90 天），以便事后追溯异常访问。\n\n3. **[实施列级访问控制]** `user_app_readonly` - 该数据库用户拥有对 `table_user_kyc` 表的只读权限，但可能仍能读取所有列。建议创建视图或使用数据库的列级权限功能，限制 `user_app_readonly` 用户对 `field_id_card` 列的访问。操作：执行 SQL 语句 `REVOKE SELECT (field_id_card) ON table_user_kyc FROM user_app_readonly;`，或创建一个不包含该敏感字段的视图供其查询。\n\n4. **[部署数据脱敏中间件]** `user_app_readonly` - 在应用层与数据库之间引入数据脱敏代理（如开源工具或云原生服务），对 `user_app_readonly` 用户查询 `field_id_card` 的结果进行动态脱敏（例如显示前6位后4位）。操作：在应用服务器上部署脱敏代理，配置规则：当查询用户为 `user_app_readonly` 且目标列为 `field_id_card` 时，返回脱敏后的数据。\n\n5. **[定期审查并最小化权限]** `user_app_readonly` - 定期审查 `user_app_readonly` 账户的实际使用情况，确认其是否仍需访问 `table_user_kyc` 表。如果业务允许，将该用户的权限降级为仅访问非敏感表，或创建一个新的、权限更受限的只读用户。操作：在数据库管理工具中，执行 `SHOW GRANTS FOR user_app_readonly;` 检查当前权限，并根据最小权限原则调整。"
+      },
+      {
+        "path": [
+          "internet",
+          "sg_open_3306",
+          "rds_crm",
+          "user_app_readonly",
+          "table_user_kyc",
+          "field_id_card"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.9,
+          "target": 0.97,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1208,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.9,
+            "target": 0.97,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径风险较低，因为虽然攻击者可通过互联网访问RDS数据库（entry=1.0），并拥有对身份证字段的读取权限（perm=0.9），但证据向量中“sense”值为0.0，表明该字段实际不包含敏感数据或已脱敏，导致整体风险评分仅0.1208。关键风险点在于入口暴露和权限过高，但目标字段无实际敏感价值。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径，我给出以下可执行的处置建议。该路径风险等级为“低风险”，但暴露了敏感字段 `field_id_card`（身份证号），因此建议采取预防性措施，降低数据泄露风险。\n\n**核心风险分析**：该路径从公网（internet）通过安全组开放3306端口（MySQL默认端口）连接到RDS数据库，然后通过一个只读用户访问包含身份证号的表。虽然用户权限为只读，但公网暴露和敏感数据的存在是主要风险点。\n\n以下是具体的处置建议：\n\n1. **[修改安全组规则] sg_open_3306** - 将3306端口的源IP范围从 `0.0.0.0/0`（或过于宽泛的IP段）收紧为仅允许特定、必要的办公IP或堡垒机IP。这是阻断公网直接访问数据库的最直接有效的方法，能大幅降低被扫描和暴力破解的风险。\n\n2. **[修改RDS白名单] rds_crm** - 在RDS实例的白名单中，移除所有非必要的IP地址，仅保留应用服务器、堡垒机或特定运维终端的IP。这作为安全组规则的第二层防护，确保即使安全组配置有误，数据库也不会被非授权IP访问。\n\n3. **[回收或替换数据库用户] user_app_readonly** - 评估该只读用户是否真的需要从公网访问。如果不需要，建议直接删除该用户。如果必须保留，则立即修改其密码为高强度、符合复杂度要求的密码（例如：长度>20位，包含大小写字母、数字和特殊字符），并启用密码轮换策略。\n\n4. **[实施数据脱敏或列级权限控制] table_user_kyc** - 针对 `field_id_card` 字段，在数据库层面实施动态数据脱敏（如阿里云RDS的敏感数据保护功能）或列级权限控制。确保即使 `user_app_readonly` 用户被攻破，攻击者也无法直接读取明文身份证号，只能看到脱敏后的数据（如 `110***********1234`）。\n\n5. **[启用审计日志并配置告警] rds_crm** - 开启RDS实例的SQL审计日志功能，并配置针对 `table_user_kyc` 表的 `SELECT` 操作的告警规则。一旦检测到异常的、高频的或来自非预期IP的查询，立即通过短信或邮件通知安全团队，以便快速响应。"
+      },
+      {
+        "path": [
+          "sg_open_3306",
+          "rds_crm",
+          "user_app_readonly",
+          "table_user_kyc",
+          "field_id_card",
+          "tag_idcard_L4"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.9,
+          "target": 0.97,
+          "sense": 0.97
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9554,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.9,
+            "target": 0.97,
+            "sense": 0.97
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk，因为攻击者可通过公网开放3306端口（entry=1.0）直接访问RDS数据库，利用只读账号（perm=0.9）横向移动至包含身份证号（tag_idcard_L4）的敏感表，且目标资产敏感度极高（target=0.97）。证据向量显示入口暴露、可达性、权限滥用及数据价值均接近满分，构成完整攻击链。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的这条高风险的暴露路径（`sg_open_3306 → rds_crm → user_app_readonly → table_user_kyc → field_id_card → tag_idcard_L4`），我给出以下 3-5 条可执行的处置建议。\n\n该路径的核心风险在于：一个安全组（sg_open_3306）允许了不安全的入站规则（3306端口开放），导致攻击者可能通过该入口访问到RDS数据库（rds_crm），进而利用一个只读账号（user_app_readonly）读取到包含身份证号（L4级敏感数据）的字段（field_id_card）。\n\n**1. [修改安全组规则] sg_open_3306 - 立即移除或限制对0.0.0.0/0开放的3306端口规则。**\n   - **原因**: 这是阻断攻击路径最直接、最有效的方法。当前规则允许任何IP地址访问数据库端口，是最大的安全漏洞。请将源IP范围限制为仅允许业务应用服务器所在的私有网络CIDR（例如 `10.0.0.0/8` 或具体的VPC网段），或使用安全组ID作为源。如果该规则非业务必需，直接删除。\n\n**2. [修改数据库账号权限] user_app_readonly - 撤销该账号对 `table_user_kyc` 表的 `SELECT` 权限，或仅授予对非敏感字段的访问权限。**\n   - **原因**: 该只读账号拥有对包含身份证号（`field_id_card`）的整张表的读取权限，权限过大。最小权限原则要求，应用账号仅应拥有其业务功能所必需的最小数据访问权限。操作命令示例（在RDS上执行）：\n     ```sql\n     -- 方案A：撤销对整个表的SELECT权限\n     REVOKE SELECT ON `crm_db`.`table_user_kyc` FROM 'user_app_readonly'@'%';\n     -- 方案B：创建一个视图，仅暴露非敏感字段，并授权给该账号\n     CREATE VIEW `crm_db`.`v_user_kyc_safe` AS SELECT `user_id`, `name` FROM `table_user_kyc`;\n     GRANT SELECT ON `crm_db`.`v_user_kyc_safe` TO 'user_app_readonly'@'%';\n     ```\n\n**3. [启用数据脱敏或加密] rds_crm - 对 `table_user_kyc` 表中的 `field_id_card` 字段启用静态数据脱敏或列级加密。**\n   - **原因**: 即使权限被滥用或绕过，数据脱敏/加密也能提供最后一层保护。对于L4级敏感数据（身份证号），建议使用数据库内置的脱敏功能（如阿里云RDS的敏感数据保护功能）或应用层加密。操作示例（以MySQL为例）：\n     ```sql\n     -- 使用MySQL Enterprise Transparent Data Encryption (TDE) 或 列级加密函数\n     -- 例如，使用AES_ENCRYPT/AES_DECRYPT在应用层处理，或使用云厂商的脱敏策略\n     -- 注意：列级加密会影响查询性能，需评估业务影响。\n     ```\n\n**4. [启用数据库审计与日志] rds_crm - 开启并配置数据库审计日志，重点审计 `user_app_readonly` 账号对 `table_user_kyc` 表的查询操作。**\n   - **原因**: 在完成上述修复后，需要建立监控和溯源能力。通过审计日志，可以及时发现异常的数据访问行为（如非工作时间的大量查询、来自异常IP的查询等），并用于事后取证。操作步骤：\n     - 在RDS控制台开启SQL审计功能。\n     - 配置审计规则，记录所有对 `table_user_kyc` 表的 `SELECT` 操作。\n     - 将审计日志投递到日志服务（如阿里云SLS），并设置告警规则（例如：1小时内同一账号查询该表超过100次）。\n\n**5. [网络隔离与最小化暴露] sg_open_3306 & rds_crm - 将RDS实例移入私有网络（VPC），并确保安全组规则仅允许来自特定应用服务器安全组的流量。**\n   - **原因**: 当前路径显示安全组直接开放了3306端口，这通常意味着RDS可能部署在经典网络或安全组配置过于宽松。最佳实践是将所有数据库实例部署在VPC内，不分配公网IP。操作步骤：\n     - 确认 `rds_crm` 实例是否具有公网IP。如有，立即释放。\n     - 修改 `sg_open_3306` 的入站规则，将源指定为应用服务器所在的安全组ID（例如 `sg-app-server`），而非IP地址段。这样只有该安全组内的ECS才能访问数据库。"
+      },
+      {
+        "path": [
+          "internet",
+          "sg_open_3306",
+          "rds_crm",
+          "user_app_readonly",
+          "table_user_kyc",
+          "field_id_card",
+          "tag_idcard_L4"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.9,
+          "target": 0.97,
+          "sense": 0.97
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9554,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.9,
+            "target": 0.97,
+            "sense": 0.97
+          }
+        },
+        "attribution": "该路径被判定为“Observed_Risk”，因为攻击者可从互联网通过开放3306端口的RDS数据库，利用只读权限直接访问包含身份证号（tag_idcard_L4）的敏感字段。证据显示入口暴露度（1.0）、可达性（0.95）和目标敏感度（0.97）均极高，构成严重数据泄露风险。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的这条高风险暴露路径，我给出以下5条可执行的处置建议。该路径表明，攻击者可以从互联网通过安全组规则直接访问RDS数据库，并利用一个只读账号读取到包含身份证号（L4级敏感数据）的字段。\n\n**1. [修改安全组规则] sg_open_3306 - 立即移除对0.0.0.0/0的3306端口放行规则，仅允许特定堡垒机或应用服务器的IP地址访问。**\n   - **原因**: 当前规则允许任何互联网IP访问RDS数据库，这是最直接的攻击入口。必须将访问源限制为已知、受控的IP地址段，例如公司VPN出口IP或跳板机IP。\n\n**2. [回收数据库账号权限] user_app_readonly - 立即回收该账号对`table_user_kyc`表的`id_card`字段的SELECT权限。**\n   - **原因**: 该只读账号拥有直接读取最高敏感级别（L4）身份证号字段的权限。即使业务需要读取KYC表，也应遵循最小权限原则，只授予读取非敏感字段（如`user_name`的脱敏版本）的权限。\n\n**3. [实施数据脱敏] table_user_kyc - 在数据库层面或应用层面对`field_id_card`字段实施动态数据脱敏（Dynamic Data Masking）。**\n   - **原因**: 对于必须暴露给应用或特定账号的敏感字段，应使用脱敏功能。例如，配置脱敏策略，使得`user_app_readonly`账号查询时，身份证号显示为`110***********1234`，而非明文。这能有效防止数据泄露，即使查询权限未被完全回收。\n\n**4. [启用数据库审计] rds_crm - 开启RDS实例的SQL审计日志功能，并配置日志投递到对象存储（如OSS）或日志服务（SLS）。**\n   - **原因**: 当前路径存在高风险，但缺乏事后追溯能力。开启审计后，可以记录所有对`table_user_kyc`表的查询操作，包括执行时间、源IP、执行的SQL语句。一旦发生数据泄露，可以快速定位攻击来源和受影响的数据范围。\n\n**5. [实施网络隔离] sg_open_3306 - 将RDS实例移入私有网络（VPC）的数据库专用子网，并配置安全组仅允许来自应用服务器所在安全组的流量。**\n   - **原因**: 当前安全组直接暴露在互联网，风险极高。最佳实践是将RDS部署在无公网IP的私有子网中。应用服务器通过内网访问，安全组规则应设置为 `sg_app_server` → `sg_rds_crm`，彻底切断来自互联网的任何直接访问路径。"
+      }
+    ]
+  },
+  "S2_excess_privilege_001": {
+    "scenario": "S2",
+    "scenario_name": "低权限账号权限过宽",
+    "industry": "finance",
+    "expected": "Potential_Exposure",
+    "elapsed": 32.03,
+    "node_count": 11,
+    "edge_count": 11,
+    "node_types": {
+      "Network": 2,
+      "Identity": 2,
+      "DBInstance": 1,
+      "DBObject": 3,
+      "SensitiveTag": 1,
+      "Control": 2
+    },
+    "entries": [
+      "internet"
+    ],
+    "targets": [
+      "field_bank_card",
+      "tag_bankcard_L4"
+    ],
+    "results": [
+      {
+        "path": [
+          "internet",
+          "sg_internal",
+          "rds_biz",
+          "user_intern",
+          "role_analyst",
+          "table_payments",
+          "field_bank_card"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.52,
+          "perm": 0.75,
+          "target": 0.95,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.0969,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.52,
+            "perm": 0.75,
+            "target": 0.95,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为低风险，主要因为**敏感数据字段（field_bank_card）的暴露程度极低（sense=0.0）**，表明该字段在目标表中未被实际访问或查询。尽管入口（internet）和权限（perm）较高，但攻击者难以通过该路径实际获取敏感数据，整体风险可控。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径，我将给出以下3-5条可执行的处置建议。该路径风险等级为低，但涉及敏感数据（银行卡号），建议进行预防性加固。\n\n**1. [修改安全组规则] sg_internal - 限制入站来源**\n   - **操作**: 修改安全组 `sg_internal` 的入站规则，将来源从 `0.0.0.0/0` (或过于宽泛的CIDR) 更改为仅允许特定的、受信任的IP地址或CIDR块（例如，公司办公网段 `10.0.0.0/8` 或VPN网关IP）。\n   - **原因**: 当前路径从 `internet` 直接进入 `sg_internal`，意味着任何互联网IP都可能尝试访问内部资源。即使后续有RDS和IAM控制，减少攻击面是首要原则。此操作可大幅降低外部扫描和暴力破解的风险。\n\n**2. [移除或替换IAM角色] role_analyst - 最小化数据访问权限**\n   - **操作**: 创建一个新的IAM角色 `role_analyst_restricted`，仅授予对 `table_payments` 表中除 `field_bank_card` 之外的其他字段的 `SELECT` 权限。然后，将 `user_intern` 用户关联的角色从 `role_analyst` 替换为 `role_analyst_restricted`。最后，删除或停用原 `role_analyst` 角色。\n   - **原因**: 路径显示 `role_analyst` 拥有对 `table_payments` 的访问权限，而 `field_bank_card` 是敏感字段。通过创建更细粒度的角色，确保实习生（`user_intern`）无法直接查询银行卡号，遵循最小权限原则。\n\n**3. [启用RDS数据脱敏或列级加密] rds_biz - 保护敏感列**\n   - **操作**: 在RDS实例 `rds_biz` 上，针对 `table_payments` 表的 `field_bank_card` 列启用动态数据脱敏（如果数据库支持，如SQL Server的Dynamic Data Masking）或列级加密（如AWS RDS的TDE或应用层加密）。配置策略，使得 `role_analyst` 或 `user_intern` 查询时，该列返回掩码后的值（例如，只显示后四位）。\n   - **原因**: 即使角色权限未被及时调整，此操作也能在数据库层面提供第二道防线。它确保敏感数据在查询结果中自动被隐藏，防止因配置错误或权限提升导致的数据泄露。\n\n**4. [审计并收紧RDS安全组] sg_internal - 限制RDS访问来源**\n   - **操作**: 检查并修改RDS实例 `rds_biz` 关联的安全组（可能是 `sg_internal` 或另一个独立安全组）。确保其入站规则仅允许来自特定应用服务器或跳板机的IP地址（例如，仅允许 `10.0.1.0/24` 网段），而不是整个VPC或子网。\n   - **原因**: 路径中 `sg_internal` 可能允许过于宽泛的流量到达RDS。将RDS的访问来源限制到最小必要范围，可以防止任何非预期的内部主机（如被攻陷的EC2实例）直接连接数据库。\n\n**5. [实施定期权限审查与日志监控] - 建立持续改进机制**\n   - **操作**: 配置AWS CloudTrail 和 Amazon GuardDuty 监控 `user_intern` 和 `role_analyst` 的活动。设置一个定期（例如，每季度）的IAM权限审查任务，使用IAM Access Analyzer 检查 `role_analyst` 是否拥有未使用的或过度的权限。同时，为 `table_payments` 的 `SELECT` 操作启用RDS审计日志，并设置告警，当 `user_intern` 在非工作时间或从异常IP查询该表时触发通知。\n   - **原因**: 这是一个预防性措施。低风险路径可能因业务变化而升级。通过持续监控和定期审查，可以及时发现并纠正权限漂移或异常访问行为，将风险控制在萌芽状态。"
+      },
+      {
+        "path": [
+          "internet",
+          "sg_internal",
+          "rds_biz",
+          "user_intern",
+          "role_analyst",
+          "table_payments",
+          "field_bank_card",
+          "tag_bankcard_L4"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.52,
+          "perm": 0.75,
+          "target": 0.95,
+          "sense": 0.95
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.7641,
+          "path_type": "Potential_Exposure",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.52,
+            "perm": 0.75,
+            "target": 0.95,
+            "sense": 0.95
+          }
+        },
+        "attribution": "该路径从互联网入口（entry=1.0）直达高敏感目标字段（target=0.95），且权限传递风险较高（perm=0.75），但中间节点 reach 值仅 0.52，表明部分跳转存在访问控制或网络隔离，未形成完全畅通的暴露链，因此判定为潜在暴露。关键风险在于：互联网可触及内部 RDS 数据库，并通过角色继承访问银行卡四级敏感数据。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径，我给出以下3-5条可执行的处置建议。该路径表明，一个名为 `role_analyst` 的角色（可能被 `user_intern` 用户或组使用）通过 `rds_biz` 数据库实例，能够访问到标记为 `tag_bankcard_L4`（高敏感度）的银行卡字段。核心风险在于权限过度授予。\n\n1. **[操作] 移除 `role_analyst` 对 `table_payments` 表的 `field_bank_card` 字段的 SELECT 权限**  \n   **资源ID:** `role_analyst` (IAM角色) 或 `rds_biz` (RDS实例)  \n   **原因:** 分析师角色不应直接访问L4级敏感数据。在RDS中执行 `REVOKE SELECT (field_bank_card) ON table_payments FROM role_analyst;` 或通过IAM策略移除相关列权限，切断直接数据暴露。\n\n2. **[操作] 为 `user_intern` 用户启用数据脱敏策略，并限制其访问 `field_bank_card` 字段**  \n   **资源ID:** `user_intern` (IAM用户/组) 或 `rds_biz` (RDS实例)  \n   **原因:** 实习生用户通常不需要明文银行卡号。在RDS或数据安全网关中，为 `user_intern` 关联的 `role_analyst` 角色配置动态脱敏规则（如显示后4位），或使用 `AWS Lake Formation` / `GCP DLP` 等工具对 `field_bank_card` 进行掩码处理。\n\n3. **[操作] 在 `sg_internal` 安全组中，收紧对 `rds_biz` 的入站规则，仅允许特定跳板机或应用服务器访问**  \n   **资源ID:** `sg_internal` (安全组)  \n   **原因:** 当前路径允许 `internet` 流量通过 `sg_internal` 直接到达数据库。修改安全组规则，移除 `0.0.0.0/0` 或过宽的CIDR，仅允许 `10.0.0.0/8` 或特定堡垒机IP访问 `rds_biz` 的3306端口，减少攻击面。\n\n4. **[操作] 为 `table_payments` 表启用审计日志，并设置 `field_bank_card` 字段的访问告警**  \n   **资源ID:** `rds_biz` (RDS实例) 或 `table_payments` (数据库表)  \n   **原因:** 即使权限收紧，仍需监控异常访问。在RDS中开启 `general_log` 或 `audit_log`，并配置云监控（如CloudWatch）规则：当 `role_analyst` 查询 `field_bank_card` 时触发告警，以便快速响应潜在数据泄露。\n\n5. **[操作] 将 `tag_bankcard_L4` 标签与 `role_analyst` 的IAM策略绑定，实施强制访问控制**  \n   **资源ID:** `tag_bankcard_L4` (标签) 和 `role_analyst` (IAM角色)  \n   **原因:** 利用标签进行基于属性的访问控制（ABAC）。修改IAM策略，添加条件 `\"Condition\": {\"StringEquals\": {\"aws:ResourceTag/level\": \"L4\"}}`，并拒绝 `role_analyst` 对带有该标签的资源的任何操作，除非有明确的业务豁免审批。"
+      }
+    ]
+  },
+  "S3_abnormal_access_001": {
+    "scenario": "S3",
+    "scenario_name": "异常IP/夜间访问+批量查询",
+    "industry": "medical",
+    "expected": "Observed_Risk",
+    "elapsed": 119.39,
+    "node_count": 13,
+    "edge_count": 14,
+    "node_types": {
+      "Network": 2,
+      "DBInstance": 1,
+      "DBObject": 4,
+      "SensitiveTag": 2,
+      "Identity": 1,
+      "AuditEvent": 1,
+      "RiskFinding": 1,
+      "Control": 1
+    },
+    "entries": [
+      "internet",
+      "sg_open_5432"
+    ],
+    "targets": [
+      "field_patient_idcard",
+      "field_chief_complaint",
+      "tag_idcard_L4_med",
+      "tag_complaint_L4"
+    ],
+    "results": [
+      {
+        "path": [
+          "sg_open_5432",
+          "rds_hospital",
+          "user_nurse",
+          "table_patients",
+          "field_chief_complaint"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.7,
+          "target": 0.9,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1136,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.7,
+            "target": 0.9,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为低风险，主要因为**目标字段敏感度（sense=0.0）**为零，即“主诉”字段不包含高敏感数据（如身份证、病历详情）。尽管入口暴露（entry=1.0）和可达性（reach=0.95）较高，但权限控制（perm=0.7）和目标价值（target=0.9）均被低敏感度抵消，最终综合评分仅0.1136。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径 `sg_open_5432 → rds_hospital → user_nurse → table_patients → field_chief_complaint`（风险等级：低风险，评分：0.1136），我给出以下 3-5 条可执行的处置建议。该路径表明：一个开放了5432端口的安全组（sg_open_5432）关联了RDS实例（rds_hospital），该实例的数据库用户（user_nurse）可以查询患者表（table_patients）中的主诉字段（field_chief_complaint）。虽然风险较低，但涉及患者隐私数据，建议主动加固。\n\n1. **[修改安全组规则] sg_open_5432** - 将安全组入站规则中源IP范围从 `0.0.0.0/0` 修改为仅允许医院内网或特定运维IP段（例如 `10.0.0.0/8` 或 `192.168.1.0/24`），避免数据库端口直接暴露在公网，降低被扫描和暴力破解的风险。\n\n2. **[最小化数据库用户权限] user_nurse** - 在RDS实例 `rds_hospital` 中，执行 `REVOKE SELECT ON table_patients FROM user_nurse;` 或仅授予 `user_nurse` 访问非敏感字段（如 `patient_id`, `visit_date`）的权限。若必须访问 `field_chief_complaint`，建议创建视图或使用列级权限控制，限制其只能查看脱敏后的数据。\n\n3. **[启用RDS审计日志] rds_hospital** - 在RDS控制台中，为实例 `rds_hospital` 开启审计日志功能（如MySQL的general_log或审计插件），并配置日志存储到云日志服务（如阿里云SLS或AWS CloudWatch）。这可以记录 `user_nurse` 对 `table_patients` 的所有查询操作，便于事后追溯异常访问。\n\n4. **[实施数据脱敏策略] field_chief_complaint** - 在应用层或数据库代理层（如阿里云DMS、AWS RDS Proxy）配置动态数据脱敏规则，对 `field_chief_complaint` 字段中的敏感信息（如姓名、身份证号）进行掩码处理。例如，仅返回“主诉：头痛***”，确保非授权用户无法看到完整明文。\n\n5. **[定期进行权限审计] user_nurse** - 设置周期性任务（如每月一次），使用云安全中心或数据库管理工具检查 `user_nurse` 的权限是否仍然必要。若该用户已离职或职责变更，立即执行 `DROP USER user_nurse;` 或 `ALTER USER user_nurse ACCOUNT LOCK;` 并更新应用连接配置。"
+      },
+      {
+        "path": [
+          "sg_open_5432",
+          "rds_hospital",
+          "user_nurse",
+          "table_patients",
+          "field_patient_idcard"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.7,
+          "target": 0.98,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1151,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.7,
+            "target": 0.98,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径虽能从公网（entry=1.0）高概率（reach=0.95）访问RDS数据库，并触及高敏感字段（target=0.98），但用户权限较低（perm=0.7）且数据感知度为零（sense=0.0），表明攻击者无法识别或利用数据内容，因此整体风险较低。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径 `sg_open_5432 → rds_hospital → user_nurse → table_patients → field_patient_idcard`（风险等级：低，评分：0.1151），我给出以下3-5条可执行的处置建议。该路径表明，一个名为 `sg_open_5432` 的安全组规则允许对 `rds_hospital` 数据库实例的 5432 端口进行访问，而该数据库中的 `user_nurse` 用户能够查询 `table_patients` 表中的 `field_patient_idcard`（患者身份证号）字段。虽然风险评分较低，但身份证号属于敏感个人信息，建议采取预防性措施。\n\n1. **[修改安全组规则]** `sg_open_5432` - 立即修改该安全组规则，将源IP地址范围从 `0.0.0.0/0`（如果当前是此设置）收紧为仅允许特定的、受信任的IP地址或CIDR块（例如，公司办公网络或VPN出口IP）。操作步骤：登录云控制台，找到安全组 `sg_open_5432`，编辑入站规则，将协议端口 `TCP:5432` 的源地址修改为 `10.0.0.0/8` 或 `192.168.0.0/16` 等内部网络段，或指定运维跳板机IP。**原因**：消除数据库端口对公网的直接暴露，减少被扫描和暴力破解的风险。\n\n2. **[启用数据库审计日志]** `rds_hospital` - 为 `rds_hospital` 数据库实例启用详细的审计日志功能，特别是针对 `SELECT` 操作和敏感字段 `field_patient_idcard` 的访问。操作步骤：在RDS控制台中找到该实例，开启审计日志，并配置审计策略为记录所有对 `table_patients` 表的查询。**原因**：即使风险低，审计日志也能提供事后追溯能力，帮助发现异常数据访问行为，满足合规要求。\n\n3. **[实施最小权限原则]** `user_nurse` - 审查并收紧 `user_nurse` 数据库用户的权限。当前路径显示该用户能直接查询包含身份证号的表。操作步骤：使用数据库管理工具（如pgAdmin或命令行），执行 `REVOKE SELECT ON table_patients FROM user_nurse;`，然后创建一个视图或存储过程，仅返回脱敏后的身份证号（例如，只显示前6位和后4位），并授予 `user_nurse` 对该视图的查询权限。**原因**：防止护士角色直接访问完整身份证号，降低数据泄露风险，符合数据最小化原则。\n\n4. **[部署数据脱敏或加密]** `field_patient_idcard` - 对 `field_patient_idcard` 字段实施静态数据脱敏或列级加密。操作步骤：在数据库层面，使用 PostgreSQL 的 `pgcrypto` 扩展对身份证号字段进行加密存储，或使用云厂商提供的数据库脱敏功能（如阿里云RDS的敏感数据保护）。应用程序读取时需解密。**原因**：即使数据库被非法访问，加密或脱敏后的数据也无法直接使用，为敏感数据增加一层保护。\n\n5. **[定期进行权限审计]** `rds_hospital` 及关联用户 - 建立定期（如每月）的数据库权限和安全组规则审计机制。操作步骤：使用云平台的访问分析工具或编写脚本，检查 `sg_open_5432` 的规则是否仍过于宽松，以及 `user_nurse` 等用户的权限是否与当前业务需求匹配。**原因**：低风险路径可能随时间演变为高风险，定期审计可确保安全策略持续有效，防止权限蔓延。"
+      },
+      {
+        "path": [
+          "internet",
+          "sg_open_5432",
+          "rds_hospital",
+          "user_nurse",
+          "table_patients",
+          "field_chief_complaint"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.7,
+          "target": 0.9,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1136,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.7,
+            "target": 0.9,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为低风险，主要因为**数据敏感度为零**（`sense=0.0`），即`field_chief_complaint`字段不包含高敏感信息（如身份证、密码等）。尽管入口暴露度高（`entry=1.0`）且可达性强（`reach=0.95`），但权限控制（`perm=0.7`）和最终目标价值（`target=0.9`）均被低敏感度抵消，综合评分仅0.1136。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径，我将给出以下3-5条可执行的处置建议。该路径风险等级为低，但暴露了敏感的患者主诉字段，建议进行加固。\n\n1. **[修改安全组规则]** `sg_open_5432` - 该安全组规则允许从 `internet` (0.0.0.0/0) 访问 RDS 的 5432 端口，这是不必要的风险。建议将源 IP 范围限制为仅允许需要访问数据库的特定应用服务器或管理员的 IP 地址段，例如 `10.0.0.0/8` 或具体的办公网 IP。\n2. **[启用数据库审计日志]** `rds_hospital` - 为了追踪对 `table_patients` 中 `field_chief_complaint` 字段的访问，建议在 RDS 实例上启用详细的审计日志功能。这有助于在发生数据泄露时进行溯源。具体操作：在 RDS 控制台中，为 `rds_hospital` 实例开启审计日志，并配置日志保留周期（例如 180 天）。\n3. **[实施最小权限原则]** `user_nurse` - 当前数据库用户 `user_nurse` 可能拥有对 `table_patients` 表的全部权限。建议回收其不必要的权限，仅授予查询 `field_chief_complaint` 字段所需的 `SELECT` 权限，并禁止 `UPDATE`、`DELETE` 或 `INSERT` 操作。具体操作：执行 SQL 命令 `REVOKE ALL ON table_patients FROM user_nurse;` 然后 `GRANT SELECT (field_chief_complaint) ON table_patients TO user_nurse;`。\n4. **[考虑数据脱敏或加密]** `field_chief_complaint` - 对于存储在主诉字段中的敏感健康信息，建议在应用层或数据库层实施动态数据脱敏。例如，在查询结果返回给非授权用户（如护士）时，只显示部分内容（如“头痛”显示为“头*”）。或者，使用数据库的透明数据加密（TDE）功能对 `rds_hospital` 实例进行静态加密，确保即使数据文件泄露也无法直接读取。"
+      },
+      {
+        "path": [
+          "internet",
+          "sg_open_5432",
+          "rds_hospital",
+          "user_nurse",
+          "table_patients",
+          "field_patient_idcard"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.7,
+          "target": 0.98,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1151,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.7,
+            "target": 0.98,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径虽能从互联网访问RDS并触及敏感身份证字段，但证据向量中'sense'（敏感度）为0.0，表明该字段未被标记为高敏感数据，且权限评分（perm=0.7）中等，整体风险较低。关键风险点在于入口暴露（entry=1.0）和可达性高（reach=0.95），但因数据敏感度缺失，风险被显著降低。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径（`internet → sg_open_5432 → rds_hospital → user_nurse → table_patients → field_patient_idcard`）及低风险评分（0.1151），我建议采取以下预防性加固措施，以降低潜在的数据泄露风险。\n\n**核心风险分析**：该路径暴露了护士账号（`user_nurse`）对患者身份证号（`field_patient_idcard`）的查询权限，且数据库端口（5432）对互联网开放。虽然当前风险较低，但一旦护士账号被攻破或配置被误改，敏感数据将直接暴露。\n\n以下是具体的处置建议：\n\n1. **[修改安全组规则] sg_open_5432** - 立即将安全组 `sg_open_5432` 的入站规则从 `0.0.0.0/0`（或过于宽泛的IP段）修改为仅允许公司办公网络或VPN的特定IP地址段访问5432端口。操作：在云控制台找到该安全组，编辑入站规则，将源IP范围改为 `10.0.0.0/8` 或具体的办公出口IP（如 `203.0.113.0/24`），并删除原有的 `0.0.0.0/0` 规则。原因：消除数据库端口直接暴露在公网的风险，这是最根本的加固措施。\n\n2. **[启用数据库审计日志] rds_hospital** - 为RDS实例 `rds_hospital` 开启SQL审计日志功能，并配置日志存储周期不少于180天。操作：在RDS控制台找到该实例，进入“审计日志”设置，开启“SQL审计”，并选择“全部语句”或至少“数据查询语句”。原因：记录所有对 `table_patients` 表的查询操作，便于事后追溯异常访问行为，满足合规审计要求。\n\n3. **[实施最小权限原则] user_nurse** - 将数据库用户 `user_nurse` 的权限从“可查询所有表”降级为“仅能查询业务必需的非敏感字段”。操作：使用数据库管理工具（如DMS或SQL客户端）执行 `REVOKE SELECT ON table_patients FROM user_nurse;`，然后 `GRANT SELECT (patient_name, visit_date, diagnosis) ON table_patients TO user_nurse;`。原因：护士角色通常不需要直接查看患者身份证号，移除该字段的查询权限可大幅降低敏感数据泄露面。\n\n4. **[启用数据动态脱敏] rds_hospital** - 在RDS实例 `rds_hospital` 上为 `field_patient_idcard` 字段配置动态数据脱敏策略。操作：如果云平台支持（如阿里云RDS的敏感数据保护功能），创建脱敏规则，对 `user_nurse` 角色查询该字段时，返回脱敏后的值（如 `110***********1234`）。原因：即使权限未被完全收回，脱敏机制也能确保护士无法看到完整的身份证号，实现“最小可用”原则。\n\n5. **[实施定期密钥轮换] user_nurse** - 为数据库用户 `user_nurse` 设置密码或密钥的自动轮换策略，周期不超过90天。操作：在云凭据管理服务（如AWS Secrets Manager或阿里云KMS）中创建托管凭据，关联到 `user_nurse`，并设置自动轮换。同时，更新应用程序连接字符串以从凭据服务动态获取。原因：降低因护士账号密码泄露导致的长期风险，即使凭证被窃取，其有效时间窗口也有限。"
+      },
+      {
+        "path": [
+          "sg_open_5432",
+          "rds_hospital",
+          "user_nurse",
+          "table_patients",
+          "field_chief_complaint",
+          "tag_complaint_L4"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.7,
+          "target": 0.9,
+          "sense": 0.9
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8884,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.7,
+            "target": 0.9,
+            "sense": 0.9
+          }
+        },
+        "attribution": "该路径被判定为“Observed_Risk”是因为安全组`sg_open_5432`允许公网访问RDS数据库`rds_hospital`，且用户`user_nurse`拥有对敏感字段`field_chief_complaint`（标记为`tag_complaint_L4`）的查询权限。证据显示入口暴露度极高（entry=1.0）、可达性接近完全（reach=0.95），结合目标敏感度（target=0.9）和权限合理性偏低（perm=0.7），形成了从公网到高敏感患者主诉数据的完整攻击链。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径 `sg_open_5432 → rds_hospital → user_nurse → table_patients → field_chief_complaint → tag_complaint_L4`（风险等级：Observed_Risk，Score: 0.8884），我给出以下 3-5 条可执行的处置建议。\n\n该路径表明：一个开放了5432端口的安全组（sg_open_5432）关联了医院RDS实例（rds_hospital），护士用户（user_nurse）可以访问患者表（table_patients）中的主诉字段（field_chief_complaint），且该字段标记为L4级敏感数据（tag_complaint_L4）。核心风险在于**网络暴露**与**权限过宽**的组合。\n\n---\n\n1. **[修改安全组规则]** `sg_open_5432` - 立即移除该安全组中针对 `0.0.0.0/0` 或过大IP范围的5432端口入站规则。仅允许必要的、已知的、受控的IP地址或安全组（如堡垒机或应用服务器所在安全组）访问。操作步骤：进入VPC控制台 -> 安全组 -> 选择 `sg_open_5432` -> 编辑入站规则 -> 删除或修改源IP为特定CIDR（例如 `10.0.0.0/16` 或公司出口IP）。\n\n2. **[启用RDS白名单]** `rds_hospital` - 在RDS实例 `rds_hospital` 的“白名单”设置中，确认当前白名单是否与安全组规则一致。最佳实践是：**同时使用安全组和RDS白名单**。将RDS白名单设置为仅包含应用服务器或堡垒机的内网IP，作为第二层网络访问控制。操作步骤：进入RDS控制台 -> 选择实例 `rds_hospital` -> 数据安全性 -> 白名单设置 -> 添加或修改IP列表。\n\n3. **[回收数据库用户权限]** `user_nurse` - 在数据库 `rds_hospital` 中，执行SQL命令回收 `user_nurse` 对 `table_patients` 表的 `field_chief_complaint` 字段的 `SELECT` 权限。护士角色通常不应直接查看患者主诉详情。操作示例（以PostgreSQL为例）：\n   ```sql\n   REVOKE SELECT (field_chief_complaint) ON TABLE table_patients FROM user_nurse;\n   ```\n   如果业务需要，应创建一个视图（View），仅暴露脱敏后的主诉摘要，并授予该视图的查询权限。\n\n4. **[实施数据脱敏策略]** `field_chief_complaint` - 针对 `field_chief_complaint` 字段，在数据库层面或应用层面实施动态数据脱敏。例如，使用数据库的脱敏函数或中间件，确保非授权用户（如 `user_nurse`）查询时，该字段显示为“主诉内容已脱敏”或仅显示前几个字。操作示例（以MySQL为例，需使用企业版或自定义函数）：\n   ```sql\n   -- 创建一个脱敏视图\n   CREATE VIEW v_patients_nurse AS\n   SELECT patient_id, \n          CONCAT(LEFT(field_chief_complaint, 2), '****') AS field_chief_complaint_masked,\n          other_columns\n   FROM table_patients;\n   -- 将user_nurse的查询权限从原表改为视图\n   GRANT SELECT ON v_patients_nurse TO user_nurse;\n   ```\n\n5. **[启用审计与告警]** `rds_hospital` & `user_nurse` - 开启RDS实例 `rds_hospital` 的SQL审计日志功能，并配置针对 `user_nurse` 用户访问 `table_patients` 表的告警规则。一旦检测到异常查询（如非工作时间、大量数据导出），立即触发告警通知安全团队。操作步骤：进入RDS控制台 -> 选择实例 `rds_hospital` -> 数据安全性 -> 审计日志 -> 开启审计 -> 在云监控（CloudMonitor）中创建自定义告警规则，监控 `user_nurse` 的SQL操作。"
+      },
+      {
+        "path": [
+          "sg_open_5432",
+          "rds_hospital",
+          "user_nurse",
+          "table_patients",
+          "field_patient_idcard",
+          "tag_idcard_L4_med"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.7,
+          "target": 0.98,
+          "sense": 0.98
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9114,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.7,
+            "target": 0.98,
+            "sense": 0.98
+          }
+        },
+        "attribution": "该路径从公网安全组（sg_open_5432）直接暴露数据库端口，经RDS实例、护士账号、患者表，最终可达身份证号字段（tag_idcard_L4_med），形成完整攻击链。证据显示入口暴露度（1.0）、可达性（0.95）和目标敏感度（0.98）均极高，权限控制（0.7）存在不足，综合评分0.9114构成可观测风险。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径，我给出以下可执行的处置建议。该路径表明，一个安全组（sg_open_5432）允许对RDS数据库（rds_hospital）的5432端口进行公开访问，而该数据库中的`user_nurse`用户能够查询到包含患者身份证号（`field_patient_idcard`）的敏感数据表（`table_patients`），该字段已被标记为L4级医疗敏感数据。风险评分0.9114极高，需立即处置。\n\n**核心原则：** 切断从公网到敏感数据的直接访问链路，并实施最小权限原则。\n\n---\n\n1. **[修改安全组规则]** `sg_open_5432` - 立即删除该安全组中所有源IP为 `0.0.0.0/0` 或 `::/0` 的入站规则，仅允许特定、受控的IP地址或安全组（如堡垒机或应用服务器所在的安全组）访问RDS的5432端口。**原因：** 这是最直接的攻击面，将数据库端口暴露在公网上是极其危险的行为，是导致数据泄露的首要原因。\n\n2. **[修改数据库访问控制]** `rds_hospital` - 在RDS实例的“白名单”或“安全组”配置中，将源IP限制为仅允许内部应用服务器或堡垒机的私有IP地址。同时，在数据库层面，为`user_nurse`账号配置 `host` 限制，使其只能从指定的应用服务器IP进行连接。**原因：** 即使安全组配置错误，数据库层面的双重验证可以增加攻击难度，防止因单一配置失误导致的数据泄露。\n\n3. **[实施数据脱敏或列级权限控制]** `table_patients` - 针对`field_patient_idcard`字段，在数据库视图或应用层实施动态数据脱敏。例如，创建只返回身份证号后4位或掩码版本的视图，并授予`user_nurse`角色仅访问该视图的权限。或者，在数据库层面（如PostgreSQL的列级安全策略）直接限制`user_nurse`用户对`field_patient_idcard`列的SELECT权限。**原因：** 即使`user_nurse`账号被攻破，攻击者也无法直接获取完整的明文身份证号，这是保护敏感数据最有效的手段之一。\n\n4. **[审计与监控]** `rds_hospital` & `user_nurse` - 立即开启RDS实例的审计日志功能（如PostgreSQL的`pgaudit`扩展），并配置云平台的安全监控告警。针对`user_nurse`账号，设置异常行为告警规则，例如：在非工作时间、从异常IP地址、或短时间内大量查询`table_patients`表。**原因：** 及时发现正在发生的攻击或内部人员违规操作，为应急响应提供关键证据，并形成威慑。\n\n5. **[账号权限最小化]** `user_nurse` - 审查并回收`user_nurse`账号的过度权限。如果该账号仅需要查询患者的基本信息（如姓名、科室），而不需要身份证号，则直接撤销其对`field_patient_idcard`列的SELECT权限。如果必须使用，则遵循第3条建议。**原因：** 遵循最小权限原则，减少因账号失陷或误操作导致的数据泄露范围。"
+      },
+      {
+        "path": [
+          "internet",
+          "sg_open_5432",
+          "rds_hospital",
+          "user_nurse",
+          "table_patients",
+          "field_chief_complaint",
+          "tag_complaint_L4"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.7,
+          "target": 0.9,
+          "sense": 0.9
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.8884,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.7,
+            "target": 0.9,
+            "sense": 0.9
+          }
+        },
+        "attribution": "该路径被判定为“Observed_Risk”是因为攻击者可从互联网（entry=1.0）高概率（reach=0.95）穿透开放端口（sg_open_5432）进入RDS数据库，并利用护士账户（perm=0.7）访问高度敏感的患者主诉字段（target=0.9, sense=0.9），构成数据泄露的实质性威胁。关键风险点在于数据库直接暴露于公网且权限控制不足，导致敏感医疗信息面临直接窃取风险。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径（从互联网到敏感数据字段），我给出以下 3-5 条可执行的处置建议。该路径风险极高，表明攻击者可通过互联网直接访问数据库，并获取到高敏感度的患者主诉信息。\n\n**1. [修改安全组规则] sg_open_5432 - 立即移除或严格限制对 PostgreSQL 端口 (5432) 的互联网全开访问。**\n   - **操作:** 登录云控制台，找到安全组 `sg_open_5432`，编辑入站规则。删除或修改源为 `0.0.0.0/0` 的 5432 端口规则。将其替换为仅允许特定、受信任的 IP 地址或 VPC 内网段（如 `10.0.0.0/8` 或公司 VPN 出口 IP）访问。\n   - **原因:** 这是整个攻击链的入口点。将数据库端口暴露在公网上是严重的安全配置错误，必须立即关闭，以切断外部直接攻击路径。\n\n**2. [启用并配置数据库防火墙] rds_hospital - 为 RDS 实例启用数据库防火墙或白名单功能，并限制应用服务器 IP 访问。**\n   - **操作:** 在 RDS 控制台中找到实例 `rds_hospital`，启用“数据库防火墙”或“IP 白名单”功能。在配置中，仅添加运行该医院业务系统的应用服务器（例如 `app_server_01`）的私有 IP 地址。删除所有允许任意 IP 连接的规则。\n   - **原因:** 即使安全组配置错误，数据库层的白名单提供了第二道防线。这能确保只有经过授权的应用服务器才能尝试连接数据库，阻止任何来自非预期来源的数据库连接尝试。\n\n**3. [实施最小权限原则] user_nurse - 审查并回收该数据库用户的权限，仅保留业务所需的最小权限。**\n   - **操作:** 连接到 `rds_hospital` 数据库，执行 SQL 命令 `REVOKE ALL PRIVILEGES ON TABLE table_patients FROM user_nurse;`，然后仅授予 `SELECT` 权限（如果业务需要）或更细粒度的视图权限。例如：`GRANT SELECT (patient_id, visit_date) ON table_patients TO user_nurse;`。同时，检查该用户是否拥有 `SUPERUSER` 或 `CREATEROLE` 等高危权限，如有则立即回收。\n   - **原因:** 路径显示 `user_nurse` 可以直接访问包含敏感字段 `field_chief_complaint` 的整张表。护士角色通常不需要直接查询所有患者的完整主诉。通过回收不必要的 `SELECT` 权限，可以限制数据泄露的范围。\n\n**4. [实施数据脱敏或列级加密] field_chief_complaint - 对敏感字段进行动态数据脱敏或静态加密。**\n   - **操作:** 在数据库层面或应用层面实施。例如，在 PostgreSQL 中，可以创建一个视图 `view_patients_safe`，使用 `pgp_sym_encrypt` 函数对 `field_chief_complaint` 字段进行加密存储，或使用 `regexp_replace` 函数进行动态脱敏（如只显示前几个字）。然后，将 `user_nurse` 的查询权限从原始表 `table_patients` 改为该视图。\n   - **原因:** 即使攻击者绕过了前几层防护并获取了数据，对 `field_chief_complaint` 字段的加密或脱敏处理能有效降低数据泄露的严重性。这是保护敏感数据（如医疗主诉）的最后一道有效防线。\n\n**5. [启用审计日志并告警] rds_hospital - 开启数据库审计日志，并对敏感表查询设置告警。**\n   - **操作:** 在 RDS 控制台为 `rds_hospital` 实例启用“审计日志”功能，并配置日志记录所有对 `table_patients` 表的 `SELECT` 操作。将审计日志发送到云日志服务（如 AWS CloudTrail 或阿里云 SLS）。然后，设置一个监控告警规则：当在非工作时间或从非预期 IP 地址查询 `table_patients` 时，触发高优先级告警通知安全团队。\n   - **原因:** 此操作不直接阻止攻击，但提供了事后追溯和实时告警能力。一旦发生数据泄露，可以快速定位攻击时间、来源 IP 和执行的 SQL 语句，为应急响应和取证提供关键信息。同时，实时告警能帮助安全团队在数据被大量导出前进行干预。"
+      },
+      {
+        "path": [
+          "internet",
+          "sg_open_5432",
+          "rds_hospital",
+          "user_nurse",
+          "table_patients",
+          "field_patient_idcard",
+          "tag_idcard_L4_med"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.7,
+          "target": 0.98,
+          "sense": 0.98
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9114,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.7,
+            "target": 0.98,
+            "sense": 0.98
+          }
+        },
+        "attribution": "该路径被判定为“Observed_Risk”是因为攻击者可从互联网（entry=1.0）高可达性（reach=0.95）地访问开放5432端口的RDS数据库，并通过护士账号（perm=0.7）直接触及标记为L4敏感级别的患者身份证字段（target=0.98, sense=0.98），构成从外部到高价值敏感数据的完整攻击链。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径，我给出以下5条可执行的处置建议。该路径风险极高（Score 0.9114），表明攻击者可通过互联网直接访问到包含敏感身份证信息的数据库。\n\n**核心风险分析：**\n- **入口**：`sg_open_5432` (安全组开放了PostgreSQL默认端口5432到互联网)\n- **资产**：`rds_hospital` (RDS数据库实例)\n- **敏感数据**：`tag_idcard_L4_med` (标记为L4级别的医疗身份证信息)\n\n**处置建议：**\n\n1. **[立即修复] 修改安全组规则 `sg_open_5432`**\n   - **操作**：登录云控制台，找到安全组 `sg_open_5432`，删除或修改其入站规则中 `0.0.0.0/0` 或 `::/0` 对端口 `5432` 的放行。将其替换为仅允许特定、受信任的IP地址或IP段（例如，公司办公出口IP、堡垒机IP、应用服务器IP）。\n   - **资源ID**：`sg_open_5432`\n   - **原因**：这是阻断攻击路径最直接、最有效的方法。将数据库端口暴露在公网上是严重的安全配置错误，必须立即关闭。\n\n2. **[紧急处置] 轮换数据库用户 `user_nurse` 的密码**\n   - **操作**：登录RDS控制台，找到实例 `rds_hospital`，立即重置数据库用户 `user_nurse` 的密码。新密码必须符合高强度密码策略（至少16位，包含大小写字母、数字和特殊字符）。同时，检查该用户是否拥有不必要的权限（如DROP、ALTER等），并予以回收。\n   - **资源ID**：`rds_hospital` (用户: `user_nurse`)\n   - **原因**：路径已暴露，攻击者可能已通过暴力破解或凭证泄露获取了该用户的密码。立即轮换密码可以阻止攻击者利用已获取的凭证进行后续操作。\n\n3. **[审计与溯源] 启用并检查RDS实例 `rds_hospital` 的审计日志**\n   - **操作**：登录RDS控制台，为实例 `rds_hospital` 开启或确认已开启SQL审计日志功能。立即导出并分析过去72小时内的审计日志，重点搜索：\n     - 来自异常IP地址（非已知办公/应用IP）的连接请求。\n     - 对 `table_patients` 表，特别是 `field_patient_idcard` 字段的 `SELECT`、`COPY`、`EXPORT` 等操作。\n     - 使用 `user_nurse` 账户执行的高频查询或异常时间段的查询。\n   - **资源ID**：`rds_hospital`\n   - **原因**：确定数据泄露是否已经发生、泄露的范围（多少条记录被访问）、攻击者的来源IP以及攻击时间线。这是后续法律合规和内部追责的关键证据。\n\n4. **[数据保护] 对敏感字段 `field_patient_idcard` 实施动态数据脱敏**\n   - **操作**：在RDS实例 `rds_hospital` 上，针对 `table_patients` 表中的 `field_patient_idcard` 字段，配置动态数据脱敏策略。例如，对于非特权用户（如 `user_nurse`），查询该字段时自动显示为 `110***********1234` 的格式。这可以通过云厂商的RDS安全功能或数据库自身的视图/函数实现。\n   - **资源ID**：`rds_hospital` (表: `table_patients`, 字段: `field_patient_idcard`)\n   - **原因**：即使攻击者绕过了网络和身份认证，动态脱敏也能确保他们无法直接获取完整的明文身份证号，从而大幅降低数据泄露的严重程度和合规风险。\n\n5. **[长期加固] 实施网络隔离与最小权限原则**\n   - **操作**：\n     - **网络隔离**：将 `rds_hospital` 实例移入私有网络（VPC）的子网中，并确保该子网没有直接通往互联网的路由。所有对数据库的访问必须通过应用服务器或堡垒机进行。\n     - **最小权限**：创建专用的、权限受限的数据库用户（例如 `app_readonly`）用于应用读取，而 `user_nurse` 账户应仅保留其工作流所必需的 `INSERT`、`UPDATE` 权限，并移除 `SELECT` 权限（如果其工作不需要查看身份证号）。\n   - **资源ID**：`rds_hospital`, `sg_open_5432` (或新建安全组)\n   - **原因**：从架构层面消除根本风险。数据库不应直接暴露在公网，且每个账户应只拥有完成其任务所需的最小权限。这是防止类似事件再次发生的根本措施。"
+      }
+    ]
+  },
+  "S4_external_entity_001": {
+    "scenario": "S4",
+    "scenario_name": "外部主体+白名单过宽",
+    "industry": "ecommerce",
+    "expected": "Potential_Exposure",
+    "elapsed": 41.11,
+    "node_count": 10,
+    "edge_count": 10,
+    "node_types": {
+      "Network": 2,
+      "Identity": 2,
+      "DBInstance": 1,
+      "DBObject": 3,
+      "SensitiveTag": 1,
+      "Control": 1
+    },
+    "entries": [
+      "internet",
+      "sg_wide_cidr",
+      "external_vendor"
+    ],
+    "targets": [
+      "field_user_idcard",
+      "tag_user_idcard_L4"
+    ],
+    "results": [
+      {
+        "path": [
+          "sg_wide_cidr",
+          "rds_ecom",
+          "external_vendor",
+          "role_export",
+          "table_users",
+          "field_user_idcard"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.55,
+          "perm": 0.7,
+          "target": 0.96,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.0974,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.55,
+            "perm": 0.7,
+            "target": 0.96,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径虽能从外部访问RDS并最终触及高敏感字段（field_user_idcard），但证据向量中'sense'（感知/利用难度）为0.0，表明攻击者实际利用该路径的可行性极低。同时，reach（可达性）仅0.55，说明中间环节（如external_vendor）存在访问控制或隔离，显著降低了整体风险。因此综合评分0.0974，判定为低风险。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径，我将给出以下可执行的处置建议。该路径的风险在于：一个配置了宽泛CIDR（0.0.0.0/0或类似）的安全组（sg_wide_cidr）允许了不必要的公网访问，最终可能导致敏感数据（身份证号）泄露。\n\n**核心风险分析：**\n*   **入口风险：** `sg_wide_cidr` 允许了过于宽泛的入站流量。\n*   **数据出口风险：** `role_export` 角色可能被外部实体（`external_vendor`）滥用，导出包含敏感字段（`field_user_idcard`）的表（`table_users`）。\n\n**处置建议（按优先级排序）：**\n\n1. **[限制入站访问]** `sg_wide_cidr` (安全组ID: 请替换为实际ID，如 `sg-xxxxxxxx`) - **立即移除对 `rds_ecom` 数据库的 `0.0.0.0/0` 入站规则**。这是最直接的攻击面。如果数据库必须公网访问，请将其替换为具体的、受信任的IP地址或CIDR块（例如，仅允许公司VPN出口IP或特定跳板机IP）。操作：编辑该安全组的入站规则，删除 `0.0.0.0/0` 或 `::/0` 的规则，并添加最小权限的IP白名单。\n\n2. **[审计并收紧角色权限]** `role_export` (角色ARN: 请替换为实际ARN，如 `arn:aws:iam::123456789012:role/role_export`) - **审查并移除该角色对 `table_users` 表的 `field_user_idcard` 字段的读取权限**。`external_vendor` 不应直接访问如此敏感的字段。操作：在IAM策略中，将 `table_users` 的 `GetItem`、`Scan`、`Query` 等操作的资源限制为不包含 `field_user_idcard` 的投影表达式，或创建一个仅包含非敏感字段的视图/角色。\n\n3. **[最小化外部信任关系]** `external_vendor` (外部AWS账号ID: 请替换为实际ID，如 `999999999999`) - **移除或限制 `role_export` 角色对该外部账号的信任策略**。如果该外部供应商不再需要访问，立即删除信任关系。如果仍需访问，请将信任策略中的 `Principal` 从 `\"AWS\": \"arn:aws:iam::999999999999:root\"` 改为具体的、该供应商下的最小权限IAM角色ARN，并添加 `sts:ExternalId` 条件键以防止混淆代理攻击。\n\n4. **[实施数据脱敏/加密]** `table_users` (DynamoDB表名: `table_users`) - **对 `field_user_idcard` 字段实施静态加密和/或应用层脱敏**。即使访问被授权，也应确保数据本身受到保护。操作：启用DynamoDB的静态加密（使用AWS KMS CMK），并在应用层（如通过Lambda函数）对查询结果中的身份证号进行脱敏处理（例如，只显示前6位和后4位，中间用星号代替）。\n\n5. **[启用并审计云Trail日志]** 针对所有相关资源 - **开启并定期审计AWS CloudTrail日志**，特别是针对 `AssumeRole`、`GetItem` 等API调用。操作：确保CloudTrail已启用并记录到S3或CloudWatch Logs。设置一个CloudWatch告警，当 `external_vendor` 账号下的某个角色成功调用 `sts:AssumeRole` 进入 `role_export` 角色时，立即触发通知给安全团队。"
+      },
+      {
+        "path": [
+          "internet",
+          "sg_wide_cidr",
+          "rds_ecom",
+          "external_vendor",
+          "role_export",
+          "table_users",
+          "field_user_idcard"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.33,
+          "perm": 0.7,
+          "target": 0.96,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.33<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.33,
+            "perm": 0.7,
+            "target": 0.96,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径因“reach”证据值仅为0.33（低于阈值0.5）被判定为证据不足。关键风险点在于从`rds_ecom`到`external_vendor`的横向移动或数据传递缺乏充分可达性证据，无法确认攻击者能实际利用该路径访问到敏感字段`field_user_idcard`。",
+        "remediation": "路径证据不足，无需处置。被拦截原因: reach(0.33<0.5)"
+      },
+      {
+        "path": [
+          "sg_wide_cidr",
+          "rds_ecom",
+          "external_vendor",
+          "role_export",
+          "table_users",
+          "field_user_idcard",
+          "tag_user_idcard_L4"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.55,
+          "perm": 0.7,
+          "target": 0.96,
+          "sense": 0.96
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.7688,
+          "path_type": "Potential_Exposure",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.55,
+            "perm": 0.7,
+            "target": 0.96,
+            "sense": 0.96
+          }
+        },
+        "attribution": "该路径从开放安全组（sg_wide_cidr）出发，经RDS数据库（rds_ecom）和外部供应商（external_vendor）访问，最终触及标记为L4敏感级别的用户身份证字段（tag_user_idcard_L4）。证据向量显示入口风险极高（1.0）、目标敏感度极高（0.96），但中间权限控制（perm=0.7）和可达性（reach=0.55）存在一定限制，导致整体评分0.7688，判定为潜在暴露。关键风险在于外部供应商可能绕过权限管控，直接访问高敏感数据。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径 `sg_wide_cidr → rds_ecom → external_vendor → role_export → table_users → field_user_idcard → tag_user_idcard_L4`，我给出以下 3-5 条可执行的处置建议。该路径表明，一个过于宽泛的安全组规则（`sg_wide_cidr`）允许外部供应商（`external_vendor`）访问包含敏感身份证号（`field_user_idcard`）的数据库（`rds_ecom`），且该数据已被标记为高敏感度（`tag_user_idcard_L4`）。\n\n**核心风险点**：安全组规则过于宽松，外部供应商权限过大，敏感数据可能被过度暴露。\n\n**处置建议**：\n\n1. **[收紧安全组规则] 资源ID: `sg_wide_cidr`** - 立即修改该安全组的入站规则，将 `0.0.0.0/0` 或过于宽泛的 CIDR 范围替换为 `external_vendor` 的特定公网 IP 或 VPC 对等连接/专线 IP 段。例如，如果供应商的出口 IP 是 `203.0.113.0/24`，则规则应改为 `tcp/3306 from 203.0.113.0/24`。**原因**：消除对互联网的完全开放访问，将数据库访问限制在已知的、受控的供应商网络范围内，这是阻断外部攻击者直接扫描和连接的最直接手段。\n\n2. **[最小化数据库访问权限] 资源ID: `role_export`** - 审查并修改 `role_export` 角色的数据库权限。如果该角色仅用于导出数据，应将其权限降级为 `SELECT` 只读，并移除 `INSERT`、`UPDATE`、`DELETE`、`DROP` 等写操作权限。同时，考虑使用数据库视图（View）或列级权限，限制该角色只能访问 `table_users` 表中除 `field_user_idcard` 之外的非敏感字段。**原因**：即使供应商被授权访问，也应遵循最小权限原则。限制角色权限可以防止数据被意外或恶意修改、删除，并减少敏感字段的暴露面。\n\n3. **[启用数据脱敏或加密] 资源ID: `field_user_idcard`** - 在数据库层面或应用层面对 `field_user_idcard` 字段实施动态数据脱敏（Dynamic Data Masking, DDM）或静态加密。例如，在 RDS 中启用透明数据加密（TDE），或为 `role_export` 角色配置脱敏策略，使其查询时身份证号显示为 `****1234` 格式。**原因**：即使攻击者或未授权人员通过 `role_export` 访问了数据库，也无法直接获取明文身份证号，从而满足合规要求（如等保、GDPR）并降低数据泄露的实际危害。\n\n4. **[审计并隔离供应商访问] 资源ID: `external_vendor`** - 立即启用并审查 `external_vendor` 账户的所有 API 调用和数据库连接日志。确认其访问模式是否与业务需求一致（例如，仅在特定时间、从特定 IP 访问特定表）。同时，考虑将供应商的访问迁移到独立的、临时的、仅包含必要数据的副本数据库或数据仓库中，而非直接访问生产数据库 `rds_ecom`。**原因**：通过审计发现异常行为，并从根本上隔离供应商与核心生产数据，将风险从“潜在暴露”降低为“可控的、可审计的有限访问”。\n\n**总结**：请优先执行第1条（收紧安全组），这是阻断外部攻击的最快措施。随后执行第2条和第3条，以最小化内部权限和敏感数据暴露。第4条作为长期治理措施，用于建立对供应商访问的持续监控和隔离机制。"
+      },
+      {
+        "path": [
+          "internet",
+          "sg_wide_cidr",
+          "rds_ecom",
+          "external_vendor",
+          "role_export",
+          "table_users",
+          "field_user_idcard",
+          "tag_user_idcard_L4"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.33,
+          "perm": 0.7,
+          "target": 0.96,
+          "sense": 0.96
+        },
+        "gate_result": {
+          "gate": 0,
+          "score": 0.0,
+          "path_type": "Insufficient_Evidence",
+          "blocked_by": [
+            "reach(0.33<0.5)"
+          ],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.33,
+            "perm": 0.7,
+            "target": 0.96,
+            "sense": 0.96
+          }
+        },
+        "attribution": "该路径因“reach”证据得分仅0.33（低于阈值0.5）被判定为证据不足。关键风险点在于从外部供应商（external_vendor）到角色导出（role_export）的横向移动或权限传递路径不完整，缺乏足够证据证明攻击者能实际抵达敏感数据字段（field_user_idcard）。尽管入口（entry）和目标（target）得分较高，但中间环节的可达性证据薄弱，导致整体风险无法确认。",
+        "remediation": "路径证据不足，无需处置。被拦截原因: reach(0.33<0.5)"
+      }
+    ]
+  },
+  "S5_no_protection_001": {
+    "scenario": "S5",
+    "scenario_name": "未开启审计/保护+高敏资产",
+    "industry": "finance",
+    "expected": "Observed_Risk",
+    "elapsed": 49.5,
+    "node_count": 11,
+    "edge_count": 11,
+    "node_types": {
+      "Network": 2,
+      "DBInstance": 1,
+      "DBObject": 3,
+      "SensitiveTag": 1,
+      "Identity": 1,
+      "Control": 3
+    },
+    "entries": [
+      "internet",
+      "sg_open_1433"
+    ],
+    "targets": [
+      "field_claimer_idcard",
+      "tag_claimer_L4"
+    ],
+    "results": [
+      {
+        "path": [
+          "sg_open_1433",
+          "rds_legacy",
+          "user_legacy_admin",
+          "table_insurance",
+          "field_claimer_idcard"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.95,
+          "target": 0.94,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1216,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.95,
+            "target": 0.94,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径风险较低，主要因为**敏感度（sense=0.0）**为零，表明目标字段“field_claimer_idcard”未被标记为高敏感数据。尽管入口、可达性、权限和目标值均接近1.0，但缺乏敏感数据支撑，整体风险评分仅0.1216。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径 `sg_open_1433 → rds_legacy → user_legacy_admin → table_insurance → field_claimer_idcard`，我给出以下 3-5 条可执行的处置建议。\n\n该路径风险等级为 Low_Risk，但暴露了敏感字段 `field_claimer_idcard`（理赔人身份证号），因此建议采取预防性加固措施，防止风险升级。\n\n---\n\n1. **[修改安全组规则]** `sg_open_1433` - 将入站规则中允许 `0.0.0.0/0` 访问 1433 端口的策略，修改为仅允许特定业务 IP 或内网 IP 段访问。原因：1433 端口是 SQL Server 默认端口，完全开放给公网极易被扫描和暴力破解，是路径的入口风险点。\n\n2. **[启用数据脱敏]** `table_insurance` - 在该表上启用动态数据脱敏策略，对 `field_claimer_idcard` 字段进行脱敏处理（例如，仅显示后四位）。原因：即使攻击者通过路径访问到该字段，也无法获取完整的身份证号，从而降低数据泄露的直接影响。\n\n3. **[最小化权限审计]** `user_legacy_admin` - 审计该数据库用户的权限，确认其是否真的需要访问 `table_insurance` 表。如果不需要，立即回收其对该表的 SELECT 权限。原因：`user_legacy_admin` 是一个遗留管理员账户，权限可能过大，遵循最小权限原则可缩小攻击面。\n\n4. **[启用审计日志]** `rds_legacy` - 在 RDS 实例上启用 SQL 审计日志，并配置日志存储到独立的日志服务中。原因：记录所有对 `table_insurance` 表的查询操作，便于事后追溯异常访问行为，及时发现潜在的数据泄露事件。\n\n5. **[定期密码轮换]** `user_legacy_admin` - 立即为该数据库用户设置强密码，并配置密码每 90 天自动轮换。原因：遗留账户的密码可能长期未更新，存在泄露风险，定期轮换可有效降低凭证被滥用的可能性。"
+      },
+      {
+        "path": [
+          "internet",
+          "sg_open_1433",
+          "rds_legacy",
+          "user_legacy_admin",
+          "table_insurance",
+          "field_claimer_idcard"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.95,
+          "target": 0.94,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1216,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.95,
+            "target": 0.94,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为低风险，主要因为证据向量中'sense'得分为0.0，表明目标字段（身份证号）缺乏敏感数据标记或实际敏感内容。尽管入口、可达性、权限和目标值均较高（>0.94），但无敏感数据暴露，因此整体风险较低。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的暴露路径，我给出以下可执行的处置建议。该路径风险较低，但涉及敏感数据（身份证号），建议采取预防性加固措施。\n\n1. **[修改安全组规则]** `sg_open_1433` - 该安全组允许从 `internet` 访问 SQL Server 的 1433 端口，这是不必要的暴露。建议将入站规则中的源 IP 范围从 `0.0.0.0/0` 修改为仅允许特定办公网络或堡垒机的 IP 地址，例如 `203.0.113.0/24`，以消除直接来自互联网的访问风险。\n\n2. **[启用数据脱敏]** `rds_legacy` - 在数据库层面或应用层面对 `table_insurance` 表中的 `field_claimer_idcard` 字段启用动态数据脱敏。例如，在 SQL Server 中执行 `ALTER TABLE table_insurance ALTER COLUMN field_claimer_idcard ADD MASKED WITH (FUNCTION = 'partial(0,\"****\",4)')`，确保非特权用户（如 `user_legacy_admin` 以外的账户）无法看到完整的身份证号。\n\n3. **[审查并回收权限]** `user_legacy_admin` - 检查该数据库用户的实际业务需求。如果该用户仅需读取部分数据，应将其权限从 `db_owner` 或 `db_datareader` 降级为仅对 `table_insurance` 表的部分列（如排除 `field_claimer_idcard`）具有 `SELECT` 权限。执行 `REVOKE SELECT ON table_insurance(field_claimer_idcard) FROM user_legacy_admin`。\n\n4. **[启用审计日志]** `rds_legacy` - 针对 `table_insurance` 表启用数据库审计，记录所有对 `field_claimer_idcard` 列的查询操作。例如，在 RDS 中创建审计策略，捕获 `SELECT ON OBJECT::table_insurance BY public` 事件，并将日志发送到 AWS CloudTrail 或 S3 存储桶，以便事后追溯异常访问。\n\n5. **[实施最小权限原则]** `user_legacy_admin` - 如果该账户是遗留的管理员账户，建议创建新的、权限更细粒度的服务账户或角色，并禁用或轮换 `user_legacy_admin` 的密码。例如，创建一个名为 `app_insurance_reader` 的角色，仅授予对 `table_insurance` 表非敏感列的 `SELECT` 权限，并将应用连接字符串更新为使用新角色。"
+      },
+      {
+        "path": [
+          "sg_open_1433",
+          "rds_legacy",
+          "user_legacy_admin",
+          "table_insurance",
+          "field_claimer_idcard",
+          "tag_claimer_L4"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.95,
+          "target": 0.94,
+          "sense": 0.94
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9568,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.95,
+            "target": 0.94,
+            "sense": 0.94
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk，因为安全组sg_open_1433暴露了数据库端口1433，攻击者可经rds_legacy访问遗留管理员账户user_legacy_admin，进而触及包含身份证号（field_claimer_idcard）的保险表，且该字段标记为L4敏感等级。证据显示入口暴露度（1.0）、可达性（0.95）和权限（0.95）均极高，目标敏感度（0.94）和感知度（0.94）也接近满分，构成从公网到高敏数据的完整攻击链。",
+        "remediation": "好的，作为云安全处置专家，针对您提供的这条高风险暴露路径（`sg_open_1433 → rds_legacy → user_legacy_admin → table_insurance → field_claimer_idcard → tag_claimer_L4`），我给出以下 3-5 条可执行的处置建议。\n\n该路径的核心风险在于：一个开放的、可能面向公网的安全组规则（`sg_open_1433`）允许了对一个遗留数据库（`rds_legacy`）的访问，而该数据库中包含一个遗留管理员账户（`user_legacy_admin`），该账户可以查询包含L4级敏感数据（身份证号）的保险表（`table_insurance`）。\n\n**1. [立即阻断] 安全组规则 `sg_open_1433` - 立即移除或收紧该安全组中允许来自 `0.0.0.0/0` 或非必要IP范围的入站1433端口规则。**\n   - **原因**: 这是整个攻击路径的入口。将SQL Server的1433端口暴露在公网上是极其危险的行为，极易被扫描和暴力破解。应立即移除所有允许任意来源（`0.0.0.0/0`）访问的规则。如果业务确实需要远程访问，应将其限制在特定的、经过审批的堡垒机IP或VPN网关IP地址范围内。\n\n**2. [访问控制] 数据库实例 `rds_legacy` - 立即禁用或轮换 `user_legacy_admin` 账户的密码，并启用数据库审计日志。**\n   - **原因**: `user_legacy_admin` 是一个遗留管理员账户，其密码可能已泄露或使用弱密码。应立即禁用该账户，并创建一个新的、遵循最小权限原则的数据库账户用于日常操作。同时，必须开启RDS实例的审计日志功能（如SQL Server Audit），记录所有对敏感表（如`table_insurance`）的查询操作，以便事后追溯。\n\n**3. [数据脱敏] 数据库表 `table_insurance` 中的字段 `field_claimer_idcard` - 立即对该字段实施静态数据脱敏或动态数据脱敏。**\n   - **原因**: 身份证号（`tag_claimer_L4`）属于最高级别的敏感数据。在非生产环境或非必要业务场景下，应使用脱敏函数（如 `MASKED WITH (FUNCTION = 'partial(0,\"****\",4)')`）对该字段进行脱敏处理。对于生产环境，应实施动态数据脱敏（DDM），确保只有经过授权的特定应用或用户才能看到明文，而普通管理员或查询者只能看到脱敏后的数据。\n\n**4. [架构整改] 数据库实例 `rds_legacy` - 制定并执行计划，将遗留数据库迁移至新的、安全配置的数据库实例，并废弃 `rds_legacy`。**\n   - **原因**: 名为 `legacy` 的数据库通常意味着缺乏维护、安全补丁滞后、配置不符合当前安全基线。应创建一个新的RDS实例（例如 `rds_insurance_prod`），应用最新的安全组规则、启用SSL加密、强制使用强密码策略和定期备份。将数据迁移后，彻底关闭并删除 `rds_legacy` 实例，以消除这个历史遗留风险点。\n\n**5. [权限最小化] 数据库用户 `user_legacy_admin` - 立即将其权限从 `db_owner` 或 `sysadmin` 降级为仅对 `table_insurance` 表具有 `SELECT` 权限的只读用户（如果业务允许）。**\n   - **原因**: 管理员账户拥有过高的权限。即使无法立即禁用该账户，也应立即将其权限收缩到最小必要范围。例如，如果该账户仅用于查询理赔数据，则只授予其对 `table_insurance` 表的 `SELECT` 权限，并撤销其对其他任何数据库、表或系统存储过程的任何修改、删除或管理权限。"
+      },
+      {
+        "path": [
+          "internet",
+          "sg_open_1433",
+          "rds_legacy",
+          "user_legacy_admin",
+          "table_insurance",
+          "field_claimer_idcard",
+          "tag_claimer_L4"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.95,
+          "perm": 0.95,
+          "target": 0.94,
+          "sense": 0.94
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9568,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.95,
+            "perm": 0.95,
+            "target": 0.94,
+            "sense": 0.94
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk，因为攻击者可从互联网通过开放1433端口的SG（安全组）直接访问遗留RDS数据库，并利用遗留管理员账户（user_legacy_admin）获取保险表（table_insurance）中身份证号（field_claimer_idcard）等L4级敏感数据。证据向量显示入口（entry=1.0）、可达性（reach=0.95）和权限（perm=0.95）均极高，表明攻击面完全暴露且权限滥用风险显著。",
+        "remediation": "1. [修改安全组规则] sg_open_1433 - 立即删除该安全组中允许来自0.0.0.0/0的1433端口入站规则，改为仅允许特定办公IP或VPN网关IP访问，以切断互联网直接暴露路径。\n2. [启用数据库审计] rds_legacy - 在RDS实例上开启SQL审计日志，并配置日志保留至少90天，以便追踪所有对table_insurance表的查询操作，及时发现异常访问。\n3. [回收用户权限] user_legacy_admin - 立即撤销该用户对table_insurance表的SELECT权限，并检查其是否拥有不必要的数据库管理员角色，改为授予最小必要权限（如仅允许特定存储过程访问）。\n4. [实施数据脱敏] field_claimer_idcard - 在数据库层面或应用层对身份证号字段实施动态脱敏，例如使用MySQL的AES_ENCRYPT或应用层脱敏中间件，确保即使数据被查询也无法直接获取明文。\n5. [标记并隔离敏感数据] tag_claimer_L4 - 将该标签对应的数据表或列标记为最高敏感级别，并启用数据库防火墙策略，禁止任何非授权IP或用户对该字段的SELECT操作，同时触发告警通知安全团队。"
+      }
+    ]
+  }
+}

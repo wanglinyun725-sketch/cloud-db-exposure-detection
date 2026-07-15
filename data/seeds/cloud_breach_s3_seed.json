@@ -1,0 +1,262 @@
+{
+  "seed_id": "cloud_breach_s3",
+  "source": "CloudGoat (RhinoSecurityLabs, BSD-3-Clause)",
+  "scenario_ref": "cloud_breach_s3",
+  "nodes": [
+    {
+      "id": "cg-banking-WAF-Role",
+      "type": "Identity",
+      "attrs": {
+        "name": "cg-banking-WAF-Role",
+        "tf_type": "aws_iam_role",
+        "source": "cloudgoat:cloud_breach_s3",
+        "kind": "role",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "cg-ec2-instance-profile",
+      "type": "Identity",
+      "attrs": {
+        "name": "cg-ec2-instance-profile",
+        "tf_type": "aws_iam_instance_profile",
+        "source": "cloudgoat:cloud_breach_s3",
+        "kind": "compute",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "cg-ec2-ssh-security-group",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-ec2-ssh-security-group",
+        "tf_type": "aws_security_group",
+        "source": "cloudgoat:cloud_breach_s3",
+        "kind": "sg",
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0"
+      }
+    },
+    {
+      "id": "cg-ec2-http-security-group",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-ec2-http-security-group",
+        "tf_type": "aws_security_group",
+        "source": "cloudgoat:cloud_breach_s3",
+        "kind": "sg",
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0"
+      }
+    },
+    {
+      "id": "ec2-vulnerable-proxy-server",
+      "type": "Identity",
+      "attrs": {
+        "name": "ec2-vulnerable-proxy-server",
+        "tf_type": "aws_instance",
+        "source": "cloudgoat:cloud_breach_s3",
+        "kind": "compute",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "cg-cardholder-data-bucket",
+      "type": "DBObject",
+      "attrs": {
+        "name": "cg-cardholder-data-bucket",
+        "tf_type": "aws_s3_bucket",
+        "source": "cloudgoat:cloud_breach_s3",
+        "kind": "bucket"
+      }
+    },
+    {
+      "id": "s3-objects",
+      "type": "DBObject",
+      "attrs": {
+        "name": "s3-objects",
+        "tf_type": "aws_s3_object",
+        "source": "cloudgoat:cloud_breach_s3",
+        "kind": "object"
+      }
+    },
+    {
+      "id": "cg-vpc",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-vpc",
+        "tf_type": "aws_vpc",
+        "source": "cloudgoat:cloud_breach_s3",
+        "kind": "vpc",
+        "public_exposed": false
+      }
+    },
+    {
+      "id": "cg-internet-gateway",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-internet-gateway",
+        "tf_type": "aws_internet_gateway",
+        "source": "cloudgoat:cloud_breach_s3",
+        "kind": "vpc",
+        "public_exposed": false
+      }
+    },
+    {
+      "id": "cg-public-subnet-1",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-public-subnet-1",
+        "tf_type": "aws_subnet",
+        "source": "cloudgoat:cloud_breach_s3",
+        "kind": "subnet",
+        "public_exposed": false
+      }
+    },
+    {
+      "id": "cg-public-subnet-2",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-public-subnet-2",
+        "tf_type": "aws_subnet",
+        "source": "cloudgoat:cloud_breach_s3",
+        "kind": "subnet",
+        "public_exposed": false
+      }
+    },
+    {
+      "id": "cg-public-subnet-route-table",
+      "type": "Network",
+      "attrs": {
+        "name": "cg-public-subnet-route-table",
+        "tf_type": "aws_route_table",
+        "source": "cloudgoat:cloud_breach_s3",
+        "kind": "vpc",
+        "public_exposed": false,
+        "cidr": "0.0.0.0/0"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "cg-ec2-instance-profile",
+      "target": "cg-banking-WAF-Role",
+      "type": "can_assume",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-vpc",
+      "target": "cg-ec2-ssh-security-group",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-vpc",
+      "target": "cg-ec2-http-security-group",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "ec2-vulnerable-proxy-server",
+      "target": "cg-ec2-instance-profile",
+      "type": "can_assume",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-public-subnet-1",
+      "target": "ec2-vulnerable-proxy-server",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-ec2-ssh-security-group",
+      "target": "ec2-vulnerable-proxy-server",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-ec2-http-security-group",
+      "target": "ec2-vulnerable-proxy-server",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-cardholder-data-bucket",
+      "target": "s3-objects",
+      "type": "contains",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-vpc",
+      "target": "cg-internet-gateway",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-vpc",
+      "target": "cg-public-subnet-1",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-vpc",
+      "target": "cg-public-subnet-2",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-vpc",
+      "target": "cg-public-subnet-route-table",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "cg-internet-gateway",
+      "target": "cg-public-subnet-route-table",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    }
+  ]
+}

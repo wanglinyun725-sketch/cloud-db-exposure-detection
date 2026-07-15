@@ -1,0 +1,251 @@
+{
+  "seed_id": "ec2_ssrf",
+  "source": "CloudGoat (RhinoSecurityLabs, BSD-3-Clause)",
+  "scenario_ref": "ec2_ssrf",
+  "nodes": [
+    {
+      "id": "ec2_role",
+      "type": "Identity",
+      "attrs": {
+        "name": "ec2_role",
+        "tf_type": "aws_iam_role",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "role",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "ec2_instance_profile",
+      "type": "Identity",
+      "attrs": {
+        "name": "ec2_instance_profile",
+        "tf_type": "aws_iam_instance_profile",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "compute",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "ec2_security_group",
+      "type": "Network",
+      "attrs": {
+        "name": "ec2_security_group",
+        "tf_type": "aws_security_group",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "sg",
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0"
+      }
+    },
+    {
+      "id": "ubuntu_ec2",
+      "type": "Identity",
+      "attrs": {
+        "name": "ubuntu_ec2",
+        "tf_type": "aws_instance",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "compute",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "solus",
+      "type": "Identity",
+      "attrs": {
+        "name": "solus",
+        "tf_type": "aws_iam_user",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "user",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "wrex",
+      "type": "Identity",
+      "attrs": {
+        "name": "wrex",
+        "tf_type": "aws_iam_user",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "user",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "shepard",
+      "type": "Identity",
+      "attrs": {
+        "name": "shepard",
+        "tf_type": "aws_iam_user",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "user",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "lambda",
+      "type": "Identity",
+      "attrs": {
+        "name": "lambda",
+        "tf_type": "aws_iam_role",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "role",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "secret_bucket",
+      "type": "DBObject",
+      "attrs": {
+        "name": "secret_bucket",
+        "tf_type": "aws_s3_bucket",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "bucket"
+      }
+    },
+    {
+      "id": "shepards_credentials",
+      "type": "DBObject",
+      "attrs": {
+        "name": "shepards_credentials",
+        "tf_type": "aws_s3_object",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "object"
+      }
+    },
+    {
+      "id": "vpc",
+      "type": "Network",
+      "attrs": {
+        "name": "vpc",
+        "tf_type": "aws_vpc",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "vpc",
+        "public_exposed": false
+      }
+    },
+    {
+      "id": "internet_gateway",
+      "type": "Network",
+      "attrs": {
+        "name": "internet_gateway",
+        "tf_type": "aws_internet_gateway",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "vpc",
+        "public_exposed": false
+      }
+    },
+    {
+      "id": "public_subnet",
+      "type": "Network",
+      "attrs": {
+        "name": "public_subnet",
+        "tf_type": "aws_subnet",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "subnet",
+        "public_exposed": false
+      }
+    },
+    {
+      "id": "public_subnet",
+      "type": "Network",
+      "attrs": {
+        "name": "public_subnet",
+        "tf_type": "aws_route_table",
+        "source": "cloudgoat:ec2_ssrf",
+        "kind": "vpc",
+        "public_exposed": false,
+        "cidr": "0.0.0.0/0"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "ec2_instance_profile",
+      "target": "ec2_role",
+      "type": "can_assume",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc",
+      "target": "ec2_security_group",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "ubuntu_ec2",
+      "target": "ec2_instance_profile",
+      "type": "can_assume",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "public_subnet",
+      "target": "ubuntu_ec2",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "ec2_security_group",
+      "target": "ubuntu_ec2",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "secret_bucket",
+      "target": "shepards_credentials",
+      "type": "contains",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc",
+      "target": "internet_gateway",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "vpc",
+      "target": "public_subnet",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "internet_gateway",
+      "target": "public_subnet",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    }
+  ]
+}

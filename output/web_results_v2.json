@@ -1,0 +1,1156 @@
+{
+  "case_001": {
+    "scenario": "CB-01",
+    "scenario_name": "[codebuild_secrets] IAM权限过宽",
+    "industry": "devops",
+    "expected": "Observed_Risk",
+    "elapsed": 172.5,
+    "node_count": 54,
+    "edge_count": 37,
+    "node_types": {
+      "Network": 10,
+      "Identity": 14,
+      "DBInstance": 7,
+      "DBObject": 12,
+      "SensitiveTag": 4,
+      "Control": 2,
+      "AuditEvent": 4,
+      "RiskFinding": 1
+    },
+    "entries": [
+      "net_internet",
+      "sg_codebuild"
+    ],
+    "targets": [
+      "fld_card_no",
+      "st_card",
+      "noise_decoy_14_fld_1",
+      "noise_decoy_14_tag_1",
+      "noise_decoy_16_fld_1",
+      "noise_decoy_16_tag_1",
+      "noise_decoy_20_fld_1",
+      "noise_decoy_20_tag_1"
+    ],
+    "results": [
+      {
+        "path": [
+          "net_internet",
+          "sg_codebuild",
+          "cb_role",
+          "rds_role",
+          "tbl_payments",
+          "fld_card_no"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.85,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1165,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.85,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1165）。证据链分析：入口暴露度（entry=1.0）表明攻击面完全暴露于互联网；可达性（reach=0.85）显示攻击者可通过CodeBuild服务横向移动至RDS角色；权限（perm=0.9）与目标敏感度（target=0.95）均极高，表明攻击者具备访问支付表及信用卡字段的完整权限。关键风险点：感知能力（sense=0.0）完全缺失，导致攻击行为无法被检测，但整体风险评分较低，可能因路径中存在未明确的防护机制或数据脱敏措施。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：核查sg_codebuild至cb_role的IAM角色信任策略，移除不必要的sts:AssumeRole权限。\n2. 权限收敛：对rds_role附加条件键，限制仅允许tbl_payments的SELECT操作，拒绝fld_card_no字段访问。\n3. 网络隔离：在sg_codebuild安全组添加入站规则，仅允许特定VPC CIDR访问RDS。\n4. 长期改进：启用RDS审计日志，监控fld_card_no查询行为。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "cb_role",
+          "rds_role",
+          "tbl_payments",
+          "fld_card_no"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.85,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1165,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.85,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk (Score=0.1165)。证据链分析：入口暴露度(1.0)表明存在互联网访问入口，但权限(0.9)与目标敏感字段(0.95)的高值被感知度(0.0)完全抵消，表明系统缺乏对敏感数据访问的监控与告警机制。关键风险点：尽管路径可达性(0.85)较高，但风险评分低主要源于感知缺失，实际威胁取决于攻击者能否利用权限绕过监控。建议强化对fld_card_no字段的访问审计与异常检测。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对tbl_payments表执行敏感数据脱敏，掩码处理fld_card_no字段。\n2. 权限收敛：撤销cb_role对rds_role的默认访问权限，仅保留最小必要权限。\n3. 网络隔离：限制net_internet至cb_role的入站规则，仅允许特定IP段访问。\n4. 长期改进：实施数据库审计日志，监控对tbl_payments的查询行为。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "cb_role",
+          "rds_role",
+          "tbl_payments",
+          "fld_card_no",
+          "st_card"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.85,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.95
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9183,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.85,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.95
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk（Score=0.9183）。证据链分析：入口暴露（entry=1.0）表明攻击者可直接从互联网访问；权限传递（perm=0.9）显示cb_role至rds_role存在高权限继承；目标敏感度（target=0.95, sense=0.95）指向支付表（tbl_payments）及信用卡号字段（fld_card_no），数据价值极高。关键风险点：互联网直连数据库角色链，结合高敏感数据字段暴露，形成完整攻击路径，风险等级极高。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对st_card表执行脱敏处理，暂停tbl_payments对fld_card_no的明文访问。\n2. 权限收敛：撤销cb_role对rds_role的默认授权，仅保留最小必要权限。\n3. 网络隔离：限制net_internet至cb_role的入站规则，仅允许白名单IP访问。\n4. 长期改进：实施动态数据脱敏策略，审计所有敏感字段访问日志。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "sg_codebuild",
+          "cb_role",
+          "rds_role",
+          "tbl_payments",
+          "fld_card_no",
+          "st_card"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.85,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.95
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9183,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.85,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.95
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk（Score=0.9183）。证据链显示：入口暴露（entry=1.0）与目标数据高度敏感（target=0.95）构成核心威胁；权限滥用风险显著（perm=0.9），结合高可达性（reach=0.85）表明攻击者可经CodeBuild服务角色横向移动至RDS，最终访问信用卡号（sense=0.95）。关键风险点在于：sg_codebuild至cb_role的权限传递缺乏最小权限约束，且tbl_payments字段级敏感数据未实施脱敏或加密。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即撤销sg_codebuild对cb_role的AssumeRole权限，阻断net_internet至rds_role的访问链。\n2. 权限收敛：将rds_role对tbl_payments的SELECT权限降级为最小必要列级权限，仅保留非敏感字段。\n3. 网络隔离：在sg_codebuild安全组添加入站规则，仅允许特定IP访问，并启用VPC端点。\n4. 长期改进：对st_card实施动态数据脱敏，并启用审计日志监控fld_card_no访问。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "cb_role",
+          "rds_role",
+          "db_app",
+          "tbl_payments",
+          "fld_card_no"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.85,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1165,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.85,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1165）。证据链分析：入口暴露度（entry=1.0）表明存在公网可达性，但后续权限传递（perm=0.9）与目标敏感字段（target=0.95）的高值被感知度（sense=0.0）完全抵消，表明数据库应用层（db_app）至支付表（tbl_payments）的访问路径缺乏有效监控与审计机制。关键风险点：尽管攻击者可通过cb_role→rds_role链获取数据库权限，但当前环境未部署数据访问感知能力，导致敏感字段（fld_card_no）的泄露行为无法被检测，风险集中于隐蔽性而非直接利用。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：核查cb_role与rds_role对tbl_payments表fld_card_no字段的访问日志，确认是否存在异常查询。\n2. 权限收敛：撤销cb_role对rds_role的跨角色访问权限，限制rds_role仅保留必要SELECT权限。\n3. 网络隔离：在net_internet与cb_role间部署防火墙规则，仅允许白名单IP访问。\n4. 长期改进：对fld_card_no字段实施动态脱敏，并启用审计日志监控。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "cb_role",
+          "rds_role",
+          "db_app",
+          "tbl_payments",
+          "fld_card_no",
+          "st_card"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.85,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.95
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9183,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.85,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.95
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9183)。证据链分析显示：入口暴露度(1.0)表明攻击面完全开放；权限可达性(0.85)与权限滥用风险(0.9)组合，表明攻击者可经cb_role→rds_role→db_app横向移动至支付表；目标敏感度(0.95)与数据感知度(0.95)极高，指向信用卡号字段。关键风险点：互联网入口直接关联数据库角色权限链，缺乏网络隔离与最小权限控制，导致敏感支付数据面临直接泄露威胁。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对st_card存储的信用卡号字段fld_card_no执行AES-256加密，并删除明文副本。\n2. 权限收敛：撤销cb_role对rds_role的默认授权，仅保留db_app的最小必要查询权限。\n3. 网络隔离：在net_internet与cb_role间部署WAF，限制仅允许白名单IP访问。\n4. 长期改进：实施动态数据脱敏策略，对tbl_payments中fld_card_no查询结果自动掩码。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "sg_codebuild",
+          "cb_role",
+          "rds_role",
+          "db_app",
+          "tbl_payments",
+          "fld_card_no"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.85,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1165,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.85,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1165）。证据链分析：入口暴露度（entry=1.0）表明攻击面完全开放，但后续节点权限（perm=0.9）与目标敏感度（target=0.95）虽高，却因感知能力缺失（sense=0.0）导致整体风险被抑制。关键风险点：攻击者可通过互联网（net_internet）经CodeBuild角色（sg_codebuild）及RDS角色（rds_role）访问数据库应用（db_app），最终触及支付表（tbl_payments）的卡号字段（fld_card_no）。然而，由于缺乏安全监控与告警机制（sense=0.0），攻击行为无法被实时感知，但当前路径可达性（reach=0.85）与权限组合尚未构成高威胁。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：核查sg_codebuild至cb_role的IAM角色信任策略，移除不必要的跨账户信任关系。\n2. 权限收敛：对rds_role附加条件键，限制仅允许db_app通过特定VPC端点访问tbl_payments。\n3. 网络隔离：在sg_codebuild入站规则中，仅允许net_internet的特定IP段访问，其余拒绝。\n4. 长期改进：对fld_card_no实施列级加密，并启用CloudTrail监控cb_role的AssumeRole操作。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "sg_codebuild",
+          "cb_role",
+          "rds_role",
+          "db_app",
+          "tbl_payments",
+          "fld_card_no",
+          "st_card"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.85,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.95
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9183,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.85,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.95
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9183)。证据链分析：入口暴露度(1.0)表明公网可直达CodeBuild服务；权限传递链(perm=0.9)显示cb_role通过rds_role获得数据库应用层访问权限；目标资产敏感度(target=0.95)与数据价值(sense=0.95)极高，涉及支付表(tbl_payments)及信用卡号字段(fld_card_no)。关键风险点：1) 公网至构建服务的直接暴露；2) 角色权限过度委派导致横向移动；3) 敏感数据字段未脱敏存储。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即撤销sg_codebuild对cb_role的AssumeRole权限，阻断net_internet至st_card的访问路径。\n2. 权限收敛：将rds_role对db_app的访问策略修改为仅允许SELECT操作，移除INSERT/UPDATE/DELETE权限。\n3. 网络隔离：在sg_codebuild安全组添加入站规则，仅允许特定IP访问，拒绝net_internet流量。\n4. 长期改进：对tbl_payments中fld_card_no字段实施静态脱敏，并启用审计日志监控异常查询。"
+      },
+      {
+        "path": [
+          "sg_codebuild",
+          "cb_role",
+          "rds_role",
+          "tbl_payments",
+          "fld_card_no"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.85,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1165,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.85,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1165）。证据链分析：入口暴露度（entry=1.0）表明sg_codebuild具备初始访问能力；权限传递（perm=0.9）显示cb_role至rds_role的权限继承关系明确；目标字段fld_card_no敏感度（target=0.95）极高；但感知能力（sense=0.0）缺失，表明攻击者无法识别或定位目标数据，导致实际利用概率极低。关键风险点：权限链完整但缺乏数据感知能力，攻击者虽可沿路径移动，却无法有效提取敏感字段，整体风险可控。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：核查sg_codebuild至cb_role的信任关系，若未使用则立即撤销。\n2. 权限收敛：限制cb_role仅具备rds_role的最小必要权限，移除tbl_payments的写权限。\n3. 网络隔离：为sg_codebuild配置安全组，仅允许特定IP访问RDS。\n4. 长期改进：对fld_card_no字段实施静态脱敏，并启用审计日志监控异常查询。"
+      },
+      {
+        "path": [
+          "sg_codebuild",
+          "cb_role",
+          "rds_role",
+          "tbl_payments",
+          "fld_card_no",
+          "st_card"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.85,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.95
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9183,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.85,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.95
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9183)。证据链分析：sg_codebuild通过cb_role获取rds_role权限，进而访问tbl_payments表，最终通过fld_card_no字段关联至st_card敏感数据表。证据向量显示：entry=1.0表明初始访问完全暴露，reach=0.85指示路径可达性高，perm=0.9反映权限滥用风险，target=0.95和sense=0.95表明目标数据高度敏感且可被有效感知。关键风险点：cb_role至rds_role的权限传递缺乏最小权限控制，导致敏感金融数据（信用卡号）暴露于构建环境。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：撤销sg_codebuild对cb_role的AssumeRole权限，阻断路径起点。\n2. 权限收敛：移除cb_role对rds_role的信任策略，限制跨服务角色链。\n3. 网络隔离：为rds_role关联的RDS实例启用安全组，仅允许特定IP访问tbl_payments。\n4. 长期改进：对fld_card_no字段实施静态数据脱敏，并审计st_card的访问日志。"
+      },
+      {
+        "path": [
+          "sg_codebuild",
+          "cb_role",
+          "rds_role",
+          "db_app",
+          "tbl_payments",
+          "fld_card_no"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.85,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1165,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.85,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1165）。证据链显示：入口暴露度（1.0）极高，表明sg_codebuild可被外部访问；权限传递（0.9）与目标敏感度（0.95）均高，表明通过cb_role→rds_role→db_app的权限链可触及tbl_payments中的fld_card_no。然而，可达性（0.85）与感知度（0.0）矛盾，后者为零表明该路径缺乏实际利用感知或监控，导致整体风险评分低。关键风险点在于权限链完整但缺乏感知机制，实际攻击可行性受限于隐蔽性不足。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：核查sg_codebuild至cb_role的信任关系，若未使用则立即撤销。\n2. 权限收敛：将rds_role对db_app的访问权限从写权限降级为只读，限制tbl_payments的fld_card_no字段访问。\n3. 网络隔离：在sg_codebuild安全组中添加入站规则，仅允许特定IP访问RDS。\n4. 长期改进：实施最小权限原则，定期审计角色权限。"
+      },
+      {
+        "path": [
+          "sg_codebuild",
+          "cb_role",
+          "rds_role",
+          "db_app",
+          "tbl_payments",
+          "fld_card_no",
+          "st_card"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.85,
+          "perm": 0.9,
+          "target": 0.95,
+          "sense": 0.95
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9183,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.85,
+            "perm": 0.9,
+            "target": 0.95,
+            "sense": 0.95
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9183)。证据链分析：入口可信度(1.0)表明sg_codebuild具备完全访问权限；路径可达性(0.85)显示cb_role至rds_role权限传递有效；权限滥用风险(0.9)与目标敏感度(0.95)高度匹配，最终数据泄露风险(0.95)极高。关键风险点：fld_card_no通过st_card暴露，形成从代码构建到敏感金融数据的完整攻击链，核心风险在于rds_role权限未隔离导致数据库应用层直接访问支付表。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即撤销sg_codebuild对cb_role的AssumeRole权限，阻断跨服务权限传递。\n2. 权限收敛：将rds_role的数据库访问权限从db_app降级为仅SELECT特定表，移除对tbl_payments的写权限。\n3. 网络隔离：为rds_role关联的安全组添加入站规则，仅允许cb_role来源IP访问RDS实例。\n4. 长期改进：对st_card字段实施静态加密，并启用审计日志监控fld_card_no的查询行为。"
+      }
+    ]
+  },
+  "case_007": {
+    "scenario": "DS-07",
+    "scenario_name": "[data_secrets] 用户数据泄露",
+    "industry": "ecommerce",
+    "expected": "Observed_Risk",
+    "elapsed": 40.33,
+    "node_count": 50,
+    "edge_count": 27,
+    "node_types": {
+      "Network": 12,
+      "Identity": 7,
+      "DBInstance": 5,
+      "DBObject": 8,
+      "SensitiveTag": 3,
+      "Control": 2,
+      "AuditEvent": 12,
+      "RiskFinding": 1
+    },
+    "entries": [
+      "net_internet",
+      "sg_ec2"
+    ],
+    "targets": [
+      "secret_rds_creds",
+      "st_db_creds",
+      "noise_decoy_14_fld_1",
+      "noise_decoy_14_tag_1"
+    ],
+    "results": [
+      {
+        "path": [
+          "net_internet",
+          "ec2_role",
+          "lambda_role",
+          "secret_rds_creds",
+          "st_db_creds"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.85,
+          "target": 0.99,
+          "sense": 0.99
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9351,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.85,
+            "target": 0.99,
+            "sense": 0.99
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9351)。证据链显示：入口暴露度1.0，表明公网直接可达；可达性0.9，表明攻击者可通过ec2_role横向移动至lambda_role；权限0.85，表明lambda_role具备访问secret_rds_creds的权限；目标敏感度0.99，表明st_db_creds为高价值数据库凭证。关键风险点：公网入口至Lambda权限链未隔离，导致凭证泄露风险极高。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即轮换secret_rds_creds和st_db_creds中的数据库凭证，撤销ec2_role和lambda_role对secret_rds_creds的访问权限。\n2. 权限收敛：为lambda_role配置最小权限策略，仅允许通过VPC端点访问secret_rds_creds。\n3. 网络隔离：将ec2实例移入私有子网，仅允许通过NAT网关或VPC端点访问Lambda。\n4. 长期改进：启用AWS Secrets Manager自动轮换，并部署GuardDuty监控异常访问。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "sg_ec2",
+          "ec2_role",
+          "lambda_role",
+          "secret_rds_creds",
+          "st_db_creds"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.85,
+          "target": 0.99,
+          "sense": 0.99
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9351,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.85,
+            "target": 0.99,
+            "sense": 0.99
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9351)。证据链分析：入口暴露度(1.0)表明攻击面完全开放；可达性(0.9)确认攻击者可沿路径渗透；权限(0.85)显示角色链存在过度授权；目标敏感度(0.99)与感知度(0.99)指向高价值凭证。关键风险点：ec2_role至lambda_role的权限传递未隔离，secret_rds_creds凭证存储缺乏访问控制，导致互联网入口可直达数据库凭证。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即轮换secret_rds_creds和st_db_creds中的数据库凭证，撤销ec2_role对lambda_role的信任关系。\n2. 权限收敛：将ec2_role和lambda_role的权限策略修改为最小权限原则，移除对secret_rds_creds的访问。\n3. 网络隔离：在sg_ec2安全组中，将net_internet入站规则限制为仅允许必要IP。\n4. 长期改进：启用AWS Config规则监控跨账户角色信任，定期审计IAM角色权限。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "sg_ec2",
+          "ec2_role",
+          "lambda_role",
+          "secret_rds_creds"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.85,
+          "target": 0.99,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1179,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.85,
+            "target": 0.99,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk (Score=0.1179)。证据链分析：入口暴露度(1.0)表明公网可达，但感知度(0.0)为零，表明攻击者无法主动探测该路径；可达性(0.9)与权限(0.85)较高，但目标敏感度(0.99)极高，综合评分受感知缺失抑制。关键风险点：攻击者需通过非探测手段（如凭证泄露）触发lambda_role，进而利用secret_rds_creds访问RDS凭证，当前路径依赖被动触发，主动利用难度高。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：撤销ec2_role对lambda_role的信任策略，删除secret_rds_creds中ec2实例的访问权限。\n2. 权限收敛：为sg_ec2配置最小化出站规则，仅允许必要端口至特定CIDR。\n3. 网络隔离：将sg_ec2移入私有子网，移除net_internet路由。\n4. 长期改进：启用AWS Secrets Manager自动轮转secret_rds_creds，并审计IAM角色信任关系。"
+      },
+      {
+        "path": [
+          "sg_ec2",
+          "ec2_role",
+          "lambda_role",
+          "secret_rds_creds",
+          "st_db_creds"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.85,
+          "target": 0.99,
+          "sense": 0.99
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9351,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.85,
+            "target": 0.99,
+            "sense": 0.99
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9351)。证据链分析：入口点(sg_ec2)暴露度1.0，表明攻击面完全开放；权限传递链(ec2_role→lambda_role)可达性0.9，权限滥用风险0.85；目标资产(secret_rds_creds→st_db_creds)敏感度0.99，表明数据库凭证为高价值目标。关键风险点：Lambda角色权限过度委派，导致EC2实例可通过角色链横向移动至RDS凭证存储，形成从外部入口到核心数据库的完整攻击路径。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：立即撤销sg_ec2对ec2_role的AssumeRole权限，删除lambda_role对secret_rds_creds的访问策略。\n2. 权限收敛：为ec2_role和lambda_role实施最小权限原则，移除st_db_creds的DescribeSecret权限。\n3. 网络隔离：对sg_ec2关联的安全组添加入站规则，仅允许特定IP访问。\n4. 长期改进：启用AWS Secrets Manager自动轮转，并配置CloudTrail监控异常API调用。"
+      }
+    ]
+  },
+  "case_013": {
+    "scenario": "RCE-13",
+    "scenario_name": "[rce_web_app] Web RCE到数据库",
+    "industry": "tech",
+    "expected": "Observed_Risk",
+    "elapsed": 123.8,
+    "node_count": 54,
+    "edge_count": 40,
+    "node_types": {
+      "Network": 9,
+      "Identity": 10,
+      "DBInstance": 8,
+      "DBObject": 13,
+      "SensitiveTag": 4,
+      "Control": 2,
+      "AuditEvent": 7,
+      "RiskFinding": 1
+    },
+    "entries": [
+      "net_internet",
+      "sg_web"
+    ],
+    "targets": [
+      "fld_medical_id",
+      "st_medical",
+      "noise_decoy_7_fld_1",
+      "noise_decoy_7_tag_1",
+      "noise_decoy_13_fld_1",
+      "noise_decoy_13_tag_1",
+      "noise_decoy_18_fld_1",
+      "noise_decoy_18_tag_1"
+    ],
+    "results": [
+      {
+        "path": [
+          "net_internet",
+          "sg_web",
+          "web_role",
+          "db_med",
+          "tbl_patients",
+          "fld_medical_id",
+          "st_medical"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.9,
+          "target": 0.96,
+          "sense": 0.96
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9371,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.9,
+            "target": 0.96,
+            "sense": 0.96
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9371)。证据链分析：从互联网入口(net_internet)经安全组(sg_web)与Web角色(web_role)可达数据库中间件(db_med)，最终访问患者表(tbl_patients)中医疗ID字段(fld_medical_id)及敏感数据(st_medical)。证据向量显示入口暴露(entry=1.0)、高可达性(reach=0.9)、高权限(perm=0.9)及极高目标价值(target=0.96)与敏感度(sense=0.96)。关键风险点：Web角色至数据库中间件权限未收敛，导致敏感医疗数据可被外部直接访问。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对sg_web服务器执行临时访问阻断，暂停web_role对db_med的数据库连接。\n2. 权限收敛：撤销web_role对tbl_patients表fld_medical_id字段的SELECT权限，仅保留必要存储过程访问。\n3. 网络隔离：在sg_web与db_med间部署防火墙规则，仅允许特定IP段通过443端口通信。\n4. 长期改进：对st_medical存储过程实施参数化查询审计，并启用数据库活动监控。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "sg_web",
+          "web_role",
+          "rds_role",
+          "tbl_patients",
+          "fld_medical_id",
+          "st_medical"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.85,
+          "target": 0.96,
+          "sense": 0.96
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9265,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.85,
+            "target": 0.96,
+            "sense": 0.96
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9265)。证据链分析：从互联网入口(net_internet)经安全组(sg_web)与Web角色(web_role)抵达数据库角色(rds_role)，最终访问患者表(tbl_patients)中的医疗ID字段(fld_medical_id)及存储过程(st_medical)。证据向量显示入口暴露度(entry=1.0)与目标敏感度(target=0.96)极高，权限可达性(perm=0.85)与数据感知度(sense=0.96)显著。关键风险点：互联网直连数据库角色，且敏感医疗数据字段可被直接访问，缺乏中间层访问控制与数据脱敏机制。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对sg_web实例执行临时访问阻断，暂停web_role对rds_role的数据库连接。\n2. 权限收敛：撤销rds_role对tbl_patients表fld_medical_id列的SELECT权限，仅保留必要存储过程访问。\n3. 网络隔离：在sg_web与rds_role间部署安全组，仅允许443端口通过，禁止公网直接访问st_medical。\n4. 长期改进：启用数据库审计日志，监控fld_medical_id列异常查询，并实施最小权限原则。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "sg_web",
+          "web_role",
+          "db_med",
+          "tbl_patients",
+          "fld_medical_id"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.9,
+          "target": 0.96,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1187,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.9,
+            "target": 0.96,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1187）。证据链显示：入口暴露度（entry=1.0）表明存在公网可达性，但后续权限传递（perm=0.9）与目标敏感度（target=0.96）未触发有效风险，因感知层（sense=0.0）完全缺失，表明数据访问行为未被监控或审计。关键风险点在于：尽管路径可达且权限充足，但缺乏安全感知机制导致潜在异常行为无法被检测，当前低风险评分主要依赖静态权限配置而非动态威胁监测。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对sg_web至db_med路径实施访问日志审计，核查tbl_patients表fld_medical_id字段的异常查询。\n2. 权限收敛：撤销web_role对tbl_patients表的非必要SELECT权限，仅保留最小必要字段访问。\n3. 网络隔离：在sg_web与db_med间部署防火墙规则，限制仅允许特定IP段访问。\n4. 长期改进：对fld_medical_id字段实施动态脱敏，并启用数据库审计策略。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "sg_web",
+          "web_role",
+          "rds_role",
+          "tbl_patients",
+          "fld_medical_id"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.85,
+          "target": 0.96,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1174,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.85,
+            "target": 0.96,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1174）。证据链显示：入口暴露（entry=1.0）与目标敏感字段（target=0.96）均达高值，但权限控制（perm=0.85）与可达性（reach=0.9）存在中等风险，而感知能力（sense=0.0）完全缺失，表明攻击者无法感知数据库内部结构或数据内容。关键风险点在于：攻击者虽能通过互联网访问Web服务器并利用角色权限触及患者表（tbl_patients）的医疗ID字段（fld_medical_id），但因缺乏数据感知能力，无法有效识别或提取敏感信息，导致实际攻击成功率极低。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对sg_web至web_role路径实施临时访问阻断，限制tbl_patients表fld_medical_id字段的查询权限。\n2. 权限收敛：撤销web_role对rds_role的默认授权，仅保留最小必要数据访问权限。\n3. 网络隔离：在sg_web前端部署WAF规则，过滤对rds_role的异常请求。\n4. 长期改进：建立数据分类分级策略，对fld_medical_id等敏感字段实施动态脱敏。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "web_role",
+          "db_med",
+          "tbl_patients",
+          "fld_medical_id",
+          "st_medical"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.9,
+          "target": 0.96,
+          "sense": 0.96
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9371,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.9,
+            "target": 0.96,
+            "sense": 0.96
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9371)。证据链分析：入口暴露度(1.0)表明攻击面完全开放，可达性(0.9)与权限(0.9)显示攻击者可经Web角色穿透至数据库中间件，目标敏感度(0.96)与语义关联度(0.96)证实患者表及医疗ID字段为高价值目标。关键风险点：互联网至Web层无防护，数据库中间件权限过度开放，导致患者医疗数据直接暴露。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对db_med数据库执行tbl_patients表查询审计，阻断st_medical字段异常访问。\n2. 权限收敛：撤销web_role对tbl_patients表的SELECT权限，仅保留必要存储过程访问。\n3. 网络隔离：在net_internet与web_role间部署WAF，限制对db_med的入站流量。\n4. 长期改进：对fld_medical_id实施动态脱敏，并启用数据库防火墙规则。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "web_role",
+          "rds_role",
+          "tbl_patients",
+          "fld_medical_id",
+          "st_medical"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.85,
+          "target": 0.96,
+          "sense": 0.96
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9265,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.85,
+            "target": 0.96,
+            "sense": 0.96
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9265)。证据链分析显示：入口暴露度(entry=1.0)表明攻击面完全开放；可达性(reach=0.9)证实攻击者可穿透web层与数据库层；权限(perm=0.85)支持对患者表(tbl_patients)的访问；目标价值(target=0.96)与敏感度(sense=0.96)极高，指向医疗标识字段(fld_medical_id)及结构化数据(st_medical)。关键风险点：互联网至数据库的直通路径缺乏有效隔离，敏感医疗数据在无加密或审计状态下暴露，存在大规模数据泄露风险。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对rds_role执行临时权限回收，撤销其对tbl_patients的SELECT权限。\n2. 权限收敛：将rds_role的访问范围限制为仅必要字段，移除fld_medical_id的读取权限。\n3. 网络隔离：在net_internet与web_role间部署访问控制策略，限制公网对rds_role的间接访问。\n4. 长期改进：启用数据库审计日志，监控st_medical的异常查询，并定期审查角色权限。"
+      },
+      {
+        "path": [
+          "sg_web",
+          "web_role",
+          "db_med",
+          "tbl_patients",
+          "fld_medical_id",
+          "st_medical"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.9,
+          "target": 0.96,
+          "sense": 0.96
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9371,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.9,
+            "target": 0.96,
+            "sense": 0.96
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9371)。证据链分析：入口点sg_web（entry=1.0）通过web_role（reach=0.9）具备高可达性，经db_med（perm=0.9）获得数据库操作权限，最终访问tbl_patients中fld_medical_id字段（target=0.96），并触及敏感数据表st_medical（sense=0.96）。关键风险点：高权限角色web_role与高敏感度数据st_medical之间缺乏访问控制隔离，导致攻击者可通过Web入口直接获取医疗标识符，构成数据泄露风险。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：撤销sg_web对web_role的关联，阻断路径入口。\n2. 权限收敛：移除web_role对db_med的访问权限，限制tbl_patients中fld_medical_id的查询操作。\n3. 网络隔离：对sg_web实施网络ACL，仅允许必要IP访问db_med。\n4. 长期改进：启用数据库审计日志，监控st_medical的异常访问。"
+      },
+      {
+        "path": [
+          "sg_web",
+          "web_role",
+          "rds_role",
+          "tbl_patients",
+          "fld_medical_id",
+          "st_medical"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.85,
+          "target": 0.96,
+          "sense": 0.96
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9265,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.85,
+            "target": 0.96,
+            "sense": 0.96
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9265)。证据链分析：入口点sg_web具备完全暴露（entry=1.0），通过web_role与rds_role权限传递，可达性极高（reach=0.9），且目标表tbl_patients中敏感字段fld_medical_id被高权限访问（perm=0.85），最终指向高价值目标st_medical（target=0.96），攻击意图明确（sense=0.96）。关键风险点：web层直接暴露结合数据库角色权限滥用，形成从外部到敏感数据的完整攻击链，缺乏访问控制与审计机制。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：撤销sg_web对web_role的关联，阻断路径起点。\n2. 权限收敛：从web_role移除rds_role的授权，限制对tbl_patients的访问。\n3. 网络隔离：对sg_web实例实施入站规则，仅允许必要IP访问。\n4. 长期改进：对fld_medical_id和st_medical启用数据脱敏策略，并审计rds_role权限使用。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "web_role",
+          "db_med",
+          "tbl_patients",
+          "fld_medical_id"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.9,
+          "target": 0.96,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1187,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.9,
+            "target": 0.96,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1187）。证据链显示：入口暴露度（entry=1.0）与可达性（reach=0.9）较高，表明攻击者可通过互联网访问Web角色并抵达数据库中间层；权限（perm=0.9）与目标价值（target=0.96）亦高，指向患者表及医疗ID字段。关键风险点在于敏感数据字段暴露于高权限可达路径，但感知度（sense=0.0）为零，表明缺乏监控或日志记录，导致攻击行为不可见，整体风险因缺乏实际利用证据而降低。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对fld_medical_id字段实施数据脱敏，使用哈希或掩码技术。\n2. 权限收敛：撤销web_role对db_med的SELECT权限，仅保留必要存储过程调用权限。\n3. 网络隔离：限制net_internet至web_role的入站规则，仅允许HTTPS协议。\n4. 长期改进：实施数据库审计日志，监控tbl_patients访问行为。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "web_role",
+          "rds_role",
+          "tbl_patients",
+          "fld_medical_id"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.85,
+          "target": 0.96,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1174,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.85,
+            "target": 0.96,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1174）。证据链显示：入口暴露度（entry=1.0）与目标敏感度（target=0.96）极高，表明攻击面完全暴露且数据价值高；但感知能力（sense=0.0）缺失，导致无法检测异常访问。关键风险点在于：web_role至rds_role的权限传递（perm=0.85）与可达性（reach=0.9）构成有效攻击链，但低风险评分源于缺乏实际利用证据或上下文威胁情报支撑，需优先部署数据库审计与异常行为监控。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对rds_role关联的数据库实例执行临时访问审计，重点监控tbl_patients表fld_medical_id字段的查询操作。\n2. 权限收敛：撤销web_role对rds_role的默认读写权限，仅保留最小必要查询权限。\n3. 网络隔离：在net_internet与web_role间部署WAF，限制对rds_role的访问来源IP。\n4. 长期改进：对fld_medical_id字段实施静态脱敏，并启用数据库操作日志持久化存储。"
+      },
+      {
+        "path": [
+          "sg_web",
+          "web_role",
+          "db_med",
+          "tbl_patients",
+          "fld_medical_id"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.9,
+          "target": 0.96,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1187,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.9,
+            "target": 0.96,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1187）。证据链分析：入口点（sg_web）暴露度1.0，可达性0.9，权限0.9，目标字段（fld_medical_id）敏感度0.96，但感知度0.0表明无数据泄露或异常访问记录。关键风险点：尽管路径各环节暴露充分且目标敏感，但缺乏实际数据访问行为证据，风险未转化为实际威胁。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：核查sg_web至db_med路径中web_role权限，移除tbl_patients表fld_medical_id字段的冗余读取权限。\n2. 权限收敛：将web_role对db_med的访问限制为仅必要存储过程，禁止直接表级查询。\n3. 网络隔离：在sg_web与db_med间部署防火墙规则，仅允许特定IP段访问数据库端口。\n4. 长期改进：实施数据库审计日志，监控fld_medical_id字段的异常访问行为。"
+      },
+      {
+        "path": [
+          "sg_web",
+          "web_role",
+          "rds_role",
+          "tbl_patients",
+          "fld_medical_id"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.85,
+          "target": 0.96,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1174,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.85,
+            "target": 0.96,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk (Score=0.1174)。证据链分析：入口点sg_web具备高暴露性（entry=1.0），可成功抵达目标数据表tbl_patients（reach=0.9），且通过web_role→rds_role具备较高权限（perm=0.85），目标字段fld_medical_id敏感度极高（target=0.96）。关键风险点：证据向量中sense=0.0表明当前路径缺乏实际敏感数据访问或泄露行为，导致整体风险评分极低。尽管攻击面完整，但无有效数据感知证据，风险被显著抑制。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：核查sg_web至rds_role的访问凭证，确认无明文存储。\n2. 权限收敛：移除web_role对rds_role的默认授权，仅保留tbl_patients的fld_medical_id列级SELECT权限。\n3. 网络隔离：限制sg_web仅通过内网IP访问RDS实例，配置安全组入站规则。\n4. 长期改进：启用数据脱敏策略，对fld_medical_id实施动态掩码。"
+      }
+    ]
+  },
+  "case_019": {
+    "scenario": "RDS-19",
+    "scenario_name": "[rds_snapshot] RDS公网暴露",
+    "industry": "finance",
+    "expected": "Observed_Risk",
+    "elapsed": 36.25,
+    "node_count": 52,
+    "edge_count": 31,
+    "node_types": {
+      "Network": 9,
+      "DBInstance": 9,
+      "DBObject": 13,
+      "SensitiveTag": 3,
+      "Identity": 11,
+      "Control": 1,
+      "AuditEvent": 5,
+      "RiskFinding": 1
+    },
+    "entries": [
+      "net_internet",
+      "sg_public",
+      "identity_leaked"
+    ],
+    "targets": [
+      "fld_id_card",
+      "st_idcard",
+      "noise_decoy_23_fld_1",
+      "noise_decoy_23_tag_1"
+    ],
+    "results": [
+      {
+        "path": [
+          "net_internet",
+          "identity_leaked",
+          "db_crm",
+          "tbl_user_kyc",
+          "fld_id_card",
+          "st_idcard"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.9,
+          "target": 0.97,
+          "sense": 0.97
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9401,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.9,
+            "target": 0.97,
+            "sense": 0.97
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9401)。证据链分析：入口层（entry=1.0）确认攻击者可通过互联网直接访问；身份泄露层（reach=0.9）表明攻击者已获取有效凭证；数据库层（perm=0.9）显示具备操作权限；目标数据层（target=0.97）指向CRM系统用户KYC表；敏感字段层（sense=0.97）确认身份证号字段为高敏感数据。关键风险点：互联网暴露入口与身份凭证泄露形成复合攻击面，权限控制不足导致攻击者可横向移动至核心数据库，最终实现高价值敏感数据（身份证号）的未授权访问。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对tbl_user_kyc表执行数据脱敏，屏蔽fld_id_card字段前6位及后4位。\n2. 权限收敛：撤销identity_leaked路径对db_crm的SELECT权限，仅保留必要审计账号。\n3. 网络隔离：切断net_internet至identity_leaked的入站规则，限制公网访问。\n4. 长期改进：部署数据库审计，监控st_idcard异常查询，定期轮换凭证。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "identity_leaked",
+          "role_db_admin",
+          "tbl_user_kyc",
+          "fld_id_card",
+          "st_idcard"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.8,
+          "target": 0.97,
+          "sense": 0.97
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.9182,
+          "path_type": "Observed_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.8,
+            "target": 0.97,
+            "sense": 0.97
+          }
+        },
+        "attribution": "该路径被判定为Observed_Risk (Score=0.9182)。证据链分析：入口暴露（entry=1.0）表明攻击面完全开放；身份泄露（reach=0.9）与数据库管理员权限（perm=0.8）结合，形成高权限访问通道；目标字段身份证号（target=0.97）及敏感度（sense=0.97）极高，构成完整攻击链。关键风险点：互联网暴露入口与泄露的管理员凭证直接关联，导致核心KYC数据（身份证号）面临未授权访问与批量泄露风险。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对tbl_user_kyc表执行加密操作，使用AES-256算法加密fld_id_card字段。\n2. 权限收敛：撤销role_db_admin角色对tbl_user_kyc表的直接访问权限，仅保留存储过程调用。\n3. 网络隔离：在net_internet入口添加ACL规则，禁止非授权IP访问数据库端口。\n4. 长期改进：实施数据脱敏策略，对st_idcard字段启用动态脱敏。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "identity_leaked",
+          "db_crm",
+          "tbl_user_kyc",
+          "fld_id_card"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.9,
+          "target": 0.97,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1189,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.9,
+            "target": 0.97,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk (Score=0.1189)。证据链分析：入口暴露（entry=1.0）与身份泄露（reach=0.9）构成初始攻击面，权限充足（perm=0.9）且目标数据高度敏感（target=0.97），但敏感度检测（sense=0.0）表明数据未实际泄露或触发告警，导致整体风险评分极低。关键风险点：身份泄露与权限滥用组合存在潜在威胁，但当前缺乏数据外泄证据，需持续监控身份凭证复用及异常访问行为。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对tbl_user_kyc表fld_id_card字段执行数据脱敏，使用动态脱敏策略覆盖查询结果。\n2. 权限收敛：撤销非必要账户对db_crm数据库的SELECT权限，仅保留核心运维账号。\n3. 网络隔离：限制net_internet至db_crm路径的入站规则，仅允许白名单IP访问。\n4. 长期改进：部署数据库审计日志，监控fld_id_card字段异常访问。"
+      },
+      {
+        "path": [
+          "net_internet",
+          "identity_leaked",
+          "role_db_admin",
+          "tbl_user_kyc",
+          "fld_id_card"
+        ],
+        "evidence_vector": {
+          "entry": 1.0,
+          "reach": 0.9,
+          "perm": 0.8,
+          "target": 0.97,
+          "sense": 0.0
+        },
+        "gate_result": {
+          "gate": 1,
+          "score": 0.1161,
+          "path_type": "Low_Risk",
+          "blocked_by": [],
+          "evidence_vector": {
+            "entry": 1.0,
+            "reach": 0.9,
+            "perm": 0.8,
+            "target": 0.97,
+            "sense": 0.0
+          }
+        },
+        "attribution": "该路径被判定为Low_Risk（Score=0.1161）。证据链分析：入口暴露（entry=1.0）表明攻击面完全开放，身份泄露（reach=0.9）使攻击者具备初始访问凭证，数据库管理员权限（perm=0.8）可操作敏感表tbl_user_kyc，目标字段fld_id_card命中高价值数据（target=0.97）。但sense=0.0表明当前环境无有效攻击向量或检测机制阻断，导致实际风险极低。关键风险点：身份泄露与高权限组合构成潜在威胁，但缺乏攻击触发条件。",
+        "remediation": "建议立即执行以下处置：\n1. 紧急处置：对tbl_user_kyc表执行字段级加密，重点保护fld_id_card字段，使用AES-256算法。\n2. 权限收敛：撤销role_db_admin角色的非必要访问权限，仅保留最小必要权限集。\n3. 网络隔离：限制net_internet对数据库的访问，仅允许内网IP段通过。\n4. 长期改进：实施数据库审计日志监控，定期审查身份泄露风险。"
+      }
+    ]
+  }
+}

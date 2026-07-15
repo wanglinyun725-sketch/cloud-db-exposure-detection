@@ -1,0 +1,125 @@
+{
+  "exp0": {
+    "accuracy": 0.9333,
+    "n": 60,
+    "false_positive": 0,
+    "confusion": {
+      "Observed_Risk->Observed_Risk": 28,
+      "Insufficient_Evidence->Insufficient_Evidence": 16,
+      "Potential_Exposure->Insufficient_Evidence": 4,
+      "Potential_Exposure->Potential_Exposure": 12
+    }
+  },
+  "exp1_generated60": {
+    "plain": {
+      "enum_total": 452,
+      "enum_avg": 7.53,
+      "valid_ratio": 0.4779,
+      "target_recall": 1.0,
+      "time_s": 0.0045,
+      "n_samples": 60
+    },
+    "type": {
+      "enum_total": 452,
+      "enum_avg": 7.53,
+      "valid_ratio": 0.4779,
+      "target_recall": 1.0,
+      "time_s": 0.0042,
+      "n_samples": 60
+    },
+    "full": {
+      "enum_total": 216,
+      "enum_avg": 3.6,
+      "valid_ratio": 1.0,
+      "target_recall": 1.0,
+      "time_s": 0.0043,
+      "n_samples": 60
+    }
+  },
+  "exp1_cloudgoat20": {
+    "plain": {
+      "enum_total": 160,
+      "enum_avg": 8.0,
+      "valid_ratio": 0.425,
+      "target_recall": 0.0,
+      "time_s": 0.0022,
+      "n_samples": 20
+    },
+    "type": {
+      "enum_total": 136,
+      "enum_avg": 6.8,
+      "valid_ratio": 0.5,
+      "target_recall": 0.0,
+      "time_s": 0.0019,
+      "n_samples": 20
+    },
+    "full": {
+      "enum_total": 68,
+      "enum_avg": 3.4,
+      "valid_ratio": 1.0,
+      "target_recall": 0.0,
+      "time_s": 0.0019,
+      "n_samples": 20
+    }
+  },
+  "exp2": {
+    "full": {
+      "avg_calls": 7.0,
+      "invalid_rate": 0.5847,
+      "coverage": 1.0,
+      "avg_time_ms": 0.0317,
+      "paths": 216
+    },
+    "fixed": {
+      "avg_calls": 4.0,
+      "invalid_rate": 0.2731,
+      "coverage": 1.0,
+      "avg_time_ms": 0.0139,
+      "paths": 216
+    },
+    "gap": {
+      "avg_calls": 2.907,
+      "invalid_rate": 0.0,
+      "coverage": 0.7815,
+      "avg_time_ms": 0.0128,
+      "paths": 216
+    }
+  },
+  "exp3": {
+    "A_complete": {
+      "n": 44,
+      "correct_rate": 0.9091,
+      "false_confirm_rate": "-"
+    },
+    "B_refute": {
+      "n": 44,
+      "correct_rate": 1.0,
+      "false_confirm_rate": 0.0
+    },
+    "C_missing": {
+      "n": 44,
+      "correct_rate": 1.0,
+      "false_confirm_rate": 0.0
+    }
+  },
+  "exp4": {
+    "consistency": 1.0,
+    "n_paths": 216,
+    "pruned": 80,
+    "pruned_frac": 0.3704,
+    "noprune": {
+      "n_paths": 216,
+      "avg_tool_calls": 5.0,
+      "avg_llm_calls": 2.0,
+      "est_tokens": 259200,
+      "time_s": 0.1746
+    },
+    "prune": {
+      "n_paths": 216,
+      "avg_tool_calls": 3.148,
+      "avg_llm_calls": 1.259,
+      "est_tokens": 163200,
+      "time_s": 0.1138
+    }
+  }
+}

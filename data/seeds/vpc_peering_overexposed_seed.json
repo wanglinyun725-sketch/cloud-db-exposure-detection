@@ -1,0 +1,506 @@
+{
+  "seed_id": "vpc_peering_overexposed",
+  "source": "CloudGoat (RhinoSecurityLabs, BSD-3-Clause)",
+  "scenario_ref": "vpc_peering_overexposed",
+  "nodes": [
+    {
+      "id": "dev_ec2",
+      "type": "Identity",
+      "attrs": {
+        "name": "dev_ec2",
+        "tf_type": "aws_instance",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "compute",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "prod_ec2",
+      "type": "Identity",
+      "attrs": {
+        "name": "prod_ec2",
+        "tf_type": "aws_instance",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "compute",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "initial_user",
+      "type": "Identity",
+      "attrs": {
+        "name": "initial_user",
+        "tf_type": "aws_iam_user",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "user",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "dev_ec2_role",
+      "type": "Identity",
+      "attrs": {
+        "name": "dev_ec2_role",
+        "tf_type": "aws_iam_role",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "role",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "dev_ec2_profile",
+      "type": "Identity",
+      "attrs": {
+        "name": "dev_ec2_profile",
+        "tf_type": "aws_iam_instance_profile",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "compute",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "prod_ec2_role",
+      "type": "Identity",
+      "attrs": {
+        "name": "prod_ec2_role",
+        "tf_type": "aws_iam_role",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "role",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "prod_ec2_profile",
+      "type": "Identity",
+      "attrs": {
+        "name": "prod_ec2_profile",
+        "tf_type": "aws_iam_instance_profile",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "compute",
+        "is_external": false,
+        "mfa": false
+      }
+    },
+    {
+      "id": "db_subnet_group",
+      "type": "Network",
+      "attrs": {
+        "name": "db_subnet_group",
+        "tf_type": "aws_db_subnet_group",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "subnet_group",
+        "is_infra": true,
+        "public_exposed": false,
+        "parent_vpc": null
+      }
+    },
+    {
+      "id": "customer_db",
+      "type": "DBInstance",
+      "attrs": {
+        "name": "customer_db",
+        "tf_type": "aws_db_instance",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "engine": "mysql",
+        "publicly_accessible": false,
+        "encrypted": false,
+        "audit_on": false
+      }
+    },
+    {
+      "id": "dev_vpc",
+      "type": "Network",
+      "attrs": {
+        "name": "dev_vpc",
+        "tf_type": "aws_vpc",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "vpc",
+        "is_infra": true,
+        "public_exposed": false,
+        "parent_vpc": null
+      }
+    },
+    {
+      "id": "dev_igw",
+      "type": "Network",
+      "attrs": {
+        "name": "dev_igw",
+        "tf_type": "aws_internet_gateway",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "igw",
+        "is_infra": true,
+        "public_exposed": false,
+        "parent_vpc": "dev_vpc"
+      }
+    },
+    {
+      "id": "dev_subnet",
+      "type": "Network",
+      "attrs": {
+        "name": "dev_subnet",
+        "tf_type": "aws_subnet",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "subnet",
+        "is_infra": false,
+        "public_exposed": false,
+        "parent_vpc": "dev_vpc"
+      }
+    },
+    {
+      "id": "dev_route_table",
+      "type": "Network",
+      "attrs": {
+        "name": "dev_route_table",
+        "tf_type": "aws_route_table",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "route_table",
+        "is_infra": true,
+        "public_exposed": false,
+        "parent_vpc": "dev_vpc"
+      }
+    },
+    {
+      "id": "prod_vpc",
+      "type": "Network",
+      "attrs": {
+        "name": "prod_vpc",
+        "tf_type": "aws_vpc",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "vpc",
+        "is_infra": true,
+        "public_exposed": false,
+        "parent_vpc": null
+      }
+    },
+    {
+      "id": "prod_subnet",
+      "type": "Network",
+      "attrs": {
+        "name": "prod_subnet",
+        "tf_type": "aws_subnet",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "subnet",
+        "is_infra": false,
+        "public_exposed": false,
+        "parent_vpc": "prod_vpc"
+      }
+    },
+    {
+      "id": "prod_db_subnet",
+      "type": "Network",
+      "attrs": {
+        "name": "prod_db_subnet",
+        "tf_type": "aws_subnet",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "subnet",
+        "is_infra": false,
+        "public_exposed": false,
+        "parent_vpc": "prod_vpc"
+      }
+    },
+    {
+      "id": "prod_route_table",
+      "type": "Network",
+      "attrs": {
+        "name": "prod_route_table",
+        "tf_type": "aws_route_table",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "route_table",
+        "is_infra": true,
+        "public_exposed": false,
+        "parent_vpc": "prod_vpc"
+      }
+    },
+    {
+      "id": "dev_sg",
+      "type": "Network",
+      "attrs": {
+        "name": "dev_sg",
+        "tf_type": "aws_security_group",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "sg",
+        "is_infra": false,
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0",
+        "parent_vpc": "dev_vpc"
+      }
+    },
+    {
+      "id": "prod_sg",
+      "type": "Network",
+      "attrs": {
+        "name": "prod_sg",
+        "tf_type": "aws_security_group",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "sg",
+        "is_infra": false,
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0",
+        "parent_vpc": "prod_vpc"
+      }
+    },
+    {
+      "id": "db_sg",
+      "type": "Network",
+      "attrs": {
+        "name": "db_sg",
+        "tf_type": "aws_security_group",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "sg",
+        "is_infra": false,
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0",
+        "parent_vpc": "prod_vpc"
+      }
+    },
+    {
+      "id": "ssm_endpoint_sg",
+      "type": "Network",
+      "attrs": {
+        "name": "ssm_endpoint_sg",
+        "tf_type": "aws_security_group",
+        "source": "cloudgoat:vpc_peering_overexposed",
+        "kind": "sg",
+        "is_infra": false,
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0",
+        "parent_vpc": "prod_vpc"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "dev_ec2",
+      "target": "dev_ec2_profile",
+      "type": "can_assume",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "dev_subnet",
+      "target": "dev_ec2",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "dev_sg",
+      "target": "dev_ec2",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "prod_ec2",
+      "target": "prod_ec2_profile",
+      "type": "can_assume",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "prod_subnet",
+      "target": "prod_ec2",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "prod_sg",
+      "target": "prod_ec2",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "prod_ec2",
+      "target": "customer_db",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 0.6,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "dev_ec2_profile",
+      "target": "dev_ec2_role",
+      "type": "can_assume",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "prod_ec2_profile",
+      "target": "prod_ec2_role",
+      "type": "can_assume",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "prod_subnet",
+      "target": "db_subnet_group",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "prod_db_subnet",
+      "target": "db_subnet_group",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "db_subnet_group",
+      "target": "customer_db",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "db_sg",
+      "target": "customer_db",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "dev_vpc",
+      "target": "dev_igw",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "dev_vpc",
+      "target": "dev_subnet",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "dev_vpc",
+      "target": "dev_route_table",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "prod_vpc",
+      "target": "prod_subnet",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "prod_vpc",
+      "target": "prod_db_subnet",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "prod_vpc",
+      "target": "prod_route_table",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "dev_vpc",
+      "target": "dev_sg",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "prod_vpc",
+      "target": "prod_sg",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "prod_vpc",
+      "target": "db_sg",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "prod_vpc",
+      "target": "ssm_endpoint_sg",
+      "type": "can_connect",
+      "attrs": {
+        "strength": 1.0,
+        "source": "cloudgoat_ref"
+      }
+    },
+    {
+      "source": "dev_ec2_role",
+      "target": "customer_db",
+      "type": "has_permission",
+      "attrs": {
+        "strength": 0.9,
+        "source": "cloudgoat_iam_policy",
+        "privilege": "rds:DescribeDBInstances"
+      }
+    },
+    {
+      "source": "dev_ec2",
+      "target": "customer_db",
+      "type": "has_permission",
+      "attrs": {
+        "strength": 0.85,
+        "source": "cloudgoat_cred_lateral",
+        "privilege": "rds:DescribeDBInstances"
+      }
+    }
+  ]
+}
