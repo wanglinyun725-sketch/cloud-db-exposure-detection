@@ -1,0 +1,334 @@
+{
+  "dataset_stage": "candidate_hypotheses_only",
+  "schema_version": "1.0.0",
+  "contract_ref": "configs/deterministic_exposure_contract_v1.json",
+  "policy": {
+    "upstream_walkthrough_is_gold": false,
+    "generated_labels_allowed": false,
+    "missing_finding_means_not_exposed": false,
+    "promotion_requires": [
+      "frozen configuration reference",
+      "complete-scope provider-native result",
+      "active probe result for runtime_gold",
+      "immutable raw evidence references"
+    ]
+  },
+  "source_roles": [
+    {
+      "source_id": "awsgoat",
+      "role": "cross_layer_executable_lab",
+      "platform": "AWS",
+      "revision": "b24869ad455ed8d1393d00ecdc15ee638d1c1332"
+    },
+    {
+      "source_id": "azuregoat",
+      "role": "cross_layer_executable_lab",
+      "platform": "Azure",
+      "revision": "b97045952e6df00de735a7f27fd7c4994dcfe8c0"
+    },
+    {
+      "source_id": "gcpgoat",
+      "role": "cross_layer_executable_lab",
+      "platform": "GCP",
+      "revision": "44605c4bff4b2da7611dfce78696bb53db6d8c54"
+    },
+    {
+      "source_id": "iam_vulnerable",
+      "role": "aws_identity_path_component_library",
+      "platform": "AWS",
+      "revision": "0f298666f9b7cfa01488b86912afdb211773188a"
+    },
+    {
+      "source_id": "terragoat",
+      "role": "cross_cloud_configuration_negative_and_positive_pool",
+      "platform": "multi_cloud",
+      "revision": "729f8da62c6a85ce4af5ad3d123de97776d954c4"
+    },
+    {
+      "source_id": "terraform_iam_policy_validator",
+      "role": "aws_native_oracle_adapter",
+      "platform": "AWS",
+      "revision": "f75804eba3f6bb9e10e3350be33a1caee67b32a3"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "awsgoat_m1_ssrf_dynamodb",
+      "source_id": "awsgoat",
+      "platform": "AWS",
+      "revision": "b24869ad455ed8d1393d00ecdc15ee638d1c1332",
+      "configuration_refs": [
+        "modules/module-1/main.tf"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "awsgoat_m1_public_api_method",
+          "member_ref": "modules/module-1/main.tf",
+          "expected_fragments": [
+            "resource \"aws_api_gateway_method\" \"endpoint\"",
+            "authorization = \"NONE\""
+          ],
+          "literal_interpretation": "The API Gateway method is configured without API Gateway authorization."
+        },
+        {
+          "assertion_id": "awsgoat_m1_lambda_dynamodb_wildcard",
+          "member_ref": "modules/module-1/main.tf",
+          "expected_fragments": [
+            "resource \"aws_iam_role_policy_attachment\" \"blog_app_policy\"",
+            "policy_arn = aws_iam_policy.lambda_data_policies.arn",
+            "\"dynamodb:*\"",
+            "\"Effect\" : \"Allow\"",
+            "\"Resource\" : \"*\""
+          ],
+          "literal_interpretation": "The Lambda data role is attached to a policy containing an allow for all DynamoDB actions on all resources."
+        },
+        {
+          "assertion_id": "awsgoat_m1_blog_users_table",
+          "member_ref": "modules/module-1/main.tf",
+          "expected_fragments": [
+            "resource \"aws_dynamodb_table\" \"users_table\"",
+            "name           = \"blog-users\""
+          ],
+          "literal_interpretation": "The frozen module declares the blog-users DynamoDB table."
+        }
+      ],
+      "upstream_claim_refs": [
+        "attack-manuals/module-1/06-Server Side Request Forgery Part 2.md"
+      ],
+      "entry": "registered web-application user invoking a file/URL fetch function",
+      "mandatory_claims": [
+        "web input can read the Lambda execution environment",
+        "recovered Lambda credentials can enumerate and scan blog-users",
+        "the same credentials can write an item to blog-users"
+      ],
+      "data_target": {
+        "type": "database",
+        "service": "Amazon DynamoDB",
+        "operation_scope": [
+          "ListTables",
+          "Scan",
+          "PutItem"
+        ]
+      },
+      "upstream_expected_outcome": "reachable",
+      "validation_plan": [
+        "resolve the exact Lambda role, DynamoDB table ARN, actions, boundaries, and resource policies from deployed state",
+        "run complete-scope AWS policy analysis for ListTables, Scan, and PutItem",
+        "in an isolated account, probe the three operations and retain CloudTrail records"
+      ],
+      "evidence_status": "terraform_semantics_valid_awaiting_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null
+    },
+    {
+      "case_id": "awsgoat_m2_ecs_secret_rds_credentials",
+      "source_id": "awsgoat",
+      "platform": "AWS",
+      "revision": "b24869ad455ed8d1393d00ecdc15ee638d1c1332",
+      "configuration_refs": [
+        "modules/module-2/main.tf"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "awsgoat_m2_task_role_secret_policy",
+          "member_ref": "modules/module-2/main.tf",
+          "expected_fragments": [
+            "resource \"aws_iam_role\" \"ecs-task-role\"",
+            "resource \"aws_iam_role_policy_attachment\" \"ecs-task-role-attachment-2\"",
+            "policy_arn = \"arn:aws:iam::aws:policy/SecretsManagerReadWrite\"",
+            "task_role_arn            = aws_iam_role.ecs-task-role.arn"
+          ],
+          "literal_interpretation": "The ECS task uses ecs-task-role and that role is attached to AWS SecretsManagerReadWrite."
+        }
+      ],
+      "upstream_claim_refs": [
+        "attack-manuals/module-2/02-File Upload and Task Metadata.md"
+      ],
+      "entry": "low-privilege application workflow with an unrestricted manager-side file upload",
+      "mandatory_claims": [
+        "uploaded server-side code reaches the ECS task environment",
+        "the task credential endpoint releases the ECS task-role credentials",
+        "the task role can list secrets and retrieve RDS_CREDS"
+      ],
+      "data_target": {
+        "type": "secret_store",
+        "service": "AWS Secrets Manager",
+        "operation_scope": [
+          "ListSecrets",
+          "GetSecretValue"
+        ],
+        "downstream_asset": "Amazon RDS credentials"
+      },
+      "upstream_expected_outcome": "reachable_to_secret; RDS query remains unproven",
+      "validation_plan": [
+        "separate Secrets Manager credential exposure from unproven database access",
+        "analyze the task role against the exact secret ARN",
+        "probe GetSecretValue and retain CloudTrail; do not claim an RDS data read without a database query record"
+      ],
+      "evidence_status": "terraform_semantics_valid_awaiting_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null
+    },
+    {
+      "case_id": "azuregoat_ssrf_cosmos_storage",
+      "source_id": "azuregoat",
+      "platform": "Azure",
+      "revision": "b97045952e6df00de735a7f27fd7c4994dcfe8c0",
+      "configuration_refs": [
+        "main.tf"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "azuregoat_cosmos_and_storage_declared",
+          "member_ref": "main.tf",
+          "expected_fragments": [
+            "resource \"azurerm_cosmosdb_account\" \"db\"",
+            "resource \"azurerm_storage_account\" \"storage_account\""
+          ],
+          "literal_interpretation": "The same frozen module declares an Azure Cosmos DB account and Azure Storage account."
+        }
+      ],
+      "upstream_claim_refs": [
+        "attack-manuals/module-1/03-Server Side Request Forgery Part 2.md"
+      ],
+      "entry": "registered external web-application user",
+      "mandatory_claims": [
+        "SSRF/local-file access retrieves local.settings.json",
+        "the retrieved Cosmos DB connection string permits record modification",
+        "the retrieved Storage connection string permits blob or source-code download"
+      ],
+      "data_target": {
+        "type": "database_and_object_storage",
+        "service": "Azure Cosmos DB and Azure Blob Storage",
+        "operation_scope": [
+          "Cosmos DB item read/write",
+          "Blob read/list"
+        ]
+      },
+      "upstream_expected_outcome": "reachable",
+      "validation_plan": [
+        "capture the deployed Function configuration and storage/Cosmos account state",
+        "query Azure RBAC/Defender attack-path evidence where applicable",
+        "probe one scoped Cosmos item update and one scoped blob download, retaining Azure activity/data-plane logs"
+      ],
+      "evidence_status": "terraform_semantics_valid_with_deprecation_warnings_awaiting_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null
+    },
+    {
+      "case_id": "azuregoat_prod_dev_blob_control_pair",
+      "source_id": "azuregoat",
+      "platform": "Azure",
+      "revision": "b97045952e6df00de735a7f27fd7c4994dcfe8c0",
+      "configuration_refs": [
+        "main.tf"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "azuregoat_prod_blob_only",
+          "member_ref": "main.tf",
+          "expected_fragments": [
+            "resource \"azurerm_storage_container\" \"storage_container_prod\"",
+            "container_access_type = \"blob\""
+          ],
+          "literal_interpretation": "The production container grants anonymous blob access but does not configure anonymous container listing."
+        },
+        {
+          "assertion_id": "azuregoat_dev_container_public",
+          "member_ref": "main.tf",
+          "expected_fragments": [
+            "resource \"azurerm_storage_container\" \"storage_container_dev\"",
+            "container_access_type = \"container\""
+          ],
+          "literal_interpretation": "The development container grants anonymous container and blob access."
+        }
+      ],
+      "upstream_claim_refs": [
+        "attack-manuals/module-1/04-Security Misconfiguration.md"
+      ],
+      "entry": "anonymous internet client",
+      "mandatory_claims": [
+        "production container anonymous list is denied",
+        "development container anonymous list succeeds",
+        "development container anonymous blob read succeeds"
+      ],
+      "data_target": {
+        "type": "object_storage",
+        "service": "Azure Blob Storage",
+        "operation_scope": [
+          "List container",
+          "Read blob"
+        ]
+      },
+      "upstream_expected_outcome": "paired negative production state and positive development state",
+      "validation_plan": [
+        "freeze both container access configurations from the same deployment",
+        "issue identical unauthenticated list probes to production and development containers",
+        "retain the explicit production denial, development success, and storage logs as a paired certificate"
+      ],
+      "evidence_status": "terraform_semantics_valid_with_deprecation_warnings_awaiting_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null
+    },
+    {
+      "case_id": "gcpgoat_anonymous_bucket_policy_transition",
+      "source_id": "gcpgoat",
+      "platform": "GCP",
+      "revision": "44605c4bff4b2da7611dfce78696bb53db6d8c54",
+      "configuration_refs": [
+        "main.tf"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "gcpgoat_prod_allusers_object_get",
+          "member_ref": "main.tf",
+          "expected_fragments": [
+            "resource \"google_project_iam_custom_role\" \"prod-role\"",
+            "permissions = [\"storage.objects.get\"]",
+            "resource \"google_storage_bucket_iam_member\" \"add_policy_role\"",
+            "member = \"allUsers\""
+          ],
+          "literal_interpretation": "The production bucket custom role gives allUsers object read when an object name is known, but not object listing."
+        },
+        {
+          "assertion_id": "gcpgoat_dev_allusers_policy_mutation",
+          "member_ref": "main.tf",
+          "expected_fragments": [
+            "resource \"google_project_iam_custom_role\" \"dev-role\"",
+            "permissions = [\"storage.objects.get\", \"storage.buckets.setIamPolicy\", \"storage.buckets.getIamPolicy\"]",
+            "resource \"google_storage_bucket_iam_member\" \"add_policy_role2\"",
+            "member = \"allUsers\""
+          ],
+          "literal_interpretation": "The development bucket gives allUsers object read plus bucket IAM read/write, but not initial object listing."
+        }
+      ],
+      "upstream_claim_refs": [
+        "attack-manuals/module-1/02-Misconfigured Storage Bucket Policies.md"
+      ],
+      "entry": "anonymous allUsers principal",
+      "mandatory_claims": [
+        "initial production and development object-list operations are denied",
+        "development allUsers can read and set the bucket IAM policy",
+        "after the policy mutation, anonymous object listing succeeds"
+      ],
+      "data_target": {
+        "type": "object_storage",
+        "service": "Google Cloud Storage",
+        "operation_scope": [
+          "storage.buckets.getIamPolicy",
+          "storage.buckets.setIamPolicy",
+          "storage.objects.list"
+        ]
+      },
+      "upstream_expected_outcome": "negative-to-positive state transition",
+      "validation_plan": [
+        "save pre-mutation and post-mutation IAM policies as distinct frozen states",
+        "run Policy Analyzer and testIamPermissions for the exact allUsers principal and bucket",
+        "retain the initial denied list, policy change audit record, and final successful list"
+      ],
+      "evidence_status": "terraform_semantics_valid_awaiting_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null
+    }
+  ]
+}

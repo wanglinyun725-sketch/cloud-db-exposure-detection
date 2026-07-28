@@ -1,0 +1,88 @@
+{
+  "contract_id": "provider_oracle_gold_v2",
+  "version": "2.0.0",
+  "purpose": "Admit deterministic cloud-path labels from immutable provider-native runtime evidence while distinguishing exact-target decisions, universal action-scope decisions, and incomplete but security-relevant observations.",
+  "required_source_properties": [
+    "public or author-published raw telemetry",
+    "fixed upstream revision or locally preserved artifact with SHA-256",
+    "license and provenance record",
+    "no generated cloud events"
+  ],
+  "required_common_path_properties": [
+    "the start identity or workload is present in runtime evidence",
+    "the cloud-data target or provider operation scope is explicit",
+    "every critical relationship has immutable raw references",
+    "scenario and lineage deduplication is enforced"
+  ],
+  "negative_runtime_certificate_types": {
+    "exact_target_denial": {
+      "required": [
+        "exact principal",
+        "exact operation",
+        "exact resource",
+        "provider-native explicit denial or dependency-state error",
+        "complete query or operation scope",
+        "same-target success control or independent provider evidence that the target exists",
+        "no contrary success by the denied principal in the same state"
+      ],
+      "verdict": "NotReachable"
+    },
+    "universal_action_scope_denial": {
+      "required": [
+        "exact principal",
+        "exact operation",
+        "provider-native explicit authorization denial",
+        "provider error text naming the denied action",
+        "provider error text covering a wildcard resource scope or a resource-independent catalogue action",
+        "no contrary success by the denied principal in the same state"
+      ],
+      "verdict": "NotReachable",
+      "semantic_limit": "The verdict applies only to the named operation and provider resource scope at the recorded time; it cannot be generalized to other APIs or later states.",
+      "target_existence_control": "not required because authorization is rejected before or independently of target lookup"
+    }
+  },
+  "positive_runtime_certificate_types": {
+    "exact_data_operation": {
+      "required": [
+        "exact principal",
+        "exact successful data operation",
+        "exact resource or exact batch of named resources",
+        "matching provider audit record",
+        "no contrary provider outcome for the selected state"
+      ],
+      "verdict": "Reachable"
+    },
+    "effective_permission_exposure": {
+      "required": [
+        "exact principal",
+        "exact data resource",
+        "exact external principal, account, or public grantee",
+        "successful provider permission-change response",
+        "all provider-documented mandatory conditions needed for that permission to be effective",
+        "matching immutable runtime records"
+      ],
+      "verdict": "Reachable",
+      "semantic_limit": "Reachable means the data resource was exposed through an effective provider permission; it does not claim that the external principal actually copied or queried the data."
+    }
+  },
+  "unknown_certificate": {
+    "required_when_any_apply": [
+      "a dangerous configuration change is observed but an independent blocker state is missing",
+      "an API call succeeds but the response does not prove any exact data resource was returned",
+      "credentials or passwords change but network reachability and a successful data-plane operation are unobserved",
+      "a share permission is recorded but encryption or KMS prerequisites for the external account are incomplete"
+    ],
+    "verdict": "Unknown"
+  },
+  "forbidden_shortcuts": [
+    "manual or walkthrough used directly as gold",
+    "missing finding interpreted as not exposed",
+    "credentials obtained interpreted as data read without a data operation",
+    "successful API request interpreted as non-empty data retrieval when the response is absent",
+    "public ACL interpreted as effective public access without relevant Block Public Access state or an anonymous access observation",
+    "share permission interpreted as effective encrypted-data access without required KMS evidence",
+    "repeated retries counted as independent cases",
+    "AI or script-generated raw telemetry"
+  ],
+  "human_role": "Audit semantic mappings and source-admission disputes; do not overwrite provider allow or deny decisions by intuition."
+}

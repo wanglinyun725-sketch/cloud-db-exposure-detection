@@ -1,0 +1,268 @@
+{
+  "ontology_id": "cloud_data_path_v1",
+  "version": "1.0.0",
+  "scope": "Fine-grained node and directed-edge types for cloud data attack and exposure paths.",
+  "normalization": "Unicode casefold; spaces and hyphens become underscores; aliases are explicit and frozen.",
+  "node_types": [
+    {
+      "id": "external_actor",
+      "family": "actor",
+      "definition": "An actor originating outside the controlled cloud trust boundary.",
+      "aliases": ["external actor", "attacker"]
+    },
+    {
+      "id": "identity",
+      "family": "actor",
+      "definition": "A generic cloud principal when a more specific identity subtype is unsupported.",
+      "aliases": ["actor", "principal", "user", "human identity"]
+    },
+    {
+      "id": "workload_identity",
+      "family": "actor",
+      "definition": "A machine, service-account, managed-identity, or workload principal.",
+      "aliases": ["service principal", "service account", "managed identity", "machine identity"]
+    },
+    {
+      "id": "role",
+      "family": "actor",
+      "definition": "An assumable or assignable cloud authorization role.",
+      "aliases": ["iam role", "rbac role"]
+    },
+    {
+      "id": "credential",
+      "family": "authorization",
+      "definition": "A password, key, token, certificate, or equivalent authentication material.",
+      "aliases": ["credentials", "access key", "token"]
+    },
+    {
+      "id": "permission_policy",
+      "family": "authorization",
+      "definition": "An IAM, RBAC, ACL, resource, or equivalent authorization policy.",
+      "aliases": ["policy", "iam policy", "rbac policy", "acl"]
+    },
+    {
+      "id": "network_boundary",
+      "family": "infrastructure",
+      "definition": "A network, endpoint, firewall, security group, or reachability boundary.",
+      "aliases": ["network", "internet", "endpoint", "firewall", "security group"]
+    },
+    {
+      "id": "compute",
+      "family": "infrastructure",
+      "definition": "A VM, container, function, cluster, or other execution resource.",
+      "aliases": ["vm", "virtual machine", "container", "function", "cluster"]
+    },
+    {
+      "id": "cloud_service",
+      "family": "infrastructure",
+      "definition": "A cloud control-plane or managed service endpoint.",
+      "aliases": ["cloud service", "service", "api"]
+    },
+    {
+      "id": "database",
+      "family": "data_target",
+      "definition": "A relational, document, key-value, graph, warehouse, or equivalent database service.",
+      "aliases": ["db", "data store", "datastore", "data_store"]
+    },
+    {
+      "id": "object_storage",
+      "family": "data_target",
+      "definition": "An object-storage bucket, container, or equivalent storage service.",
+      "aliases": ["bucket", "blob storage", "object store"]
+    },
+    {
+      "id": "secret_store",
+      "family": "data_target",
+      "definition": "A managed secret, key, vault, or configuration-secret store.",
+      "aliases": ["secret", "vault", "key vault", "secrets manager"]
+    },
+    {
+      "id": "data_object",
+      "family": "data_target",
+      "definition": "A table, object, record set, file, backup, snapshot, or other data-bearing object.",
+      "aliases": ["data", "db object", "dbobject", "table", "record", "file", "backup", "snapshot"]
+    },
+    {
+      "id": "queue",
+      "family": "infrastructure",
+      "definition": "A queue, topic, stream, or messaging resource.",
+      "aliases": ["topic", "stream", "message queue"]
+    },
+    {
+      "id": "external_system",
+      "family": "infrastructure",
+      "definition": "A non-cloud or separately administered system participating in the path.",
+      "aliases": ["external system", "third party"]
+    },
+    {
+      "id": "resource",
+      "family": "infrastructure",
+      "definition": "A generic cloud resource when a finer type is unsupported by evidence.",
+      "aliases": ["cloud resource", "unknown resource"]
+    }
+  ],
+  "edge_types": [
+    {
+      "id": "authenticate",
+      "family": "authorization",
+      "definition": "Authenticates a principal to a service or identity plane.",
+      "aliases": ["authentication", "authenticated"]
+    },
+    {
+      "id": "use_credential",
+      "family": "authorization",
+      "definition": "Uses credential material to act as or reach another principal/resource.",
+      "aliases": ["credential use", "credential_use", "uses credential"]
+    },
+    {
+      "id": "assume_role",
+      "family": "authorization",
+      "definition": "Assumes, activates, or exchanges into a role.",
+      "aliases": ["assume role", "can assume", "can_assume"]
+    },
+    {
+      "id": "impersonate",
+      "family": "authorization",
+      "definition": "Acts as another principal through delegation or impersonation.",
+      "aliases": ["impersonation", "act as"]
+    },
+    {
+      "id": "grant_permission",
+      "family": "authorization",
+      "definition": "Creates or changes an authorization relationship.",
+      "aliases": ["grant permission", "permission grant", "assign role"]
+    },
+    {
+      "id": "has_permission",
+      "family": "authorization",
+      "definition": "Represents an evidenced authorization capability without claiming it was exercised.",
+      "aliases": ["has permission", "permission", "authorized"]
+    },
+    {
+      "id": "modify_policy",
+      "family": "control_change",
+      "definition": "Changes IAM, RBAC, ACL, trust, or resource policy.",
+      "aliases": ["modify policy", "change policy", "update policy"]
+    },
+    {
+      "id": "network_reachability",
+      "family": "reachability",
+      "definition": "Represents network-level reachability without claiming successful application access.",
+      "aliases": ["can connect", "can_connect", "reachable"]
+    },
+    {
+      "id": "enumerate",
+      "family": "discovery",
+      "definition": "Lists, describes, discovers, or otherwise enumerates a target.",
+      "aliases": ["discover", "list", "reconnaissance"]
+    },
+    {
+      "id": "invoke",
+      "family": "execution",
+      "definition": "Invokes a cloud API, function, job, command, or service operation.",
+      "aliases": ["call", "invoke service"]
+    },
+    {
+      "id": "execute",
+      "family": "execution",
+      "definition": "Executes code, a command, workload, or job.",
+      "aliases": ["execute code", "run command", "run job"]
+    },
+    {
+      "id": "exploit",
+      "family": "execution",
+      "definition": "Exploits a vulnerability or unsafe behavior to advance the path.",
+      "aliases": ["exploitation"]
+    },
+    {
+      "id": "connect",
+      "family": "reachability",
+      "definition": "Establishes an application or service connection.",
+      "aliases": ["connected", "service connection"]
+    },
+    {
+      "id": "create_resource",
+      "family": "control_change",
+      "definition": "Creates a cloud resource used by the path.",
+      "aliases": ["create resource", "provision"]
+    },
+    {
+      "id": "change_configuration",
+      "family": "control_change",
+      "definition": "Changes non-policy configuration that advances or enables the path.",
+      "aliases": ["configure", "configuration change", "update configuration"]
+    },
+    {
+      "id": "access_data",
+      "family": "data_access",
+      "definition": "Accesses data when read/write direction cannot be established.",
+      "aliases": ["accessed", "data access", "data_access"]
+    },
+    {
+      "id": "read_data",
+      "family": "data_access",
+      "definition": "Reads, downloads, queries, or retrieves data.",
+      "aliases": ["read data", "download", "query data", "get data"]
+    },
+    {
+      "id": "write_data",
+      "family": "data_access",
+      "definition": "Writes, inserts, uploads, or modifies data.",
+      "aliases": ["write data", "upload", "modify data"]
+    },
+    {
+      "id": "stage_data",
+      "family": "data_transfer",
+      "definition": "Stages or aggregates data in preparation for movement or impact.",
+      "aliases": ["stage data", "data staging", "archive data"]
+    },
+    {
+      "id": "transfer_data",
+      "family": "data_transfer",
+      "definition": "Moves or copies data between controlled resources or services.",
+      "aliases": ["transfer data", "copy data", "move data"]
+    },
+    {
+      "id": "exfiltrate_data",
+      "family": "data_transfer",
+      "definition": "Moves data outside its authorized trust or administrative boundary.",
+      "aliases": ["exfiltrate", "data exfiltration", "exfiltration"]
+    },
+    {
+      "id": "delete_data",
+      "family": "impact",
+      "definition": "Deletes or destroys data, backups, snapshots, or recovery material.",
+      "aliases": ["delete", "destroy data", "data destruction"]
+    },
+    {
+      "id": "encrypt_data",
+      "family": "impact",
+      "definition": "Encrypts data in a way that creates availability or extortion impact.",
+      "aliases": ["encrypt", "data encryption"]
+    },
+    {
+      "id": "disable_recovery",
+      "family": "impact",
+      "definition": "Disables, removes, or inhibits recovery mechanisms.",
+      "aliases": ["inhibit recovery", "disable backup"]
+    },
+    {
+      "id": "publish",
+      "family": "data_transfer",
+      "definition": "Publishes data or a message to a queue, topic, stream, or external endpoint.",
+      "aliases": ["published"]
+    },
+    {
+      "id": "data_classification",
+      "family": "observation",
+      "definition": "Links a data object to an evidenced sensitivity or classification.",
+      "aliases": ["classified as", "classified_as"]
+    },
+    {
+      "id": "observed_operation",
+      "family": "observation",
+      "definition": "A directly observed cloud operation whose higher-level path semantics remain unspecified.",
+      "aliases": ["observed operation", "api operation"]
+    }
+  ]
+}

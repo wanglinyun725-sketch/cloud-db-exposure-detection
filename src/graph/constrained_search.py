@@ -1,6 +1,7 @@
 """约束路径搜索：基于类型转移矩阵的 DFS"""
 import networkx as nx
 from typing import Optional
+from src.graph.path_utils import EvidencePath, edge_aware_path_key
 
 # 类型转移矩阵：哪些边类型可以连续出现
 # 正则: can_connect+ owns? can_assume* has_permission contains* classified_as?
@@ -45,7 +46,7 @@ def constrained_dfs(
     
     for start in entry_nodes:
         # DFS stack: (current_node, path, last_edge_type, visited_set)
-        stack = [(start, [start], None, {start})]
+        stack = [(start, EvidencePath([start]), None, {start})]
         
         while stack:
             current, path, prev_edge_type, visited = stack.pop()
@@ -53,16 +54,15 @@ def constrained_dfs(
             
             # 检查是否到达目标
             if current in target_set and min_depth <= num_edges <= max_depth:
-                edge_types = _get_edge_type_sequence(G, path)
-                if _is_valid_path(edge_types):
-                    all_paths.append(path[:])
+                if _is_valid_path(path.edge_types):
+                    all_paths.append(path)
             
             # 深度限制
             if num_edges >= max_depth:
                 continue
             
             # 扩展邻居
-            for _, neighbor, edge_data in G.edges(current, data=True):
+            for _, neighbor, edge_key, edge_data in G.edges(current, keys=True, data=True):
                 if neighbor in visited:
                     continue
                 
@@ -76,7 +76,7 @@ def constrained_dfs(
                 
                 stack.append((
                     neighbor,
-                    path + [neighbor],
+                    path.extended(neighbor, edge_key, edge_type),
                     edge_type,
                     visited | {neighbor}
                 ))
@@ -86,6 +86,8 @@ def constrained_dfs(
 
 def _get_edge_type_sequence(G: nx.MultiDiGraph, path: list) -> list:
     """获取路径的边类型序列"""
+    if getattr(path, "edge_types", None):
+        return list(path.edge_types)
     types = []
     for i in range(len(path) - 1):
         src, dst = path[i], path[i + 1]
@@ -111,7 +113,7 @@ def _dedup_paths(paths: list) -> list:
     # 按长度排序，优先保留短路径
     paths.sort(key=len)
     for p in paths:
-        key = tuple(p)
+        key = edge_aware_path_key(p)
         if key not in seen:
             seen.add(key)
             result.append(p)

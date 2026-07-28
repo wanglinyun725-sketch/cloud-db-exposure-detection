@@ -1,0 +1,277 @@
+{
+  "index_version": "1.0.0",
+  "source": {
+    "source_id": "splunk_attack_data_2026_expansion",
+    "repository": "splunk/attack_data",
+    "commit": "67fe973a954cc35688ad9b4906ed6e85af5892e9",
+    "raw_relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_accessdenied_discovery_events.json",
+    "raw_sha256": "4f52389f17745abf5fa1cf30c055d4f9d34022fcfb8e5c2544c70177da228433",
+    "raw_bytes": 1103597
+  },
+  "policy": {
+    "source": "recorded upstream AWS CloudTrail attack-range events",
+    "generated_samples": 0,
+    "generated_labels": 0,
+    "normalization_only": true,
+    "same_scope_definition": "principal + account + region + provider service + operation",
+    "scope_warning": "Each denial proves only that the named principal could not perform the exact catalogue operation at that event time. It does not prove that every data object was inaccessible.",
+    "success_control_available": false
+  },
+  "summary": {
+    "raw_records": 1150,
+    "candidate_cases": 5,
+    "observations": 5,
+    "independence_groups": 1,
+    "service_counts": {
+      "ssm.amazonaws.com": 1,
+      "secretsmanager.amazonaws.com": 1,
+      "redshift.amazonaws.com": 1,
+      "rds.amazonaws.com": 1,
+      "dynamodb.amazonaws.com": 1
+    }
+  },
+  "cases": [
+    {
+      "case_id": "splunk-accessdenied:ssm-describe-parameters:us-east-1",
+      "service": "ssm.amazonaws.com",
+      "operation": "DescribeParameters",
+      "target_scope": "arn:aws:ssm:us-east-1:731544447609:parameter-catalog/*",
+      "target_type": "secret_store",
+      "region": "us-east-1",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "independence_group": "splunk-dataset:T1580/aws_iam_accessdenied_discovery_events",
+      "denied_principal": "arn:aws:iam::731544447609:user/cloudsploit",
+      "observation_ids": [
+        "obs-8c7f08df27eeedebcabd9344"
+      ],
+      "annotation_status": "provider_certificate_candidate",
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "case_id": "splunk-accessdenied:secrets-list:us-east-1",
+      "service": "secretsmanager.amazonaws.com",
+      "operation": "ListSecrets",
+      "target_scope": "arn:aws:secretsmanager:us-east-1:731544447609:secret-catalog/*",
+      "target_type": "secret_store",
+      "region": "us-east-1",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "independence_group": "splunk-dataset:T1580/aws_iam_accessdenied_discovery_events",
+      "denied_principal": "arn:aws:iam::731544447609:user/cloudsploit",
+      "observation_ids": [
+        "obs-93feeedfc29c4bdb39a45c50"
+      ],
+      "annotation_status": "provider_certificate_candidate",
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "case_id": "splunk-accessdenied:redshift-describe:us-east-1",
+      "service": "redshift.amazonaws.com",
+      "operation": "DescribeClusters",
+      "target_scope": "arn:aws:redshift:us-east-1:731544447609:cluster-catalog/*",
+      "target_type": "database",
+      "region": "us-east-1",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "independence_group": "splunk-dataset:T1580/aws_iam_accessdenied_discovery_events",
+      "denied_principal": "arn:aws:iam::731544447609:user/cloudsploit",
+      "observation_ids": [
+        "obs-f287e35e5895ccae1c41cf89"
+      ],
+      "annotation_status": "provider_certificate_candidate",
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "case_id": "splunk-accessdenied:rds-describe:us-east-1",
+      "service": "rds.amazonaws.com",
+      "operation": "DescribeDBInstances",
+      "target_scope": "arn:aws:rds:us-east-1:731544447609:db-catalog/*",
+      "target_type": "database",
+      "region": "us-east-1",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "independence_group": "splunk-dataset:T1580/aws_iam_accessdenied_discovery_events",
+      "denied_principal": "arn:aws:iam::731544447609:user/cloudsploit",
+      "observation_ids": [
+        "obs-25bc762f862cab6c2bac59c0"
+      ],
+      "annotation_status": "provider_certificate_candidate",
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "case_id": "splunk-accessdenied:dynamodb-list:us-east-1",
+      "service": "dynamodb.amazonaws.com",
+      "operation": "ListTables",
+      "target_scope": "arn:aws:dynamodb:us-east-1:731544447609:table-catalog/*",
+      "target_type": "database",
+      "region": "us-east-1",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "independence_group": "splunk-dataset:T1580/aws_iam_accessdenied_discovery_events",
+      "denied_principal": "arn:aws:iam::731544447609:user/cloudsploit",
+      "observation_ids": [
+        "obs-6d311b50bcfd588e4c843653"
+      ],
+      "annotation_status": "provider_certificate_candidate",
+      "path_label": null,
+      "evidence_state": null
+    }
+  ],
+  "observations": [
+    {
+      "observation_id": "obs-8c7f08df27eeedebcabd9344",
+      "candidate_id": "splunk-accessdenied:ssm-describe-parameters:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:33:08Z",
+      "service": "ssm.amazonaws.com",
+      "operation": "DescribeParameters",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::731544447609:user/cloudsploit",
+      "account_id": "731544447609",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:ssm:us-east-1:731544447609:parameter-catalog/*",
+      "target_type": "secret_store",
+      "source_ip": "34.12.134.20",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::731544447609:user/cloudsploit is not authorized to perform: ssm:DescribeParameters on resource: arn:aws:ssm:us-east-1:731544447609:*"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_accessdenied_discovery_events.json",
+        "sha256": "4f52389f17745abf5fa1cf30c055d4f9d34022fcfb8e5c2544c70177da228433",
+        "record_index": 962,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-93feeedfc29c4bdb39a45c50",
+      "candidate_id": "splunk-accessdenied:secrets-list:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:33:06Z",
+      "service": "secretsmanager.amazonaws.com",
+      "operation": "ListSecrets",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::731544447609:user/cloudsploit",
+      "account_id": "731544447609",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:secretsmanager:us-east-1:731544447609:secret-catalog/*",
+      "target_type": "secret_store",
+      "source_ip": "34.12.134.20",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::731544447609:user/cloudsploit is not authorized to perform: secretsmanager:ListSecrets"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_accessdenied_discovery_events.json",
+        "sha256": "4f52389f17745abf5fa1cf30c055d4f9d34022fcfb8e5c2544c70177da228433",
+        "record_index": 986,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-f287e35e5895ccae1c41cf89",
+      "candidate_id": "splunk-accessdenied:redshift-describe:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:33:04Z",
+      "service": "redshift.amazonaws.com",
+      "operation": "DescribeClusters",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::731544447609:user/cloudsploit",
+      "account_id": "731544447609",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:redshift:us-east-1:731544447609:cluster-catalog/*",
+      "target_type": "database",
+      "source_ip": "34.12.134.20",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::731544447609:user/cloudsploit is not authorized to perform: redshift:DescribeClusters on resource: arn:aws:redshift:us-east-1:731544447609:cluster:*"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_accessdenied_discovery_events.json",
+        "sha256": "4f52389f17745abf5fa1cf30c055d4f9d34022fcfb8e5c2544c70177da228433",
+        "record_index": 1021,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-25bc762f862cab6c2bac59c0",
+      "candidate_id": "splunk-accessdenied:rds-describe:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:33:04Z",
+      "service": "rds.amazonaws.com",
+      "operation": "DescribeDBInstances",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::731544447609:user/cloudsploit",
+      "account_id": "731544447609",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:rds:us-east-1:731544447609:db-catalog/*",
+      "target_type": "database",
+      "source_ip": "34.12.134.20",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::731544447609:user/cloudsploit is not authorized to perform: rds:DescribeDBInstances on resource: arn:aws:rds:us-east-1:731544447609:db:*"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_accessdenied_discovery_events.json",
+        "sha256": "4f52389f17745abf5fa1cf30c055d4f9d34022fcfb8e5c2544c70177da228433",
+        "record_index": 1022,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-6d311b50bcfd588e4c843653",
+      "candidate_id": "splunk-accessdenied:dynamodb-list:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:34:58Z",
+      "service": "dynamodb.amazonaws.com",
+      "operation": "ListTables",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::731544447609:user/cloudsploit",
+      "account_id": "731544447609",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:dynamodb:us-east-1:731544447609:table-catalog/*",
+      "target_type": "database",
+      "source_ip": "34.12.134.20",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::731544447609:user/cloudsploit is not authorized to perform: dynamodb:ListTables on resource: arn:aws:dynamodb:us-east-1:731544447609:table/*"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_accessdenied_discovery_events.json",
+        "sha256": "4f52389f17745abf5fa1cf30c055d4f9d34022fcfb8e5c2544c70177da228433",
+        "record_index": 668,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    }
+  ]
+}

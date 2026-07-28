@@ -1,0 +1,50 @@
+{
+  "contract_id": "provider_oracle_gold_v1",
+  "version": "1.0.0",
+  "purpose": "Admit deterministic cloud-path labels derived from immutable provider-native runtime evidence without treating scripts, manuals, or AI output as ground truth.",
+  "required_source_properties": [
+    "public or author-published raw telemetry",
+    "immutable version and SHA-256",
+    "license and provenance record",
+    "no generated events"
+  ],
+  "required_path_properties": [
+    "external or low-privilege entry is defined by frozen configuration or runtime identity",
+    "at least two causal or reachability relationships",
+    "cloud data target",
+    "every critical relationship has immutable raw references",
+    "scenario and lineage deduplication"
+  ],
+  "negative_runtime_certificate": {
+    "required": [
+      "exact principal",
+      "exact operation",
+      "exact resource",
+      "provider-native explicit denial code or decision",
+      "complete query or operation scope",
+      "same-target success control or independent proof that the target exists",
+      "no contrary success by the denied principal in the same state"
+    ],
+    "verdict": "NotReachable",
+    "label_origin": "provider_native_runtime"
+  },
+  "positive_runtime_certificate": {
+    "required": [
+      "exact principal",
+      "exact successful operation",
+      "exact resource",
+      "matching audit record",
+      "all mandatory predecessor relationships supported"
+    ],
+    "verdict": "Reachable",
+    "label_origin": "provider_native_runtime"
+  },
+  "forbidden_shortcuts": [
+    "manual or walkthrough used directly as gold",
+    "missing finding interpreted as not exposed",
+    "credentials obtained interpreted as data read without a data operation",
+    "repeated retries counted as independent cases",
+    "AI or script-generated raw telemetry"
+  ],
+  "human_role": "Audit a stratified sample of semantic mappings and all source-admission disputes; do not relabel provider allow/deny decisions by intuition."
+}

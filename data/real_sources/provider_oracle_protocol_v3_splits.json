@@ -1,0 +1,37 @@
+{
+  "protocol_version": "3.0-pilot",
+  "frozen": true,
+  "statistical_unit": "independence_group",
+  "assignments": [
+    {
+      "case_id": "oracle-v3:otrf:s3-assumed-role-read",
+      "independence_group": "cloudgoat-scenario:cloud_breach_s3",
+      "split": "protocol_validation"
+    },
+    {
+      "case_id": "oracle-v3:gcp:scheduled-function-bucket-list",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "split": "protocol_validation"
+    },
+    {
+      "case_id": "oracle-v3:aws:iam-user-secret-read",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "split": "protocol_validation"
+    },
+    {
+      "case_id": "oracle-v3:gcp:low-priority-secret-read",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "split": "protocol_validation"
+    },
+    {
+      "case_id": "oracle-v3:gcp:archive-object-read",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "split": "protocol_validation"
+    },
+    {
+      "case_id": "oracle-v3:awsgoat:dynamodb-config-only",
+      "independence_group": "awsgoat:module-1",
+      "split": "protocol_validation"
+    }
+  ]
+}

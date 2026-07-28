@@ -4,13 +4,14 @@ import yaml
 from typing import Optional
 from pathlib import Path
 from datetime import datetime, timezone
+from src.graph.path_utils import get_path_edge
 
 CONFIG_PATH = Path(__file__).parent.parent.parent / "configs" / "thresholds.yaml"
 
 
 def load_config(path: str = None) -> dict:
     p = path or CONFIG_PATH
-    with open(p) as f:
+    with open(p, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
@@ -43,7 +44,7 @@ def compute_evidence_vector(G, path: list) -> dict:
     reach_product = 1.0
     has_reach_edge = False
     for i in range(len(path) - 1):
-        edge_data = _get_edge(G, path[i], path[i + 1])
+        edge_data = get_path_edge(G, path, i)
         if edge_data and edge_data.get("edge_type") == "can_connect":
             reach_product *= edge_data.get("strength", 0.5)
             has_reach_edge = True
@@ -53,13 +54,13 @@ def compute_evidence_vector(G, path: list) -> dict:
     perm_min = 1.0
     has_perm = False
     for i in range(len(path) - 1):
-        edge_data = _get_edge(G, path[i], path[i + 1])
+        edge_data = get_path_edge(G, path, i)
         if edge_data and edge_data.get("edge_type") == "has_permission":
             perm_min = min(perm_min, edge_data.get("strength", 0.5))
             has_perm = True
     # 也检查 can_assume 链
     for i in range(len(path) - 1):
-        edge_data = _get_edge(G, path[i], path[i + 1])
+        edge_data = get_path_edge(G, path, i)
         if edge_data and edge_data.get("edge_type") == "can_assume":
             perm_min = min(perm_min, edge_data.get("strength", 0.5))
             has_perm = True
@@ -202,6 +203,151 @@ def evaluate_path(G, path: list, config: dict = None) -> dict:
     return result
 
 
+HARD_DIMS = ["entry", "reach", "perm"]
+ALL_DIMS = ["entry", "reach", "perm", "target", "sense", "temporal"]
+DIM_EDGE_TYPES = {
+    "reach": {"can_connect"},
+    "perm": {"has_permission", "can_assume"},
+    "target": {"classified_as", "contains"},
+    "sense": {"classified_as", "accessed"},
+}
+
+
+def evidence_status(G, path: list, dim: str, config: dict = None) -> str:
+    """Return T/F/U for one evidence dimension using semantic evidence status.
+
+    T means visible evidence supports the dimension, F means visible evidence
+    explicitly contradicts it, and U means the required evidence is absent or
+    unknown in the partial graph. Numeric strength is a risk/severity signal,
+    not by itself a refutation.
+    """
+    if dim == "entry":
+        start_data = G.nodes.get(path[0], {}) if path else {}
+        if start_data.get("public_exposed", False) or start_data.get("is_external", False):
+            return "T"
+        return "T" if start_data.get("node_type") in ("Network", "Identity") else "U"
+
+    if dim == "perm" and not _permission_applicable(G, path):
+        return "T"
+
+    if dim == "temporal":
+        return _temporal_status(G, path)
+
+    if dim in ("target", "sense"):
+        return _target_status(G, path)
+
+    statuses = []
+    edge_types = DIM_EDGE_TYPES.get(dim, set())
+    for i in range(len(path) - 1):
+        edge_data = get_path_edge(G, path, i)
+        if edge_data and edge_data.get("edge_type") in edge_types:
+            statuses.append(edge_data.get("status", "Supported"))
+    if "Contradicted" in statuses:
+        return "F"
+    if "Unknown" in statuses:
+        return "U"
+    if "Supported" in statuses:
+        return "T"
+    return "U"
+
+
+def _permission_applicable(G, path: list) -> bool:
+    if any(G.nodes.get(node, {}).get("node_type") == "Identity" for node in path):
+        return True
+    for i in range(len(path) - 1):
+        edge_data = get_path_edge(G, path, i)
+        if edge_data and edge_data.get("edge_type") in {"has_permission", "can_assume"}:
+            return True
+    return False
+
+
+def _target_status(G, path: list) -> str:
+    statuses = []
+    for node in path:
+        if G.nodes.get(node, {}).get("node_type") == "SensitiveTag":
+            return "T"
+    for i in range(len(path) - 1):
+        edge_data = get_path_edge(G, path, i)
+        if edge_data and edge_data.get("edge_type") == "classified_as":
+            statuses.append(edge_data.get("status", "Supported"))
+    end = path[-1] if path else None
+    if end:
+        for _, target, edge_data in G.edges(end, data=True):
+            if edge_data.get("edge_type") == "classified_as":
+                statuses.append(edge_data.get("status", "Supported"))
+    if "Contradicted" in statuses:
+        return "F"
+    if "Supported" in statuses:
+        return "T"
+    if "Unknown" in statuses:
+        return "U"
+    return "U"
+
+
+def _temporal_status(G, path: list) -> str:
+    saw_edge = False
+    for i in range(len(path) - 1):
+        edge_data = get_path_edge(G, path, i)
+        if not edge_data:
+            continue
+        saw_edge = True
+        if edge_data.get("temporal_conflict"):
+            return "F"
+        timestamp = edge_data.get("time") or edge_data.get("observed_at") or edge_data.get("t")
+        if not timestamp or _parse_time(timestamp) is None:
+            return "U"
+    return "T" if saw_edge else "U"
+
+
+def _parse_time(value):
+    try:
+        return datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return None
+
+
+def verify_path(G, path: list, config: dict = None) -> dict:
+    """Classify a path as Valid, Invalid, or Insufficient using T/F/U evidence."""
+    statuses = {dim: evidence_status(G, path, dim, config) for dim in ALL_DIMS}
+    if any(status == "F" for status in statuses.values()):
+        state = "Invalid"
+    elif any(status == "U" for status in statuses.values()):
+        state = "Insufficient"
+    else:
+        state = "Valid"
+    return {
+        "state": state,
+        "statuses": statuses,
+        "missing": [dim for dim, status in statuses.items() if status == "U"],
+        "refuted": [dim for dim, status in statuses.items() if status == "F"],
+    }
+
+
+def _dim_threshold(dim: str, config: dict) -> float:
+    if dim in config.get("gate_thresholds", {}):
+        return config["gate_thresholds"][dim]
+    return 1e-6
+
+
+def _dim_evidence_present(G, path: list, dim: str) -> bool:
+    if not path:
+        return False
+    if dim == "entry":
+        node_data = G.nodes.get(path[0], {})
+        return node_data.get("node_type") in ("Network", "Identity")
+    if dim in ("target", "sense"):
+        if any(G.nodes.get(node, {}).get("node_type") == "SensitiveTag" for node in path):
+            return True
+    edge_types = DIM_EDGE_TYPES.get(dim, set())
+    for i in range(len(path) - 1):
+        edge_data = get_path_edge(G, path, i)
+        if edge_data and edge_data.get("edge_type") in edge_types:
+            if edge_data.get("status") == "Unknown":
+                continue
+            return True
+    return False
+
+
 # ════════════════════════════════════════════════
 # 逐维证据计算（支持"逐维查 + 当场判 + 不达标即停"）
 # ════════════════════════════════════════════════
@@ -236,7 +382,7 @@ def compute_one_dimension(G, path: list, dim: str) -> float:
         reach_product = 1.0
         has_reach_edge = False
         for i in range(len(path) - 1):
-            edge_data = _get_edge(G, path[i], path[i + 1])
+            edge_data = get_path_edge(G, path, i)
             if edge_data and edge_data.get("edge_type") == "can_connect":
                 reach_product *= edge_data.get("strength", 0.5)
                 has_reach_edge = True
@@ -246,7 +392,7 @@ def compute_one_dimension(G, path: list, dim: str) -> float:
         perm_min = 1.0
         has_perm = False
         for i in range(len(path) - 1):
-            edge_data = _get_edge(G, path[i], path[i + 1])
+            edge_data = get_path_edge(G, path, i)
             if edge_data and edge_data.get("edge_type") in ("has_permission", "can_assume"):
                 perm_min = min(perm_min, edge_data.get("strength", 0.5))
                 has_perm = True

@@ -1,0 +1,480 @@
+{
+  "protocol_version": "3.0-pilot",
+  "dataset_role": "agent_visible",
+  "research_effectiveness_result": false,
+  "warning": "Protocol construction and method validation only: five provider-oracle cases plus one epistemic Unknown control are insufficient for population-level effectiveness claims.",
+  "policy": {
+    "generated_cloud_events": 0,
+    "gold_file_loaded_by_agent": false,
+    "same_tool_schema_for_all_cases": true,
+    "unknown_is_not_denial": true
+  },
+  "cases": [
+    {
+      "candidate_id": "oracle-v3:otrf:s3-assumed-role-read",
+      "source_id": "otrf_security_datasets",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the observed assumed-role principal reaches an S3 data object through the evidenced operations.",
+      "environment": "published CloudGoat-linked AWS lab telemetry",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-c16dbed0ccd551fdb2e7b053",
+        "obs-v3-39d2889daaa75cbd9218af11"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v3:gcp:scheduled-function-bucket-list",
+      "source_id": "cross_cloud_observability_2026",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the scheduled function's service account can enumerate the exact Cloud Storage bucket.",
+      "environment": "DOI-published controlled GCP subscription telemetry",
+      "platform": "GCP",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-90b5c4a0b9ee047df2a1ce81",
+        "obs-v3-1eafdc9b4c8831bb5c8bf030",
+        "obs-v3-66ba69c718f98a6a144e43fb",
+        "obs-v3-ceef8085781bc75964a469ab"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v3:aws:iam-user-secret-read",
+      "source_id": "cross_cloud_observability_2026",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the observed low-privilege principal reaches the exact managed-secret target through the evidenced API call.",
+      "environment": "DOI-published controlled AWS subscription telemetry",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-6d1bcfaaa03a5aa65b5c87b4"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v3:gcp:low-priority-secret-read",
+      "source_id": "cross_cloud_observability_2026",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the observed low-privilege principal reaches the exact managed-secret target through the evidenced API call.",
+      "environment": "DOI-published controlled GCP subscription telemetry",
+      "platform": "GCP",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-36b7ad61f0bc2a4897aaf382"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v3:gcp:archive-object-read",
+      "source_id": "cross_cloud_observability_2026",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the observed service account enumerates the bucket and reads an exact object.",
+      "environment": "DOI-published controlled GCP subscription telemetry",
+      "platform": "GCP",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-19fcdfeb264d0b80f5ddc5d7",
+        "obs-v3-f9fe230975462d9e8d4b194a"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v3:awsgoat:dynamodb-config-only",
+      "source_id": "awsgoat",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the stated low-privilege application entry can reach the declared DynamoDB data target. Only frozen configuration is available in this episode.",
+      "environment": "pinned executable-lab Terraform; deployment not run",
+      "platform": "AWS",
+      "evidence_layers": [
+        "configuration"
+      ],
+      "observation_ids": [
+        "obs-v3-f496c1496cca3981741f183a"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    }
+  ],
+  "observations": [
+    {
+      "observation_id": "obs-v3-c16dbed0ccd551fdb2e7b053",
+      "candidate_id": "oracle-v3:otrf:s3-assumed-role-read",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2020-09-14T01:00:33.000Z",
+      "service": "s3.amazonaws.com",
+      "operation": "ListObjects",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+      "source_ip": "1.2.3.4",
+      "account_id": "123456789123",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "request": {
+        "prefix": "",
+        "encoding-type": "url",
+        "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
+        "list-type": "2",
+        "bucketName": "mordors3stack-s3bucket-llp2yingx64a"
+      },
+      "response": null,
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+        "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+        "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+        "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+        "record_index": 44,
+        "event_id": "bf575a0c-c344-4302-a468-00e6a84a127a"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "mordors3stack-s3bucket-llp2yingx64a"
+    },
+    {
+      "observation_id": "obs-v3-39d2889daaa75cbd9218af11",
+      "candidate_id": "oracle-v3:otrf:s3-assumed-role-read",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2020-09-14T01:02:34.000Z",
+      "service": "s3.amazonaws.com",
+      "operation": "GetObject",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+      "source_ip": "1.2.3.4",
+      "account_id": "123456789123",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "request": {
+        "key": "ring.txt",
+        "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
+        "bucketName": "mordors3stack-s3bucket-llp2yingx64a"
+      },
+      "response": null,
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+        "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+        "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+        "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+        "record_index": 79,
+        "event_id": "771299cb-e200-4926-9604-c85358b30499"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "mordors3stack-s3bucket-llp2yingx64a/ring.txt"
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2025-09-24T03:58:35.598138889Z",
+      "service": "cloudfunctions.googleapis.com",
+      "operation": "google.cloud.functions.v2.FunctionService.CreateFunction",
+      "actor_type": "serviceAccount",
+      "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": null,
+      "account_id": "PROJECT_ID",
+      "region": null,
+      "event_status": "SuccessOrUnspecified",
+      "request": "null\nresource=projects/PROJECT_ID/locations/us-central1/functions/check-bucket-changes",
+      "response": "{\"@type\": \"type.googleapis.com/google.cloud.functions.v2.Function\", \"buildConfig\": {\"automaticUpdatePolicy\": {}, \"dockerRegistry\": \"ARTIFACT_REGISTRY\", \"dockerRepository\": \"projects/PROJECT_ID/locations/us-central1/repositories/gcf-artifacts\", \"entryPoint\": \"check_bucket_changes\", \"runtime\": \"python310\", \"source\": {}}, \"createTime\": \"2025-09-24T03:56:18.402899270Z\", \"environment\": \"GEN_2\", \"labels\": {\"deployment-tool\": \"cli-gcloud\"}, \"name\": \"projects/PROJECT_ID/locations/us-central1/functions/check-bucket-changes\", \"satisfiesPzi\": true, \"serviceConfig\": {\"allTrafficOnLatestRevision\": true, \"availableCpu\": \"0.1666\", \"availableMemory\": \"256M\", \"ingressSettings\": \"ALLOW_ALL\", \"maxInstanceCount\": 100, \"maxInstanceRequestConcurrency\": 1, \"revision\": \"check-bucket-changes-00001-kiv\", \"serviceAccountEmail\": \"quickstart-service-account71@PROJECT_ID.iam.gserviceaccount.com\", \"timeoutSeconds\": 60, \"uri\": \"https://check-bucket-changes-rnxsa3u3jq-uc.a.run.app\"}, \"state\": \"ACTIVE\", \"updateTime\": \"2025-09-24T03:56:18.402899270Z\", \"url\": \"https://us-central1-PROJECT_ID.cloudfunctions.net/check-bucket-changes\"}",
+      "observation_id": "obs-v3-90b5c4a0b9ee047df2a1ce81",
+      "candidate_id": "oracle-v3:gcp:scheduled-function-bucket-list",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+        "record_index": 152,
+        "upstream_path": "member-a9c86a96df498e05",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "check-bucket-changes function"
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2025-09-24T03:58:39.207532889Z",
+      "service": "cloudscheduler.googleapis.com",
+      "operation": "google.cloud.scheduler.v1.CloudScheduler.CreateJob",
+      "actor_type": "unknown",
+      "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": "IP",
+      "account_id": "PROJECT_ID",
+      "region": null,
+      "event_status": "SuccessOrUnspecified",
+      "request": "{\"@type\": \"type.googleapis.com/google.cloud.scheduler.v1.CreateJobRequest\", \"job\": {\"name\": \"projects/PROJECT_ID/locations/us-central1/jobs/check-bucket-changes-job\", \"retryConfig\": {\"maxBackoffDuration\": \"3600s\", \"maxDoublings\": 5, \"minBackoffDuration\": \"5s\", \"retryCount\": 0}, \"schedule\": \"*/1 * * * *\", \"timeZone\": \"UTC\"}, \"parent\": \"projects/PROJECT_ID/locations/us-central1\"}\nresource=projects/PROJECT_ID/locations/us-central1",
+      "response": "{\"@type\": \"type.googleapis.com/google.cloud.scheduler.v1.Job\", \"name\": \"projects/PROJECT_ID/locations/us-central1/jobs/check-bucket-changes-job\", \"retryConfig\": {\"maxBackoffDuration\": \"3600s\", \"maxDoublings\": 5, \"maxRetryDuration\": \"0s\", \"minBackoffDuration\": \"5s\"}, \"schedule\": \"*/1 * * * *\", \"state\": \"ENABLED\", \"timeZone\": \"UTC\", \"userUpdateTime\": \"2025-09-24T03:58:40Z\"}",
+      "observation_id": "obs-v3-1eafdc9b4c8831bb5c8bf030",
+      "candidate_id": "oracle-v3:gcp:scheduled-function-bucket-list",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+        "record_index": 142,
+        "upstream_path": "member-a9c86a96df498e05",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "check-bucket-changes scheduler job"
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2025-09-24T04:03:05.786046721Z",
+      "service": "storage.googleapis.com",
+      "operation": "storage.objects.list",
+      "actor_type": "unknown",
+      "actor_id": "quickstart-service-account71@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": "2600:1900:0:2d05::1d01",
+      "account_id": "PROJECT_ID",
+      "region": "us-central1",
+      "event_status": "Code:7",
+      "request": "null\nresource=projects/_/buckets/storage_bucket71",
+      "response": "null",
+      "observation_id": "obs-v3-66ba69c718f98a6a144e43fb",
+      "candidate_id": "oracle-v3:gcp:scheduled-function-bucket-list",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+        "record_index": 60,
+        "upstream_path": "member-a9c86a96df498e05",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "deny",
+      "target_resource": "projects/_/buckets/storage_bucket71"
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2025-09-24T04:03:58.698611090Z",
+      "service": "storage.googleapis.com",
+      "operation": "storage.objects.list",
+      "actor_type": "unknown",
+      "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": "IP",
+      "account_id": "PROJECT_ID",
+      "region": "us-central1",
+      "event_status": "SuccessOrUnspecified",
+      "request": "null\nresource=projects/_/buckets/storage_bucket71",
+      "response": "null",
+      "observation_id": "obs-v3-ceef8085781bc75964a469ab",
+      "candidate_id": "oracle-v3:gcp:scheduled-function-bucket-list",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+        "record_index": 4,
+        "upstream_path": "member-a9c86a96df498e05",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "allow_control_different_principal",
+      "target_resource": "projects/_/buckets/storage_bucket71"
+    },
+    {
+      "schema": "aws_cloudtrail",
+      "timestamp": "2024-12-03T03:51:35Z",
+      "service": "secretsmanager.amazonaws.com",
+      "operation": "GetSecretValue",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::ACCOUNT_ID:user/myusername2860",
+      "source_ip": "IP",
+      "account_id": "ACCOUNT_ID",
+      "region": "us-east-1",
+      "event_status": "SuccessOrUnspecified",
+      "request": "{\"secretId\": \"rootkey\"}\nresource=[]",
+      "response": "null",
+      "observation_id": "obs-v3-6d1bcfaaa03a5aa65b5c87b4",
+      "candidate_id": "oracle-v3:aws:iam-user-secret-read",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "9a4c149ade5d5d0c45097b0d27304b7fd774c0386d24372ef89a748b3d7224c8",
+        "record_index": 38,
+        "upstream_path": "member-9a4c149ade5d5d0c",
+        "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "[]"
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2024-11-01T21:07:17.635465538Z",
+      "service": "secretmanager.googleapis.com",
+      "operation": "google.cloud.secretmanager.v1.SecretManagerService.AccessSecretVersion",
+      "actor_type": "serviceAccount",
+      "actor_id": "low-priority-account251@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": "IP",
+      "account_id": "PROJECT_ID",
+      "region": null,
+      "event_status": "SuccessOrUnspecified",
+      "request": "{\"@type\": \"type.googleapis.com/google.cloud.secretmanager.v1.AccessSecretVersionRequest\", \"name\": \"projects/PROJECT_ID/secrets/my-secret/versions/latest\"}\nresource=projects/815467646559/secrets/my-secret/versions/latest",
+      "response": "null",
+      "observation_id": "obs-v3-36b7ad61f0bc2a4897aaf382",
+      "candidate_id": "oracle-v3:gcp:low-priority-secret-read",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "141b0d3968e57f715613c40640445fffdc2adda1ef798dffbbe9de2f50e62dbc",
+        "record_index": 5,
+        "upstream_path": "member-141b0d3968e57f71",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "projects/815467646559/secrets/my-secret/versions/latest"
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2024-10-31T19:29:40.177805113Z",
+      "service": "storage.googleapis.com",
+      "operation": "storage.objects.list",
+      "actor_type": "unknown",
+      "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": "IP",
+      "account_id": "PROJECT_ID",
+      "region": "us",
+      "event_status": "SuccessOrUnspecified",
+      "request": "null\nresource=projects/_/buckets/opaque-resource-66ed45d2539840c2",
+      "response": "null",
+      "observation_id": "obs-v3-19fcdfeb264d0b80f5ddc5d7",
+      "candidate_id": "oracle-v3:gcp:archive-object-read",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "a83d066bd75aaea72809e7bf2bee7dc4a2b275e8f39ec56203cbaef482588a8d",
+        "record_index": 23,
+        "upstream_path": "member-a83d066bd75aaea7",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "projects/_/buckets/opaque-resource-66ed45d2539840c2"
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2024-10-31T19:29:50.490091260Z",
+      "service": "storage.googleapis.com",
+      "operation": "storage.objects.get",
+      "actor_type": "unknown",
+      "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": "IP",
+      "account_id": "PROJECT_ID",
+      "region": "us",
+      "event_status": "SuccessOrUnspecified",
+      "request": "null\nresource=projects/_/buckets/opaque-resource-66ed45d2539840c2/objects/test_9.txt",
+      "response": "null",
+      "observation_id": "obs-v3-f9fe230975462d9e8d4b194a",
+      "candidate_id": "oracle-v3:gcp:archive-object-read",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "a83d066bd75aaea72809e7bf2bee7dc4a2b275e8f39ec56203cbaef482588a8d",
+        "record_index": 4,
+        "upstream_path": "member-a83d066bd75aaea7",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "projects/_/buckets/opaque-resource-66ed45d2539840c2/objects/test_9.txt"
+    },
+    {
+      "observation_id": "obs-v3-f496c1496cca3981741f183a",
+      "candidate_id": "oracle-v3:awsgoat:dynamodb-config-only",
+      "schema": "terraform_hcl",
+      "timestamp": null,
+      "evidence_layer": "configuration",
+      "oracle_kind": "frozen Terraform syntax validation",
+      "scope_completeness": "unknown",
+      "provider_decision": "not_run",
+      "service": "dynamodb.amazonaws.com",
+      "operation": "FrozenTerraformConfiguration",
+      "actor_type": "configuration",
+      "actor_id": null,
+      "account_id": null,
+      "region": null,
+      "event_status": "ConfigurationObserved",
+      "target_resource": "blog-users DynamoDB table",
+      "source_ip": null,
+      "request": {
+        "expected_fragments": [
+          "resource \"aws_api_gateway_method\" \"endpoint\"",
+          "authorization = \"NONE\""
+        ],
+        "literal_interpretation": "The API Gateway method is configured without API Gateway authorization."
+      },
+      "response": {
+        "provider_native_analysis": "not_run",
+        "authorized_runtime_probe": "not_run"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/awsgoat/b24869ad455ed8d1393d00ecdc15ee638d1c1332/snapshot.zip",
+        "archive_sha256": "5f79c2b8dfbd2993ee69454bc5707a293ee6b17f22337a94c05b48ae33793a70",
+        "member_path": "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-1/main.tf",
+        "member_sha256": "f2e98b5e148d66d7ac3b44349ce71e4114e1343ed7861312a7e343f423541e73",
+        "line_scope": "literal fragments; exact line numbers not normalized"
+      },
+      "path_label": null,
+      "evidence_state": null
+    }
+  ]
+}
