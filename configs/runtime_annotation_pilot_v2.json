@@ -1,0 +1,66 @@
+{
+  "protocol_id": "runtime_annotation_pilot_v2",
+  "protocol_status": "frozen_before_human_labels",
+  "packet_version": "0.2",
+  "supersedes": {
+    "protocol_id": "runtime_annotation_pilot_v1",
+    "reason": "A third independently published real runtime source was verified before any pilot annotation began; v2 adds complete Stratus detonation groups without using labels."
+  },
+  "base_packet": "data/real_sources/annotation/expanded_full_pool_unlabeled.json",
+  "base_packet_sha256": "25ebfe2b63c50225c071556d101f8f78e157b9f8a6eba04c5b4328ec062823db",
+  "selection_rule": {
+    "kind": "complete_independence_group_whitelist",
+    "allowed_inputs": [
+      "source.source_id",
+      "candidate_metadata.independence_group",
+      "candidate_metadata.platform",
+      "runtime_instances.platform",
+      "runtime_instances.observation_count"
+    ],
+    "forbidden_inputs": [
+      "admission_screen",
+      "annotation",
+      "nodes",
+      "edges",
+      "path_labels",
+      "tool_tasks",
+      "instance_labels",
+      "human_annotation",
+      "model_output"
+    ],
+    "independence_groups": [
+      "crosscloud-family:automated_collection",
+      "crosscloud-family:credentials_from_password_stores",
+      "crosscloud-family:data_destruction",
+      "crosscloud-family:data_manipulation",
+      "splunk-technique:T1098.001",
+      "splunk-technique:T1110.002",
+      "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "splunk-technique:T1486",
+      "splunk-technique:T1490",
+      "splunk-technique:T1537",
+      "stratus-technique:T1552.005",
+      "stratus_red_team:stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "stratus-technique:T1496.A007"
+    ]
+  },
+  "expected": {
+    "case_count": 23,
+    "runtime_instance_count": 35,
+    "independence_group_count": 14,
+    "observation_count": 389,
+    "source_case_counts": {
+      "cross_cloud_observability_2026": 12,
+      "splunk_attack_data": 7,
+      "stratus_red_team": 4
+    },
+    "platform_instance_counts": {
+      "AWS": 18,
+      "AZURE": 9,
+      "GCP": 8
+    },
+    "crosscloud_cases_per_group": 3,
+    "crosscloud_instances_per_group": 6
+  }
+}

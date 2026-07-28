@@ -1,0 +1,76 @@
+{
+  "protocol_version": "5.0-pilot",
+  "experiment_id": "provider_oracle_path_state_v5_pilot",
+  "purpose": "Validate tri-state path decisions and CP-Cert behavior with an additional exact same-request S3/KMS negative certificate.",
+  "data": {
+    "public_packet": "data/real_sources/provider_oracle_protocol_v5_public.json",
+    "evaluator_gold": "data/real_sources/provider_oracle_protocol_v5_gold.json",
+    "split_manifest": "data/real_sources/provider_oracle_protocol_v5_splits.json",
+    "human_gold_cases": 0,
+    "provider_oracle_gold_cases": 8,
+    "epistemic_control_cases": 5
+  },
+  "execution": {
+    "orchestration_backend": "linear",
+    "task_mode": "path_discovery",
+    "max_steps": 12,
+    "max_path_candidates": 5,
+    "budget_grid": [2, 4, 8],
+    "random_seeds": [1729, 2718, 3141, 5772, 8111]
+  },
+  "methods": [
+    {
+      "method_id": "provider_aware_cp_cert",
+      "family": "deterministic",
+      "policy": "ProviderAwarePathPolicy",
+      "pareto_guard": true,
+      "external_rule_prior": true,
+      "four_value_memory": true,
+      "budget_stop": true,
+      "finish_guard_mode": "strict"
+    },
+    {
+      "method_id": "fixed_order",
+      "family": "deterministic",
+      "policy": "FixedOrderPathPolicy",
+      "pareto_guard": false,
+      "external_rule_prior": false,
+      "four_value_memory": false,
+      "budget_stop": false,
+      "finish_guard_mode": "record"
+    },
+    {
+      "method_id": "full_query",
+      "family": "deterministic",
+      "policy": "FullQueryPathPolicy",
+      "pareto_guard": false,
+      "external_rule_prior": false,
+      "four_value_memory": false,
+      "budget_stop": false,
+      "finish_guard_mode": "record"
+    },
+    {
+      "method_id": "random_tool",
+      "family": "randomized",
+      "policy": "RandomToolPathPolicy",
+      "pareto_guard": false,
+      "external_rule_prior": false,
+      "four_value_memory": false,
+      "budget_stop": false,
+      "finish_guard_mode": "record"
+    }
+  ],
+  "reporting": {
+    "research_effectiveness_result": false,
+    "statistical_unit": "independence_group",
+    "forbid_replicate_runs_as_independent_cases": true,
+    "required_metrics": [
+      "provider_gold_state_accuracy",
+      "correct_rejection_rate",
+      "unknown_control_abstention_rate",
+      "false_reachable_rate",
+      "mean_query_cost",
+      "gold_path_edge_f1"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "gate_id": "human_annotation_pilot_gate_v2",
+  "protocol_status": "frozen_before_pilot_results",
+  "pilot_packet": "data/real_sources/annotation/runtime_pilot_round2_unlabeled.json",
+  "required_cases": 23,
+  "minimum_accepted_cases": 15,
+  "minimum_accepted_runtime_instances": 24,
+  "minimum_accepted_source_count": 3,
+  "minimum_accepted_platform_instances": {
+    "AWS": 8,
+    "AZURE": 4,
+    "GCP": 4
+  },
+  "agreement_thresholds": {
+    "admission_exact_agreement": 0.8,
+    "admission_cohen_kappa_if_defined": 0.6,
+    "mean_edge_identity_f1": 0.7,
+    "minimum_matched_edge_state_count": 15,
+    "edge_state_macro_f1_on_matched_edges": 0.7,
+    "minimum_matched_path_state_count": 15,
+    "path_state_cohen_kappa_if_defined": 0.6,
+    "minimum_matched_instance_state_count": 24,
+    "instance_state_cohen_kappa_if_defined": 0.6,
+    "instance_state_macro_f1": 0.7
+  },
+  "undefined_kappa_policy": "allow_only_when_the_corresponding_observed_agreement_is_1.0",
+  "unresolved_needs_execution_allowed": false,
+  "all_disputes_must_be_adjudicated": true,
+  "failure_action": "revise_the_human_guide_or_data_sources_and_repeat_the_pilot_before_main_evaluation"
+}

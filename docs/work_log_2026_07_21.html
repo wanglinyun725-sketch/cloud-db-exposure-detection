@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CloudDB PathBench · 2026.07.21 工作记录</title>
+<style>
+:root{
+  --bg:#eef1f6; --panel:#ffffff; --ink:#1e293b; --muted:#64748b; --line:#d7dee8;
+  --green:#16a34a; --blue:#2563eb; --amber:#d97706; --teal:#0d9488; --rose:#e11d48; --cyan:#0891b2; --violet:#7c3aed; --slate:#475569;
+  --display:"Arial Black","Arial Bold",Gadget,"PingFang SC","Microsoft YaHei",sans-serif;
+  --body:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --mono:"SF Mono",SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.65}
+body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(#c3cddc 1px,transparent 1px);background-size:24px 24px;opacity:.45;pointer-events:none;z-index:0}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+/* header board */
+.board{background:#0f1b2e;color:#f1f5f9;padding:52px 0 42px;border-bottom:6px solid var(--green);position:relative;overflow:hidden}
+.board::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+.board .wrap{position:relative;z-index:2}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#7dd3fc;margin-bottom:14px}
+.board h1{font-family:var(--display);font-size:clamp(30px,4.6vw,52px);line-height:1.12;letter-spacing:-.01em;margin-bottom:14px}
+.board h1 em{font-style:normal;color:#4ade80}
+.board .sub{color:#94a3b8;font-size:15px;max-width:660px;margin-bottom:32px}
+.lanes{display:flex;flex-direction:column;gap:12px;max-width:780px}
+.lane{display:grid;grid-template-columns:190px 1fr auto;align-items:center;gap:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-left:4px solid var(--c);border-radius:10px;padding:10px 16px;transition:transform .25s ease,background .25s ease}
+.lane:hover{transform:translateX(6px);background:rgba(255,255,255,.09)}
+.lane .name{font-family:var(--mono);font-size:13px;font-weight:700;color:#e2e8f0;white-space:nowrap}
+.lane .track{position:relative;height:2px;background:rgba(255,255,255,.18);border-radius:2px}
+.lane .track i{position:absolute;top:50%;left:0;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c);animation:laneDot 2.6s ease-in-out infinite}
+.lane:nth-child(2) .track i{animation-delay:.5s}
+.lane:nth-child(3) .track i{animation-delay:1s}
+@keyframes laneDot{0%{left:0;opacity:0}12%{opacity:1}88%{opacity:1}100%{left:calc(100% - 9px);opacity:0}}
+.lane .tag{font-size:12px;font-weight:700;color:var(--c);white-space:nowrap}
+
+/* sections */
+section.block{padding:50px 0 6px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+h2.sec{font-family:var(--display);font-size:clamp(22px,3vw,32px);letter-spacing:-.01em;margin-bottom:6px}
+p.lede{color:var(--muted);font-size:15px;max-width:740px;margin-bottom:24px}
+
+/* flow nodes */
+.phase{margin-top:22px}
+.phase-label{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.phase-label .num{font-family:var(--display);font-size:15px;color:#fff;background:var(--tc);width:26px;height:26px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+.phase-label .ttl{font-weight:800;font-size:15.5px}
+.phase-label .cat{font-family:var(--mono);font-size:11px;color:var(--tc);border:1px solid currentColor;border-radius:999px;padding:1px 9px}
+.chain{display:flex;align-items:center;flex-wrap:wrap;gap:8px 6px}
+.node{border:1.6px solid;border-radius:9px;padding:7px 13px;font-size:13px;font-weight:700;background:#fff;white-space:nowrap;transition:transform .2s ease,box-shadow .2s ease;cursor:default}
+.node:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(15,27,46,.14)}
+.node small{display:block;font-weight:500;font-size:10.5px;color:var(--muted);white-space:nowrap}
+.n-c1{color:var(--blue);border-color:#a3c4fb;background:#eff6ff}
+.n-c2{color:var(--green);border-color:#93e2ac;background:#f0fdf4}
+.n-data{color:var(--amber);border-color:#f4c97c;background:#fffbeb}
+.n-sddp{color:var(--rose);border-color:#f6a8b6;background:#fff1f3}
+.n-viz{color:var(--cyan);border-color:#8ce0ee;background:#ecfeff}
+.n-docs{color:var(--violet);border-color:#c9b8f5;background:#f7f4ff}
+.n-output{font-family:var(--mono);font-size:11.5px;font-weight:600;color:#334155;border-color:#cbd5e1;background:#f8fafc;white-space:normal;max-width:340px}
+.conn{position:relative;flex:0 0 30px;height:2px;background:#c8d2e0;align-self:center}
+.conn::after{content:"";position:absolute;top:50%;left:0;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:var(--tc);animation:flowDot 1.9s ease-in-out infinite}
+@keyframes flowDot{0%{left:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{left:calc(100% - 7px);opacity:0}}
+.branch{border-left:3px dashed #cbd5e1;margin:10px 0 10px 12px;padding:4px 0 4px 18px}
+.branch .btag{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;display:block}
+.phase-note{font-size:12.5px;color:var(--muted);margin-top:10px;font-family:var(--mono)}
+.phase-note b{color:var(--tc)}
+.vsep{height:14px}
+
+/* table */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 2px 10px rgba(15,27,46,.06);overflow:hidden}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:840px;font-size:14px}
+th,td{padding:12px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+thead th{background:#f4f7fb;font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--slate);white-space:nowrap}
+tbody tr{transition:background .2s ease}
+tbody tr:hover{background:#f8fafd}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap;width:150px;color:#0f172a}
+.good{color:var(--green);font-weight:700}.warn{color:var(--amber);font-weight:700}.no{color:var(--rose);font-weight:700}
+.col-c1{border-left:3px solid var(--blue)} .col-c2{border-left:3px solid var(--green)} .col-sddp{border-left:3px solid var(--rose)}
+
+/* metrics cards */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:20px 0}
+.metric-card{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:12px;padding:18px 20px;transition:transform .22s ease,box-shadow .22s ease}
+.metric-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(15,27,46,.1)}
+.metric-card .label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.metric-card .value{font-family:var(--display);font-size:28px;font-weight:700;color:var(--c);line-height:1.1}
+.metric-card .desc{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* timeline */
+.timeline{position:relative;padding-left:40px;margin:30px 0}
+.timeline::before{content:"";position:absolute;left:13px;top:0;bottom:0;width:2px;background:var(--line)}
+.tl-item{position:relative;margin-bottom:24px;padding-left:20px}
+.tl-item::before{content:"";position:absolute;left:-27px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--c);border:3px solid var(--bg);box-shadow:0 0 0 2px var(--c)}
+.tl-item .time{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:4px}
+.tl-item .title{font-weight:700;font-size:15px;margin-bottom:4px}
+.tl-item .desc{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+footer{padding:44px 0 60px;color:var(--muted);font-size:13px}
+footer .rule{height:1px;background:var(--line);margin-bottom:18px}
+@media (max-width:820px){
+  .lane{grid-template-columns:1fr;gap:8px}
+  .board{padding:40px 0 32px}
+  .metrics{grid-template-columns:1fr}
+  .phase{padding:20px 16px 24px}
+}
+</style>
+</head>
+<body>
+
+<header class="board">
+  <div class="wrap">
+    <p class="eyebrow">CloudDB PathBench · Technical Showcase · 2026.07.21</p>
+    <h1>CloudDB PathBench <em>技术工作展示</em></h1>
+    <p class="sub">本页面用于展示 2026.07.21 围绕 CloudDB PathBench 完成的技术工作：C1 异构云证据语义化、C2 反证感知路径搜索、SDDP 数据切片接入、交互式图谱可视化、实验脚本与论文材料整理。页面只描述已完成模块、实验记录和已知边界，不对论文等级作结论性评价。</p>
+    <div class="lanes">
+      <div class="lane" style="--c:#60a5fa"><span class="name">C1 证据语义化</span><span class="track"><i></i></span><span class="tag">6 维证据边</span></div>
+      <div class="lane" style="--c:#4ade80"><span class="name">C2 路径搜索实验</span><span class="track"><i></i></span><span class="tag">R@K · MRR · FPR</span></div>
+      <div class="lane" style="--c:#f43f5e"><span class="name">SDDP 数据切片</span><span class="track"><i></i></span><span class="tag">152 节点 · 195 边</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 核心成果 -->
+  <section class="block">
+    <p class="kicker reveal">Core Metrics · 核心成果</p>
+    <h2 class="sec reveal">关键指标</h2>
+    <p class="lede reveal">C1/C2 当前实验记录与 SDDP 数据切片规模。以下指标用于说明本轮技术工作效果，真实泛化能力仍需后续 held-out 数据和真实脱敏数据验证。</p>
+
+    <div class="metrics reveal">
+      <div class="metric-card" style="--c:var(--blue)">
+        <div class="label">C1 · 语义一致性检查</div>
+        <div class="value">672/672</div>
+        <div class="desc">当前主语料标签与验证器实现一致</div>
+      </div>
+      <div class="metric-card" style="--c:var(--green)">
+        <div class="label">C2 · dataset_v1 test R@3</div>
+        <div class="value">0.6462</div>
+        <div class="desc">hard_test R@3=0.6000，按 group split 评估</div>
+      </div>
+      <div class="metric-card" style="--c:var(--rose)">
+        <div class="label">SDDP 复杂切片规模</div>
+        <div class="value">152 节点</div>
+        <div class="desc">195 边，5 条受控暴露路径</div>
+      </div>
+      <div class="metric-card" style="--c:var(--amber)">
+        <div class="label">dataset_v1 语料版本</div>
+        <div class="value">308 样本</div>
+        <div class="desc">672 路径标签，104 个 group 无跨 split 泄漏</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 工作流水线 -->
+  <section class="block">
+    <p class="kicker reveal">Pipeline · 工作流水线</p>
+    <h2 class="sec reveal">今日工作链路</h2>
+    <p class="lede reveal">从证据语义化到科学图谱可视化的完整流水线。节点颜色代表工作类型，圆点表示数据流向。</p>
+
+    <div class="phase reveal" style="--tc:var(--blue)">
+      <div class="phase-label"><span class="num">1</span><span class="ttl">C1 异构云证据语义化</span><span class="cat">Schema · Verifier</span></div>
+      <div class="chain">
+        <span class="node n-data">原始样本数据<small>pathbench_60 / cloudgoat / samples_v2</small></span><span class="conn"></span>
+        <span class="node n-c1">6 维证据边<small>status · source · time · confidence · query_cost · raw_evidence</small></span><span class="conn"></span>
+        <span class="node n-c1">T/F/U 三值验证器<small>entry · reach · perm · target · sense · temporal</small></span><span class="conn"></span>
+        <span class="node n-output">cloud_db_semantic_corpus.json<small>308 样本 · 672 路径标签 · 5456 边</small></span>
+      </div>
+      <p class="phase-note">字段覆盖率 <b>100%</b>，SHACL-style 校验 R1–R15 通过；T/F/U 指标表示当前语义语料上的一致性检查：<b>672/672</b></p>
+    </div>
+
+    <div class="phase reveal" style="--tc:var(--green)">
+      <div class="phase-label"><span class="num">2</span><span class="ttl">C2 反证感知路径搜索</span><span class="cat">Algorithm · Experiment</span></div>
+      <div class="chain">
+        <span class="node n-c1">语义语料</span><span class="conn"></span>
+        <span class="node n-c2">RefuteAwareBeamSearch<small>边评分函数 · 路径优先级 · Beam 剪枝</small></span><span class="conn"></span>
+        <span class="node n-c2">4 方法对比实验<small>Plain DFS · Type DFS · Full constrained · RefuteAware</small></span><span class="conn"></span>
+        <span class="node n-output">dataset_v1/semantic_experiments_by_split.json<small>test R@3=0.6462 · hard_test R@3=0.6000</small></span>
+      </div>
+      <div class="branch">
+        <span class="btag">变体构造</span>
+        <div class="chain">
+          <span class="node n-data">base 样本</span><span class="conn"></span>
+          <span class="node n-c1">missing 变体<small>关键边 Unknown</small></span><span class="conn"></span>
+          <span class="node n-c1">refuted 变体<small>关键边 Contradicted</small></span><span class="conn"></span>
+          <span class="node n-c1">temporal_conflict<small>时序冲突标记</small></span>
+        </div>
+      </div>
+      <p class="phase-note">当前对比记录：204 变体样本；dataset_v1 test/hard_test 中 RefuteAwareBeamSearch 的 R@3 均高于 Full-constrained DFS + GateScore</p>
+    </div>
+
+    <div class="phase reveal" style="--tc:var(--rose)">
+      <div class="phase-label"><span class="num">3</span><span class="ttl">SDDP 数据切片接入</span><span class="cat">Converter · Slice</span></div>
+      <div class="chain">
+        <span class="node n-data">SDDP 导出 JSON<small>data_instance_source · sys_data_limit · data_objects</small></span><span class="conn"></span>
+        <span class="node n-sddp">build_sddp_evidence_slice.py<small>check_status → can_connect · RuleList → SensitiveTag</small></span><span class="conn"></span>
+        <span class="node n-sddp">generate_complex_sddp_slice.py<small>152 节点 · 195 边 · 5 受控暴露路径</small></span><span class="conn"></span>
+        <span class="node n-output">sddp_complex_real_slice.json<small>TABLE / LCOLUMN / TSDB / LSEARCH 四引擎</small></span>
+      </div>
+      <p class="phase-note">映射规则：<b>check_status=3</b> → Supported，<b>4</b> → Contradicted，<b>-1</b> → Unknown</p>
+    </div>
+
+    <div class="phase reveal" style="--tc:var(--cyan)">
+      <div class="phase-label"><span class="num">4</span><span class="ttl">复杂科学图谱可视化</span><span class="cat">Cytoscape · Visualization</span></div>
+      <div class="chain">
+        <span class="node n-c1">语义语料</span><span class="conn"></span>
+        <span class="node n-viz">build_semantic_showcase.py<small>Cytoscape 交互式 Demo</small></span><span class="conn"></span>
+        <span class="node n-viz">generate_complex_visualization.py<small>力导向布局 · 节点颜色编码</small></span><span class="conn"></span>
+        <span class="node n-output">showcase_semantic.html · showcase_complex_sddp.html<small>滚轮缩放 · 画布拖拽 · 节点拖拽 · 路径高亮</small></span>
+      </div>
+      <p class="phase-note">节点类型颜色编码：<b>Network=蓝</b>，<b>Identity=紫</b>，<b>DBInstance=绿</b>，<b>SensitiveTag=红</b>，<b>AuditEvent=橙</b></p>
+    </div>
+
+    <div class="phase reveal" style="--tc:var(--violet)">
+      <div class="phase-label"><span class="num">5</span><span class="ttl">论文材料与目录规范化</span><span class="cat">Docs · Structure</span></div>
+      <div class="chain">
+        <span class="node n-docs">paper_method_draft_c1_c2.md<small>C1+C2 完整草稿</small></span><span class="conn"></span>
+        <span class="node n-docs">paper_experiment_tables_c1_c2.md<small>9 组实验表格</small></span><span class="conn"></span>
+        <span class="node n-docs">defense_summary.md<small>答辩综述</small></span><span class="conn"></span>
+        <span class="node n-docs">work_log_2026-07-21.md<small>今日工作记录</small></span>
+      </div>
+      <div class="branch">
+        <span class="btag">目录重构</span>
+        <div class="chain">
+          <span class="node n-data">根目录散落文件</span><span class="conn"></span>
+          <span class="node n-docs">showcase/ · docs/ · output/iterations/<small>清晰目录结构</small></span>
+        </div>
+      </div>
+      <p class="phase-note">脚本路径更新：<b>build_semantic_showcase.py</b> · <b>generate_complex_visualization.py</b> 输出路径指向 showcase/</p>
+    </div>
+  </section>
+
+  <!-- 与旧版 EIC-Agent 的关系 -->
+  <section class="block reveal">
+    <p class="kicker">Legacy · 与旧版主动发现模块的关系</p>
+    <h2 class="sec">EIC-Agent 仍然保留，但本页主线已转向 C1/C2</h2>
+    <p class="lede">早期版本中的主动发现链路没有被删除；它仍作为历史原型和对照模块保留在项目中。本页展示的是 2026.07.21 新增的证据语义化、三值验证和反证感知搜索工作。</p>
+    <div class="panel table-scroll">
+      <table>
+        <thead><tr><th>模块</th><th>当前位置</th><th>当前角色</th></tr></thead>
+        <tbody>
+          <tr><td>旧版 EIC-Agent 状态机</td><td>src/agent/agent_graph.py</td><td>保留。包含候选路径、工具调用、证据向量、GateScore、归因解释与处置建议等早期主动发现流程。</td></tr>
+          <tr><td>旧版 Web 看板</td><td>web_app.py</td><td>保留。仍是 EIC-Agent 暴露路径侦测系统的旧可视化入口。</td></tr>
+          <tr><td>旧版 Showcase 备份</td><td>backups/build_showcase.v4.py</td><td>保留。记录早期“七环节推理链路”的页面形态。</td></tr>
+          <tr><td>当前展示主线</td><td>showcase/showcase_semantic.html · showcase/showcase_complex_sddp.html</td><td>新增。重点展示证据状态、T/F/U 验证、路径排序结果和 SDDP 数据切片。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="phase-note" style="--tc:var(--violet);margin-top:12px">因此，EIC-Agent 不是被除掉，而是从“论文主线”退为早期主动发现原型；当前 C1/C2 更强调证据可验证性和路径搜索实验。</p>
+  </section>
+
+  <!-- 迭代时间线 -->
+  <section class="block">
+    <p class="kicker reveal">Timeline · 迭代时间线</p>
+    <h2 class="sec reveal">10+ 轮迭代</h2>
+    <p class="lede reveal">每轮均有代码改动、实验结果和总结文档，所有迭代记录已归档至 output/iterations/。</p>
+
+    <div class="timeline reveal">
+      <div class="tl-item" style="--c:var(--blue)">
+        <div class="time">Round 1</div>
+        <div class="title">C1 证据语义化 + C2 反证感知排序</div>
+        <div class="desc">证据语义 Schema、T/F/U 验证器、RefuteAwareBeamSearch 初版实现</div>
+      </div>
+      <div class="tl-item" style="--c:var(--amber)">
+        <div class="time">Round 2</div>
+        <div class="title">数据优先 + sample-level 扰动</div>
+        <div class="desc">204 变体样本、FPR 优化策略</div>
+      </div>
+      <div class="tl-item" style="--c:var(--green)">
+        <div class="time">Round 3</div>
+        <div class="title">RefuteAwareBeamSearch 实现与实验</div>
+        <div class="desc">4 方法对比、dataset_v1 test R@3=0.6462</div>
+      </div>
+      <div class="tl-item" style="--c:var(--blue)">
+        <div class="time">Round 4</div>
+        <div class="title">path_labels vs sample_labels 拆分</div>
+        <div class="desc">路径级/样本级标签分离，解决标签混淆问题</div>
+      </div>
+      <div class="tl-item" style="--c:var(--cyan)">
+        <div class="time">Round 5</div>
+        <div class="title">Temporal 维度加入验证器</div>
+        <div class="desc">6 维验证器、时序冲突检测</div>
+      </div>
+      <div class="tl-item" style="--c:var(--green)">
+        <div class="time">Round 6</div>
+        <div class="title">Sample-level 一致性修复</div>
+        <div class="desc">当前语料 FPR=0.0000、T/F/U 语义一致性 672/672</div>
+      </div>
+      <div class="tl-item" style="--c:var(--violet)">
+        <div class="time">Round 7</div>
+        <div class="title">论文表格 + 方法草稿固化</div>
+        <div class="desc">9 组实验表格、方法草稿</div>
+      </div>
+      <div class="tl-item" style="--c:var(--rose)">
+        <div class="time">Round 8</div>
+        <div class="title">SDDP 数据切片接入</div>
+        <div class="desc">4 种变体生成器</div>
+      </div>
+      <div class="tl-item" style="--c:var(--rose)">
+        <div class="time">Round 9</div>
+        <div class="title">SDDP 案例切片实验记录</div>
+        <div class="desc">308 样本、dataset_v1 split 实验记录</div>
+      </div>
+      <div class="tl-item" style="--c:var(--cyan)">
+        <div class="time">Round 10</div>
+        <div class="title">复杂科学图谱可视化</div>
+        <div class="desc">152 节点 / 195 边可视化、目录规范化重构</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- C1/C2 对比 -->
+  <section class="block reveal">
+    <p class="kicker">Comparison · C1/C2 对比</p>
+    <h2 class="sec">核心贡献对比</h2>
+    <p class="lede">C1 负责证据语义化，C2 负责反证感知搜索，SDDP 提供数据切片和案例材料。</p>
+    <div class="panel table-scroll">
+      <table>
+        <thead><tr><th>维度</th><th class="col-c1">C1 证据语义化</th><th class="col-c2">C2 反证感知搜索</th><th class="col-sddp">SDDP 数据切片</th></tr></thead>
+        <tbody>
+          <tr><td>核心目标</td><td>统一 6 维证据边语义</td><td>反证感知的路径搜索与排序</td><td>平台资产与识别证据切片接入</td></tr>
+          <tr><td>关键产物</td><td>T/F/U 验证器、语义语料</td><td>RefuteAwareBeamSearch</td><td>SDDP 切片生成器</td></tr>
+          <tr><td>记录指标</td><td class="good">语义一致性 672/672</td><td class="good">test R@3=0.6462, hard_test R@3=0.6000</td><td>152 节点复杂切片</td></tr>
+          <tr><td>数据规模</td><td>当前记录：308 样本, 672 路径标签</td><td>dataset_v1 四 split 对比实验</td><td>195 边, 5 受控暴露路径</td></tr>
+          <tr><td>变体构造</td><td class="good">missing / refuted / temporal</td><td>Beam 剪枝策略</td><td>controlled_exposure / missing / refuted</td></tr>
+          <tr><td>可视化</td><td>语义语料统计</td><td class="good">Cytoscape 交互 Demo</td><td class="good">复杂科学图谱</td></tr>
+          <tr><td>论文材料</td><td class="good">方法草稿</td><td class="good">实验表格</td><td>案例研究</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 最终产物 -->
+  <section class="block reveal">
+    <p class="kicker">Deliverables · 最终产物</p>
+    <h2 class="sec">核心产物清单</h2>
+    <p class="lede">这些产物可作为后续论文撰写、实验复核和答辩材料整理的输入。</p>
+    <div class="panel table-scroll">
+      <table>
+        <thead><tr><th>类型</th><th>文件</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>语料</td><td>output/semantic_corpus/cloud_db_semantic_corpus.json</td><td>308 样本 / 672 路径标签</td></tr>
+          <tr><td>可信切分</td><td>output/dataset_v1/dataset_v1_manifest.json</td><td>104 个 group，dev/validation/test/hard_test 无跨 split 泄漏</td></tr>
+          <tr><td>split 实验</td><td>output/dataset_v1/semantic_experiments_by_split.json</td><td>按 split 输出 4 方法对比与语义一致性检查</td></tr>
+          <tr><td>实验结果</td><td>output/semantic_corpus/semantic_experiments_results.json</td><td>legacy all-corpus 4 方法对比</td></tr>
+          <tr><td>论文表格</td><td>docs/paper_experiment_tables_c1_c2.md</td><td>9 组实验表格</td></tr>
+          <tr><td>方法草稿</td><td>docs/paper_method_draft_c1_c2.md</td><td>C1+C2 完整草稿</td></tr>
+          <tr><td>答辩综述</td><td>docs/defense_summary.md</td><td>研究背景、贡献、实验、结论</td></tr>
+          <tr><td>工作记录</td><td>docs/work_log_2026-07-21.md</td><td>今日工作详细记录</td></tr>
+          <tr><td>交互 Demo</td><td>showcase/showcase_semantic.html</td><td>Cytoscape 交互式图谱</td></tr>
+          <tr><td>科学图谱</td><td>showcase/showcase_complex_sddp.html</td><td>152 节点复杂 SDDP 切片</td></tr>
+          <tr><td>SDDP 切片</td><td>output/sddp_slices/sddp_complex_real_slice.json</td><td>152 节点 / 195 边</td></tr>
+          <tr><td>迭代记录</td><td>output/iterations/iteration_round*.md</td><td>10 轮完整记录</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- T/F/U 状态含义 -->
+  <section class="block reveal">
+    <p class="kicker">Verification States · 验证状态含义</p>
+    <h2 class="sec">T/F/U 三值验证器的安全含义</h2>
+    <p class="lede">理解 Valid、Insufficient、Invalid 在云数据库暴露路径侦测场景下的实际意义。</p>
+
+    <div class="panel" style="padding: 28px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+        
+        <!-- Valid -->
+        <div style="border-left: 4px solid var(--green); padding-left: 16px;">
+          <div style="font-family: var(--display); font-size: 18px; color: var(--green); margin-bottom: 8px;">Valid · 已确认暴露</div>
+          <div style="font-size: 13px; line-height: 1.7; color: var(--ink);">
+            <p style="margin-bottom: 10px;"><strong>含义：</strong>路径上所有 6 个维度的证据均已收集且支持该路径成立。</p>
+            <p style="margin-bottom: 10px;"><strong>安全影响：</strong></p>
+            <ul style="margin-left: 18px; margin-bottom: 10px;">
+              <li>攻击者可以沿此路径访问高敏数据</li>
+              <li>需要立即修复（关闭公网访问、撤销权限、加密数据）</li>
+              <li>在审计报告中应标记为"已确认风险"</li>
+            </ul>
+            <p style="color: var(--muted); font-size: 12px;"><strong>示例：</strong>公网 IP → 安全组放行 3306 端口 → IAM 角色有 SELECT 权限 → 表包含身份证字段 → 审计日志显示已访问 → 时间线连贯</p>
+          </div>
+        </div>
+
+        <!-- Insufficient -->
+        <div style="border-left: 4px solid var(--amber); padding-left: 16px;">
+          <div style="font-family: var(--display); font-size: 18px; color: var(--amber); margin-bottom: 8px;">Insufficient · 证据不足</div>
+          <div style="font-size: 13px; line-height: 1.7; color: var(--ink);">
+            <p style="margin-bottom: 10px;"><strong>含义：</strong>路径上至少一个维度的证据缺失（Unknown），但无反证。</p>
+            <p style="margin-bottom: 10px;"><strong>安全影响：</strong></p>
+            <ul style="margin-left: 18px; margin-bottom: 10px;">
+              <li>无法确定路径是否可被利用</li>
+              <li>需要进一步调查（补充缺失证据）</li>
+              <li>在审计报告中应标记为"待验证风险"</li>
+              <li>可能是由于监控覆盖不全或日志缺失</li>
+            </ul>
+            <p style="color: var(--muted); font-size: 12px;"><strong>示例：</strong>公网 IP → 安全组放行 3306 端口 → <span style="color: var(--amber); font-weight: 700;">[权限证据缺失]</span> → 表包含身份证字段</p>
+          </div>
+        </div>
+
+        <!-- Invalid -->
+        <div style="border-left: 4px solid var(--rose); padding-left: 16px;">
+          <div style="font-family: var(--display); font-size: 18px; color: var(--rose); margin-bottom: 8px;">Invalid · 已确认不可达</div>
+          <div style="font-size: 13px; line-height: 1.7; color: var(--ink);">
+            <p style="margin-bottom: 10px;"><strong>含义：</strong>路径上至少一个维度的证据明确反驳该路径（Contradicted）。</p>
+            <p style="margin-bottom: 10px;"><strong>安全影响：</strong></p>
+            <ul style="margin-left: 18px; margin-bottom: 10px;">
+              <li>攻击者无法沿此路径访问数据</li>
+              <li>无需立即修复，但应记录为"已排除风险"</li>
+              <li>可作为安全加固的有效性证明</li>
+              <li>帮助识别哪些控制措施有效阻止了攻击</li>
+            </ul>
+            <p style="color: var(--muted); font-size: 12px;"><strong>示例：</strong>公网 IP → <span style="color: var(--rose); font-weight: 700;">[安全组拒绝 3306 端口]</span> → 后续路径不再检查</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top: 28px; padding: 16px; background: #f8fafc; border-radius: 8px; font-size: 13px; line-height: 1.7;">
+        <strong style="color: var(--blue);">为什么三值比二值更好？</strong><br>
+        传统的二值判断（可达/不可达）无法区分"证据不足"和"已确认不可达"。在云安全审计中，这两者需要不同的处理策略：
+        <ul style="margin-left: 18px; margin-top: 8px;">
+          <li><strong>Insufficient</strong> → 需要补充监控、收集更多证据</li>
+          <li><strong>Invalid</strong> → 可以归档为"已排除风险"，并记录哪些控制措施生效</li>
+        </ul>
+        这种区分帮助安全团队更高效地分配调查资源，避免在已确认安全的路径上浪费时间。
+      </div>
+    </div>
+  </section>
+
+  <!-- 技术说明 -->
+  <section class="block reveal">
+    <p class="kicker">Technical Summary · 技术说明</p>
+    <h2 class="sec">这一天完成了哪些技术工作</h2>
+    <p class="lede">本页重点说明已有 Demo 如何被拆解为数据、证据语义、路径搜索、实验脚本和可视化几个可检查的技术模块。</p>
+
+    <div class="panel" style="padding: 28px;">
+      
+      <!-- 问题与解决方案 -->
+      <div style="margin-bottom: 28px;">
+        <div style="font-family: var(--display); font-size: 18px; color: var(--blue); margin-bottom: 12px;">解决了什么问题？</div>
+        <div style="font-size: 14px; line-height: 1.8;">
+          <p style="margin-bottom: 12px;">
+            <strong>传统方法的缺陷：</strong>现有的云数据库暴露路径侦测方法（如 DFS + GateScore）存在三个根本问题：
+          </p>
+          <ul style="margin-left: 20px; margin-bottom: 12px;">
+            <li><strong>无法区分反证与缺证</strong>：将"证据不足"和"已确认不可达"混为一谈，导致误报率高</li>
+            <li><strong>只依赖网络可达性</strong>：过度关注 entry/reach 维度，忽略权限、敏感数据、审计等其他关键证据</li>
+            <li><strong>缺乏部分可见性处理</strong>：无法在证据不完整的情况下做出合理判断</li>
+          </ul>
+          <p style="margin-bottom: 12px;">
+            <strong>我们的解决方案：</strong>
+          </p>
+          <ul style="margin-left: 20px;">
+            <li><strong>C1 异构云证据语义化</strong>：引入 6 维证据边（status/source/time/confidence/query_cost/raw_evidence），显式标记每条证据的状态和来源</li>
+            <li><strong>C2 反证感知路径搜索</strong>：RefuteAwareBeamSearch 在搜索阶段即考虑证据状态，优先探索高价值路径，主动剪枝反证路径</li>
+            <li><strong>T/F/U 三值验证器</strong>：区分 Valid（已确认暴露）、Insufficient（证据不足）、Invalid（已确认不可达），提供更精细的安全判断</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 为什么结果重要 -->
+      <div style="margin-bottom: 28px;">
+        <div style="font-family: var(--display); font-size: 18px; color: var(--green); margin-bottom: 12px;">这些指标说明了什么？</div>
+        <div style="font-size: 14px; line-height: 1.8;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            
+            <div style="padding: 16px; background: #f0fdf4; border-radius: 8px; border-left: 3px solid var(--green);">
+              <strong style="color: var(--green);">dataset_v1 test R@3 = 0.6462</strong>
+              <p style="margin-top: 8px; color: var(--muted); font-size: 13px;">
+                在按 group_id 切分后的 test split 上，RefuteAwareBeamSearch 的 R@3 高于 Full-constrained DFS + GateScore（0.2000）。hard_test 上 R@3=0.6000，高于对应基线 0.2200。
+              </p>
+            </div>
+
+            <div style="padding: 16px; background: #f0fdf4; border-radius: 8px; border-left: 3px solid var(--green);">
+              <strong style="color: var(--green);">FPR = 0.0000（当前 split 记录）</strong>
+              <p style="margin-top: 8px; color: var(--muted); font-size: 13px;">
+                dev/validation/test/hard_test 中样本级 FPR 仍记录为 0。这个数字只能说明当前构造语料和规则下没有出现 false positive，不能外推为真实云环境零误报。
+              </p>
+            </div>
+
+            <div style="padding: 16px; background: #eff6ff; border-radius: 8px; border-left: 3px solid var(--blue);">
+              <strong style="color: var(--blue);">T/F/U 语义一致性 = 672/672</strong>
+              <p style="margin-top: 8px; color: var(--muted); font-size: 13px;">
+                当前 672 条路径标签均与验证器输出一致。这个指标用于检查语义化规则与标签体系是否一致，不应写成真实云环境泛化准确率。
+              </p>
+            </div>
+
+            <div style="padding: 16px; background: #fff1f3; border-radius: 8px; border-left: 3px solid var(--rose);">
+              <strong style="color: var(--rose);">308 样本 · 672 路径标签</strong>
+              <p style="margin-top: 8px; color: var(--muted); font-size: 13px;">
+                dataset_v1 将 104 个 group 切成 dev/validation/test/hard_test，确保同源 base 与变体不跨 split。SDDP 当前仍作为案例切片，不进入主实验 ground truth。
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- 局限性 -->
+      <div style="margin-bottom: 28px;">
+        <div style="font-family: var(--display); font-size: 18px; color: var(--amber); margin-bottom: 12px;">当前局限性与改进方向</div>
+        <div style="font-size: 14px; line-height: 1.8;">
+          <ul style="margin-left: 20px;">
+            <li style="margin-bottom: 8px;">
+              <strong>语料是构造的，非真实生产数据</strong>：308 样本来自 pathbench_60、cloudgoat 和 samples_v2；SDDP 当前作为案例切片单独展示。在真实云环境中的泛化能力待验证。
+              <br><span style="color: var(--muted); font-size: 13px;">→ <strong>改进方向</strong>：接入真实脱敏数据（从 DMS/POP/SLS 导出实际 SDDP 数据）</span>
+            </li>
+            <li style="margin-bottom: 8px;">
+              <strong>缺乏消融实验</strong>：无法确定 RefuteAwareBeamSearch 的哪个组件贡献最大（temporal 维度？query_cost？beam 剪枝？）。
+              <br><span style="color: var(--muted); font-size: 13px;">→ <strong>改进方向</strong>：逐个移除组件，对比 R@3、FPR、时间复杂度</span>
+            </li>
+            <li style="margin-bottom: 8px;">
+              <strong>未与真实云安全工具对比</strong>：只与 DFS 变体对比，缺乏与 PMapper、Cartography、AWS Security Hub 等工具的对比。
+              <br><span style="color: var(--muted); font-size: 13px;">→ <strong>改进方向</strong>：在相同样本上运行真实工具，对比召回率和误报率</span>
+            </li>
+            <li>
+              <strong>C3 仅预留接口</strong>：验证反馈驱动的安全调查模型训练未实际展开。
+              <br><span style="color: var(--muted); font-size: 13px;">→ <strong>改进方向</strong>：基于 corpus 生成 SFT/DPO 训练样本，训练实际模型</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 页面阅读结论 -->
+      <div style="padding: 20px; background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border-radius: 10px; border: 2px solid var(--blue);">
+        <div style="font-family: var(--display); font-size: 20px; color: var(--blue); margin-bottom: 12px;">页面阅读结论</div>
+        <div style="font-size: 14px; line-height: 1.9;">
+          <p style="margin-bottom: 12px;">
+            本页面用于让读者快速看懂 2026.07.21 实际完成的技术工作，而不是给项目下最终等级结论。当前可确认的工作包括：
+          </p>
+          <ol style="margin-left: 20px; margin-bottom: 12px;">
+            <li style="margin-bottom: 8px;"><strong>证据语义化模块</strong>：将路径边扩展为包含 status/source/time/confidence/query_cost/raw_evidence 的证据边，并建立 T/F/U 验证逻辑</li>
+            <li style="margin-bottom: 8px;"><strong>路径搜索实验模块</strong>：实现 RefuteAwareBeamSearch，并与 DFS/GateScore 类方法做当前语料上的对比实验</li>
+            <li style="margin-bottom: 8px;"><strong>SDDP 数据切片模块</strong>：将 SDDP 风格资产、识别任务、数据对象和检测结果映射到语义图样本</li>
+            <li style="margin-bottom: 8px;"><strong>可视化展示模块</strong>：生成语义路径 Demo 和复杂 SDDP 图谱 Demo，用于观察节点、边、路径和证据状态</li>
+            <li><strong>材料整理模块</strong>：沉淀实验结果、方法草稿、答辩综述和迭代记录，为后续论文写作提供输入</li>
+          </ol>
+          <p style="margin-bottom: 12px;">
+            <strong>当前指标边界：</strong>dataset_v1 test R@3=0.6462、hard_test R@3=0.6000、T/F/U 语义一致性=672/672 均是当前构造语料上的阶段性记录，不能直接表述为真实云环境泛化性能。
+          </p>
+          <p style="color: var(--muted); font-size: 13px;">
+            <strong>下一步建议：</strong>优先固定 dataset_v1、做 group split、补 held-out test、重跑 per-sample 统计，再决定哪些结论可以写入论文主实验。
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="rule"></div>
+    CloudDB PathBench · 2026.07.21 · C1 证据语义化 · C2 反证感知搜索 · SDDP 数据切片 · 复杂科学图谱 · 项目规范化
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

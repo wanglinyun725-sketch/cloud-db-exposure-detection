@@ -3,6 +3,9 @@ import json
 import networkx as nx
 from typing import Optional
 
+from src.graph.evidence_semantics import normalize_edge_attrs
+from src.graph.path_utils import assign_edge_ids
+
 
 def build_graph(sample: dict) -> nx.MultiDiGraph:
     """从样本 JSON 构建 CDB-RG 图
@@ -25,13 +28,22 @@ def build_graph(sample: dict) -> nx.MultiDiGraph:
         attrs = node.get("attrs", {})
         G.add_node(node_id, node_type=node_type, **attrs)
     
-    # 添加边
+    # 添加边。显式 key 保证搜索、验证和 gold 匹配引用同一条并行边。
+    assign_edge_ids(sample)
     for edge in sample["edges"]:
         source = edge["source"]
         target = edge["target"]
         edge_type = edge["type"]
-        attrs = edge.get("attrs", {})
-        G.add_edge(source, target, edge_type=edge_type, **attrs)
+        attrs = normalize_edge_attrs(edge_type, edge.get("attrs", {}))
+        edge_id = str(edge["edge_id"])
+        G.add_edge(
+            source,
+            target,
+            key=edge_id,
+            edge_id=edge_id,
+            edge_type=edge_type,
+            **attrs,
+        )
     
     return G
 
@@ -73,7 +85,7 @@ def get_target_nodes(G: nx.MultiDiGraph, sensitivity_threshold: float = 3.0) -> 
 
 def load_samples(filepath: str) -> list:
     """加载样本文件"""
-    with open(filepath, "r") as f:
+    with open(filepath, "r", encoding="utf-8") as f:
         return json.load(f)
 
 

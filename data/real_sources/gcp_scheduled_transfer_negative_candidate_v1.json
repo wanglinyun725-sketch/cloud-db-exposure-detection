@@ -1,0 +1,2185 @@
+{
+  "candidate_version": "1.0.0",
+  "generated_at": "2026-07-27T14:22:02.683270+00:00",
+  "case_id": "crosscloud:gcp:scheduled_transfer:blocked_bucket_list",
+  "source_id": "cross_cloud_observability_2026",
+  "lineage_group": "crosscloud-family:scheduled_transfer",
+  "platform": "GCP",
+  "status": "provider_oracle_gold_ready_pending_main_release",
+  "policy": {
+    "generated_events": 0,
+    "generated_labels": 0,
+    "replicated_runs_are_separate_cases": false,
+    "provider_denial_is_deterministic": true,
+    "whole_path_gold_requires_semantic_audit": true
+  },
+  "upstream_script": {
+    "archive_sha256": "4599be3e224f3b9b43e76ab4ec1bfa8e3b209ebe529fb218ae4e65dd22417900",
+    "member": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+    "member_sha256": "25420f5ac7973321629b99a6a59ba505600893f9e2eb1653d49a0e0289499665",
+    "literal_fragments_verified": [
+      "if [ $attack == \"scheduled_transfer\" ];",
+      "--role=\"roles/storage.objectViewer\"",
+      "--role=\"roles/pubsub.publisher\"",
+      "--service-account=$SERVICE_ACCOUNT",
+      "--allow-unauthenticated"
+    ],
+    "notable_configuration": "The script declares one add-iam-policy-binding command with both objectViewer and pubsub.publisher --role flags, while the provider CLI contract defines one role per binding."
+  },
+  "path_hypothesis": {
+    "entry": "scheduled/public Cloud Function executing as the quickstart service account",
+    "steps": [
+      "Cloud Function is created with the quickstart service account",
+      "Cloud Scheduler job is created for the function",
+      "function code attempts storage.objects.list on the run bucket",
+      "GCP explicitly denies storage.objects.list"
+    ],
+    "data_target": "Google Cloud Storage bucket",
+    "deterministic_final_edge_claim": "quickstart service account can list objects in the run bucket",
+    "deterministic_final_edge_state": "Contradicted",
+    "provisional_path_state": "NotReachable"
+  },
+  "provider_oracle_certificate": {
+    "oracle": "GCP Cloud Audit Logs",
+    "claim": "quickstart service account can execute storage.objects.list on its run bucket",
+    "verdict": "Contradicted",
+    "path_verdict": "NotReachable",
+    "gold_tier": "runtime_gold",
+    "label_origin": "provider_native_runtime",
+    "sufficiency_rule": "Every payload run contains function creation, service-account actAs, scheduler creation, and one or more code-7 storage.objects.list denials for the function service account; the same bucket is successfully listed by a different project identity in the same run.",
+    "sufficient": true
+  },
+  "replication": {
+    "independent_runs": 10,
+    "total_denied_attempts": 44,
+    "all_runs_same_final_edge_state": true,
+    "instances": [
+      {
+        "instance_id": "gcp-scheduled_transfer-0-y-logs",
+        "payload_condition": "y",
+        "principal": "quickstart-service-account71@PROJECT_ID.iam.gserviceaccount.com",
+        "target": "projects/_/buckets/storage_bucket71",
+        "operation": "storage.googleapis.com::storage.objects.list",
+        "provider_status_code": 7,
+        "denied_permission": "storage.objects.list",
+        "retry_denial_count": 4,
+        "telemetry_archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+        "telemetry_member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+        "causal_control_refs": {
+          "create_function": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[152]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[785]"
+            }
+          ],
+          "create_scheduler": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[142]"
+            }
+          ],
+          "act_as_service_account": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[141]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[224]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[778]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[779]"
+            }
+          ],
+          "denied_bucket_list": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[60]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[78]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[95]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[115]"
+            }
+          ],
+          "admin_bucket_list_success_control": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[4]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[24]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[51]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[54]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[63]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[67]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[70]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[73]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[82]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[86]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[89]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[99]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[103]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[106]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[109]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[119]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[123]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[127]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[134]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+              "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+              "json_pointer": "$[138]"
+            }
+          ]
+        },
+        "raw_refs": [
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+            "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+            "json_pointer": "$[60]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+            "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+            "json_pointer": "$[78]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+            "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+            "json_pointer": "$[95]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+            "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+            "json_pointer": "$[115]"
+          }
+        ],
+        "deterministic_final_edge_state": "Contradicted"
+      },
+      {
+        "instance_id": "gcp-scheduled_transfer-1-y-logs",
+        "payload_condition": "y",
+        "principal": "quickstart-service-account682@PROJECT_ID.iam.gserviceaccount.com",
+        "target": "projects/_/buckets/storage_bucket682",
+        "operation": "storage.googleapis.com::storage.objects.list",
+        "provider_status_code": 7,
+        "denied_permission": "storage.objects.list",
+        "retry_denial_count": 4,
+        "telemetry_archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+        "telemetry_member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+        "causal_control_refs": {
+          "create_function": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[156]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[745]"
+            }
+          ],
+          "create_scheduler": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[144]"
+            }
+          ],
+          "act_as_service_account": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[143]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[182]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[738]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[739]"
+            }
+          ],
+          "denied_bucket_list": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[62]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[79]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[98]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[116]"
+            }
+          ],
+          "admin_bucket_list_success_control": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[4]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[25]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[52]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[56]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[66]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[69]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[73]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[82]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[87]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[90]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[93]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[102]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[105]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[108]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[111]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[120]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[123]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[126]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[129]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[136]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+              "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+              "json_pointer": "$[140]"
+            }
+          ]
+        },
+        "raw_refs": [
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+            "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+            "json_pointer": "$[62]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+            "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+            "json_pointer": "$[79]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+            "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+            "json_pointer": "$[98]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-1-y-logs.json",
+            "member_sha256": "0b3b6693bc17a0ba35635ad5c19414dfeffa73ecc8b315eb016fe51af6af1c75",
+            "json_pointer": "$[116]"
+          }
+        ],
+        "deterministic_final_edge_state": "Contradicted"
+      },
+      {
+        "instance_id": "gcp-scheduled_transfer-2-y-logs",
+        "payload_condition": "y",
+        "principal": "quickstart-service-account732@PROJECT_ID.iam.gserviceaccount.com",
+        "target": "projects/_/buckets/storage_bucket732",
+        "operation": "storage.googleapis.com::storage.objects.list",
+        "provider_status_code": 7,
+        "denied_permission": "storage.objects.list",
+        "retry_denial_count": 4,
+        "telemetry_archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+        "telemetry_member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+        "causal_control_refs": {
+          "create_function": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[152]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[736]"
+            }
+          ],
+          "create_scheduler": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[144]"
+            }
+          ],
+          "act_as_service_account": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[143]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[176]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[729]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[732]"
+            }
+          ],
+          "denied_bucket_list": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[59]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[79]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[98]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[117]"
+            }
+          ],
+          "admin_bucket_list_success_control": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[4]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[25]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[54]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[63]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[67]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[70]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[73]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[83]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[86]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[90]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[93]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[102]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[106]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[109]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[112]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[121]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[124]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[127]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[134]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[137]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+              "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+              "json_pointer": "$[141]"
+            }
+          ]
+        },
+        "raw_refs": [
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+            "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+            "json_pointer": "$[59]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+            "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+            "json_pointer": "$[79]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+            "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+            "json_pointer": "$[98]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-2-y-logs.json",
+            "member_sha256": "67a0747eda36a8ee380c4c0301293174e6b91752fb1d183c2da7b2e8f41318fd",
+            "json_pointer": "$[117]"
+          }
+        ],
+        "deterministic_final_edge_state": "Contradicted"
+      },
+      {
+        "instance_id": "gcp-scheduled_transfer-3-y-logs",
+        "payload_condition": "y",
+        "principal": "quickstart-service-account855@PROJECT_ID.iam.gserviceaccount.com",
+        "target": "projects/_/buckets/storage_bucket855",
+        "operation": "storage.googleapis.com::storage.objects.list",
+        "provider_status_code": 7,
+        "denied_permission": "storage.objects.list",
+        "retry_denial_count": 5,
+        "telemetry_archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+        "telemetry_member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+        "causal_control_refs": {
+          "create_function": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[146]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[727]"
+            }
+          ],
+          "create_scheduler": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[138]"
+            }
+          ],
+          "act_as_service_account": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[137]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[175]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[724]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[726]"
+            }
+          ],
+          "denied_bucket_list": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[52]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[73]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[90]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[106]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[121]"
+            }
+          ],
+          "admin_bucket_list_success_control": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[4]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[23]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[55]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[60]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[63]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[67]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[77]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[81]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[84]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[94]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[98]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[101]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[109]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[113]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[116]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[124]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[128]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[131]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+              "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+              "json_pointer": "$[135]"
+            }
+          ]
+        },
+        "raw_refs": [
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+            "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+            "json_pointer": "$[52]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+            "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+            "json_pointer": "$[73]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+            "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+            "json_pointer": "$[90]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+            "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+            "json_pointer": "$[106]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-3-y-logs.json",
+            "member_sha256": "9181ccf4f7005647f1f40aa87f5ec49e964aee6d5ed79b308931748a0cfd9c58",
+            "json_pointer": "$[121]"
+          }
+        ],
+        "deterministic_final_edge_state": "Contradicted"
+      },
+      {
+        "instance_id": "gcp-scheduled_transfer-4-y-logs",
+        "payload_condition": "y",
+        "principal": "quickstart-service-account143@PROJECT_ID.iam.gserviceaccount.com",
+        "target": "projects/_/buckets/storage_bucket143",
+        "operation": "storage.googleapis.com::storage.objects.list",
+        "provider_status_code": 7,
+        "denied_permission": "storage.objects.list",
+        "retry_denial_count": 4,
+        "telemetry_archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+        "telemetry_member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+        "causal_control_refs": {
+          "create_function": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[147]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[732]"
+            }
+          ],
+          "create_scheduler": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[135]"
+            }
+          ],
+          "act_as_service_account": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[134]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[177]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[725]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[727]"
+            }
+          ],
+          "denied_bucket_list": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[60]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[76]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[91]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[111]"
+            }
+          ],
+          "admin_bucket_list_success_control": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[4]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[23]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[52]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[55]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[64]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[67]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[71]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[80]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[83]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[86]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[95]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[99]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[102]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[105]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[115]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[119]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[122]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[128]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+              "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+              "json_pointer": "$[132]"
+            }
+          ]
+        },
+        "raw_refs": [
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+            "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+            "json_pointer": "$[60]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+            "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+            "json_pointer": "$[76]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+            "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+            "json_pointer": "$[91]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-4-y-logs.json",
+            "member_sha256": "ce03aeacfd7cc165ebc0fedc756352ddf74d81133787464a7632d076f76ab91a",
+            "json_pointer": "$[111]"
+          }
+        ],
+        "deterministic_final_edge_state": "Contradicted"
+      },
+      {
+        "instance_id": "gcp-scheduled_transfer-5-y-logs",
+        "payload_condition": "y",
+        "principal": "quickstart-service-account115@PROJECT_ID.iam.gserviceaccount.com",
+        "target": "projects/_/buckets/storage_bucket115",
+        "operation": "storage.googleapis.com::storage.objects.list",
+        "provider_status_code": 7,
+        "denied_permission": "storage.objects.list",
+        "retry_denial_count": 4,
+        "telemetry_archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+        "telemetry_member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+        "causal_control_refs": {
+          "create_function": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[154]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[777]"
+            }
+          ],
+          "create_scheduler": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[142]"
+            }
+          ],
+          "act_as_service_account": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[141]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[221]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[771]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[773]"
+            }
+          ],
+          "denied_bucket_list": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[55]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[75]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[92]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[111]"
+            }
+          ],
+          "admin_bucket_list_success_control": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[4]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[24]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[59]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[63]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[67]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[70]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[79]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[82]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[86]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[96]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[99]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[102]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[105]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[115]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[118]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[122]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[125]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[131]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[134]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+              "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+              "json_pointer": "$[138]"
+            }
+          ]
+        },
+        "raw_refs": [
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+            "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+            "json_pointer": "$[55]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+            "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+            "json_pointer": "$[75]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+            "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+            "json_pointer": "$[92]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-5-y-logs.json",
+            "member_sha256": "483790a2d80bab56e143c32de83c570318420c3635fb64ea4f25268ae7418b5d",
+            "json_pointer": "$[111]"
+          }
+        ],
+        "deterministic_final_edge_state": "Contradicted"
+      },
+      {
+        "instance_id": "gcp-scheduled_transfer-6-y-logs",
+        "payload_condition": "y",
+        "principal": "quickstart-service-account474@PROJECT_ID.iam.gserviceaccount.com",
+        "target": "projects/_/buckets/storage_bucket474",
+        "operation": "storage.googleapis.com::storage.objects.list",
+        "provider_status_code": 7,
+        "denied_permission": "storage.objects.list",
+        "retry_denial_count": 5,
+        "telemetry_archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+        "telemetry_member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+        "causal_control_refs": {
+          "create_function": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[157]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[751]"
+            }
+          ],
+          "create_scheduler": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[145]"
+            }
+          ],
+          "act_as_service_account": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[144]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[193]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[744]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[747]"
+            }
+          ],
+          "denied_bucket_list": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[55]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[74]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[89]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[104]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[125]"
+            }
+          ],
+          "admin_bucket_list_success_control": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[4]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[24]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[59]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[63]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[66]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[69]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[78]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[81]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[84]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[93]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[96]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[99]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[108]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[112]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[116]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[120]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[129]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[132]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[136]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+              "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+              "json_pointer": "$[142]"
+            }
+          ]
+        },
+        "raw_refs": [
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+            "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+            "json_pointer": "$[55]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+            "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+            "json_pointer": "$[74]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+            "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+            "json_pointer": "$[89]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+            "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+            "json_pointer": "$[104]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-6-y-logs.json",
+            "member_sha256": "599cf6af03b148b1bd65db0d1f81079b77f1887ef971d91738ba9d2b56626c66",
+            "json_pointer": "$[125]"
+          }
+        ],
+        "deterministic_final_edge_state": "Contradicted"
+      },
+      {
+        "instance_id": "gcp-scheduled_transfer-7-y-logs",
+        "payload_condition": "y",
+        "principal": "quickstart-service-account133@PROJECT_ID.iam.gserviceaccount.com",
+        "target": "projects/_/buckets/storage_bucket133",
+        "operation": "storage.googleapis.com::storage.objects.list",
+        "provider_status_code": 7,
+        "denied_permission": "storage.objects.list",
+        "retry_denial_count": 5,
+        "telemetry_archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+        "telemetry_member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+        "causal_control_refs": {
+          "create_function": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[153]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[737]"
+            }
+          ],
+          "create_scheduler": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[143]"
+            }
+          ],
+          "act_as_service_account": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[142]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[184]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[730]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[735]"
+            }
+          ],
+          "denied_bucket_list": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[54]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[69]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[88]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[103]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[121]"
+            }
+          ],
+          "admin_bucket_list_success_control": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[4]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[25]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[58]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[61]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[64]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[72]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[77]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[80]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[83]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[92]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[95]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[98]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[106]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[110]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[113]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[116]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[124]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[128]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[131]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[134]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+              "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+              "json_pointer": "$[140]"
+            }
+          ]
+        },
+        "raw_refs": [
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+            "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+            "json_pointer": "$[54]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+            "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+            "json_pointer": "$[69]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+            "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+            "json_pointer": "$[88]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+            "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+            "json_pointer": "$[103]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-7-y-logs.json",
+            "member_sha256": "dd0672493146aa94485808d4cfe437f734a01d04ea8d11eebb04c007c81deae9",
+            "json_pointer": "$[121]"
+          }
+        ],
+        "deterministic_final_edge_state": "Contradicted"
+      },
+      {
+        "instance_id": "gcp-scheduled_transfer-8-y-logs",
+        "payload_condition": "y",
+        "principal": "quickstart-service-account672@PROJECT_ID.iam.gserviceaccount.com",
+        "target": "projects/_/buckets/storage_bucket672",
+        "operation": "storage.googleapis.com::storage.objects.list",
+        "provider_status_code": 7,
+        "denied_permission": "storage.objects.list",
+        "retry_denial_count": 5,
+        "telemetry_archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+        "telemetry_member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+        "causal_control_refs": {
+          "create_function": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[161]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[745]"
+            }
+          ],
+          "create_scheduler": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[149]"
+            }
+          ],
+          "act_as_service_account": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[148]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[194]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[738]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[739]"
+            }
+          ],
+          "denied_bucket_list": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[55]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[70]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[87]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[106]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[125]"
+            }
+          ],
+          "admin_bucket_list_success_control": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[4]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[26]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[59]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[62]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[65]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[74]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[77]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[81]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[91]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[94]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[97]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[100]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[109]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[113]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[116]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[119]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[126]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[131]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[134]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[137]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[143]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+              "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+              "json_pointer": "$[146]"
+            }
+          ]
+        },
+        "raw_refs": [
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+            "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+            "json_pointer": "$[55]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+            "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+            "json_pointer": "$[70]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+            "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+            "json_pointer": "$[87]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+            "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+            "json_pointer": "$[106]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-8-y-logs.json",
+            "member_sha256": "2d946efeea4e7a3e88ec7d9b71cec981d498ea1ae1e0c54b597e2da17d0192f2",
+            "json_pointer": "$[125]"
+          }
+        ],
+        "deterministic_final_edge_state": "Contradicted"
+      },
+      {
+        "instance_id": "gcp-scheduled_transfer-9-y-logs",
+        "payload_condition": "y",
+        "principal": "quickstart-service-account479@PROJECT_ID.iam.gserviceaccount.com",
+        "target": "projects/_/buckets/storage_bucket479",
+        "operation": "storage.googleapis.com::storage.objects.list",
+        "provider_status_code": 7,
+        "denied_permission": "storage.objects.list",
+        "retry_denial_count": 4,
+        "telemetry_archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+        "telemetry_member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+        "causal_control_refs": {
+          "create_function": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[151]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[731]"
+            }
+          ],
+          "create_scheduler": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[139]"
+            }
+          ],
+          "act_as_service_account": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[138]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[178]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[724]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[725]"
+            }
+          ],
+          "denied_bucket_list": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[59]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[75]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[91]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[110]"
+            }
+          ],
+          "admin_bucket_list_success_control": [
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[4]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[24]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[51]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[54]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[63]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[66]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[69]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[79]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[82]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[86]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[94]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[98]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[102]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[105]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[114]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[118]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[122]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[127]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[132]"
+            },
+            {
+              "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+              "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+              "json_pointer": "$[135]"
+            }
+          ]
+        },
+        "raw_refs": [
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+            "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+            "json_pointer": "$[59]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+            "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+            "json_pointer": "$[75]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+            "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+            "json_pointer": "$[91]"
+          },
+          {
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+            "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-9-y-logs.json",
+            "member_sha256": "06f99ed751f8ad4ee6d48fe3053f5914986db84906bdcc39602f004647bee8eb",
+            "json_pointer": "$[110]"
+          }
+        ],
+        "deterministic_final_edge_state": "Contradicted"
+      }
+    ]
+  },
+  "annotation": {
+    "human_gold_label": null,
+    "provider_oracle_gold_label": "NotReachable",
+    "label_origin": "provider_native_runtime",
+    "semantic_contract_status": "deterministic_checks_complete",
+    "main_benchmark_release_status": "protocol-v3 pilot integrated; main benchmark remains pending stratified human audit"
+  }
+}

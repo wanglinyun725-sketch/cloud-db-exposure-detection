@@ -1,0 +1,234 @@
+protocol_version: "0.3"
+experiment_id: ec_react_main_v1
+purpose: human-gold path discovery effectiveness and efficiency
+
+path_ontology:
+  path: configs/path_ontology_v1.json
+  ontology_id: cloud_data_path_v1
+  sha256: 4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e
+  require_canonical_gold: true
+  require_canonical_agent_output: true
+  primary_match: canonical_fine_exact
+  coarse_match_reporting: sensitivity_only
+
+external_action_prior:
+  path: configs/sigma_cloud_operation_prior_v1.json
+  prior_id: sigma_cloud_operation_prior_v1
+  sha256: 065e031df3088876208b00fb9252029a028f19caea18e89f74b2234bb717302b
+  source_id: sigmahq_cloud_rules
+  source_archive_path: data/real_sources/raw/sigmahq/sigma-r2026-07-01.zip
+  source_archive_sha256: eea217c0b05ee1571cca2efaf25cb13512520e2f5e6cab87478b4bf5e001bd81
+  label_usage: none
+  weighting: none
+  positive_detection_selections_only: true
+
+data:
+  source_packet: data/real_sources/annotation/expanded_full_pool_v0_5_unlabeled.json
+  gold_release: data/real_sources/annotation/reviewed/expanded_full_pool_v0_5_reviewed.json
+  split_manifest: data/real_sources/annotation/reviewed/expanded_full_pool_v0_5_splits.json
+  negative_source_packet: data/real_sources/annotation/negative_control_round1_unlabeled.json
+  negative_gold_release: data/real_sources/annotation/reviewed/negative_control_round1_reviewed.json
+  annotation_pilot_packet: data/real_sources/annotation/runtime_pilot_round2_unlabeled.json
+  annotation_pilot_release: data/real_sources/annotation/reviewed/runtime_pilot_round2_reviewed.json
+  annotation_pilot_gate: configs/human_annotation_pilot_gate_v2.json
+  minimum_finalized_cases: 100
+  minimum_included_cases: 80
+  minimum_independence_groups: 80
+  minimum_runtime_backed_cases: 30
+  minimum_frozen_test_cases: 30
+  minimum_external_negative_controls: 20
+  require_nonempty_runtime_instances: true
+  statistical_unit: independence_group
+  allowed_splits:
+    - development
+    - validation
+    - test
+    - external_test
+    - external_negative_control
+    - execution_queue
+    - excluded
+
+shared_execution:
+  orchestration_backend: langgraph
+  tool_schema_id: published_telemetry_v0.1
+  output_contract_id: evidence_path_proposal_v0.3
+  path_ontology_id: cloud_data_path_v1
+  pareto_action_space_id: cross_tool_visible_sigma_v0.3
+  external_action_prior_id: sigma_cloud_operation_prior_v1
+  task_mode: path_discovery
+  max_steps: 12
+  max_path_candidates: 5
+  hard_budget_enforced: true
+  executable_evidence_tests: true
+  budget_grid: [10, 20, 30]
+  temperature: 0
+  llm_repeats: 5
+  deterministic_repeats: 1
+  random_seeds: [1729, 2718, 3141, 5772, 8111]
+
+methods:
+  - method_id: ec_react_full
+    family: llm
+    tool_schema_id: published_telemetry_v0.1
+    max_steps: 12
+    max_path_candidates: 5
+    output_contract_id: evidence_path_proposal_v0.3
+    pareto_guard: true
+    external_rule_prior: true
+    four_value_memory: true
+    budget_stop: true
+    evidence_citation_guard: true
+    finish_guard_mode: strict
+  - method_id: vanilla_react
+    family: llm
+    tool_schema_id: published_telemetry_v0.1
+    max_steps: 12
+    max_path_candidates: 5
+    output_contract_id: evidence_path_proposal_v0.3
+    pareto_guard: false
+    external_rule_prior: false
+    four_value_memory: false
+    budget_stop: false
+    evidence_citation_guard: false
+    finish_guard_mode: record
+  - method_id: ablate_pareto
+    family: llm
+    tool_schema_id: published_telemetry_v0.1
+    max_steps: 12
+    max_path_candidates: 5
+    output_contract_id: evidence_path_proposal_v0.3
+    pareto_guard: false
+    external_rule_prior: true
+    four_value_memory: true
+    budget_stop: true
+    evidence_citation_guard: true
+    finish_guard_mode: strict
+  - method_id: ablate_external_rule_prior
+    family: llm
+    tool_schema_id: published_telemetry_v0.1
+    max_steps: 12
+    max_path_candidates: 5
+    output_contract_id: evidence_path_proposal_v0.3
+    pareto_guard: true
+    external_rule_prior: false
+    four_value_memory: true
+    budget_stop: true
+    evidence_citation_guard: true
+    finish_guard_mode: strict
+  - method_id: ablate_four_value_memory
+    family: llm
+    tool_schema_id: published_telemetry_v0.1
+    max_steps: 12
+    max_path_candidates: 5
+    output_contract_id: evidence_path_proposal_v0.3
+    pareto_guard: true
+    external_rule_prior: true
+    four_value_memory: false
+    budget_stop: true
+    evidence_citation_guard: true
+    finish_guard_mode: strict
+  - method_id: ablate_budget_stop
+    family: llm
+    tool_schema_id: published_telemetry_v0.1
+    max_steps: 12
+    max_path_candidates: 5
+    output_contract_id: evidence_path_proposal_v0.3
+    pareto_guard: true
+    external_rule_prior: true
+    four_value_memory: true
+    budget_stop: false
+    evidence_citation_guard: true
+    finish_guard_mode: strict
+  - method_id: ablate_evidence_cert
+    family: llm
+    tool_schema_id: published_telemetry_v0.1
+    max_steps: 12
+    max_path_candidates: 5
+    output_contract_id: evidence_path_proposal_v0.3
+    pareto_guard: true
+    external_rule_prior: true
+    four_value_memory: true
+    budget_stop: true
+    evidence_citation_guard: false
+    finish_guard_mode: record
+  - method_id: fixed_order
+    family: deterministic
+    tool_schema_id: published_telemetry_v0.1
+    max_steps: 12
+    max_path_candidates: 5
+    output_contract_id: evidence_path_proposal_v0.3
+    pareto_guard: false
+    external_rule_prior: false
+    four_value_memory: false
+    budget_stop: false
+    evidence_citation_guard: false
+    finish_guard_mode: record
+  - method_id: random_tool
+    family: randomized
+    tool_schema_id: published_telemetry_v0.1
+    max_steps: 12
+    max_path_candidates: 5
+    output_contract_id: evidence_path_proposal_v0.3
+    pareto_guard: false
+    external_rule_prior: false
+    four_value_memory: false
+    budget_stop: false
+    evidence_citation_guard: false
+    finish_guard_mode: record
+  - method_id: full_query
+    family: deterministic
+    tool_schema_id: published_telemetry_v0.1
+    max_steps: 12
+    max_path_candidates: 5
+    output_contract_id: evidence_path_proposal_v0.3
+    pareto_guard: false
+    external_rule_prior: false
+    four_value_memory: false
+    budget_stop: false
+    evidence_citation_guard: false
+    finish_guard_mode: record
+
+models:
+  - model_id: qwen_primary
+    api_key_env: DASHSCOPE_API_KEY
+    model_env: QWEN_MODEL
+    default_model: qwen-plus
+    base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+  - model_id: openai_external
+    api_key_env: OPENAI_API_KEY
+    model_env: OPENAI_MODEL
+    base_url_env: OPENAI_BASE_URL
+
+statistics:
+  cluster_bootstrap_resamples: 10000
+  paired_permutation_resamples: 10000
+  confidence_level: 0.95
+  multiple_comparison_correction: holm
+  report_effect_sizes: true
+  source_heterogeneity:
+    dimensions:
+      - scenario_source_id
+      - runtime_evidence_source_id
+    baseline_method_id: vanilla_react
+    minimum_independence_groups_per_source: 5
+    permutation_resamples: 10000
+
+reporting:
+  primary_metrics:
+    - valid_path_recall_at_5
+    - exact_path_match
+    - correct_rejection
+    - correct_abstention
+    - hallucinated_path_rate
+    - mean_query_cost
+  secondary_metrics:
+    - literal_exact_path_match
+    - coarse_exact_path_match
+    - mean_best_coarse_edge_f1
+    - ontology_invalid_predicted_path_rate
+  required_slices:
+    - scenario_source_id
+    - runtime_evidence_source_id
+    - platform
+    - split
+  forbid_smoke_as_effectiveness_result: true

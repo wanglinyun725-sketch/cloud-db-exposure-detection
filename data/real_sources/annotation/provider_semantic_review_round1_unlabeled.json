@@ -1,0 +1,2356 @@
+{
+  "packet_version": "provider-semantic-review-1.0",
+  "packet_kind": "provider_runtime_semantic_review_unlabeled",
+  "protocol_status": "awaiting_two_independent_humans",
+  "schema_ref": "data/real_sources/realpathbench_v2_schema.json",
+  "policy": {
+    "generated_cloud_events": 0,
+    "generated_human_labels": 0,
+    "provider_outcomes_are_facts_not_human_labels": true,
+    "path_semantics_are_label_empty": true,
+    "two_independent_humans_required": true,
+    "third_human_adjudication_for_disputes": true,
+    "lineage_group_is_the_statistical_unit": true
+  },
+  "source_workbench": {
+    "path": "data/real_sources/provider_path_candidate_workbench_v1.json",
+    "workbench_version": "1.0.0"
+  },
+  "summary": {
+    "case_count": 20,
+    "independence_group_count": 14,
+    "platform_counts": {
+      "AWS": 6,
+      "GCP": 14
+    },
+    "human_gold_cases": 0
+  },
+  "cases": [
+    {
+      "case_id": "provider-path-0a9c42e95464faf949c4",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-implant_internal_image-0-y-logs.json#$[445]",
+            "sha256": "97a8503642be1ce1962432ef816ddf957382a10286f21d14f698595f238112d6"
+          },
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-implant_internal_image-0-y-logs.json#$[450]",
+            "sha256": "97a8503642be1ce1962432ef816ddf957382a10286f21d14f698595f238112d6"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:implant_internal_image",
+        "platform": "GCP",
+        "path_shape_candidate": "list_then_object_read",
+        "scenario_variants": [
+          "implant_internal_image"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P1_multi_event_runtime",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": true,
+        "mandatory_predecessors_complete": true
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-0a9c42e95464faf949c4:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 2,
+          "operation_counts": {
+            "storage.googleapis.com::storage.objects.get": 1,
+            "storage.googleapis.com::storage.objects.list": 1
+          },
+          "actor_id": "815467646559-compute@developer.gserviceaccount.com",
+          "principal_class": "workload_identity",
+          "target_root": "gcs:projects/_/buckets/PROJECT_ID-daisy-bkt-us",
+          "observations": [
+            {
+              "observation_id": "provider-path-0a9c42e95464faf949c4:evidence-1",
+              "timestamp": "2024-11-06T17:34:32.179878851Z",
+              "operation": "storage.googleapis.com::storage.objects.list",
+              "actor_id": "815467646559-compute@developer.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/PROJECT_ID-daisy-bkt-us",
+              "target_root": "gcs:projects/_/buckets/PROJECT_ID-daisy-bkt-us",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-implant_internal_image-0-y-logs.json",
+                "member_sha256": "97a8503642be1ce1962432ef816ddf957382a10286f21d14f698595f238112d6",
+                "json_pointer": "$[445]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            },
+            {
+              "observation_id": "provider-path-0a9c42e95464faf949c4:evidence-2",
+              "timestamp": "2024-11-06T17:34:27.584085291Z",
+              "operation": "storage.googleapis.com::storage.objects.get",
+              "actor_id": "815467646559-compute@developer.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/PROJECT_ID-daisy-bkt-us/objects/gce-image-import-2024-11-06T17:30:29Z-y29xb/daisy-inspect-disk-20241106-17:33:59-xbylt/sources/daisy-shim.sh",
+              "target_root": "gcs:projects/_/buckets/PROJECT_ID-daisy-bkt-us",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-implant_internal_image-0-y-logs.json",
+                "member_sha256": "97a8503642be1ce1962432ef816ddf957382a10286f21d14f698595f238112d6",
+                "json_pointer": "$[450]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-1f54a3b21df20e360a38",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-data_manipulation-0-y-logs.json#$[41]",
+            "sha256": "6cfdbcbc56e90651ee0a479fdb45b70b2d40f22cca3acc648e2f12a387d8756f"
+          },
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-data_manipulation-0-y-logs.json#$[40]",
+            "sha256": "6cfdbcbc56e90651ee0a479fdb45b70b2d40f22cca3acc648e2f12a387d8756f"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:data_manipulation",
+        "platform": "GCP",
+        "path_shape_candidate": "list_then_object_read",
+        "scenario_variants": [
+          "data_manipulation"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P1_multi_event_runtime",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": true,
+        "mandatory_predecessors_complete": true
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-1f54a3b21df20e360a38:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 2,
+          "operation_counts": {
+            "storage.googleapis.com::storage.objects.get": 1,
+            "storage.googleapis.com::storage.objects.list": 1
+          },
+          "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+          "principal_class": "workload_identity",
+          "target_root": "gcs:projects/_/buckets/data_manipulation_1",
+          "observations": [
+            {
+              "observation_id": "provider-path-1f54a3b21df20e360a38:evidence-1",
+              "timestamp": "2024-11-01T10:52:48.038356784Z",
+              "operation": "storage.googleapis.com::storage.objects.list",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/data_manipulation_1",
+              "target_root": "gcs:projects/_/buckets/data_manipulation_1",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-data_manipulation-0-y-logs.json",
+                "member_sha256": "6cfdbcbc56e90651ee0a479fdb45b70b2d40f22cca3acc648e2f12a387d8756f",
+                "json_pointer": "$[41]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            },
+            {
+              "observation_id": "provider-path-1f54a3b21df20e360a38:evidence-2",
+              "timestamp": "2024-11-01T10:52:54.260135725Z",
+              "operation": "storage.googleapis.com::storage.objects.get",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/data_manipulation_1/objects/test_1_0.txt",
+              "target_root": "gcs:projects/_/buckets/data_manipulation_1",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-data_manipulation-0-y-logs.json",
+                "member_sha256": "6cfdbcbc56e90651ee0a479fdb45b70b2d40f22cca3acc648e2f12a387d8756f",
+                "json_pointer": "$[40]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-2f521bd8318335e485d0",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip::aws_logs/additional-logs/aws-data_staged-0-y-cloudwatch-jq-logs.json#$[23]",
+            "sha256": "f3721e1d66d5f45d4e81536a3aa499011b5c62840f5b23714566a41416e21851"
+          },
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip::aws_logs/additional-logs/aws-data_staged-0-y-cloudwatch-jq-logs.json#$[51]",
+            "sha256": "f3721e1d66d5f45d4e81536a3aa499011b5c62840f5b23714566a41416e21851"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:data_staged",
+        "platform": "AWS",
+        "path_shape_candidate": "list_then_object_read",
+        "scenario_variants": [
+          "data_staged",
+          "data_staged-with-webapp"
+        ],
+        "replicate_member_count": 11,
+        "audit_priority": "P1_multi_event_runtime",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": true,
+        "mandatory_predecessors_complete": true
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-2f521bd8318335e485d0:representative",
+          "platform": "AWS",
+          "source_schema": "aws_cloudtrail",
+          "observation_count": 2,
+          "operation_counts": {
+            "s3.amazonaws.com::GetObject": 1,
+            "s3.amazonaws.com::ListObjects": 1
+          },
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "principal_class": "root_high_privilege",
+          "target_root": "s3:archive-source-bucket1",
+          "observations": [
+            {
+              "observation_id": "provider-path-2f521bd8318335e485d0:evidence-1",
+              "timestamp": "2024-11-23T03:14:17Z",
+              "operation": "s3.amazonaws.com::ListObjects",
+              "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+              "target_resource": "arn:aws:s3:::archive-source-bucket1",
+              "target_root": "s3:archive-source-bucket1",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+                "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+                "member": "aws_logs/additional-logs/aws-data_staged-0-y-cloudwatch-jq-logs.json",
+                "member_sha256": "f3721e1d66d5f45d4e81536a3aa499011b5c62840f5b23714566a41416e21851",
+                "json_pointer": "$[23]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            },
+            {
+              "observation_id": "provider-path-2f521bd8318335e485d0:evidence-2",
+              "timestamp": "2024-11-23T03:14:05Z",
+              "operation": "s3.amazonaws.com::GetObject",
+              "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+              "target_resource": "arn:aws:s3:::archive-source-bucket1|arn:aws:s3:::archive-source-bucket1/file1.txt",
+              "target_root": "s3:archive-source-bucket1",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+                "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+                "member": "aws_logs/additional-logs/aws-data_staged-0-y-cloudwatch-jq-logs.json",
+                "member_sha256": "f3721e1d66d5f45d4e81536a3aa499011b5c62840f5b23714566a41416e21851",
+                "json_pointer": "$[51]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-367e413000dcc6fdf648",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-defacement-0-y-logs.json#$[3]",
+            "sha256": "d5cc0dae33ff0098bc92e8f7346c1af3b192e8202fc0c23028a4cf5201d43b6e"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:defacement",
+        "platform": "GCP",
+        "path_shape_candidate": "object_read",
+        "scenario_variants": [
+          "defacement"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P2_direct_runtime_edge",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": false,
+        "mandatory_predecessors_complete": "semantic_review_required"
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-367e413000dcc6fdf648:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 1,
+          "operation_counts": {
+            "storage.googleapis.com::storage.objects.get": 1
+          },
+          "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+          "principal_class": "workload_identity",
+          "target_root": "gcs:projects/_/buckets/defacement",
+          "observations": [
+            {
+              "observation_id": "provider-path-367e413000dcc6fdf648:evidence-1",
+              "timestamp": "2024-11-01T14:39:47.238445614Z",
+              "operation": "storage.googleapis.com::storage.objects.get",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/defacement/objects/public_file_to_be_defaced.txt",
+              "target_root": "gcs:projects/_/buckets/defacement",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-defacement-0-y-logs.json",
+                "member_sha256": "d5cc0dae33ff0098bc92e8f7346c1af3b192e8202fc0c23028a4cf5201d43b6e",
+                "json_pointer": "$[3]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-37530b30b5ce2f29ac93",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip::aws_logs/additional-logs/aws-use_alternative_authentication_material-0-y-cloudwatch-jq-logs.json#$[50]",
+            "sha256": "f0e8e119ad42879b7222b08b63552ab4b7f9506095ae04531d810161da51452b"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:use_alternative_authentication_material",
+        "platform": "AWS",
+        "path_shape_candidate": "object_read",
+        "scenario_variants": [
+          "use_alternative_authentication_material",
+          "use_alternative_authentication_material-with-webapp"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P2_direct_runtime_edge",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": false,
+        "mandatory_predecessors_complete": "semantic_review_required"
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-37530b30b5ce2f29ac93:representative",
+          "platform": "AWS",
+          "source_schema": "aws_cloudtrail",
+          "observation_count": 1,
+          "operation_counts": {
+            "s3.amazonaws.com::GetObject": 1
+          },
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:user/myusername1412",
+          "principal_class": "iam_user",
+          "target_root": "s3:account-attacks-bucket1412",
+          "observations": [
+            {
+              "observation_id": "provider-path-37530b30b5ce2f29ac93:evidence-1",
+              "timestamp": "2024-12-17T00:17:35Z",
+              "operation": "s3.amazonaws.com::GetObject",
+              "actor_id": "arn:aws:iam::ACCOUNT_ID:user/myusername1412",
+              "target_resource": "arn:aws:s3:::account-attacks-bucket1412|arn:aws:s3:::account-attacks-bucket1412/keyname",
+              "target_root": "s3:account-attacks-bucket1412",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+                "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+                "member": "aws_logs/additional-logs/aws-use_alternative_authentication_material-0-y-cloudwatch-jq-logs.json",
+                "member_sha256": "f0e8e119ad42879b7222b08b63552ab4b7f9506095ae04531d810161da51452b",
+                "json_pointer": "$[50]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-53df20bc2c15f02eab4e",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip::aws_logs/additional-logs/aws-steal_application_access_token-1-y-cloudwatch-jq-logs.json#$[32]",
+            "sha256": "528e3cd1340963126c204fc3d472c9988e4bd657545009fe1bc43034c5a6bbbb"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:steal_application_access_token",
+        "platform": "AWS",
+        "path_shape_candidate": "object_read",
+        "scenario_variants": [
+          "steal_application_access_token",
+          "steal_application_access_token-with-webapp"
+        ],
+        "replicate_member_count": 9,
+        "audit_priority": "P2_direct_runtime_edge",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": false,
+        "mandatory_predecessors_complete": "semantic_review_required"
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-53df20bc2c15f02eab4e:representative",
+          "platform": "AWS",
+          "source_schema": "aws_cloudtrail",
+          "observation_count": 1,
+          "operation_counts": {
+            "s3.amazonaws.com::GetObject": 1
+          },
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:user/myusername9779",
+          "principal_class": "iam_user",
+          "target_root": "s3:account-attacks-bucket9779",
+          "observations": [
+            {
+              "observation_id": "provider-path-53df20bc2c15f02eab4e:evidence-1",
+              "timestamp": "2024-11-27T02:35:11Z",
+              "operation": "s3.amazonaws.com::GetObject",
+              "actor_id": "arn:aws:iam::ACCOUNT_ID:user/myusername9779",
+              "target_resource": "arn:aws:s3:::account-attacks-bucket9779|arn:aws:s3:::account-attacks-bucket9779/keyname9779",
+              "target_root": "s3:account-attacks-bucket9779",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+                "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+                "member": "aws_logs/additional-logs/aws-steal_application_access_token-1-y-cloudwatch-jq-logs.json",
+                "member_sha256": "528e3cd1340963126c204fc3d472c9988e4bd657545009fe1bc43034c5a6bbbb",
+                "json_pointer": "$[32]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-55f57f5993c4a9084f82",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip::aws_logs/additional-logs/aws-data_manipulation-0-y-cloudwatch-jq-logs.json#$[37]",
+            "sha256": "bd56d28f6664e66a9496557a0c4d0086e6114bfd5369f42322f0cab3a58f799c"
+          },
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip::aws_logs/additional-logs/aws-data_manipulation-0-y-cloudwatch-jq-logs.json#$[22]",
+            "sha256": "bd56d28f6664e66a9496557a0c4d0086e6114bfd5369f42322f0cab3a58f799c"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:data_manipulation",
+        "platform": "AWS",
+        "path_shape_candidate": "list_then_object_read",
+        "scenario_variants": [
+          "data_manipulation",
+          "data_manipulation-with-webapp"
+        ],
+        "replicate_member_count": 9,
+        "audit_priority": "P1_multi_event_runtime",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": true,
+        "mandatory_predecessors_complete": true
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-55f57f5993c4a9084f82:representative",
+          "platform": "AWS",
+          "source_schema": "aws_cloudtrail",
+          "observation_count": 2,
+          "operation_counts": {
+            "s3.amazonaws.com::GetObject": 1,
+            "s3.amazonaws.com::ListObjects": 1
+          },
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "principal_class": "root_high_privilege",
+          "target_root": "s3:archive-source-bucket1",
+          "observations": [
+            {
+              "observation_id": "provider-path-55f57f5993c4a9084f82:evidence-1",
+              "timestamp": "2024-11-23T16:46:04Z",
+              "operation": "s3.amazonaws.com::ListObjects",
+              "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+              "target_resource": "arn:aws:s3:::archive-source-bucket1",
+              "target_root": "s3:archive-source-bucket1",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+                "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+                "member": "aws_logs/additional-logs/aws-data_manipulation-0-y-cloudwatch-jq-logs.json",
+                "member_sha256": "bd56d28f6664e66a9496557a0c4d0086e6114bfd5369f42322f0cab3a58f799c",
+                "json_pointer": "$[37]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            },
+            {
+              "observation_id": "provider-path-55f57f5993c4a9084f82:evidence-2",
+              "timestamp": "2024-11-23T16:45:35Z",
+              "operation": "s3.amazonaws.com::GetObject",
+              "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+              "target_resource": "arn:aws:s3:::archive-source-bucket1|arn:aws:s3:::archive-source-bucket1/file1.txt",
+              "target_root": "s3:archive-source-bucket1",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+                "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+                "member": "aws_logs/additional-logs/aws-data_manipulation-0-y-cloudwatch-jq-logs.json",
+                "member_sha256": "bd56d28f6664e66a9496557a0c4d0086e6114bfd5369f42322f0cab3a58f799c",
+                "json_pointer": "$[22]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-6604cd2e96bf5d9c01e1",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-credentials_from_password_stores-0-y-logs.json#$[12]",
+            "sha256": "141b0d3968e57f715613c40640445fffdc2adda1ef798dffbbe9de2f50e62dbc"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:credentials_from_password_stores",
+        "platform": "GCP",
+        "path_shape_candidate": "secret_read",
+        "scenario_variants": [
+          "credentials_from_password_stores"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P2_direct_runtime_edge",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": false,
+        "mandatory_predecessors_complete": "semantic_review_required"
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-6604cd2e96bf5d9c01e1:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 1,
+          "operation_counts": {
+            "secretmanager.googleapis.com::google.cloud.secretmanager.v1.SecretManagerService.AccessSecretVersion": 1
+          },
+          "actor_id": "serviceAccount:high-priority-account251@PROJECT_ID.iam.gserviceaccount.com",
+          "principal_class": "named_high_priority_workload",
+          "target_root": "secret:projects/815467646559/secrets/my-secret",
+          "observations": [
+            {
+              "observation_id": "provider-path-6604cd2e96bf5d9c01e1:evidence-1",
+              "timestamp": "2024-11-01T21:06:45.748638238Z",
+              "operation": "secretmanager.googleapis.com::google.cloud.secretmanager.v1.SecretManagerService.AccessSecretVersion",
+              "actor_id": "serviceAccount:high-priority-account251@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/815467646559/secrets/my-secret/versions/latest",
+              "target_root": "secret:projects/815467646559/secrets/my-secret",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-credentials_from_password_stores-0-y-logs.json",
+                "member_sha256": "141b0d3968e57f715613c40640445fffdc2adda1ef798dffbbe9de2f50e62dbc",
+                "json_pointer": "$[12]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-663681ae57f50c88cc21",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-implant_internal_image-0-y-logs.json#$[749]",
+            "sha256": "97a8503642be1ce1962432ef816ddf957382a10286f21d14f698595f238112d6"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:implant_internal_image",
+        "platform": "GCP",
+        "path_shape_candidate": "object_read",
+        "scenario_variants": [
+          "implant_internal_image"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P2_direct_runtime_edge",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": false,
+        "mandatory_predecessors_complete": "semantic_review_required"
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-663681ae57f50c88cc21:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 1,
+          "operation_counts": {
+            "storage.googleapis.com::storage.objects.get": 1
+          },
+          "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+          "principal_class": "workload_identity",
+          "target_root": "gcs:projects/_/buckets/implant_internal_image_bucket_automated_PROJECT_ID",
+          "observations": [
+            {
+              "observation_id": "provider-path-663681ae57f50c88cc21:evidence-1",
+              "timestamp": "2024-11-06T17:29:31.701615673Z",
+              "operation": "storage.googleapis.com::storage.objects.get",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/implant_internal_image_bucket_automated_PROJECT_ID/objects/my-image-file.vmdk",
+              "target_root": "gcs:projects/_/buckets/implant_internal_image_bucket_automated_PROJECT_ID",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-implant_internal_image-0-y-logs.json",
+                "member_sha256": "97a8503642be1ce1962432ef816ddf957382a10286f21d14f698595f238112d6",
+                "json_pointer": "$[749]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-6e9cdb3a740d15c71abf",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip::aws_logs/additional-logs/aws-credentials_from_password_stores-0-y-logs.json#$[41]",
+            "sha256": "9a4c149ade5d5d0c45097b0d27304b7fd774c0386d24372ef89a748b3d7224c8"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:credentials_from_password_stores",
+        "platform": "AWS",
+        "path_shape_candidate": "secret_read",
+        "scenario_variants": [
+          "credentials_from_password_stores",
+          "credentials_from_password_stores-with-webapp"
+        ],
+        "replicate_member_count": 33,
+        "audit_priority": "P2_direct_runtime_edge",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": false,
+        "mandatory_predecessors_complete": "semantic_review_required"
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-6e9cdb3a740d15c71abf:representative",
+          "platform": "AWS",
+          "source_schema": "aws_cloudtrail",
+          "observation_count": 1,
+          "operation_counts": {
+            "secretsmanager.amazonaws.com::GetSecretValue": 1
+          },
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:user/myusername2860",
+          "principal_class": "iam_user",
+          "target_root": "secret:rootid",
+          "observations": [
+            {
+              "observation_id": "provider-path-6e9cdb3a740d15c71abf:evidence-1",
+              "timestamp": "2024-12-03T03:51:30Z",
+              "operation": "secretsmanager.amazonaws.com::GetSecretValue",
+              "actor_id": "arn:aws:iam::ACCOUNT_ID:user/myusername2860",
+              "target_resource": "rootid",
+              "target_root": "secret:rootid",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+                "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+                "member": "aws_logs/additional-logs/aws-credentials_from_password_stores-0-y-logs.json",
+                "member_sha256": "9a4c149ade5d5d0c45097b0d27304b7fd774c0386d24372ef89a748b3d7224c8",
+                "json_pointer": "$[41]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-6fe9f1e21bc07372934f",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-data_staged-0-y-logs.json#$[84]",
+            "sha256": "d99f395da0e5ccd1800d57b6d3554463ea9fd58e56d651506c5853c2057f7a74"
+          },
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-data_staged-0-y-logs.json#$[83]",
+            "sha256": "d99f395da0e5ccd1800d57b6d3554463ea9fd58e56d651506c5853c2057f7a74"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:data_staged",
+        "platform": "GCP",
+        "path_shape_candidate": "list_then_object_read",
+        "scenario_variants": [
+          "data_staged"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P1_multi_event_runtime",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": true,
+        "mandatory_predecessors_complete": true
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-6fe9f1e21bc07372934f:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 2,
+          "operation_counts": {
+            "storage.googleapis.com::storage.objects.get": 1,
+            "storage.googleapis.com::storage.objects.list": 1
+          },
+          "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+          "principal_class": "workload_identity",
+          "target_root": "gcs:projects/_/buckets/data_staged_1",
+          "observations": [
+            {
+              "observation_id": "provider-path-6fe9f1e21bc07372934f:evidence-1",
+              "timestamp": "2024-11-01T06:35:51.533276283Z",
+              "operation": "storage.googleapis.com::storage.objects.list",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/data_staged_1",
+              "target_root": "gcs:projects/_/buckets/data_staged_1",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-data_staged-0-y-logs.json",
+                "member_sha256": "d99f395da0e5ccd1800d57b6d3554463ea9fd58e56d651506c5853c2057f7a74",
+                "json_pointer": "$[84]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            },
+            {
+              "observation_id": "provider-path-6fe9f1e21bc07372934f:evidence-2",
+              "timestamp": "2024-11-01T06:35:57.782382458Z",
+              "operation": "storage.googleapis.com::storage.objects.get",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/data_staged_1/objects/test_1_0.txt",
+              "target_root": "gcs:projects/_/buckets/data_staged_1",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-data_staged-0-y-logs.json",
+                "member_sha256": "d99f395da0e5ccd1800d57b6d3554463ea9fd58e56d651506c5853c2057f7a74",
+                "json_pointer": "$[83]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-881c1b0c2001305a3f65",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-data_destruction-0-y-logs.json#$[102]",
+            "sha256": "c5e5f3a4314c77366e26ffa0a7346847e232465ac9bc749dbb139fd34566e0c8"
+          },
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-data_destruction-0-y-logs.json#$[101]",
+            "sha256": "c5e5f3a4314c77366e26ffa0a7346847e232465ac9bc749dbb139fd34566e0c8"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:data_destruction",
+        "platform": "GCP",
+        "path_shape_candidate": "list_then_object_read",
+        "scenario_variants": [
+          "data_destruction"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P1_multi_event_runtime",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": true,
+        "mandatory_predecessors_complete": true
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-881c1b0c2001305a3f65:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 2,
+          "operation_counts": {
+            "storage.googleapis.com::storage.objects.get": 1,
+            "storage.googleapis.com::storage.objects.list": 1
+          },
+          "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+          "principal_class": "workload_identity",
+          "target_root": "gcs:projects/_/buckets/data_destruction",
+          "observations": [
+            {
+              "observation_id": "provider-path-881c1b0c2001305a3f65:evidence-1",
+              "timestamp": "2024-10-31T23:46:44.761576652Z",
+              "operation": "storage.googleapis.com::storage.objects.list",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/data_destruction",
+              "target_root": "gcs:projects/_/buckets/data_destruction",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-data_destruction-0-y-logs.json",
+                "member_sha256": "c5e5f3a4314c77366e26ffa0a7346847e232465ac9bc749dbb139fd34566e0c8",
+                "json_pointer": "$[102]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            },
+            {
+              "observation_id": "provider-path-881c1b0c2001305a3f65:evidence-2",
+              "timestamp": "2024-10-31T23:46:51.025139843Z",
+              "operation": "storage.googleapis.com::storage.objects.get",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/data_destruction/objects/test_0.txt",
+              "target_root": "gcs:projects/_/buckets/data_destruction",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-data_destruction-0-y-logs.json",
+                "member_sha256": "c5e5f3a4314c77366e26ffa0a7346847e232465ac9bc749dbb139fd34566e0c8",
+                "json_pointer": "$[101]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-8b92c1d0e0c311dc9b6e",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-scheduled_task_job-0-y-logs.json#$[593]",
+            "sha256": "94398273fabcdbfb962467a93fc3f9880fa15fffddb5349f372e3414fd137f8a"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:scheduled_task_job",
+        "platform": "GCP",
+        "path_shape_candidate": "object_read",
+        "scenario_variants": [
+          "scheduled_task_job"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P2_direct_runtime_edge",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": false,
+        "mandatory_predecessors_complete": "semantic_review_required"
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-8b92c1d0e0c311dc9b6e:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 1,
+          "operation_counts": {
+            "storage.googleapis.com::storage.objects.get": 1
+          },
+          "actor_id": "815467646559@cloudbuild.gserviceaccount.com",
+          "principal_class": "workload_identity",
+          "target_root": "gcs:projects/_/buckets/gcf-v2-sources-815467646559-us-central1",
+          "observations": [
+            {
+              "observation_id": "provider-path-8b92c1d0e0c311dc9b6e:evidence-1",
+              "timestamp": "2024-11-13T18:16:27.303007666Z",
+              "operation": "storage.googleapis.com::storage.objects.get",
+              "actor_id": "815467646559@cloudbuild.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/gcf-v2-sources-815467646559-us-central1/objects/check-bucket-changes/function-source.zip",
+              "target_root": "gcs:projects/_/buckets/gcf-v2-sources-815467646559-us-central1",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-scheduled_task_job-0-y-logs.json",
+                "member_sha256": "94398273fabcdbfb962467a93fc3f9880fa15fffddb5349f372e3414fd137f8a",
+                "json_pointer": "$[593]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-99316da0db0ee0e44736",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-archive_collected_data-0-y-logs.json#$[23]",
+            "sha256": "a83d066bd75aaea72809e7bf2bee7dc4a2b275e8f39ec56203cbaef482588a8d"
+          },
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-archive_collected_data-0-y-logs.json#$[22]",
+            "sha256": "a83d066bd75aaea72809e7bf2bee7dc4a2b275e8f39ec56203cbaef482588a8d"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:archive_collected_data",
+        "platform": "GCP",
+        "path_shape_candidate": "list_then_object_read",
+        "scenario_variants": [
+          "archive_collected_data"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P1_multi_event_runtime",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": true,
+        "mandatory_predecessors_complete": true
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-99316da0db0ee0e44736:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 2,
+          "operation_counts": {
+            "storage.googleapis.com::storage.objects.get": 1,
+            "storage.googleapis.com::storage.objects.list": 1
+          },
+          "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+          "principal_class": "workload_identity",
+          "target_root": "gcs:projects/_/buckets/archive_collected_data",
+          "observations": [
+            {
+              "observation_id": "provider-path-99316da0db0ee0e44736:evidence-1",
+              "timestamp": "2024-10-31T19:29:40.177805113Z",
+              "operation": "storage.googleapis.com::storage.objects.list",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/archive_collected_data",
+              "target_root": "gcs:projects/_/buckets/archive_collected_data",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-archive_collected_data-0-y-logs.json",
+                "member_sha256": "a83d066bd75aaea72809e7bf2bee7dc4a2b275e8f39ec56203cbaef482588a8d",
+                "json_pointer": "$[23]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            },
+            {
+              "observation_id": "provider-path-99316da0db0ee0e44736:evidence-2",
+              "timestamp": "2024-10-31T19:29:46.973560798Z",
+              "operation": "storage.googleapis.com::storage.objects.get",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/archive_collected_data/objects/test_0.txt",
+              "target_root": "gcs:projects/_/buckets/archive_collected_data",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-archive_collected_data-0-y-logs.json",
+                "member_sha256": "a83d066bd75aaea72809e7bf2bee7dc4a2b275e8f39ec56203cbaef482588a8d",
+                "json_pointer": "$[22]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-a0f1f2cad4bbcd2f9dfc",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-scheduled_task_job-0-y-logs.json#$[114]",
+            "sha256": "94398273fabcdbfb962467a93fc3f9880fa15fffddb5349f372e3414fd137f8a"
+          },
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-scheduled_task_job-0-y-logs.json#$[118]",
+            "sha256": "94398273fabcdbfb962467a93fc3f9880fa15fffddb5349f372e3414fd137f8a"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:scheduled_task_job",
+        "platform": "GCP",
+        "path_shape_candidate": "list_then_object_read",
+        "scenario_variants": [
+          "scheduled_task_job"
+        ],
+        "replicate_member_count": 9,
+        "audit_priority": "P1_multi_event_runtime",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": true,
+        "mandatory_predecessors_complete": true
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-a0f1f2cad4bbcd2f9dfc:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 2,
+          "operation_counts": {
+            "storage.googleapis.com::storage.objects.get": 1,
+            "storage.googleapis.com::storage.objects.list": 1
+          },
+          "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+          "principal_class": "workload_identity",
+          "target_root": "gcs:projects/_/buckets/storage_bucket669",
+          "observations": [
+            {
+              "observation_id": "provider-path-a0f1f2cad4bbcd2f9dfc:evidence-1",
+              "timestamp": "2024-11-13T18:18:02.207178795Z",
+              "operation": "storage.googleapis.com::storage.objects.list",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/storage_bucket669",
+              "target_root": "gcs:projects/_/buckets/storage_bucket669",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-scheduled_task_job-0-y-logs.json",
+                "member_sha256": "94398273fabcdbfb962467a93fc3f9880fa15fffddb5349f372e3414fd137f8a",
+                "json_pointer": "$[114]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            },
+            {
+              "observation_id": "provider-path-a0f1f2cad4bbcd2f9dfc:evidence-2",
+              "timestamp": "2024-11-13T18:17:58.923170242Z",
+              "operation": "storage.googleapis.com::storage.objects.get",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/storage_bucket669/objects/file_REDACTED_ID27.txt",
+              "target_root": "gcs:projects/_/buckets/storage_bucket669",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-scheduled_task_job-0-y-logs.json",
+                "member_sha256": "94398273fabcdbfb962467a93fc3f9880fa15fffddb5349f372e3414fd137f8a",
+                "json_pointer": "$[118]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-b9e99526c249f87e16ba",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-automated_exfiltration-0-y-logs.json#$[829]",
+            "sha256": "f5115f6c32f11dbc9cb8cc74e75432d8b0ac1e681d5c6404846fccb6e8fde5ae"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:automated_exfiltration",
+        "platform": "GCP",
+        "path_shape_candidate": "object_read",
+        "scenario_variants": [
+          "automated_exfiltration"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P2_direct_runtime_edge",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": false,
+        "mandatory_predecessors_complete": "semantic_review_required"
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-b9e99526c249f87e16ba:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 1,
+          "operation_counts": {
+            "storage.googleapis.com::storage.objects.get": 1
+          },
+          "actor_id": "815467646559@cloudbuild.gserviceaccount.com",
+          "principal_class": "workload_identity",
+          "target_root": "gcs:projects/_/buckets/gcf-v2-sources-815467646559-us-central1",
+          "observations": [
+            {
+              "observation_id": "provider-path-b9e99526c249f87e16ba:evidence-1",
+              "timestamp": "2025-09-24T10:03:34.206659243Z",
+              "operation": "storage.googleapis.com::storage.objects.get",
+              "actor_id": "815467646559@cloudbuild.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/gcf-v2-sources-815467646559-us-central1/objects/check-bucket-changes/function-source.zip",
+              "target_root": "gcs:projects/_/buckets/gcf-v2-sources-815467646559-us-central1",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-automated_exfiltration-0-y-logs.json",
+                "member_sha256": "f5115f6c32f11dbc9cb8cc74e75432d8b0ac1e681d5c6404846fccb6e8fde5ae",
+                "json_pointer": "$[829]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-d49e89c5fbba47842304",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-inhibit_system_recovery-0-y-logs.json#$[4]",
+            "sha256": "862d30ab54f7766627be8d79778bdb54f250229414edb9e815ffe863a98a7e18"
+          },
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-inhibit_system_recovery-0-y-logs.json#$[3]",
+            "sha256": "862d30ab54f7766627be8d79778bdb54f250229414edb9e815ffe863a98a7e18"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:inhibit_system_recovery",
+        "platform": "GCP",
+        "path_shape_candidate": "list_then_object_read",
+        "scenario_variants": [
+          "inhibit_system_recovery"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P1_multi_event_runtime",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": true,
+        "mandatory_predecessors_complete": true
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-d49e89c5fbba47842304:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 2,
+          "operation_counts": {
+            "storage.googleapis.com::storage.objects.get": 1,
+            "storage.googleapis.com::storage.objects.list": 1
+          },
+          "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+          "principal_class": "workload_identity",
+          "target_root": "gcs:projects/_/buckets/inhibit_system_recovery",
+          "observations": [
+            {
+              "observation_id": "provider-path-d49e89c5fbba47842304:evidence-1",
+              "timestamp": "2024-11-01T16:14:57.518004620Z",
+              "operation": "storage.googleapis.com::storage.objects.list",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/inhibit_system_recovery",
+              "target_root": "gcs:projects/_/buckets/inhibit_system_recovery",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-inhibit_system_recovery-0-y-logs.json",
+                "member_sha256": "862d30ab54f7766627be8d79778bdb54f250229414edb9e815ffe863a98a7e18",
+                "json_pointer": "$[4]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            },
+            {
+              "observation_id": "provider-path-d49e89c5fbba47842304:evidence-2",
+              "timestamp": "2024-11-01T16:15:03.779858705Z",
+              "operation": "storage.googleapis.com::storage.objects.get",
+              "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/inhibit_system_recovery/objects/versioning_file",
+              "target_root": "gcs:projects/_/buckets/inhibit_system_recovery",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-inhibit_system_recovery-0-y-logs.json",
+                "member_sha256": "862d30ab54f7766627be8d79778bdb54f250229414edb9e815ffe863a98a7e18",
+                "json_pointer": "$[3]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-e62989115394ce031ee1",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip::aws_logs/additional-logs/aws-archive_collected_data-0-y-cloudwatch-jq-logs.json#$[40]",
+            "sha256": "860e4ddf07ad94ab074fc837d0ddb5524ce8c9768c2b2e11837dc9887b857cb6"
+          },
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip::aws_logs/additional-logs/aws-archive_collected_data-0-y-cloudwatch-jq-logs.json#$[15]",
+            "sha256": "860e4ddf07ad94ab074fc837d0ddb5524ce8c9768c2b2e11837dc9887b857cb6"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:archive_collected_data",
+        "platform": "AWS",
+        "path_shape_candidate": "list_then_object_read",
+        "scenario_variants": [
+          "archive_collected_data",
+          "archive_collected_data-with-webapp"
+        ],
+        "replicate_member_count": 9,
+        "audit_priority": "P1_multi_event_runtime",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": true,
+        "mandatory_predecessors_complete": true
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-e62989115394ce031ee1:representative",
+          "platform": "AWS",
+          "source_schema": "aws_cloudtrail",
+          "observation_count": 2,
+          "operation_counts": {
+            "s3.amazonaws.com::GetObject": 1,
+            "s3.amazonaws.com::ListObjects": 1
+          },
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "principal_class": "root_high_privilege",
+          "target_root": "s3:archive-source-bucket",
+          "observations": [
+            {
+              "observation_id": "provider-path-e62989115394ce031ee1:evidence-1",
+              "timestamp": "2024-11-22T18:58:19Z",
+              "operation": "s3.amazonaws.com::ListObjects",
+              "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+              "target_resource": "arn:aws:s3:::archive-source-bucket",
+              "target_root": "s3:archive-source-bucket",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+                "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+                "member": "aws_logs/additional-logs/aws-archive_collected_data-0-y-cloudwatch-jq-logs.json",
+                "member_sha256": "860e4ddf07ad94ab074fc837d0ddb5524ce8c9768c2b2e11837dc9887b857cb6",
+                "json_pointer": "$[40]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            },
+            {
+              "observation_id": "provider-path-e62989115394ce031ee1:evidence-2",
+              "timestamp": "2024-11-22T18:57:55Z",
+              "operation": "s3.amazonaws.com::GetObject",
+              "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+              "target_resource": "arn:aws:s3:::archive-source-bucket|arn:aws:s3:::archive-source-bucket/file.txt",
+              "target_root": "s3:archive-source-bucket",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+                "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+                "member": "aws_logs/additional-logs/aws-archive_collected_data-0-y-cloudwatch-jq-logs.json",
+                "member_sha256": "860e4ddf07ad94ab074fc837d0ddb5524ce8c9768c2b2e11837dc9887b857cb6",
+                "json_pointer": "$[15]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-e9a0fb561d4ed2aaf30e",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json#$[763]",
+            "sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:scheduled_transfer",
+        "platform": "GCP",
+        "path_shape_candidate": "object_read",
+        "scenario_variants": [
+          "scheduled_transfer"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P2_direct_runtime_edge",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": false,
+        "mandatory_predecessors_complete": "semantic_review_required"
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-e9a0fb561d4ed2aaf30e:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 1,
+          "operation_counts": {
+            "storage.googleapis.com::storage.objects.get": 1
+          },
+          "actor_id": "815467646559@cloudbuild.gserviceaccount.com",
+          "principal_class": "workload_identity",
+          "target_root": "gcs:projects/_/buckets/gcf-v2-sources-815467646559-us-central1",
+          "observations": [
+            {
+              "observation_id": "provider-path-e9a0fb561d4ed2aaf30e:evidence-1",
+              "timestamp": "2025-09-24T03:56:24.194128371Z",
+              "operation": "storage.googleapis.com::storage.objects.get",
+              "actor_id": "815467646559@cloudbuild.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/gcf-v2-sources-815467646559-us-central1/objects/check-bucket-changes/function-source.zip",
+              "target_root": "gcs:projects/_/buckets/gcf-v2-sources-815467646559-us-central1",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-scheduled_transfer-0-y-logs.json",
+                "member_sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+                "json_pointer": "$[763]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    },
+    {
+      "case_id": "provider-path-f135929ace6fd83fd4af",
+      "source": {
+        "source_id": "cross_cloud_observability_2026",
+        "upstream_url": "https://zenodo.org/records/19933893",
+        "version_or_commit": "record-19933893-v2",
+        "license": "CC-BY-4.0",
+        "provenance_level": "B",
+        "raw_artifacts": [
+          {
+            "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip::gcp_logs/additional-logs/gcp-event_triggered_execution-0-y-logs.json#$[200]",
+            "sha256": "29456478fde6bd2c4b5a673252b5deea4c8d04fba6478c1d3c01df539b2cc859"
+          }
+        ]
+      },
+      "description": "Audit whether the exact provider-success observations form an admissible cloud-data reachability path. The upstream attack name and payload condition are not labels.",
+      "candidate_metadata": {
+        "independence_group": "crosscloud-family:event_triggered_execution",
+        "platform": "GCP",
+        "path_shape_candidate": "object_read",
+        "scenario_variants": [
+          "event_triggered_execution"
+        ],
+        "replicate_member_count": 10,
+        "audit_priority": "P2_direct_runtime_edge",
+        "candidate_is_gold": false
+      },
+      "oracle_precheck": {
+        "provider_success_records_present": true,
+        "exact_principal_present": true,
+        "exact_target_present": true,
+        "same_tuple_error_or_denial_present": false,
+        "multi_provider_operation_chain": false,
+        "mandatory_predecessors_complete": "semantic_review_required"
+      },
+      "review_questions": [
+        "Does the exact principal qualify as the path entry?",
+        "Is the target a cloud data asset under the frozen ontology?",
+        "Do the selected operations form a causal/reachability path rather than unrelated actions?",
+        "Are any mandatory predecessors absent from the raw evidence?",
+        "Is this candidate independent after lineage-family deduplication?"
+      ],
+      "runtime_instances": [
+        {
+          "instance_id": "provider-path-f135929ace6fd83fd4af:representative",
+          "platform": "GCP",
+          "source_schema": "gcp_audit_log",
+          "observation_count": 1,
+          "operation_counts": {
+            "storage.googleapis.com::storage.objects.get": 1
+          },
+          "actor_id": "815467646559@cloudbuild.gserviceaccount.com",
+          "principal_class": "workload_identity",
+          "target_root": "gcs:projects/_/buckets/PROJECT_ID_cloudbuild",
+          "observations": [
+            {
+              "observation_id": "provider-path-f135929ace6fd83fd4af:evidence-1",
+              "timestamp": "2024-11-02T06:57:29.490571371Z",
+              "operation": "storage.googleapis.com::storage.objects.get",
+              "actor_id": "815467646559@cloudbuild.gserviceaccount.com",
+              "target_resource": "projects/_/buckets/PROJECT_ID_cloudbuild/objects/source/1730530636.749496-b412122da6c045d2a118c752e6cdfe86.tgz",
+              "target_root": "gcs:projects/_/buckets/PROJECT_ID_cloudbuild",
+              "event_status": "Success",
+              "provider_outcome": "success",
+              "raw_ref": {
+                "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+                "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+                "member": "gcp_logs/additional-logs/gcp-event_triggered_execution-0-y-logs.json",
+                "member_sha256": "29456478fde6bd2c4b5a673252b5deea4c8d04fba6478c1d3c01df539b2cc859",
+                "json_pointer": "$[200]"
+              },
+              "path_label": null,
+              "evidence_state": null
+            }
+          ]
+        }
+      ],
+      "annotation": {
+        "status": "pending",
+        "label_origin": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "adjudication": null
+      },
+      "path_ontology": {
+        "ontology_id": "cloud_data_path_v1",
+        "version": "1.0.0",
+        "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+      },
+      "admission_screen": {
+        "external_or_low_privilege_entry_defined": null,
+        "multi_step_path_present": null,
+        "cloud_data_target_present": null,
+        "critical_edges_have_raw_evidence": null,
+        "not_a_near_duplicate": null,
+        "decision": null,
+        "rationale": null
+      },
+      "nodes": [],
+      "edges": [],
+      "path_labels": [],
+      "tool_tasks": [],
+      "instance_labels": []
+    }
+  ]
+}

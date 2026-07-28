@@ -1,0 +1,1132 @@
+{
+  "packet_version": "0.1",
+  "packet_kind": "unlabeled_real_incident_negative_control_screening",
+  "policy": {
+    "generated_reports": 0,
+    "generated_labels": 0,
+    "keyword_or_sampling_decisions_are_labels": false,
+    "admission_requires_two_humans": true,
+    "warning": "These are real reliability incidents, not presumed negatives. Only reviewed human decisions may enter experiments."
+  },
+  "schema_ref": "data/real_sources/negative_control_annotation_schema.json",
+  "summary": {
+    "cases": 30,
+    "independence_groups": 29,
+    "cases_by_vendor": {
+      "AWS": 10,
+      "AZURE": 10,
+      "GCP": 10
+    },
+    "distinct_data_facets": [
+      "analytics",
+      "backup",
+      "database",
+      "nosql",
+      "rds_aurora",
+      "secret",
+      "spanner",
+      "sql",
+      "storage"
+    ]
+  },
+  "cases": [
+    {
+      "candidate_id": "cloud-incident:aws:00004",
+      "independence_group": "reliability-record:2a085c4c7ad62a6f4c2041709e96e7b5fec1abe9a8947703cfc1ef8ba0b21bbe",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AWS",
+      "service_hint": "Amazon Simple Storage Service (N. Virginia)",
+      "year": "2020",
+      "data_relevance_facets": [
+        "storage"
+      ],
+      "security_term_hits": [],
+      "report_text": "3:32 AM PDT Between 2:35 AM and 2:39 AM PDT, we experienced elevated error rates for requests in the US-EAST-1 Region. The issue has been resolved and the service is operating normally.",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/aws.csv",
+        "record_index": 4,
+        "record_sha256": "2a085c4c7ad62a6f4c2041709e96e7b5fec1abe9a8947703cfc1ef8ba0b21bbe"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:aws:00015",
+      "independence_group": "reliability-record:e129e643b9afc13bf3a6833061a12b0b209149bfdda304c58d3087dd617c7bf4",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AWS",
+      "service_hint": "Amazon Redshift (N. Virginia)",
+      "year": "2020",
+      "data_relevance_facets": [
+        "rds_aurora"
+      ],
+      "security_term_hits": [],
+      "report_text": "3:43 PM PDT We are investigating connectivity issues affecting some Redshift clusters in a single Availability Zone in the US-EAST-1 Region. 4:07 PM PDT Between 2:52 PM and 3:55 PM PDT we experienced connectivity issues affecting some clusters in a single Availability Zone in the US-EAST-1 Region. The issue has been resolved and the service is operating normally.",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/aws.csv",
+        "record_index": 15,
+        "record_sha256": "e129e643b9afc13bf3a6833061a12b0b209149bfdda304c58d3087dd617c7bf4"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:aws:00017",
+      "independence_group": "reliability-record:8df6ad39f1137d9c0a51c2161ebf0a91df58fa86cbc593ee70d3a8438928e48c",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AWS",
+      "service_hint": "Amazon Relational Database Service (N. Virginia)",
+      "year": "2020",
+      "data_relevance_facets": [
+        "database"
+      ],
+      "security_term_hits": [],
+      "report_text": "3:58 PM PDT We are investigating connectivity issues affecting some database instances in a single Availability Zone in the US-EAST-1 Region. 4:12 PM PDT Beginning at 2:52 PM PDT, we experienced connectivity issues affecting some database instances in a single Availability Zone in the US-EAST-1 Region. Multi-AZ database instances functioned correctly and remain available. A small number of Single-AZ database instances remain unavailable and we are working to resolve the issue. 5:42 PM PDT Beginning at 2:52 PM PDT, we experienced connectivity issues affecting some database instances in a single Availability Zone in the US-EAST-1 Region. Multi-AZ database instances functioned correctly and remained available. Connectivity was restored at 3:22 PM PDT, at which point the vast majority of database instances recovered. A small number of Single-AZ database instances remain unavailable and we are continuing to work to recover all affected database instances.",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/aws.csv",
+        "record_index": 17,
+        "record_sha256": "8df6ad39f1137d9c0a51c2161ebf0a91df58fa86cbc593ee70d3a8438928e48c"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:aws:00064",
+      "independence_group": "reliability-record:6b1174ed4ca15efdeeeb62648c12ff28785b7cefb40a4c3e822c629dc14d2e57",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AWS",
+      "service_hint": "AWS Secrets Manager (Oregon)",
+      "year": "2020",
+      "data_relevance_facets": [
+        "secret"
+      ],
+      "security_term_hits": [],
+      "report_text": "2:25 AM PDT We are investigating elevated latencies and API error rates in the US-WEST-2 Region. 3:09 AM PDT We continue to investigate elevated latencies and API error rates in the US-WEST-2 Region. 8:04 AM PDT Between 2:04 AM and 7:50 AM PDT we experienced increased API error rates and latencies in the US-WEST-2 Region. The issue has been resolved and the service is operating normally.",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/aws.csv",
+        "record_index": 64,
+        "record_sha256": "6b1174ed4ca15efdeeeb62648c12ff28785b7cefb40a4c3e822c629dc14d2e57"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:aws:00080",
+      "independence_group": "reliability-record:d3490875adbff086dc0969884e29d3225086caed8d3ee500c8411feedff74d5a",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AWS",
+      "service_hint": "Amazon DynamoDB (N. California)",
+      "year": "2020",
+      "data_relevance_facets": [
+        "nosql"
+      ],
+      "security_term_hits": [],
+      "report_text": "11:22 AM PDT Between 10:22 AM and 10:33 AM PDT, and between 10:47 AM and 11:06 AM PDT, we experienced elevated failure rates for some Amazon DynamoDB requests in the US-WEST-1 Region. The issue has been resolved and the service is operating normally.",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/aws.csv",
+        "record_index": 80,
+        "record_sha256": "d3490875adbff086dc0969884e29d3225086caed8d3ee500c8411feedff74d5a"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:aws:00126",
+      "independence_group": "reliability-record:d8205f936c00bfe7d9ab27c5dee875963b44b4510011e109064c8fd00faff150",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AWS",
+      "service_hint": "Amazon DynamoDB (N. Virginia)",
+      "year": "2020",
+      "data_relevance_facets": [
+        "nosql"
+      ],
+      "security_term_hits": [],
+      "report_text": "2:35 PM PDT We are currently investigating increased latencies on create, update, and delete table operations with Amazon DynamoDB in the US-EAST-1 Region. 3:12 PM PDT We have identified the cause of increased latencies on create, update, and delete table operations with Amazon DynamoDB in the US-EAST-1 Region and continue working towards resolution. 3:52 PM PDT We continue to work on resolution for create, update, and delete table operations with Amazon DynamoDB in the US-EAST-1 Region. 4:05 PM PDT New requests to create, update, and delete tables with Amazon DynamoDB are processing normally in the US-EAST-1 Region. We continue to work towards resolution for backlogged requests. 4:20 PM PDT Between 1:15 PM and 4:14 PM PDT, we experienced increased latencies on create, update, and delete table operations with Amazon DynamoDB in the US-EAST-1 Region. The issue has been resolved and the service is operating normally.",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/aws.csv",
+        "record_index": 126,
+        "record_sha256": "d8205f936c00bfe7d9ab27c5dee875963b44b4510011e109064c8fd00faff150"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:aws:00182",
+      "independence_group": "reliability-record:372caa156e4f580359bb87df129431420ba925a5eddddea1f09fdbb968fec02d",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AWS",
+      "service_hint": "Amazon Elastic Compute Cloud (N. Virginia)",
+      "year": "2020",
+      "data_relevance_facets": [
+        "backup"
+      ],
+      "security_term_hits": [],
+      "report_text": "6:22 AM PDT We are investigating connectivity issues affecting some instances in a single Availability Zone in the US-EAST-1 Region. 6:54 AM PDT We can confirm that some instances are impaired and some EBS volumes are experiencing degraded performance within a single Availability Zone in the US-EAST-1 Region. Some EC2 APIs are also experiencing increased error rates and latencies. We are working to resolve the issue. 7:37 AM PDT We can confirm that some instances are impaired and some EBS volumes are experiencing degraded performance within a single Availability Zone in the US-EAST-1 Region. We are investigating increased error rates for new launches within the same Availability Zone. We are working to resolve the issue. 8:06 AM PDT We are starting to see recovery for instance impairments and degraded EBS volume performance within a single Availability Zone in the US-EAST-1 Region. We are also starting to see recovery of EC2 APIs. We continue to work towards recovery for all affected EC2 instances and EBS volumes. 9:04 AM PDT Recovery is in progress for instance impairments and degraded EBS volume performance within a single Availability Zone in the US-EAST-1 Region. We continue to work towards recovery for all remaining affected instances and EBS volumes. 10:47 AM PDT We want to give you more information on progress at this point, and what we know about the event. At 4:33 AM PDT one of 10 datacenters in one of the 6 Availability Zones in the US-EAST-1 Region saw a failure of utility power. Backup generators came online immediately, but for reasons we are still investigating, began quickly failing at around 6:00 AM PDT. This resulted in 7.5% of all instances in that Availability Zone failing by 6:10 AM PDT. Over the last few hours we have recovered most instances but still have 1.5% of the instances in that Availability Zone remaining to be recovered. Similar impact existed to EBS and we continue to recover volumes within EBS. New instance launches in this zone continue to work without issue. 1:30 PM PDT At 4:33 AM PDT one of ten data centers in one of the six Availability Zones in the US-EAST-1 Region saw a failure of utility power. Our backup generators came online immediately but began failing at around 6:00 AM PDT. This impacted 7.5% of EC2 instances and EBS volumes in the Availability Zone. Power was fully restored to the impacted data center at 7:45 AM PDT. By 10:45 AM PDT, all but 1% of instances had been recovered, and by 12:30 PM PDT only 0.5% of instances remained impaired. Since the beginning of the impact, we have been working to recover the remaining instances and volumes. A small number of remaining instances and volumes are hosted on hardware which was adversely affected by the loss of power. We continue to work to recover all affected instances and volumes and will be communicating to the remaining impacted customers via the Personal Health Dashboard. For immediate recovery, we recommend replacing any remaining affected instances or volumes if possible.",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/aws.csv",
+        "record_index": 182,
+        "record_sha256": "372caa156e4f580359bb87df129431420ba925a5eddddea1f09fdbb968fec02d"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:aws:00442",
+      "independence_group": "reliability-record:d87d30efa022101059a4169014f1668112247b2ca2a986cbef3f7d489dc7ffa3",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AWS",
+      "service_hint": "Amazon Athena (N. Virginia)",
+      "year": "2017",
+      "data_relevance_facets": [
+        "sql"
+      ],
+      "security_term_hits": [],
+      "report_text": "11:49 AM PST We can confirm increased query failure rates when running queries and executing DDL statements in the in US-EAST-1 Region. 1:59 PM PST We are starting to see recovery when running SQL queries in the US-EAST-1 region. We continue to see elevated error rates when executing DDL statements in the US-EAST-1 region. 2:12 PM PST We continue to see recovery when running SQL queries in the US-EAST-1 region. We are also starting to see recovery when executing DDL statements in the US-EAST-1 region. 3:25 PM PST We are able to execute SQL queries normally in the US-EAST-1 region. We continue to see increasing recovery when executing DDL statements in the US-EAST-1 Region. 3:44 PM PST Between 9:37 AM and 3:23 PM PST we experienced increased error rates when running SQL queries and executing DDL statements in the US-EAST-1 Region. The issue has been resolved and the service is operating normally.",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/aws.csv",
+        "record_index": 442,
+        "record_sha256": "d87d30efa022101059a4169014f1668112247b2ca2a986cbef3f7d489dc7ffa3"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:aws:00591",
+      "independence_group": "reliability-record:af8ff53e4dd144d611a1fab780d8331ce4276db3ca95d03c59f7ef8c489cad05",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AWS",
+      "service_hint": "Amazon Elastic Compute Cloud (N. Virginia)",
+      "year": "2022",
+      "data_relevance_facets": [
+        "backup",
+        "database",
+        "rds_aurora",
+        "storage"
+      ],
+      "security_term_hits": [],
+      "report_text": "8:11 PM PDT We are investigating degraded performance for some EBS volumes in a single Availability Zone (USE1-AZ2) in the US-EAST-1 Region. Some new EC2 instance launches, within the affected Availability Zone, are also impacted by this issue. We are working to resolve the issue. 8:41 PM PDT We can confirm degraded performance for some EBS volumes within a single Availability Zone (USE1-AZ2) in the US-EAST-1 Region. Existing EC2 instances within the affected Availability Zone that use EBS volumes may also experience impairment due to stuck IO to the attached EBS volume(s). Newly launched EC2 instances within the affected Availability Zone may fail to launch due to the degraded volume performance. We continue to work toward determining root cause and mitigating impact but recommend that you fail out of the affected Availability Zone (USE1-AZ2) if you are able to do so. Other Availability Zones within the US-EAST-1 Region are not affected by this issue. 9:17 PM PDT We are making progress in determining the root cause and have isolated it to a subsystem within the EBS service. We are working through multiple steps to mitigate the issue and will continue to provide updates as we make progress. Other Availability Zones remain unaffected by this issue and affected EBS volumes and EC2 instances within the affected Availability Zone have plateaued at this stage. We continue to recommend that you fail out of the affected Availability Zone (USE1-AZ2) if you are able to do so. 9:47 PM PDT We continue to make progress in determining the root cause of the issue causing degraded performance for some EBS volumes in a single Availability Zone (USE1-AZ2) in the US-EAST-1 Region. A subsystem within the larger EBS service that is responsible for coordinating storage hosts is currently degraded due to increased resource contention. We continue to work to understand the root cause of the elevated resource contention, but are actively working to mitigate the issue. Once mitigated, we expect performance for the affected EBS volumes to return to normal levels. We will continue to provide you with updates on our progress. For immediate recovery, we continue to recommend that you fail out of the affected Availability Zone (USE1-AZ2) if you are able to do so. 10:23 PM PDT We continue to make progress in determining the root cause of the issue causing degraded performance for some EBS volumes in a single Availability Zone (USE1-AZ2) in the US-EAST-1 Region. We have made several changes to address the increased resource contention within the subsystem responsible for coordinating storage hosts with the EBS service. While these changes have led to some improvement, we have not yet seen full recovery for the affected EBS volumes. We continue to expect full recovery of the affected EBS volumes once the subsystem issue has been addressed. For immediate recovery, we continue to recommend that you fail out of the affected Availability Zone (USE1-AZ2) if you are able to do so. 11:19 PM PDT We continue to work to address the increased resource contention within the EBS service subsystem responsible for coordinating EBS storage hosts. We have applied several mitigations, and while we have seen some improvements, we have not yet seen performance for affected volumes return to normal levels. We are currently rolling out another mitigation that we believe addresses the root cause and has shown promising signs in testing. We will know within the next 30-45 minutes as to whether this restores normal operations for current affected volumes. For immediate recovery, we continue to recommend that you fail out of the affected Availability Zone (USE1-AZ2) if you are able to do so. 11:43 PM PDT We can confirm that the deployed mitigation has worked and we have started to see recovery for some affected EBS volumes within the affected Availability Zone (USE1-AZ2). We are still finishing the deployment of the mitigation, but expect performance of affected EBS volumes in this single Availability Zone to return to normal levels over the next 60 minutes. Sep 27, 12:30 AM PDT We can confirm that the performance has returned to normal levels for the majority of the affected EBS volumes within the affected Availability Zone (USE1-AZ2). We continue to work towards full recovery for the remaining EBS volumes. Sep 27, 1:15 AM PDT We can confirm that the performance has returned to normal levels for the majority of the affected EBS volumes within the affected Availability Zone (USE1-AZ2). Starting at 12:12 AM PDT, we saw recovery slow down some affected EBS volumes as well as some degraded performance for a small number of additional volumes in the affected Availability Zone. We have investigated the root cause and mitigations are underway to complete the performance recovery of the affected EBS volumes. We continue to work towards full resolution for all affected EBS volumes. In some cases, customers may be experiencing volume state transition delays, which we expect to clear up once volumes have fully recovered. Sep 27, 2:26 AM PDT We continue to apply mitigations to address the degraded performance for the smaller set of remaining EBS volumes affected by this issue. While the vast majority of affected EBS volumes were operating normally by 12:05 AM PDT, we have been working to recover a smaller set of affected volumes since 12:12 AM PDT. We continue to make progress on restoring performance for affected volumes, and expect full recovery to take another 2 hours. In some cases, customers may also be experiencing volume state transition delays, which will resolve when the underlying volume has fully recovered. Sep 27, 3:36 AM PDT We had restored performance for the vast majority of affected EBS volumes within the affected Availability Zone in the US-EAST-1 Region at 12:05 AM PDT and have been working to restore a remaining smaller set of EBS volumes. EC2 instances affected by this issue have now also recovered and new EC2 instance launches with attached EBS volumes have been succeeding since 1:30 AM PDT. Other services - including Redshift, OpenSearch, and Elasticache - are seeing recovery. Some RDS databases are still experiencing connectivity issues, but we’re working towards full recovery. We are in the process of restoring performance for the remaining small number of EBS volumes and EC2 instances that are still affected by this issue. Sep 27, 4:21 AM PDT Starting at 6:41 PM PDT on September 26th, we experienced degraded performance for some EBS volumes in a single Availability Zone (USE1-AZ2) in the US-EAST-1 Region. The issue was caused by increased resource contention within the EBS subsystem responsible for coordinating EBS storage hosts. Engineering worked to identify the root cause and resolve the issue within the affected subsystem. At 11:20 PM PDT, after deploying an update to the affected subsystem, IO performance for the affected EBS volumes began to return to normal levels. By 12:05 AM on September 27th, IO performance for the vast majority of affected EBS volumes in the USE1-AZ2 Availability Zone were operating normally. However, starting at 12:12 AM PDT, we saw recovery slow down for a smaller set of affected EBS volumes as well as seeing degraded performance for a small number of additional volumes in the USE1-AZ2 Availability Zone. Engineering investigated the root cause and put in place mitigations to restore performance for the smaller set of remaining affected EBS volumes. These mitigations slowly improved the performance for the remaining smaller set of affected EBS volumes, with full operations restored by 3:45 AM PDT. While almost all of EBS volumes have fully recovered, we continue to work on recovering a remaining small set of EBS volumes. We will communicate the recovery status of these volumes via the Personal Health Dashboard. While the majority of affected services have fully recovered, we continue to recover some services, including RDS databases and Elasticache clusters. We will also communicate the recovery status of these services via the Personal Health Dashboard. The issue has been fully resolved and the service is operating normally.",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/aws.csv",
+        "record_index": 591,
+        "record_sha256": "af8ff53e4dd144d611a1fab780d8331ce4276db3ca95d03c59f7ef8c489cad05"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:aws:00659",
+      "independence_group": "reliability-record:7c2091e1a47a3900adc614521a6167d3f47757422ecd595e147195701d3c4341",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AWS",
+      "service_hint": "AWS Secrets Manager (N. Virginia)",
+      "year": "2022",
+      "data_relevance_facets": [
+        "secret"
+      ],
+      "security_term_hits": [],
+      "report_text": "12:04 PM PDT We are investigating increased API connection timeout errors and latencies in the US-EAST-1 Region. 12:33 PM PDT We can confirm increased error rates and latencies for Secrets Manager APIs in the US-EAST-1 Region. We are working to identify root cause and resolve the issue. Customers using Secrets Manager to store secrets may experience errors when using the Secrets Manager APIs, including customers invoking Secrets Manager from Lambda functions. Lambda functions that are not calling Secrets Manager APIs are not affected by this event. We continue to work to understand the issue and will continue to provide updates. 12:57 PM PDT We have resolved the issue causing increased error rates and latencies for the Secrets Manager APIs in the US-EAST-1 Region. Customers using Secrets Manager to store secrets may have experienced errors when using the Secrets Manager APIs, including customers invoking Secrets Manager from Lambda functions. Lambda functions that are not using Secrets Manager were not affected by this event. The issue was resolved at 12:30 PM PDT, when error rates and latencies returned to normal levels. The issue has been resolved and the service is operating normally.",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/aws.csv",
+        "record_index": 659,
+        "record_sha256": "7c2091e1a47a3900adc614521a6167d3f47757422ecd595e147195701d3c4341"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:azure:00000",
+      "independence_group": "reliability-incident:azure:psm0-bq8",
+      "independence_group_basis": "upstream_tracking_id",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AZURE",
+      "service_hint": null,
+      "year": null,
+      "data_relevance_facets": [
+        "storage"
+      ],
+      "security_term_hits": [],
+      "report_text": "Azure Storage connectivity issues (Tracking ID PSM0-BQ8) What happened? Between 01:13 UTC and 13:25 UTC on 13 November 2024, a platform issue resulted in an impact to the following service(s) for a subset of customers: Azure Storage: DNS resolution failures when connecting to an Azure Storage account. Azure Databricks: failures with launching clusters and serverless compute resources due to DNS resolution failures for Azure Storage accounts. How did we respond? We engaged additional teams to help troubleshoot the issue. We determined an issue with DNS resolution for Azure Storage accounts was causing this impact. We rolled out a mitigation for this issue, and customers would have seen recovery as we progressed. What happens next? Our team will be completing an internal retrospective to understand the incident in more detail. We will publish a Preliminary Post Incident Review (PIR) within approximately 72 hours, to share more details on what happened and how we responded. After our internal retrospective is completed, generally within 14 days, we will publish a Final Post Incident Review with any additional details and learnings. To get notified when that happens, and/or to stay informed about future Azure service issues, make sure that you configure and maintain Azure Service Health alerts – these can trigger emails, SMS, push notifications, webhooks, and more: https://aka.ms/ash-alerts . For more information on Post Incident Reviews, refer to https://aka.ms/AzurePIRs . The impact times above represent the full incident duration, so are not specific to any individual customer. Actual impact to service availability may vary between customers and resources – for guidance on implementing monitoring to understand granular impact: https://aka.ms/AzPIR/Monitoring . Finally, for broader guidance on preparing for cloud incidents, refer to https://aka.ms/incidentreadiness .",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/azure.csv",
+        "record_index": 0,
+        "record_sha256": "23abf0ce4756d1c148c8d356d53a1d4de3cbdb6b9da54f3898c2130a9d919b0c"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:azure:00006",
+      "independence_group": "reliability-record:dd9ba63b2b01f3c816be6868e84106d7053dfa95c3546e39ba48ed0d0465e340",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AZURE",
+      "service_hint": null,
+      "year": null,
+      "data_relevance_facets": [
+        "backup"
+      ],
+      "security_term_hits": [],
+      "report_text": "Post Incident Review (PIR) – Azure Front Door – Intermittent issues with Microsoft services using AFD (Tracking ID 0N_5-PQ0) Watch our 'Azure Incident Retrospective' video about this incident: https://aka.ms/AIR/0N_5-PQ0 What happened? Between 18:22 and 19:49 UTC on 5 August 2024, some customers experienced intermittent connection errors, timeouts, or increased latency while connecting to Microsoft services that leverage Azure Front Door (AFD), because of an issue that impacted multiple geographies. Impacted services included Azure DevOps (ADO) and Azure Virtual Desktop (AVD), as well as a subset of LinkedIn and Microsoft 365 services. This incident specifically impacted Microsoft’s first-party services, and our customers who utilized these Microsoft services that rely on AFD. For clarity, this incident did not impact Azure customers’ services that use AFD directly. What went wrong and why? Azure Front Door (AFD) is Microsoft's scalable platform for web acceleration, global load balancing, and content delivery, operating in over 200 locations worldwide, serving 20+ million requests per second. This incident was triggered by an internal service team doing a routine configuration change to their AFD profile for modifying an internal-only AFD feature. This change included an erroneous configuration file that resulted in high memory allocation rates on a subset of the AFD servers – specifically, servers that deliver traffic for an internal Microsoft customer profile. While the rollout of the erroneous configuration file did adhere to our Safe Deployment Practices (SDP), this process requires proper validating checks from the service to which the change is being applied (in this case, AFD) before proceeding to additional regions. In this situation, there were no observable failures, so the configuration change was able to proceed – but this represents a gap in how AFD validates the change, and this prevented timely auto-rollback of the offending configuration – thus expanding the blast radius of impact to more regions. The error in the configuration file caused resource exhaustion on AFD’s frontend servers that resulted in an initial moderate impact to AFD’s availability and performance. This initial impact on availability triggered a latent bug in the internal service’s client application, which caused an aggressive request storm. This resulted in a 25X increase in traffic volume of expensive requests that significantly impacted AFD’s availability and performance. How did we respond? During our investigation, we identified the offending configuration from the internal service that triggered this event, and we then initiated a rollback of the configuration change to fully restore all impacted Microsoft services. 18:22 UTC – Customer impact began, triggered by the configuration change. 18:25 UTC – Internal monitoring detected the issue and alerted our teams to investigate. 18:27 UTC – Initial first-party services began failing away from AFD as a temporary mitigation. 18:53 UTC – We identified the configuration change that caused the impact and started preparing to roll it back. 19:23 UTC – We began rolling back the change. 19:25 UTC – Rollback of the change completed, restoring AFD request serving capacity. 19:49 UTC – Customer impact fully mitigated. 20:30 UTC – First-party services began routing traffic back to AFD after mitigation declared. How are we making incidents like this less likely or less impactful? As an immediate repair item, we are fixing the bug that caused the aggressive request storm by the internal service team’s client application. This development work has completed and is pending rollout. (Estimated completion: August 2024) We are making improvements to validate the complexity and resource overhead requirements for all internal customer configuration updates. (Estimated completion: September 2024) We are implementing enhancements to the AFD data plane to automatically disable performance-intensive operations for specific configurations. (Estimated completion: October 2024) We are enhancing our protection against similar request storms, by determining dynamically any resource intensive requests so that they can be throttled to prevent further impact. (Estimated completion: December 2024). In the longer term, we are augmenting our safe deployment processes surrounding configuration delivery to incorporate more signals to determine AFD service health degradations caused by erroneous configurations and automatically rollback. (Estimated completion: March 2025) Finally, as an additional protection measure to guard against validation gaps, we are investing in a capability to automatically fall back to a last known good configuration state, in the event of global anomalies detected in AFD’s service health – for example, in response to a multi-region availability drop. (Estimated completion: March 2025) How can customers make incidents like this less impactful? Applications that use exponential-backoff in their retry strategy may have seen success, as an immediate retry during intervals of high packet loss may have also seen high packet loss. A retry conducted during periods of lower loss would likely have succeeded. For more details on retry patterns, refer to https://learn.microsoft.com/azure/architecture/patterns/retry More generally, consider evaluating the reliability of your applications using guidance from the Azure Well-Architected Framework and its interactive Well-Architected Review: https://docs.microsoft.com/azure/architecture/framework/resiliency Finally, ensure that the right people in your organization will be notified about any future service issues by configuring Azure Service Health alerts. These alerts can trigger emails, SMS, push notifications, webhooks, and more: https://aka.ms/ash-alerts How can we make our incident communications more useful? You can rate this PIR and provide any feedback using our quick 3-question survey: https://aka.ms/AzPIR/0N_5-PQ0",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/azure.csv",
+        "record_index": 6,
+        "record_sha256": "dd9ba63b2b01f3c816be6868e84106d7053dfa95c3546e39ba48ed0d0465e340"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:azure:00011",
+      "independence_group": "reliability-record:8a5ea13924fa59489016689ff300db295040970105f8f84bf00de708feb58d79",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AZURE",
+      "service_hint": null,
+      "year": null,
+      "data_relevance_facets": [
+        "storage"
+      ],
+      "security_term_hits": [],
+      "report_text": "07/12/2024 Post Incident Review (PIR) – Managed Identities for Azure resources – Failures in Australia East Tracking ID: FTVR-L9Z Watch our 'Azure Incident Retrospective' video about this incident: https://aka.ms/AIR/FTVR-L9Z What happened? A platform issue caused some of our 'Managed Identities for Azure resources' (formerly Managed Service Identity or MSI) customers to experience failures when requesting managed identity tokens or performing management operations for managed identities in the Australia East region, between 00:55 UTC and 06:28 UTC on 12 July 2024. All identities in this region were subject to impact. For managed identities for Azure Virtual Machines (VMs) and Virtual Machine Scale Sets (VMSS) in this region, around 3% of token requests failed during this time. Established virtual machines with steady token activity in the days and hours prior to the incident were generally not impacted. For management operations, around 50% of calls via Azure Resource Manager (ARM) or the Azure Portal to perform operations such as creating, deleting, assigning, or updating identities failed during this time. The creation of any Azure resources to which system-assigned managed identities were assigned would also have failed, since the creation of these resources requires the creation of a managed identity. Identity management and managed identity token issuance for other Azure resource types - including Azure Service Fabric, Azure Stack HCI, Azure Databricks, and Azure Kubernetes Service - were impacted to varying degrees depending on the specific scenario and resource. Generally, across all Azure compute resource types, management operations were heavily impacted. For token requests, existing resources continued to function during the incident, while new or newly scaled resources saw failures. What went wrong and why? At Microsoft, we are working to remove manual key management and rotation from the operation of our internal services. For most of our infrastructure and for our customers, we recommend migrating authentication between Azure resources to use Managed identities for Azure resources. For the Managed identities for Azure resources infrastructure itself, though, we cannot use Managed identities for Azure resources, due to a risk of circular dependency. Therefore, Managed identities for Azure resources uses key-based access to authenticate to its downstream Azure dependencies that store identity metadata. To improve resilience, we have been moving Managed identities for Azure resources infrastructure to an internal system that provides automatic key rotation and management. The process for rolling out this change was to deploy a service change to support automatic keys, and then roll over our keys into the new system in each region one-by-one, following our safe deployment process. This process was tested and successfully applied in several prior regions. In the Australia East and Australia Southeast regions, however, the required deployment for key automation did not complete successfully - because these regions had previously been pinned to an older build of the service, for unrelated reasons. Our internal deployment tooling reported a successful deployment and did not clearly show that these regions were still pinned to the older version. Believing the deployment to have completed, a service engineer initiated the switch to move to automatic keys for the Australia East storage infrastructure, immediately causing the key to roll over. Because neither Australia East nor its failover pair Australia Southeast were running the correct service version, they continued to try to use the old key when accessing storage for Australia East identities, which failed. How did we respond? This incident was detected within three minutes by internal monitoring of both the Managed Identity service, and other dependent services in Azure. Our engineers immediately knew that the cause was related to the key rollover operation that had just been performed. Since managed identities are built across Availability Zones and failover pairs, our standard mitigation playbook is to perform a failover to a different zone or region. However, in this case, all zones in Australia East were impacted - and requests to the failover pair, Australia Southeast, were also failing. We pursued several investigation and mitigation threads in parallel. Our engineers initially believed that the issue was that the key rollover had somehow failed or applied incorrectly, and we attempted several mitigation steps to force the new key to be picked up or force the downstream resources to accept the new key. After these were not effective, we discovered that the issue was not with the new key, but rather that our instances were still attempting to use the old key - and that this key had been invalidated by the rollover. We launched more parallel workstreams to understand why this would be the case and how to mitigate, since we still believed that the deployment had succeeded. Once we realized that these regions were in fact pinned to an older build of the service, we authored and deployed a configuration change to force this build to use the managed key, which resolved the issue. Full mitigation occurred at 06:28 UTC on 12 July 2024. How are we making incidents like this less likely or less impactful? We temporarily froze all changes to the Managed identities for Azure resources. (Completed) We ensured that all Azure regions with Managed Identity that could be subject to automatically managed keys are running a service version and configuration that supports those keys. (Completed) We are working to improve our deployment process to ensure that pinned build versions are detected as part of a deployment and not considered successful. (Estimated completion: July 2024) Prior to rolling out automatic key management again, we will improve our service telemetry to enable us to quickly see whether a manually or automatically managed key is used, as well as the identifier of the key. (Estimated completion: July 2024) Prior to rolling out automatic key management again, we will update our internal process to verify that all service instances are running the correct version and using the expected key. (Estimated completion: July 2024) For the future move to automatic key management, we will schedule the changes to occur in off-peak business hours in each Azure region. (Estimated completion: July 2024) Finally, we are working to improve the central documentation for automatic key management to ensure the above best practices are followed by all Azure services using this capability. (Estimated completion: July 2024) How can customers make incidents like this less impactful? In Azure, our safe deployment practices consider both availability zones and Azure regions. We encourage all customers to partition their capacity across regions and zones, and to build and exercise a disaster recovery strategy to defend against issues that may occur in a single region. During this incident, customers who were able to fail out of Australia East would have been able to mitigate their impact. To learn more about a multi-region geodiversity strategy for mission-critical workloads, see https://learn.microsoft.com/training/modules/design-a-geographically-distributed-application and https://learn.microsoft.com/azure/architecture/patterns/geodes . Finally, this page provides more information on disaster recovery strategies: https://learn.microsoft.com/azure/well-architected/reliability/disaster-recovery More generally, consider evaluating the reliability of your applications using guidance from the Azure Well-Architected Framework and its interactive Well-Architected Review: https://docs.microsoft.com/en-us/azure/architecture/framework/resiliency Finally, consider ensuring that the right people in your organization will be notified about any future service issues - by configuring Azure Service Health alerts. These can trigger emails, SMS, push notifications, webhooks, and more: https://aka.ms/ash-alerts How can we make our incident communications more useful? You can rate this PIR and provide any feedback using our quick 3-question survey: https://aka.ms/AzPIR/FTVR-L9Z",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/azure.csv",
+        "record_index": 11,
+        "record_sha256": "8a5ea13924fa59489016689ff300db295040970105f8f84bf00de708feb58d79"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:azure:00014",
+      "independence_group": "reliability-record:a0ab3842c40b7562a90f771297429aeae5bb99f053bb7b3e30551e25a591d889",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AZURE",
+      "service_hint": null,
+      "year": null,
+      "data_relevance_facets": [
+        "backup",
+        "database",
+        "nosql",
+        "secret",
+        "sql",
+        "storage"
+      ],
+      "security_term_hits": [],
+      "report_text": "03/14/2024 Post Incident Review (PIR) - Network connectivity - Multiple services impacted in South Africa North and South Africa West Tracking ID: VT60-RPZ Watch our 'Azure Incident Retrospective' video about this incident: https://aka.ms/AIR/VT60-RPZ What happened? Between 10:33 UTC on 14 March 2024 and 11:00 UTC on 15 March 2024, customers using Azure services in the South Africa North and/or South Africa West regions may have experienced network connectivity failures, including extended periods of increased latency or packet drops when accessing resources. This incident was part of a broader continental issue, impacting telecom services to multiple countries in Africa. The incident resulted from multiple concurrent fiber cable cuts that occurred on the west coast of Africa (specifically the WACS, MainOne, SAT3, and ACE cables) in addition to earlier ongoing cable cuts on the east coast of Africa (including the EIG, and Seacom cables). These cables are part of the submarine cable system that connect Africa’s internet to the rest of the world, and service Microsoft’s cloud network for our Azure regions in South Africa. In addition to the cable cuts, we later experienced impact reducing our backup capacity path, leading to congestion that impacted services. Some customers may have experienced degraded performance including extended timeouts and/or service failures across multiple Microsoft services – while some customers may have been unaffected. Customer impact varied depending on the service(s), region(s), and configuration(s). Impacted downstream services included Azure API Management, Azure Application Insights, Azure Cognitive Services, Azure Communication Services, Azure Cosmos DB, Azure Databricks, Azure Event Grid, Azure Front Door, Azure Key Vault, Azure Monitor, Azure NetApp Files, Azure Policy, Azure Resource Manager, Azure Site Recovery, Azure SQL DB, Azure Virtual Desktop, Managed identities for Azure resources, Microsoft Entra Domain Services, Microsoft Entra Global Secure Access, Microsoft Entra ID, and Microsoft Graph. For service specific impact details, refer to the ‘Health history’ section of Azure Service Health within the Azure portal. What went wrong, and why? The Microsoft network is designed to support multiple failures to our Wide Area Network (WAN) capacity at any given point in time. Specifically, our regions in South Africa are connected via multiple diverse physical paths – both subsea and terrestrially within South Africa. The network is designed to support multiple failures and continue operating with only one single physical path. In this case, our South Africa Regions has four physically diverse subsea cable systems serving the country and the designed failure mode is that three out of four can fail with no impact to our customers. Following news of geopolitical risks in the Red Sea, we ran internal simulations and capacity planning analysis. On 5 February, we initiated capacity additions to our African network. On 24 February, multiple cable cuts in the Red Sea impacted our east coast network capacity to Africa. This east coast capacity was unavailable, however there was no customer impact because of the built in redundancy. Before our capacity additions from February had come online, on 14 March we experienced additional multiple concurrent fiber cable cuts, this time on the west coast of Africa – which further reduced the total network capacity for our Azure regions in South Africa. These cable cuts were due to a subsea seismic event (likely an earthquake and/or mudslide) which impacted multiple subsea systems – one of which is used by Microsoft. Additionally, after the west coast cable cuts had occurred, we experienced a line card optic failure on a Microsoft router inside the region that further reduced network headroom. Microsoft experiences hundreds of line card optic failures every day across the 500k+ devices that operate our network – such an event would normally have been invisible to our customers. However, the combination of concurrent cable cuts and this line card failure removed the necessary headroom on the failover path, which led to the congestion experienced. This combination of events affected Azure services including Compute, Storage, Networking, Databases, and App Services – as well as Microsoft 365 services. While many customers leverage local instances of their services within the South Africa regions, there are some services that rely on API calls made to regions outside of South Africa. The reduced bandwidth to/from the South Africa regions, impacted these specific API calls and therefore impacted service availability and/or performance. How did we respond? The timeline that follows includes network availability figures, which represent the breadth of impact to our network capacity but may not represent the impact experienced by any specific customer or service. 3 February 2024 – News articles surfaced geopolitical risk to Red Sea subsea cable infrastructure. 5 February 2024 – Based on our internal simulations, we began the process of requesting capacity augments to Microsoft’s west coast Africa network. 24 February 2024 – Multiple cable cuts in the Red Sea impacted east coast capacity (EIG, and Seacom cables), no impact to customers/services. 4 March 2024 – Local fiber providers began work on approved capacity augments. 14 March 2024 @ 10:02 UTC – Multiple cable cuts impacted west coast capacity (WACS + MAINONE + SAT3). 14 March 2024 @ 10:33 UTC – Customer impact began, as reduced capacity began to cause networking latency and packet drops, our on-call engineers began investigating. Network availability dropped as low as 77%. 14 March 2024 @ 11:55 UTC – Azure Front Door failed out of the region, to reduce inter-region traffic. 14 March 2024 @ 12:00 UTC – Individual cloud service teams began reconfigurations to optimize network traffic to reduce congestion. 14 March 2024 @ 15:44 UTC – After the combination of our mitigation efforts and the end of the business day in Africa, network traffic volume reduced – network availability rose above 97%. 14 March 2024 @ 16:25 UTC – We continued implementing traffic engineering measures to throttle traffic and reduce congestion – network availability rose above 99%. 15 March 2024 @ 06:00 UTC – As network traffic volumes increased, availability degraded, and customers began experiencing congestive packet loss – network availability dropped to 96%. 15 March 2024 @ 11:00 UTC – We shifted capacity from Microsoft's Edge in Lagos to increase headroom for South Africa, last packed drops observed on our WAN. While this effectively mitigated customer impact, we continued to monitor until additional capacity supported more headroom. 17 March 2024 @ 21:00 UTC – First tranche of emergency capacity came online. 18 March 2024 @ 02:00 UTC – Second tranche of emergency capacity came online, Azure Front Door brought back into our South Africa regions, incident declared mitigated. How are we making incidents like this less likely or less impactful? We have added Wide Area Network (WAN) capacity to the region, in the form of a new physically diverse cable system with triple the capacity of pre-incident levels (Completed). We are reviewing our capacity augmentation processes to help accelerate urgent capacity additions when needed (Estimated completion: April 2024). We continue to work with our fiber providers to restore WAN paths after the cable cuts on the west coast of Africa (Estimated completion: April 2024) and on the east coast of Africa (Estimated completion: May 2024). We are evaluating adding a fifth WAN path between South Africa and the United Arab Emirates, to build even more resiliency to the rest of the world (Estimated completion: June 2024). We are increasingly shifting services to run locally from within our South Africa regions, to reduce dependencies on international regions where possible, including Exchange Online Protection (Estimated completion: June 2024). In the longer term, we are investing in WAN Gateways in Nigeria to improve our fault isolation and routing capabilities. (Estimated completion: December 2024) Finally, we are working to build out and activate Microsoft-owned fiber capacity to these regions, to reduce dependencies on local fiber providers. This includes investments in our own capacity on the new submarine cables going to Africa (specifically the Equiano, 2Africa East and West) which will exponentially increase capacity to serve our regions in South Africa. Importantly, this capacity will also be controlled by Microsoft – giving us more operational flexibility to add/change/move capacity in our WAN, versus relying on third-party telecom operators. These WAN fiber investments on new cable systems will land on the west coast of Africa (Estimated completion: December 2024) as well as on the east coast of Africa (Estimated completion: December 2025). How can our customers and partners make incidents like this less impactful? During the incident, we advised customers who were able to fail out of these regions to consider doing so. Customers should consider a multi-region geodiversity strategy for mission-critical workloads, see https://learn.microsoft.com/training/modules/design-a-geographically-distributed-application and https://learn.microsoft.com/azure/architecture/patterns/geodes Applications that use exponential-backoff in their retry strategy may have seen success, as an immediate retry during intervals of high packet loss may have also seen high packet loss, but a retry conducted during periods of lower loss would likely have succeeded. For more details on retry patterns, refer to https://learn.microsoft.com/azure/architecture/patterns/retry More generally, consider evaluating the reliability of your applications using guidance from the Azure Well-Architected Framework and its interactive Well-Architected Review: https://docs.microsoft.com/en-us/azure/architecture/framework/resiliency Finally, consider ensuring that the right people in your organization will be notified about any future service issues - by configuring Azure Service Health alerts. These can trigger emails, SMS, push notifications, webhooks, and more: https://aka.ms/ash-alerts How can we make our incident communications more useful? Y ou can rate this PIR and provide any feedback using our quick 3-question survey: https://aka.ms/AzPIR/VT60-RPZ",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/azure.csv",
+        "record_index": 14,
+        "record_sha256": "a0ab3842c40b7562a90f771297429aeae5bb99f053bb7b3e30551e25a591d889"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:azure:00018",
+      "independence_group": "reliability-incident:azure:xmgf-5z0",
+      "independence_group_basis": "upstream_tracking_id",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AZURE",
+      "service_hint": null,
+      "year": null,
+      "data_relevance_facets": [
+        "storage"
+      ],
+      "security_term_hits": [],
+      "report_text": "07/06/2023 Post Incident Review (PIR) - Azure Monitor - Logs data access issues Tracking ID: XMGF-5Z0 Watch our 'Azure Incident Retrospective' video about this incident: https://aka.ms/AIR/XMGF-5Z0 What happened? Between 23:15 UTC on 6 July 2023 and 09:00 UTC on 7 July 2023, a subset of data for Azure Monitor Log Analytics and Microsoft Sentinel failed to ingest. Additionally, platform logs gathered via Diagnostic Settings failed to route some data to customer destinations such as Log Analytics, Storage, Event Hub and Marketplace. These failures were caused by a deployment of a service within Microsoft, with a bug that caused a much higher than expected call volume that overwhelmed the telemetry management control plane. Customers in all regions experienced impact. Security Operations Center (SOC) functionality in Sentinel may have been impacted. Queries against impacted tables with date range listed above, inclusive of the logs data that we failed to ingest, might have returned partial or empty results. This includes analytics (detections), hunting queries, workbooks with custom queries, and notebooks. In cases where Event or Security Event tables were impacted, incident investigations of a correlated incident may have showed partial or empty results. What went wrong and why? A code deployment for the Azure Container Apps service was started on 3 July 2023 via the normal Safe Deployment Practices (SDP), first rolling out to Azure canary and staging regions. This version contained a misconfiguration that blocked the service from starting normally. Due to the misconfiguration, the service bootstrap code threw an exception, and was automatically restarted. This caused the bootstrap service to be stuck in a loop where it was being restarted every 5 to 10 seconds. Each time the bootstrap service was restarted, it provided configuration information to the telemetry agents also installed on the service hosts. Each time the configuration information was sent to the telemetry hosts, they interpreted this as a configuration change, and therefore they also automatically exited their current process and restarted as well. Three separate instances of the agent telemetry host, per application host, were now also restarting every 5 to 10 seconds. Upon each startup of the telemetry agent, the agent immediately contacted the telemetry control plane to download the latest version of the telemetry configuration. Normally this is an action that would take place one time every several days, as this configuration would be cached on the agent. However, as the deployment of the Container Apps service progressed, several hundred hosts now had their telemetry agents requesting startup configuration information from the telemetry control plane every 5-10 seconds. The Container Apps team detected the fault in their deployment on 6 July 2023, stopped the original deployment before it was released to any production regions, and started a new deployment of their service in the canary and staging regions to correct the misconfiguration. However, the aggregate rate of requests from the services that received the build with the misconfiguration exhausted capacity on the telemetry control plane. The telemetry control plane is a global service, used by services running in all public regions of Azure. As capacity on the control plane was saturated, other services involved in ingestion of telemetry, such as the ingestion front doors and the pipeline services that route data between services internally, began to fail as their operations against the telemetry control plane were either rejected or timed out. The design of the telemetry control plane as a single point of failure is a known risk, and investment to eliminate this risk has been underway in Azure Monitor to design this risk out of the system. How did we respond? The impact on the telemetry control plane grew slowly and did not create problems that were detected until 12:30 UTC on 6 July 2023. When the issues were detected, the source of the additional load against the telemetry control plane was not known, but the team suspected additional load had been created against the control plane and took these actions: 6 July 2023 @ 14:53 UTC – Internal incident bridge created. 6 July 2023 @ 15:56 UTC – ~500 instances of garbage collector service were removed, to reduce load on telemetry control plane 6 July 2023 @ 16:09 UTC – First batch of Node Diagnostics servers were removed, to reduce load on telemetry control plane. This process of removing this type of server continued over the next 10 hours. 6 July 2023 @ 20:20 UTC – Source of anomalously high traffic was identified, and the responsible team was paged to assist. 6 July 2023 @ 23:00 UTC – IP address blocks deployed, to prevent anomalous traffic from hitting telemetry control plane. 6 July 2023 @ 23:15 UTC – External customer impact started, as cached data started to expire. 7 July 2023 @ 01:30 UTC – Three additional clusters were added to telemetry control plane to handle additional load, and we began restarting existing clusters to clear backlogged connections. 7 July 2023 @ 02:19 UTC – Initial customer notification was posted to the Azure Status page, to acknowledge the incident was being investigated while we worked to identify which specific subscriptions were impacted. 7 July 2023 @ 02:45 UTC – An additional three clusters were added to telemetry control plane. 7 July 2023 @ 06:15 UTC – Targeted customer notifications sent via Azure Service Health to customers with impacted subscriptions (sent on Tracking ID XMGF-5Z0). 7 July 2023 @ 09:00 UTC – Incident declared mitigated, as call error rate and call latency against control plane APIs stabilized at typical levels. How are we making incidents like this less likely or less impactful? We know customer trust is earned and must be maintained, not just by saying the right thing but by doing the right thing. Data retention is a fundamental responsibility of the Microsoft cloud, including every engineer working on every cloud service. We have learned from this incident and are committed to the following improvements: We have ensured that our telemetry control plane services are now running with additional capacity (Completed) We have created additional alerting on certain metrics that indicate critical, unusual failure patterns in API calls (Completed) We will be adding new positive caching and negative caching to the control plane, to reduce load on backing store (Estimated completion: September 2023) We are putting in place additional throttling and circuit breaker patterns to our core telemetry control plane APIs (Estimated completion: September 2023) In the longer term, we are creating isolation between internal-facing and external-facing services using the telemetry control plane (Estimated completion: December 2023) How can customers make incidents like this less impactful? Note that the Azure Monitoring Agent (AMA) provides more advanced collection and ingestion resilience capabilities (such as caching, buffering and retries) than the legacy Microsoft Monitoring Agent (MMA). Customers who have not yet completed their migration from MMA to AMA, would benefit from accelerating and completing the migration - for use cases required by them and supported in AMA. For more details: https://learn.microsoft.com/azure/azure-monitor/agents/azure-monitor-agent-migration Customers using Microsoft Sentinel can consider the following compensating steps: Identify high priority assets, log sources that cover those assets, and detection or hunting logic normally applied to those assets and logs. If possible, run one-time queries at the source, for the indicated date range where ingestion was impacted - based on the prioritized assets, logs, and logic. It may also be useful to run the same queries for week prior to the incident, compare, and look for differences. Alternatively, to the extent the collection architecture allows for it, re-ingest data from the source into Sentinel, and run those one-time queries in Sentinel. Finally, consider ensuring that the right people in your organization will be notified about any future service issues - by configuring Azure Service Health alerts. These can trigger emails, SMS, push notifications, webhooks, and more: https://aka.ms/ash-alerts How can we make our incident communications more useful? You can rate this PIR and provide any feedback using our quick 3-question survey: https://aka.ms/AzPIR/XMGF-5Z0",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/azure.csv",
+        "record_index": 18,
+        "record_sha256": "9f0f7bf28dbe478eaf4d88efad6cbe6c574628fb0f134d58e7b3297f3deb4c3a"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:azure:00030",
+      "independence_group": "reliability-record:6d0dd1d6474e5a2ee0ccb7bedfad1cdbc61a841642aa3fa7b4e1e4d9ff3329c9",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AZURE",
+      "service_hint": null,
+      "year": null,
+      "data_relevance_facets": [
+        "database",
+        "nosql"
+      ],
+      "security_term_hits": [],
+      "report_text": "10/26/2022 Post Incident Review (PIR) - Azure Cosmos DB - East US Tracking ID: JKWW-JP8 What happened? Between 00:25 UTC and 06:00 UTC on 26 October 2022, a subset of customers using Azure Cosmos DB in the East US region may have experienced issues connecting to the service. Connections to Azure Cosmos DB accounts in this region may have resulted in an error or timeout. Downstream Azure services that rely on Azure Cosmos DB also experienced impact during this window - including Azure Application Insights, Azure Automation, Azure Container Registry, Azure Digital Twins, Azure Policy, Azure Rights Management, Azure Red Hat OpenShift, and Azure Spatial Anchors. What went wrong, and why? A change to the front-end gateway of Azure Cosmos DB, to include additional diagnostic information, was introduced on the affected cluster earlier this month. The change had no effect to the fidelity of the system since introduction. On 26 October, a configuration change was applied to the Azure Load Balancer. This change resulted in intermittent network connectivity issues, from which the system can normally recover. However, the diagnostic change resulted in higher-than-expected time spent in the Kernel, which resulted in spikes of high CPU utilization across the cluster. In turn, this created an increase in exceptions, and even larger time spent locking in the kernel. This resulted in timeouts and increased latency of incoming requests, ultimately leading to the customer impact described above. How did we respond? Our monitors alerted us to the impact on this cluster. We worked with our customers and partners to trigger mitigation steps while investigating the factors contributing to this issue. To mitigate the incident, accounts were offloaded from the impacted cluster to other clusters in the same region. To safely offload the quantity of accounts we had to migrate, we systematically moved each database account to an alternative healthy cluster. As a result, the lower load improved the state of the impacted cluster and enabled recovery. All customer impact was confirmed mitigated by 06:00 UTC. How are we making incidents like this less likely or less impactful? We have paused the configuration changes for the Azure Load Balancer. (Completed) We have worked to fix the original regression in the diagnostic stack. (Completed) We are improving our load balancing automation, to speed up recovery in similar circumstances. (Estimated completion: November 2022). How can customers make incidents like this less impactful? Consider configuring your accounts to be globally distributed – enabling multi-region for critical accounts would allow for a customer-initiated failover during regional service incidents like this one. For more details, refer to: https://docs.microsoft.com/azure/cosmos-db/distribute-data-globally More generally, consider evaluating the reliability of your applications using guidance from the Azure Well-Architected Framework and its interactive Well-Architected Review: https://docs.microsoft.com/en-us/azure/architecture/framework/resiliency Finally, consider ensuring that the right people in your organization will be notified about any future service issues - by configuring Azure Service Health alerts. These can trigger emails, SMS, push notifications, webhooks, and more: https://aka.ms/ash-alerts How can we make our incident communications more useful? You can rate this PIR and provide any feedback using our quick 3-question survey: https://www.aka.ms/AzPIR/JKWW-JP8",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/azure.csv",
+        "record_index": 30,
+        "record_sha256": "6d0dd1d6474e5a2ee0ccb7bedfad1cdbc61a841642aa3fa7b4e1e4d9ff3329c9"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:azure:00037",
+      "independence_group": "reliability-record:570286be5e83ab6559226c82a6e38b47a403548eca4abb08a4dc48d1c6f50195",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AZURE",
+      "service_hint": null,
+      "year": null,
+      "data_relevance_facets": [
+        "backup"
+      ],
+      "security_term_hits": [],
+      "report_text": "07/29/2022 Post Incident Review (PIR) – Network Connectivity Issues Tracking ID: 7SHM-P88 What happened? Between 08:00 UTC and until 13:20 UTC on 29 July 2022, customers may have experienced connectivity issues such as network drops, latency, and/or degradation when attempting to access or manage Azure resources in multiple regions. The most significant impact would have been experienced in the following regions – Brazil South, Canada Central, East Asia, East US, East US 2, France Central, Japan East, Korea Central, North Central US, South Africa North, South Central US, Southeast Asia, West Europe, and West US. Customers in other regions may have seen an intermittent impact when accessing resources across the Microsoft wide area network (WAN). What went wrong, and why? Starting at 08:00 UTC on 29 July, the Azure WAN began to experience a sudden and significant increase of traffic, upwards of 60 Tbps in additional traffic compared to the normal levels of traffic carried on the network. While the event was detected immediately and automated remediation was triggered, the substantial increased bursts of traffic occurring throughout the event affected the ability of automated mitigations to continue providing the necessary relief to the network. WAN routers then became overloaded and dropped network packets, which resulted in network connectivity issues experienced by some customers. This event included impact to both intra-region and cross-region traffic over various network paths, which included ExpressRoute. How did we respond? We have several detection and mitigation algorithms that were triggered automatically around 08:00 UTC when an increased burst of traffic occurred. The volume of traffic surges continued to substantially increase, reaching 10-15 times greater than any traffic volume experienced on the network prior. While the mitigation mechanisms were successfully triggered to load balance and throttle the traffic bursts to help prevent impact, the significance of traffic on the WAN routers resulted in these mechanisms to take longer to alleviate the traffic surges and restore traffic back to normal levels. By 13:20 UTC, traffic levels returned to normal as network telemetry confirmed packet drops had reduced to standard levels, which is when customers would have seen resource and service network health restored. How are we making incidents like this less likely or less impactful? We are implementing service repairs because of this incident, including but not limited to: Already completed: Additional alerting for specific packet drops signature caused by significant traffic bursts. Improvements to network device capabilities to help reduce packet drops when handling significant traffic bursts. Changes to the network design for traffic spike detection to help reduce the time to mitigate for similar events. Improve network incident response playbook to better streamline preventative actions performed for similar events. Apply additional layers of network throttling to help protect the network reliability when increased traffic surges occur. How did we communicate with impacted customers? Starting around 11:00 UTC, we began to receive some reports of a potential emerging issue. As signals continued to gradually increase, we posted an initial statement to the Azure status page at 11:52 UTC. Delays in communications via Service Health in the portal were primarily due to challenges gauging the extent of impact and affected regions as limited telemetry of the networking event developing did not clearly indicate a viable scope of impact. Though other signals via internal and external reports indicated a likely platform event ongoing, the disparity of signals deterred targeted notifications until a broad networking issue was determined. Communications were sent via Azure Service Health for Azure services that started to report impact, where were later determined to be affected by the networking event. With further analysis and evidence of regional impact confirmed, broad targeted communication was sent to customers region-wide for the identified affected regions by 13:28 UTC. Between 13:28 and 15:32 UTC, communications were sent to the customers of additional impacted regions identified. By 15:32 UTC, we began reporting recovery via the status page and Service Health, but monitoring and preventative workstreams persisted, which we continued to report until the necessary preventative workstreams were completed by 19:52 UTC. How can we make our incident communications more useful? We are piloting this \"PIR\" format as a potential replacement for our \"RCA\" (Root Cause Analysis) format. You can rate this PIR and provide any feedback using our quick 3-question survey: https://aka.ms/AzPIR/7SHM-P88",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/azure.csv",
+        "record_index": 37,
+        "record_sha256": "570286be5e83ab6559226c82a6e38b47a403548eca4abb08a4dc48d1c6f50195"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:azure:00043",
+      "independence_group": "reliability-record:b7afdf2caa93d8124157991be89aa0fdd66db5687154fef9164a6d9180ee3fe1",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AZURE",
+      "service_hint": null,
+      "year": null,
+      "data_relevance_facets": [
+        "analytics",
+        "backup"
+      ],
+      "security_term_hits": [],
+      "report_text": "04/08/2022 RCA - Service Management Operation Errors Across Azure Services in East US 2 Tracking ID: Y__5-9C0 Summary of Impact: Between 12:25 UTC on 08 Apr 2022 and 14:40 UTC on 09 Apr 2022, customers running services in the East US 2 region may have experienced service management errors, delays, and/or timeouts. Customers may have experienced issues that caused GET and PUT errors impacting the Azure portal itself, as well as services including Azure Virtual Machines (VMs), Virtual Machine Scale Sets (VMSS), Azure Data Factory (ADF), Azure Databricks, Azure Synapse, Azure Backup, Azure Site Recovery (ASR), and Azure Virtual Desktop (AVD) Customers may have seen errors including “The network connectivity issue encountered for Microsoft.Compute cannot fulfill the request. For some downstream services that have auto-scale enabled, this service management issue may have caused data plane impact. Root Cause: We determined that the Compute Resource Provider (CRP) Gateway service experienced an issue which severely reduced its throughput. The underlying issue was a retry storm triggered by the zonal failure of a related Allocator service. While we were able to recover the Allocator service by restarting the instances in the failed zone, the backlog of work exposed a potential issue with .Net CLR and Garbage Collector. This resulted in a large percentage of incoming calls to the CRP Gateway to fail. The retries triggered by the upstream services only made the load situation worse. Under normal circumstances, the Gateway instances are overprovisioned for such retry storms but the combination of the reduced throughput across all instances and continuous retries (some services which normally make 25K calls in 1 minutes were making 150K calls in the same period due to retries) resulted in a prolonged impact. Deeper investigation into process profile data exposed that the process was experience a high rate of timeout exceptions for ongoing operations and .Net Garbage Collector was overworked due to high heap churn under above mentioned spike in load. A high rate of exceptions and the simultaneous pressure on the .Net GC exposed an unfavorable interaction in the .Net runtime's process wide lock. Mitigation: To mitigate the situation, the below steps were taken: Two large services were temporarily throttled more aggressively to ensure they do not continue to overload gateway. Once the underlying issue of the throughput reduction was partially understood, the gateway services were restarted multiple times until they got out of the wedged state. Next Steps: We apologize for the impact to affected customers. We are continuously taking steps to improve the Microsoft Azure Platform and our processes to help ensure such incidents do not occur in the future. In this case, this includes (but is not limited to): As a long-term fix, we initiated a CRP gateway hotfix that will prevent the gateway from entering into the wedged state. The hotfix roll-out is progressing as per our Safe Deployment Practices. We are flighting a configuration change to make the .Net GC work less hard and avoid interaction with the process wide lock which is surfaced with exception handling. Repair items have been identified to optimize areas of code which were causing heap churn Provide Feedback: Please help us improve the Azure customer communications experience by taking our survey: https://aka.ms/AzurePIRSurvey",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/azure.csv",
+        "record_index": 43,
+        "record_sha256": "b7afdf2caa93d8124157991be89aa0fdd66db5687154fef9164a6d9180ee3fe1"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:azure:00113",
+      "independence_group": "reliability-record:92fd4fdb34d780cf9cf833690ae861658b77658314f19d1f02551835242b7ad7",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AZURE",
+      "service_hint": null,
+      "year": null,
+      "data_relevance_facets": [
+        "analytics",
+        "sql"
+      ],
+      "security_term_hits": [],
+      "report_text": "02/28/2020 RCA - Networking Issue in South Central US Tracking ID: DMP0-HT8 Summary of Impact: Between 12:48 and 19:10 UTC on 28 Feb 2020, a subset of customers in South Central US may have encountered failure notifications when performing service management operations on resources hosted in this region. Additionally, some customers using Azure Data Factory V2 may have seen errors when running pipelines and job executions for dataflow activities as well as seeing errors when attempting to provision SQL Server Integration Services (SSIS) and Integration Runtime for Azure Data Factory SSIS packages. Root Cause: During a scale-up operation of the service that manages customer network resources, a new capacity configuration was deployed. This configuration triggered a conflict with an existing backend service configuration and caused an increase in the failure rate of requests to the service used for service discovery. The increased failure rate exceeded the Azure platform’s capability for retry logic to avoid customer impact. Mitigation: Resources deployed during the scale-up operation performed with the incompatible configuration were removed from rotation, allowing the automatic recovery of the backend service. Next Steps: We sincerely apologize for the impact to affected customers. We are continuously taking steps to improve the Microsoft Azure Platform and our processes to help ensure such incidents do not occur in the future. In this case, this included (but was not limited to): Improving deployment testing and detection to avoid configuration conflicts Implementing last known good configuration fall back in the event of resource deployment errors, instead of the requirement to deploy new configuration Provide Feedback: Please help us improve the Azure customer communications experience by taking our survey: https://aka.ms/DMP0-HT8 .",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/azure.csv",
+        "record_index": 113,
+        "record_sha256": "92fd4fdb34d780cf9cf833690ae861658b77658314f19d1f02551835242b7ad7"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:azure:00114",
+      "independence_group": "reliability-record:b390558adad18bb74a18f09a883fe83d589d11cd9bc3a21eddad14df386b00e1",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "AZURE",
+      "service_hint": null,
+      "year": null,
+      "data_relevance_facets": [
+        "database"
+      ],
+      "security_term_hits": [],
+      "report_text": "02/24/2020 503 errors accessing the Azure Portal - Mitigated Tracking ID: 8_K4-TD0 Summary of impact: Between approximately 19:45 and 22:15 UTC on 24 Feb 2020, a limited subset of customers may have encountered HTTP 503 error codes when attempting to access the Azure Portal. The availability of individual resources (Virtual Machines, Web Apps, databases, etc.) was not impacted. Preliminary root cause: After a preliminary investigation, engineers determined that an internal automation workflow was generating a high volume of requests to a backend CosmosDB partition on which the Azure Portal relies. As the volume of incoming requests grew, an automated throttling process began on the impacted partition, preventing requests from completing. Mitigation: Engineers manually stopped the internal automation workflow, allowing the volume of requests to return below normal thresholds and the partition throttling to stop. Next steps: We apologize for the impact to affected customers. Engineers will continue to investigate the underlying cause and take steps to prevent future occurrences.",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/azure.csv",
+        "record_index": 114,
+        "record_sha256": "b390558adad18bb74a18f09a883fe83d589d11cd9bc3a21eddad14df386b00e1"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:gcp:00000",
+      "independence_group": "reliability-record:1d2a0c8a526d657adf8b790064d4f47a4d2bdf48ffd99755f6b1e35777908b5c",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "GCP",
+      "service_hint": "Cloud Spanner",
+      "year": null,
+      "data_relevance_facets": [
+        "spanner"
+      ],
+      "security_term_hits": [],
+      "report_text": "[{'affected_locations': None, 'created': '2020-01-09T03:10:49Z', 'modified': '2020-01-09T03:10:49Z', 'status': None, 'text': 'The issue with Cloud Spanner, where customers are unable to change node count for instances in multi-region configuration \"nam3\", has been resolved for all affected users as of Wednesday, 2020-01-08 19:08 US/Pacific.\\n\\nWe thank you for your patience while we\\'ve worked on resolving the issue.', 'when': '2020-01-09T03:10:49Z'} {'affected_locations': None, 'created': '2020-01-09T02:47:03Z', 'modified': '2020-01-09T02:47:03Z', 'status': None, 'text': 'Description: Mitigation work is currently underway by our engineering team.\\n\\nWe do not have an ETA for mitigation at this point.\\n\\nWe will provide more information by Wednesday, 2020-01-08 20:39 US/Pacific.\\n\\nDiagnosis: Cannot change node count for instances running in NA nam3 multi-region configuration.\\n\\nWorkaround: No workaround is available at the moment.', 'when': '2020-01-09T02:47:03Z'} {'affected_locations': None, 'created': '2020-01-09T01:57:41Z', 'modified': '2020-01-09T01:57:41Z', 'status': None, 'text': 'Description: We are experiencing an issue with Cloud Spanner beginning at Wednesday, 2020-01-08 17:37 US/Pacific.\\n\\nSymptoms: \\n\\nCustomers that have instances running in North America multi-region configuration \"nam3\" may experience errors when attempting to either increase or reduce node count. \\n\\nThe issue is not affecting the running instances.\\n\\nOur engineering team continues to investigate the issue.\\n\\nWe will provide an update by Wednesday, 2020-01-08 18:56 US/Pacific with current details.\\n\\nWe apologize to all who are affected by the disruption.\\n\\nDiagnosis: Cannot change node count for instances running in NA nam3 multi-region configuration.\\n\\nWorkaround: No workaround is available at the moment.', 'when': '2020-01-09T01:57:41Z'} {'affected_locations': None, 'created': '2020-01-09T01:55:43Z', 'modified': '2020-01-09T01:55:43Z', 'status': None, 'text': 'Description: We are experiencing an issue with Cloud Spanner beginning at Wednesday, 2020-01-08 17:37 US/Pacific.\\n\\nSymptoms: \\n\\nCustomers that have instances running in North America multi-region configuration \"nam3\" may experience errors when attempting to either increase or reduce node count. \\n\\nThe issue is not affecting the running instances.\\n\\nOur engineering team continues to investigate the issue.\\n\\nWe will provide an update by Wednesday, 2020-01-08 18:56 US/Pacific with current details.\\n\\nWe apologize to all who are affected by the disruption.', 'when': '2020-01-09T01:55:43Z'}]",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/gcp.csv",
+        "record_index": 0,
+        "record_sha256": "1d2a0c8a526d657adf8b790064d4f47a4d2bdf48ffd99755f6b1e35777908b5c"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:gcp:00010",
+      "independence_group": "reliability-incident:gcp:cloud-datastore:19006",
+      "independence_group_basis": "upstream_incident_url",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "GCP",
+      "service_hint": "Google Stackdriver",
+      "year": null,
+      "data_relevance_facets": [
+        "nosql"
+      ],
+      "security_term_hits": [],
+      "report_text": "[{'affected_locations': None, 'created': '2019-11-11T12:49:07Z', 'modified': '2019-11-11T12:49:07Z', 'status': None, 'text': \"The issue has been resolved for all affected projects as of Monday, 2019-11-11 04:48 US/Pacific.\\n\\nWe will publish an analysis of this incident once we have completed our internal investigation.\\n\\nWe thank you for your patience while we've worked on resolving the issue.\", 'when': '2019-11-11T12:49:07Z'} {'affected_locations': None, 'created': '2019-11-11T12:15:11Z', 'modified': '2019-11-11T12:15:11Z', 'status': None, 'text': 'Description: We are experiencing an issue with multiple products.\\n\\nOur engineering team continues to investigate the issue.\\n\\nFor regular status updates, please follow: https://status.cloud.google.com/incident/cloud-datastore/19006 where we will provide the next update by Monday, 2019-11-11 05:00 US/Pacific.', 'when': '2019-11-11T12:15:11Z'}]",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/gcp.csv",
+        "record_index": 10,
+        "record_sha256": "9493c5f52b0b9cdc68c1ba6db22fb1de5c4b235aa29225b01a2486be2de6f642"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:gcp:00011",
+      "independence_group": "reliability-incident:gcp:cloud-datastore:19006",
+      "independence_group_basis": "upstream_incident_url",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "GCP",
+      "service_hint": "Google Cloud Bigtable",
+      "year": null,
+      "data_relevance_facets": [
+        "nosql"
+      ],
+      "security_term_hits": [],
+      "report_text": "[{'affected_locations': None, 'created': '2019-11-11T12:39:40Z', 'modified': '2019-11-11T12:39:40Z', 'status': None, 'text': \"The issue with Cloud Bigtable has been resolved for all affected users as of Monday, 2019-11-11 04:39 US/Pacific.\\n\\nWe will publish analysis of this incident once we have completed our internal investigation.\\n\\nWe thank you for your patience while we've worked on resolving the issue.\", 'when': '2019-11-11T12:39:40Z'} {'affected_locations': None, 'created': '2019-11-11T12:13:10Z', 'modified': '2019-11-11T12:13:10Z', 'status': None, 'text': 'Description: We are experiencing an issue with multiple products.\\n\\nOur engineering team continues to investigate the issue.\\n\\nFor regular status updates, please follow: https://status.cloud.google.com/incident/cloud-datastore/19006 where we will provide the next update by Monday, 2019-11-11 05:00 US/Pacific.', 'when': '2019-11-11T12:13:10Z'}]",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/gcp.csv",
+        "record_index": 11,
+        "record_sha256": "60753685258bc2b48a89148a4bfc4a8454c38838929822690d2a671e9701c00d"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:gcp:00035",
+      "independence_group": "reliability-incident:gcp:cloud-networking:19020",
+      "independence_group_basis": "upstream_incident_url",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "GCP",
+      "service_hint": "Google Cloud Storage",
+      "year": null,
+      "data_relevance_facets": [
+        "storage"
+      ],
+      "security_term_hits": [],
+      "report_text": "[{'affected_locations': None, 'created': '2019-10-23T01:10:49Z', 'modified': '2019-10-23T01:10:49Z', 'status': None, 'text': 'Our engineers have determined this issue to be linked to the Google Cloud Networking incident in us-west1-b. For regular status updates, please visit (https://status.cloud.google.com/incident/cloud-networking/19020). No further updates will be made through this incident.', 'when': '2019-10-23T01:10:49Z'}]",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/gcp.csv",
+        "record_index": 35,
+        "record_sha256": "d579ec30ba82f7f56509d5d7ee43d86714df12a9e54e7a0f2c995c62981be586"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:gcp:00038",
+      "independence_group": "reliability-record:c786e2f4534f1ff55ea7e35c1793947729299b550c04957e7a8840cbf3040a82",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "GCP",
+      "service_hint": "Google BigQuery",
+      "year": null,
+      "data_relevance_facets": [
+        "analytics"
+      ],
+      "security_term_hits": [],
+      "report_text": "[{'affected_locations': None, 'created': '2019-10-12T03:20:03Z', 'modified': '2019-10-12T03:20:03Z', 'status': None, 'text': 'The issue with ingestion and incorrect queries is believed to be affecting a very small number of projects, and has been isolated. Our Engineering Team is working on it. If you have questions or are impacted, please open a case with the Support Team and we will work with you until this issue is resolved. No further updates will be provided here.', 'when': '2019-10-11T20:21:00Z'} {'affected_locations': None, 'created': '2019-10-11T18:59:51Z', 'modified': '2019-10-11T18:59:51Z', 'status': None, 'text': 'Description: Our team has found Ingestion issues isolated to a single bad system in the eu-multiregion starting around Friday, 2019-10-11 08:55 US/Pacific. This system has since been isolated to avoid further issues with ingestion. \\n\\nA second mitigation stream is currently underway by our engineering team to resolve reports of data unavailable errors for users affected by the first issue.\\n\\nWe do not have an ETA for mitigation at this point.\\n\\nWe will provide more information by Friday, 2019-10-11 13:30 US/Pacific.\\n\\nDiagnosis: Affected customers may see queries return STREAMING_DATA_UNAVAILABLE.\\n\\nWorkaround: New ingestions should not be delayed at this time. If a new job is submitted it should complete as expected.\\n\\nNo work around for the STREAMING_DATA_UNAVAILABLE at this time.', 'when': '2019-10-11T18:59:51Z'}]",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/gcp.csv",
+        "record_index": 38,
+        "record_sha256": "c786e2f4534f1ff55ea7e35c1793947729299b550c04957e7a8840cbf3040a82"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:gcp:00056",
+      "independence_group": "reliability-record:a2380512c91fbf2cb356eaebe95cee5203adfa81926a6b1c961fd891a0e43094",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "GCP",
+      "service_hint": "Google Compute Engine",
+      "year": null,
+      "data_relevance_facets": [
+        "sql"
+      ],
+      "security_term_hits": [],
+      "report_text": "[{'affected_locations': None, 'created': '2019-09-05T23:41:07Z', 'modified': '2019-09-05T23:41:07Z', 'status': None, 'text': 'The issue with Google Compute Engine instance creation failures has been resolved for all affected projects as of Thursday, 2019-09-05 16:18 US/Pacific. We will conduct an internal investigation of this issue and make appropriate improvements to our systems to help prevent or minimize future recurrence.', 'when': '2019-09-05T23:41:07Z'} {'affected_locations': None, 'created': '2019-09-05T20:40:56Z', 'modified': '2019-09-05T20:40:56Z', 'status': None, 'text': 'Description: We are rolling back a potential fix to mitigate this issue. We will provide another status update by Thursday, 2019-09-05 17:00 US/Pacific with current details.\\n\\nDiagnosis: Failed instance creation and app deployment within asia-east2\\n\\nWorkaround: Projects in asia-east2 can create instances larger than or equal to n1-standard-2. Other regions are unaffected.', 'when': '2019-09-05T20:40:56Z'} {'affected_locations': None, 'created': '2019-09-05T17:58:05Z', 'modified': '2019-09-05T17:58:05Z', 'status': None, 'text': 'Description: We are investigating issues creating instances in asia-east2 region. This affects Google Compute Engine, Google App Engine and Cloud SQL in these regions. Our Engineering Team is investigating possible causes. We will provide another status update by Thursday, 2019-09-05 17:00 US/Pacific with current details. Affected projects can utilize machines larger than (or equal to) n1-standard-2 instances in order to avoid failed instance creation.\\n\\nDiagnosis: Failed instance creation within asia-east2\\n\\nWorkaround: Projects in asia-east2 can create instances larger than or equal to n1-standard-2. Other regions are unaffected.', 'when': '2019-09-05T17:58:05Z'} {'affected_locations': None, 'created': '2019-09-05T14:39:11Z', 'modified': '2019-09-05T14:39:11Z', 'status': None, 'text': 'Description: We are investigating issues creating instances in asia-east2 region. This affects Google Compute Engine, Google App Engine and Cloud SQL in these regions. Our Engineering Team is investigating possible causes. We will provide another status update by Thursday, 2019-09-05 11:00 US/Pacific with current details.\\n\\nDiagnosis: Failed instance creation within asia-east2\\n\\nWorkaround: Projects in asia-east2 can create instances larger than or equal to n1-standard-2. Other regions are unaffected.', 'when': '2019-09-05T14:39:11Z'} {'affected_locations': None, 'created': '2019-09-05T13:04:07Z', 'modified': '2019-09-05T13:04:07Z', 'status': None, 'text': 'Description: We are investigating issues creating instances in asia-east2 region. This affects Google Compute Engine, Google App Engine and Cloud SQL in these regions. Our Engineering Team is investigating possible causes. We will provide another status update by Thursday, 2019-09-05 09:00 US/Pacific with current details.\\n\\nWorkaround: Other regions are unaffected.', 'when': '2019-09-05T13:04:07Z'}]",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/gcp.csv",
+        "record_index": 56,
+        "record_sha256": "a2380512c91fbf2cb356eaebe95cee5203adfa81926a6b1c961fd891a0e43094"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:gcp:00074",
+      "independence_group": "reliability-record:1194eda1221647a9810794a56ea7b5e01b128a04641c6d8e50be563970e70c18",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "GCP",
+      "service_hint": "Google Cloud Networking",
+      "year": null,
+      "data_relevance_facets": [
+        "backup"
+      ],
+      "security_term_hits": [],
+      "report_text": "[{'affected_locations': None, 'created': '2019-07-02T16:12:15Z', 'modified': '2019-07-02T16:12:15Z', 'status': None, 'text': 'The issue with Cloud Networking has been resolved for all affected users as of Tuesday, 2019-07-02 09:11 US/Pacific. We will conduct an internal investigation of this issue and make appropriate improvements to our systems to help prevent or minimize future recurrence.', 'when': '2019-07-02T16:12:15Z'} {'affected_locations': None, 'created': '2019-07-02T15:50:42Z', 'modified': '2019-07-02T15:50:42Z', 'status': None, 'text': 'The Cloud Networking service (Standard Tier) has lost multiple independent fiber links within us-east1 zone. Vendor has been notified and are currently investigating the issue. In order to restore service, we have reduced our network usage and prioritised customer workloads. We will provide another status update by Tuesday, 2019-07-02 09:38 US/Pacific with current details.', 'when': '2019-07-02T15:50:42Z'} {'affected_locations': None, 'created': '2019-07-02T14:55:51Z', 'modified': '2019-07-02T14:55:51Z', 'status': None, 'text': 'The Cloud Networking service (Standard Tier) is experiencing external connectivity loss for all us-east1 zones and traffic between us-east1 and other regions has approximately 10% loss. We will provide another status update by Tuesday, 2019-07-02 08:48 US/Pacific with current details.', 'when': '2019-07-02T14:55:51Z'}]",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/gcp.csv",
+        "record_index": 74,
+        "record_sha256": "1194eda1221647a9810794a56ea7b5e01b128a04641c6d8e50be563970e70c18"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:gcp:00193",
+      "independence_group": "reliability-record:d25196e8c8a4c3efcfe1c832fae9ec340d232888b37ff9d643168385fb95b096",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "GCP",
+      "service_hint": "Google Cloud Infrastructure Components",
+      "year": null,
+      "data_relevance_facets": [
+        "analytics",
+        "backup",
+        "database",
+        "nosql",
+        "secret",
+        "spanner",
+        "sql",
+        "storage"
+      ],
+      "security_term_hits": [],
+      "report_text": "[{'affected_locations': None, 'created': '2020-04-02T00:15:20Z', 'modified': '2020-04-02T01:27:20Z', 'status': None, 'text': \"# ISSUE SUMMARY\\r\\n\\r\\nOn Thursday 26 March, 2020 at 16:14 US/Pacific, Cloud IAM experienced elevated error rates which caused disruption across many services for a duration of 3.5 hours, and stale data (resulting in continued disruption in administrative operations for a subset of services) for a duration of 14 hours. Google's commitment to user privacy and data security means that IAM is a common dependency across many GCP services. To our Cloud customers whose business was impacted during this disruption, we sincerely apologize – this is not the level of quality and reliability we strive to offer you, and we are taking immediate steps to improve the platform’s performance and availability. We have conducted an internal investigation and are taking steps to improve the resiliency of our service. \\r\\n\\r\\n\\r\\n# ROOT CAUSE\\r\\n\\r\\nMany Cloud services depend on a distributed Access Control List (ACL) in Identity and Access Management (IAM) for validating permissions, activating new APIs, or creating new cloud resources. These permissions are stored in a distributed database and are heavily cached. Two processes keep the database up-to-date; one real-time, and one batch. However, if the real-time pipeline falls too far behind, stale data is served which may cause impact operations in downstream services.\\r\\n\\r\\nThe trigger of the incident was a bulk update of group memberships that expanded to an unexpectedly high number of modified permissions, which generated a large backlog of queued mutations to be applied in real-time. The processing of the backlog was degraded by a latent issue with the cache servers, which led to them running out of memory; this in turn resulted in requests to IAM timing out. The problem was temporarily exacerbated in various regions by emergency rollouts performed to mitigate the high memory usage. \\r\\n\\r\\n\\r\\n# REMEDIATION AND PREVENTION\\r\\n\\r\\nOnce the scope of the issue became clear at 2020-03-26 16:35 US/Pacific, Google engineers quickly began looking for viable mitigations. At 17:06, an offline job to build an updated cache was manually started. Additionally, at 17:34, cache servers were restarted with additional memory, along with a configuration change to allow temporarily serving stale data (a snapshot from before the problematic bulk update) while investigation continued; this mitigated the first impact window. A second window of impact began in other regions at 18:49. At 19:13, similar efforts to mitigate with additional memory began, which mitigated the second impact window by 19:42. Additional efforts to fix the stale data continued, and finally the latest offline backfill of IAM data was loaded into the cache servers. The remaining time was spent progressing through the backlog of changes, and live data was slowly re-enabled region-by-region to successfully mitigate the staleness globally at 2020-03-27 05:55. \\r\\n\\r\\nGoogle is committed to quickly and continually improving our technology and operations to both prevent service disruptions, and to mitigate them quickly when they occur. In addition to ensuring that the cache servers can handle bulk updates of the kind which triggered this incident, efforts are underway to optimize the memory usage and protections on the cache servers, and allow emergency configuration changes without requiring restarts. To allow us to mitigate data staleness issues more quickly in future, we will also be sharding out the database batch processing to allow for parallelization and more frequent runs. We understand how important regional reliability is for our users and apologize for this incident. \\r\\n\\r\\n\\r\\n# DETAILED DESCRIPTION OF IMPACT\\r\\n\\r\\nOn Thursday 26 March, 2020 from 16:14 to Friday 27 March 2020, 06:20 US/Pacific, Cloud IAM experienced out of date (stale) data, which had varying degrees of impact as described in detail below. Additionally, multiple services experienced bursts of Cloud IAM errors. These spikes were clustered around 16:35 to 17:45, 18:45 to 19:00, and 19:20 to 19:40, however the precise timing for each Cloud region differed. Error rates reached up to 100% in the later two periods as mitigations propagated globally. As a result, many Cloud services experienced concurrent outages in multiple regions, and most regions experienced some impact. Even though error rates recovered after mitigations, Cloud IAM members from Google Groups [1] remained stale until the full incident had been resolved. The staleness varied in severity throughout the incident as new batch processes completed, with an approximate four hour delay at 16:14, up to a 9 hour delay at 21:13. Users directly granted IAM roles were not impacted by stale permissions.\\r\\n\\r\\n[1] https://cloud.google.com/iam/docs/overview#google_group \\r\\n\\r\\n## Cloud IAM\\r\\nExperienced delays mapping IAM roles from changes in Google Groups membership for users and Service Accounts, which resulted in serving stale permissions globally from 2020-03-26 16:15 to 2020-03-27 05:55. Permissions assigned to individual non-service account users were not affected.\\r\\n\\r\\n## App Engine (GAE)\\r\\nExperienced elevated rates of deployment failures and increased timeouts on serving for apps with access control [2] from 16:22 to 2020-03-27 05:48 in the following regions: asia-east2, asia-northeast1, asia-south1, europe-west1, europe-west2, europe-west3,australia-southeast1, northamerica-northeast1, us-central1, us-east1, us-east4, and us-west2. Public apps did not have HTTP serving affected. \\r\\n\\r\\n[2] https://cloud.google.com/appengine/docs/standard/python3/access-control\\r\\n\\r\\n## AI Platform Predictions\\r\\nExperienced elevated error rates from 16:50 to 19:54 in the following regions: europe-west1, asia-northeast1, us-east4. The average error rate was <1% with a peak of 2.2% during the impact window.\\r\\n\\r\\n## AI Platform Notebooks\\r\\nExperienced elevated error rates and failure creating new instances from 16:34 to 19:17 in the following regions: asia-east1, us-west1, us-east1.\\r\\n\\r\\n## Cloud Asset Inventory\\r\\nExperienced elevated error rates globally from 17:00 to 19:56. The average error rate during the first spike from 16:50 to 17:42 was 5%, and 40% during the second spike from 19:34 to 19:43, with a peak of 45%. \\r\\n\\r\\n## Cloud Composer\\r\\nExperienced elevated error rates for various API calls in all regions, with the following regions seeing up to a 100% error rate: asia-east2, europe-west1, us-west3. This primarily impacted environment creation, updates, and upgrades, and existing healthy environments should have been unaffected, \\r\\n\\r\\n## Cloud Console\\r\\nExperienced elevated error rates loading various pages globally from 16:40 to 20:00. 4.2% of page views experienced degraded performance , with a spike between 16:40 to 18:00, and 18:50 to 20:00. Some pages may have seen up to 100% degraded page views depending on the service requested. \\r\\n\\r\\n## Cloud Dataproc\\r\\nExperienced elevated cluster operation error rates from 16:30 to 19:45 in the following regions: asia-east, asia-east2, asia-northeast1, asia-northeast2, asia-northeast3, asia-south1, asia-southwest1, australia-southeast1, europe-north1, europe-west1, europe-west2, europe-west3, europe-west4, europe-west6, northamerica-northeast1, southamerica-east1, us-central1, us-east1, us-east4, us-west1, us-west2. The average and peak error rates were <1% in all regions. \\r\\n\\r\\n## Cloud Dataflow\\r\\nExperienced elevated error rates creating new jobs between 16:34 and 19:43 in the following regions: asia-east1, asia-northeast1, europe-west1, europe-west2, europe-west3, europe-west4, us-central1, us-east4, us-west1. The error rate varied by region over the course of the incident, averaging 70%, with peaks of up to 100%. Existing jobs may have seen temporarily increased latency. \\r\\n\\r\\n## Cloud Data Fusion\\r\\nExperienced elevated error rates creating new pipelines from 17:00 to 2020-03-27 07:00 in the following regions: asia-east1, asia-east2, asia-northeast1, asia-northeast2, asia-northeast3, asia-south1, asia-southeast1, australia-southeast1, europe-north1, europe-west1, europe-west2, europe -west3, europe-west4, europe-west6, northamerica-northeast1, southamerica-east1, us-central1, us-east1, us-east4, us-west1, and us-west2. 100% of create operations failed during the impact window.\\r\\n\\r\\n## Cloud Dialogflow\\r\\nExperienced elevated API errors from 16:36 to 17:43 and from 19:36 to 19:43 globally. The error rate averaged 2.6%, with peaks of up to 12% during the impact window. \\r\\n\\r\\n## Cloud Filestore\\r\\nExperienced elevated errors on instance operations from 16:44 to 17:53 in asia-east1, asia-east2, us-west1, from 18:45 to 19:10 in asia-northeast1, australia-southeast1, southamerica-east1, and from 19:30 to 19:45 in europe-west4, asia-east2, europe-north1, australia-southeast1, us-east4, and us-west1. Globally, projects which had recently activated the Filestore service were unable to create instances.\\r\\n\\r\\n## Cloud Firestore & Cloud Datastore\\r\\nExperienced elevated error rates and increased request latency between 16:41 and 20:14. From 16:41 to 17:45 only europe-west1 and asia-east2 were impacted. On average, the availability of Firestore was 99.75% with a low of 97.3% at 19:38. Datastore had an average <0.1% of errors, with a peak error rate of 1% at 19:40. From 18:45 to 19:06 the following regions were impacted: asia-east2, asia-northeast1, asia-northeast2, asia-northeast3, asia-south1, australia-southeast1, europe-west1, europe-west2, europe-west3, europe-west4, europe-west5, europe-west6, northamerica-northeast1, southamerica-east1, us-central1, us-east4, us-west2, us-west3, and us-west4. Finally, from 19:27 to 20:15 all regions were impacted. \\r\\n\\r\\n## Cloud Functions\\r\\nExperienced elevated rates of deployment failures and increased timeouts when serving functions with access control [3] from 16:22 to 20-03-27 05:48 in the following regions: asia-east2, europe-west1, europe-west2, europe-west3, asia-northeast1, europe-north1, and us-east4. Public services did not have HTTP serving affected. \\r\\n\\r\\n[3] https://cloud.google.com/functions/docs/concepts/iam\\r\\n\\r\\n## Cloud Healthcare API\\r\\nExperienced elevated error rates in the ‘us’ multi-region from 16:47 to 17:40, with a 12% average error rate, and a peak error rate of 25%. \\r\\n\\r\\n## Cloud KMS\\r\\nExperienced elevated error rates from 16:30 to 17:46 in the following regions: asia, asia-east1, asia-east2, europe, europe-west1, us-west1, southamerica-east1, europe-west3, europe-north1, europe-west4, and us-east4. The average error rate during the impact window was 26%, with a peak of 36%. \\r\\n\\r\\n## Cloud Memorystore\\r\\nExperienced failed instance operations from 16:44 to 17:53 in asia-east1, asia-east2, us-west1, from 18:45 to 19:10 in asia-northeast1, australia-southeast1, southamerica-east1, and from 19:30 to 19:45 in europe-west4, asia-east2, europe-north1, australia-southeast1, us-east4, us-west1. Globally, projects which had recently activated the Memorystore service were unable to create instances until 2020-03-27 06:00. \\r\\n\\r\\n## Cloud Monitoring\\r\\nExperienced elevated error rates for the Dashboards and Accounts API endpoints from 16:35 to 19:42 in the following regions: asia-west1, asia-east1, europe-west1, us-central1, us-west1. Rates fluctuated by region throughout the duration of the incident, with an average of 15% for the Accounts API, and 30% for the Dashboards API, and a peak of 26% and 80% respectively. The asia-east1 region had the most significant impact. \\r\\n\\r\\n## Cloud Pub/Sub\\r\\nExperienced elevated error rates in all regions from 16:30 to 19:46, with the most significant in europe-west1, asia-east1, asia-east2, and us-central1. Average error rates during each impact window was 30%, with a peak of 59% at 19:36. Operations had the following average error rates: Publish: 3.7%, StreamingPull: 1.9%, Pull: 1.4%.\\r\\n\\r\\n## Cloud Scheduler\\r\\nExperienced elevated error rates in all regions from 16:42 to 17:42, and 18:47 to 19:42 with the most significant in asia-east2, europe-west1, and us-central1. The error rates varied across regions during the impact window with peaks of up to 100%. \\r\\n\\r\\n## Cloud Storage (GCS)\\r\\nExperienced elevated error rates and timeouts for various API calls from 16:34 to 17:32 and 19:15 to 19:41. Per-region availability dropped as low as 91.4% for asia-east2, 98.55% for europe-west1, 99.04% for us-west1, 98.15% for the ‘eu’ multiregion, and 98.45% for the ‘asia’ multi-region. Additionally, errors in the Firebase Console were seen specifically for first-time Cloud Storage for Firebase users trying to create a project from 17:35 to 2020-03-27 08:18.\\r\\n\\r\\n## Cloud SQL\\r\\nExperienced errors creating new instances globally from 2020-03-26 16:22 to 2020-03-27 06:05.\\r\\n\\r\\n## Cloud Spanner\\r\\nCloud Spanner instances experienced failures when managing or accessing databases from 17:03 to 20:40 in the following regions: regional-us-west1, regional-asia-east1, regional-asia-east2, regional-europe-west1, regional-asia-east2, eur3. The average error rate was 2.6% for all regions, with a peak of 33.3% in asia-east2. \\r\\n\\r\\n## Cloud Tasks\\r\\nExperienced elevated error rates on new task creations in asia-east2, asia-northeast1, asia-northeast2, asia-northeast3, asia-south1, australia-southeast1, europe-west2, europe-west3, europe-west6, northamerica-northeast1, southamerica-east1, us-central1, us-east4, us-west2. Delivery of existing tasks were unaffected, but downstream services may have experienced other issues as documented. \\r\\n\\r\\n## Compute Engine (GCE)\\r\\nExperienced elevated error rates on API operations, and elevated latency for disk snapshot creation from 19:35 to 19:43 in all regions. The average and peak error rate was 40% throughout the impact window. \\r\\n\\r\\n## Container Registry\\r\\nExperienced elevated error rates on the Container Analysis API. Additionally, there was increased latency on Container Scanning and Continuous Analysis requests which took up to 1 hour. Continuous Analysis was also delayed. \\r\\n\\r\\n## Cloud Run\\r\\nExperienced elevated rates of deployment failures and increased timeouts serving deployed services with access control [4] from 16:22 to 2020-03-27 05:48 in the following regions: asia-east1, asia-northeast1, europe-north1, europe-west1, europe-west4, us-east4, us-west1. Public services did not have HTTP serving affected. Newly created Cloud projects (with new IAM permissions) weren't able to complete service deployments because of stale IAM reads on the service account's permissions.\\r\\n\\r\\n[4] https://cloud.google.com/run/docs/securing/managing-access\\r\\n\\r\\n## Data Catalog\\r\\nExperienced elevated error rates on read & write API’s in the following regions: ‘us’ multi-region, ‘eu’ multi-region, asia-east1, asia-east2, asia-south1, asia-southeast1, australia-southeast1, europe-west1, europe-west4, us-central1, us-west1, and us-west2. The exact error rate percentages varied by API method and region, but ranged from 0% to 8%. Errors began at 16:30, saw an initial recovery at 17:50, and were fully resolved by 19:42.\\r\\n\\r\\n## Firebase ML Kit\\r\\nExperienced elevated errors from 16:45 to 17:45 globally. The average error rate was 10% globally, with a peak of 14% globally. However, users located near the Pacific Northwest and Western Europe saw the most impact. \\r\\n\\r\\n## Google BigQuery\\r\\nExperienced significantly elevated error rates across many API methods in all regions. The asia-east1 and asia-east2 regions were the most impacted with 100% of metadata dataset insertion operations failing. The following regions experienced multiple customers with error rates above 10%: asia-east1, asia-east2, asia-northeast1, australia-southeast1, ‘eu’ multi-region, europe-north1, europe-west2, europe-west3, us-east4, and us-west2. The first round of errors occurred between 16:42 and 17:42. The second round of errors occurred between 18:45 and 19:45 and experienced slightly higher average error rates than the first. The exact impact windows differed slightly between APIs.\\r\\n\\r\\n## Kubernetes Engine (GKE)\\r\\nExperienced elevated errors on GKE API from 16:35 - 17:40 and 19:35 - 19:40 in the following regions: asia-east1, asia-east2, us-west1, and europe-west1. This mainly affected cluster operations including creation, listing, upgrades and nodes changes. Existing healthy clusters remained unaffected.\\r\\n\\r\\n## Secret Manager\\r\\nExperienced elevated error rates from 16:44 to 17:43 on secrets stored globally, however the most impacted regions were in europe-west1, asia-east1, and us-west1, with an additional spike between 19:35 to 19:42. The average error rate was <1%, with a peak of 4.2%. \\r\\n\\r\\n\\r\\n# SLA CREDITS\\r\\n\\r\\nIf you believe your paid application experienced an SLA violation as a result of this incident, please populate the SLA credit request: https://support.google.com/cloud/contact/cloud_platform_sla\\r\\n\\r\\nA full list of all Google Cloud Platform Service Level Agreements can be found at https://cloud.google.com/terms/sla/.\\r\\n\\r\\nFor G Suite, please request an SLA credit through one of the Support channels: https://support.google.com/a/answer/104721\\r\\n\\r\\nG Suite Service Level Agreement can be found at https://gsuite.google.com/intl/en/terms/sla.html\", 'when': '2020-04-02T00:15:20Z'} {'affected_locations': None, 'created': '2020-03-27T13:54:01Z', 'modified': '2020-03-27T13:54:01Z', 'status': None, 'text': \"The issue with Google Cloud infrastructure components has been resolved for all affected projects as of Friday, 2020-03-27 06:32 US/Pacific.\\n\\nWe will publish an analysis of this incident once we have completed our internal investigation.\\n\\nWe thank you for your patience while we've worked on resolving the issue.\", 'when': '2020-03-27T13:54:01Z'} {'affected_locations': None, 'created': '2020-03-27T12:58:20Z', 'modified': '2020-03-27T12:58:20Z', 'status': None, 'text': 'Description: The engineering team has tested a fix, which is being gradually rolled out to the affected services. Current data indicates that the issue has been resolved for the majority of users and we expect full resolution within the next hour (by 2020-03-27 07:00 US/Pacific). The estimate is tentative and is subject to change.\\n\\nWe will provide an update by Friday, 2020-03-27 07:00 US/Pacific with current details.\\n\\n\\nDiagnosis: Affected customers may experience delayed IAM modifications that surface across multiple Google Cloud Platform services. Currently known products that are impacted are: \\nDataflow, BigTable, BigQuery, DialogFlow, Kubernetes Engine, Cloud Firestore, App Engine, Cloud Functions, Cloud Monitoring, Cloud Memorystore, Cloud Filestore, Cloud Spanner, Cloud Storage, Cloud Composer, Cloud Dataproc, Cloud KMS, Cloud Container Registry, Compute Engine, Cloud IAM, Cloud SQL, Firebase Storage, Cloud Healthcare API, Cloud AI, Firebase Machine Learning, Data Catalog, Data Fusion, and Cloud Console.\\n\\n\\nWorkaround: Retry failed requests with exponential backoff.', 'when': '2020-03-27T12:58:20Z'} {'affected_locations': None, 'created': '2020-03-27T10:44:38Z', 'modified': '2020-03-27T10:44:38Z', 'status': None, 'text': 'Description: The engineering team has tested a fix, which is being gradually rolled out to the affected services. We expect full resolution within the next two hours (by 2020-03-27 06:00 US/Pacific). The estimate is tentative and is subject to change.\\n\\n\\nWe will provide an update by Friday, 2020-03-27 06:00 US/Pacific with current details.\\n\\n\\nDiagnosis: Affected customers may experience delayed IAM modifications that surface across multiple Google Cloud Platform services. Currently known products that are impacted are: \\nDataflow, BigQuery, DialogFlow, Kubernetes Engine, Cloud Firestore, App Engine, Cloud Functions, Cloud Monitoring, Cloud Memorystore, Cloud Filestore, Cloud Spanner, Cloud Storage, Cloud Composer, Cloud Dataproc, Cloud KMS, Cloud Container Registry, Compute Engine, Cloud IAM, Cloud SQL, Firebase Storage, Cloud Healthcare API, Cloud AI, Firebase Machine Learning, Data Catalog, Data Fusion, and Cloud Console.\\n\\n\\nWorkaround: Retry failed requests with exponential backoff.', 'when': '2020-03-27T10:44:38Z'} {'affected_locations': None, 'created': '2020-03-27T08:38:17Z', 'modified': '2020-03-27T08:38:17Z', 'status': None, 'text': 'Description: The engineering team has tested a fix, which is being gradually rolled out to the affected services. We expect full resolution within the next three hours (by 2020-03-27 05:00 US/Pacific). The estimate is tentative and is subject to change.\\n\\n\\nWe will provide an update by Friday, 2020-03-27 05:00 US/Pacific with current details.\\n\\n\\nDiagnosis: Affected customers may experience delayed IAM modifications that surface across multiple Google Cloud Platform services. Currently known products that are impacted are: \\nDataflow, BigQuery, DialogFlow, Kubernetes Engine, Cloud Firestore, App Engine, Cloud Functions, Cloud Monitoring, Cloud Memorystore, Cloud Filestore, Cloud Spanner, Cloud Storage, Cloud Composer, Cloud Dataproc, Cloud KMS, Cloud Container Registry, Compute Engine, Cloud IAM, Cloud SQL, Firebase Storage, Cloud Healthcare API, Cloud AI, Firebase Machine Learning, Data Catalog, Data Fusion, and Cloud Console.\\n\\n\\nWorkaround: Retry failed requests with exponential backoff.', 'when': '2020-03-27T08:38:17Z'} {'affected_locations': None, 'created': '2020-03-27T06:55:55Z', 'modified': '2020-03-27T06:55:55Z', 'status': None, 'text': 'Description: Mitigation work is still underway by our engineering team for a full resolution. The mitigation is expected to complete within the next few hours.\\n\\nWe will provide an update by Friday, 2020-03-27 02:00 US/Pacific with current details.\\n\\nDiagnosis: Affected customers may experience delayed IAM modifications that surface across multiple Google Cloud Platform services. Currently known products that are impacted are: \\nDataflow, BigQuery, DialogFlow, Kubernetes Engine, Cloud Firestore, App Engine, Cloud Functions, Cloud Monitoring, Cloud Memorystore, Cloud Filestore, Cloud Spanner, Cloud Storage, Cloud Composer, Cloud Dataproc, Cloud KMS, Cloud Container Registry, Compute Engine, Cloud IAM, Cloud SQL, Firebase Storage, Cloud Healthcare API, Cloud AI, Firebase Machine Learning, Data Catalog, Data Fusion, and Cloud Console.\\n\\n\\nWorkaround: Retry failed requests with exponential backoff.', 'when': '2020-03-27T06:55:55Z'} {'affected_locations': None, 'created': '2020-03-27T05:58:28Z', 'modified': '2020-03-27T05:58:28Z', 'status': None, 'text': 'Description: Mitigation work is still underway by our engineering team for a full resolution. \\n\\nWe will provide an update by Friday, 2020-03-27 00:00 US/Pacific with current details.\\n\\nDiagnosis: Affected customers may experience delayed IAM modifications that surface across multiple Google Cloud Platform services. Currently known products that are impacted are: \\nDataflow, BigQuery, DialogFlow, Kubernetes Engine, Cloud Firestore, App Engine, Cloud Functions, Cloud Monitoring, Cloud Memorystore, Cloud Filestore, Cloud Spanner, Cloud Storage, Cloud Composer, Cloud Dataproc, Cloud KMS, Cloud Container Registry, Compute Engine, Cloud IAM, Cloud SQL, Firebase Storage, Cloud Healthcare API, Cloud AI, Firebase Machine Learning, Data Catalog, Data Fusion, and Cloud Console.\\n\\n\\nWorkaround: Retry failed requests with exponential backoff.', 'when': '2020-03-27T05:58:28Z'} {'affected_locations': None, 'created': '2020-03-27T05:01:49Z', 'modified': '2020-03-27T05:01:49Z', 'status': None, 'text': 'Description: We believe the issue with Google Cloud infrastructure components is partially resolved. Restoration of IAM modifications to real-time is underway and Cloud IAM latency has decreased. \\n\\nWe will provide an update by Thursday, 2020-03-26 23:00 US/Pacific with current details.\\n\\nDiagnosis: Affected customers may experience delayed IAM modifications that surface across multiple Google Cloud Platform services. Currently known products that are impacted are: \\nDataflow, BigQuery, DialogFlow, Kubernetes Engine, Cloud Firestore, App Engine, Cloud Functions, Cloud Monitoring, Cloud Memorystore, Cloud Filestore, Cloud Spanner, Cloud Storage, Cloud Composer, Cloud Dataproc, Cloud KMS, Cloud Container Registry, Compute Engine, Cloud IAM, Cloud SQL, Firebase Storage, Cloud Healthcare API, Cloud AI, Firebase Machine Learning, Data Catalog, Data Fusion, and Cloud Console.\\n\\n\\nWorkaround: Retry failed requests with exponential backoff.', 'when': '2020-03-27T05:01:49Z'} {'affected_locations': None, 'created': '2020-03-27T03:36:22Z', 'modified': '2020-03-27T03:36:22Z', 'status': None, 'text': 'Description: We believe the issue with Google Cloud infrastructure components is partially resolved. The mitigations have been rolled out globally, and the errors should have subsided for all affected users as of 2020-03-26 20:15. There remains a backlog of Cloud IAM modifications, which may still have increased latency before taking effect. We are currently working through the backlog to restore IAM applications to real-time. \\n\\nWe will provide an update by Thursday, 2020-03-26 22:00 US/Pacific with current details.\\n\\nDiagnosis: Affected customers may experience elevated error rates that surface across multiple Google Cloud Platform services. Currently known products that are impacted are: \\nDataflow, BigQuery, DialogFlow, Kubernetes Engine, Cloud Firestore, App Engine, Cloud Functions, Cloud Monitoring, Cloud MemoryStore, Cloud Spanner, Cloud Storage, Cloud Composer, Cloud Dataproc, Cloud KMS, Cloud Container Registry, Compute Engine, Cloud IAM, Cloud SQL, Firebase Storage, Cloud Healthcare API, Cloud AI, Firebase Machine Learning, Data Catalog, Data Fusion and Cloud Console.\\n\\nWorkaround: Retry failed requests with exponential backoff.', 'when': '2020-03-27T03:36:22Z'} {'affected_locations': None, 'created': '2020-03-27T03:02:26Z', 'modified': '2020-03-27T03:02:26Z', 'status': None, 'text': 'Description: Modifications to Cloud IAM permissions and service accounts may have significantly increased latency before taking effect. Existing permissions remain enforced. Mitigation work is still underway by our engineering team for the remaining services. Customers may experience intermittent spikes in errors while mitigations are pushed out globally. \\n\\nThe following services have recovered at this time: App Engine, Cloud Functions, Cloud Run, BigQuery, Dataflow, Dialogflow, Cloud Console, MemoryStore, Cloud Storage, Cloud Spanner, Data Catalog, Cloud KMS, and Cloud Pub/Sub.\\n\\nLocations that saw the most impact were us-west1, europe-west1, asia-east1, and asia-east2. \\n\\nServices that may still be seeing impact include:\\nCloud SQL - New instance creation failing\\nCloud Composer - New Composer environments are failing to be created\\nCloud IAM - Significantly increased latency for changes to take effect\\n\\nWe will provide an update by Thursday, 2020-03-26 21:00 US/Pacific with current details.\\n\\nDiagnosis: Affected customers may experience elevated error rates that surface across multiple Google Cloud Platform services. Currently known products that are impacted are: \\nDataflow, BigQuery, DialogFlow, Kubernetes Engine, Cloud Firestore, App Engine, Cloud Functions, Cloud Monitoring, Cloud MemoryStore, Cloud Spanner, Cloud Storage, Cloud Composer, Cloud Dataproc, Cloud KMS, Cloud Container Registry, Compute Engine, Cloud IAM, Cloud SQL, Firebase Storage, Cloud Healthcare API, Cloud AI, Firebase Machine Learning, Data Catalog and Cloud Console.\\n\\nWorkaround: Retry failed requests with exponential backoff.', 'when': '2020-03-27T03:02:26Z'} {'affected_locations': None, 'created': '2020-03-27T02:05:14Z', 'modified': '2020-03-27T02:05:14Z', 'status': None, 'text': 'Description: We believe the issue with Google Cloud infrastructure components is partially resolved.\\nThe following services have recovered at this time: App Engine, Cloud Functions, Cloud Run, BigQuery, Dataflow, Dialogflow, Cloud Console, MemoryStore, Cloud Storage, Cloud Spanner, Cloud KMS, and Cloud Pub/Sub.\\n\\nNew service accounts are failing to propagate which is manifesting as errors in downstream services.\\n\\nMitigation work is still underway by our engineering team for the remaining services.\\n\\nServices that may still be seeing impact include:\\nCloud SQL - New instance creation failing\\nCloud Composer - New Composer environments are failing to be created\\n\\nLocations that saw the most impact were us-west1, europe-west1, asia-east1, and asia-east2, asia-northeast1.\\n\\nWe will provide an update by Thursday, 2020-03-26 20:00 US/Pacific with current details.\\n\\nDiagnosis: Affected customers may experience elevated error rates that surface across multiple Google Cloud Platform services. Currently known products that are impacted are: \\nDataflow, BigQuery, DialogFlow, Kubernetes Engine, Cloud Firestore, App Engine, Cloud Functions, Cloud Monitoring, Cloud MemoryStore, Cloud Spanner, Cloud Storage, Cloud Composer, Cloud Dataproc, Cloud KMS, Cloud Container Registry, Compute Engine, Cloud IAM, Cloud SQL, Firebase Storage, Cloud Healthcare, Cloud AI, Firebase Machine Learning and Cloud Console.\\n\\nWorkaround: Retry failed requests with exponential backoff.', 'when': '2020-03-27T02:05:14Z'} {'affected_locations': None, 'created': '2020-03-27T01:18:35Z', 'modified': '2020-03-27T01:18:35Z', 'status': None, 'text': 'Description: Impact is global for some services but is primarily located in the following regions: us-west1, europe-west1, asia-east1, and asia-east2. Mitigation work is still underway by our engineering team. Error rates have been decreasing starting on Thursday, 2020-03-26 17:40 US/Pacific. Many downstream services are beginning to recover. \\n\\nWe will provide an update by Thursday, 2020-03-26 19:00 US/Pacific with current details.\\n\\nDiagnosis: Affected customers may experience elevated error rates that surface across multiple Google Cloud Platform services. Currently known products that are impacted are: Dataflow, BigQuery, DialogFlow, Kubernetes Engine, Cloud Firestore, App Engine, Cloud Functions, Cloud Monitoring, Cloud MemoryStore, Cloud Spanner, Cloud Storage, Cloud Composer, Cloud Dataproc, Cloud KMS, Cloud Container Registry, Compute Engine, Cloud IAM, Cloud SQL, Firebase Storage, Cloud Healthcare, Cloud AI and Cloud Console.\\n\\nWorkaround: Retry failed requests with exponential backoff.', 'when': '2020-03-27T01:18:35Z'} {'affected_locations': None, 'created': '2020-03-27T00:50:11Z', 'modified': '2020-03-27T00:50:11Z', 'status': None, 'text': 'Description: Mitigation work is currently underway by our engineering team. We are beginning to see some services recover. \\n\\nWe do not have an ETA for mitigation at this point\\n\\nWe will provide more information by Thursday, 2020-03-26 19:00 US/Pacific.\\n\\nDiagnosis: Affected customers may experience elevated error rates that surface across multiple Google Cloud Platform services. Currently known products that are impacted are: Dataflow, BigQuery, DialogFlow, Kubernetes Engine, Cloud Firestore, App Engine, Cloud Functions, Cloud Monitoring, Cloud MemoryStore, Cloud Spanner, Cloud Storage, Cloud Composer, Cloud Dataproc, Cloud KMS, and Cloud Console.\\n\\nWorkaround: None at this time.', 'when': '2020-03-27T00:50:11Z'} {'affected_locations': None, 'created': '2020-03-27T00:23:36Z', 'modified': '2020-03-27T00:23:36Z', 'status': None, 'text': 'Description: We are experiencing an intermittent issue with Google Cloud infrastructure components beginning on Thursday, 2020-03-26 16:50 US/Pacific.\\n\\nSymptoms: Affected customers may experience network connectivity issues, and elevated error rates across multiple Google Cloud Platform services. Currently known products that are impacted are: Dataflow, BigQuery, DialogFlow, Kubernetes Engine, Firestore, App Engine, Cloud Functions, Cloud Monitoring, and Cloud Dataproc.\\n\\nOur engineering team continues to investigate the issue.\\n\\nWe will provide an update by Thursday, 2020-03-26 18:00 US/Pacific with current details.\\n\\n\\nDiagnosis: Affected customers may experience network connectivity issues, and elevated error rates across multiple Google Cloud Platform services.\\n\\nWorkaround: None at this time.', 'when': '2020-03-27T00:23:36Z'}]",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/gcp.csv",
+        "record_index": 193,
+        "record_sha256": "d25196e8c8a4c3efcfe1c832fae9ec340d232888b37ff9d643168385fb95b096"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:gcp:00309",
+      "independence_group": "reliability-incident:gcp:zall:20009",
+      "independence_group_basis": "upstream_incident_url",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "GCP",
+      "service_hint": "Secret Manager ",
+      "year": null,
+      "data_relevance_facets": [
+        "secret"
+      ],
+      "security_term_hits": [],
+      "report_text": "[{'affected_locations': None, 'created': '2020-09-18T02:34:34Z', 'modified': '2020-09-18T02:34:34Z', 'status': None, 'text': 'The issue with Secret Manager has been resolved for all affected projects as of Thursday, 2020-09-17 18:37 US/Pacific.\\n\\nWe thank you for your patience while we worked on resolving the issue.', 'when': '2020-09-18T02:34:34Z'} {'affected_locations': None, 'created': '2020-09-18T01:35:11Z', 'modified': '2020-09-18T01:35:11Z', 'status': None, 'text': 'Description: Our engineers have determined this issue to be linked to a single Google incident. For regular status updates, please visit https://status.cloud.google.com/incident/zall/20009. No further updates will be made through this incident.', 'when': '2020-09-18T01:35:11Z'}]",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/gcp.csv",
+        "record_index": 309,
+        "record_sha256": "b3b415a487a174f76c65266058a27b723b176a290442b562b1fb4b30263326da"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    },
+    {
+      "candidate_id": "cloud-incident:gcp:01085",
+      "independence_group": "reliability-record:9f8facc10e5580fe39d27e01ca09f190f7e0a585909f37e0ce45b8a9fb891b34",
+      "independence_group_basis": "source_record_sha256",
+      "source": {
+        "source_id": "cloud_incident_reports_2016_2024",
+        "doi": "10.5281/zenodo.14010282",
+        "version": "record-14010282-v1",
+        "license": "CC-BY-4.0"
+      },
+      "vendor": "GCP",
+      "service_hint": "Google Cloud Composer",
+      "year": null,
+      "data_relevance_facets": [
+        "database"
+      ],
+      "security_term_hits": [],
+      "report_text": "[{'affected_locations': array([{'id': 'asia-east2', 'title': 'Hong Kong (asia-east2)'}, {'id': 'europe-west3', 'title': 'Frankfurt (europe-west3)'}, {'id': 'us-east1', 'title': 'South Carolina (us-east1)'}, {'id': 'us-west2', 'title': 'Los Angeles (us-west2)'}], dtype=object), 'created': '2022-06-30T18:42:09+00:00', 'modified': '2022-06-30T18:42:11+00:00', 'status': 'AVAILABLE', 'text': 'This issue is believed to be affecting a very small number of projects and our Engineering Team is working on it. If you have questions or are impacted, please open a case with the Support Team and we will work with you until this issue is resolved. No further updates will be provided here. We thank you for your patience while we are working on resolving the issue.', 'when': '2022-06-30T18:42:09+00:00'} {'affected_locations': array([{'id': 'asia-east2', 'title': 'Hong Kong (asia-east2)'}, {'id': 'europe-west3', 'title': 'Frankfurt (europe-west3)'}, {'id': 'us-east1', 'title': 'South Carolina (us-east1)'}, {'id': 'us-west2', 'title': 'Los Angeles (us-west2)'}], dtype=object), 'created': '2022-06-30T16:57:20+00:00', 'modified': '2022-06-30T16:57:28+00:00', 'status': 'SERVICE_INFORMATION', 'text': 'Summary: Intermittent Cloud Composer creation failures in select regions\\nDescription: Mitigation work is still underway by our engineering team.\\nWe will provide more information by Thursday, 2022-06-30 13:00 US/Pacific.\\nDiagnosis: Customers may experience latency and errors with Composer creation.\\nWorkaround: Customers may retry the Composer creation operation.', 'when': '2022-06-30T16:57:20+00:00'} {'affected_locations': array([{'id': 'asia-east2', 'title': 'Hong Kong (asia-east2)'}, {'id': 'europe-west3', 'title': 'Frankfurt (europe-west3)'}, {'id': 'us-east1', 'title': 'South Carolina (us-east1)'}, {'id': 'us-west2', 'title': 'Los Angeles (us-west2)'}], dtype=object), 'created': '2022-06-30T13:22:58+00:00', 'modified': '2022-06-30T13:23:08+00:00', 'status': 'SERVICE_INFORMATION', 'text': 'Summary: Intermittent Cloud Composer creation failures in select regions\\nDescription: Mitigation work is still underway by our engineering team.\\nWe will provide more information by Thursday, 2022-06-30 10:00 US/Pacific.\\nDiagnosis: Customers may experience latency and errors with Composer creation.\\nWorkaround: Customers may retry the Composer creation operation.', 'when': '2022-06-30T13:22:58+00:00'} {'affected_locations': array([{'id': 'asia-east2', 'title': 'Hong Kong (asia-east2)'}, {'id': 'europe-west3', 'title': 'Frankfurt (europe-west3)'}, {'id': 'us-east1', 'title': 'South Carolina (us-east1)'}, {'id': 'us-west2', 'title': 'Los Angeles (us-west2)'}], dtype=object), 'created': '2022-06-29T22:53:32+00:00', 'modified': '2022-06-29T22:53:33+00:00', 'status': 'SERVICE_INFORMATION', 'text': 'Summary: Intermittent Cloud Composer creation failures in select regions\\nDescription: Engineering has identified the root cause and mitigation work is currently underway.\\nWe do not have an ETA for mitigation at this point.\\nWe will provide more information by Thursday, 2022-06-30 07:00 US/Pacific.\\nDiagnosis: Customers may experience latency and errors with Composer creation.\\nWorkaround: Customers may retry the Composer creation operation.', 'when': '2022-06-29T22:53:32+00:00'} {'affected_locations': array([{'id': 'asia-east2', 'title': 'Hong Kong (asia-east2)'}, {'id': 'europe-west3', 'title': 'Frankfurt (europe-west3)'}, {'id': 'us-east1', 'title': 'South Carolina (us-east1)'}, {'id': 'us-west2', 'title': 'Los Angeles (us-west2)'}], dtype=object), 'created': '2022-06-29T22:43:04+00:00', 'modified': '2022-06-29T22:43:04+00:00', 'status': 'SERVICE_INFORMATION', 'text': 'Summary: Intermittent Cloud Composer creation failures in select regions\\nDescription: We are experiencing an intermittent issue with Google Cloud Composer creation failures due to latency for CloudSQL Database creations.\\nOur engineering team continues to investigate the issue and root cause.\\nWe will provide an update by Wednesday, 2022-06-29 19:00 US/Pacific with current details.\\nWe apologize to all who are affected by the disruption.\\nDiagnosis: Customers may experience latency and errors with Composer creation.\\nWorkaround: Customers may retry the Composer creation operation.', 'when': '2022-06-29T22:43:04+00:00'} {'affected_locations': array([{'id': 'asia-east2', 'title': 'Hong Kong (asia-east2)'}, {'id': 'europe-west3', 'title': 'Frankfurt (europe-west3)'}, {'id': 'us-east1', 'title': 'South Carolina (us-east1)'}, {'id': 'us-west2', 'title': 'Los Angeles (us-west2)'}], dtype=object), 'created': '2022-06-29T20:53:26+00:00', 'modified': '2022-06-29T20:53:29+00:00', 'status': 'SERVICE_INFORMATION', 'text': 'Summary: Intermittent Cloud Composer creation failures in select regions\\nDescription: We are experiencing an intermittent issue with Google Cloud Composer creation failures due to latency for CloudSQL Database creations.\\nOur engineering team continues to investigate the issue and root cause.\\nWe will provide an update by Wednesday, 2022-06-29 16:00 US/Pacific with current details.\\nWe apologize to all who are affected by the disruption.\\nDiagnosis: Customers may experience latency and errors with Composer creation.\\nWorkaround: Customers may retry the Composer creation operation.', 'when': '2022-06-29T20:53:26+00:00'} {'affected_locations': array([{'id': 'asia-east2', 'title': 'Hong Kong (asia-east2)'}, {'id': 'europe-west3', 'title': 'Frankfurt (europe-west3)'}, {'id': 'us-east1', 'title': 'South Carolina (us-east1)'}, {'id': 'us-west2', 'title': 'Los Angeles (us-west2)'}], dtype=object), 'created': '2022-06-29T18:47:44+00:00', 'modified': '2022-06-29T18:47:46+00:00', 'status': 'SERVICE_INFORMATION', 'text': 'Summary: Intermittent Cloud Composer creation failures in select regions\\nDescription: We are experiencing an intermittent issue with Google Cloud Composer creation failures due to latency for CloudSQL Database creations.\\nOur engineering team continues to investigate the issue.\\nWe will provide an update by Wednesday, 2022-06-29 14:00 US/Pacific with current details.\\nWe apologize to all who are affected by the disruption.\\nDiagnosis: Customers may experience latency and errors with Composer creation.\\nWorkaround: Customers may retry the Composer creation operation.', 'when': '2022-06-29T18:47:44+00:00'} {'affected_locations': array([{'id': 'asia-east2', 'title': 'Hong Kong (asia-east2)'}, {'id': 'europe-west3', 'title': 'Frankfurt (europe-west3)'}, {'id': 'us-east1', 'title': 'South Carolina (us-east1)'}, {'id': 'us-west2', 'title': 'Los Angeles (us-west2)'}], dtype=object), 'created': '2022-06-29T18:29:37+00:00', 'modified': '2022-06-29T18:29:40+00:00', 'status': 'SERVICE_INFORMATION', 'text': 'Summary: Intermittent Cloud Composer creation failures in select regions\\nDescription: We are experiencing an intermittent issue with Google Cloud Composer creation failures due to latency for CloudSQL Database creations.\\nOur engineering team continues to investigate the issue.\\nWe will provide an update by Wednesday, 2022-06-29 12:00 US/Pacific with current details.\\nWe apologize to all who are affected by the disruption.\\nDiagnosis: Customers may experience latency and errors with Composer creation.\\nWorkaround: Customers may retry the Composer creation operation.', 'when': '2022-06-29T18:29:37+00:00'}]",
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+        "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+        "member_path": "2_clean_data/gcp.csv",
+        "record_index": 1085,
+        "record_sha256": "9f8facc10e5580fe39d27e01ca09f190f7e0a585909f37e0ce45b8a9fb891b34"
+      },
+      "screening": {
+        "status": "pending",
+        "label_origin": null,
+        "cloud_data_relevant": null,
+        "non_attack_confirmed": null,
+        "usable_as_negative_control": null,
+        "primary_annotator": null,
+        "reviewer": null,
+        "rationale": null
+      }
+    }
+  ]
+}

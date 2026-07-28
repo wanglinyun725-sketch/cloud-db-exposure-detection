@@ -6,7 +6,7 @@ import yaml
 CONFIG_PATH = Path(__file__).parent.parent / "configs" / "thresholds.yaml"
 
 def load_config():
-    with open(CONFIG_PATH) as f:
+    with open(CONFIG_PATH, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 def gate_score(evidence_vector: list, config: dict) -> dict:

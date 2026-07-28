@@ -17,8 +17,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 sys.path.insert(0, ROOT)
 
 from src.graph.graph_builder import build_graph, get_entry_nodes, get_target_nodes
-from src.graph.gate_score import compute_evidence_vector, compute_one_dimension, gate_score, load_config
+from src.graph.gate_score import compute_evidence_vector, compute_one_dimension, gate_score, load_config, verify_path
 from src.graph.constrained_search import VALID_EDGE_TRANSITIONS, REQUIRED_EDGE_TYPES
+from src.graph.path_utils import get_path_edge, path_query_cost
+from src.eval.metrics import summarize_path_ranking
 from src.agent.tools import (
     check_network_reachability, check_permission, check_sensitive_data,
     check_controls, check_audit_events, check_control_effectiveness,
@@ -34,7 +36,7 @@ PER_SAMPLE_CAP = 200000  # 普通DFS 组合爆炸安全阀（本数据集远达�
 
 
 def load():
-    with open(DATA) as f:
+    with open(DATA, encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -42,11 +44,10 @@ def load():
 def edge_type_seq(G, path):
     seq = []
     for i in range(len(path) - 1):
-        ed = G.get_edge_data(path[i], path[i + 1])
+        ed = get_path_edge(G, path, i)
         if not ed:
             seq.append("MISSING"); continue
-        for _, v in ed.items():
-            seq.append(v.get("edge_type", "")); break
+        seq.append(ed.get("edge_type", ""))
     return seq
 
 
@@ -517,6 +518,68 @@ def exp4(samples):
             "noprune": pack(modes["noprune"]), "prune": pack(modes["prune"])}
 
 
+# ══════════════════════════ 实验五：反证/缺证感知路径排序 ══════════════════════════
+def exp5(samples):
+    methods = {
+        "gatescore": {"metrics": [], "candidates": 0, "query_cost": 0, "states": {}},
+        "refute_aware": {"metrics": [], "candidates": 0, "query_cost": 0, "states": {}},
+    }
+    for s in samples:
+        if not s.get("gold_paths"):
+            continue
+        G = build_graph(s)
+        entries, targets = get_entry_nodes(G), get_target_nodes(G)
+        paths = enum_paths(G, entries, targets, "plain")
+        if not paths:
+            continue
+        ranked_gate = sorted(paths, key=lambda p: _gatescore_rank_key(G, p), reverse=True)
+        ranked_refute = sorted(paths, key=lambda p: _refute_aware_rank_key(G, p), reverse=True)
+        for name, ranked in [("gatescore", ranked_gate), ("refute_aware", ranked_refute)]:
+            methods[name]["metrics"].append(summarize_path_ranking(ranked, s.get("gold_paths", [])))
+            methods[name]["candidates"] += len(paths)
+            top = ranked[0]
+            verification = verify_path(G, top, CFG)
+            state = verification["state"]
+            methods[name]["states"][state] = methods[name]["states"].get(state, 0) + 1
+            methods[name]["query_cost"] += _path_query_cost(G, top)
+    return {name: _pack_exp5(vals) for name, vals in methods.items()}
+
+
+def _gatescore_rank_key(G, path):
+    ev = compute_evidence_vector(G, path)
+    r = gate_score(ev, CFG)
+    return (r["gate"], r["score"], -len(path))
+
+
+def _refute_aware_rank_key(G, path):
+    ev = compute_evidence_vector(G, path)
+    score = gate_score(ev, CFG)["score"]
+    verification = verify_path(G, path, CFG)
+    state_weight = {"Valid": 2.0, "Insufficient": 0.5, "Invalid": -2.0}[verification["state"]]
+    missing_penalty = 0.25 * len(verification["missing"])
+    refuted_penalty = 1.0 * len(verification["refuted"])
+    query_penalty = 0.03 * _path_query_cost(G, path)
+    length_penalty = 0.01 * (len(path) - 1)
+    return state_weight + score - missing_penalty - refuted_penalty - query_penalty - length_penalty
+
+
+def _path_query_cost(G, path):
+    return path_query_cost(G, path)
+
+
+def _pack_exp5(vals):
+    n = max(len(vals["metrics"]), 1)
+    aggregate = {}
+    keys = vals["metrics"][0].keys() if vals["metrics"] else []
+    for key in keys:
+        aggregate[key] = round(sum(m[key] for m in vals["metrics"]) / n, 4)
+    aggregate["avg_candidates"] = round(vals["candidates"] / n, 3)
+    aggregate["avg_top_query_cost"] = round(vals["query_cost"] / n, 3)
+    aggregate["top_state_counts"] = vals["states"]
+    aggregate["n_samples"] = len(vals["metrics"])
+    return aggregate
+
+
 # ══════════════════════════ 主流程 ══════════════════════════
 def main():
     samples = load()
@@ -543,7 +606,8 @@ def main():
         print(f"{label[m]:<14}{v['enum_total']:>8}{v['enum_avg']:>8}{v['valid_ratio']*100:>8.1f}%{v['target_recall']*100:>8.1f}%{v['time_s']:>9}")
 
     try:
-        cg = json.load(open(os.path.join(ROOT, "data", "pathbench_cloudgoat.json")))
+        with open(os.path.join(ROOT, "data", "pathbench_cloudgoat.json"), encoding="utf-8") as f:
+            cg = json.load(f)
         r1c = exp1(cg); results["exp1_cloudgoat20"] = r1c
         print(f"\n[数据集 B] CloudGoat 真实靶场 20 样本（图更杂，可见类型约束剪枝效果）")
         print(f"{'方法':<14}{'枚举(总)':>8}{'枚举(均)':>8}{'有效比例':>9}{'耗时(s)':>9}")
@@ -579,9 +643,17 @@ def main():
         v = r4[m]
         print(f"{lab:<12}{v['avg_tool_calls']:>11}{v['avg_llm_calls']:>10}{v['est_tokens']:>12}{v['time_s']:>9}")
 
+    print("\n" + "═" * 62); print("实验五：反证/缺证感知路径排序（路径级 IR 指标）"); print("═" * 62)
+    r5 = exp5(samples); results["exp5"] = r5
+    print(f"{'方法':<18}{'R@1':>8}{'R@3':>8}{'MRR':>8}{'P@3':>8}{'均候选':>9}{'Top查询成本':>12}{'Top状态':>14}")
+    lab5 = {"gatescore": "GateScore排序", "refute_aware": "反证感知排序"}
+    for m in ["gatescore", "refute_aware"]:
+        v = r5[m]
+        print(f"{lab5[m]:<18}{v.get('recall@1', 0):>8.3f}{v.get('recall@3', 0):>8.3f}{v.get('mrr', 0):>8.3f}{v.get('precision@3', 0):>8.3f}{v['avg_candidates']:>9}{v['avg_top_query_cost']:>12}{str(v['top_state_counts']):>14}")
+
     out_path = os.path.join(ROOT, "output", "experiments_results.json")
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    with open(out_path, "w") as f:
+    with open(out_path, "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
     print(f"\n结果已写入 {out_path}")
 

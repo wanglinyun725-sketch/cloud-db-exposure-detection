@@ -1,0 +1,699 @@
+{
+  "protocol_version": "5.0-pilot",
+  "dataset_role": "evaluator_only",
+  "provider_oracle_contract_path": "configs/provider_oracle_gold_contract_v1.json",
+  "human_gold_cases": 0,
+  "provider_oracle_gold_cases": 8,
+  "epistemic_control_cases": 5,
+  "cases": [
+    {
+      "case_id": "oracle-v3:aws:iam-user-secret-read",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "gold_state": "Reachable",
+      "gold_tier": "runtime_gold",
+      "label_origin": "provider_native_runtime",
+      "provider_oracle_contract": "provider_oracle_gold_v1",
+      "path": {
+        "path_id": "aws-secret-read-path",
+        "nodes": [
+          {
+            "node_id": "n-principal",
+            "type": "identity",
+            "label": "observed low-privilege principal"
+          },
+          {
+            "node_id": "n-secret-service",
+            "type": "cloud_service",
+            "label": "managed secret API"
+          },
+          {
+            "node_id": "n-secret",
+            "type": "secret_store",
+            "label": "exact secret target"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "e-invoke-secret-api",
+            "source": "n-principal",
+            "target": "n-secret-service",
+            "type": "invoke"
+          },
+          {
+            "edge_id": "e-read-secret",
+            "source": "n-secret-service",
+            "target": "n-secret",
+            "type": "read_data"
+          }
+        ]
+      },
+      "support_observation_ids": [
+        "obs-v3-6d1bcfaaa03a5aa65b5c87b4"
+      ],
+      "refute_observation_ids": [],
+      "control_observation_ids": [],
+      "semantic_scope": "Gold starts at the exact observed principal and ends at the managed secret. It does not promote the upstream walkthrough or any unobserved credential-acquisition predecessor to gold."
+    },
+    {
+      "case_id": "oracle-v3:awsgoat:dynamodb-config-only",
+      "independence_group": "awsgoat:module-1",
+      "source_id": "awsgoat",
+      "platform": "AWS",
+      "gold_state": "Unknown",
+      "gold_tier": null,
+      "label_origin": "protocol_coverage_control",
+      "provider_oracle_contract": "provider_oracle_gold_v1",
+      "path": {
+        "path_id": "awsgoat-dynamodb-hypothesis",
+        "nodes": [
+          {
+            "node_id": "n-user",
+            "type": "external_actor",
+            "label": "registered application user"
+          },
+          {
+            "node_id": "n-lambda",
+            "type": "compute",
+            "label": "application Lambda"
+          },
+          {
+            "node_id": "n-role",
+            "type": "role",
+            "label": "Lambda execution role"
+          },
+          {
+            "node_id": "n-db",
+            "type": "database",
+            "label": "blog-users DynamoDB table"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "e-entry",
+            "source": "n-user",
+            "target": "n-lambda",
+            "type": "exploit"
+          },
+          {
+            "edge_id": "e-credentials",
+            "source": "n-lambda",
+            "target": "n-role",
+            "type": "use_credential"
+          },
+          {
+            "edge_id": "e-data",
+            "source": "n-role",
+            "target": "n-db",
+            "type": "read_data"
+          }
+        ]
+      },
+      "support_observation_ids": [],
+      "refute_observation_ids": [],
+      "control_observation_ids": [
+        "obs-v3-f496c1496cca3981741f183a"
+      ],
+      "semantic_scope": "Unknown is an epistemic protocol control, not a claim that the upstream lab is safe or vulnerable. Frozen Terraform syntax does not replace complete-scope IAM analysis or a runtime probe."
+    },
+    {
+      "case_id": "oracle-v3:gcp:archive-object-read",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "gold_state": "Reachable",
+      "gold_tier": "runtime_gold",
+      "label_origin": "provider_native_runtime",
+      "provider_oracle_contract": "provider_oracle_gold_v1",
+      "path": {
+        "path_id": "gcp-archive-object-read-path",
+        "nodes": [
+          {
+            "node_id": "n-principal",
+            "type": "workload_identity",
+            "label": "observed service account"
+          },
+          {
+            "node_id": "n-bucket",
+            "type": "object_storage",
+            "label": "archive bucket"
+          },
+          {
+            "node_id": "n-object",
+            "type": "data_object",
+            "label": "archive object"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "e-list",
+            "source": "n-principal",
+            "target": "n-bucket",
+            "type": "enumerate"
+          },
+          {
+            "edge_id": "e-read",
+            "source": "n-bucket",
+            "target": "n-object",
+            "type": "read_data"
+          }
+        ]
+      },
+      "support_observation_ids": [
+        "obs-v3-19fcdfeb264d0b80f5ddc5d7",
+        "obs-v3-f9fe230975462d9e8d4b194a"
+      ],
+      "refute_observation_ids": [],
+      "control_observation_ids": [],
+      "semantic_scope": "Reachability starts at the observed service account. The exact list and object-read audit records support both mandatory edges."
+    },
+    {
+      "case_id": "oracle-v3:gcp:low-priority-secret-read",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "gold_state": "Reachable",
+      "gold_tier": "runtime_gold",
+      "label_origin": "provider_native_runtime",
+      "provider_oracle_contract": "provider_oracle_gold_v1",
+      "path": {
+        "path_id": "gcp-secret-read-path",
+        "nodes": [
+          {
+            "node_id": "n-principal",
+            "type": "workload_identity",
+            "label": "observed low-privilege principal"
+          },
+          {
+            "node_id": "n-secret-service",
+            "type": "cloud_service",
+            "label": "managed secret API"
+          },
+          {
+            "node_id": "n-secret",
+            "type": "secret_store",
+            "label": "exact secret target"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "e-invoke-secret-api",
+            "source": "n-principal",
+            "target": "n-secret-service",
+            "type": "invoke"
+          },
+          {
+            "edge_id": "e-read-secret",
+            "source": "n-secret-service",
+            "target": "n-secret",
+            "type": "read_data"
+          }
+        ]
+      },
+      "support_observation_ids": [
+        "obs-v3-36b7ad61f0bc2a4897aaf382"
+      ],
+      "refute_observation_ids": [],
+      "control_observation_ids": [],
+      "semantic_scope": "Gold starts at the exact observed principal and ends at the managed secret. It does not promote the upstream walkthrough or any unobserved credential-acquisition predecessor to gold."
+    },
+    {
+      "case_id": "oracle-v3:gcp:scheduled-function-bucket-list",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "gold_state": "NotReachable",
+      "gold_tier": "runtime_gold",
+      "label_origin": "provider_native_runtime",
+      "provider_oracle_contract": "provider_oracle_gold_v1",
+      "path": {
+        "path_id": "gcp-scheduled-list-path",
+        "nodes": [
+          {
+            "node_id": "n-function",
+            "type": "compute",
+            "label": "scheduled Cloud Function"
+          },
+          {
+            "node_id": "n-service-account",
+            "type": "workload_identity",
+            "label": "function service account"
+          },
+          {
+            "node_id": "n-bucket",
+            "type": "object_storage",
+            "label": "run Cloud Storage bucket"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "e-function-identity",
+            "source": "n-function",
+            "target": "n-service-account",
+            "type": "impersonate"
+          },
+          {
+            "edge_id": "e-list-bucket",
+            "source": "n-service-account",
+            "target": "n-bucket",
+            "type": "enumerate"
+          }
+        ]
+      },
+      "support_observation_ids": [
+        "obs-v3-90b5c4a0b9ee047df2a1ce81"
+      ],
+      "refute_observation_ids": [
+        "obs-v3-66ba69c718f98a6a144e43fb"
+      ],
+      "control_observation_ids": [
+        "obs-v3-1eafdc9b4c8831bb5c8bf030",
+        "obs-v3-ceef8085781bc75964a469ab"
+      ],
+      "replication": {
+        "independent_runs": 10,
+        "total_denied_attempts": 44,
+        "replicates_are_one_independence_group": true
+      },
+      "semantic_scope": "The provider-native code-7 denial refutes the exact service-account, operation, and bucket edge. A different principal's success proves the target was live; it is not support for the denied principal."
+    },
+    {
+      "case_id": "oracle-v3:otrf:s3-assumed-role-read",
+      "independence_group": "cloudgoat-scenario:cloud_breach_s3",
+      "source_id": "otrf_security_datasets",
+      "platform": "AWS",
+      "gold_state": "Reachable",
+      "gold_tier": "runtime_gold",
+      "label_origin": "provider_native_runtime",
+      "provider_oracle_contract": "provider_oracle_gold_v1",
+      "path": {
+        "path_id": "otrf-s3-read-path",
+        "nodes": [
+          {
+            "node_id": "n-role",
+            "type": "identity",
+            "label": "observed assumed-role session"
+          },
+          {
+            "node_id": "n-bucket",
+            "type": "object_storage",
+            "label": "observed S3 bucket"
+          },
+          {
+            "node_id": "n-object",
+            "type": "data_object",
+            "label": "observed S3 object"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "e-list",
+            "source": "n-role",
+            "target": "n-bucket",
+            "type": "enumerate"
+          },
+          {
+            "edge_id": "e-read",
+            "source": "n-bucket",
+            "target": "n-object",
+            "type": "read_data"
+          }
+        ]
+      },
+      "support_observation_ids": [
+        "obs-v3-c16dbed0ccd551fdb2e7b053",
+        "obs-v3-39d2889daaa75cbd9218af11"
+      ],
+      "refute_observation_ids": [],
+      "control_observation_ids": [],
+      "semantic_scope": "Reachability starts at the already observed assumed-role principal; the upstream proxy exploitation is not re-labelled as provider runtime gold."
+    },
+    {
+      "case_id": "oracle-v4:config-only:awsgoat_m2_ecs_secret_rds_credentials",
+      "independence_group": "awsgoat:module-2",
+      "source_id": "awsgoat",
+      "platform": "AWS",
+      "gold_state": "Unknown",
+      "gold_tier": null,
+      "label_origin": "protocol_coverage_control",
+      "provider_oracle_contract": "provider_oracle_gold_v1",
+      "path": {
+        "path_id": "awsgoat_m2_ecs_secret_rds_credentials-hypothesis",
+        "nodes": [
+          {
+            "node_id": "n-entry",
+            "type": "external_actor",
+            "label": "low-privilege application workflow with an unrestricted manager-side file upload"
+          },
+          {
+            "node_id": "n-workload",
+            "type": "compute",
+            "label": "configured cloud workload"
+          },
+          {
+            "node_id": "n-data",
+            "type": "database",
+            "label": "AWS Secrets Manager"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "e-entry",
+            "source": "n-entry",
+            "target": "n-workload",
+            "type": "exploit"
+          },
+          {
+            "edge_id": "e-data",
+            "source": "n-workload",
+            "target": "n-data",
+            "type": "read_data"
+          }
+        ]
+      },
+      "support_observation_ids": [],
+      "refute_observation_ids": [],
+      "control_observation_ids": [
+        "obs-v3-780e5422452418d6addb2bfe"
+      ],
+      "semantic_scope": "Unknown is an epistemic control, not a safety or vulnerability claim. Frozen syntax cannot replace complete-scope native permission analysis or a matching runtime probe."
+    },
+    {
+      "case_id": "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "independence_group": "azuregoat:module-1",
+      "source_id": "azuregoat",
+      "platform": "Azure",
+      "gold_state": "Unknown",
+      "gold_tier": null,
+      "label_origin": "protocol_coverage_control",
+      "provider_oracle_contract": "provider_oracle_gold_v1",
+      "path": {
+        "path_id": "azuregoat_prod_dev_blob_control_pair-hypothesis",
+        "nodes": [
+          {
+            "node_id": "n-entry",
+            "type": "external_actor",
+            "label": "anonymous internet client"
+          },
+          {
+            "node_id": "n-workload",
+            "type": "compute",
+            "label": "configured cloud workload"
+          },
+          {
+            "node_id": "n-data",
+            "type": "database",
+            "label": "Azure Blob Storage"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "e-entry",
+            "source": "n-entry",
+            "target": "n-workload",
+            "type": "exploit"
+          },
+          {
+            "edge_id": "e-data",
+            "source": "n-workload",
+            "target": "n-data",
+            "type": "read_data"
+          }
+        ]
+      },
+      "support_observation_ids": [],
+      "refute_observation_ids": [],
+      "control_observation_ids": [
+        "obs-v3-dad9d9bf0b9b5dd326d01930",
+        "obs-v3-dc0638b6ce7670e12338f618"
+      ],
+      "semantic_scope": "Unknown is an epistemic control, not a safety or vulnerability claim. Frozen syntax cannot replace complete-scope native permission analysis or a matching runtime probe."
+    },
+    {
+      "case_id": "oracle-v4:config-only:azuregoat_ssrf_cosmos_storage",
+      "independence_group": "azuregoat:module-1",
+      "source_id": "azuregoat",
+      "platform": "Azure",
+      "gold_state": "Unknown",
+      "gold_tier": null,
+      "label_origin": "protocol_coverage_control",
+      "provider_oracle_contract": "provider_oracle_gold_v1",
+      "path": {
+        "path_id": "azuregoat_ssrf_cosmos_storage-hypothesis",
+        "nodes": [
+          {
+            "node_id": "n-entry",
+            "type": "external_actor",
+            "label": "registered external web-application user"
+          },
+          {
+            "node_id": "n-workload",
+            "type": "compute",
+            "label": "configured cloud workload"
+          },
+          {
+            "node_id": "n-data",
+            "type": "database",
+            "label": "Azure Cosmos DB and Azure Blob Storage"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "e-entry",
+            "source": "n-entry",
+            "target": "n-workload",
+            "type": "exploit"
+          },
+          {
+            "edge_id": "e-data",
+            "source": "n-workload",
+            "target": "n-data",
+            "type": "read_data"
+          }
+        ]
+      },
+      "support_observation_ids": [],
+      "refute_observation_ids": [],
+      "control_observation_ids": [
+        "obs-v3-40e7211f372744f3cdc69f16"
+      ],
+      "semantic_scope": "Unknown is an epistemic control, not a safety or vulnerability claim. Frozen syntax cannot replace complete-scope native permission analysis or a matching runtime probe."
+    },
+    {
+      "case_id": "oracle-v4:config-only:gcpgoat_anonymous_bucket_policy_transition",
+      "independence_group": "gcpgoat:module-1",
+      "source_id": "gcpgoat",
+      "platform": "GCP",
+      "gold_state": "Unknown",
+      "gold_tier": null,
+      "label_origin": "protocol_coverage_control",
+      "provider_oracle_contract": "provider_oracle_gold_v1",
+      "path": {
+        "path_id": "gcpgoat_anonymous_bucket_policy_transition-hypothesis",
+        "nodes": [
+          {
+            "node_id": "n-entry",
+            "type": "external_actor",
+            "label": "anonymous allUsers principal"
+          },
+          {
+            "node_id": "n-workload",
+            "type": "compute",
+            "label": "configured cloud workload"
+          },
+          {
+            "node_id": "n-data",
+            "type": "database",
+            "label": "Google Cloud Storage"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "e-entry",
+            "source": "n-entry",
+            "target": "n-workload",
+            "type": "exploit"
+          },
+          {
+            "edge_id": "e-data",
+            "source": "n-workload",
+            "target": "n-data",
+            "type": "read_data"
+          }
+        ]
+      },
+      "support_observation_ids": [],
+      "refute_observation_ids": [],
+      "control_observation_ids": [
+        "obs-v3-f891a27be92279a998011dc2",
+        "obs-v3-6fd7eb5824bbbe66ff2825eb"
+      ],
+      "semantic_scope": "Unknown is an epistemic control, not a safety or vulnerability claim. Frozen syntax cannot replace complete-scope native permission analysis or a matching runtime probe."
+    },
+    {
+      "case_id": "oracle-v4:splunk:iam-user-s3-object-read",
+      "independence_group": "splunk-dataset:T1530/aws_exfil_high_no_getobject",
+      "source_id": "splunk_attack_data",
+      "platform": "AWS",
+      "gold_state": "Reachable",
+      "gold_tier": "runtime_gold",
+      "label_origin": "provider_native_runtime",
+      "provider_oracle_contract": "provider_oracle_gold_v1",
+      "path": {
+        "path_id": "splunk-s3-object-read-path",
+        "nodes": [
+          {
+            "node_id": "n-user",
+            "type": "identity",
+            "label": "observed IAM user"
+          },
+          {
+            "node_id": "n-bucket",
+            "type": "object_storage",
+            "label": "exact observed bucket"
+          },
+          {
+            "node_id": "n-object",
+            "type": "data_object",
+            "label": "exact observed object"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "e-invoke",
+            "source": "n-user",
+            "target": "n-bucket",
+            "type": "invoke"
+          },
+          {
+            "edge_id": "e-read",
+            "source": "n-bucket",
+            "target": "n-object",
+            "type": "read_data"
+          }
+        ]
+      },
+      "support_observation_ids": [
+        "obs-v3-8ccb4eb72aae912204360bc7"
+      ],
+      "refute_observation_ids": [],
+      "control_observation_ids": [],
+      "semantic_scope": "Gold is limited to the exact observed IAM user, bucket, key, and successful GetObject. It does not infer an upstream entry."
+    },
+    {
+      "case_id": "oracle-v4:stratus:iam-user-secret-read",
+      "independence_group": "stratus-technique:aws.credential-access.secretsmanager-retrieve-secrets",
+      "source_id": "stratus_red_team",
+      "platform": "AWS",
+      "gold_state": "Reachable",
+      "gold_tier": "runtime_gold",
+      "label_origin": "provider_native_runtime",
+      "provider_oracle_contract": "provider_oracle_gold_v1",
+      "path": {
+        "path_id": "stratus-secret-read-path",
+        "nodes": [
+          {
+            "node_id": "n-user",
+            "type": "identity",
+            "label": "observed IAM user"
+          },
+          {
+            "node_id": "n-catalog",
+            "type": "cloud_service",
+            "label": "Secrets Manager catalog"
+          },
+          {
+            "node_id": "n-secret",
+            "type": "secret_store",
+            "label": "exact observed secret"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "e-list",
+            "source": "n-user",
+            "target": "n-catalog",
+            "type": "enumerate"
+          },
+          {
+            "edge_id": "e-read",
+            "source": "n-user",
+            "target": "n-secret",
+            "type": "read_data"
+          }
+        ]
+      },
+      "support_observation_ids": [
+        "obs-v3-0b06a329f6508e7d63a260c1",
+        "obs-v3-dc96ba8f0ffff16071eabc72"
+      ],
+      "refute_observation_ids": [],
+      "control_observation_ids": [],
+      "semantic_scope": "Gold begins at the observed IAM user and ends at the exact secret ARN. It does not infer how the IAM credentials were acquired."
+    },
+    {
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "independence_group": "splunk-dataset:T1486/s3_file_encryption",
+      "source_id": "splunk_attack_data",
+      "platform": "AWS",
+      "gold_state": "NotReachable",
+      "gold_tier": "runtime_gold",
+      "label_origin": "provider_native_runtime",
+      "provider_oracle_contract": "provider_oracle_gold_v1",
+      "time_scope": "2021-01-11T12:40:10Z",
+      "path": {
+        "path_id": "splunk-s3-kms-copy-denied-path",
+        "nodes": [
+          {
+            "node_id": "n-user",
+            "type": "identity",
+            "label": "observed IAM user"
+          },
+          {
+            "node_id": "n-kms-key",
+            "type": "permission_policy",
+            "label": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+          },
+          {
+            "node_id": "n-object",
+            "type": "data_object",
+            "label": "patricktestbucketencrypt/kms_aws_events_encrypted.json"
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "e-key-dependency",
+            "source": "n-user",
+            "target": "n-kms-key",
+            "type": "invoke"
+          },
+          {
+            "edge_id": "e-encrypted-copy",
+            "source": "n-user",
+            "target": "n-object",
+            "type": "write_data"
+          }
+        ]
+      },
+      "support_observation_ids": [],
+      "refute_observation_ids": [
+        "obs-v3-65307689f866a00cea0ebc7f"
+      ],
+      "control_observation_ids": [
+        "obs-v3-fdbbdb0b165e7190feb4a949"
+      ],
+      "negative_certificate": {
+        "exact_principal": "arn:aws:iam::111111111111:user/patrick_cli",
+        "exact_operation": "CopyObject",
+        "exact_resource": "patricktestbucketencrypt/kms_aws_events_encrypted.json",
+        "dependency_resource": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "provider_native_decision": "KMS.KMSInvalidStateException",
+        "scope_completeness": "complete",
+        "target_existence_control": "same principal and byte-for-byte matching request fields succeeded 37 seconds later",
+        "contrary_success_in_same_state": false
+      },
+      "semantic_scope": "NotReachable applies only to completion of this exact encrypted copy at 12:40:10Z while the named KMS key was pending deletion. It is not a claim that the bucket or object remained unreachable."
+    }
+  ]
+}
