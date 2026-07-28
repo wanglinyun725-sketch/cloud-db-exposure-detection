@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 from dataclasses import asdict
 from hashlib import sha256
 import json
@@ -24,6 +25,9 @@ from src.agent.ec_react import (  # noqa: E402
     ECReactRunner,
     OllamaNativeReActPolicy,
 )
+from src.agent.ec_react_langgraph import (  # noqa: E402
+    ECReactLangGraphRunner,
+)
 from src.agent.frozen_provider_oracle_environment import (  # noqa: E402
     FrozenProviderOracleEnvironment,
 )
@@ -37,6 +41,7 @@ DEFAULT_OUTPUT_DIR = ROOT / "output" / "provider_oracle_llm_pilot_v1"
 IMPLEMENTATION_PATHS = (
     Path("scripts/experiments/run_provider_oracle_llm_pilot_v1.py"),
     Path("src/agent/ec_react.py"),
+    Path("src/agent/ec_react_langgraph.py"),
     Path("src/agent/path_proposal.py"),
     Path("src/agent/published_telemetry_environment.py"),
     Path("src/agent/frozen_provider_oracle_environment.py"),
@@ -80,6 +85,109 @@ def _completed(path: Path) -> set[str]:
     return output
 
 
+@contextmanager
+def _exclusive_output_lock(output_dir: Path):
+    """Prevent concurrent resumptions from executing the same schedule."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    lock_path = output_dir / ".runner.lock"
+    stream = lock_path.open("a+b")
+    stream.seek(0, 2)
+    if stream.tell() == 0:
+        stream.write(b"\0")
+        stream.flush()
+    stream.seek(0)
+    try:
+        if sys.platform == "win32":
+            import msvcrt
+
+            msvcrt.locking(stream.fileno(), msvcrt.LK_NBLCK, 1)
+        else:
+            import fcntl
+
+            fcntl.flock(
+                stream.fileno(),
+                fcntl.LOCK_EX | fcntl.LOCK_NB,
+            )
+    except OSError as exc:
+        stream.close()
+        raise RuntimeError(
+            f"another pilot runner holds {lock_path}"
+        ) from exc
+    try:
+        yield
+    finally:
+        stream.seek(0)
+        if sys.platform == "win32":
+            import msvcrt
+
+            msvcrt.locking(stream.fileno(), msvcrt.LK_UNLCK, 1)
+        else:
+            import fcntl
+
+            fcntl.flock(stream.fileno(), fcntl.LOCK_UN)
+        stream.close()
+
+
+def _deduplicate_scheduled_rows(
+    rows: list[dict[str, Any]],
+    scheduled_ids: set[str],
+) -> tuple[list[dict[str, Any]], int]:
+    unique: dict[str, dict[str, Any]] = {}
+    duplicates = 0
+    for item in rows:
+        schedule_id = item.get("schedule_id")
+        if schedule_id not in scheduled_ids:
+            continue
+        if schedule_id in unique:
+            duplicates += 1
+            continue
+        unique[schedule_id] = item
+    return list(unique.values()), duplicates
+
+
+def _merge_compatible_manifest(
+    existing: dict[str, Any],
+    current: dict[str, Any],
+) -> dict[str, Any]:
+    compatibility_fields = (
+        "experiment_id",
+        "protocol_version",
+        "config_sha256",
+        "implementation_bundle_sha256",
+        "public_packet_sha256",
+        "gold_packet_sha256",
+    )
+    mismatches = [
+        field for field in compatibility_fields
+        if existing.get(field) != current.get(field)
+    ]
+    if mismatches:
+        raise RuntimeError(
+            "output directory contains an incompatible manifest: "
+            + ", ".join(mismatches)
+        )
+    merged = dict(existing)
+    schedules = {
+        item["schedule_id"]: item
+        for item in existing.get("schedule", [])
+    }
+    for item in current.get("schedule", []):
+        schedules.setdefault(item["schedule_id"], item)
+    merged["schedule"] = sorted(
+        schedules.values(), key=lambda item: item["schedule_id"]
+    )
+    merged["scheduled_runs"] = len(merged["schedule"])
+    existing_filters = existing.get("filters") or {}
+    invocations = list(
+        existing_filters.get("resume_invocations") or []
+    )
+    if not invocations:
+        invocations.append(existing_filters)
+    invocations.append(current.get("filters") or {})
+    merged["filters"] = {"resume_invocations": invocations}
+    return merged
+
+
 def _ollama_digest(base_url: str, model: str) -> str | None:
     with urllib.request.urlopen(
         base_url.rstrip("/") + "/api/tags",
@@ -93,6 +201,24 @@ def _ollama_digest(base_url: str, model: str) -> str | None:
 
 
 def run(
+    config_path: Path,
+    output_dir: Path,
+    *,
+    method_filter: set[str] | None = None,
+    case_filter: set[str] | None = None,
+    limit: int | None = None,
+) -> dict[str, Any]:
+    with _exclusive_output_lock(output_dir):
+        return _run_locked(
+            config_path,
+            output_dir,
+            method_filter=method_filter,
+            case_filter=case_filter,
+            limit=limit,
+        )
+
+
+def _run_locked(
     config_path: Path,
     output_dir: Path,
     *,
@@ -152,10 +278,19 @@ def run(
     for metadata in cases:
         for method in methods:
             for repeat_id in repeat_ids:
+                orchestration_backend = method.get(
+                    "orchestration_backend",
+                    execution.get("orchestration_backend", "linear"),
+                )
+                if orchestration_backend not in {"linear", "langgraph"}:
+                    raise ValueError(
+                        "orchestration_backend must be linear or langgraph"
+                    )
                 identity = {
                     "experiment_id": config["experiment_id"],
                     "case_id": metadata["case_id"],
                     "method_id": method["method_id"],
+                    "orchestration_backend": orchestration_backend,
                     "model": model["model"],
                     "model_digest": model_digest,
                     "budget": execution["budget"],
@@ -206,7 +341,15 @@ def run(
         "schedule": schedule,
         "secrets_in_manifest": False,
     }
-    (output_dir / "run_manifest.json").write_text(
+    manifest_path = output_dir / "run_manifest.json"
+    if manifest_path.is_file():
+        existing_manifest = json.loads(
+            manifest_path.read_text(encoding="utf-8")
+        )
+        manifest = _merge_compatible_manifest(
+            existing_manifest, manifest
+        )
+    manifest_path.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
@@ -240,7 +383,15 @@ def run(
                 metadata,
                 budget=int(execution["budget"]),
             )
-            runner = ECReactRunner(
+            orchestration_backend = scheduled[
+                "orchestration_backend"
+            ]
+            runner_type = (
+                ECReactLangGraphRunner
+                if orchestration_backend == "langgraph"
+                else ECReactRunner
+            )
+            runner = runner_type(
                 policy,
                 max_steps=int(execution["max_steps"]),
                 task_mode="path_discovery",
@@ -268,14 +419,17 @@ def run(
                 "platform": metadata["platform"],
                 "label_origin": metadata["label_origin"],
                 "method_components": {
-                    key: method[key]
-                    for key in (
-                        "pareto_guard",
-                        "external_rule_prior",
-                        "four_value_memory",
-                        "budget_stop",
-                        "finish_guard_mode",
-                    )
+                    **{
+                        key: method[key]
+                        for key in (
+                            "pareto_guard",
+                            "external_rule_prior",
+                            "four_value_memory",
+                            "budget_stop",
+                            "finish_guard_mode",
+                        )
+                    },
+                    "orchestration_backend": orchestration_backend,
                 },
                 "latency_seconds": latency,
                 "result": asdict(result),
@@ -291,6 +445,7 @@ def run(
                 "scheduled": len(schedule),
                 "case_id": metadata["case_id"],
                 "method_id": method["method_id"],
+                "orchestration_backend": orchestration_backend,
                 "predicted_state": score["predicted_state"],
                 "gold_state": score["gold_state"],
                 "semantically_correct": score[
@@ -305,10 +460,9 @@ def run(
         if line.strip()
     ]
     scheduled_ids = {item["schedule_id"] for item in schedule}
-    selected_rows = [
-        item for item in rows
-        if item["schedule_id"] in scheduled_ids
-    ]
+    selected_rows, duplicate_records_ignored = (
+        _deduplicate_scheduled_rows(rows, scheduled_ids)
+    )
     report = {
         "experiment_id": config["experiment_id"],
         "protocol_version": config["protocol_version"],
@@ -316,6 +470,7 @@ def run(
         "warning": config["warning"],
         "scheduled_runs": len(schedule),
         "completed_runs": len(selected_rows),
+        "duplicate_records_ignored": duplicate_records_ignored,
         "executed_this_call": executed,
         "resumed_skips": skipped,
         "model": manifest["model"],

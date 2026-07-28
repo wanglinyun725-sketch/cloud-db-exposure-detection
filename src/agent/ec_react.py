@@ -1093,6 +1093,8 @@ def _compact_tool_output(output: dict[str, Any]) -> dict[str, Any]:
                     "region",
                     "event_status",
                     "provider_decision",
+                    "oracle_kind",
+                    "scope_completeness",
                     "target_resource",
                     "schema",
                     "source_ip",
@@ -1347,6 +1349,7 @@ class OllamaNativeReActPolicy:
                     if (
                         isinstance(observation_id, str)
                         and provider_decision in {"allow", "deny"}
+                        and _provider_scope_is_decisive(event)
                     ):
                         decisive_provider_evidence[observation_id] = (
                             provider_decision
@@ -1443,6 +1446,8 @@ class OllamaNativeReActPolicy:
                 test_variants = []
                 for field_name in (
                     "provider_decision",
+                    "scope_completeness",
+                    "oracle_kind",
                     "event_status",
                     "timestamp",
                     "operation",
@@ -1505,7 +1510,11 @@ class OllamaNativeReActPolicy:
             "provider denial. When the exact-time event has a non-Success "
             "provider status and only a later success follows, claim "
             "NotReachable, cite the exact-time event as refute, and treat the "
-            "later event only as a control. Use these canonical mappings when "
+            "later event only as a control. A provider allow or deny is "
+            "decisive only when scope_completeness is complete or begins with "
+            "complete_for_; incomplete, unknown, and control_only observations "
+            "leave the requested end-to-end claim Unknown. Use these canonical "
+            "mappings when "
             "visible evidence supports them: IAMUser->identity, service "
             "endpoint->cloud_service, bucket/blob target->object_storage or "
             "data_object, list/describe->enumerate, Get/read->read_data, "
@@ -1558,6 +1567,7 @@ class OllamaNativeReActPolicy:
                     },
                     "hypothesis": {
                         "type": "string",
+                        "minLength": 1,
                         "maxLength": 320,
                     },
                     "path_candidate": {
@@ -1623,6 +1633,7 @@ class OllamaNativeReActPolicy:
                     },
                 },
                 "required": required_output_fields,
+                "additionalProperties": False,
             },
             "keep_alive": self.keep_alive,
             "options": {
@@ -1655,6 +1666,8 @@ class OllamaNativeReActPolicy:
                         "decision=no_verified_path. Use no_verified_path only "
                         "for Unknown, including configuration-only "
                         "provider_decision=not_run evidence. Inspect an "
+                        "observation's scope_completeness before treating its "
+                        "provider outcome as end-to-end path evidence. Inspect an "
                         "explicit provider denial before treating a later "
                         "success as decisive for an earlier time-scoped claim. "
                         "Once evidence is sufficient, submit one minimal path "
@@ -1676,6 +1689,9 @@ class OllamaNativeReActPolicy:
                 },
             ],
         }
+        if allowed_kinds == ["finish"]:
+            for field_name in ("tool_name", "arguments", "path_candidate"):
+                payload["format"]["properties"].pop(field_name, None)
         if self.seed is not None:
             payload["options"]["seed"] = self.seed
         request = urllib.request.Request(
@@ -1698,6 +1714,20 @@ class OllamaNativeReActPolicy:
         if not content.strip():
             raise ValueError("Ollama returned an empty action content")
         return _parse_json_object(content)
+
+
+def _provider_scope_is_decisive(event: dict[str, Any]) -> bool:
+    """Return whether a provider outcome covers the exact investigated claim.
+
+    Older protocol fixtures may not render this field, so absence preserves
+    legacy behavior. Once scope is explicit, only complete evidence is allowed
+    to constrain the end-to-end path state.
+    """
+    scope = event.get("scope_completeness")
+    if not isinstance(scope, str):
+        return True
+    normalized = scope.strip().lower()
+    return normalized == "complete" or normalized.startswith("complete_for_")
 
 
 def _compact_ollama_view(view: dict[str, Any]) -> dict[str, Any]:

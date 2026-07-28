@@ -303,6 +303,32 @@ class PathProposalTests(unittest.TestCase):
         self.assertTrue(refute_report["verified"])
         self.assertEqual("negative", refute_report["certificate"]["kind"])
 
+    def test_incomplete_provider_scope_cannot_certify_end_to_end_path(self):
+        ledger = _ledger()
+        ledger["obs-2"][0]["visible_event"].update({
+            "provider_decision": "allow",
+            "scope_completeness": "incomplete_for_database_data_plane",
+        })
+        report = verify_path_proposal(
+            _candidate([{
+                "observation_id": "obs-2",
+                "call_id": 3,
+                "polarity": "support",
+                "edge_ids": ["e1", "e2"],
+                "test": {
+                    "field": "provider_decision",
+                    "operator": "eq",
+                    "value": "allow",
+                },
+            }]),
+            ledger,
+        )
+
+        self.assertFalse(report["verified"])
+        self.assertTrue(any(
+            "non-decisive scope" in error for error in report["errors"]
+        ))
+
     def test_visibility_ledger_records_only_policy_rendered_events(self):
         ledger = {}
         tool_output = {

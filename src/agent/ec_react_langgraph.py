@@ -559,6 +559,20 @@ class ECReactLangGraphRunner:
         invalid_actions: int,
         path_candidates: list[dict[str, Any]],
     ) -> dict[str, Any]:
+        if (
+            proposal.get("decision")
+            in {"search_complete", "no_verified_path", "abstain"}
+            and not (
+                isinstance(proposal.get("hypothesis"), str)
+                and proposal["hypothesis"].strip()
+            )
+            and isinstance(proposal.get("thought"), str)
+            and proposal["thought"].strip()
+        ):
+            proposal["hypothesis"] = proposal["thought"].strip()
+            proposal.setdefault("protocol_normalizations", []).append(
+                "hypothesis_from_thought"
+            )
         evaluated = evaluate_path_finish_proposal(
             proposal,
             evidence_ledger,

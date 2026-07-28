@@ -133,6 +133,7 @@ class ProviderAwarePathPolicy:
         "ListObjects",
         "ListSecrets",
         "ListTables",
+        "ModifySnapshotAttribute",
         "google.cloud.secretmanager.v1.SecretManagerService.AccessSecretVersion",
         "storage.objects.get",
         "storage.objects.list",
@@ -141,6 +142,7 @@ class ProviderAwarePathPolicy:
         "Code:7",
         "Code:16",
         "AccessDenied",
+        "Client.InvalidAMIAttributeItemValue",
         "Denied",
         "KMS.KMSInvalidStateException",
     }
@@ -343,7 +345,9 @@ def _submit_state_path(
         or "service-account" in str(event.get("actor_id", "")).casefold()
         else "identity"
     )
-    if operation == "CopyObject":
+    if operation == "ModifySnapshotAttribute":
+        edge_type = "grant_permission"
+    elif operation == "CopyObject":
         edge_type = "write_data"
     elif operation in {
         "GetObject",
@@ -360,7 +364,11 @@ def _submit_state_path(
         if "Secret" in operation or "secretmanager" in operation
         else (
             "data_object"
-            if edge_type in {"read_data", "write_data"}
+            if edge_type in {
+                "read_data",
+                "write_data",
+                "grant_permission",
+            }
             else "object_storage"
         )
     )

@@ -96,6 +96,16 @@ class OneEdgePathPolicy:
         }
 
 
+class EmptyHypothesisUnknownPolicy:
+    def propose(self, view):
+        return {
+            "kind": "finish",
+            "thought": "Visible evidence does not establish a verified path.",
+            "decision": "no_verified_path",
+            "hypothesis": "",
+        }
+
+
 class ProgressiveTwoPathPolicy:
     def __init__(self):
         self.memory_sizes = []
@@ -275,6 +285,28 @@ class ECReactPathModeTests(unittest.TestCase):
             results[1].certificate_audit,
         )
         self.assertEqual(results[0].spent, results[1].spent)
+
+    def test_empty_unknown_hypothesis_normalization_matches_backends(self):
+        results = []
+        for runner_class in (ECReactRunner, ECReactLangGraphRunner):
+            environment = self._environment()
+            result = runner_class(
+                EmptyHypothesisUnknownPolicy(),
+                task_mode="path_discovery",
+            ).run(environment, environment.public_context)
+            results.append(result)
+
+        for result in results:
+            self.assertEqual("no_verified_path", result.decision)
+            self.assertEqual(0, result.invalid_actions)
+            self.assertEqual(
+                "Visible evidence does not establish a verified path.",
+                result.hypothesis,
+            )
+            self.assertIn(
+                "hypothesis_from_thought",
+                result.trace[-1]["proposal"]["protocol_normalizations"],
+            )
 
     def test_progressive_top_k_submission_and_four_value_memory_match_backends(self):
         results = []
