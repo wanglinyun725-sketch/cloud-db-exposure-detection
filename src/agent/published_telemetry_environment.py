@@ -39,13 +39,13 @@ COMPACT_EVENT_FIELDS = (
     "region",
     "event_status",
     "provider_decision",
+    "oracle_kind",
+    "scope_completeness",
     "target_resource",
 )
 
 DETAIL_EVENT_FIELDS = COMPACT_EVENT_FIELDS + (
     "schema",
-    "oracle_kind",
-    "scope_completeness",
     "source_ip",
     "request",
     "response",

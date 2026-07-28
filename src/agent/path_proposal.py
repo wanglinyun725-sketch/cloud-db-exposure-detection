@@ -193,8 +193,9 @@ def verify_path_proposal(
         "certificate_audit": None,
         "path_ontology": ontology_reference(),
         "certificate_scope": (
-            "Internal structural, citation-visibility, executable-test, and "
-            "positive/negative evidence-cover certificate only; semantic "
+            "Internal structural, citation-visibility, provider-scope, "
+            "executable-test, and positive/negative evidence-cover certificate "
+            "only; broader semantic "
             "correctness must be scored against independent human gold or "
             "a separately frozen provider-oracle gold release."
         ),
@@ -588,7 +589,23 @@ def _build_evidence_items(
             if isinstance(visible_event, Mapping)
             else None
         )
+        scope_completeness = (
+            visible_event.get("scope_completeness")
+            if isinstance(visible_event, Mapping)
+            else None
+        )
         polarity = assignment["polarity"]
+        if (
+            provider_decision in {"allow", "deny"}
+            and isinstance(scope_completeness, str)
+            and not _provider_scope_is_decisive(scope_completeness)
+        ):
+            errors.append(
+                f"evidence_assignments[{index}] provider decision "
+                f"{provider_decision!r} has non-decisive scope "
+                f"{scope_completeness!r}; the end-to-end claim remains Unknown"
+            )
+            continue
         if provider_decision == "deny" and polarity != "refute":
             errors.append(
                 f"evidence_assignments[{index}] cannot use a provider denial "
@@ -697,6 +714,11 @@ def _build_evidence_items(
             )
         )
     return tuple(items)
+
+
+def _provider_scope_is_decisive(scope: str) -> bool:
+    normalized = scope.strip().lower()
+    return normalized == "complete" or normalized.startswith("complete_for_")
 
 
 def _non_empty_string(value: Any) -> str | None:

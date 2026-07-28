@@ -2,7 +2,10 @@ import json
 import unittest
 from unittest.mock import patch
 
-from src.agent.ec_react import OllamaNativeReActPolicy
+from src.agent.ec_react import (
+    OllamaNativeReActPolicy,
+    _compact_tool_output,
+)
 
 
 class _FakeResponse:
@@ -20,6 +23,38 @@ class _FakeResponse:
 
 
 class OllamaNativePolicyTests(unittest.TestCase):
+    def test_policy_projection_preserves_provider_scope_semantics(self):
+        compact = _compact_tool_output({
+            "receipt": {
+                "tool_name": "search_events",
+                "call_id": 1,
+                "cost": 1,
+                "result_count": 1,
+            },
+            "tool_result": {
+                "events": [{
+                    "observation_id": "obs-rds",
+                    "operation": "ModifyDBInstance",
+                    "provider_decision": "allow",
+                    "oracle_kind": "AWS CloudTrail control-plane outcome",
+                    "scope_completeness": (
+                        "incomplete_for_database_data_plane"
+                    ),
+                }],
+            },
+            "remaining_budget": 3,
+        })
+
+        event = compact["events"][0]
+        self.assertEqual(
+            "incomplete_for_database_data_plane",
+            event["scope_completeness"],
+        )
+        self.assertEqual(
+            "AWS CloudTrail control-plane outcome",
+            event["oracle_kind"],
+        )
+
     @patch("src.agent.ec_react.urllib.request.urlopen")
     def test_native_policy_disables_thinking_and_requires_json(self, mocked):
         mocked.return_value = _FakeResponse({
@@ -245,6 +280,63 @@ class OllamaNativePolicyTests(unittest.TestCase):
         )
         model_view = json.loads(payload["messages"][1]["content"])
         self.assertEqual(["finish"], model_view["allowed_next_kinds"])
+        self.assertIn("Unknown", model_view["provider_evidence_state"])
+
+    @patch("src.agent.ec_react.urllib.request.urlopen")
+    def test_incomplete_provider_allow_forces_unknown_finish(self, mocked):
+        mocked.return_value = _FakeResponse({
+            "message": {
+                "role": "assistant",
+                "content": json.dumps({
+                    "kind": "finish",
+                    "thought": "control plane is not data plane",
+                    "decision": "no_verified_path",
+                    "hypothesis": "database records remain unverified",
+                }),
+            }
+        })
+        policy = OllamaNativeReActPolicy("local-model")
+        policy.propose({
+            "task_mode": "path_discovery",
+            "method_components": {"external_rule_prior": True},
+            "observed_evidence_ids": ["obs-rds"],
+            "pareto_actions": [],
+            "tool_contracts": [],
+            "finish_contract": {},
+            "history": [{
+                "observation": {
+                    "events": [{
+                        "observation_id": "obs-rds",
+                        "provider_decision": "allow",
+                        "scope_completeness": (
+                            "incomplete_for_database_data_plane"
+                        ),
+                    }]
+                }
+            }],
+        })
+
+        request = mocked.call_args.args[0]
+        payload = json.loads(request.data.decode("utf-8"))
+        self.assertEqual(
+            ["finish"],
+            payload["format"]["properties"]["kind"]["enum"],
+        )
+        self.assertEqual(
+            ["no_verified_path", "abstain"],
+            payload["format"]["properties"]["decision"]["enum"],
+        )
+        self.assertFalse(payload["format"]["additionalProperties"])
+        self.assertEqual(
+            1,
+            payload["format"]["properties"]["hypothesis"]["minLength"],
+        )
+        self.assertNotIn(
+            "path_candidate", payload["format"]["properties"]
+        )
+        self.assertNotIn("tool_name", payload["format"]["properties"])
+        self.assertNotIn("arguments", payload["format"]["properties"])
+        model_view = json.loads(payload["messages"][1]["content"])
         self.assertIn("Unknown", model_view["provider_evidence_state"])
 
 
