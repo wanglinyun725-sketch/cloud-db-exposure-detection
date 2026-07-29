@@ -1,0 +1,1000 @@
+{
+  "queue_version": "1.0.0",
+  "generated_at": "2026-07-29T13:20:57.903090+00:00",
+  "dataset_stage": "deterministic_configuration_oracle_queue_unlabeled",
+  "contract_ref": "configs/deterministic_exposure_contract_v1.json",
+  "policy": {
+    "literal_iac_fact_is_path_gold": false,
+    "upstream_walkthrough_is_gold": false,
+    "absent_provider_finding_is_negative": false,
+    "complete_scope_required": true,
+    "runtime_probe_requires_authorized_isolated_lab": true,
+    "generated_labels": 0
+  },
+  "summary": {
+    "cases": 5,
+    "independence_groups": 5,
+    "sources": 3,
+    "platforms": [
+      "AWS",
+      "Azure",
+      "GCP"
+    ],
+    "verified_literal_assertions": 9,
+    "configuration_gold_cases": 0,
+    "runtime_gold_cases": 0,
+    "path_gold_cases": 0,
+    "needs_execution_cases": 5
+  },
+  "cases": [
+    {
+      "case_id": "awsgoat_m1_ssrf_dynamodb",
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m1_ssrf_dynamodb",
+      "source_id": "awsgoat",
+      "platform": "AWS",
+      "revision": "b24869ad455ed8d1393d00ecdc15ee638d1c1332",
+      "candidate_ref": "data/real_sources/deterministic_config_candidates_v1.json",
+      "data_target": {
+        "type": "database",
+        "service": "Amazon DynamoDB",
+        "operation_scope": [
+          "ListTables",
+          "Scan",
+          "PutItem"
+        ]
+      },
+      "configuration_assertions": [
+        {
+          "assertion_id": "awsgoat_m1_public_api_method",
+          "literal_interpretation": "The API Gateway method is configured without API Gateway authorization.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "awsgoat",
+            "revision": "b24869ad455ed8d1393d00ecdc15ee638d1c1332",
+            "archive_relative_path": "data/real_sources/raw/awsgoat/b24869ad455ed8d1393d00ecdc15ee638d1c1332/snapshot.zip",
+            "archive_sha256": "5f79c2b8dfbd2993ee69454bc5707a293ee6b17f22337a94c05b48ae33793a70",
+            "archive_member": "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-1/main.tf",
+            "archive_member_sha256": "f2e98b5e148d66d7ac3b44349ce71e4114e1343ed7861312a7e343f423541e73",
+            "archive_member_bytes": 133749
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "c0e0a9c575ed29ed5e558742c2b50814a826e6b94ccc7919c3c0254316b4a855",
+              "fragment_length": 44,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 82,
+                  "line_end": 82,
+                  "character_offset": 1808
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "6fc633b39e16368db6bc8ab0ebeec11b7535b25fd5c9c2a383485f471cb3ecf4",
+              "fragment_length": 22,
+              "occurrence_count": 23,
+              "occurrences": [
+                {
+                  "line_start": 86,
+                  "line_end": 86,
+                  "character_offset": 1986
+                },
+                {
+                  "line_start": 196,
+                  "line_end": 196,
+                  "character_offset": 5478
+                },
+                {
+                  "line_start": 325,
+                  "line_end": 325,
+                  "character_offset": 10380
+                },
+                {
+                  "line_start": 463,
+                  "line_end": 463,
+                  "character_offset": 15418
+                },
+                {
+                  "line_start": 604,
+                  "line_end": 604,
+                  "character_offset": 20554
+                },
+                {
+                  "line_start": 629,
+                  "line_end": 629,
+                  "character_offset": 21436
+                },
+                {
+                  "line_start": 746,
+                  "line_end": 746,
+                  "character_offset": 25368
+                },
+                {
+                  "line_start": 881,
+                  "line_end": 881,
+                  "character_offset": 30394
+                },
+                {
+                  "line_start": 1021,
+                  "line_end": 1021,
+                  "character_offset": 35319
+                },
+                {
+                  "line_start": 1155,
+                  "line_end": 1155,
+                  "character_offset": 40314
+                },
+                {
+                  "line_start": 1292,
+                  "line_end": 1292,
+                  "character_offset": 45324
+                },
+                {
+                  "line_start": 1430,
+                  "line_end": 1430,
+                  "character_offset": 50288
+                },
+                {
+                  "line_start": 1512,
+                  "line_end": 1512,
+                  "character_offset": 53456
+                },
+                {
+                  "line_start": 1620,
+                  "line_end": 1620,
+                  "character_offset": 57635
+                },
+                {
+                  "line_start": 1750,
+                  "line_end": 1750,
+                  "character_offset": 62696
+                },
+                {
+                  "line_start": 1882,
+                  "line_end": 1882,
+                  "character_offset": 67809
+                },
+                {
+                  "line_start": 2014,
+                  "line_end": 2014,
+                  "character_offset": 72803
+                },
+                {
+                  "line_start": 2148,
+                  "line_end": 2148,
+                  "character_offset": 77863
+                },
+                {
+                  "line_start": 2281,
+                  "line_end": 2281,
+                  "character_offset": 83079
+                },
+                {
+                  "line_start": 2413,
+                  "line_end": 2413,
+                  "character_offset": 88126
+                },
+                {
+                  "line_start": 2545,
+                  "line_end": 2545,
+                  "character_offset": 93208
+                },
+                {
+                  "line_start": 2676,
+                  "line_end": 2676,
+                  "character_offset": 98431
+                },
+                {
+                  "line_start": 2808,
+                  "line_end": 2808,
+                  "character_offset": 103540
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        },
+        {
+          "assertion_id": "awsgoat_m1_lambda_dynamodb_wildcard",
+          "literal_interpretation": "The Lambda data role is attached to a policy containing an allow for all DynamoDB actions on all resources.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "awsgoat",
+            "revision": "b24869ad455ed8d1393d00ecdc15ee638d1c1332",
+            "archive_relative_path": "data/real_sources/raw/awsgoat/b24869ad455ed8d1393d00ecdc15ee638d1c1332/snapshot.zip",
+            "archive_sha256": "5f79c2b8dfbd2993ee69454bc5707a293ee6b17f22337a94c05b48ae33793a70",
+            "archive_member": "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-1/main.tf",
+            "archive_member_sha256": "f2e98b5e148d66d7ac3b44349ce71e4114e1343ed7861312a7e343f423541e73",
+            "archive_member_bytes": 133749
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "c71361e4885355b58bc42be1243af35dada1e028dd5cdda818dce9c92645eae9",
+              "fragment_length": 59,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 3123,
+                  "line_end": 3123,
+                  "character_offset": 116637
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "d9b74a5b1430c50e69d5bfc96419be4044cf35b10a1dd76c019f131e5e1c70f9",
+              "fragment_length": 52,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 3125,
+                  "line_end": 3125,
+                  "character_offset": 116757
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "90d1ea3c043c01102256aff6409463ec00bf6b524e479b3918d02fe0728fb254",
+              "fragment_length": 12,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 3140,
+                  "line_end": 3140,
+                  "character_offset": 117129
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "525ce3ce400e9dacfabbf741fd26477ebac22f31a7ba98a4c8315d605018b03a",
+              "fragment_length": 18,
+              "occurrence_count": 4,
+              "occurrences": [
+                {
+                  "line_start": 3144,
+                  "line_end": 3144,
+                  "character_offset": 117202
+                },
+                {
+                  "line_start": 3149,
+                  "line_end": 3149,
+                  "character_offset": 117296
+                },
+                {
+                  "line_start": 3543,
+                  "line_end": 3543,
+                  "character_offset": 128304
+                },
+                {
+                  "line_start": 3568,
+                  "line_end": 3568,
+                  "character_offset": 129119
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "e26123367664d638dc0db2c0b4d02a05cd8c42d52a89084bcec75ebd0d2c5517",
+              "fragment_length": 16,
+              "occurrence_count": 2,
+              "occurrences": [
+                {
+                  "line_start": 3145,
+                  "line_end": 3145,
+                  "character_offset": 117230
+                },
+                {
+                  "line_start": 3569,
+                  "line_end": 3569,
+                  "character_offset": 129147
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        },
+        {
+          "assertion_id": "awsgoat_m1_blog_users_table",
+          "literal_interpretation": "The frozen module declares the blog-users DynamoDB table.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "awsgoat",
+            "revision": "b24869ad455ed8d1393d00ecdc15ee638d1c1332",
+            "archive_relative_path": "data/real_sources/raw/awsgoat/b24869ad455ed8d1393d00ecdc15ee638d1c1332/snapshot.zip",
+            "archive_sha256": "5f79c2b8dfbd2993ee69454bc5707a293ee6b17f22337a94c05b48ae33793a70",
+            "archive_member": "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-1/main.tf",
+            "archive_member_sha256": "f2e98b5e148d66d7ac3b44349ce71e4114e1343ed7861312a7e343f423541e73",
+            "archive_member_bytes": 133749
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "2989bdcbfb72d9f9dc762062d475e2dc3236bde2d505a45b0581fe3aef627a3d",
+              "fragment_length": 43,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 3615,
+                  "line_end": 3615,
+                  "character_offset": 130147
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "04a1c191085805fbff66dd621c1daa3efa137384066cb397ad41cf7a6239120d",
+              "fragment_length": 29,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 3616,
+                  "line_end": 3616,
+                  "character_offset": 130195
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        }
+      ],
+      "evidence_layers": [
+        {
+          "layer": "frozen_configuration",
+          "status": "verified_literal_facts_only",
+          "decisive_for_path": false
+        },
+        {
+          "layer": "provider_native_analysis",
+          "status": "pending",
+          "required_scope": "complete exact principal-action-resource scope",
+          "accepted_oracles": [
+            "AWS IAM Access Analyzer",
+            "AWS IAM policy simulation with exact principal/action/resource"
+          ],
+          "absent_finding_state": "Unknown",
+          "decisive_for_configuration_gold": true
+        },
+        {
+          "layer": "authorized_active_probe",
+          "status": "pending",
+          "required_scope": "isolated authorized lab only",
+          "accepted_oracle": "authorized exact-operation probe plus matching CloudTrail record",
+          "decisive_for_runtime_gold": true
+        }
+      ],
+      "admission_status": "needs_execution",
+      "gold_label": null,
+      "path_state": null,
+      "label_origin": null,
+      "upstream_expected_outcome_exposed": false,
+      "agent_output_exposed": false
+    },
+    {
+      "case_id": "awsgoat_m2_ecs_secret_rds_credentials",
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m2_ecs_secret_rds_credentials",
+      "source_id": "awsgoat",
+      "platform": "AWS",
+      "revision": "b24869ad455ed8d1393d00ecdc15ee638d1c1332",
+      "candidate_ref": "data/real_sources/deterministic_config_candidates_v1.json",
+      "data_target": {
+        "type": "secret_store",
+        "service": "AWS Secrets Manager",
+        "operation_scope": [
+          "ListSecrets",
+          "GetSecretValue"
+        ],
+        "downstream_asset": "Amazon RDS credentials"
+      },
+      "configuration_assertions": [
+        {
+          "assertion_id": "awsgoat_m2_task_role_secret_policy",
+          "literal_interpretation": "The ECS task uses ecs-task-role and that role is attached to AWS SecretsManagerReadWrite.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "awsgoat",
+            "revision": "b24869ad455ed8d1393d00ecdc15ee638d1c1332",
+            "archive_relative_path": "data/real_sources/raw/awsgoat/b24869ad455ed8d1393d00ecdc15ee638d1c1332/snapshot.zip",
+            "archive_sha256": "5f79c2b8dfbd2993ee69454bc5707a293ee6b17f22337a94c05b48ae33793a70",
+            "archive_member": "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-2/main.tf",
+            "archive_member_sha256": "fc2729d44332cca399cdaa2474dbcbfe09425f25bdc9d50975fbbf9c4d698f7f",
+            "archive_member_bytes": 13290
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "855808aca6bc3da2bcb3cb3df549ce7aa08bd64ccd8ac641fe4aa188280c0a3d",
+              "fragment_length": 39,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 305,
+                  "line_end": 305,
+                  "character_offset": 7505
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "9fc906774b49b7a5717122abb6e941344f34a90302d1a4e7c6d70a10df42d655",
+              "fragment_length": 70,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 328,
+                  "line_end": 328,
+                  "character_offset": 8080
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "807e814b5322255fc1498b64ada908f7954e56c6d3d109403b2c6e6b47b53f9f",
+              "fragment_length": 62,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 330,
+                  "line_end": 330,
+                  "character_offset": 8202
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "6a4958ec257f538ca9f4ad8094e97326b1f1081e766d08b8e72018ce903d6f3d",
+              "fragment_length": 57,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 396,
+                  "line_end": 396,
+                  "character_offset": 9945
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        }
+      ],
+      "evidence_layers": [
+        {
+          "layer": "frozen_configuration",
+          "status": "verified_literal_facts_only",
+          "decisive_for_path": false
+        },
+        {
+          "layer": "provider_native_analysis",
+          "status": "pending",
+          "required_scope": "complete exact principal-action-resource scope",
+          "accepted_oracles": [
+            "AWS IAM Access Analyzer",
+            "AWS IAM policy simulation with exact principal/action/resource"
+          ],
+          "absent_finding_state": "Unknown",
+          "decisive_for_configuration_gold": true
+        },
+        {
+          "layer": "authorized_active_probe",
+          "status": "pending",
+          "required_scope": "isolated authorized lab only",
+          "accepted_oracle": "authorized exact-operation probe plus matching CloudTrail record",
+          "decisive_for_runtime_gold": true
+        }
+      ],
+      "admission_status": "needs_execution",
+      "gold_label": null,
+      "path_state": null,
+      "label_origin": null,
+      "upstream_expected_outcome_exposed": false,
+      "agent_output_exposed": false
+    },
+    {
+      "case_id": "azuregoat_ssrf_cosmos_storage",
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_ssrf_cosmos_storage",
+      "source_id": "azuregoat",
+      "platform": "Azure",
+      "revision": "b97045952e6df00de735a7f27fd7c4994dcfe8c0",
+      "candidate_ref": "data/real_sources/deterministic_config_candidates_v1.json",
+      "data_target": {
+        "type": "database_and_object_storage",
+        "service": "Azure Cosmos DB and Azure Blob Storage",
+        "operation_scope": [
+          "Cosmos DB item read/write",
+          "Blob read/list"
+        ]
+      },
+      "configuration_assertions": [
+        {
+          "assertion_id": "azuregoat_cosmos_and_storage_declared",
+          "literal_interpretation": "The same frozen module declares an Azure Cosmos DB account and Azure Storage account.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "azuregoat",
+            "revision": "b97045952e6df00de735a7f27fd7c4994dcfe8c0",
+            "archive_relative_path": "data/real_sources/raw/azuregoat/b97045952e6df00de735a7f27fd7c4994dcfe8c0/snapshot.zip",
+            "archive_sha256": "ccd24e4f41dfa85f8345fa8f132a6a917811ac05d9350a45f77f8be3500dea2a",
+            "archive_member": "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/main.tf",
+            "archive_member_sha256": "2fa47c4d48b423b208b1b3e114fc679374d84b2dcae37f2c9edb42503f755e53",
+            "archive_member_bytes": 22154
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "13d2d73868ff2004a085d378d87b2ce25e7fec35ef5ddb0a725673681a0a85ea",
+              "fragment_length": 40,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 30,
+                  "line_end": 30,
+                  "character_offset": 404
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "4961d38952f548141abc7148201446d804b9bd0b875b6b97872ca18d93fd4a79",
+              "fragment_length": 52,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 70,
+                  "line_end": 70,
+                  "character_offset": 1628
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        }
+      ],
+      "evidence_layers": [
+        {
+          "layer": "frozen_configuration",
+          "status": "verified_literal_facts_only",
+          "decisive_for_path": false
+        },
+        {
+          "layer": "provider_native_analysis",
+          "status": "pending",
+          "required_scope": "complete exact principal-action-resource scope",
+          "accepted_oracles": [
+            "exact Azure RBAC evaluation",
+            "Defender for Cloud attack-path evidence where applicable"
+          ],
+          "absent_finding_state": "Unknown",
+          "decisive_for_configuration_gold": true
+        },
+        {
+          "layer": "authorized_active_probe",
+          "status": "pending",
+          "required_scope": "isolated authorized lab only",
+          "accepted_oracle": "authorized exact-operation probe plus matching Azure data-plane or activity record",
+          "decisive_for_runtime_gold": true
+        }
+      ],
+      "admission_status": "needs_execution",
+      "gold_label": null,
+      "path_state": null,
+      "label_origin": null,
+      "upstream_expected_outcome_exposed": false,
+      "agent_output_exposed": false
+    },
+    {
+      "case_id": "azuregoat_prod_dev_blob_control_pair",
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_prod_dev_blob_control_pair",
+      "source_id": "azuregoat",
+      "platform": "Azure",
+      "revision": "b97045952e6df00de735a7f27fd7c4994dcfe8c0",
+      "candidate_ref": "data/real_sources/deterministic_config_candidates_v1.json",
+      "data_target": {
+        "type": "object_storage",
+        "service": "Azure Blob Storage",
+        "operation_scope": [
+          "List container",
+          "Read blob"
+        ]
+      },
+      "configuration_assertions": [
+        {
+          "assertion_id": "azuregoat_prod_blob_only",
+          "literal_interpretation": "The production container grants anonymous blob access but does not configure anonymous container listing.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "azuregoat",
+            "revision": "b97045952e6df00de735a7f27fd7c4994dcfe8c0",
+            "archive_relative_path": "data/real_sources/raw/azuregoat/b97045952e6df00de735a7f27fd7c4994dcfe8c0/snapshot.zip",
+            "archive_sha256": "ccd24e4f41dfa85f8345fa8f132a6a917811ac05d9350a45f77f8be3500dea2a",
+            "archive_member": "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/main.tf",
+            "archive_member_sha256": "2fa47c4d48b423b208b1b3e114fc679374d84b2dcae37f2c9edb42503f755e53",
+            "archive_member_bytes": 22154
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "a56a440455c540db8bd2db6566e6b68b7fce1df3ba14b76d6d1566a12c88a296",
+              "fragment_length": 61,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 226,
+                  "line_end": 226,
+                  "character_offset": 7138
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "945f34afdc582e27957c83945a95aeafd17cab582cbc5b64acf415617dc465f7",
+              "fragment_length": 30,
+              "occurrence_count": 2,
+              "occurrences": [
+                {
+                  "line_start": 92,
+                  "line_end": 92,
+                  "character_offset": 2348
+                },
+                {
+                  "line_start": 229,
+                  "line_end": 229,
+                  "character_offset": 7361
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        },
+        {
+          "assertion_id": "azuregoat_dev_container_public",
+          "literal_interpretation": "The development container grants anonymous container and blob access.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "azuregoat",
+            "revision": "b97045952e6df00de735a7f27fd7c4994dcfe8c0",
+            "archive_relative_path": "data/real_sources/raw/azuregoat/b97045952e6df00de735a7f27fd7c4994dcfe8c0/snapshot.zip",
+            "archive_sha256": "ccd24e4f41dfa85f8345fa8f132a6a917811ac05d9350a45f77f8be3500dea2a",
+            "archive_member": "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/main.tf",
+            "archive_member_sha256": "2fa47c4d48b423b208b1b3e114fc679374d84b2dcae37f2c9edb42503f755e53",
+            "archive_member_bytes": 22154
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "13744249fc83e0165de77e1e74561f76ec0e458f91d3d20447fafe55888dc9b1",
+              "fragment_length": 60,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 233,
+                  "line_end": 233,
+                  "character_offset": 7396
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "a3335ccabdff3353ee82cef3fb0694baa7f95247ebe869015f13406fa05b6e7e",
+              "fragment_length": 35,
+              "occurrence_count": 2,
+              "occurrences": [
+                {
+                  "line_start": 236,
+                  "line_end": 236,
+                  "character_offset": 7617
+                },
+                {
+                  "line_start": 242,
+                  "line_end": 242,
+                  "character_offset": 7875
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        }
+      ],
+      "evidence_layers": [
+        {
+          "layer": "frozen_configuration",
+          "status": "verified_literal_facts_only",
+          "decisive_for_path": false
+        },
+        {
+          "layer": "provider_native_analysis",
+          "status": "pending",
+          "required_scope": "complete exact principal-action-resource scope",
+          "accepted_oracles": [
+            "exact Azure RBAC evaluation",
+            "Defender for Cloud attack-path evidence where applicable"
+          ],
+          "absent_finding_state": "Unknown",
+          "decisive_for_configuration_gold": true
+        },
+        {
+          "layer": "authorized_active_probe",
+          "status": "pending",
+          "required_scope": "isolated authorized lab only",
+          "accepted_oracle": "authorized exact-operation probe plus matching Azure data-plane or activity record",
+          "decisive_for_runtime_gold": true
+        }
+      ],
+      "admission_status": "needs_execution",
+      "gold_label": null,
+      "path_state": null,
+      "label_origin": null,
+      "upstream_expected_outcome_exposed": false,
+      "agent_output_exposed": false
+    },
+    {
+      "case_id": "gcpgoat_anonymous_bucket_policy_transition",
+      "independence_group": "configuration-lineage:gcpgoat:gcpgoat_anonymous_bucket_policy_transition",
+      "source_id": "gcpgoat",
+      "platform": "GCP",
+      "revision": "44605c4bff4b2da7611dfce78696bb53db6d8c54",
+      "candidate_ref": "data/real_sources/deterministic_config_candidates_v1.json",
+      "data_target": {
+        "type": "object_storage",
+        "service": "Google Cloud Storage",
+        "operation_scope": [
+          "storage.buckets.getIamPolicy",
+          "storage.buckets.setIamPolicy",
+          "storage.objects.list"
+        ]
+      },
+      "configuration_assertions": [
+        {
+          "assertion_id": "gcpgoat_prod_allusers_object_get",
+          "literal_interpretation": "The production bucket custom role gives allUsers object read when an object name is known, but not object listing.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "gcpgoat",
+            "revision": "44605c4bff4b2da7611dfce78696bb53db6d8c54",
+            "archive_relative_path": "data/real_sources/raw/gcpgoat/44605c4bff4b2da7611dfce78696bb53db6d8c54/snapshot.zip",
+            "archive_sha256": "f8e59451cdf074144cac7fe97f87477296ca88a6c9a605eab72baf82dff85af8",
+            "archive_member": "GCPGoat-44605c4bff4b2da7611dfce78696bb53db6d8c54/main.tf",
+            "archive_member_sha256": "73f61b6b52e1874e5e674a502de7310848aec3d61a521ca7c872c8c864ff8ac8",
+            "archive_member_bytes": 67871
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "d37a1d9754d824a22e1bdf3b51df5c5a0f1ed475b8636ec70209869df38391d5",
+              "fragment_length": 53,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 47,
+                  "line_end": 47,
+                  "character_offset": 1049
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "83405318a1f403292c10efa8b769124abc371164d47f5b8ef9e2e6e65882c095",
+              "fragment_length": 37,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 52,
+                  "line_end": 52,
+                  "character_offset": 1257
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "424263dcf4786480ef52d11c5f1f2a3bef7bfb230e1d98a0b1b9b4cc65eaed0c",
+              "fragment_length": 61,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 55,
+                  "line_end": 55,
+                  "character_offset": 1298
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "2eed2f99df308c812dd2c9f2aaa46a1aeba9244ecb4533e6d9fc328820dfd94e",
+              "fragment_length": 19,
+              "occurrence_count": 6,
+              "occurrences": [
+                {
+                  "line_start": 58,
+                  "line_end": 58,
+                  "character_offset": 1471
+                },
+                {
+                  "line_start": 72,
+                  "line_end": 72,
+                  "character_offset": 1989
+                },
+                {
+                  "line_start": 503,
+                  "line_end": 503,
+                  "character_offset": 54541
+                },
+                {
+                  "line_start": 600,
+                  "line_end": 600,
+                  "character_offset": 57602
+                },
+                {
+                  "line_start": 634,
+                  "line_end": 634,
+                  "character_offset": 58983
+                },
+                {
+                  "line_start": 730,
+                  "line_end": 730,
+                  "character_offset": 62367
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        },
+        {
+          "assertion_id": "gcpgoat_dev_allusers_policy_mutation",
+          "literal_interpretation": "The development bucket gives allUsers object read plus bucket IAM read/write, but not initial object listing.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "gcpgoat",
+            "revision": "44605c4bff4b2da7611dfce78696bb53db6d8c54",
+            "archive_relative_path": "data/real_sources/raw/gcpgoat/44605c4bff4b2da7611dfce78696bb53db6d8c54/snapshot.zip",
+            "archive_sha256": "f8e59451cdf074144cac7fe97f87477296ca88a6c9a605eab72baf82dff85af8",
+            "archive_member": "GCPGoat-44605c4bff4b2da7611dfce78696bb53db6d8c54/main.tf",
+            "archive_member_sha256": "73f61b6b52e1874e5e674a502de7310848aec3d61a521ca7c872c8c864ff8ac8",
+            "archive_member_bytes": 67871
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "8f54bdbc63c2e98e78b5b7f82a137a608398572fe7a1baf079322e35bbea7c65",
+              "fragment_length": 52,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 61,
+                  "line_end": 61,
+                  "character_offset": 1506
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "6445fe6857fd713fa9cab0fcb482dac0bd953d1c173165e097214527c9c307c1",
+              "fragment_length": 101,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 66,
+                  "line_end": 66,
+                  "character_offset": 1712
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "5cdea70175c15b95719fef548928e4fd6c5c38e10cdff26b986f2a275dde80b9",
+              "fragment_length": 62,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 69,
+                  "line_end": 69,
+                  "character_offset": 1817
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "2eed2f99df308c812dd2c9f2aaa46a1aeba9244ecb4533e6d9fc328820dfd94e",
+              "fragment_length": 19,
+              "occurrence_count": 6,
+              "occurrences": [
+                {
+                  "line_start": 58,
+                  "line_end": 58,
+                  "character_offset": 1471
+                },
+                {
+                  "line_start": 72,
+                  "line_end": 72,
+                  "character_offset": 1989
+                },
+                {
+                  "line_start": 503,
+                  "line_end": 503,
+                  "character_offset": 54541
+                },
+                {
+                  "line_start": 600,
+                  "line_end": 600,
+                  "character_offset": 57602
+                },
+                {
+                  "line_start": 634,
+                  "line_end": 634,
+                  "character_offset": 58983
+                },
+                {
+                  "line_start": 730,
+                  "line_end": 730,
+                  "character_offset": 62367
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        }
+      ],
+      "evidence_layers": [
+        {
+          "layer": "frozen_configuration",
+          "status": "verified_literal_facts_only",
+          "decisive_for_path": false
+        },
+        {
+          "layer": "provider_native_analysis",
+          "status": "pending",
+          "required_scope": "complete exact principal-action-resource scope",
+          "accepted_oracles": [
+            "GCP Policy Analyzer",
+            "testIamPermissions for exact principal/action/resource"
+          ],
+          "absent_finding_state": "Unknown",
+          "decisive_for_configuration_gold": true
+        },
+        {
+          "layer": "authorized_active_probe",
+          "status": "pending",
+          "required_scope": "isolated authorized lab only",
+          "accepted_oracle": "authorized exact-operation probe plus matching Cloud Audit Log",
+          "decisive_for_runtime_gold": true
+        }
+      ],
+      "admission_status": "needs_execution",
+      "gold_label": null,
+      "path_state": null,
+      "label_origin": null,
+      "upstream_expected_outcome_exposed": false,
+      "agent_output_exposed": false
+    }
+  ]
+}
