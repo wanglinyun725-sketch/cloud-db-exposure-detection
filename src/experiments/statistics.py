@@ -34,11 +34,15 @@ METRIC_KEYS = {
     "ontology_invalid_predicted_path_rate": (
         "ontology_invalid_predicted_path_rate"
     ),
+    "unsafe_false_reachable": "unsafe_false_reachable",
+    "unsupported_path_rate": "unsupported_evidence_rate",
 }
 LOWER_IS_BETTER = {
     "hallucinated_path_rate",
     "mean_query_cost",
     "ontology_invalid_predicted_path_rate",
+    "unsafe_false_reachable",
+    "unsupported_path_rate",
 }
 
 
@@ -200,9 +204,20 @@ def analyze_frozen_runs(
         primary_metrics,
         confidence,
     )
+    efficiency_gates = _efficiency_gate_evaluations(
+        collapsed,
+        config,
+        bootstrap_resamples,
+        confidence,
+    )
+    safety_summaries = _safety_error_summaries(
+        collapsed,
+        confidence,
+    )
+    safety_gates = _safety_gate_evaluations(collapsed, config)
 
     return {
-        "analysis_version": "0.3",
+        "analysis_version": "0.4",
         "statistical_unit": "independence_group",
         "repeat_handling": (
             "mean within runtime instance, then mean runtime instances "
@@ -226,8 +241,231 @@ def analyze_frozen_runs(
         "required_slices": required_slices,
         "slice_summaries": slice_summaries,
         "source_heterogeneity": heterogeneity,
+        "efficiency_gate_evaluations": efficiency_gates,
+        "safety_error_summaries": safety_summaries,
+        "safety_gate_evaluations": safety_gates,
         "pseudo_replication_guard": True,
     }
+
+
+def _efficiency_gate_evaluations(
+    collapsed: Mapping[
+        tuple[str, str | None, int, str],
+        dict[str, dict[str, float]],
+    ],
+    config: Mapping[str, Any],
+    bootstrap_resamples: int,
+    confidence: float,
+) -> dict[str, Any]:
+    spec = config["reporting"].get("efficiency_gates") or {}
+    if not spec:
+        return {"configured": False, "evaluations": []}
+    baseline_id = str(
+        spec.get("accuracy_baseline_method_id") or "full_query"
+    )
+    accuracy_metric = str(
+        spec.get("accuracy_metric")
+        or "certified_fine_edge_f1_at_5"
+    )
+    cost_metric = str(spec.get("cost_metric") or "mean_query_cost")
+    margin = float(spec.get("noninferiority_margin", -0.05))
+    minimum_reduction = float(
+        spec.get("minimum_mean_cost_reduction_fraction", 0.20)
+    )
+    if accuracy_metric not in METRIC_KEYS or cost_metric not in METRIC_KEYS:
+        raise ValueError("efficiency gate uses unsupported metrics")
+    if not -1 < margin <= 0:
+        raise ValueError("noninferiority_margin must be in (-1, 0]")
+    if not 0 <= minimum_reduction < 1:
+        raise ValueError(
+            "minimum_mean_cost_reduction_fraction must be in [0, 1)"
+        )
+
+    evaluations = []
+    for primary in sorted(collapsed, key=str):
+        if primary[0] != "ec_react_full":
+            continue
+        baseline = (baseline_id, None, primary[2], primary[3])
+        if baseline not in collapsed:
+            continue
+        primary_metrics = collapsed[primary]
+        baseline_metrics = collapsed[baseline]
+        left_accuracy = primary_metrics.get(accuracy_metric, {})
+        right_accuracy = baseline_metrics.get(accuracy_metric, {})
+        accuracy_groups = sorted(set(left_accuracy) & set(right_accuracy))
+        left_cost = primary_metrics.get(cost_metric, {})
+        right_cost = baseline_metrics.get(cost_metric, {})
+        cost_groups = sorted(set(left_cost) & set(right_cost))
+        if not accuracy_groups or not cost_groups:
+            continue
+        accuracy_differences = [
+            left_accuracy[group] - right_accuracy[group]
+            for group in accuracy_groups
+        ]
+        cost_reductions = [
+            (right_cost[group] - left_cost[group]) / right_cost[group]
+            for group in cost_groups
+            if right_cost[group] > 0
+        ]
+        if not cost_reductions:
+            continue
+        accuracy_ci = _cluster_bootstrap_ci(
+            accuracy_differences,
+            bootstrap_resamples,
+            confidence,
+            _seed_for(("efficiency-accuracy", primary, baseline)),
+        )
+        cost_ci = _cluster_bootstrap_ci(
+            cost_reductions,
+            bootstrap_resamples,
+            confidence,
+            _seed_for(("efficiency-cost", primary, baseline)),
+        )
+        mean_accuracy_difference = mean(accuracy_differences)
+        mean_cost_reduction = mean(cost_reductions)
+        accuracy_pass = (
+            mean_accuracy_difference >= margin
+            and accuracy_ci[0] >= margin
+        )
+        cost_pass = (
+            mean_cost_reduction >= minimum_reduction
+            and cost_ci[0] > 0
+        )
+        evaluations.append({
+            "primary_method_id": "ec_react_full",
+            "primary_model_id": primary[1],
+            "baseline_method_id": baseline_id,
+            "budget": primary[2],
+            "split": primary[3],
+            "accuracy_metric": accuracy_metric,
+            "paired_accuracy_groups": len(accuracy_groups),
+            "mean_accuracy_difference": mean_accuracy_difference,
+            "accuracy_difference_ci_low": accuracy_ci[0],
+            "accuracy_difference_ci_high": accuracy_ci[1],
+            "noninferiority_margin": margin,
+            "accuracy_noninferiority_pass": accuracy_pass,
+            "cost_metric": cost_metric,
+            "paired_cost_groups": len(cost_reductions),
+            "mean_cost_reduction_fraction": mean_cost_reduction,
+            "cost_reduction_ci_low": cost_ci[0],
+            "cost_reduction_ci_high": cost_ci[1],
+            "minimum_mean_cost_reduction_fraction": minimum_reduction,
+            "cost_reduction_pass": cost_pass,
+            "efficiency_claim_pass": accuracy_pass and cost_pass,
+            "confidence_level": confidence,
+        })
+    return {
+        "configured": True,
+        "accuracy_baseline_method_id": baseline_id,
+        "accuracy_metric": accuracy_metric,
+        "cost_metric": cost_metric,
+        "evaluations": evaluations,
+    }
+
+
+def _safety_error_summaries(
+    collapsed: Mapping[
+        tuple[str, str | None, int, str],
+        dict[str, dict[str, float]],
+    ],
+    confidence: float,
+) -> list[dict[str, Any]]:
+    output = []
+    for condition, metrics in sorted(collapsed.items(), key=str):
+        values = metrics.get("unsafe_false_reachable", {})
+        if not values:
+            continue
+        lineage_events = {
+            group: value > 0 for group, value in values.items()
+        }
+        event_count = sum(lineage_events.values())
+        total = len(lineage_events)
+        output.append({
+            **_condition_payload(condition),
+            "metric": "unsafe_false_reachable",
+            "independence_groups": total,
+            "lineages_with_at_least_one_event": event_count,
+            "event_rate": event_count / total,
+            "zero_event_exact_one_sided_upper": (
+                _zero_event_exact_upper_bound(total, confidence)
+                if event_count == 0
+                else None
+            ),
+            "confidence_level": confidence,
+            "aggregation": (
+                "a lineage is unsafe if any collapsed runtime instance or "
+                "repeat has a false-Reachable event"
+            ),
+        })
+    return output
+
+
+def _safety_gate_evaluations(
+    collapsed: Mapping[
+        tuple[str, str | None, int, str],
+        dict[str, dict[str, float]],
+    ],
+    config: Mapping[str, Any],
+) -> dict[str, Any]:
+    success_gates = config["reporting"].get("success_gates") or {}
+    required = (
+        success_gates.get("unsafe_false_reachable_must_not_increase")
+        is True
+    )
+    if not required:
+        return {"configured": False, "evaluations": []}
+    baseline_id = str(
+        success_gates.get("unsafe_baseline_method_id")
+        or "vanilla_react"
+    )
+    evaluations = []
+    for primary in sorted(collapsed, key=str):
+        if primary[0] != "ec_react_full":
+            continue
+        baseline = (baseline_id, primary[1], primary[2], primary[3])
+        if baseline not in collapsed:
+            continue
+        left = collapsed[primary].get("unsafe_false_reachable", {})
+        right = collapsed[baseline].get("unsafe_false_reachable", {})
+        common = sorted(set(left) & set(right))
+        if not common:
+            continue
+        primary_events = [left[group] > 0 for group in common]
+        baseline_events = [right[group] > 0 for group in common]
+        primary_rate = sum(primary_events) / len(common)
+        baseline_rate = sum(baseline_events) / len(common)
+        difference = primary_rate - baseline_rate
+        evaluations.append({
+            "primary_method_id": "ec_react_full",
+            "primary_model_id": primary[1],
+            "baseline_method_id": baseline_id,
+            "budget": primary[2],
+            "split": primary[3],
+            "paired_independence_groups": len(common),
+            "primary_unsafe_event_rate": primary_rate,
+            "baseline_unsafe_event_rate": baseline_rate,
+            "rate_difference_primary_minus_baseline": difference,
+            "unsafe_false_reachable_must_not_increase_pass": (
+                difference <= 0
+            ),
+        })
+    return {
+        "configured": True,
+        "baseline_method_id": baseline_id,
+        "evaluations": evaluations,
+    }
+
+
+def _zero_event_exact_upper_bound(
+    trials: int,
+    confidence: float,
+) -> float:
+    """One-sided Clopper-Pearson upper bound when zero events occur."""
+    if trials <= 0:
+        raise ValueError("zero-event bound requires at least one trial")
+    if not 0 < confidence < 1:
+        raise ValueError("confidence must be between zero and one")
+    return 1.0 - (1.0 - confidence) ** (1.0 / trials)
 
 
 def _collapse_repeats_then_groups(

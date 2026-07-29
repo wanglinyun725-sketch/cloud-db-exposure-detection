@@ -197,6 +197,9 @@ def score_path_discovery(
     )
     overall_state = instance_label["overall_state"]
     no_certified_positive = not certified
+    unsafe_false_reachable = (
+        overall_state != "Valid" and not no_certified_positive
+    )
     certified_fine_scores = _edge_set_scores(
         certified_fine_signatures,
         list(valid_gold_signatures.values()),
@@ -297,6 +300,7 @@ def score_path_discovery(
                 "search_complete",
             }
         ),
+        "unsafe_false_reachable": unsafe_false_reachable,
         "query_cost": payload.get("spent", 0),
         "valid_tool_calls": payload.get("valid_tool_calls", 0),
         "invalid_actions": payload.get("invalid_actions", 0),

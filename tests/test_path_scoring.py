@@ -135,8 +135,23 @@ class PathScoringTests(unittest.TestCase):
         )
 
         self.assertTrue(score["correct_rejection"])
+        self.assertFalse(score["unsafe_false_reachable"])
         self.assertIsNone(score["valid_path_recall_at_k"])
         self.assertIsNone(score["certified_fine_edge_f1_at_k"])
+
+    def test_certified_positive_on_invalid_gold_is_unsafe_false_reachable(self):
+        score = score_path_discovery(
+            {
+                "decision": "evidence_certified_path",
+                "path_candidates": [
+                    _proposal(["Identity", "Database"], "data_access", True)
+                ],
+            },
+            _metadata(overall="Invalid", path_state="Invalid"),
+        )
+
+        self.assertTrue(score["unsafe_false_reachable"])
+        self.assertFalse(score["correct_rejection"])
 
     def test_explicit_aliases_match_canonical_fine_types_not_literal_strings(self):
         metadata = _metadata()

@@ -229,6 +229,12 @@ reporting:
     minimum_mean_f1_gain: 0.10
     minimum_absolute_f1: 0.60
     unsafe_false_reachable_must_not_increase: true
+  efficiency_gates:
+    accuracy_baseline_method_id: full_query
+    accuracy_metric: certified_fine_edge_f1_at_5
+    cost_metric: mean_query_cost
+    noninferiority_margin: -0.05
+    minimum_mean_cost_reduction_fraction: 0.20
   secondary_metrics:
     - certified_fine_edge_precision_at_5
     - certified_fine_edge_recall_at_5
@@ -242,6 +248,8 @@ reporting:
     - coarse_exact_path_match
     - mean_best_coarse_edge_f1
     - ontology_invalid_predicted_path_rate
+    - unsafe_false_reachable
+    - unsupported_path_rate
   required_slices:
     - scenario_source_id
     - runtime_evidence_source_id

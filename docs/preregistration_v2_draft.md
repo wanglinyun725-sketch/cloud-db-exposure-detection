@@ -224,7 +224,7 @@ scorer 与统计分析器已经实现并测试 fine-grained
 2. `configs/ec_react_main_v2_draft.yaml` 已加入 scope-gate 单组件消融和唯一 fine-edge-F1 主指标，但仍是草案，不能作为冻结配置；
 3. 更强模型的确切版本尚未冻结；
 4. 80 个接受谱系及 67 个确认性谱系尚未形成；
-5. 非劣界、成本 CI 与零 unsafe 事件上界尚未进入自动统计代码；
+5. 非劣界、成本 CI、unsafe 不增门槛与零事件精确上界已进入自动统计代码，但尚待冻结数据上的正式运行；
 6. 配置、gold、split、代码和 schedule 的最终哈希尚未冻结。
 
 阻断项全部关闭前，任何运行只能标记为 pilot、diagnostic 或 engineering validation，不得进入论文主结果表。
