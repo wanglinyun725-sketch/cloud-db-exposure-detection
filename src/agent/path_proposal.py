@@ -179,6 +179,7 @@ def verify_path_proposal(
     *,
     certificate_method: str = "auto",
     exact_item_limit: int = 24,
+    provider_scope_gate: bool = True,
 ) -> dict[str, Any]:
     """Validate and CP-Cert one proposed path without mutating the proposal."""
     errors: list[str] = []
@@ -193,8 +194,14 @@ def verify_path_proposal(
         "certificate_audit": None,
         "path_ontology": ontology_reference(),
         "certificate_scope": (
-            "Internal structural, citation-visibility, provider-scope, "
-            "executable-test, and positive/negative evidence-cover certificate "
+            "Internal structural, citation-visibility, "
+            + (
+                "provider-scope, "
+                if provider_scope_gate
+                else "provider-scope-ablation-disabled, "
+            )
+            + "executable-test, and positive/negative evidence-cover "
+            "certificate "
             "only; broader semantic "
             "correctness must be scored against independent human gold or "
             "a separately frozen provider-oracle gold release."
@@ -209,6 +216,7 @@ def verify_path_proposal(
         normalized["evidence_assignments"],
         evidence_ledger,
         errors,
+        provider_scope_gate=provider_scope_gate,
     )
     report["evidence_items"] = [asdict(item) for item in evidence_items]
     if errors:
@@ -284,6 +292,8 @@ def evaluate_path_finish_proposal(
     proposal: Mapping[str, Any],
     evidence_ledger: Mapping[str, list[dict[str, Any]]],
     raw_refs_by_id: Mapping[str, dict[str, Any]],
+    *,
+    provider_scope_gate: bool = True,
 ) -> dict[str, Any]:
     """Evaluate finish content identically across orchestration backends.
 
@@ -313,6 +323,7 @@ def evaluate_path_finish_proposal(
     report = verify_path_proposal(
         proposal.get("path_candidate"),
         evidence_ledger,
+        provider_scope_gate=provider_scope_gate,
     )
     assignments = (
         (report.get("normalized_path") or {}).get(
@@ -563,6 +574,8 @@ def _build_evidence_items(
     assignments: list[dict[str, Any]],
     ledger: Mapping[str, list[dict[str, Any]]],
     errors: list[str],
+    *,
+    provider_scope_gate: bool = True,
 ) -> tuple[EvidenceItem, ...]:
     grouped: dict[tuple[int, str], dict[str, Any]] = {}
     for index, assignment in enumerate(assignments):
@@ -596,7 +609,8 @@ def _build_evidence_items(
         )
         polarity = assignment["polarity"]
         if (
-            provider_decision in {"allow", "deny"}
+            provider_scope_gate
+            and provider_decision in {"allow", "deny"}
             and isinstance(scope_completeness, str)
             and not _provider_scope_is_decisive(scope_completeness)
         ):

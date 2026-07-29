@@ -329,6 +329,39 @@ class PathProposalTests(unittest.TestCase):
             "non-decisive scope" in error for error in report["errors"]
         ))
 
+    def test_provider_scope_ablation_exposes_the_unsafe_counterfactual(self):
+        ledger = _ledger()
+        ledger["obs-2"][0]["visible_event"].update({
+            "provider_decision": "allow",
+            "scope_completeness": "incomplete_for_database_data_plane",
+        })
+        candidate = _candidate([{
+            "observation_id": "obs-2",
+            "call_id": 3,
+            "polarity": "support",
+            "edge_ids": ["e1", "e2"],
+            "test": {
+                "field": "provider_decision",
+                "operator": "eq",
+                "value": "allow",
+            },
+        }])
+
+        guarded = verify_path_proposal(candidate, ledger)
+        ablated = verify_path_proposal(
+            candidate,
+            ledger,
+            provider_scope_gate=False,
+        )
+
+        self.assertFalse(guarded["verified"])
+        self.assertTrue(ablated["verified"])
+        self.assertEqual("Valid", ablated["verdict"]["state"])
+        self.assertIn(
+            "provider-scope-ablation-disabled",
+            ablated["certificate_scope"],
+        )
+
     def test_visibility_ledger_records_only_policy_rendered_events(self):
         ledger = {}
         tool_output = {

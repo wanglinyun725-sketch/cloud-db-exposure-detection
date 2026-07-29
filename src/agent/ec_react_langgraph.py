@@ -69,6 +69,7 @@ class ECReactLangGraphRunner:
         external_rule_prior: bool = True,
         four_value_memory: bool = True,
         budget_stop: bool = True,
+        provider_scope_gate: bool = True,
         max_path_candidates: int = 5,
     ) -> None:
         if not HAS_LANGGRAPH:
@@ -95,6 +96,7 @@ class ECReactLangGraphRunner:
         self.external_rule_prior = external_rule_prior
         self.four_value_memory = four_value_memory
         self.budget_stop = budget_stop
+        self.provider_scope_gate = provider_scope_gate
         self.max_path_candidates = max_path_candidates
         self._environment: Any | None = None
         self._compiled = self._build_graph().compile(
@@ -184,6 +186,7 @@ class ECReactLangGraphRunner:
                 "external_rule_prior": self.external_rule_prior,
                 "four_value_memory": self.four_value_memory,
                 "budget_stop": self.budget_stop,
+                "provider_scope_gate": self.provider_scope_gate,
                 "finish_guard_mode": self.finish_guard_mode,
             },
             "path_candidate_limit": self.max_path_candidates,
@@ -577,6 +580,7 @@ class ECReactLangGraphRunner:
             proposal,
             evidence_ledger,
             raw_refs_by_id,
+            provider_scope_gate=self.provider_scope_gate,
         )
         report = evaluated["report"]
         if report is not None:
@@ -629,6 +633,7 @@ class ECReactLangGraphRunner:
             },
             evidence_ledger,
             raw_refs_by_id,
+            provider_scope_gate=self.provider_scope_gate,
         )
         report = evaluated["report"]
         ECReactRunner._append_path_report(path_candidates, report)

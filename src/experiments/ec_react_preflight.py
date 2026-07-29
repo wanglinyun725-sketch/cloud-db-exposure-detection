@@ -549,6 +549,9 @@ def _validate_method_fairness(
             "shared external_action_prior_id must equal "
             "sigma_cloud_operation_prior_v1"
         )
+    provider_scope_declared = any(
+        "provider_scope_gate" in method for method in methods
+    )
     for method in methods:
         if method.get("family") not in METHOD_FAMILIES:
             blockers.append(
@@ -575,6 +578,11 @@ def _validate_method_fairness(
             "external_rule_prior",
             "four_value_memory",
             "budget_stop",
+            *(
+                ("provider_scope_gate",)
+                if provider_scope_declared
+                else ()
+            ),
             "evidence_citation_guard",
         ):
             if not isinstance(method.get(component), bool):
@@ -596,6 +604,44 @@ def _validate_method_fairness(
                 f"{method.get('method_id')} evidence guard disagrees "
                 "with finish_guard_mode"
             )
+    if "ablate_provider_scope_gate" in method_ids:
+        by_id = {item.get("method_id"): item for item in methods}
+        full = by_id.get("ec_react_full")
+        ablated = by_id["ablate_provider_scope_gate"]
+        if full is None:
+            blockers.append(
+                "ablate_provider_scope_gate requires ec_react_full"
+            )
+        else:
+            compared_fields = (
+                "family",
+                "tool_schema_id",
+                "max_steps",
+                "max_path_candidates",
+                "output_contract_id",
+                "pareto_guard",
+                "external_rule_prior",
+                "four_value_memory",
+                "budget_stop",
+                "evidence_citation_guard",
+                "finish_guard_mode",
+            )
+            changed = [
+                field for field in compared_fields
+                if full.get(field) != ablated.get(field)
+            ]
+            if changed:
+                blockers.append(
+                    "ablate_provider_scope_gate changes non-scope fields: "
+                    + ", ".join(changed)
+                )
+            if (
+                full.get("provider_scope_gate") is not True
+                or ablated.get("provider_scope_gate") is not False
+            ):
+                blockers.append(
+                    "provider scope ablation must change only true to false"
+                )
 
 
 def _validate_release(
@@ -1225,6 +1271,21 @@ def _model_status(
             blockers.append(
                 f"model {model.get('model_id')} has no frozen model name"
             )
+        declared_digest = model.get("frozen_runtime_digest")
+        require_digest = model.get("require_runtime_digest") is True
+        digest_valid = (
+            isinstance(declared_digest, str)
+            and len(declared_digest) == 64
+            and all(
+                character in "0123456789abcdef"
+                for character in declared_digest.lower()
+            )
+        )
+        if require_digest and not digest_valid:
+            blockers.append(
+                f"model {model.get('model_id')} requires a valid frozen "
+                "runtime digest"
+            )
         output.append(
             {
                 "model_id": model.get("model_id"),
@@ -1232,6 +1293,10 @@ def _model_status(
                 "api_key_present": key_present,
                 "model": model_name,
                 "base_url": base_url,
+                "require_runtime_digest": require_digest,
+                "frozen_runtime_digest": (
+                    declared_digest if digest_valid else None
+                ),
             }
         )
     return output

@@ -93,6 +93,7 @@ class ECReactRunner:
         external_rule_prior: bool = True,
         four_value_memory: bool = True,
         budget_stop: bool = True,
+        provider_scope_gate: bool = True,
         max_path_candidates: int = 5,
     ) -> None:
         if max_steps <= 0:
@@ -114,6 +115,7 @@ class ECReactRunner:
         self.external_rule_prior = external_rule_prior
         self.four_value_memory = four_value_memory
         self.budget_stop = budget_stop
+        self.provider_scope_gate = provider_scope_gate
         self.max_path_candidates = max_path_candidates
 
     def run(
@@ -164,6 +166,7 @@ class ECReactRunner:
                     "external_rule_prior": self.external_rule_prior,
                     "four_value_memory": self.four_value_memory,
                     "budget_stop": self.budget_stop,
+                    "provider_scope_gate": self.provider_scope_gate,
                     "finish_guard_mode": self.finish_guard_mode,
                 },
                 "path_candidate_limit": self.max_path_candidates,
@@ -491,6 +494,7 @@ class ECReactRunner:
             proposal,
             evidence_ledger,
             raw_refs_by_id,
+            provider_scope_gate=self.provider_scope_gate,
         )
         report = evaluated["report"]
         if report is not None:
@@ -540,6 +544,7 @@ class ECReactRunner:
             },
             evidence_ledger,
             raw_refs_by_id,
+            provider_scope_gate=self.provider_scope_gate,
         )
         report = evaluated["report"]
         self._append_path_report(path_candidates, report)
@@ -1327,6 +1332,10 @@ class OllamaNativeReActPolicy:
             item["id"] for item in ontology["edge_types"]
         ]
         method_components = view.get("method_components") or {}
+        provider_scope_gate = method_components.get(
+            "provider_scope_gate",
+            True,
+        )
         decisive_provider_evidence: dict[str, str] = {}
         decisive_provider_events: dict[str, dict[str, Any]] = {}
         visible_provider_decisions: list[str] = []
@@ -1349,7 +1358,10 @@ class OllamaNativeReActPolicy:
                     if (
                         isinstance(observation_id, str)
                         and provider_decision in {"allow", "deny"}
-                        and _provider_scope_is_decisive(event)
+                        and (
+                            not provider_scope_gate
+                            or _provider_scope_is_decisive(event)
+                        )
                     ):
                         decisive_provider_evidence[observation_id] = (
                             provider_decision
