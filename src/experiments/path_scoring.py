@@ -78,6 +78,10 @@ def score_path_discovery(
         item for item in proposals if item.get("verified") is True
     ]
     proposal_rows = []
+    raw_fine_signatures = []
+    certified_fine_signatures = []
+    raw_invalid_edge_count = 0
+    certified_invalid_edge_count = 0
     matched_gold: set[str] = set()
     correct_ranks: list[int] = []
     for rank, proposal in enumerate(proposals, start=1):
@@ -92,6 +96,17 @@ def score_path_discovery(
             proposal.get("normalized_path"),
             representation="coarse",
         )
+        raw_edge_count = _raw_edge_count(
+            proposal.get("normalized_path")
+        )
+        if signature is None:
+            raw_invalid_edge_count += raw_edge_count
+            if proposal.get("verified"):
+                certified_invalid_edge_count += raw_edge_count
+        else:
+            raw_fine_signatures.append(signature)
+            if proposal.get("verified"):
+                certified_fine_signatures.append(signature)
         exact_gold_ids = sorted(
             path_id
             for path_id, gold_signature in valid_gold_signatures.items()
@@ -182,8 +197,18 @@ def score_path_discovery(
     )
     overall_state = instance_label["overall_state"]
     no_certified_positive = not certified
+    certified_fine_scores = _edge_set_scores(
+        certified_fine_signatures,
+        list(valid_gold_signatures.values()),
+        invalid_predicted_edge_count=certified_invalid_edge_count,
+    )
+    raw_fine_scores = _edge_set_scores(
+        raw_fine_signatures,
+        list(valid_gold_signatures.values()),
+        invalid_predicted_edge_count=raw_invalid_edge_count,
+    )
     return {
-        "scoring_version": "0.3",
+        "scoring_version": "0.4",
         "path_ontology": ontology_reference(),
         "case_id": evaluation_metadata["case_id"],
         "instance_id": evaluation_metadata["instance_id"],
@@ -236,6 +261,16 @@ def score_path_discovery(
             if proposal_rows
             else 0.0
         ),
+        "certified_fine_edge_precision_at_k": certified_fine_scores[
+            "precision"
+        ],
+        "certified_fine_edge_recall_at_k": certified_fine_scores[
+            "recall"
+        ],
+        "certified_fine_edge_f1_at_k": certified_fine_scores["f1"],
+        "raw_fine_edge_precision_at_k": raw_fine_scores["precision"],
+        "raw_fine_edge_recall_at_k": raw_fine_scores["recall"],
+        "raw_fine_edge_f1_at_k": raw_fine_scores["f1"],
         "ontology_invalid_predicted_path_rate": (
             ontology_invalid_count / len(proposals) if proposals else 0.0
         ),
@@ -274,6 +309,65 @@ def score_path_discovery(
             "analyses only."
         ),
     }
+
+
+def _edge_set_scores(
+    predicted_signatures: list[
+        tuple[tuple[str, ...], tuple[str, ...]]
+    ],
+    gold_signatures: list[
+        tuple[tuple[str, ...], tuple[str, ...]]
+    ],
+    *,
+    invalid_predicted_edge_count: int = 0,
+) -> dict[str, float | None]:
+    """Micro precision/recall/F1 over canonical transition multisets.
+
+    All certified top-K paths contribute to the predicted denominator, so
+    emitting extra alternatives cannot improve recall without a precision
+    cost. Ontology-invalid raw edges count as unmatched predictions.
+    Negative/Unknown instances have no valid gold edge set and therefore
+    return ``None`` instead of inflating path F1 through empty-set matches.
+    """
+    predicted: dict[tuple[str, str, str], int] = {}
+    gold: dict[tuple[str, str, str], int] = {}
+    for signature in predicted_signatures:
+        _merge_multiset(predicted, _transition_multiset(*signature))
+    for signature in gold_signatures:
+        _merge_multiset(gold, _transition_multiset(*signature))
+    if not gold:
+        return {"precision": None, "recall": None, "f1": None}
+    matched = sum(
+        min(predicted.get(key, 0), gold.get(key, 0))
+        for key in set(predicted) | set(gold)
+    )
+    predicted_total = (
+        sum(predicted.values()) + invalid_predicted_edge_count
+    )
+    gold_total = sum(gold.values())
+    precision = matched / predicted_total if predicted_total else 0.0
+    recall = matched / gold_total
+    f1 = (
+        2 * precision * recall / (precision + recall)
+        if precision + recall
+        else 0.0
+    )
+    return {"precision": precision, "recall": recall, "f1": f1}
+
+
+def _merge_multiset(
+    target: dict[tuple[str, str, str], int],
+    source: dict[tuple[str, str, str], int],
+) -> None:
+    for key, count in source.items():
+        target[key] = target.get(key, 0) + count
+
+
+def _raw_edge_count(path: Any) -> int:
+    if not isinstance(path, Mapping):
+        return 0
+    edges = path.get("edges")
+    return len(edges) if isinstance(edges, list) else 0
 
 
 def _gold_signature(

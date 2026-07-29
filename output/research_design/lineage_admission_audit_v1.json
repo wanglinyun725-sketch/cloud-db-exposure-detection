@@ -1,0 +1,2316 @@
+{
+  "audit_version": "1.0",
+  "label_blind": true,
+  "generated_gold_labels": 0,
+  "packet_kind": "expanded_unlabeled_human_annotation_workspace",
+  "case_count": 150,
+  "independence_group_count": 113,
+  "group_class_counts": {
+    "runtime_annotation_ready": 32,
+    "static_needs_runtime_or_provider_oracle": 81
+  },
+  "runtime_annotation_ready_groups": 32,
+  "runtime_ready_platform_group_counts": {
+    "AWS": 31,
+    "AZURE": 13,
+    "GCP": 12
+  },
+  "runtime_ready_source_group_counts": {
+    "cloudgoat": 1,
+    "cross_cloud_observability_2026": 12,
+    "splunk_attack_data": 8,
+    "stratus_red_team": 11
+  },
+  "runtime_ready_source_count": 4,
+  "target_gap": {
+    "operational_target_groups": 80,
+    "confirmatory_target_groups": 67,
+    "runtime_ready_gap_to_operational_target": 48,
+    "runtime_ready_gap_to_confirmatory_target": 35
+  },
+  "integrity": {
+    "verified_unique_refs": 45,
+    "case_blocker_count": 0,
+    "group_blocker_count": 0,
+    "runtime_fingerprint_collision_group_count": 2
+  },
+  "groups": [
+    {
+      "independence_group": "cloudfoxable-challenge:Backwards",
+      "case_ids": [
+        "cloudfoxable:aws:Backwards"
+      ],
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudfoxable-challenge:Double Tap",
+      "case_ids": [
+        "cloudfoxable:aws:Double Tap"
+      ],
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudfoxable-challenge:It's a secret",
+      "case_ids": [
+        "cloudfoxable:aws:It's a secret"
+      ],
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudfoxable-challenge:It's another secret",
+      "case_ids": [
+        "cloudfoxable:aws:It's another secret"
+      ],
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudfoxable-challenge:Needles",
+      "case_ids": [
+        "cloudfoxable:aws:Needles"
+      ],
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudfoxable-challenge:Pain",
+      "case_ids": [
+        "cloudfoxable:aws:Pain"
+      ],
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudfoxable-challenge:Search 1",
+      "case_ids": [
+        "cloudfoxable:aws:Search 1"
+      ],
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudfoxable-challenge:Trust me",
+      "case_ids": [
+        "cloudfoxable:aws:Trust me"
+      ],
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:agentcore_identity_confusion",
+      "case_ids": [
+        "cloudgoat:aws:agentcore_identity_confusion"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:beanstalk_secrets",
+      "case_ids": [
+        "cloudgoat:aws:beanstalk_secrets"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:bedrock_agent_hijacking",
+      "case_ids": [
+        "cloudgoat:aws:bedrock_agent_hijacking"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:cloud_breach_s3",
+      "case_ids": [
+        "cloudgoat:aws:cloud_breach_s3"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:codebuild_secrets",
+      "case_ids": [
+        "cloudgoat:aws:codebuild_secrets"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:data_secrets",
+      "case_ids": [
+        "cloudgoat:aws:data_secrets"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:datafactory_secret_theft",
+      "case_ids": [
+        "cloudgoat:azure:datafactory_secret_theft"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:detection_evasion",
+      "case_ids": [
+        "cloudgoat:aws:detection_evasion"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:ec2_ssrf",
+      "case_ids": [
+        "cloudgoat:aws:ec2_ssrf"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:ecs_efs_attack",
+      "case_ids": [
+        "cloudgoat:aws:ecs_efs_attack"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:ecs_privesc_evade_protection",
+      "case_ids": [
+        "cloudgoat:aws:ecs_privesc_evade_protection"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:federated_console_takeover",
+      "case_ids": [
+        "cloudgoat:aws:federated_console_takeover"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:glue_privesc",
+      "case_ids": [
+        "cloudgoat:aws:glue_privesc"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:iam_enum_basics",
+      "case_ids": [
+        "cloudgoat:aws:iam_enum_basics"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:iam_privesc_by_key_rotation",
+      "case_ids": [
+        "cloudgoat:aws:iam_privesc_by_key_rotation"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:iam_privesc_by_rollback",
+      "case_ids": [
+        "cloudgoat:aws:iam_privesc_by_rollback"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:lambda_privesc",
+      "case_ids": [
+        "cloudgoat:aws:lambda_privesc"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:rce_web_app",
+      "case_ids": [
+        "cloudgoat:aws:rce_web_app"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:rds_snapshot",
+      "case_ids": [
+        "cloudgoat:aws:rds_snapshot"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:s3_version_rollback_via_cfn",
+      "case_ids": [
+        "cloudgoat:aws:s3_version_rollback_via_cfn"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:secrets_in_the_cloud",
+      "case_ids": [
+        "cloudgoat:aws:secrets_in_the_cloud"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:sns_secrets",
+      "case_ids": [
+        "cloudgoat:aws:sns_secrets"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:sqs_flag_shop",
+      "case_ids": [
+        "cloudgoat:aws:sqs_flag_shop"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:vpc_peering_overexposed",
+      "case_ids": [
+        "cloudgoat:aws:vpc_peering_overexposed"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:vulnerable_cognito",
+      "case_ids": [
+        "cloudgoat:aws:vulnerable_cognito"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "cloudgoat-scenario:vulnerable_lambda",
+      "case_ids": [
+        "cloudgoat:aws:vulnerable_lambda"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "case_ids": [
+        "crosscloud:aws:archive_collected_data",
+        "crosscloud:azure:archive_collected_data",
+        "crosscloud:gcp:archive_collected_data"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "case_count": 3,
+      "runtime_case_count": 3,
+      "runtime_instance_count": 6,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "crosscloud-family:automated_collection",
+      "case_ids": [
+        "crosscloud:aws:automated_collection",
+        "crosscloud:azure:automated_collection",
+        "crosscloud:gcp:automated_collection"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "case_count": 3,
+      "runtime_case_count": 3,
+      "runtime_instance_count": 6,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "case_ids": [
+        "crosscloud:aws:automated_exfiltration",
+        "crosscloud:azure:automated_exfiltration",
+        "crosscloud:gcp:automated_exfiltration"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "case_count": 3,
+      "runtime_case_count": 3,
+      "runtime_instance_count": 6,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "case_ids": [
+        "crosscloud:aws:credentials_from_password_stores",
+        "crosscloud:azure:credentials_from_password_stores",
+        "crosscloud:gcp:credentials_from_password_stores"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "case_count": 3,
+      "runtime_case_count": 3,
+      "runtime_instance_count": 5,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "crosscloud-family:data_destruction",
+      "case_ids": [
+        "crosscloud:aws:data_destruction",
+        "crosscloud:azure:data_destruction",
+        "crosscloud:gcp:data_destruction"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "case_count": 3,
+      "runtime_case_count": 3,
+      "runtime_instance_count": 6,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "case_ids": [
+        "crosscloud:aws:data_encrypted_for_impact",
+        "crosscloud:azure:data_encrypted_for_impact",
+        "crosscloud:gcp:data_encrypted_for_impact"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "case_count": 3,
+      "runtime_case_count": 3,
+      "runtime_instance_count": 6,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "crosscloud-family:data_manipulation",
+      "case_ids": [
+        "crosscloud:aws:data_manipulation",
+        "crosscloud:azure:data_manipulation",
+        "crosscloud:gcp:data_manipulation"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "case_count": 3,
+      "runtime_case_count": 3,
+      "runtime_instance_count": 6,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": [
+        "runtime_sequence_collides_with_another_independence_group"
+      ]
+    },
+    {
+      "independence_group": "crosscloud-family:data_staged",
+      "case_ids": [
+        "crosscloud:aws:data_staged",
+        "crosscloud:azure:data_staged",
+        "crosscloud:gcp:data_staged"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "case_count": 3,
+      "runtime_case_count": 3,
+      "runtime_instance_count": 6,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": [
+        "runtime_sequence_collides_with_another_independence_group"
+      ]
+    },
+    {
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "case_ids": [
+        "crosscloud:aws:inhibit_system_recovery",
+        "crosscloud:azure:inhibit_system_recovery",
+        "crosscloud:gcp:inhibit_system_recovery"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "case_count": 3,
+      "runtime_case_count": 3,
+      "runtime_instance_count": 6,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "case_ids": [
+        "crosscloud:aws:scheduled_transfer",
+        "crosscloud:azure:scheduled_transfer",
+        "crosscloud:gcp:scheduled_transfer"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "case_count": 3,
+      "runtime_case_count": 3,
+      "runtime_instance_count": 6,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "case_ids": [
+        "crosscloud:aws:steal_application_access_token",
+        "crosscloud:azure:steal_application_access_token",
+        "crosscloud:gcp:steal_application_access_token"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "case_count": 3,
+      "runtime_case_count": 3,
+      "runtime_instance_count": 6,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "case_ids": [
+        "crosscloud:aws:unsecured_credentials",
+        "crosscloud:azure:unsecured_credentials",
+        "crosscloud:gcp:unsecured_credentials"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "case_count": 3,
+      "runtime_case_count": 3,
+      "runtime_instance_count": 5,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:campaign--75ea699b-bff5-4541-b9b7-df4996c9db3c",
+      "case_ids": [
+        "relationship--9558b7a7-f58b-4b6f-a1f5-8a7cdab03279"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:campaign--78068e68-4124-4243-b6f4-76e4e5be8a06",
+      "case_ids": [
+        "relationship--3d4490e3-d3fe-4c2e-8c41-69ebbf8d060e"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:intrusion-set--2a7914cf-dff3-428d-ab0f-1014d1c28aeb",
+      "case_ids": [
+        "relationship--b1c49faa-0b6f-4a0e-85da-5ab8ddeab2ce"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:intrusion-set--44d37b89-a739-4810-9111-0d2617a8939b",
+      "case_ids": [
+        "relationship--dc10559e-6a98-4a5f-abcd-adff67bfb1cd"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:intrusion-set--7b404cd0-3ae9-41d4-90c0-023793d35d97",
+      "case_ids": [
+        "relationship--35589283-3028-444b-94d1-9b64ae6d8487",
+        "relationship--529460a7-ddd1-406c-bbef-ae2ec4eb4c02"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 2,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:intrusion-set--82323c70-4186-4b61-94f5-b227c3b28e89",
+      "case_ids": [
+        "relationship--abbf5417-5112-424d-85f4-e4622675b319"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:intrusion-set--b8137919-38cb-4db0-90f3-437be885faba",
+      "case_ids": [
+        "relationship--6c83315d-c8b5-4ab8-b345-3c79b11d690a"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:malware--8fc6c9e7-a162-4ca4-a488-f1819e9a7b06",
+      "case_ids": [
+        "relationship--1cfc5611-b428-4fce-8b8d-f591523c9d9c"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:malware--d9f7383c-95ec-4080-bbce-121c9384457b",
+      "case_ids": [
+        "relationship--dcd5b361-b86b-47c7-8ce8-85918e00a224"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:malware--de376fb9-1093-4f59-8d13-aed61042701d",
+      "case_ids": [
+        "relationship--68929916-ab9f-4078-b959-e500f8cab3b8"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+      "case_ids": [
+        "relationship--64d9fee3-d0c8-40e5-b295-d43ec719bb81",
+        "relationship--804f7690-6bf2-41dc-a6d2-59c3d4394ce5",
+        "relationship--bb3c2843-b51f-4cfd-8189-0312337b8eb3",
+        "relationship--d4fa4797-aec0-419b-83d8-8b06ea3ac06d"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 4,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:tool--59096109-a1dd-463b-87e7-a8d110fe3a79",
+      "case_ids": [
+        "relationship--1ae24ad1-8730-4a38-8d68-dd57b335b9b4"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:tool--76f8a686-3157-481f-9af6-e8558883a8d6",
+      "case_ids": [
+        "relationship--2286eded-7606-46df-a469-c5240f21ed75",
+        "relationship--7e7151b1-8407-4cac-a843-f2605fb25377",
+        "relationship--ee1effa5-b256-4a6a-b7da-2d9066d7dccd"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 3,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "mitre-source-object:tool--79dd477a-8226-4b3d-ad15-28623675f221",
+      "case_ids": [
+        "relationship--2cf91706-674a-4ae0-8a4c-0d8d43eb6e1a"
+      ],
+      "source_ids": [
+        "mitre_attack_stix"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "splunk-technique:T1098.001",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AZURE"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "splunk-technique:T1110.002",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "splunk-technique:T1486",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1486/s3_file_encryption"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "splunk-technique:T1490",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1490/aws_bucket_version"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "splunk-technique:T1530",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1530/aws_s3_public_bucket"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "splunk-technique:T1537",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+        "splunk:datasets/attack_techniques/T1537/aws_snapshot_exfil"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 2,
+      "runtime_case_count": 2,
+      "runtime_instance_count": 2,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus-technique:T1485.A003",
+      "case_ids": [
+        "stratus:aws.impact.s3-ransomware-batch-deletion",
+        "stratus:aws.impact.s3-ransomware-client-side-encryption",
+        "stratus:aws.impact.s3-ransomware-individual-deletion"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 3,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus-technique:T1496.A007",
+      "case_ids": [
+        "stratus:aws.exfiltration.rds-share-snapshot"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus-technique:T1552.005",
+      "case_ids": [
+        "stratus:aws.credential-access.ec2-steal-instance-credentials"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus-technique:T1562",
+      "case_ids": [
+        "stratus:gcp.defense-evasion.delete-logging-sink",
+        "stratus:gcp.defense-evasion.disable-audit-logs",
+        "stratus:gcp.defense-evasion.disable-logging-sink",
+        "stratus:gcp.defense-evasion.reduce-sink-log-retention"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 4,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus-technique:T1562.008",
+      "case_ids": [
+        "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+        "stratus:aws.defense-evasion.cloudtrail-lifecycle-rule"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "B",
+        "C"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 2,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus-technique:T1578.001",
+      "case_ids": [
+        "stratus:aws.exfiltration.ec2-share-ebs-snapshot"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ec2-get-password-data",
+      "case_ids": [
+        "stratus:aws.credential-access.ec2-get-password-data"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "case_ids": [
+        "stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "case_ids": [
+        "stratus:aws.credential-access.secretsmanager-retrieve-secrets"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+      "case_ids": [
+        "stratus:aws.credential-access.ssm-retrieve-securestring-parameters"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs",
+      "case_ids": [
+        "stratus:aws.defense-evasion.dns-delete-logs"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.discovery.ec2-download-user-data",
+      "case_ids": [
+        "stratus:aws.discovery.ec2-download-user-data"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.discovery.ec2-enumerate-from-instance",
+      "case_ids": [
+        "stratus:aws.discovery.ec2-enumerate-from-instance"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.exfiltration.ec2-share-ami",
+      "case_ids": [
+        "stratus:aws.exfiltration.ec2-share-ami"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "B"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "case_count": 1,
+      "runtime_case_count": 1,
+      "runtime_instance_count": 1,
+      "admission_class": "runtime_annotation_ready",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.exfiltration.s3-backdoor-bucket-policy",
+      "case_ids": [
+        "stratus:aws.exfiltration.s3-backdoor-bucket-policy"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:azure.credential-access.app-service-publishing-credentials",
+      "case_ids": [
+        "stratus:azure.credential-access.app-service-publishing-credentials"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:azure.exfiltration.disk-export",
+      "case_ids": [
+        "stratus:azure.exfiltration.disk-export"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:azure.exfiltration.storage-public-access",
+      "case_ids": [
+        "stratus:azure.exfiltration.storage-public-access"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:azure.exfiltration.storage-sas-export",
+      "case_ids": [
+        "stratus:azure.exfiltration.storage-sas-export"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:azure.impact.blob-ransomware-client-encryption-scope",
+      "case_ids": [
+        "stratus:azure.impact.blob-ransomware-client-encryption-scope"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:azure.impact.blob-ransomware-cpek",
+      "case_ids": [
+        "stratus:azure.impact.blob-ransomware-cpek"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:azure.impact.blob-ransomware-individual-file-deletion",
+      "case_ids": [
+        "stratus:azure.impact.blob-ransomware-individual-file-deletion"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:azure.impact.blob-ransomware-service-storage-cmk",
+      "case_ids": [
+        "stratus:azure.impact.blob-ransomware-service-storage-cmk"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:azure.impact.resource-lock",
+      "case_ids": [
+        "stratus:azure.impact.resource-lock"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:azure.persistence.backdoor-managed-identity-fic",
+      "case_ids": [
+        "stratus:azure.persistence.backdoor-managed-identity-fic"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:entra-id.persistence.backdoor-application",
+      "case_ids": [
+        "stratus:entra-id.persistence.backdoor-application"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:entra-id.persistence.backdoor-application-fic",
+      "case_ids": [
+        "stratus:entra-id.persistence.backdoor-application-fic"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:entra-id.persistence.backdoor-application-sp",
+      "case_ids": [
+        "stratus:entra-id.persistence.backdoor-application-sp"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:entra-id.persistence.new-application",
+      "case_ids": [
+        "stratus:entra-id.persistence.new-application"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:gcp.credential-access.secretmanager-retrieve-secrets",
+      "case_ids": [
+        "stratus:gcp.credential-access.secretmanager-retrieve-secrets"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:gcp.defense-evasion.remove-vpc-flow-logs",
+      "case_ids": [
+        "stratus:gcp.defense-evasion.remove-vpc-flow-logs"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:gcp.discovery.download-instance-metadata",
+      "case_ids": [
+        "stratus:gcp.discovery.download-instance-metadata"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:gcp.discovery.enumerate-permissions",
+      "case_ids": [
+        "stratus:gcp.discovery.enumerate-permissions"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:gcp.execution.modify-vertex-notebook-startup",
+      "case_ids": [
+        "stratus:gcp.execution.modify-vertex-notebook-startup"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:gcp.exfiltration.share-compute-disk",
+      "case_ids": [
+        "stratus:gcp.exfiltration.share-compute-disk"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:gcp.exfiltration.share-compute-image",
+      "case_ids": [
+        "stratus:gcp.exfiltration.share-compute-image"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:gcp.exfiltration.share-compute-snapshot",
+      "case_ids": [
+        "stratus:gcp.exfiltration.share-compute-snapshot"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:gcp.impact.gcs-ransomware-client-side-encryption",
+      "case_ids": [
+        "stratus:gcp.impact.gcs-ransomware-client-side-encryption"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:gcp.impact.gcs-ransomware-individual-deletion",
+      "case_ids": [
+        "stratus:gcp.impact.gcs-ransomware-individual-deletion"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:gcp.initial-access.use-compute-sa-outside-gcp",
+      "case_ids": [
+        "stratus:gcp.initial-access.use-compute-sa-outside-gcp"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:k8s.credential-access.dump-secrets",
+      "case_ids": [
+        "stratus:k8s.credential-access.dump-secrets"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:k8s.credential-access.steal-serviceaccount-token",
+      "case_ids": [
+        "stratus:k8s.credential-access.steal-serviceaccount-token"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:k8s.persistence.create-admin-clusterrole",
+      "case_ids": [
+        "stratus:k8s.persistence.create-admin-clusterrole"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:k8s.persistence.create-client-certificate",
+      "case_ids": [
+        "stratus:k8s.persistence.create-client-certificate"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:k8s.privilege-escalation.nodes-proxy",
+      "case_ids": [
+        "stratus:k8s.privilege-escalation.nodes-proxy"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "provenance_levels": [
+        "C"
+      ],
+      "platforms": [],
+      "case_count": 1,
+      "runtime_case_count": 0,
+      "runtime_instance_count": 0,
+      "admission_class": "static_needs_runtime_or_provider_oracle",
+      "blockers": [],
+      "warnings": []
+    }
+  ]
+}

@@ -19,6 +19,17 @@ METRIC_KEYS = {
     "mean_query_cost": "query_cost",
     "literal_exact_path_match": "literal_exact_path_match",
     "coarse_exact_path_match": "coarse_exact_path_match",
+    "certified_fine_edge_precision_at_5": (
+        "certified_fine_edge_precision_at_k"
+    ),
+    "certified_fine_edge_recall_at_5": (
+        "certified_fine_edge_recall_at_k"
+    ),
+    "certified_fine_edge_f1_at_5": "certified_fine_edge_f1_at_k",
+    "raw_fine_edge_precision_at_5": "raw_fine_edge_precision_at_k",
+    "raw_fine_edge_recall_at_5": "raw_fine_edge_recall_at_k",
+    "raw_fine_edge_f1_at_5": "raw_fine_edge_f1_at_k",
+    "mean_best_fine_edge_f1": "mean_best_edge_f1",
     "mean_best_coarse_edge_f1": "mean_best_coarse_edge_f1",
     "ontology_invalid_predicted_path_rate": (
         "ontology_invalid_predicted_path_rate"
