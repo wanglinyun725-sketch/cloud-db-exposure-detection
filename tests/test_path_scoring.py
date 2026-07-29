@@ -88,6 +88,23 @@ class PathScoringTests(unittest.TestCase):
         self.assertEqual(0.5, score["semantic_false_path_rate"])
         self.assertAlmostEqual(1 / 3, score["unsupported_evidence_rate"])
         self.assertAlmostEqual(2 / 3, score["hallucinated_path_rate"])
+        self.assertAlmostEqual(
+            0.5,
+            score["certified_fine_edge_precision_at_k"],
+        )
+        self.assertEqual(
+            1.0,
+            score["certified_fine_edge_recall_at_k"],
+        )
+        self.assertAlmostEqual(
+            2 / 3,
+            score["certified_fine_edge_f1_at_k"],
+        )
+        self.assertAlmostEqual(
+            1 / 3,
+            score["raw_fine_edge_precision_at_k"],
+        )
+        self.assertEqual(0.5, score["raw_fine_edge_f1_at_k"])
         self.assertEqual(7, score["query_cost"])
 
     def test_certified_but_wrong_path_does_not_match_gold(self):
@@ -103,6 +120,10 @@ class PathScoringTests(unittest.TestCase):
         self.assertEqual(0.0, score["valid_path_recall_at_k"])
         self.assertFalse(score["exact_path_match"])
         self.assertEqual(1.0, score["semantic_false_path_rate"])
+        self.assertEqual(
+            0.0,
+            score["certified_fine_edge_f1_at_k"],
+        )
 
     def test_empty_prediction_is_correct_rejection_only_for_invalid_gold(self):
         score = score_path_discovery(
@@ -115,6 +136,7 @@ class PathScoringTests(unittest.TestCase):
 
         self.assertTrue(score["correct_rejection"])
         self.assertIsNone(score["valid_path_recall_at_k"])
+        self.assertIsNone(score["certified_fine_edge_f1_at_k"])
 
     def test_explicit_aliases_match_canonical_fine_types_not_literal_strings(self):
         metadata = _metadata()
@@ -159,6 +181,42 @@ class PathScoringTests(unittest.TestCase):
         self.assertTrue(score["coarse_exact_path_match"])
         self.assertFalse(score["proposal_rows"][0]["semantic_match"])
         self.assertEqual(1.0, score["semantic_false_path_rate"])
+        self.assertEqual(
+            0.0,
+            score["certified_fine_edge_f1_at_k"],
+        )
+
+    def test_invalid_ontology_edges_count_as_unmatched_predictions(self):
+        result = {
+            "decision": "unverified_paths_proposed",
+            "path_candidates": [
+                _proposal(
+                    ["Identity", "not_a_node_type"],
+                    "not_an_edge_type",
+                    True,
+                ),
+                _proposal(
+                    ["Identity", "Database"],
+                    "data_access",
+                    True,
+                ),
+            ],
+        }
+
+        score = score_path_discovery(result, _metadata())
+
+        self.assertEqual(
+            0.5,
+            score["certified_fine_edge_precision_at_k"],
+        )
+        self.assertEqual(
+            1.0,
+            score["certified_fine_edge_recall_at_k"],
+        )
+        self.assertAlmostEqual(
+            2 / 3,
+            score["certified_fine_edge_f1_at_k"],
+        )
 
 
 if __name__ == "__main__":

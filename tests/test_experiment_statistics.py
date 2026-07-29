@@ -235,6 +235,32 @@ class ExperimentStatisticsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "required slice"):
             analyze_frozen_runs(_records(), config)
 
+    def test_fine_edge_f1_is_supported_as_confirmatory_metric(self):
+        config = _config()
+        config["reporting"]["primary_metrics"] = [
+            "certified_fine_edge_f1_at_5",
+        ]
+        records = _records()
+        for record in records:
+            record["score"]["certified_fine_edge_f1_at_k"] = (
+                0.8
+                if record["method_id"] == "ec_react_full"
+                else 0.5
+            )
+
+        report = analyze_frozen_runs(records, config)
+
+        comparisons = report["paired_comparisons"]
+        self.assertEqual(1, len(comparisons))
+        self.assertEqual(
+            "certified_fine_edge_f1_at_5",
+            comparisons[0]["metric"],
+        )
+        self.assertAlmostEqual(
+            0.3,
+            comparisons[0]["favorable_effect"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
