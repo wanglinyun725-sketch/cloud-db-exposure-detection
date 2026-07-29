@@ -104,6 +104,40 @@ def _source_records():
     return rows
 
 
+def _efficiency_records():
+    rows = []
+    for index in range(8):
+        group = f"g{index}"
+        for method, model, f1, cost in (
+            ("ec_react_full", "model-a", 0.78, 6.0),
+            ("vanilla_react", "model-a", 0.70, 8.0),
+            ("full_query", None, 0.80, 10.0),
+        ):
+            run_id = f"{method}-{group}"
+            rows.append({
+                "run_id": run_id,
+                "schedule_id": "schedule-" + run_id,
+                "research_effectiveness_result": True,
+                "human_gold_used_for_scoring_only": True,
+                "config_sha256": "c" * 64,
+                "method_id": method,
+                "model_id": model,
+                "budget": 20,
+                "split": "test",
+                "independence_group": group,
+                "case_id": "case-" + group,
+                "instance_id": "instance-" + group,
+                "score": {
+                    "certified_fine_edge_f1_at_k": f1,
+                    "query_cost": cost,
+                    "unsafe_false_reachable": (
+                        method == "vanilla_react" and index == 0
+                    ),
+                },
+            })
+    return rows
+
+
 class ExperimentStatisticsTests(unittest.TestCase):
     def test_repeats_and_instances_are_collapsed_before_group_inference(self):
         report = analyze_frozen_runs(_records(), _config())
@@ -259,6 +293,60 @@ class ExperimentStatisticsTests(unittest.TestCase):
         self.assertAlmostEqual(
             0.3,
             comparisons[0]["favorable_effect"],
+        )
+
+    def test_preregistered_efficiency_and_zero_event_gates_are_reported(self):
+        config = _config()
+        config["methods"] = [
+            {"method_id": "ec_react_full", "family": "llm"},
+            {"method_id": "vanilla_react", "family": "llm"},
+            {"method_id": "full_query", "family": "deterministic"},
+        ]
+        config["reporting"] = {
+            "primary_metrics": ["certified_fine_edge_f1_at_5"],
+            "secondary_metrics": [
+                "mean_query_cost",
+                "unsafe_false_reachable",
+            ],
+            "efficiency_gates": {
+                "accuracy_baseline_method_id": "full_query",
+                "accuracy_metric": "certified_fine_edge_f1_at_5",
+                "cost_metric": "mean_query_cost",
+                "noninferiority_margin": -0.05,
+                "minimum_mean_cost_reduction_fraction": 0.20,
+            },
+            "success_gates": {
+                "unsafe_false_reachable_must_not_increase": True,
+            },
+        }
+
+        report = analyze_frozen_runs(_efficiency_records(), config)
+
+        evaluations = report["efficiency_gate_evaluations"]["evaluations"]
+        self.assertEqual(1, len(evaluations))
+        gate = evaluations[0]
+        self.assertAlmostEqual(-0.02, gate["mean_accuracy_difference"])
+        self.assertAlmostEqual(0.40, gate["mean_cost_reduction_fraction"])
+        self.assertTrue(gate["accuracy_noninferiority_pass"])
+        self.assertTrue(gate["cost_reduction_pass"])
+        self.assertTrue(gate["efficiency_claim_pass"])
+
+        safety = {
+            (item["method_id"], item["model_id"]): item
+            for item in report["safety_error_summaries"]
+        }
+        full = safety[("ec_react_full", "model-a")]
+        self.assertEqual(0, full["lineages_with_at_least_one_event"])
+        self.assertAlmostEqual(
+            1 - 0.05 ** (1 / 8),
+            full["zero_event_exact_one_sided_upper"],
+        )
+        safety_gates = report["safety_gate_evaluations"]["evaluations"]
+        self.assertEqual(1, len(safety_gates))
+        self.assertTrue(
+            safety_gates[0][
+                "unsafe_false_reachable_must_not_increase_pass"
+            ]
         )
 
 
