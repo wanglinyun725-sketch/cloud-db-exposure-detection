@@ -1,0 +1,123 @@
+{
+  "preflight_version": "0.1",
+  "experiment_id": "ec_react_main_v2",
+  "config_path": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\configs\\ec_react_main_v2_draft.yaml",
+  "config_sha256": "d8b96ad830b77f8d9bf3f32f92d22ba7420fe71e9c24c7336148a53259486828",
+  "source_packet_sha256": "65347523b2f934c333e1512ec3bc9b78b90309019b755e76fad3786ba51ea12e",
+  "source_candidate_cases": 150,
+  "source_independence_groups": 113,
+  "source_runtime_data_quality": {
+    "require_nonempty": true,
+    "runtime_instances": 91,
+    "nonempty_runtime_instances": 91,
+    "empty_runtime_instances": 0,
+    "empty_runtime_instance_ids": [],
+    "shape_error_count": 0,
+    "shape_errors": []
+  },
+  "data": {
+    "source_packet": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\expanded_full_pool_v0_5_unlabeled.json",
+    "gold_release": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\expanded_full_pool_v0_5_reviewed.json",
+    "split_manifest": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\expanded_full_pool_v0_5_splits.json",
+    "negative_source_packet": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\negative_control_round1_unlabeled.json",
+    "negative_gold_release": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\negative_control_round1_reviewed.json",
+    "annotation_pilot_packet": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\runtime_pilot_round2_unlabeled.json",
+    "annotation_pilot_release": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\runtime_pilot_round2_reviewed.json",
+    "annotation_pilot_gate": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\configs\\human_annotation_pilot_gate_v2.json"
+  },
+  "release_summary": {
+    "finalized_cases": 0,
+    "included_cases": 0,
+    "included_independence_groups": 0,
+    "runtime_backed_included_cases": 0,
+    "included_runtime_instances": 0,
+    "instance_labels": 0,
+    "reviewed": 0,
+    "adjudicated": 0,
+    "needs_execution": 0,
+    "rejected": 0
+  },
+  "path_ontology": {
+    "configured": true,
+    "path": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\configs\\path_ontology_v1.json",
+    "reference": {
+      "ontology_id": "cloud_data_path_v1",
+      "version": "1.0.0",
+      "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+    },
+    "node_types": 16,
+    "edge_types": 27,
+    "primary_match": "canonical_fine_exact",
+    "coarse_match_reporting": "sensitivity_only"
+  },
+  "external_action_prior": {
+    "configured": true,
+    "path": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\configs\\sigma_cloud_operation_prior_v1.json",
+    "reference": {
+      "prior_id": "sigma_cloud_operation_prior_v1",
+      "version": "1.0.0",
+      "sha256": "065e031df3088876208b00fb9252029a028f19caea18e89f74b2234bb717302b",
+      "source_id": "sigmahq_cloud_rules",
+      "source_archive_sha256": "eea217c0b05ee1571cca2efaf25cb13512520e2f5e6cab87478b4bf5e001bd81"
+    },
+    "rules_total": 211,
+    "rules_with_operation_patterns": 114,
+    "patterns": 278,
+    "label_usage": "none",
+    "weighting": "none"
+  },
+  "negative_release_summary": {
+    "finalized_cases": 0,
+    "usable_negative_controls": 0,
+    "usable_runtime_instances": 0,
+    "reviewed": 0,
+    "adjudicated": 0,
+    "rejected": 0
+  },
+  "annotation_pilot_gate": {
+    "configured": true,
+    "passes": false,
+    "failed_checks": []
+  },
+  "split_summary": {
+    "assignments": 0,
+    "independence_groups": 0,
+    "split_counts": {},
+    "runtime_backed_frozen_test_cases": 0
+  },
+  "method_count": 11,
+  "model_status": [
+    {
+      "model_id": "qwen2_5_7b_local",
+      "api_key_env": "OLLAMA_API_KEY",
+      "api_key_present": false,
+      "model": "qwen2.5:7b",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "require_runtime_digest": true,
+      "frozen_runtime_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e"
+    },
+    {
+      "model_id": "stronger_fixed",
+      "api_key_env": "STRONG_MODEL_API_KEY",
+      "api_key_present": false,
+      "model": null,
+      "base_url": null,
+      "require_runtime_digest": false,
+      "frozen_runtime_digest": null
+    }
+  ],
+  "planned_runs_if_ready": 0,
+  "planned_runs_at_minimum_case_target": 13050,
+  "blockers": [
+    "human annotation pilot release is missing: C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\runtime_pilot_round2_reviewed.json",
+    "human gold release is missing: C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\expanded_full_pool_v0_5_reviewed.json",
+    "human-screened negative-control release is missing: C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\negative_control_round1_reviewed.json",
+    "model qwen2_5_7b_local is missing OLLAMA_API_KEY",
+    "model stronger_fixed has no frozen model name",
+    "model stronger_fixed is missing STRONG_MODEL_API_KEY",
+    "split manifest is missing: C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\expanded_full_pool_v0_5_splits.json"
+  ],
+  "warnings": [],
+  "ready": false,
+  "secrets_in_report": false
+}

@@ -197,6 +197,20 @@ class UnknownFinishWithoutHypothesisPolicy:
         }
 
 
+class ComponentCapturePolicy:
+    def __init__(self):
+        self.method_components = None
+
+    def propose(self, view):
+        self.method_components = view["method_components"]
+        return {
+            "kind": "finish",
+            "thought": "Capture the frozen component vector.",
+            "decision": "abstain",
+            "hypothesis": "No path is proposed in this wiring test.",
+        }
+
+
 class ECReactPathModeTests(unittest.TestCase):
     def _environment(self):
         return CrossCloudTelemetryEnvironment.from_file(
@@ -352,6 +366,22 @@ class ECReactPathModeTests(unittest.TestCase):
         self.assertEqual(2, len(result.path_candidates))
         self.assertTrue(policy.memory_sizes)
         self.assertEqual({0}, set(policy.memory_sizes))
+
+    def test_scope_gate_component_reaches_both_orchestration_backends(self):
+        for runner_class in (ECReactRunner, ECReactLangGraphRunner):
+            environment = self._environment()
+            policy = ComponentCapturePolicy()
+            result = runner_class(
+                policy,
+                task_mode="path_discovery",
+                provider_scope_gate=False,
+            ).run(environment, environment.public_context)
+
+            self.assertEqual("abstain", result.decision)
+            self.assertIsNotNone(policy.method_components)
+            self.assertFalse(
+                policy.method_components["provider_scope_gate"]
+            )
 
 
 if __name__ == "__main__":

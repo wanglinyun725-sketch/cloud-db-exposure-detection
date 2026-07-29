@@ -339,6 +339,61 @@ class OllamaNativePolicyTests(unittest.TestCase):
         model_view = json.loads(payload["messages"][1]["content"])
         self.assertIn("Unknown", model_view["provider_evidence_state"])
 
+    @patch("src.agent.ec_react.urllib.request.urlopen")
+    def test_scope_gate_ablation_treats_incomplete_allow_as_decisive(
+        self,
+        mocked,
+    ):
+        mocked.return_value = _FakeResponse({
+            "message": {
+                "role": "assistant",
+                "content": json.dumps({
+                    "kind": "finish",
+                    "thought": "unsafe ablation",
+                    "decision": "path_found",
+                    "hypothesis": "control-plane allow is treated as reachable",
+                    "path_candidate": {},
+                }),
+            }
+        })
+        policy = OllamaNativeReActPolicy("local-model")
+        policy.propose({
+            "task_mode": "path_discovery",
+            "method_components": {
+                "external_rule_prior": True,
+                "provider_scope_gate": False,
+            },
+            "observed_evidence_ids": ["obs-rds"],
+            "pareto_actions": [],
+            "tool_contracts": [],
+            "finish_contract": {},
+            "history": [{
+                "observation": {
+                    "call_id": 7,
+                    "events": [{
+                        "observation_id": "obs-rds",
+                        "provider_decision": "allow",
+                        "scope_completeness": (
+                            "incomplete_for_database_data_plane"
+                        ),
+                    }],
+                },
+            }],
+        })
+
+        request = mocked.call_args.args[0]
+        payload = json.loads(request.data.decode("utf-8"))
+        finish_schema = payload["format"]["properties"]["decision"]
+        self.assertIn("path_found", finish_schema["enum"])
+        path_schema = payload["format"]["properties"]["path_candidate"]
+        claimed_state = path_schema["properties"]["claimed_state"]
+        self.assertEqual(["Reachable"], claimed_state["enum"])
+        model_view = json.loads(payload["messages"][1]["content"])
+        self.assertNotIn(
+            "provider_evidence_state",
+            model_view,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

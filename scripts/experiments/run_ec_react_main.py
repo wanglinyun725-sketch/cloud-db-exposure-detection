@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import sys
 from typing import Any
+import urllib.request
 
 import yaml
 
@@ -124,6 +125,19 @@ def main() -> int:
             "models": args.model,
             "limit": args.limit,
         },
+        "models": [
+            {
+                "model_id": item.get("model_id"),
+                "default_model": item.get("default_model"),
+                "model_env": item.get("model_env"),
+                "base_url": item.get("base_url"),
+                "base_url_env": item.get("base_url_env"),
+                "frozen_runtime_digest": item.get(
+                    "frozen_runtime_digest"
+                ),
+            }
+            for item in config.get("models", [])
+        ],
         "scheduled_runs": len(schedule),
         "schedule": schedule,
         "secrets_in_manifest": False,
@@ -162,7 +176,7 @@ def main() -> int:
         item["model_id"]: item for item in config.get("models", [])
     }
     shared = config["shared_execution"]
-    clients: dict[str, tuple[Any, str]] = {}
+    clients: dict[str, tuple[Any, str, str | None]] = {}
     executed = 0
     skipped = 0
     with result_path.open("a", encoding="utf-8") as stream:
@@ -177,13 +191,14 @@ def main() -> int:
                     clients[row["model_id"]] = _model_client(
                         model_config
                     )
-                client, model_name = clients[row["model_id"]]
+                client, model_name, model_digest = clients[row["model_id"]]
                 policy = OpenAICompatibleReActPolicy(
                     client,
                     model_name,
                 )
             else:
                 model_name = None
+                model_digest = None
                 policy = policy_for_non_llm_method(
                     row["method_id"],
                     seed=row["seed"],
@@ -202,6 +217,7 @@ def main() -> int:
                 seed=row["seed"],
                 model_id=row["model_id"],
                 model_name=model_name,
+                model_digest=model_digest,
                 config_sha256=config_sha,
             )
             record["schedule_id"] = row["schedule_id"]
@@ -234,7 +250,9 @@ def main() -> int:
     return 0
 
 
-def _model_client(model: dict[str, Any]) -> tuple[Any, str]:
+def _model_client(
+    model: dict[str, Any],
+) -> tuple[Any, str, str | None]:
     from openai import OpenAI
 
     key_name = model["api_key_env"]
@@ -254,11 +272,57 @@ def _model_client(model: dict[str, Any]) -> tuple[Any, str]:
         if model.get("base_url_env")
         else model.get("base_url")
     )
+    model_digest = _verify_frozen_runtime_digest(
+        model,
+        model_name,
+        base_url,
+    )
     client = OpenAI(
         api_key=api_key,
         **({"base_url": base_url} if base_url else {}),
     )
-    return client, model_name
+    return client, model_name, model_digest
+
+
+def _verify_frozen_runtime_digest(
+    model: dict[str, Any],
+    model_name: str,
+    base_url: str | None,
+) -> str | None:
+    expected = model.get("frozen_runtime_digest")
+    if not expected:
+        if model.get("require_runtime_digest") is True:
+            raise RuntimeError(
+                f"model {model['model_id']} requires a frozen runtime digest"
+            )
+        return None
+    if not base_url:
+        raise RuntimeError(
+            f"model {model['model_id']} cannot verify digest without base URL"
+        )
+    ollama_root = base_url.rstrip("/")
+    if ollama_root.endswith("/v1"):
+        ollama_root = ollama_root[:-3]
+    with urllib.request.urlopen(
+        ollama_root + "/api/tags",
+        timeout=10,
+    ) as response:
+        payload = json.loads(response.read().decode("utf-8"))
+    actual = next(
+        (
+            item.get("digest")
+            for item in payload.get("models", [])
+            if item.get("name") == model_name
+            or item.get("model") == model_name
+        ),
+        None,
+    )
+    if actual != expected:
+        raise RuntimeError(
+            f"model {model['model_id']} digest mismatch: "
+            f"expected {expected}, got {actual}"
+        )
+    return actual
 
 
 def _completed_schedule_ids(path: Path) -> set[str]:

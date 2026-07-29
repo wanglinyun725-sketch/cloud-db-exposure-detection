@@ -97,6 +97,7 @@ def _runner(
         external_rule_prior=method["external_rule_prior"],
         four_value_memory=method["four_value_memory"],
         budget_stop=method["budget_stop"],
+        provider_scope_gate=method.get("provider_scope_gate", True),
         max_path_candidates=int(shared["max_path_candidates"]),
     )
 

@@ -37,6 +37,7 @@ def run_frozen_instance(
     seed: int,
     model_id: str | None = None,
     model_name: str | None = None,
+    model_digest: str | None = None,
     config_sha256: str | None = None,
 ) -> dict[str, Any]:
     """Run and score one independently labeled telemetry instance."""
@@ -62,6 +63,7 @@ def run_frozen_instance(
         external_rule_prior=method["external_rule_prior"],
         four_value_memory=method["four_value_memory"],
         budget_stop=method["budget_stop"],
+        provider_scope_gate=method.get("provider_scope_gate", True),
         max_path_candidates=int(
             shared_execution["max_path_candidates"]
         ),
@@ -73,6 +75,7 @@ def run_frozen_instance(
         "method_id": method["method_id"],
         "model_id": model_id,
         "model_name": model_name,
+        "model_digest": model_digest,
         "budget": budget,
         "repeat": repeat,
         "seed": seed,
@@ -116,9 +119,11 @@ def run_frozen_instance(
                 "external_rule_prior",
                 "four_value_memory",
                 "budget_stop",
+                "provider_scope_gate",
                 "evidence_citation_guard",
                 "finish_guard_mode",
             )
+            if key in method
         },
         "hard_budget_enforced": True,
         "human_gold_used_for_scoring_only": True,

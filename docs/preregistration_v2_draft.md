@@ -139,7 +139,7 @@ F^{cert-edge@5}_{1,g}(\text{Vanilla ReAct}).
 消融：
 
 - `ablate_pareto`
-- `ablate_provider_scope_gate`（当前配置尚缺，冻结前必须实现）
+- `ablate_provider_scope_gate`（已进入 v2 草案方法矩阵，冻结前须保持仅改变该组件）
 - `ablate_external_rule_prior`
 - `ablate_four_value_memory`
 - `ablate_budget_stop`
@@ -221,11 +221,10 @@ scorer 与统计分析器已经实现并测试 fine-grained
 ## 9. 冻结前阻断项
 
 1. human gold、negative-control gold 和仲裁结果仍为 0；
-2. `ablate_provider_scope_gate` 尚未进入正式方法矩阵；
-3. fine-grained exact edge precision/recall/F1 已进入 scorer 和分析器，但尚未写入最终冻结 v2 配置；
-4. 更强模型的确切版本尚未冻结；
-5. 80 个接受谱系及 67 个确认性谱系尚未形成；
-6. 非劣界、成本 CI 与零 unsafe 事件上界尚未进入自动统计代码；
-7. 配置、gold、split、代码和 schedule 的最终哈希尚未冻结。
+2. `configs/ec_react_main_v2_draft.yaml` 已加入 scope-gate 单组件消融和唯一 fine-edge-F1 主指标，但仍是草案，不能作为冻结配置；
+3. 更强模型的确切版本尚未冻结；
+4. 80 个接受谱系及 67 个确认性谱系尚未形成；
+5. 非劣界、成本 CI 与零 unsafe 事件上界尚未进入自动统计代码；
+6. 配置、gold、split、代码和 schedule 的最终哈希尚未冻结。
 
 阻断项全部关闭前，任何运行只能标记为 pilot、diagnostic 或 engineering validation，不得进入论文主结果表。
