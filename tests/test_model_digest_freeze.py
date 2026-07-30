@@ -87,3 +87,53 @@ def test_preflight_rejects_a_required_but_malformed_model_digest():
 
     assert any("valid frozen runtime digest" in item for item in blockers)
     assert status[0]["frozen_runtime_digest"] is None
+
+
+def test_preflight_allows_keyless_local_model_but_locks_remote_snapshot():
+    blockers = []
+    status = _model_status(
+        [
+            {
+                "model_id": "local",
+                "api_key_env": "LOCAL_KEY",
+                "api_key_required": False,
+                "default_model": "qwen2.5:7b",
+            },
+            {
+                "model_id": "strong",
+                "api_key_env": "REMOTE_KEY",
+                "api_key_required": True,
+                "default_model": "gpt-5.4-2026-03-05",
+                "require_exact_version": True,
+            },
+        ],
+        [{"family": "llm"}],
+        {"REMOTE_KEY": "not-secret-test-value"},
+        blockers,
+    )
+
+    assert blockers == []
+    assert status[0]["api_key_required"] is False
+    assert status[0]["api_key_present"] is False
+    assert status[1]["require_exact_version"] is True
+
+
+def test_preflight_rejects_environment_override_of_exact_snapshot():
+    blockers = []
+    _model_status(
+        [{
+            "model_id": "strong",
+            "api_key_env": "REMOTE_KEY",
+            "model_env": "REMOTE_MODEL",
+            "default_model": "gpt-5.4-2026-03-05",
+            "require_exact_version": True,
+        }],
+        [{"family": "llm"}],
+        {
+            "REMOTE_KEY": "not-secret-test-value",
+            "REMOTE_MODEL": "moving-alias",
+        },
+        blockers,
+    )
+
+    assert any("exact version was overridden" in item for item in blockers)

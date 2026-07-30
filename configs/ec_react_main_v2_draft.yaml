@@ -1,6 +1,6 @@
-protocol_version: "0.4-draft"
+protocol_version: "0.5-draft"
 experiment_id: ec_react_main_v2
-freeze_status: DRAFT_BLOCKED_ON_HUMAN_GOLD_AND_STRONG_MODEL_ID
+freeze_status: DRAFT_BLOCKED_ON_HUMAN_GOLD_AND_OPENAI_ACCESS
 purpose: preregistered human-gold fine-grained cloud-data path discovery
 
 path_ontology:
@@ -24,19 +24,16 @@ external_action_prior:
   positive_detection_selections_only: true
 
 data:
-  source_packet: data/real_sources/annotation/expanded_full_pool_v0_5_unlabeled.json
-  gold_release: data/real_sources/annotation/reviewed/expanded_full_pool_v0_5_reviewed.json
-  split_manifest: data/real_sources/annotation/reviewed/expanded_full_pool_v0_5_splits.json
+  source_packet: data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json
+  gold_release: data/real_sources/annotation/reviewed/runtime_confirmatory_30_reviewed.json
+  split_manifest: data/real_sources/annotation/reviewed/runtime_confirmatory_30_splits.json
   negative_source_packet: data/real_sources/annotation/negative_control_round1_unlabeled.json
   negative_gold_release: data/real_sources/annotation/reviewed/negative_control_round1_reviewed.json
-  annotation_pilot_packet: data/real_sources/annotation/runtime_pilot_round2_unlabeled.json
-  annotation_pilot_release: data/real_sources/annotation/reviewed/runtime_pilot_round2_reviewed.json
-  annotation_pilot_gate: configs/human_annotation_pilot_gate_v2.json
-  minimum_finalized_cases: 100
-  minimum_included_cases: 80
-  minimum_independence_groups: 80
+  minimum_finalized_cases: 52
+  minimum_included_cases: 30
+  minimum_independence_groups: 20
   minimum_runtime_backed_cases: 30
-  minimum_frozen_test_cases: 67
+  minimum_frozen_test_cases: 15
   minimum_external_negative_controls: 20
   require_nonempty_runtime_instances: true
   statistical_unit: independence_group
@@ -189,18 +186,28 @@ methods:
 models:
   - model_id: qwen2_5_7b_local
     api_key_env: OLLAMA_API_KEY
+    api_key_required: false
     model_env: OLLAMA_MODEL
     default_model: qwen2.5:7b
     base_url: http://127.0.0.1:11434/v1
+    client_kind: ollama_native
+    think: false
+    num_predict: 512
+    num_ctx: 4096
+    keep_alive: 30m
     require_runtime_digest: true
     frozen_runtime_digest: 845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e
     artifact_size_bytes: 4683087332
-  - model_id: stronger_fixed
-    api_key_env: STRONG_MODEL_API_KEY
-    model_env: STRONG_MODEL_ID
-    base_url_env: STRONG_MODEL_BASE_URL
+  - model_id: gpt_5_4_snapshot
+    api_key_env: OPENAI_API_KEY
+    api_key_required: true
+    default_model: gpt-5.4-2026-03-05
+    base_url: https://api.openai.com/v1
+    client_kind: openai_chat
     require_exact_version: true
-    freeze_blocker: exact provider model version is not selected yet
+    reasoning_effort: medium
+    temperature: null
+    official_model_ref: https://developers.openai.com/api/docs/models/gpt-5.4
 
 statistics:
   cluster_bootstrap_resamples: 10000

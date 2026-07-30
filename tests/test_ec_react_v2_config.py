@@ -78,9 +78,28 @@ def test_v2_model_layer_is_honest_about_what_is_and_is_not_frozen():
 
     assert models["qwen2_5_7b_local"]["default_model"] == "qwen2.5:7b"
     assert models["qwen2_5_7b_local"]["require_runtime_digest"] is True
+    assert models["qwen2_5_7b_local"]["api_key_required"] is False
+    assert models["qwen2_5_7b_local"]["client_kind"] == "ollama_native"
     assert models["qwen2_5_7b_local"]["frozen_runtime_digest"] == (
         "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e"
     )
-    assert "default_model" not in models["stronger_fixed"]
-    assert models["stronger_fixed"]["require_exact_version"] is True
-    assert models["stronger_fixed"]["freeze_blocker"]
+    strong = models["gpt_5_4_snapshot"]
+    assert strong["default_model"] == "gpt-5.4-2026-03-05"
+    assert strong["require_exact_version"] is True
+    assert strong["api_key_required"] is True
+    assert strong["client_kind"] == "openai_chat"
+    assert strong["reasoning_effort"] == "medium"
+    assert strong["temperature"] is None
+
+
+def test_v2_data_gate_matches_the_frozen_30_lineage_confirmatory_packet():
+    config = yaml.safe_load(CONFIG.read_text(encoding="utf-8"))
+    data = config["data"]
+
+    assert data["source_packet"].endswith(
+        "runtime_confirmatory_30_unlabeled.json"
+    )
+    assert data["minimum_finalized_cases"] == 52
+    assert data["minimum_independence_groups"] == 20
+    assert data["minimum_external_negative_controls"] == 20
+    assert "annotation_pilot_packet" not in data

@@ -18,6 +18,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.agent.ec_react import (  # noqa: E402
+    OllamaNativeReActPolicy,
     OpenAICompatibleReActPolicy,
 )
 from src.experiments.ec_react_execution import (  # noqa: E402
@@ -128,10 +129,21 @@ def main() -> int:
         "models": [
             {
                 "model_id": item.get("model_id"),
+                "client_kind": item.get("client_kind"),
                 "default_model": item.get("default_model"),
                 "model_env": item.get("model_env"),
                 "base_url": item.get("base_url"),
                 "base_url_env": item.get("base_url_env"),
+                "api_key_required": item.get("api_key_required", True),
+                "require_exact_version": item.get(
+                    "require_exact_version", False
+                ),
+                "reasoning_effort": item.get("reasoning_effort"),
+                "temperature": item.get("temperature"),
+                "think": item.get("think"),
+                "num_predict": item.get("num_predict"),
+                "num_ctx": item.get("num_ctx"),
+                "keep_alive": item.get("keep_alive"),
                 "frozen_runtime_digest": item.get(
                     "frozen_runtime_digest"
                 ),
@@ -192,10 +204,31 @@ def main() -> int:
                         model_config
                     )
                 client, model_name, model_digest = clients[row["model_id"]]
-                policy = OpenAICompatibleReActPolicy(
-                    client,
-                    model_name,
-                )
+                if model_config.get("client_kind") == "ollama_native":
+                    ollama_root = (model_config["base_url"]).rstrip("/")
+                    if ollama_root.endswith("/v1"):
+                        ollama_root = ollama_root[:-3]
+                    policy = OllamaNativeReActPolicy(
+                        model_name,
+                        base_url=ollama_root,
+                        keep_alive=str(
+                            model_config.get("keep_alive", "30m")
+                        ),
+                        num_predict=int(
+                            model_config.get("num_predict", 512)
+                        ),
+                        num_ctx=int(model_config.get("num_ctx", 4096)),
+                        seed=row["seed"],
+                    )
+                else:
+                    policy = OpenAICompatibleReActPolicy(
+                        client,
+                        model_name,
+                        temperature=model_config.get("temperature", 0),
+                        reasoning_effort=model_config.get(
+                            "reasoning_effort"
+                        ),
+                    )
             else:
                 model_name = None
                 model_digest = None
@@ -255,10 +288,13 @@ def _model_client(
 ) -> tuple[Any, str, str | None]:
     from openai import OpenAI
 
-    key_name = model["api_key_env"]
-    api_key = os.getenv(key_name)
-    if not api_key:
+    key_name = model.get("api_key_env")
+    key_required = model.get("api_key_required", True) is True
+    api_key = os.getenv(str(key_name)) if key_name else None
+    if key_required and not api_key:
         raise RuntimeError(f"missing required environment variable {key_name}")
+    if not api_key:
+        api_key = "local-no-auth"
     model_name = (
         os.getenv(model.get("model_env", ""))
         or model.get("default_model")
@@ -277,6 +313,15 @@ def _model_client(
         model_name,
         base_url,
     )
+    if model.get("require_exact_version") is True:
+        expected_model = model.get("default_model")
+        if model_name != expected_model:
+            raise RuntimeError(
+                f"model {model['model_id']} exact version mismatch: "
+                f"expected {expected_model}, got {model_name}"
+            )
+    if model.get("client_kind") == "ollama_native":
+        return None, model_name, model_digest
     client = OpenAI(
         api_key=api_key,
         **({"base_url": base_url} if base_url else {}),

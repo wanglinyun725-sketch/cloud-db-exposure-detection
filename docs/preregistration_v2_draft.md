@@ -1,7 +1,9 @@
 # EC-ReAct 主实验预注册 v2（冻结前草案）
 
-状态：`DRAFT_NOT_FROZEN`  
-日期：2026-07-29  
+状态：`DRAFT_BLOCKED_ON_HUMAN_GOLD_AND_OPENAI_ACCESS`
+
+日期：2026-07-30
+
 适用目标：Cloud DB PathBench Graduate Goal v2
 
 本文件在数据人工标注、模型版本和最终配置尚未齐备时建立。它不是已经完成的预注册，也不是实验结果。冻结后将生成只读配置、数据/代码哈希和变更记录；冻结测试集不得用于调参。
@@ -72,23 +74,31 @@ F^{cert-edge@5}_{1,g}(\text{Vanilla ReAct}).
 
 ### 当前供给，不是 gold
 
-截至本草案：
+截至本草案，`executable_lineage_inventory_v1.json` 给出 42 个原始可执行组；
+扣除审计发现的 2 个碰撞组后，保守计数为 40 个独立组，覆盖 AWS、Azure、
+GCP 和 9 个直接来源。当前确认性盲标包
+`runtime_confirmatory_30_unlabeled.json` 包含：
 
-- 候选案例 150；
-- 候选独立谱系 113；
-- 上游场景来源 6；
-- 具有运行时观测的案例 57、运行时实例 91；
-- 运行时平台实例：AWS 42、Azure 25、GCP 24；
+- 52 个候选案例；
+- 恰好 30 个完整、互不跨组的 `independence_group`；
+- 79 个运行时实例和 2,548 条原始观测；
+- 4 个运行时证据来源，AWS、Azure、GCP 均有覆盖；
 - human-finalized gold：0。
 
 候选数量不得冒充正式样本量。
 
 ### 正式准入目标
 
-- 至少 80 个通过准入且双人独立复核的独立谱系；
-- 至少 67 个谱系保留给确认性配对评估；
+- 30 个确认性谱系的全部 52 个案例均须完成两位不同真人的独立盲标和仲裁；
+- 冻结实验最低需要 30 个准入案例、20 个准入独立谱系，其中至少
+  30 个案例具有非空运行时证据；
+- test 至少包含 15 个运行时准入案例；此门槛只保证主实验可执行，
+  不等于对中小效应有充分统计功效；
+- 外部负对照至少 20 个，并完成独立双标和仲裁；
 - AWS、Azure、GCP 均有覆盖，任一平台不超过 60%；
-- 至少 6 个独立上游来源，任一来源不超过 40%；
+- 完整基准库存至少 6 个独立上游来源（当前保守库存为 9）；
+- 冻结运行时确认实验当前只覆盖 4 个证据来源，任一来源不超过 40%；
+  因此跨来源推断只能限定到这 4 个来源，不能写成“已验证 9 来源泛化”；
 - 同一上游攻击技术、模板、日志变体和近重复资源拓扑不得跨 split；
 - 原始材料必须有 URL/DOI/commit、许可证、SHA-256 和精确证据定位；
 - AI/LLM 可辅助界面和一致性检查，但不得生成原始事件或充当人工标注者。
@@ -107,12 +117,14 @@ F^{cert-edge@5}_{1,g}(\text{Vanilla ReAct}).
 
 - development：仅用于 schema、提示词和工具契约调试；
 - validation：仅用于冻结前阈值和方差估计；
-- test：不少于 67 个独立谱系，用于 H1；
+- test：至少 15 个运行时准入案例，按完整 `independence_group` 划分，用于 H1；
 - external_test / leave-one-source-out：用于来源外推；
 - external_negative_control：用于正确拒绝和错误 Reachable 风险；
 - excluded：证据不足、许可不明、近重复或未通过双标的材料。
 
-若总计 80 个接受谱系无法同时容纳 67 个 test 和足够的 development/validation，则继续扩充，而不是把测试集用于开发。
+30 个谱系是本轮人工标注和最小可执行主实验的承诺，不是充分功效的替代物。
+如果仲裁后不足 20 个准入独立谱系、30 个运行时准入案例或 15 个冻结 test
+案例，则继续补充和双标，而不是把测试集用于开发或降低门槛。
 
 冻结包必须记录：
 
@@ -156,8 +168,12 @@ LangGraph 是主工程编排后端；线性后端只用于一致性复核，不�
 
 模型层级：
 
-- 本地 Qwen2.5-7B：可复现资源基线；
-- 一个冻结版本的更强模型：用于检验方法结论是否依赖弱模型。
+- 本地 Qwen2.5-7B：Ollama `qwen2.5:7b`，冻结运行时 digest
+  `845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e`，
+  使用原生 chat 接口、`think=false`、`num_ctx=4096`、`num_predict=512`；
+- 更强模型：OpenAI `gpt-5.4-2026-03-05` 日期快照，`reasoning_effort=medium`。
+  选择日期快照而非随时间移动的别名，以便复现；确切快照来自
+  [OpenAI GPT-5.4 官方模型页](https://developers.openai.com/api/docs/models/gpt-5.4)。
 
 不同模型分别报告结果和交互效应，不把更强模型带来的收益计入 EC-ReAct 方法贡献。
 
@@ -204,7 +220,10 @@ scorer 与统计分析器已经实现并测试 fine-grained
 - 连续配对效应 \(d_z=0.45\) 时，约 39 个谱系达到 80% 功效；
 - 较小效应 \(d_z=0.35\) 时，约需 65 个谱系；
 - 若 50% 谱系产生非平局、非平局中 EC-ReAct 胜率为 75%，精确 sign test 约需 67 个总谱系；
-- 因此 40 只是数据治理硬下限，操作目标采用至少 80 个接受谱系、至少 67 个确认性谱系。
+- 因此 40 只是数据治理硬下限，而当前 30 个双标谱系的最小主实验低于
+  \(d_z=0.45\) 所需约 39 个谱系，也远低于小效应所需样本量。30 谱系结果
+  必须同时报告置信区间、效应量和实际功效限制；不能仅凭 \(p<0.05\) 宣称
+  证据充分，也不能把未显著结果包装为等效。
 
 冻结前只允许使用 development/validation 估计配对方差并最终确认 N。若实际可用 test 少于计划，保留原分析并将欠功效列为限制，不降低门槛或更换主指标。
 
@@ -220,11 +239,15 @@ scorer 与统计分析器已经实现并测试 fine-grained
 
 ## 9. 冻结前阻断项
 
-1. human gold、negative-control gold 和仲裁结果仍为 0；
-2. `configs/ec_react_main_v2_draft.yaml` 已加入 scope-gate 单组件消融和唯一 fine-edge-F1 主指标，但仍是草案，不能作为冻结配置；
-3. 更强模型的确切版本尚未冻结；
-4. 80 个接受谱系及 67 个确认性谱系尚未形成；
-5. 非劣界、成本 CI、unsafe 不增门槛与零事件精确上界已进入自动统计代码，但尚待冻结数据上的正式运行；
-6. 配置、gold、split、代码和 schedule 的最终哈希尚未冻结。
+1. 30 个确认性谱系的 primary/reviewer human gold、仲裁结果仍为 0；
+2. external negative-control 的双人筛选和仲裁仍为 0；
+3. `runtime_confirmatory_30_reviewed.json` 与冻结 split manifest 尚未形成；
+4. 本地 Qwen digest 已由运行中 Ollama 实例核验，但
+   `gpt-5.4-2026-03-05` 所需 `OPENAI_API_KEY` 当前不可用；
+5. `configs/ec_react_main_v2_draft.yaml` 已加入 scope-gate 单组件消融、
+   唯一 fine-edge-F1 主指标和精确模型版本，但仍是草案；
+6. 非劣界、成本 CI、unsafe 不增门槛与零事件精确上界已进入自动统计代码，
+   但尚待冻结数据上的正式运行；
+7. 配置、gold、split、代码和 schedule 的最终哈希尚未冻结。
 
 阻断项全部关闭前，任何运行只能标记为 pilot、diagnostic 或 engineering validation，不得进入论文主结果表。

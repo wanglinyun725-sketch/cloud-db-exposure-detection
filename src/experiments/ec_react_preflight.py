@@ -1254,6 +1254,7 @@ def _model_status(
         api_key_env = model.get("api_key_env")
         model_env = model.get("model_env")
         key_present = bool(environment.get(str(api_key_env), ""))
+        key_required = model.get("api_key_required", True) is True
         model_name = (
             environment.get(str(model_env), "")
             or model.get("default_model")
@@ -1263,7 +1264,7 @@ def _model_status(
             or environment.get(str(model.get("base_url_env")), "")
             or None
         )
-        if not key_present:
+        if key_required and not key_present:
             blockers.append(
                 f"model {model.get('model_id')} is missing {api_key_env}"
             )
@@ -1286,17 +1287,34 @@ def _model_status(
                 f"model {model.get('model_id')} requires a valid frozen "
                 "runtime digest"
             )
+        exact_version_required = (
+            model.get("require_exact_version") is True
+        )
+        default_model = model.get("default_model")
+        if exact_version_required:
+            if not isinstance(default_model, str) or not default_model:
+                blockers.append(
+                    f"model {model.get('model_id')} requires an exact "
+                    "default model version"
+                )
+            elif model_name != default_model:
+                blockers.append(
+                    f"model {model.get('model_id')} exact version was "
+                    f"overridden: expected {default_model}, got {model_name}"
+                )
         output.append(
             {
                 "model_id": model.get("model_id"),
                 "api_key_env": api_key_env,
                 "api_key_present": key_present,
+                "api_key_required": key_required,
                 "model": model_name,
                 "base_url": base_url,
                 "require_runtime_digest": require_digest,
                 "frozen_runtime_digest": (
                     declared_digest if digest_valid else None
                 ),
+                "require_exact_version": exact_version_required,
             }
         )
     return output
