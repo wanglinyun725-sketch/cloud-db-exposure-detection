@@ -18,6 +18,7 @@ REQUIRED_REVIEW_CHECKS = {
         "four_value_memory",
         "budgeted_discovery",
         "cp_cert_soundness",
+        "cp_cert_claim_boundary",
         "baseline_parity",
     },
     "statistics": {
@@ -51,12 +52,21 @@ REQUIRED_ARTIFACT_KINDS = {
     "reproduction_bundle",
     "review_stress_tests",
 }
+REQUIRED_CP_CERT_GATES = {
+    "frozen_held_out_split_bound",
+    "minimum_independence_groups",
+    "all_certificates_valid",
+    "all_raw_references_verified",
+    "exact_optimality_oracle_verified",
+    "positive_ci_lower_bound_for_compression",
+}
 
 
 def build_review_stress_test_bundle(
     root: str | Path,
     *,
     decision_path: str | Path,
+    cp_cert_result_path: str | Path,
     report_paths: Mapping[str, str | Path],
 ) -> dict[str, Any]:
     """Validate three independent review reports and bind them to results."""
@@ -65,6 +75,11 @@ def build_review_stress_test_bundle(
     decision = _read_json(decision_path)
     _require_passing_decision(root, decision)
     decision_hash = _file_hash(decision_path)
+    cp_cert_result_path = _resolve(root, cp_cert_result_path)
+    cp_cert_claim_allowed = validate_cp_cert_claim_result(
+        _read_json(cp_cert_result_path)
+    )
+    cp_cert_hash = _file_hash(cp_cert_result_path)
     if set(report_paths) != set(REQUIRED_REVIEW_CHECKS):
         raise ValueError(
             "review reports must be exactly method, statistics, and "
@@ -81,6 +96,8 @@ def build_review_stress_test_bundle(
             report,
             review_type=review_type,
             decision_sha256=decision_hash,
+            cp_cert_result_sha256=cp_cert_hash,
+            cp_cert_claim_allowed=cp_cert_claim_allowed,
         )
         reviewer_ids.append(str(report["reviewer_id"]).strip())
         reports.append({
@@ -91,16 +108,25 @@ def build_review_stress_test_bundle(
             "reviewer_kind": report["reviewer_kind"],
             "verdict": report["verdict"],
             "required_checks": len(REQUIRED_REVIEW_CHECKS[review_type]),
+            "evidence_bindings": _review_evidence_bindings(
+                root,
+                report,
+            ),
         })
     if len(set(reviewer_ids)) != len(reviewer_ids):
         raise ValueError("the three stress tests require distinct reviewer_id values")
 
     return {
-        "manifest_version": "2.0",
+        "manifest_version": "2.1",
         "status": "complete",
         "confirmatory_decision": {
             "path": _portable(root, decision_path),
             "sha256": decision_hash,
+        },
+        "cp_cert_result": {
+            "path": _portable(root, cp_cert_result_path),
+            "sha256": cp_cert_hash,
+            "innovation_claim_allowed": cp_cert_claim_allowed,
         },
         "review_types": sorted(REQUIRED_REVIEW_CHECKS),
         "reports": reports,
@@ -115,6 +141,7 @@ def validate_review_stress_test_bundle(
     bundle: Mapping[str, Any],
     *,
     decision_path: str | Path,
+    cp_cert_result_path: str | Path,
 ) -> None:
     """Revalidate a frozen review bundle and its report hashes."""
     root = Path(root).resolve()
@@ -127,6 +154,31 @@ def validate_review_stress_test_bundle(
     decision_hash = _file_hash(decision_path)
     if decision_item.get("sha256") != decision_hash:
         raise ValueError("review bundle is bound to a different decision")
+    if _resolve(
+        root,
+        str(decision_item.get("path", "")),
+    ) != decision_path:
+        raise ValueError("review bundle decision path mismatch")
+    cp_cert_result_path = _resolve(root, cp_cert_result_path)
+    cp_cert_claim_allowed = validate_cp_cert_claim_result(
+        _read_json(cp_cert_result_path)
+    )
+    cp_cert_hash = _file_hash(cp_cert_result_path)
+    cp_cert_item = bundle.get("cp_cert_result")
+    if not isinstance(cp_cert_item, Mapping):
+        raise ValueError("review bundle has no CP-Cert binding")
+    if cp_cert_item.get("sha256") != cp_cert_hash:
+        raise ValueError("review bundle is bound to a different CP-Cert result")
+    if _resolve(
+        root,
+        str(cp_cert_item.get("path", "")),
+    ) != cp_cert_result_path:
+        raise ValueError("review bundle CP-Cert path mismatch")
+    if (
+        cp_cert_item.get("innovation_claim_allowed")
+        is not cp_cert_claim_allowed
+    ):
+        raise ValueError("review bundle CP-Cert claim status mismatch")
     if bundle.get("all_required_checks_passed") is not True:
         raise ValueError("review bundle contains a failed required check")
     if bundle.get("unresolved_critical_or_major_findings") != 0:
@@ -153,7 +205,16 @@ def validate_review_stress_test_bundle(
             report,
             review_type=review_type,
             decision_sha256=decision_hash,
+            cp_cert_result_sha256=cp_cert_hash,
+            cp_cert_claim_allowed=cp_cert_claim_allowed,
         )
+        if item.get("evidence_bindings") != _review_evidence_bindings(
+            root,
+            report,
+        ):
+            raise ValueError(
+                f"{review_type} review evidence hash mismatch"
+            )
         reviewers.append(str(report["reviewer_id"]).strip())
     if len(set(reviewers)) != 3:
         raise ValueError("review bundle does not contain three distinct reviewers")
@@ -163,6 +224,7 @@ def build_final_deliverables_manifest(
     root: str | Path,
     *,
     decision_path: str | Path,
+    cp_cert_result_path: str | Path,
     thesis_pdf: str | Path,
     defense_deck: str | Path,
     reproduction_bundle: str | Path,
@@ -174,6 +236,10 @@ def build_final_deliverables_manifest(
     decision_path = _resolve(root, decision_path)
     decision = _read_json(decision_path)
     _require_passing_decision(root, decision)
+    cp_cert_result_path = _resolve(root, cp_cert_result_path)
+    cp_cert_claim_allowed = validate_cp_cert_claim_result(
+        _read_json(cp_cert_result_path)
+    )
     if (
         len(git_commit) != 40
         or any(character not in "0123456789abcdef" for character in git_commit)
@@ -193,6 +259,12 @@ def build_final_deliverables_manifest(
         root,
         review_bundle,
         decision_path=decision_path,
+        cp_cert_result_path=cp_cert_result_path,
+    )
+    _validate_reproduction_result_binding(
+        paths["reproduction_bundle"],
+        decision_sha256=_file_hash(decision_path),
+        cp_cert_result_sha256=_file_hash(cp_cert_result_path),
     )
     artifacts = [
         {
@@ -206,12 +278,16 @@ def build_final_deliverables_manifest(
     if {item["kind"] for item in artifacts} != REQUIRED_ARTIFACT_KINDS:
         raise AssertionError("internal error: incomplete artifact set")
     return {
-        "manifest_version": "2.0",
+        "manifest_version": "2.1",
         "status": "complete",
         "git_commit": git_commit,
         "confirmatory_decision_path": _portable(root, decision_path),
         "confirmatory_decision_sha256": _file_hash(decision_path),
+        "cp_cert_result_path": _portable(root, cp_cert_result_path),
+        "cp_cert_result_sha256": _file_hash(cp_cert_result_path),
         "claim_allowed": True,
+        "mandatory_innovations_claim_allowed": True,
+        "cp_cert_innovation_claim_allowed": cp_cert_claim_allowed,
         "artifacts": artifacts,
         "review_gate_passed": True,
         "posthoc_metric_substitution_allowed": False,
@@ -224,6 +300,8 @@ def _validate_review_report(
     *,
     review_type: str,
     decision_sha256: str,
+    cp_cert_result_sha256: str,
+    cp_cert_claim_allowed: bool,
 ) -> None:
     if report.get("review_type") != review_type:
         raise ValueError(f"expected {review_type} review report")
@@ -238,6 +316,15 @@ def _validate_review_report(
         raise ValueError(f"{review_type} review is not independent")
     if report.get("confirmatory_decision_sha256") != decision_sha256:
         raise ValueError(f"{review_type} review decision hash mismatch")
+    if report.get("cp_cert_result_sha256") != cp_cert_result_sha256:
+        raise ValueError(f"{review_type} review CP-Cert hash mismatch")
+    if (
+        report.get("cp_cert_innovation_claim_allowed")
+        is not cp_cert_claim_allowed
+    ):
+        raise ValueError(
+            f"{review_type} review CP-Cert claim status mismatch"
+        )
 
     checks = report.get("checks")
     if not isinstance(checks, list):
@@ -348,6 +435,124 @@ def _validate_artifact_file(kind: str, path: Path) -> None:
         _read_json(path)
         return
     raise ValueError(f"unsupported final artifact kind: {kind}")
+
+
+def validate_cp_cert_claim_result(report: Mapping[str, Any]) -> bool:
+    """Return the frozen CP-Cert claim status after consistency checks."""
+    if not isinstance(report, Mapping):
+        raise ValueError("CP-Cert result root must be an object")
+    if report.get("experiment") != "cp_cert_reviewed_human_gold":
+        raise ValueError("unexpected CP-Cert experiment ID")
+    selected = report.get("selected_splits")
+    if (
+        not isinstance(selected, list)
+        or not selected
+        or not set(selected) <= {"test", "external_test"}
+    ):
+        raise ValueError("CP-Cert result is not held-out split bound")
+    gate = report.get("cp_cert_claim_gate")
+    if not isinstance(gate, Mapping):
+        raise ValueError("CP-Cert result lacks a claim gate")
+    gates = gate.get("gates")
+    if (
+        not isinstance(gates, Mapping)
+        or set(gates) != REQUIRED_CP_CERT_GATES
+        or any(not isinstance(value, bool) for value in gates.values())
+    ):
+        raise ValueError("CP-Cert result has malformed claim sub-gates")
+    eligible = gate.get("eligible")
+    if not isinstance(eligible, bool):
+        raise ValueError("CP-Cert claim eligibility must be boolean")
+    if report.get("research_effectiveness_result") is not eligible:
+        raise ValueError("CP-Cert effectiveness result disagrees with gate")
+    if eligible is not all(gates.values()):
+        raise ValueError("CP-Cert eligibility disagrees with sub-gates")
+    if gate.get("posthoc_threshold_change_allowed") is not False:
+        raise ValueError("CP-Cert result allows post-hoc threshold changes")
+    return eligible
+
+
+def _review_evidence_bindings(
+    root: Path,
+    report: Mapping[str, Any],
+) -> list[dict[str, str]]:
+    paths: dict[str, Path] = {}
+    for check in report.get("checks") or []:
+        if not isinstance(check, Mapping):
+            continue
+        for value in check.get("evidence_paths") or []:
+            path = _resolve(root, str(value))
+            portable = _portable(root, path)
+            paths[portable] = path
+    return [
+        {
+            "path": name,
+            "sha256": _file_hash(paths[name]),
+        }
+        for name in sorted(paths)
+    ]
+
+
+def _validate_reproduction_result_binding(
+    path: Path,
+    *,
+    decision_sha256: str,
+    cp_cert_result_sha256: str,
+) -> None:
+    if not zipfile.is_zipfile(path):
+        raise ValueError(
+            "final reproduction bundle must be the deterministic ZIP"
+        )
+    with zipfile.ZipFile(path) as archive:
+        try:
+            manifest = json.loads(
+                archive.read("bundle_manifest.json").decode("utf-8")
+            )
+        except (KeyError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise ValueError(
+                "reproduction bundle lacks a valid bundle_manifest.json"
+            ) from exc
+        if not isinstance(manifest, Mapping):
+            raise ValueError(
+                "reproduction bundle manifest root is malformed"
+            )
+        if (
+            manifest.get("confirmatory_decision_sha256")
+            != decision_sha256
+        ):
+            raise ValueError(
+                "reproduction bundle decision binding mismatch"
+            )
+        files = manifest.get("files")
+        if not isinstance(files, list):
+            raise ValueError("reproduction bundle file manifest is malformed")
+        matches = [
+            item
+            for item in files
+            if isinstance(item, Mapping)
+            and str(item.get("path", "")).replace("\\", "/").endswith(
+                "/cp_cert_experiment_results.json"
+            )
+        ]
+        if len(matches) != 1:
+            raise ValueError(
+                "reproduction bundle must contain one CP-Cert result"
+            )
+        item = matches[0]
+        member = str(item.get("path", "")).replace("\\", "/")
+        try:
+            member_payload = archive.read(member)
+        except KeyError as exc:
+            raise ValueError(
+                "reproduction bundle CP-Cert member is missing"
+            ) from exc
+        if (
+            item.get("sha256") != cp_cert_result_sha256
+            or sha256(member_payload).hexdigest() != cp_cert_result_sha256
+        ):
+            raise ValueError(
+                "reproduction bundle CP-Cert binding mismatch"
+            )
 
 
 def _archive_names(path: Path) -> list[str]:

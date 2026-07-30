@@ -20,6 +20,10 @@ from src.experiments.final_deliverables_v2 import (  # noqa: E402
 DEFAULT_DECISION = (
     ROOT / "output" / "ec_react_main_v2" / "confirmatory_decision.json"
 )
+DEFAULT_CP_CERT_RESULT = (
+    ROOT / "output" / "ec_react_main_v2"
+    / "cp_cert_experiment_results.json"
+)
 DEFAULT_OUTPUT = (
     ROOT / "output" / "research_design"
     / "review_stress_tests_v2_manifest.json"
@@ -29,6 +33,11 @@ DEFAULT_OUTPUT = (
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--decision", type=Path, default=DEFAULT_DECISION)
+    parser.add_argument(
+        "--cp-cert-result",
+        type=Path,
+        default=DEFAULT_CP_CERT_RESULT,
+    )
     parser.add_argument("--method-review", type=Path, required=True)
     parser.add_argument("--statistics-review", type=Path, required=True)
     parser.add_argument("--cloud-security-review", type=Path, required=True)
@@ -38,6 +47,7 @@ def main() -> int:
         bundle = build_review_stress_test_bundle(
             ROOT,
             decision_path=args.decision,
+            cp_cert_result_path=args.cp_cert_result,
             report_paths={
                 "method": args.method_review,
                 "statistics": args.statistics_review,
