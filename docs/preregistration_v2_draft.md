@@ -290,6 +290,9 @@ D:\anaconda\python.exe scripts/experiments/run_research_pipeline_v2.py
 # 人工 gold 完成后冻结完整 schedule；不要求 API key、不调用模型
 D:\anaconda\python.exe scripts/experiments/run_research_pipeline_v2.py --mode plan
 
+# gold、split 与研究代码提交后，生成哈希绑定的只读协议
+D:\anaconda\python.exe scripts/experiments/freeze_ec_react_protocol_v2.py
+
 # 只有 freeze_status=FROZEN 且全部预检通过时才允许正式模型调用
 D:\anaconda\python.exe scripts/experiments/run_research_pipeline_v2.py `
   --mode execute `
