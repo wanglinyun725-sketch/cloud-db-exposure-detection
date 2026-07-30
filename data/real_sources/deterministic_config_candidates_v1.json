@@ -45,6 +45,12 @@
       "revision": "729f8da62c6a85ce4af5ad3d123de97776d954c4"
     },
     {
+      "source_id": "cloudfoxable",
+      "role": "executable_aws_challenge_configuration_pool",
+      "platform": "AWS",
+      "revision": "fc49b7f637268031515ced9fee4b643d3e68db67"
+    },
+    {
       "source_id": "terraform_iam_policy_validator",
       "role": "aws_native_oracle_adapter",
       "platform": "AWS",
@@ -327,6 +333,298 @@
         "retain the initial denied list, policy change audit record, and final successful list"
       ],
       "evidence_status": "terraform_semantics_valid_awaiting_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null
+    },
+    {
+      "case_id": "terragoat_aws_ec2_userdata_to_rds",
+      "source_id": "terragoat",
+      "platform": "AWS",
+      "revision": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "configuration_refs": [
+        "terraform/aws/db-app.tf"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "terragoat_aws_rds_public_flag_vpc_ingress",
+          "member_ref": "terraform/aws/db-app.tf",
+          "expected_fragments": [
+            "resource \"aws_db_instance\" \"default\"",
+            "publicly_accessible     = true",
+            "resource \"aws_security_group_rule\" \"ingress\"",
+            "from_port         = \"3306\"",
+            "cidr_blocks       = [\"${aws_vpc.web_vpc.cidr_block}\"]"
+          ],
+          "literal_interpretation": "The RDS resource requests public accessibility, while its attached database security-group ingress is scoped to the VPC CIDR rather than 0.0.0.0/0."
+        },
+        {
+          "assertion_id": "terragoat_aws_ec2_userdata_db_material",
+          "member_ref": "terraform/aws/db-app.tf",
+          "expected_fragments": [
+            "resource \"aws_instance\" \"db_app\"",
+            "define('DB_SERVER', '${aws_db_instance.default.endpoint}');",
+            "define('DB_USERNAME', '${aws_db_instance.default.username}');",
+            "define('DB_PASSWORD', '${var.password}');",
+            "mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD)"
+          ],
+          "literal_interpretation": "The EC2 user-data template renders the RDS endpoint, username, and password into a local PHP database configuration and uses them for a MySQL connection."
+        }
+      ],
+      "upstream_claim_refs": [
+        "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/README.md"
+      ],
+      "entry": "principal that can read the rendered EC2 user-data or host-side database configuration",
+      "mandatory_claims": [
+        "the exact deployed principal can retrieve the rendered database configuration",
+        "the source host is permitted through the effective RDS network path on TCP 3306",
+        "the rendered credentials authenticate and an authorized test query succeeds"
+      ],
+      "data_target": {
+        "type": "database",
+        "service": "Amazon RDS for MySQL",
+        "operation_scope": [
+          "network connect TCP 3306",
+          "database authentication",
+          "scoped SELECT test"
+        ]
+      },
+      "upstream_expected_outcome": "candidate only; no upstream end-to-end path outcome is adopted as gold",
+      "validation_plan": [
+        "resolve the deployed RDS address, subnet routes, security groups, NACLs, source host, and database principal",
+        "do not treat publicly_accessible=true as proof of internet or host reachability",
+        "in an isolated account, test the exact source-to-RDS connection and a non-destructive SELECT while retaining VPC and database audit evidence"
+      ],
+      "evidence_status": "frozen_source_literals_verified_awaiting_semantic_validation_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null
+    },
+    {
+      "case_id": "terragoat_azure_mysql_public_transport",
+      "source_id": "terragoat",
+      "platform": "Azure",
+      "revision": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "configuration_refs": [
+        "terraform/azure/sql.tf"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "terragoat_azure_mysql_public_ssl_disabled",
+          "member_ref": "terraform/azure/sql.tf",
+          "expected_fragments": [
+            "resource \"azurerm_mysql_server\" \"example\"",
+            "public_network_access_enabled     = true",
+            "ssl_enforcement_enabled           = false"
+          ],
+          "literal_interpretation": "The Azure MySQL resource enables its public network surface and disables mandatory SSL, but the file alone does not prove an effective firewall rule or authenticated data access."
+        }
+      ],
+      "upstream_claim_refs": [
+        "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/README.md"
+      ],
+      "entry": "unauthenticated external network client",
+      "mandatory_claims": [
+        "the deployed server receives a public endpoint",
+        "the complete effective firewall and network scope permits the external probe source",
+        "a separately authorized database principal can authenticate and execute a scoped read"
+      ],
+      "data_target": {
+        "type": "database",
+        "service": "Azure Database for MySQL",
+        "operation_scope": [
+          "public endpoint resolution",
+          "TCP/MySQL connection",
+          "database authentication",
+          "scoped SELECT test"
+        ]
+      },
+      "upstream_expected_outcome": "candidate only; public_network_access_enabled is not adopted as end-to-end reachability gold",
+      "validation_plan": [
+        "resolve the deployed endpoint and all Azure MySQL firewall and networking rules",
+        "use a complete-scope network oracle before assigning Reachable or NotReachable",
+        "in an isolated subscription, retain an explicit connection success or denial and a separately authorized non-destructive query record"
+      ],
+      "evidence_status": "frozen_source_literals_verified_awaiting_semantic_validation_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null
+    },
+    {
+      "case_id": "terragoat_gcp_anonymous_gcs_read",
+      "source_id": "terragoat",
+      "platform": "GCP",
+      "revision": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "configuration_refs": [
+        "terraform/gcp/gcs.tf"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "terragoat_gcp_allusers_object_viewer",
+          "member_ref": "terraform/gcp/gcs.tf",
+          "expected_fragments": [
+            "resource \"google_storage_bucket\" \"terragoat_website\"",
+            "resource \"google_storage_bucket_iam_binding\" \"allow_public_read\"",
+            "members = [\"allUsers\"]",
+            "role    = \"roles/storage.objectViewer\""
+          ],
+          "literal_interpretation": "The frozen GCP stack binds allUsers to roles/storage.objectViewer on the declared bucket; effective permissions and deployed runtime behavior still require provider-native and active verification."
+        }
+      ],
+      "upstream_claim_refs": [
+        "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/README.md"
+      ],
+      "entry": "anonymous allUsers principal",
+      "mandatory_claims": [
+        "the binding is effective on the exact deployed bucket without a higher-level constraint or conflicting state",
+        "anonymous object listing succeeds",
+        "anonymous read of a designated non-sensitive test object succeeds"
+      ],
+      "data_target": {
+        "type": "object_storage",
+        "service": "Google Cloud Storage",
+        "operation_scope": [
+          "storage.objects.list",
+          "storage.objects.get"
+        ]
+      },
+      "upstream_expected_outcome": "candidate only; the IaC binding is not adopted as runtime gold",
+      "validation_plan": [
+        "save the exact deployed bucket IAM policy and organization-policy context",
+        "run Policy Analyzer and testIamPermissions for allUsers over list and get",
+        "probe anonymous list and read only against a designated non-sensitive object and retain Cloud Audit Logs where available"
+      ],
+      "evidence_status": "frozen_source_literals_verified_awaiting_semantic_validation_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null
+    },
+    {
+      "case_id": "cloudfoxable_double_tap_secret_path",
+      "source_id": "cloudfoxable",
+      "platform": "AWS",
+      "revision": "fc49b7f637268031515ced9fee4b643d3e68db67",
+      "configuration_refs": [
+        "aws/challenges/Double Tap/double_tap.tf"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "cloudfoxable_double_tap_secret_role",
+          "member_ref": "aws/challenges/Double Tap/double_tap.tf",
+          "expected_fragments": [
+            "resource \"aws_secretsmanager_secret\" \"double_tap_flag_secret\"",
+            "name = \"DT_flag\"",
+            "resource \"aws_iam_policy\" \"double_tap_secret_policy\"",
+            "\"secretsmanager:GetSecretValue\"",
+            "aws_secretsmanager_secret.double_tap_flag_secret.arn",
+            "resource \"aws_iam_role_policy_attachment\" \"double_tap_secret_policy\""
+          ],
+          "literal_interpretation": "The frozen challenge declares DT_flag and attaches a policy permitting GetSecretValue on that exact secret to the double_tap_secret EC2 role."
+        },
+        {
+          "assertion_id": "cloudfoxable_double_tap_starting_role_lambda_chain",
+          "member_ref": "aws/challenges/Double Tap/double_tap.tf",
+          "expected_fragments": [
+            "resource \"aws_iam_role\" \"double_tap_xsdf\"",
+            "\"AWS\": \"${var.ctf_starting_user_arn}\"",
+            "resource \"aws_iam_policy\" \"double_tap_iam_policy\"",
+            "Action   = [\"lambda:CreateFunction\", \"lambda:InvokeFunction\"]",
+            "Action   = [\"iam:PassRole\"]",
+            "Resource = \"arn:aws:iam::${var.account_id}:role/lambda_*\"",
+            "resource \"aws_iam_policy\" \"lambda_ec2_policy\"",
+            "Action   = \"ec2:*\"",
+            "\"aws:ResourceTag/double_tap1\" = \"true\""
+          ],
+          "literal_interpretation": "The starting-user trust, Lambda create/invoke and constrained PassRole permissions, and a Lambda role with tag-conditioned EC2 actions are all present; these literals do not by themselves prove the complete exploit chain."
+        }
+      ],
+      "upstream_claim_refs": [
+        "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/challenge.yml"
+      ],
+      "entry": "the CloudFoxable ctf-starting-user identity in an isolated deployed challenge",
+      "mandatory_claims": [
+        "the starting identity can assume the intended challenge role under both trust and identity-side policy evaluation",
+        "the Lambda PassRole and tag-conditioned EC2 steps can reach an instance path associated with the secret-reading role",
+        "the resulting principal can retrieve only the designated DT_flag test secret and the access is recorded in CloudTrail"
+      ],
+      "data_target": {
+        "type": "secret_store",
+        "service": "AWS Secrets Manager",
+        "operation_scope": [
+          "sts:AssumeRole",
+          "lambda:CreateFunction",
+          "lambda:InvokeFunction",
+          "iam:PassRole",
+          "tag-conditioned EC2 action",
+          "secretsmanager:GetSecretValue"
+        ]
+      },
+      "upstream_expected_outcome": "candidate only; the challenge objective is not adopted as end-to-end path gold",
+      "validation_plan": [
+        "deploy the pinned challenge in an isolated AWS account and freeze the exact principal, role, instance, tag, and secret ARNs",
+        "evaluate every hop with complete-scope AWS policy simulation and Access Analyzer evidence, including trust policies, identity policies, boundaries, SCPs, and resource conditions",
+        "execute the authorized challenge path with a designated test secret and retain positive or explicit denied responses plus matching CloudTrail records"
+      ],
+      "evidence_status": "frozen_source_literals_verified_awaiting_semantic_validation_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null
+    },
+    {
+      "case_id": "cloudfoxable_search1_elasticsearch_exposure",
+      "source_id": "cloudfoxable",
+      "platform": "AWS",
+      "revision": "fc49b7f637268031515ced9fee4b643d3e68db67",
+      "configuration_refs": [
+        "aws/challenges/Search 1/search1and2.tf"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "cloudfoxable_search1_ip_scoped_es_policy",
+          "member_ref": "aws/challenges/Search 1/search1and2.tf",
+          "expected_fragments": [
+            "resource \"aws_elasticsearch_domain\" \"pat\"",
+            "access_policies = jsonencode({",
+            "\"AWS\" = \"*\"",
+            "\"es:ESHttpGet\"",
+            "\"es:ESHttpHead\"",
+            "\"es:ESHttpPost\"",
+            "\"aws:SourceIp\" = \"${var.user_ip}/32\""
+          ],
+          "literal_interpretation": "The Elasticsearch domain resource policy permits three HTTP actions to any principal only when the request source matches the configured single-IP CIDR."
+        },
+        {
+          "assertion_id": "cloudfoxable_search1_seeded_test_document",
+          "member_ref": "aws/challenges/Search 1/search1and2.tf",
+          "expected_fragments": [
+            "resource \"null_resource\" \"upload_logs\"",
+            "pat_domain_endpoint = aws_elasticsearch_domain.pat.endpoint",
+            "curl -X POST \"${aws_elasticsearch_domain.pat.endpoint}/webserver-logs/_doc/\""
+          ],
+          "literal_interpretation": "The frozen challenge includes a deployment-time provisioner that targets the domain endpoint and attempts to seed webserver-log test documents."
+        }
+      ],
+      "upstream_claim_refs": [
+        "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/challenge.yml"
+      ],
+      "entry": "unauthenticated client at the exact configured user_ip source address",
+      "mandatory_claims": [
+        "the deployed Elasticsearch endpoint is network-reachable from the exact configured source IP",
+        "an unauthenticated request from that source satisfies the effective resource policy for the intended HTTP action",
+        "a scoped read retrieves a designated seeded test document while an otherwise identical out-of-scope source receives an explicit denial or cannot reach the endpoint"
+      ],
+      "data_target": {
+        "type": "search_database",
+        "service": "Amazon Elasticsearch Service",
+        "operation_scope": [
+          "network connect HTTPS",
+          "es:ESHttpGet",
+          "scoped test-document read",
+          "paired out-of-scope denial"
+        ]
+      },
+      "upstream_expected_outcome": "candidate only; the challenge statement is not adopted as public reachability or data-access gold",
+      "validation_plan": [
+        "deploy the pinned challenge in an isolated AWS account and freeze the exact endpoint, resource policy, configured source IP, DNS resolution, and network state",
+        "run complete-scope policy analysis for the anonymous request context and retain the evaluated SourceIp condition",
+        "perform paired authorized probes from the configured and an out-of-scope source against a non-sensitive seeded test document, retaining response and service audit evidence"
+      ],
+      "evidence_status": "frozen_source_literals_verified_awaiting_semantic_validation_native_analysis_and_runtime_probe",
       "gold_label": null,
       "label_origin": null
     }

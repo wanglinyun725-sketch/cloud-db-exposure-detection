@@ -160,8 +160,8 @@ class DeterministicExposureTests(unittest.TestCase):
             ).read_text(encoding="utf-8")
         )
 
-        self.assertEqual(6, report["summary"]["frozen_sources"])
-        self.assertEqual(5, report["summary"]["candidate_cases"])
+        self.assertEqual(7, report["summary"]["frozen_sources"])
+        self.assertEqual(10, report["summary"]["candidate_cases"])
         self.assertEqual(0, report["summary"]["runtime_gold_cases"])
         self.assertEqual(0, report["summary"]["configuration_gold_cases"])
         self.assertTrue(

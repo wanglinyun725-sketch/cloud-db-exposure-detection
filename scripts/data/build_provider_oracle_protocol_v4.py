@@ -57,6 +57,7 @@ CONFIG_INDEPENDENCE_GROUPS = {
         "gcpgoat_anonymous_bucket_policy_transition"
     ): "gcpgoat:module-1",
 }
+V4_CONFIG_CASE_IDS = frozenset(CONFIG_INDEPENDENCE_GROUPS)
 
 
 def _build_stratus_secret_positive(
@@ -449,9 +450,23 @@ def _build_config_unknown(
 
 def build() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     public_v3, gold_v3, _ = build_v3()
-    config_candidates = json.loads(
+    all_config_candidates = json.loads(
         CONFIG_CANDIDATES.read_text(encoding="utf-8")
     )["cases"]
+    config_candidates = [
+        candidate
+        for candidate in all_config_candidates
+        if candidate["case_id"] in V4_CONFIG_CASE_IDS
+    ]
+    selected_ids = {
+        candidate["case_id"] for candidate in config_candidates
+    }
+    if selected_ids != V4_CONFIG_CASE_IDS:
+        missing = sorted(V4_CONFIG_CASE_IDS - selected_ids)
+        raise ValueError(
+            "protocol v4 frozen configuration controls are missing: "
+            + ", ".join(missing)
+        )
     additions = [
         _build_stratus_secret_positive(),
         _build_splunk_object_positive(),

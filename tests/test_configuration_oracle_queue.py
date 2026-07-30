@@ -12,15 +12,15 @@ def test_queue_verifies_real_iac_facts_without_creating_gold():
     queue = build_configuration_oracle_queue(ROOT)
 
     assert queue["summary"] == {
-        "cases": 5,
-        "independence_groups": 5,
-        "sources": 3,
+        "cases": 10,
+        "independence_groups": 10,
+        "sources": 5,
         "platforms": ["AWS", "Azure", "GCP"],
-        "verified_literal_assertions": 9,
+        "verified_literal_assertions": 17,
         "configuration_gold_cases": 0,
         "runtime_gold_cases": 0,
         "path_gold_cases": 0,
-        "needs_execution_cases": 5,
+        "needs_execution_cases": 10,
     }
     assert queue["policy"]["literal_iac_fact_is_path_gold"] is False
     assert queue["policy"]["generated_labels"] == 0
