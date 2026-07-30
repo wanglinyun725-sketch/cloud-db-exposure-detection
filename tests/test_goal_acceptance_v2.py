@@ -73,9 +73,28 @@ def test_deliverables_must_be_bound_to_the_final_decision(tmp_path):
         ),
     }
     decision.write_text(json.dumps(decision_value), encoding="utf-8")
+    cp_result = tmp_path / "cp_cert_experiment_results.json"
+    cp_result.write_text(json.dumps({
+        "experiment": "cp_cert_reviewed_human_gold",
+        "selected_splits": ["test"],
+        "research_effectiveness_result": False,
+        "cp_cert_claim_gate": {
+            "eligible": False,
+            "gates": {
+                "frozen_held_out_split_bound": True,
+                "minimum_independence_groups": False,
+                "all_certificates_valid": True,
+                "all_raw_references_verified": True,
+                "exact_optimality_oracle_verified": True,
+                "positive_ci_lower_bound_for_compression": True,
+            },
+            "posthoc_threshold_change_allowed": False,
+        },
+    }), encoding="utf-8")
     evidence = tmp_path / "evidence.txt"
     evidence.write_text("evidence", encoding="utf-8")
     decision_hash = sha256(decision.read_bytes()).hexdigest()
+    cp_cert_hash = sha256(cp_result.read_bytes()).hexdigest()
     report_paths = {}
     for index, (review_type, checks) in enumerate(
         sorted(REQUIRED_REVIEW_CHECKS.items())
@@ -89,6 +108,8 @@ def test_deliverables_must_be_bound_to_the_final_decision(tmp_path):
             "reviewer_kind": "human",
             "independent_of_artifact_authorship": True,
             "confirmatory_decision_sha256": decision_hash,
+            "cp_cert_result_sha256": cp_cert_hash,
+            "cp_cert_innovation_claim_allowed": False,
             "checks": [
                 {
                     "check_id": check_id,
@@ -103,6 +124,7 @@ def test_deliverables_must_be_bound_to_the_final_decision(tmp_path):
     review_bundle = build_review_stress_test_bundle(
         tmp_path,
         decision_path=decision,
+        cp_cert_result_path=cp_result,
         report_paths=report_paths,
     )
     review_path = tmp_path / "reviews.json"
@@ -122,9 +144,22 @@ def test_deliverables_must_be_bound_to_the_final_decision(tmp_path):
             "requirements.txt",
         ):
             archive.writestr(path, path)
+        cp_member = (
+            "output/ec_react_main_v2/"
+            "cp_cert_experiment_results.json"
+        )
+        archive.writestr(cp_member, cp_result.read_bytes())
+        archive.writestr("bundle_manifest.json", json.dumps({
+            "confirmatory_decision_sha256": decision_hash,
+            "files": [{
+                "path": cp_member,
+                "sha256": cp_cert_hash,
+            }],
+        }))
     manifest = build_final_deliverables_manifest(
         tmp_path,
         decision_path=decision,
+        cp_cert_result_path=cp_result,
         thesis_pdf=thesis,
         defense_deck=defense,
         reproduction_bundle=reproduction,
@@ -132,9 +167,19 @@ def test_deliverables_must_be_bound_to_the_final_decision(tmp_path):
         git_commit="a" * 40,
     )
 
-    assert _deliverables_pass(tmp_path, manifest, decision) is True
+    assert _deliverables_pass(
+        tmp_path,
+        manifest,
+        decision,
+        cp_result,
+    ) is True
     manifest["confirmatory_decision_sha256"] = "0" * 64
-    assert _deliverables_pass(tmp_path, manifest, decision) is False
+    assert _deliverables_pass(
+        tmp_path,
+        manifest,
+        decision,
+        cp_result,
+    ) is False
 
 
 def test_markdown_renders_blocked_gates_without_subjective_score():

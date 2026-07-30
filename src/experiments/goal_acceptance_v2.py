@@ -12,6 +12,7 @@ import yaml
 from src.experiments.ec_react_execution import schedule_design_errors
 from src.experiments.artifact_chain_v2 import validate_decision_binding
 from src.experiments.final_deliverables_v2 import (
+    validate_cp_cert_claim_result,
     validate_review_stress_test_bundle,
 )
 
@@ -57,6 +58,10 @@ def build_goal_acceptance(root: str | Path) -> dict[str, Any]:
         / "confirmatory_decision.json"
     )
     decision = _read_optional(decision_path)
+    cp_cert_result_path = (
+        root / "output" / "ec_react_main_v2"
+        / "cp_cert_experiment_results.json"
+    )
     frozen_path = root / "configs" / "ec_react_main_v2_frozen.yaml"
     frozen_manifest_path = (
         root / "output" / "research_design"
@@ -127,6 +132,7 @@ def build_goal_acceptance(root: str | Path) -> dict[str, Any]:
         root,
         deliverables,
         decision_path,
+        cp_cert_result_path,
     )
     git_sync = _git_sync_status(root)
     git_gate = git_sync["synchronized"] is True
@@ -282,6 +288,7 @@ def _deliverables_pass(
     root: Path,
     manifest: Mapping[str, Any] | None,
     decision_path: Path,
+    cp_cert_result_path: Path,
 ) -> bool:
     if manifest is None or manifest.get("status") != "complete":
         return False
@@ -300,8 +307,37 @@ def _deliverables_pass(
         return False
     if not decision_path.is_file():
         return False
+    if not cp_cert_result_path.is_file():
+        return False
     expected_decision = sha256(decision_path.read_bytes()).hexdigest()
     if manifest.get("confirmatory_decision_sha256") != expected_decision:
+        return False
+    expected_cp_cert = sha256(
+        cp_cert_result_path.read_bytes()
+    ).hexdigest()
+    if manifest.get("cp_cert_result_sha256") != expected_cp_cert:
+        return False
+    declared_cp_path = Path(str(
+        manifest.get("cp_cert_result_path") or ""
+    ))
+    declared_cp_path = (
+        declared_cp_path
+        if declared_cp_path.is_absolute()
+        else root / declared_cp_path
+    )
+    if declared_cp_path.resolve() != cp_cert_result_path.resolve():
+        return False
+    try:
+        cp_cert_claim_allowed = validate_cp_cert_claim_result(
+            json.loads(cp_cert_result_path.read_text(encoding="utf-8"))
+        )
+    except (ValueError, json.JSONDecodeError):
+        return False
+    if (
+        manifest.get("mandatory_innovations_claim_allowed") is not True
+        or manifest.get("cp_cert_innovation_claim_allowed")
+        is not cp_cert_claim_allowed
+    ):
         return False
     artifacts = manifest.get("artifacts")
     if not isinstance(artifacts, list):
@@ -333,6 +369,7 @@ def _deliverables_pass(
             root,
             review_bundle,
             decision_path=decision_path,
+            cp_cert_result_path=cp_cert_result_path,
         )
     except (OSError, ValueError, json.JSONDecodeError):
         return False

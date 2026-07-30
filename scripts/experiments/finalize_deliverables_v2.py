@@ -21,6 +21,10 @@ from src.experiments.final_deliverables_v2 import (  # noqa: E402
 DEFAULT_DECISION = (
     ROOT / "output" / "ec_react_main_v2" / "confirmatory_decision.json"
 )
+DEFAULT_CP_CERT_RESULT = (
+    ROOT / "output" / "ec_react_main_v2"
+    / "cp_cert_experiment_results.json"
+)
 DEFAULT_REVIEWS = (
     ROOT / "output" / "research_design"
     / "review_stress_tests_v2_manifest.json"
@@ -34,6 +38,11 @@ DEFAULT_OUTPUT = (
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--decision", type=Path, default=DEFAULT_DECISION)
+    parser.add_argument(
+        "--cp-cert-result",
+        type=Path,
+        default=DEFAULT_CP_CERT_RESULT,
+    )
     parser.add_argument("--thesis-pdf", type=Path, required=True)
     parser.add_argument("--defense-deck", type=Path, required=True)
     parser.add_argument("--reproduction-bundle", type=Path, required=True)
@@ -44,6 +53,7 @@ def main() -> int:
         manifest = build_final_deliverables_manifest(
             ROOT,
             decision_path=args.decision,
+            cp_cert_result_path=args.cp_cert_result,
             thesis_pdf=args.thesis_pdf,
             defense_deck=args.defense_deck,
             reproduction_bundle=args.reproduction_bundle,

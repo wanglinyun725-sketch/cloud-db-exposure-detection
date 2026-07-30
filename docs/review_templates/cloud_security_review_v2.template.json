@@ -1,5 +1,5 @@
 {
-  "review_version": "2.0",
+  "review_version": "2.1",
   "review_type": "cloud_security",
   "status": "draft",
   "verdict": "blocked",
@@ -7,6 +7,8 @@
   "reviewer_kind": "human",
   "independent_of_artifact_authorship": true,
   "confirmatory_decision_sha256": "TODO",
+  "cp_cert_result_sha256": "TODO",
+  "cp_cert_innovation_claim_allowed": false,
   "checks": [
     {"check_id": "raw_evidence_traceability", "verdict": "blocked", "evidence_paths": []},
     {"check_id": "provider_scope_semantics", "verdict": "blocked", "evidence_paths": []},

@@ -112,7 +112,18 @@ def _fixture(tmp_path):
                 "sha256": sha256(split_path.read_bytes()).hexdigest(),
             },
         },
-        "cp_cert_claim_gate": {"eligible": False},
+        "cp_cert_claim_gate": {
+            "eligible": False,
+            "gates": {
+                "frozen_held_out_split_bound": True,
+                "minimum_independence_groups": False,
+                "all_certificates_valid": True,
+                "all_raw_references_verified": True,
+                "exact_optimality_oracle_verified": True,
+                "positive_ci_lower_bound_for_compression": True,
+            },
+            "posthoc_threshold_change_allowed": False,
+        },
         "research_effectiveness_result": False,
     })
     code_files = {

@@ -11,6 +11,9 @@ import zipfile
 import yaml
 
 from src.experiments.artifact_chain_v2 import validate_decision_binding
+from src.experiments.final_deliverables_v2 import (
+    validate_cp_cert_claim_result,
+)
 
 
 REQUIRED_CODE_PATHS = {
@@ -191,22 +194,7 @@ def _validate_cp_cert_result(
     frozen: Mapping[str, Any],
     freeze_manifest: Mapping[str, Any],
 ) -> None:
-    if report.get("experiment") != "cp_cert_reviewed_human_gold":
-        raise ValueError("CP-Cert result has an unexpected experiment ID")
-    selected = report.get("selected_splits")
-    if (
-        not isinstance(selected, list)
-        or not selected
-        or not set(selected) <= {"test", "external_test"}
-    ):
-        raise ValueError("CP-Cert result is not held-out split bound")
-    gate = report.get("cp_cert_claim_gate")
-    if not isinstance(gate, Mapping):
-        raise ValueError("CP-Cert result lacks its claim gate")
-    if report.get("research_effectiveness_result") is not gate.get(
-        "eligible"
-    ):
-        raise ValueError("CP-Cert result and claim gate disagree")
+    validate_cp_cert_claim_result(report)
 
     data = frozen.get("data")
     bindings = report.get("artifact_binding")
