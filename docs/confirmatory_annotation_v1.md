@@ -23,3 +23,42 @@
 - 主标人与复核人必须独立作答，互不可见；分歧只交给第三位真人仲裁。
 
 52 个案例是 30 个完整谱系的组内展开，统计单位始终是谱系，不能把同一谱系下的多云案例当作多个独立样本。
+
+## 标注后的冻结命令
+
+主标和复核任务完成后，只运行同一个 fail-closed 命令：
+
+```powershell
+D:\anaconda\python.exe scripts/annotation/freeze_confirmatory_v1.py
+```
+
+该命令先逐文件校验任务 manifest 和冻结来源哈希，再合并两份 assignment。
+如果任一案例未完成，只更新 readiness 报告，不生成 gold；如果存在分歧，
+状态变为 `awaiting_adjudication`，仍不生成 gold。只有全部分歧由第三位真人
+完成后，才写出：
+
+- `reviewed/runtime_confirmatory_30_reviewed.json`
+- `reviewed/runtime_confirmatory_30_splits.json`
+- `output/research_design/confirmatory_freeze_readiness_v1.json`
+
+已存在但内容不同的 gold 或 split 不会被覆盖，防止重跑悄悄改变冻结结果。
+
+如果 readiness 报告进入 `awaiting_adjudication`，由第三位真人建立仲裁任务：
+
+```powershell
+D:\anaconda\python.exe scripts/annotation/freeze_confirmatory_v1.py `
+  --adjudicator-id annotator_03
+D:\anaconda\python.exe scripts/annotation/run_local_review_app.py `
+  --task-dir data/real_sources/annotation/work/confirmatory_v1_adjudicator_tasks `
+  --port 8777
+```
+
+第三位真人完成后，再运行冻结命令并显式提供
+`--adjudicator-task-dir`：
+
+```powershell
+D:\anaconda\python.exe scripts/annotation/freeze_confirmatory_v1.py `
+  --adjudicator-task-dir data/real_sources/annotation/work/confirmatory_v1_adjudicator_tasks
+```
+
+主标人、复核人或模型身份均不能充当仲裁人。
