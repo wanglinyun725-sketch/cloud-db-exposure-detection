@@ -1,0 +1,19 @@
+{
+  "review_version": "2.0",
+  "review_type": "method",
+  "status": "draft",
+  "verdict": "blocked",
+  "reviewer_id": "TODO",
+  "reviewer_kind": "human",
+  "independent_of_artifact_authorship": true,
+  "confirmatory_decision_sha256": "TODO",
+  "checks": [
+    {"check_id": "react_loop", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "tool_scope_semantics", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "four_value_memory", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "budgeted_discovery", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "cp_cert_soundness", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "baseline_parity", "verdict": "blocked", "evidence_paths": []}
+  ],
+  "findings": []
+}
