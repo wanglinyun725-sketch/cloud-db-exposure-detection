@@ -78,6 +78,15 @@ def main() -> int:
     config_bytes = config_path.read_bytes()
     config_sha = sha256(config_bytes).hexdigest()
     config = yaml.safe_load(config_bytes.decode("utf-8"))
+    if not args.plan_only and config.get("freeze_status") != "FROZEN":
+        print(json.dumps({
+            "ready": False,
+            "blockers": [
+                "confirmatory execution requires freeze_status=FROZEN"
+            ],
+            "preflight": str(output_dir / "preflight.json"),
+        }, ensure_ascii=False))
+        return 2
     release_path = Path(preflight["data"]["gold_release"])
     split_path = Path(preflight["data"]["split_manifest"])
     release = json.loads(release_path.read_text(encoding="utf-8"))

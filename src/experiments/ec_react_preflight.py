@@ -17,6 +17,7 @@ from src.experiments.ec_react_execution import (
     planned_runs_per_instance_for_selection,
     schedule_design_errors,
 )
+from src.experiments.protocol_freeze_v2 import REQUIRED_FROZEN_INPUTS
 from src.graph.path_ontology import (
     load_path_ontology,
     ontology_reference,
@@ -53,6 +54,7 @@ def run_preflight(
     warnings: list[str] = []
 
     _validate_config_shape(config, blockers)
+    _validate_freeze_binding(root, config, blockers)
     methods = config.get("methods") or []
     known_method_ids = {
         item.get("method_id")
@@ -1395,6 +1397,63 @@ def _model_status(
             }
         )
     return output
+
+
+def _validate_freeze_binding(
+    root: Path,
+    config: Mapping[str, Any],
+    blockers: list[str],
+) -> None:
+    """Reject drift in every artifact bound by a frozen v2 protocol."""
+    status = config.get("freeze_status")
+    if status != "FROZEN":
+        return
+    binding = config.get("freeze_binding")
+    if not isinstance(binding, Mapping):
+        blockers.append("frozen protocol lacks freeze_binding")
+        return
+    commit = binding.get("git_commit")
+    if (
+        not isinstance(commit, str)
+        or len(commit) != 40
+        or any(character not in "0123456789abcdef" for character in commit)
+    ):
+        blockers.append("frozen protocol has invalid git_commit binding")
+    inputs = binding.get("inputs")
+    if not isinstance(inputs, Mapping):
+        blockers.append("frozen protocol lacks input hash bindings")
+        return
+    if set(inputs) != REQUIRED_FROZEN_INPUTS:
+        blockers.append("frozen protocol input binding set is incomplete")
+        return
+    for name, item in inputs.items():
+        if not isinstance(item, Mapping):
+            blockers.append(f"frozen input binding {name} is invalid")
+            continue
+        path_value = item.get("path")
+        expected = item.get("sha256")
+        path = _resolve(root, path_value)
+        if (
+            not isinstance(expected, str)
+            or len(expected) != 64
+            or any(
+                character not in "0123456789abcdef"
+                for character in expected
+            )
+        ):
+            blockers.append(
+                f"frozen input binding {name} has invalid SHA-256"
+            )
+            continue
+        if not path.is_file():
+            blockers.append(f"frozen bound input is missing: {name}={path}")
+            continue
+        actual = sha256(path.read_bytes()).hexdigest()
+        if actual != expected:
+            blockers.append(
+                f"frozen bound input drifted: {name}; "
+                f"expected {expected}, got {actual}"
+            )
 
 
 def _planned_runs(
