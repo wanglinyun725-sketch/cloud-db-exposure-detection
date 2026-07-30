@@ -8,6 +8,8 @@ import tarfile
 from typing import Any, Mapping
 import zipfile
 
+from src.experiments.artifact_chain_v2 import validate_decision_binding
+
 
 REQUIRED_REVIEW_CHECKS = {
     "method": {
@@ -61,7 +63,7 @@ def build_review_stress_test_bundle(
     root = Path(root).resolve()
     decision_path = _resolve(root, decision_path)
     decision = _read_json(decision_path)
-    _require_passing_decision(decision)
+    _require_passing_decision(root, decision)
     decision_hash = _file_hash(decision_path)
     if set(report_paths) != set(REQUIRED_REVIEW_CHECKS):
         raise ValueError(
@@ -171,7 +173,7 @@ def build_final_deliverables_manifest(
     root = Path(root).resolve()
     decision_path = _resolve(root, decision_path)
     decision = _read_json(decision_path)
-    _require_passing_decision(decision)
+    _require_passing_decision(root, decision)
     if (
         len(git_commit) != 40
         or any(character not in "0123456789abcdef" for character in git_commit)
@@ -281,7 +283,10 @@ def _validate_review_report(
         )
 
 
-def _require_passing_decision(decision: Mapping[str, Any]) -> None:
+def _require_passing_decision(
+    root: Path,
+    decision: Mapping[str, Any],
+) -> None:
     if (
         decision.get("claim_allowed") is not True
         or decision.get("overall_status") != "pass"
@@ -290,6 +295,7 @@ def _require_passing_decision(decision: Mapping[str, Any]) -> None:
         raise ValueError(
             "finalization requires a passing preregistered confirmatory decision"
         )
+    validate_decision_binding(root, decision)
 
 
 def _validate_artifact_file(kind: str, path: Path) -> None:

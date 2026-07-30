@@ -10,6 +10,7 @@ from typing import Any, Mapping
 import yaml
 
 from src.experiments.ec_react_execution import schedule_design_errors
+from src.experiments.artifact_chain_v2 import validate_decision_binding
 from src.experiments.final_deliverables_v2 import (
     validate_review_stress_test_bundle,
 )
@@ -120,6 +121,7 @@ def build_goal_acceptance(root: str | Path) -> dict[str, Any]:
         and decision.get("claim_allowed") is True
         and decision.get("overall_status") == "pass"
         and decision.get("posthoc_metric_substitution_allowed") is False
+        and _decision_chain_passes(root, decision)
     )
     deliverables_gate = _deliverables_pass(
         root,
@@ -348,6 +350,17 @@ def _manifest_file_matches(
         and path.is_file()
         and item.get("sha256") == sha256(path.read_bytes()).hexdigest()
     )
+
+
+def _decision_chain_passes(
+    root: Path,
+    decision: Mapping[str, Any],
+) -> bool:
+    try:
+        validate_decision_binding(root, decision)
+    except (OSError, ValueError, json.JSONDecodeError):
+        return False
+    return True
 
 
 def _git_sync_status(root: Path) -> dict[str, Any]:
