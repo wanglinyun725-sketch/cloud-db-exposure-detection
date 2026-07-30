@@ -227,6 +227,20 @@ def validate_submission(submission: dict[str, Any]) -> None:
     _validate_source_context(submission)
     if submission.get("path_ontology") != ontology_reference():
         raise ValueError("submission path ontology reference is missing/stale")
+    if _contains_placeholder({
+        field: submission.get(field)
+        for field in (
+            "admission_screen",
+            "nodes",
+            "edges",
+            "path_labels",
+            "tool_tasks",
+            "instance_labels",
+        )
+    }):
+        raise ValueError(
+            "submission contains a REPLACE_ example placeholder"
+        )
 
     screen = submission.get("admission_screen") or {}
     required_screen = {
@@ -287,6 +301,19 @@ def validate_submission(submission: dict[str, Any]) -> None:
             )
     _validate_graph_references(submission)
     _validate_instance_references(submission, screen["decision"])
+
+
+def _contains_placeholder(value: Any) -> bool:
+    if isinstance(value, str):
+        return "REPLACE_" in value
+    if isinstance(value, dict):
+        return any(
+            _contains_placeholder(item)
+            for item in value.values()
+        )
+    if isinstance(value, list):
+        return any(_contains_placeholder(item) for item in value)
+    return False
 
 
 def compare_pair(

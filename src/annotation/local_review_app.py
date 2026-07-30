@@ -6,6 +6,7 @@ immutable and hash checked.
 """
 from __future__ import annotations
 
+from collections import Counter
 from copy import deepcopy
 from datetime import datetime, timezone
 from hashlib import sha256
@@ -45,6 +46,67 @@ SCREEN_BOOLEAN_FIELDS = (
     "not_a_near_duplicate",
 )
 DECISIONS = {"accept", "needs_execution", "reject"}
+
+FIELD_EXAMPLES = {
+    "nodes": [
+        {
+            "id": "REPLACE_node_id",
+            "type": "identity",
+            "raw_refs": ["REPLACE_observation_or_archive_ref"],
+        }
+    ],
+    "edges": [
+        {
+            "edge_id": "REPLACE_edge_id",
+            "source": "REPLACE_source_node_id",
+            "target": "REPLACE_target_node_id",
+            "type": "invoke",
+            "evidence_state": "Supported",
+            "evidence_items": [
+                {
+                    "evidence_id": "REPLACE_observation_id",
+                    "polarity": "support",
+                    "raw_ref": "REPLACE_raw_ref",
+                    "query_cost": 0,
+                    "source": "REPLACE_source_id",
+                }
+            ],
+            "raw_refs": ["REPLACE_raw_ref"],
+            "annotator_rationale": "REPLACE_human_reason",
+        }
+    ],
+    "path_labels": [
+        {
+            "path_id": "REPLACE_path_id",
+            "node_ids": ["REPLACE_node_1", "REPLACE_node_2"],
+            "edge_ids": ["REPLACE_edge_1"],
+            "state": "Valid",
+            "certificate_raw_refs": ["REPLACE_raw_ref"],
+        }
+    ],
+    "tool_tasks": [
+        {
+            "tool_name": "REPLACE_tool_name",
+            "query_scope": {},
+            "observable_raw_refs": ["REPLACE_raw_ref"],
+            "query_cost": 0,
+        }
+    ],
+    "instance_labels": [
+        {
+            "instance_id": "REPLACE_runtime_instance_id",
+            "overall_state": "Valid",
+            "path_states": [
+                {
+                    "path_id": "REPLACE_path_id",
+                    "state": "Valid",
+                }
+            ],
+            "evidence_raw_refs": ["REPLACE_raw_ref"],
+            "annotator_rationale": "REPLACE_human_reason",
+        }
+    ],
+}
 
 
 def _stable_hash(value: Any) -> str:
@@ -158,6 +220,61 @@ def _case_state(case: dict[str, Any]) -> tuple[str, str | None]:
     return ("draft" if has_content else "blank"), None
 
 
+def _runtime_instance_summary(instance: dict[str, Any]) -> dict[str, Any]:
+    """Build a neutral observation index without inferring any label."""
+    observations = instance.get("observations") or []
+    operations: Counter[str] = Counter()
+    statuses: Counter[str] = Counter()
+    actors: set[tuple[str, str]] = set()
+    timestamps = []
+    event_rows = []
+    raw_ref_count = 0
+    for observation in observations:
+        operation = str(observation.get("operation") or "unknown")
+        service = str(observation.get("service") or "unknown")
+        status = str(observation.get("event_status") or "unknown")
+        actor_type = str(observation.get("actor_type") or "unknown")
+        actor_id = str(observation.get("actor_id") or "unknown")
+        timestamp = str(observation.get("timestamp") or "")
+        operations[operation] += 1
+        statuses[status] += 1
+        actors.add((actor_type, actor_id))
+        if timestamp:
+            timestamps.append(timestamp)
+        raw_ref = observation.get("raw_ref")
+        if raw_ref:
+            raw_ref_count += 1
+        event_rows.append({
+            "observation_id": observation.get("observation_id"),
+            "timestamp": timestamp or None,
+            "service": service,
+            "operation": operation,
+            "actor_type": actor_type,
+            "actor_id": actor_id,
+            "status": status,
+            "raw_ref": raw_ref,
+        })
+    return {
+        "instance_id": instance.get("instance_id"),
+        "platform": instance.get("platform"),
+        "runtime_source_id": instance.get("runtime_source_id"),
+        "observation_count": len(observations),
+        "time_start": min(timestamps) if timestamps else None,
+        "time_end": max(timestamps) if timestamps else None,
+        "operations": sorted(
+            operations.items(),
+            key=lambda item: (-item[1], item[0]),
+        ),
+        "statuses": sorted(statuses.items()),
+        "actors": [
+            {"type": actor_type, "id": actor_id}
+            for actor_type, actor_id in sorted(actors)
+        ],
+        "raw_ref_count": raw_ref_count,
+        "event_rows": event_rows,
+    }
+
+
 def create_local_review_app(task_dir: str | Path) -> Flask:
     """Create a local review application bound to one blind task bundle."""
     task_dir = Path(task_dir).resolve()
@@ -215,6 +332,7 @@ def create_local_review_app(task_dir: str | Path) -> Flask:
         *,
         error: str | None = None,
         status_code: int = 200,
+        checked: str | None = None,
     ):
         position = filenames.index(filename)
         state, validation_error = _case_state(case)
@@ -236,6 +354,18 @@ def create_local_review_app(task_dir: str | Path) -> Flask:
                     )
                     for field in EDITABLE_ARRAY_FIELDS
                 },
+                field_examples={
+                    field: json.dumps(
+                        FIELD_EXAMPLES[field],
+                        ensure_ascii=False,
+                        indent=2,
+                    )
+                    for field in EDITABLE_ARRAY_FIELDS
+                },
+                instance_summaries=[
+                    _runtime_instance_summary(instance)
+                    for instance in case.get("runtime_instances") or []
+                ],
                 previous=filenames[position - 1] if position else None,
                 next=(
                     filenames[position + 1]
@@ -245,6 +375,7 @@ def create_local_review_app(task_dir: str | Path) -> Flask:
                 ordinal=position + 1,
                 total=len(filenames),
                 saved=request.args.get("saved"),
+                checked=checked or request.args.get("checked"),
             ),
             status_code,
         )
@@ -253,23 +384,65 @@ def create_local_review_app(task_dir: str | Path) -> Flask:
     def index():
         rows = []
         counts = {"blank": 0, "draft": 0, "complete": 0, "invalid": 0}
+        group_case_states: dict[str, list[str]] = {}
         for entry in entries:
             case, _ = load_case(entry["file"])
             state, error = _case_state(case)
             counts[state] += 1
+            group_id = str(
+                (case.get("candidate_metadata") or {}).get(
+                    "independence_group"
+                )
+                or case.get("case_id")
+            )
+            group_case_states.setdefault(group_id, []).append(state)
             rows.append({
                 "ordinal": entry["ordinal"],
                 "filename": entry["file"],
                 "case_id": case.get("case_id"),
                 "source_id": (case.get("source") or {}).get("source_id"),
+                "group_id": group_id,
                 "state": state,
                 "error": error,
             })
+        group_counts = {
+            "total": len(group_case_states),
+            "blank": 0,
+            "draft": 0,
+            "complete": 0,
+            "invalid": 0,
+        }
+        for states in group_case_states.values():
+            if any(state == "invalid" for state in states):
+                group_counts["invalid"] += 1
+            elif all(state == "complete" for state in states):
+                group_counts["complete"] += 1
+            elif any(state != "blank" for state in states):
+                group_counts["draft"] += 1
+            else:
+                group_counts["blank"] += 1
         return render_template_string(
             INDEX_TEMPLATE,
             manifest=manifest,
             rows=rows,
             counts=counts,
+            group_counts=group_counts,
+        )
+
+    @app.get("/guide")
+    def guide_page():
+        return render_template_string(
+            GUIDE_TEMPLATE,
+            node_types=ontology["node_types"],
+            edge_types=ontology["edge_types"],
+            field_examples={
+                field: json.dumps(
+                    FIELD_EXAMPLES[field],
+                    ensure_ascii=False,
+                    indent=2,
+                )
+                for field in EDITABLE_ARRAY_FIELDS
+            },
         )
 
     @app.get("/case/<filename>")
@@ -294,18 +467,18 @@ def create_local_review_app(task_dir: str | Path) -> Flask:
         if not hmac.compare_digest(submitted_nonce, nonce):
             abort(403)
         action = request.form.get("action")
-        if action not in {"draft", "complete"}:
+        if action not in {"draft", "check", "complete"}:
             abort(400)
         try:
             candidate = _apply_form(
                 case,
                 request.form,
-                complete=action == "complete",
+                complete=action in {"check", "complete"},
             )
             _verify_source_context(
                 candidate, entry.get("source_context_sha256")
             )
-            if action == "complete":
+            if action in {"check", "complete"}:
                 validate_submission(candidate)
         except (
             KeyError,
@@ -321,6 +494,14 @@ def create_local_review_app(task_dir: str | Path) -> Flask:
                 ),
                 error=str(exc),
                 status_code=400,
+            )
+        if action == "check":
+            candidate["human_attestation"] = False
+            candidate["completed_at"] = None
+            return render_case(
+                filename,
+                candidate,
+                checked="pass",
             )
         _write_json_atomic(task_dir / filename, candidate)
         return redirect(url_for(
@@ -364,6 +545,10 @@ details{border:1px solid var(--line);border-radius:7px;padding:9px;margin:8px 0}
 summary{cursor:pointer;font-weight:600}pre{white-space:pre-wrap;overflow-wrap:anywhere;
 font:12px/1.45 Consolas,monospace;background:#f5f7fa;padding:10px;border-radius:6px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.guide{border-left:4px solid var(--accent);background:#eef7ff;padding:12px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{background:#edf2f7;
+border-radius:999px;padding:3px 8px}.compact td,.compact th{padding:6px;font-size:12px}
+.example{min-height:110px;background:#f7fafc}
 @media(max-width:900px){.two{grid-template-columns:1fr}.wrap{padding:0 10px}}
 </style>
 """
@@ -375,6 +560,9 @@ INDEX_TEMPLATE = (
 <header><h1>RealPathBench-CD 本地人工标注</h1>
 <p>仅人工填写；不调用 LLM 或外部 API。来源上下文受 SHA-256 保护。</p></header>
 <main class="wrap">
+<section class="card guide"><b>第一次标注？</b>
+先阅读 <a href="{{ url_for('guide_page') }}">证据判定与 JSON 填写手册</a>。
+手册只解释规则，不推荐本案例标签。</section>
 <section class="card">
   <div class="grid">
     <div class="metric"><span>角色</span><b>{{ manifest.role }}</b></div>
@@ -383,14 +571,18 @@ INDEX_TEMPLATE = (
     <div class="metric"><span>草稿</span><b>{{ counts.draft }}</b></div>
     <div class="metric"><span>已完成</span><b>{{ counts.complete }}</b></div>
     <div class="metric"><span>无效</span><b>{{ counts.invalid }}</b></div>
+    <div class="metric"><span>已完成谱系</span>
+    <b>{{ group_counts.complete }}/{{ group_counts.total }}</b></div>
+    <div class="metric"><span>进行中谱系</span><b>{{ group_counts.draft }}</b></div>
   </div>
 </section>
 <section class="card">
-<table><thead><tr><th>#</th><th>案例</th><th>来源</th><th>状态</th></tr></thead>
+<table><thead><tr><th>#</th><th>案例</th><th>独立谱系</th><th>来源</th><th>状态</th></tr></thead>
 <tbody>{% for row in rows %}<tr>
 <td>{{ row.ordinal }}</td>
 <td><a href="{{ url_for('case_page', filename=row.filename) }}">{{ row.case_id }}</a>
 {% if row.error %}<div class="invalid">{{ row.error }}</div>{% endif %}</td>
+<td><code>{{ row.group_id }}</code></td>
 <td>{{ row.source_id }}</td>
 <td class="{{ row.state }}"><span class="badge">{{ row.state }}</span></td>
 </tr>{% endfor %}</tbody></table>
@@ -412,6 +604,13 @@ CASE_TEMPLATE = (
 </div>
 {% if error %}<div class="card error"><b>不能完成：</b>{{ error }}</div>{% endif %}
 {% if saved %}<div class="card success">已保存 {{ saved }}。</div>{% endif %}
+{% if checked %}<div class="card success">完整性预检通过；任务文件尚未改动。
+确认内容确由你本人独立判断后，才能点击“严格校验并完成”。</div>{% endif %}
+<section class="card guide">
+<b>先判证据，不猜攻击故事。</b>
+<a href="{{ url_for('guide_page') }}" target="_blank">打开判定手册</a>。
+“未看到”不是反证；作用域不足时选择 <code>needs_execution</code>。
+</section>
 <section class="card">
 <h2>冻结的来源上下文</h2>
 <div class="grid">
@@ -427,10 +626,30 @@ CASE_TEMPLATE = (
 }|tojson(indent=2) }}</pre></details>
 {% if case.source_materials %}<details><summary>静态来源材料</summary>
 <pre>{{ case.source_materials|tojson(indent=2) }}</pre></details>{% endif %}
-{% for instance in case.runtime_instances %}
-<details><summary>实例 {{ instance.instance_id }} · {{ instance.platform }} ·
-{{ instance.observation_count }} observations</summary>
-<pre>{{ instance|tojson(indent=2) }}</pre></details>
+{% for summary in instance_summaries %}
+<details open><summary>实例 {{ summary.instance_id }} · {{ summary.platform }} ·
+{{ summary.observation_count }} observations</summary>
+<div class="grid">
+<div><b>运行来源</b><br>{{ summary.runtime_source_id }}</div>
+<div><b>时间范围</b><br>{{ summary.time_start }}<br>→ {{ summary.time_end }}</div>
+<div><b>原始引用</b><br>{{ summary.raw_ref_count }}/{{ summary.observation_count }}</div>
+</div>
+<p><b>操作频次</b></p><div class="chips">
+{% for name, count in summary.operations %}<span class="chip">{{ name }} × {{ count }}</span>{% endfor %}
+</div>
+<p><b>主体</b></p><div class="chips">
+{% for actor in summary.actors %}<span class="chip">{{ actor.type }} · {{ actor.id }}</span>{% endfor %}
+</div>
+<details><summary>逐条观测索引（中立字段，不含推荐标签）</summary>
+<table class="compact"><thead><tr><th>时间</th><th>主体</th><th>服务/操作</th>
+<th>状态</th><th>observation ID</th><th>raw ref</th></tr></thead><tbody>
+{% for row in summary.event_rows %}<tr>
+<td>{{ row.timestamp }}</td><td>{{ row.actor_type }}<br>{{ row.actor_id }}</td>
+<td>{{ row.service }}<br><b>{{ row.operation }}</b></td><td>{{ row.status }}</td>
+<td><code>{{ row.observation_id }}</code></td>
+<td><details><summary>查看</summary><pre>{{ row.raw_ref|tojson(indent=2) }}</pre></details></td>
+</tr>{% endfor %}</tbody></table></details>
+</details>
 {% endfor %}
 </section>
 <form method="post">
@@ -479,6 +698,8 @@ CASE_TEMPLATE = (
 {% for field in ["nodes","edges","path_labels","tool_tasks","instance_labels"] %}
 <label>{{ field }}（JSON array）</label>
 <textarea name="{{ field }}" spellcheck="false">{{ editable_json[field] }}</textarea>
+<details><summary>查看 {{ field }} 结构示例（必须替换全部 REPLACE 值）</summary>
+<pre class="example">{{ field_examples[field] }}</pre></details>
 {% endfor %}
 </section>
 <section class="card">
@@ -488,8 +709,78 @@ CASE_TEMPLATE = (
 </section>
 <div class="actions">
 <button class="secondary" type="submit" name="action" value="draft">保存草稿</button>
+<button class="secondary" type="submit" name="action" value="check">只做完整性预检</button>
 <button class="primary" type="submit" name="action" value="complete">严格校验并完成</button>
 </div>
 </form></main>
+"""
+)
+
+
+GUIDE_TEMPLATE = (
+    BASE_STYLE
+    + """
+<header><h1>人工标注判定手册</h1>
+<p>只解释协议，不分析当前案例、不调用模型、不推荐标签。</p></header>
+<main class="wrap">
+<section class="card"><a href="{{ url_for('index') }}">← 返回任务列表</a></section>
+<section class="card">
+<h2>一、先判断五项准入条件</h2>
+<table><thead><tr><th>问题</th><th>“是”的最低证据</th><th>常见误判</th></tr></thead><tbody>
+<tr><td>外部或低权限入口</td><td>日志或固定配置明确出现匿名/外部主体、低权限
+IAM/用户、被盗凭据或可从低权限到达的入口。</td><td>Root/Owner 自己执行操作不自动
+等于外部入口；仅有攻击脚本说明也不是运行证据。</td></tr>
+<tr><td>多步路径</td><td>至少两个语义不同且有因果或资源关联的步骤，能够组成有向
+链。</td><td>同一 API 重复多次、只按时间相邻的无关事件不算路径。</td></tr>
+<tr><td>云数据目标</td><td>路径终点或明确目标是数据库、对象存储、备份、密钥、
+数据对象或分析数据。</td><td>只创建空桶、枚举控制面资源，不自动证明数据窃取。</td></tr>
+<tr><td>关键边有原始证据</td><td>每条关键边可绑定 observation ID 与 raw ref，
+且字段足以支持该边语义。</td><td>README/场景名可作上下文，不能替代缺失的运行边。</td></tr>
+<tr><td>不是近重复</td><td>谱系、拓扑或事件序列具有独立信息，未被另一个案例
+完整覆盖。</td><td>仅时间戳或哈希不同但序列相同，仍可能是近重复。</td></tr>
+</tbody></table>
+</section>
+<section class="card">
+<h2>二、选择最终决定</h2>
+<ul>
+<li><b>accept</b>：五项均有当前证据支持，并能完整填写节点、边、路径和工具任务。</li>
+<li><b>needs_execution</b>：存在合理候选，但至少一条关键边需要 provider-native
+oracle 或隔离探针。理由必须写明缺什么证据和所需作用域。</li>
+<li><b>reject</b>：至少一个必要条件有明确反证或明确不成立。不能只因“没看到”
+而 reject。</li>
+</ul>
+</section>
+<section class="card">
+<h2>三、四值证据与路径状态</h2>
+<table><thead><tr><th>边状态</th><th>含义</th><th>evidence_items</th></tr></thead><tbody>
+<tr><td>Supported</td><td>仅有作用域充分的支持</td><td>至少一条 support，无 refute</td></tr>
+<tr><td>Contradicted</td><td>仅有决定性反证</td><td>至少一条 refute，无 support</td></tr>
+<tr><td>Unknown</td><td>证据不足</td><td>必须为空</td></tr>
+<tr><td>Conflict</td><td>支持与反证并存</td><td>support 和 refute 均至少一条</td></tr>
+</tbody></table>
+<p>路径为 Valid 仅当所有硬前提 Supported；出现 Conflict 则路径 Conflict；
+无 Conflict 且至少一条 Contradicted 时为 Invalid；其余为 Insufficient。</p>
+</section>
+<section class="card">
+<h2>四、作用域检查</h2>
+<p>判断 Reachable/NotReachable 前，逐项确认账号或项目、区域、资源、目标时刻和
+查询覆盖范围。控制面配置只能说明“可能”，不能自动证明当时网络或权限实际成立。
+作用域不完整时使用 Unknown/needs_execution。</p>
+</section>
+<section class="card">
+<h2>五、JSON 字段结构</h2>
+<p>以下仅为语法示例，<b>不是标签建议</b>。所有 <code>REPLACE_</code> 值必须
+由真人根据当前页面证据替换；完成校验会拒绝占位符。</p>
+{% for field, example in field_examples.items() %}
+<details><summary>{{ field }}</summary><pre>{{ example }}</pre></details>
+{% endfor %}
+</section>
+<section class="card">
+<h2>六、独立性与完成</h2>
+<p>primary 与 reviewer 不得互看页面、文件或笔记。先保存草稿，再用“只做完整性
+预检”；预检不写文件。只有确认标签由本人独立完成后才可严格完成，完成后页面
+不可修改，分歧交由第三位真人仲裁。</p>
+</section>
+</main>
 """
 )

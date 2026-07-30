@@ -85,6 +85,33 @@ class LocalReviewAppTests(unittest.TestCase):
             self.original["case_id"],
             case_response.get_data(as_text=True),
         )
+        self.assertIn(
+            "证据判定与 JSON 填写手册",
+            response.get_data(as_text=True),
+        )
+        self.assertIn(
+            "已完成谱系",
+            response.get_data(as_text=True),
+        )
+        self.assertIn(
+            "独立谱系",
+            response.get_data(as_text=True),
+        )
+        self.assertIn(
+            "逐条观测索引",
+            case_response.get_data(as_text=True),
+        )
+
+    def test_guide_is_neutral_and_explains_scope_and_four_values(self):
+        response = self.client.get("/guide")
+        text = response.get_data(as_text=True)
+
+        self.assertEqual(200, response.status_code)
+        self.assertIn("不推荐标签", text)
+        self.assertIn("needs_execution", text)
+        self.assertIn("Conflict", text)
+        self.assertIn("作用域检查", text)
+        self.assertIn("REPLACE_", text)
 
     def test_draft_changes_only_editable_fields_and_preserves_source_hash(self):
         response = self.client.post(
@@ -152,6 +179,53 @@ class LocalReviewAppTests(unittest.TestCase):
             data=self._form(),
         )
         self.assertEqual(409, second.status_code)
+
+    def test_completion_precheck_does_not_write_or_attest(self):
+        response = self.client.post(
+            f"/case/{self.filename}",
+            data=self._form(
+                action="check",
+                external_or_low_privilege_entry_defined="false",
+                multi_step_path_present="false",
+                cloud_data_target_present="true",
+                critical_edges_have_raw_evidence="false",
+                not_a_near_duplicate="true",
+                decision="reject",
+                rationale="Human precheck with explicit negative criteria.",
+            ),
+        )
+
+        self.assertEqual(200, response.status_code)
+        self.assertIn(
+            "任务文件尚未改动",
+            response.get_data(as_text=True),
+        )
+        self.assertEqual(
+            self.original,
+            json.loads(self.case_path.read_text(encoding="utf-8")),
+        )
+
+    def test_example_placeholder_cannot_be_completed(self):
+        response = self.client.post(
+            f"/case/{self.filename}",
+            data=self._form(
+                action="complete",
+                external_or_low_privilege_entry_defined="false",
+                multi_step_path_present="false",
+                cloud_data_target_present="true",
+                critical_edges_have_raw_evidence="false",
+                not_a_near_duplicate="true",
+                decision="reject",
+                rationale="REPLACE_human_reason",
+            ),
+        )
+
+        self.assertEqual(400, response.status_code)
+        self.assertIn("REPLACE_", response.get_data(as_text=True))
+        self.assertEqual(
+            self.original,
+            json.loads(self.case_path.read_text(encoding="utf-8")),
+        )
 
     def test_csrf_and_path_traversal_are_rejected(self):
         forbidden = self.client.post(
