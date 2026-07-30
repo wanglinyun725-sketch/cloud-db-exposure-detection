@@ -53,7 +53,12 @@ def main() -> int:
     config_path = args.config.resolve()
     output_dir = args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
-    preflight = run_preflight(ROOT, config_path)
+    preflight = run_preflight(
+        ROOT,
+        config_path,
+        selected_method_ids=set(args.method) if args.method else None,
+        selected_model_ids=set(args.model) if args.model else None,
+    )
     (output_dir / "preflight.json").write_text(
         json.dumps(preflight, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -126,6 +131,7 @@ def main() -> int:
             "models": args.model,
             "limit": args.limit,
         },
+        "schedule_arms": config.get("schedule_arms"),
         "models": [
             {
                 "model_id": item.get("model_id"),

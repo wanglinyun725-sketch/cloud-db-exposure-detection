@@ -13,6 +13,10 @@ import yaml
 from src.agent.ec_react import PARETO_ACTION_SPACE_ID
 from src.annotation.pilot_gate import evaluate_pilot_gate
 from src.annotation.workflow import REAL_SCHEMA_PATH
+from src.experiments.ec_react_execution import (
+    planned_runs_per_instance_for_selection,
+    schedule_design_errors,
+)
 from src.graph.path_ontology import (
     load_path_ontology,
     ontology_reference,
@@ -35,6 +39,8 @@ def run_preflight(
     config_path: str | Path,
     *,
     environ: Mapping[str, str] | None = None,
+    selected_method_ids: set[str] | None = None,
+    selected_model_ids: set[str] | None = None,
 ) -> dict[str, Any]:
     """Audit data, split, model and fairness prerequisites without running."""
     root = Path(root).resolve()
@@ -47,6 +53,28 @@ def run_preflight(
 
     _validate_config_shape(config, blockers)
     methods = config.get("methods") or []
+    known_method_ids = {
+        item.get("method_id")
+        for item in methods
+        if isinstance(item, Mapping)
+    }
+    known_model_ids = {
+        item.get("model_id")
+        for item in config.get("models") or []
+        if isinstance(item, Mapping)
+    }
+    if selected_method_ids is not None:
+        unknown_methods = sorted(selected_method_ids - known_method_ids)
+        if unknown_methods:
+            blockers.append(
+                f"unknown selected methods: {unknown_methods}"
+            )
+    if selected_model_ids is not None:
+        unknown_models = sorted(selected_model_ids - known_model_ids)
+        if unknown_models:
+            blockers.append(
+                f"unknown selected models: {unknown_models}"
+            )
     shared = config.get("shared_execution") or {}
     _validate_method_fairness(methods, shared, blockers)
     ontology_summary = _validate_path_ontology_config(
@@ -288,10 +316,22 @@ def run_preflight(
         blockers,
     )
     model_status = _model_status(
-        config.get("models") or [],
+        [
+            item
+            for item in config.get("models") or []
+            if (
+                selected_model_ids is None
+                or item.get("model_id") in selected_model_ids
+            )
+        ],
         methods,
         environment,
         blockers,
+    )
+    schedule_errors = schedule_design_errors(config)
+    blockers.extend(
+        f"invalid explicit schedule: {item}"
+        for item in schedule_errors
     )
 
     if (
@@ -328,12 +368,18 @@ def run_preflight(
         methods,
         config.get("models") or [],
         shared,
+        config,
+        selected_method_ids,
+        selected_model_ids,
     )
     planned_runs_at_minimum = _planned_runs(
         minimum_runtime + minimum_negative_controls,
         methods,
         config.get("models") or [],
         shared,
+        config,
+        selected_method_ids,
+        selected_model_ids,
     )
     return {
         "preflight_version": "0.1",
@@ -381,6 +427,28 @@ def run_preflight(
         "annotation_pilot_gate": pilot_gate_summary,
         "split_summary": split_summary,
         "method_count": len(methods),
+        "schedule_arm_count": len(config.get("schedule_arms") or []),
+        "execution_selection": {
+            "method_ids": (
+                sorted(selected_method_ids)
+                if selected_method_ids is not None
+                else None
+            ),
+            "model_ids": (
+                sorted(selected_model_ids)
+                if selected_model_ids is not None
+                else None
+            ),
+        },
+        "planned_runs_per_runtime_instance": (
+            planned_runs_per_instance_for_selection(
+                config,
+                method_ids=selected_method_ids,
+                model_ids=selected_model_ids,
+            )
+            if not schedule_errors
+            else 0
+        ),
         "model_status": model_status,
         "planned_runs_if_ready": planned_runs,
         "planned_runs_at_minimum_case_target": (
@@ -1325,7 +1393,26 @@ def _planned_runs(
     methods: list[dict[str, Any]],
     models: list[dict[str, Any]],
     shared: dict[str, Any],
+    config: Mapping[str, Any] | None = None,
+    method_ids: set[str] | None = None,
+    model_ids: set[str] | None = None,
 ) -> int:
+    if config is not None and config.get("schedule_arms"):
+        return cases * planned_runs_per_instance_for_selection(
+            config,
+            method_ids=method_ids,
+            model_ids=model_ids,
+        )
+    if method_ids is not None:
+        methods = [
+            item for item in methods
+            if item.get("method_id") in method_ids
+        ]
+    if model_ids is not None:
+        models = [
+            item for item in models
+            if item.get("model_id") in model_ids
+        ]
     budgets = len(shared.get("budget_grid") or [])
     llm_repeats = int(shared.get("llm_repeats") or 0)
     deterministic_repeats = int(
