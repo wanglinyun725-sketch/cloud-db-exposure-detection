@@ -164,6 +164,21 @@ class ExperimentStatisticsTests(unittest.TestCase):
             0 <= item["p_value"] <= item["p_holm"] <= 1
             for item in comparisons.values()
         ))
+        self.assertTrue(all(
+            item["raw_difference_ci_low"]
+            <= item["raw_mean_difference_primary_minus_baseline"]
+            <= item["raw_difference_ci_high"]
+            for item in comparisons.values()
+        ))
+        self.assertTrue(all(
+            item["minimum_detectable_paired_dz"] is not None
+            for item in comparisons.values()
+        ))
+        self.assertFalse(
+            report["power_sensitivity"][
+                "observed_posthoc_power_reported"
+            ]
+        )
 
     def test_duplicate_run_record_is_rejected(self):
         records = _records()
@@ -343,10 +358,43 @@ class ExperimentStatisticsTests(unittest.TestCase):
         )
         safety_gates = report["safety_gate_evaluations"]["evaluations"]
         self.assertEqual(1, len(safety_gates))
+        self.assertLessEqual(
+            safety_gates[0]["rate_difference_ci_high"],
+            0,
+        )
         self.assertTrue(
             safety_gates[0][
                 "unsafe_false_reachable_must_not_increase_pass"
             ]
+        )
+
+    def test_safety_nonincrease_requires_the_paired_ci_not_only_the_mean(self):
+        config = _config()
+        config["reporting"] = {
+            "primary_metrics": ["certified_fine_edge_f1_at_5"],
+            "secondary_metrics": ["unsafe_false_reachable"],
+            "success_gates": {
+                "unsafe_false_reachable_must_not_increase": True,
+            },
+        }
+        records = _efficiency_records()
+        for record in records:
+            group = record["independence_group"]
+            method = record["method_id"]
+            record["score"]["unsafe_false_reachable"] = (
+                (method == "ec_react_full" and group == "g0")
+                or (method == "vanilla_react" and group == "g1")
+            )
+
+        report = analyze_frozen_runs(records, config)
+        gate = report["safety_gate_evaluations"]["evaluations"][0]
+
+        self.assertEqual(0.0, gate[
+            "rate_difference_primary_minus_baseline"
+        ])
+        self.assertGreater(gate["rate_difference_ci_high"], 0)
+        self.assertFalse(
+            gate["unsafe_false_reachable_must_not_increase_pass"]
         )
 
 

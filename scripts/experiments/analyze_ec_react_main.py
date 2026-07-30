@@ -21,10 +21,10 @@ from src.experiments.artifact_chain_v2 import (  # noqa: E402
 )
 
 
-DEFAULT_CONFIG = ROOT / "configs" / "ec_react_main_v1.yaml"
-DEFAULT_RUNS = ROOT / "output" / "ec_react_main_v1" / "runs.jsonl"
+DEFAULT_CONFIG = ROOT / "configs" / "ec_react_main_v2_frozen.yaml"
+DEFAULT_RUNS = ROOT / "output" / "ec_react_main_v2" / "runs.jsonl"
 DEFAULT_OUTPUT = (
-    ROOT / "output" / "ec_react_main_v1" / "analysis.json"
+    ROOT / "output" / "ec_react_main_v2" / "analysis.json"
 )
 
 
@@ -60,6 +60,9 @@ def main() -> int:
     heterogeneity_csv = output.with_name(
         "source_heterogeneity_tests.csv"
     )
+    efficiency_csv = output.with_name("efficiency_gate_evaluations.csv")
+    safety_summary_csv = output.with_name("safety_error_summaries.csv")
+    safety_gate_csv = output.with_name("safety_gate_evaluations.csv")
     _write_csv(summary_csv, report["summaries"])
     _write_csv(comparisons_csv, report["paired_comparisons"])
     _write_csv(slices_csv, report["slice_summaries"])
@@ -70,6 +73,15 @@ def main() -> int:
     _write_csv(
         heterogeneity_csv,
         report["source_heterogeneity"]["heterogeneity_tests"],
+    )
+    _write_csv(
+        efficiency_csv,
+        report["efficiency_gate_evaluations"]["evaluations"],
+    )
+    _write_csv(safety_summary_csv, report["safety_error_summaries"])
+    _write_csv(
+        safety_gate_csv,
+        report["safety_gate_evaluations"]["evaluations"],
     )
     print(json.dumps(
         {
@@ -89,6 +101,9 @@ def main() -> int:
             "slices_csv": str(slices_csv),
             "source_gains_csv": str(source_gains_csv),
             "source_heterogeneity_csv": str(heterogeneity_csv),
+            "efficiency_gate_csv": str(efficiency_csv),
+            "safety_summary_csv": str(safety_summary_csv),
+            "safety_gate_csv": str(safety_gate_csv),
         },
         ensure_ascii=False,
     ))

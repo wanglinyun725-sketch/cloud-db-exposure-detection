@@ -73,6 +73,31 @@ def evaluate_confirmatory_decision(
             )
             if value is None
         ]
+        if summary is not None and not _has_fields(
+            summary,
+            ("ci_low", "ci_high", "confidence_level"),
+        ):
+            missing.append("absolute_f1_confidence_interval")
+        if comparison is not None and not _has_fields(
+            comparison,
+            (
+                "favorable_effect_ci_low",
+                "favorable_effect_ci_high",
+                "confidence_level",
+                "paired_standardized_effect",
+                "minimum_detectable_paired_dz",
+            ),
+        ):
+            missing.append("paired_effect_inference")
+        if safety_gate is not None and not _has_fields(
+            safety_gate,
+            (
+                "rate_difference_ci_low",
+                "rate_difference_ci_high",
+                "confidence_level",
+            ),
+        ):
+            missing.append("safety_difference_confidence_interval")
         if missing:
             model_decisions.append({
                 "model_id": model_id,
@@ -102,9 +127,23 @@ def evaluate_confirmatory_decision(
                 "paired_independence_groups"
             ],
             "absolute_f1": absolute_f1,
+            "absolute_f1_ci_low": float(summary["ci_low"]),
+            "absolute_f1_ci_high": float(summary["ci_high"]),
             "absolute_f1_threshold": minimum_absolute,
             "absolute_f1_pass": absolute_pass,
             "mean_f1_gain_vs_vanilla": gain,
+            "mean_f1_gain_ci_low": float(
+                comparison["favorable_effect_ci_low"]
+            ),
+            "mean_f1_gain_ci_high": float(
+                comparison["favorable_effect_ci_high"]
+            ),
+            "paired_standardized_effect": comparison[
+                "paired_standardized_effect"
+            ],
+            "minimum_detectable_paired_dz": comparison[
+                "minimum_detectable_paired_dz"
+            ],
             "material_gain_threshold": minimum_gain,
             "material_gain_pass": material_pass,
             "holm_adjusted_p": p_holm,
@@ -113,6 +152,12 @@ def evaluate_confirmatory_decision(
             "relative_improvement_pass": relative_pass,
             "unsafe_rate_difference": safety_gate[
                 "rate_difference_primary_minus_baseline"
+            ],
+            "unsafe_rate_difference_ci_low": safety_gate[
+                "rate_difference_ci_low"
+            ],
+            "unsafe_rate_difference_ci_high": safety_gate[
+                "rate_difference_ci_high"
             ],
             "unsafe_false_reachable_nonincrease_pass": safety_pass,
         })
@@ -178,3 +223,10 @@ def _unique(
             f"analysis has duplicate gate rows for {dict(expected)}"
         )
     return matches[0] if matches else None
+
+
+def _has_fields(
+    row: Mapping[str, Any],
+    fields: tuple[str, ...],
+) -> bool:
+    return all(field in row for field in fields)

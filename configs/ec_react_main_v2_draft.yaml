@@ -265,6 +265,12 @@ statistics:
   confirmatory_alpha: 0.05
   multiple_comparison_correction: holm
   report_effect_sizes: true
+  power_sensitivity:
+    target_power: 0.80
+    alpha: 0.05
+    sided: 2
+    method: prospective_normal_approximation_mde
+    observed_posthoc_power_prohibited: true
   primary_analysis_unit: independence_group
   primary_pairing: same_lineage_model_budget
   source_heterogeneity:

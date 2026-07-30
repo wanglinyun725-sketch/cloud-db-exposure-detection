@@ -4,6 +4,7 @@ import pytest
 
 from src.experiments.power_analysis import (
     exact_sign_power,
+    minimum_detectable_normal_effect,
     minimum_groups_for_normal_power,
     minimum_groups_for_sign_power,
     normal_paired_power,
@@ -37,6 +38,18 @@ def test_minimum_sample_size_meets_target() -> None:
         assert normal_paired_power(normal_n - 1, 0.5) < 0.8
     if sign_n > 1:
         assert exact_sign_power(sign_n - 1, 0.5, 0.75) < 0.8
+
+
+def test_minimum_detectable_effect_is_prospective_and_shrinks_with_n() -> None:
+    effect_15 = minimum_detectable_normal_effect(15)
+    effect_30 = minimum_detectable_normal_effect(30)
+
+    assert effect_15 is not None
+    assert effect_30 is not None
+    assert effect_30 < effect_15
+    assert normal_paired_power(30, effect_30) >= 0.8
+    assert normal_paired_power(30, effect_30 - 1e-5) < 0.8
+    assert minimum_detectable_normal_effect(1) is None
 
 
 @pytest.mark.parametrize(

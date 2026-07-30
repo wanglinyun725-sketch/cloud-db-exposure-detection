@@ -13,6 +13,7 @@ if str(ROOT) not in sys.path:
 
 from src.experiments.power_analysis import (  # noqa: E402
     exact_sign_power,
+    minimum_detectable_normal_effect,
     minimum_groups_for_normal_power,
     minimum_groups_for_sign_power,
     normal_paired_power,
@@ -21,7 +22,7 @@ from src.experiments.power_analysis import (  # noqa: E402
 
 OUTPUT_JSON = ROOT / "output" / "research_design" / "power_analysis_v1.json"
 OUTPUT_MD = ROOT / "docs" / "power_analysis_v1.md"
-SAMPLE_SIZES = (30, 40, 50, 60, 67, 80)
+SAMPLE_SIZES = (15, 20, 25, 30, 40)
 EFFECTS_DZ = (0.35, 0.45, 0.50, 0.65)
 SIGN_SCENARIOS = (
     {
@@ -78,11 +79,20 @@ def build_report() -> dict:
         "alpha": 0.05,
         "sided": 2,
         "target_power": 0.80,
+        "protocol_lineage_targets": {
+            "minimum_real_independence_groups": 40,
+            "minimum_double_reviewed_gold_groups": 30,
+            "minimum_frozen_test_groups": 15,
+        },
         "primary_endpoint_candidate": (
             "group-level fine-grained exact edge F1 difference: "
             "EC-ReAct minus vanilla ReAct at budget B=20"
         ),
         "normal_approximation": normal_rows,
+        "minimum_detectable_dz_by_n": {
+            str(n): minimum_detectable_normal_effect(n)
+            for n in SAMPLE_SIZES
+        },
         "exact_sign_sensitivity": sign_rows,
         "interpretation": {
             "pilot_limitation": (
@@ -91,14 +101,20 @@ def build_report() -> dict:
                 "paired variance for the thesis main study."
             ),
             "minimum_rule": (
-                "Forty lineages is a data-governance floor, not automatic "
-                "statistical adequacy. Final N is selected before freezing "
-                "from the dev-only variance and this sensitivity table."
+                "Forty real lineages and thirty double-reviewed gold "
+                "lineages are protocol floors, not automatic statistical "
+                "adequacy. The achieved held-out test N and its prospective "
+                "minimum detectable effect must be reported."
             ),
             "recommended_target": (
-                "Aim for at least 80 accepted double-reviewed independent "
-                "lineages, with at least 67 reserved for the confirmatory "
-                "paired evaluation."
+                "Complete all 30 frozen double-reviewed lineages and keep "
+                "at least 15 independent groups in the held-out test split; "
+                "use more test groups when the group-safe split permits."
+            ),
+            "posthoc_power_policy": (
+                "Do not compute observed post-hoc power. Report the paired "
+                "effect, its 95% confidence interval, Holm-adjusted p-value "
+                "and the N-based minimum detectable dz."
             ),
         },
     }
@@ -118,18 +134,33 @@ def render_markdown(report: dict) -> str:
         "",
         "候选主指标为预算 B=20 时，EC-ReAct 相对 vanilla ReAct 的 group-level fine-grained exact edge F1 配对差。表中为双侧 α=0.05 的正态近似功效；正式检验仍使用配对随机化检验和 group-cluster bootstrap。",
         "",
-        "| 配对效应 dz | N=30 | N=40 | N=50 | N=60 | N=67 | N=80 | 80% 功效所需最小 N |",
-        "|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "| 配对效应 dz | "
+        + " | ".join(f"N={n}" for n in SAMPLE_SIZES)
+        + " | 80% 功效所需最小 N |",
+        "|" + "---:|" * (len(SAMPLE_SIZES) + 2),
     ]
     for row in report["normal_approximation"]:
         power = row["power_by_n"]
         lines.append(
             f"| {row['effect_dz']:.2f} | "
-            f"{power['30']:.3f} | {power['40']:.3f} | "
-            f"{power['50']:.3f} | {power['60']:.3f} | "
-            f"{power['67']:.3f} | {power['80']:.3f} | "
+            + " | ".join(
+                f"{power[str(n)]:.3f}" for n in SAMPLE_SIZES
+            )
+            + " | "
             f"{row['minimum_n_for_80pct_power']} |"
         )
+
+    lines.extend([
+        "",
+        "## 按实际 N 报告的最小可检测效应",
+        "",
+        "下表只使用冻结前的 N、α 与目标功效，不能代替主结果，也不使用观察到的效应反算事后功效。",
+        "",
+        "| 独立测试谱系 N | 80% 功效下最小可检测配对 dz |",
+        "|---:|---:|",
+    ])
+    for n, effect in report["minimum_detectable_dz_by_n"].items():
+        lines.append(f"| {n} | {effect:.3f} |")
 
     lines.extend([
         "",
@@ -137,17 +168,20 @@ def render_markdown(report: dict) -> str:
         "",
         "discordance rate 表示两个方法在多少谱系上出现胜负而非打平；win share 是出现胜负时 EC-ReAct 获胜的比例。功效计算把 ties 保留在总样本量中。",
         "",
-        "| 情景 | 非平局率 | EC 胜率（条件于非平局） | N=30 | N=40 | N=50 | N=60 | N=67 | N=80 | 80% 功效所需最小 N |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "| 情景 | 非平局率 | EC 胜率（条件于非平局） | "
+        + " | ".join(f"N={n}" for n in SAMPLE_SIZES)
+        + " | 80% 功效所需最小 N |",
+        "|---|---:|---:|" + "---:|" * (len(SAMPLE_SIZES) + 1),
     ])
     for row in report["exact_sign_sensitivity"]:
         power = row["power_by_n"]
         lines.append(
             f"| `{row['name']}` | {row['discordance_rate']:.3f} | "
             f"{row['treatment_win_share']:.3f} | "
-            f"{power['30']:.3f} | {power['40']:.3f} | "
-            f"{power['50']:.3f} | {power['60']:.3f} | "
-            f"{power['67']:.3f} | {power['80']:.3f} | "
+            + " | ".join(
+                f"{power[str(n)]:.3f}" for n in SAMPLE_SIZES
+            )
+            + " | "
             f"{row['minimum_n_for_80pct_power']} |"
         )
 
@@ -156,9 +190,10 @@ def render_markdown(report: dict) -> str:
         "## 决策",
         "",
         "- Goal 中的 40 个谱系只是数据治理最低线，不能自动解释为统计充分。",
-        "- 操作目标提高为至少 80 个通过准入且完成双人复核的独立谱系，其中不少于 67 个保留给确认性配对评估。",
-        "- 在冻结前只使用 dev/pilot 谱系估计配对差标准差；测试 gold 保持不可见。",
-        "- 若只能获得 30 个确认性谱系，则对中等效应的功效可能不足，论文必须明确标注为限制。",
+        "- 冻结目标保持为 30 个双人复核独立谱系，group-safe split 的 held-out test 不少于 15 个谱系；不能把事件或重复运行冒充 N。",
+        "- 在冻结前只能用 dev/pilot 谱系检查方差量级；测试 gold 保持不可见。",
+        "- 样本量可能不足以检出中小效应，论文必须报告实际 test N、95% CI 与最小可检测 dz，并把低功效列为限制。",
+        "- 禁止用观察效应计算事后功效；它不能挽救不显著或区间过宽的结果。",
         "- 只设置一个确认性主指标，避免在多个预算和指标中挑选最有利结果；其他比较进入 Holm 校正的次要分析族。",
         "",
     ])
@@ -177,8 +212,8 @@ def main() -> int:
         {
             "json": str(OUTPUT_JSON),
             "markdown": str(OUTPUT_MD),
-            "recommended_lineages": 80,
-            "confirmatory_lineages": 67,
+            "double_reviewed_gold_lineages": 30,
+            "minimum_confirmatory_test_lineages": 15,
         },
         ensure_ascii=False,
     ))

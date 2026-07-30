@@ -111,6 +111,55 @@ def minimum_groups_for_normal_power(
     return None
 
 
+def minimum_detectable_normal_effect(
+    n_groups: int,
+    *,
+    target_power: float = 0.8,
+    alpha: float = 0.05,
+    sided: int = 2,
+    max_effect_dz: float = 10.0,
+) -> float | None:
+    """Return the smallest paired dz detectable at the requested power.
+
+    This prospective sensitivity quantity depends only on N, alpha and the
+    target power. It deliberately does not plug the observed effect back into
+    a post-hoc power calculation.
+    """
+    if n_groups < 2:
+        return None
+    _validate_target_power(target_power)
+    if max_effect_dz <= 0:
+        raise ValueError("max_effect_dz must be positive")
+    if normal_paired_power(
+        n_groups,
+        0.0,
+        alpha=alpha,
+        sided=sided,
+    ) >= target_power:
+        return 0.0
+    if normal_paired_power(
+        n_groups,
+        max_effect_dz,
+        alpha=alpha,
+        sided=sided,
+    ) < target_power:
+        return None
+    low = 0.0
+    high = max_effect_dz
+    for _ in range(80):
+        midpoint = (low + high) / 2
+        if normal_paired_power(
+            n_groups,
+            midpoint,
+            alpha=alpha,
+            sided=sided,
+        ) >= target_power:
+            high = midpoint
+        else:
+            low = midpoint
+    return high
+
+
 def minimum_groups_for_sign_power(
     discordance_rate: float,
     treatment_win_share: float,
