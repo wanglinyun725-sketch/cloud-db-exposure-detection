@@ -553,6 +553,22 @@ def run(
         ),
         "selected_splits": selected_splits,
         "schema": str(SCHEMA_PATH.relative_to(ROOT)),
+        "artifact_binding": {
+            "gold_release": {
+                "path": str(input_path.resolve()),
+                "sha256": sha256(input_path.read_bytes()).hexdigest(),
+            },
+            "split_manifest": (
+                {
+                    "path": str(split_manifest_path.resolve()),
+                    "sha256": sha256(
+                        split_manifest_path.read_bytes()
+                    ).hexdigest(),
+                }
+                if split_manifest_path is not None
+                else None
+            ),
+        },
         "research_effectiveness_result": claim_gate["eligible"],
         "summary": summary,
         "cp_cert_claim_gate": claim_gate,

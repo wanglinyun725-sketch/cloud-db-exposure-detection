@@ -24,6 +24,7 @@ CORE_RESULT_NAMES = {
     "run_manifest.json",
     "runs.jsonl",
     "analysis.json",
+    "cp_cert_experiment_results.json",
     "confirmatory_decision.json",
 }
 
@@ -64,6 +65,9 @@ def build_reproduction_bundle_bytes(
         name: experiment_dir / name for name in sorted(CORE_RESULT_NAMES)
     }
     decision = _read_json(result_paths["confirmatory_decision.json"])
+    cp_cert = _read_json(
+        result_paths["cp_cert_experiment_results.json"]
+    )
     if (
         decision.get("claim_allowed") is not True
         or decision.get("overall_status") != "pass"
@@ -79,6 +83,12 @@ def build_reproduction_bundle_bytes(
     for name, path in result_paths.items():
         if not path.is_file():
             raise ValueError(f"core result is missing: {name}")
+    _validate_cp_cert_result(
+        root,
+        cp_cert,
+        frozen,
+        freeze_manifest,
+    )
     run_manifest = _read_json(result_paths["run_manifest.json"])
     if run_manifest.get("secrets_in_manifest") is not False:
         raise ValueError("run manifest is not safe for packaging")
@@ -175,6 +185,72 @@ def _validate_freeze(
         raise ValueError("freeze config and manifest input bindings differ")
 
 
+def _validate_cp_cert_result(
+    root: Path,
+    report: Mapping[str, Any],
+    frozen: Mapping[str, Any],
+    freeze_manifest: Mapping[str, Any],
+) -> None:
+    if report.get("experiment") != "cp_cert_reviewed_human_gold":
+        raise ValueError("CP-Cert result has an unexpected experiment ID")
+    selected = report.get("selected_splits")
+    if (
+        not isinstance(selected, list)
+        or not selected
+        or not set(selected) <= {"test", "external_test"}
+    ):
+        raise ValueError("CP-Cert result is not held-out split bound")
+    gate = report.get("cp_cert_claim_gate")
+    if not isinstance(gate, Mapping):
+        raise ValueError("CP-Cert result lacks its claim gate")
+    if report.get("research_effectiveness_result") is not gate.get(
+        "eligible"
+    ):
+        raise ValueError("CP-Cert result and claim gate disagree")
+
+    data = frozen.get("data")
+    bindings = report.get("artifact_binding")
+    frozen_inputs = freeze_manifest.get("inputs")
+    if (
+        not isinstance(data, Mapping)
+        or not isinstance(bindings, Mapping)
+        or not isinstance(frozen_inputs, Mapping)
+    ):
+        raise ValueError("CP-Cert artifact binding is malformed")
+    for field, report_field in (
+        ("gold_release", "gold_release"),
+        ("split_manifest", "split_manifest"),
+    ):
+        configured = data.get(field)
+        reported = bindings.get(report_field)
+        frozen_item = frozen_inputs.get(field)
+        if (
+            not isinstance(configured, str)
+            or not isinstance(reported, Mapping)
+            or not isinstance(frozen_item, Mapping)
+        ):
+            raise ValueError(
+                f"CP-Cert lacks frozen {field} binding"
+            )
+        configured_path = _resolve(root, configured)
+        reported_path = _resolve(
+            root,
+            str(reported.get("path", "")),
+        )
+        if reported_path != configured_path:
+            raise ValueError(
+                f"CP-Cert {field} path differs from frozen config"
+            )
+        observed_hash = _file_hash(configured_path)
+        if (
+            reported.get("sha256") != observed_hash
+            or frozen_item.get("sha256") != observed_hash
+        ):
+            raise ValueError(
+                f"CP-Cert {field} hash differs from frozen input"
+            )
+
+
 def _add_file(root: Path, files: dict[str, bytes], path: Path) -> None:
     try:
         name = _safe_archive_name(str(path.resolve().relative_to(root)))
@@ -219,6 +295,7 @@ python scripts/experiments/run_research_pipeline_v2.py --mode execute --config {
 
 ```powershell
 python scripts/experiments/analyze_ec_react_main.py --config {frozen_config} --runs {experiment_dir}/runs.jsonl --output {experiment_dir}/analysis.json
+python scripts/experiments/run_cp_cert_experiments.py --input <frozen-gold-release> --split-manifest <frozen-split-manifest> --output {experiment_dir}/cp_cert_experiment_results.json
 python scripts/experiments/decide_ec_react_main.py --config {frozen_config} --analysis {experiment_dir}/analysis.json --output {experiment_dir}/confirmatory_decision.json
 ```
 """

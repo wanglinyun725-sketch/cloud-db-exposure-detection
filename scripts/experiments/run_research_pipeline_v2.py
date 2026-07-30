@@ -70,7 +70,7 @@ def main() -> int:
     frozen_config_path = args.frozen_config.resolve()
     output_dir = args.output_dir.resolve()
     status: dict[str, Any] = {
-        "pipeline_version": "1.1",
+        "pipeline_version": "1.2",
         "mode": args.mode,
         "config": _portable(config_path),
         "frozen_config": _portable(frozen_config_path),
@@ -258,6 +258,42 @@ def main() -> int:
         **analysis,
     })
     if analysis["returncode"] != 0:
+        _write_status(args.status_output, status)
+        return 2
+
+    try:
+        cp_gold, cp_split = _cp_cert_inputs(run_config_path)
+    except (OSError, TypeError, ValueError, yaml.YAMLError) as exc:
+        status["stages"].append({
+            "stage": "evaluate_cp_cert",
+            "returncode": 2,
+            "command": None,
+            "result": {
+                "ready": False,
+                "reason": str(exc),
+            },
+            "stderr": None,
+        })
+        status["final_status"] = "cp_cert_input_binding_failed"
+        _write_status(args.status_output, status)
+        return 2
+    cp_cert = _run([
+        PYTHON,
+        ROOT / "scripts" / "experiments"
+        / "run_cp_cert_experiments.py",
+        "--input",
+        cp_gold,
+        "--split-manifest",
+        cp_split,
+        "--output",
+        output_dir / "cp_cert_experiment_results.json",
+    ])
+    status["stages"].append({
+        "stage": "evaluate_cp_cert",
+        **cp_cert,
+    })
+    if cp_cert["returncode"] != 0:
+        status["final_status"] = "cp_cert_experiment_failed"
         _write_status(args.status_output, status)
         return 2
 
@@ -557,6 +593,26 @@ def _selection_arguments(args: argparse.Namespace) -> list[str]:
     for value in args.model or []:
         output.extend(["--model", value])
     return output
+
+
+def _cp_cert_inputs(config_path: Path) -> tuple[Path, Path]:
+    config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    if not isinstance(config, dict):
+        raise ValueError("execution config root must be an object")
+    data = config.get("data")
+    if not isinstance(data, dict):
+        raise ValueError("execution config lacks data bindings")
+
+    def resolve(field: str) -> Path:
+        value = data.get(field)
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(
+                f"execution config lacks data.{field}"
+            )
+        path = Path(value)
+        return (path if path.is_absolute() else ROOT / path).resolve()
+
+    return resolve("gold_release"), resolve("split_manifest")
 
 
 def _run(command: list[str | Path]) -> dict[str, Any]:

@@ -44,6 +44,10 @@ def test_pipeline_manifest_uses_repo_relative_paths():
 def _write_frozen_pair(config_path: Path, manifest_path: Path) -> None:
     config = {
         "freeze_status": "FROZEN",
+        "data": {
+            "gold_release": "data/gold.json",
+            "split_manifest": "data/split.json",
+        },
         "freeze_binding": {
             "git_commit": "a" * 40,
             "inputs": {
@@ -203,6 +207,12 @@ def test_execute_mode_freezes_draft_then_uses_only_frozen_config(
     assert script_names.index(
         "freeze_ec_react_protocol_v2.py"
     ) < script_names.index("run_ec_react_main.py")
+    assert script_names.index(
+        "analyze_ec_react_main.py"
+    ) < script_names.index("run_cp_cert_experiments.py")
+    assert script_names.index(
+        "run_cp_cert_experiments.py"
+    ) < script_names.index("decide_ec_react_main.py")
     for script_name in (
         "run_ec_react_main.py",
         "analyze_ec_react_main.py",
@@ -210,6 +220,19 @@ def test_execute_mode_freezes_draft_then_uses_only_frozen_config(
     ):
         command = calls[script_names.index(script_name)]
         assert command[command.index("--config") + 1] == str(frozen_path)
+    cp_command = calls[
+        script_names.index("run_cp_cert_experiments.py")
+    ]
+    assert cp_command[cp_command.index("--input") + 1] == str(
+        (pipeline.ROOT / "data" / "gold.json").resolve()
+    )
+    assert cp_command[
+        cp_command.index("--split-manifest") + 1
+    ] == str((pipeline.ROOT / "data" / "split.json").resolve())
     status = json.loads(status_path.read_text(encoding="utf-8"))
     assert status["ready"] is False
     assert status["final_status"] == "claim_not_passed"
+    assert any(
+        item["stage"] == "evaluate_cp_cert"
+        for item in status["stages"]
+    )
