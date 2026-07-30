@@ -282,6 +282,91 @@ SOURCES = [
                     "bc6c4d434eeadbd6f7d5524278f9b55ebf7e1e8904b260abd4d2a6a803c9850a"
                 ),
             },
+            {
+                "name": "gcploit_exploitation_framework_old.yml",
+                "url": (
+                    "https://raw.githubusercontent.com/splunk/attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1078/"
+                    "gcploit_exploitation_framework/"
+                    "gcploit_exploitation_framework_old.yml"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "94026e959051d3bf1ba5dfbcdec65e488cfa9133b5f820e62a307b9ad9df7001"
+                ),
+            },
+            {
+                "name": "gcploit_exploitation_framework.json",
+                "url": (
+                    "https://media.githubusercontent.com/media/splunk/"
+                    "attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1078/"
+                    "gcploit_exploitation_framework/"
+                    "gcploit_exploitation_framework.json"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "aec984dcc65f7a91d58ac355c5d017375f029c6c349f8eb37696ff55d55f5935"
+                ),
+            },
+            {
+                "name": "aws_security_scanner.yml",
+                "url": (
+                    "https://raw.githubusercontent.com/splunk/attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1526/"
+                    "aws_security_scanner/aws_security_scanner.yml"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "4fe9cebf8379e813da35fe9c389d9e3c58516cc94ec5667653a285d15e67ea2d"
+                ),
+            },
+            {
+                "name": "aws_security_scanner.json",
+                "url": (
+                    "https://media.githubusercontent.com/media/splunk/"
+                    "attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1526/"
+                    "aws_security_scanner/aws_security_scanner.json"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "4c7ba5d7ac8186f61acf60b6a94e5bc6c3b5a3313bc627a35998110e7103021e"
+                ),
+            },
+            {
+                "name": "aws_ecr_container_upload.yml",
+                "url": (
+                    "https://raw.githubusercontent.com/splunk/attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1204.003/"
+                    "aws_ecr_container_upload/"
+                    "aws_ecr_container_upload.yml"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "b410ccc152acd4e84475ae4f00fd9def4fff0bd5354be325bf79197de7f59ca6"
+                ),
+            },
+            {
+                "name": "aws_ecr_container_upload.json",
+                "url": (
+                    "https://media.githubusercontent.com/media/splunk/"
+                    "attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1204.003/"
+                    "aws_ecr_container_upload/"
+                    "aws_ecr_container_upload.json"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "50e8726582a8e3a893ad9825e0b48b0c594d2766593949244fd36c1052ad171d"
+                ),
+            },
         ],
     },
     {
@@ -289,6 +374,13 @@ SOURCES = [
         "repository": "splunk/attack_data",
         "commit": "67fe973a954cc35688ad9b4906ed6e85af5892e9",
         "artifacts": [
+            {
+                "name": "repository-tree.json",
+                "url": (
+                    "https://api.github.com/repos/splunk/attack_data/git/trees/"
+                    "67fe973a954cc35688ad9b4906ed6e85af5892e9?recursive=1"
+                ),
+            },
             {
                 "name": "data.yml",
                 "url": (

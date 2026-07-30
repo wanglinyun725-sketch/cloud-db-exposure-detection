@@ -87,10 +87,17 @@ GCP 和 9 个直接来源。当前确认性盲标包
 
 候选数量不得冒充正式样本量。
 
+由于确认性主包恰好只有 30 个独立谱系，任意一次人工不准入都会使
+30-gold 目标失效。冻结前另设一个不改变论文发布门槛的操作性供给门禁：
+至少准备 5 个来源真实、与主包不碰撞、经结构审计的候补独立谱系
+（目标样本量的 16.7%）。候补只有在完成相同的双人盲标与仲裁后才能补入
+gold；结构审计本身不产生标签。当前只有 1 个合格候补，尚缺 4 个，证据见
+`confirmatory_reserve_adequacy_v1.json`。
+
 ### 正式准入目标
 
 - 30 个确认性谱系的全部 52 个案例均须完成两位不同真人的独立盲标和仲裁；
-- 冻结实验最低需要 30 个准入案例、20 个准入独立谱系，其中至少
+- 冻结实验最低需要 30 个准入案例、30 个准入独立谱系，其中至少
   30 个案例具有非空运行时证据；
 - test 至少包含 15 个运行时准入案例；此门槛只保证主实验可执行，
   不等于对中小效应有充分统计功效；
@@ -123,7 +130,7 @@ GCP 和 9 个直接来源。当前确认性盲标包
 - excluded：证据不足、许可不明、近重复或未通过双标的材料。
 
 30 个谱系是本轮人工标注和最小可执行主实验的承诺，不是充分功效的替代物。
-如果仲裁后不足 20 个准入独立谱系、30 个运行时准入案例或 15 个冻结 test
+如果仲裁后不足 30 个准入独立谱系、30 个运行时准入案例或 15 个冻结 test
 案例，则继续补充和双标，而不是把测试集用于开发或降低门槛。
 
 冻结包必须记录：
@@ -267,14 +274,15 @@ scorer 与统计分析器已经实现并测试 fine-grained
 
 1. 30 个确认性谱系的 primary/reviewer human gold、仲裁结果仍为 0；
 2. external negative-control 的双人筛选和仲裁仍为 0；
-3. `runtime_confirmatory_30_reviewed.json` 与冻结 split manifest 尚未形成；
-4. 本地 Qwen digest 已由运行中 Ollama 实例核验，但
+3. 结构合格候补仅 1 个，低于 5 个操作性供给门槛；
+4. `runtime_confirmatory_30_reviewed.json` 与冻结 split manifest 尚未形成；
+5. 本地 Qwen digest 已由运行中 Ollama 实例核验，但
    `gpt-5.4-2026-03-05` 所需 `OPENAI_API_KEY` 当前不可用；
-5. `configs/ec_react_main_v2_draft.yaml` 已加入 scope-gate 单组件消融、
+6. `configs/ec_react_main_v2_draft.yaml` 已加入 scope-gate 单组件消融、
    唯一 fine-edge-F1 主指标和精确模型版本，但仍是草案；
-6. 非劣界、成本 CI、unsafe 不增门槛与零事件精确上界已进入自动统计代码，
+7. 非劣界、成本 CI、unsafe 不增门槛与零事件精确上界已进入自动统计代码，
    但尚待冻结数据上的正式运行；
-7. 配置、gold、split、代码和 schedule 的最终哈希尚未冻结。
+8. 配置、gold、split、代码和 schedule 的最终哈希尚未冻结。
 
 阻断项全部关闭前，任何运行只能标记为 pilot、diagnostic 或 engineering validation，不得进入论文主结果表。
 
