@@ -1,12 +1,13 @@
 {
   "manifest_version": "0.1",
-  "generated_at": "2026-07-28T07:46:07.491231+00:00",
   "generator": "scripts/data/acquire_real_sources.py",
   "policy": {
     "sample_generation": false,
     "label_generation": false,
     "raw_artifacts_immutable": true,
-    "hash_algorithm": "SHA-256"
+    "hash_algorithm": "SHA-256",
+    "manifest_is_deterministic": true,
+    "download_status_is_not_recorded": true
   },
   "sources": [
     {
@@ -58,7 +59,7 @@
           "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_rds_password_reset.yml",
           "url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1110.002/aws_rds_password_reset/aws_rds_password_reset.yml",
           "upstream_checksum": "sha256:237786d5ce75d76fda7e6b476f5247732745a6493e058078dfa06cf82c148016",
-          "status": "downloaded",
+          "status": "verified",
           "bytes": 662,
           "sha256": "237786d5ce75d76fda7e6b476f5247732745a6493e058078dfa06cf82c148016"
         },
@@ -67,7 +68,7 @@
           "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_rds_password_reset.json",
           "url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1110.002/aws_rds_password_reset/aws_cloudtrail_events.json",
           "upstream_checksum": "sha256:7015688e41e2afca485d25fcf1fc2e655402fc036e372ca0ad6d2fefc9430c1f",
-          "status": "downloaded",
+          "status": "verified",
           "bytes": 8635,
           "sha256": "7015688e41e2afca485d25fcf1fc2e655402fc036e372ca0ad6d2fefc9430c1f"
         },
@@ -76,7 +77,7 @@
           "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_s3_public_bucket.yml",
           "url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_s3_public_bucket.yml",
           "upstream_checksum": "sha256:943720fbe6c83e840e2397b3816315943f16b575921391b0af824c8707333d8f",
-          "status": "downloaded",
+          "status": "verified",
           "bytes": 450,
           "sha256": "943720fbe6c83e840e2397b3816315943f16b575921391b0af824c8707333d8f"
         },
@@ -85,7 +86,7 @@
           "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_s3_public_bucket.json",
           "url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json",
           "upstream_checksum": "sha256:a7812406c446a6a2c9864f2fe3b07e6b177c18b893dbd2ed0b11b649ddfc7eda",
-          "status": "downloaded",
+          "status": "verified",
           "bytes": 14518,
           "sha256": "a7812406c446a6a2c9864f2fe3b07e6b177c18b893dbd2ed0b11b649ddfc7eda"
         },
@@ -94,7 +95,7 @@
           "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.yml",
           "url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_snapshot_exfil.yml",
           "upstream_checksum": "sha256:31b0a2c4e1c0b52a4e844b47e932f121f2ad3da9230b6b7b666164ac134d09c1",
-          "status": "downloaded",
+          "status": "verified",
           "bytes": 778,
           "sha256": "31b0a2c4e1c0b52a4e844b47e932f121f2ad3da9230b6b7b666164ac134d09c1"
         },
@@ -103,9 +104,99 @@
           "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json",
           "url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json",
           "upstream_checksum": "sha256:ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca",
-          "status": "downloaded",
+          "status": "verified",
           "bytes": 11268,
           "sha256": "ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca"
+        },
+        {
+          "name": "aws_kms_key.yml",
+          "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.yml",
+          "url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_kms_key.yml",
+          "upstream_checksum": "sha256:ae4df3a78324f6bb01029e8a53a5540fb3b6b5e81f9cac2405d8e24aab1cfbc3",
+          "status": "verified",
+          "bytes": 693,
+          "sha256": "ae4df3a78324f6bb01029e8a53a5540fb3b6b5e81f9cac2405d8e24aab1cfbc3"
+        },
+        {
+          "name": "aws_kms_key.json",
+          "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+          "url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json",
+          "upstream_checksum": "sha256:8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+          "status": "verified",
+          "bytes": 984076,
+          "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7"
+        },
+        {
+          "name": "aws_ami_shared_public.yml",
+          "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_ami_shared_public.yml",
+          "url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1537/aws_ami_shared_public/aws_ami_shared_public.yml",
+          "upstream_checksum": "sha256:2546d01240580d8028c5391c9a2fb89da9ec39630b307d8d2bbf83c87a00a939",
+          "status": "verified",
+          "bytes": 733,
+          "sha256": "2546d01240580d8028c5391c9a2fb89da9ec39630b307d8d2bbf83c87a00a939"
+        },
+        {
+          "name": "aws_ami_shared_public.json",
+          "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_ami_shared_public.json",
+          "url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1537/aws_ami_shared_public/aws_cloudtrail_events.json",
+          "upstream_checksum": "sha256:f2402c34740a6c324cf61a7523bc8f19abb5a60e3a3426f8b17df620593866cf",
+          "status": "verified",
+          "bytes": 2979,
+          "sha256": "f2402c34740a6c324cf61a7523bc8f19abb5a60e3a3426f8b17df620593866cf"
+        },
+        {
+          "name": "put_bucketlifecycle.yml",
+          "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/put_bucketlifecycle.yml",
+          "url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1562.008/put_bucketlifecycle/put_bucketlifecycle.yml",
+          "upstream_checksum": "sha256:9d9cfd38ec4f0290d344465d03f5b0667687bbf2d05eaf9627622784ac86c713",
+          "status": "verified",
+          "bytes": 641,
+          "sha256": "9d9cfd38ec4f0290d344465d03f5b0667687bbf2d05eaf9627622784ac86c713"
+        },
+        {
+          "name": "put_bucketlifecycle.json",
+          "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/put_bucketlifecycle.json",
+          "url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1562.008/put_bucketlifecycle/aws_cloudtrail_events.json",
+          "upstream_checksum": "sha256:22fcd57ad927f5ec7d714206dbf44a1b853de109de0156cd1bfaf28f38b6479a",
+          "status": "verified",
+          "bytes": 10237,
+          "sha256": "22fcd57ad927f5ec7d714206dbf44a1b853de109de0156cd1bfaf28f38b6479a"
+        },
+        {
+          "name": "aws_delete_knowledge_base_old.yml",
+          "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_delete_knowledge_base_old.yml",
+          "url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1485/aws_delete_knowledge_base/aws_delete_knowledge_base_old.yml",
+          "upstream_checksum": "sha256:9692ffff27bac7a2018303a1c3ecf6ec8c4357014cf37f8d0494e6c1ab561174",
+          "status": "verified",
+          "bytes": 491,
+          "sha256": "9692ffff27bac7a2018303a1c3ecf6ec8c4357014cf37f8d0494e6c1ab561174"
+        },
+        {
+          "name": "aws_delete_knowledge_base.json",
+          "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_delete_knowledge_base.json",
+          "url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1485/aws_delete_knowledge_base/cloudtrail.json",
+          "upstream_checksum": "sha256:0074532dade6167059a8b32c6fc31cf16e545d2668686e5c636818b9c77742b5",
+          "status": "verified",
+          "bytes": 1415,
+          "sha256": "0074532dade6167059a8b32c6fc31cf16e545d2668686e5c636818b9c77742b5"
+        },
+        {
+          "name": "decommissioned_buckets.yml",
+          "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/decommissioned_buckets.yml",
+          "url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1485/decommissioned_buckets/decommissioned_buckets.yml",
+          "upstream_checksum": "sha256:2d789af0787d52def61dc1397a02d7f82169c5a9e3a6fd1fff591e7848a7473b",
+          "status": "verified",
+          "bytes": 744,
+          "sha256": "2d789af0787d52def61dc1397a02d7f82169c5a9e3a6fd1fff591e7848a7473b"
+        },
+        {
+          "name": "decommissioned_buckets.log",
+          "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/decommissioned_buckets.log",
+          "url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1485/decommissioned_buckets/web_cloudfront_access.log",
+          "upstream_checksum": "sha256:bc6c4d434eeadbd6f7d5524278f9b55ebf7e1e8904b260abd4d2a6a803c9850a",
+          "status": "verified",
+          "bytes": 517,
+          "sha256": "bc6c4d434eeadbd6f7d5524278f9b55ebf7e1e8904b260abd4d2a6a803c9850a"
         }
       ]
     },
