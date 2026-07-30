@@ -4,6 +4,7 @@ from __future__ import annotations
 from copy import deepcopy
 from hashlib import sha256
 import json
+from pathlib import Path
 from typing import Any, Mapping
 
 from src.annotation.negative_control_workflow import (
@@ -110,6 +111,31 @@ def merge_case_bundle(
     if len(cases) != manifest.get("case_count"):
         raise ValueError("bundle case count changed")
     return {**deepcopy(header), "cases": cases}
+
+
+def load_case_bundle_directory(
+    directory: str | Path,
+) -> dict[str, Any]:
+    """Load and hash-check one per-case assignment directory."""
+    directory = Path(directory)
+    manifest_path = directory / "assignment_manifest.json"
+    if not manifest_path.is_file():
+        raise ValueError(
+            f"assignment manifest is missing: {manifest_path}"
+        )
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    documents = {}
+    for entry in manifest.get("entries") or []:
+        filename = entry.get("file")
+        if not isinstance(filename, str) or not filename:
+            raise ValueError("assignment manifest has an invalid task file")
+        path = directory / filename
+        if not path.is_file():
+            raise ValueError(f"assignment task is missing: {path}")
+        documents[filename] = json.loads(
+            path.read_text(encoding="utf-8")
+        )
+    return merge_case_bundle(manifest, documents)
 
 
 def assignment_progress(assignment: dict[str, Any]) -> dict[str, Any]:

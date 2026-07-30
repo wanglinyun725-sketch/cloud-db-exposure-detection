@@ -16,3 +16,16 @@
 4. 负对照用于测量 Agent 的攻击路径幻觉率、错误结束率和 abstention；
 5. 不得将 3,087 份报告或关键词候选计作正向攻击路径样本；
 6. 每个候选保留 archive/member/record index 与行级 SHA-256。
+
+## 双人筛选后的冻结
+
+30 个候选全部由两位不同真人独立筛选后运行：
+
+```powershell
+D:\anaconda\python.exe scripts/annotation/freeze_negative_controls_v1.py
+```
+
+任一任务未完成或存在未仲裁分歧时，命令只写 readiness 报告，不写正式负对照
+release。存在分歧时可用 `--adjudicator-id annotator_03` 生成仅含争议案例的
+第三人任务，再通过 `run_local_review_app.py` 在独立端口完成。最终至少 20 个
+候选同时满足“云数据相关、确定非攻击、可用作负对照”，主实验预检才会放行。

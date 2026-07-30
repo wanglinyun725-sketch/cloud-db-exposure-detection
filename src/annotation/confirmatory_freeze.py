@@ -4,7 +4,6 @@ from __future__ import annotations
 from collections import Counter
 from hashlib import sha256
 import json
-from pathlib import Path
 from typing import Any
 
 from src.annotation.confirmatory_progress import (
@@ -12,7 +11,7 @@ from src.annotation.confirmatory_progress import (
 )
 from src.annotation.task_bundle import (
     assignment_progress,
-    merge_case_bundle,
+    load_case_bundle_directory,
 )
 from src.annotation.workflow import (
     compare_assignments,
@@ -21,27 +20,7 @@ from src.annotation.workflow import (
 from src.experiments.frozen_splits import build_frozen_split_manifest
 
 
-def load_assignment_bundle(directory: str | Path) -> dict[str, Any]:
-    """Load and hash-check one per-case task directory."""
-    directory = Path(directory)
-    manifest_path = directory / "assignment_manifest.json"
-    if not manifest_path.is_file():
-        raise ValueError(
-            f"assignment manifest is missing: {manifest_path}"
-        )
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    documents = {}
-    for entry in manifest.get("entries") or []:
-        filename = entry.get("file")
-        if not isinstance(filename, str) or not filename:
-            raise ValueError("assignment manifest has an invalid task file")
-        path = directory / filename
-        if not path.is_file():
-            raise ValueError(f"assignment task is missing: {path}")
-        documents[filename] = json.loads(
-            path.read_text(encoding="utf-8")
-        )
-    return merge_case_bundle(manifest, documents)
+load_assignment_bundle = load_case_bundle_directory
 
 
 def evaluate_confirmatory_freeze(
