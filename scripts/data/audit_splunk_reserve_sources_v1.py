@@ -58,11 +58,41 @@ SPECS = (
         "raw": "decommissioned_buckets.log",
         "format": "cloudfront_access",
     },
+    {
+        "dataset_id": "T1078/gcploit_exploitation_framework",
+        "metadata": "gcploit_exploitation_framework_old.yml",
+        "raw": "gcploit_exploitation_framework.json",
+        "format": "gcp_export",
+        "exclusion_reason": (
+            "the pinned GCP export contains one function-creation result "
+            "and no linked cloud-data access or exposure transition"
+        ),
+    },
+    {
+        "dataset_id": "T1526/aws_security_scanner",
+        "metadata": "aws_security_scanner.yml",
+        "raw": "aws_security_scanner.json",
+        "format": "cloudtrail",
+        "exclusion_reason": (
+            "the 1,071-event artifact is a read-only discovery sweep; "
+            "it contains no mutation, data access, or exposure transition"
+        ),
+    },
+    {
+        "dataset_id": "T1204.003/aws_ecr_container_upload",
+        "metadata": "aws_ecr_container_upload.yml",
+        "raw": "aws_ecr_container_upload.json",
+        "format": "cloudtrail",
+        "exclusion_reason": (
+            "the artifact contains two PutImage events only and does not "
+            "itself prove a linked multi-step cloud-data path"
+        ),
+    },
 )
 
 
 def build_audit(root: str | Path = ROOT) -> dict[str, Any]:
-    """Return label-blind structural triage for the five raw artifacts."""
+    """Return label-blind structural triage for the pinned raw artifacts."""
     root = Path(root).resolve()
     manifest = json.loads(
         (root / MANIFEST.relative_to(ROOT)).read_text(encoding="utf-8")
@@ -97,6 +127,19 @@ def build_audit(root: str | Path = ROOT) -> dict[str, Any]:
             )
             operations.pop("", None)
             record_count = len(records)
+        elif spec["format"] == "gcp_export":
+            records = _read_json_stream(root / raw["relative_path"])
+            operations = Counter(
+                str(
+                    (record.get("result") or {}).get(
+                        "data.protoPayload.authorizationInfo{}.permission"
+                    )
+                    or ""
+                )
+                for record in records
+            )
+            operations.pop("", None)
+            record_count = len(records)
         else:
             lines = [
                 line
@@ -124,7 +167,7 @@ def build_audit(root: str | Path = ROOT) -> dict[str, Any]:
             "exclusion_reason": (
                 None
                 if exact_linked_multistep
-                else (
+                else spec.get("exclusion_reason") or (
                     "the pinned raw artifact contains only one observed "
                     "operation type and does not itself prove a multi-step "
                     "path"
