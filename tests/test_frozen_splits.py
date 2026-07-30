@@ -89,6 +89,41 @@ class FrozenSplitTests(unittest.TestCase):
         }
         self.assertEqual({"external_test"}, group_a)
 
+    def test_c_level_provenance_overrides_external_holdout(self):
+        release = {
+            "packet_sha256": "d" * 64,
+            "cases": [
+                _case(
+                    "c-external",
+                    "g-c-external",
+                    provenance="C",
+                    source="external",
+                ),
+                _case(
+                    "b-external",
+                    "g-b-external",
+                    provenance="B",
+                    source="external",
+                ),
+            ],
+        }
+
+        manifest = build_frozen_split_manifest(
+            release,
+            seed=31,
+            external_source_ids={"external"},
+        )
+        by_id = {
+            item["case_id"]: item["split"]
+            for item in manifest["assignments"]
+        }
+
+        self.assertIn(
+            by_id["c-external"],
+            {"development", "validation"},
+        )
+        self.assertEqual("external_test", by_id["b-external"])
+
     def test_pending_release_is_refused(self):
         release = {
             "packet_sha256": "c" * 64,

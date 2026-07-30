@@ -8,8 +8,10 @@ verification inputs.
 from __future__ import annotations
 
 import argparse
+from hashlib import sha256
 import json
 from pathlib import Path
+import random
 import statistics
 import sys
 from typing import Any
@@ -84,6 +86,7 @@ def validate_case_for_experiment(
         )
     if not case["path_labels"]:
         raise ValueError(f"{case['case_id']}: no human path labels")
+    _independence_group(case)
 
 
 def evaluate_case(case: dict[str, Any]) -> dict[str, Any]:
@@ -157,6 +160,12 @@ def evaluate_case(case: dict[str, Any]) -> dict[str, Any]:
                 for item in relevant
             }
             audit = verify_certificate(certificate, relevant, coverage)
+            _require_valid_certificate(
+                case["case_id"],
+                label["path_id"],
+                method,
+                audit,
+            )
             certificates.append(
                 _certificate_row(
                     case,
@@ -195,6 +204,12 @@ def evaluate_case(case: dict[str, Any]) -> dict[str, Any]:
                 method=method,
             )
             audit = verify_certificate(certificate, relevant, coverage)
+            _require_valid_certificate(
+                case["case_id"],
+                "all-candidate-paths",
+                method,
+                audit,
+            )
             certificates.append(
                 _certificate_row(
                     case,
@@ -208,6 +223,7 @@ def evaluate_case(case: dict[str, Any]) -> dict[str, Any]:
 
     return {
         "case_id": case["case_id"],
+        "independence_group": _independence_group(case),
         "source_id": case["source"]["source_id"],
         "provenance_level": case["source"]["provenance_level"],
         "annotation_status": case["annotation"]["status"],
@@ -215,6 +231,34 @@ def evaluate_case(case: dict[str, Any]) -> dict[str, Any]:
         "path_verdicts": path_results,
         "certificates": certificates,
     }
+
+
+def _independence_group(case: dict[str, Any]) -> str:
+    value = (
+        (case.get("candidate_metadata") or {}).get(
+            "independence_group"
+        )
+        or case.get("independence_group")
+    )
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(
+            f"{case.get('case_id')}: independence_group is required "
+            "for CP-Cert inference"
+        )
+    return value
+
+
+def _require_valid_certificate(
+    case_id: str,
+    target: str,
+    method: str,
+    audit: dict[str, Any],
+) -> None:
+    if audit.get("valid") is not True:
+        raise ValueError(
+            f"{case_id}/{target}/{method}: generated certificate failed "
+            f"independent audit: {audit}"
+        )
 
 
 def _certificate_row(
@@ -230,6 +274,7 @@ def _certificate_row(
     baseline_size = len(baseline_ids)
     return {
         "case_id": case["case_id"],
+        "independence_group": _independence_group(case),
         "target": target,
         "kind": certificate.kind,
         "method": certificate.method,
@@ -257,57 +302,260 @@ def summarize(case_results: list[dict[str, Any]]) -> dict[str, Any]:
         for row in case["certificates"]
     ]
     by_method = {}
+    metric_extractors = {
+        "evidence_count": lambda row: len(
+            row["certificate"]["evidence_ids"]
+        ),
+        "total_cost": lambda row: row["certificate"]["total_cost"],
+        "size_reduction": lambda row: row["size_reduction"],
+        "cost_reduction": lambda row: row["cost_reduction"],
+        "valid_certificate": lambda row: row["audit"]["valid"],
+        "sufficient": lambda row: row["audit"]["sufficient"],
+        "irreducible": lambda row: row["audit"]["irreducible"],
+        "raw_ref_complete": lambda row: row["audit"][
+            "raw_refs_complete"
+        ] and row["audit"]["raw_refs_match"],
+        "optimality_verified": lambda row: row["audit"][
+            "optimality_verified"
+        ],
+        "approximation_bound_satisfied": lambda row: row["audit"][
+            "approximation_bound_satisfied"
+        ],
+    }
     for method in ("exact", "greedy"):
         selected = [row for row in rows if row["method"] == method]
         if not selected:
             continue
+        metric_summaries = {}
+        for metric, extractor in metric_extractors.items():
+            values = _collapse_certificate_metric(
+                selected,
+                extractor,
+            )
+            if values:
+                metric_summaries[metric] = _summarize_group_values(
+                    values,
+                    seed_key=(method, metric),
+                )
         by_method[method] = {
             "n_certificates": len(selected),
-            "mean_evidence_count": statistics.fmean(
-                len(row["certificate"]["evidence_ids"])
-                for row in selected
-            ),
-            "mean_total_cost": statistics.fmean(
-                row["certificate"]["total_cost"] for row in selected
-            ),
-            "mean_size_reduction": statistics.fmean(
-                row["size_reduction"] for row in selected
-            ),
-            "mean_cost_reduction": statistics.fmean(
-                row["cost_reduction"] for row in selected
-            ),
-            "sufficiency_rate": statistics.fmean(
-                row["audit"]["sufficient"] for row in selected
-            ),
-            "irreducibility_rate": statistics.fmean(
-                row["audit"]["irreducible"] for row in selected
-            ),
-            "raw_ref_completeness": statistics.fmean(
-                row["audit"]["raw_refs_complete"] for row in selected
-            ),
+            "independence_groups": len({
+                row["independence_group"] for row in selected
+            }),
+            "group_level_metrics": metric_summaries,
         }
+    paired = _paired_method_summaries(rows)
     return {
+        "analysis_version": "1.0",
+        "statistical_unit": "independence_group",
         "independent_cases": len(case_results),
+        "independence_groups": len({
+            case["independence_group"] for case in case_results
+        }),
         "certificates": len(rows),
         "by_method": by_method,
+        "paired_exact_minus_greedy": paired,
+        "pseudo_replication_guard": True,
         "warning": (
-            "Descriptive results only. Statistical inference must use "
-            "independence_group/case-level units after the dataset split is frozen."
+            "Certificate rows and paths are not independent. Means and "
+            "bootstrap intervals first collapse targets within case and "
+            "cases within independence_group."
         ),
     }
 
 
-def run(input_path: Path, output_path: Path) -> dict[str, Any]:
+def _collapse_certificate_metric(
+    rows: list[dict[str, Any]],
+    extractor,
+) -> dict[str, float]:
+    case_values: dict[tuple[str, str], list[float]] = {}
+    for row in rows:
+        value = extractor(row)
+        if value is None:
+            continue
+        key = (row["independence_group"], row["case_id"])
+        case_values.setdefault(key, []).append(float(value))
+    group_cases: dict[str, list[float]] = {}
+    for (group, _), values in case_values.items():
+        group_cases.setdefault(group, []).append(statistics.fmean(values))
+    return {
+        group: statistics.fmean(values)
+        for group, values in group_cases.items()
+    }
+
+
+def _paired_method_summaries(
+    rows: list[dict[str, Any]],
+) -> dict[str, Any]:
+    indexed = {
+        (
+            row["independence_group"],
+            row["case_id"],
+            row["target"],
+            row["kind"],
+            row["method"],
+        ): row
+        for row in rows
+    }
+    pair_keys = {
+        key[:4]
+        for key in indexed
+        if (
+            (*key[:4], "exact") in indexed
+            and (*key[:4], "greedy") in indexed
+        )
+    }
+    extractors = {
+        "evidence_count": lambda row: len(
+            row["certificate"]["evidence_ids"]
+        ),
+        "total_cost": lambda row: row["certificate"]["total_cost"],
+        "size_reduction": lambda row: row["size_reduction"],
+        "cost_reduction": lambda row: row["cost_reduction"],
+    }
+    output = {}
+    for metric, extractor in extractors.items():
+        case_differences: dict[tuple[str, str], list[float]] = {}
+        for group, case_id, target, kind in pair_keys:
+            exact = indexed[(group, case_id, target, kind, "exact")]
+            greedy = indexed[(group, case_id, target, kind, "greedy")]
+            case_differences.setdefault((group, case_id), []).append(
+                float(extractor(exact)) - float(extractor(greedy))
+            )
+        group_cases: dict[str, list[float]] = {}
+        for (group, _), values in case_differences.items():
+            group_cases.setdefault(group, []).append(
+                statistics.fmean(values)
+            )
+        group_values = {
+            group: statistics.fmean(values)
+            for group, values in group_cases.items()
+        }
+        if group_values:
+            output[metric] = _summarize_group_values(
+                group_values,
+                seed_key=("exact-minus-greedy", metric),
+            )
+    return {
+        "pairing": "same independence_group/case/target/kind",
+        "difference": "exact minus greedy",
+        "metrics": output,
+    }
+
+
+def _summarize_group_values(
+    values: dict[str, float],
+    *,
+    seed_key: tuple[str, str],
+    resamples: int = 5000,
+    confidence: float = 0.95,
+) -> dict[str, Any]:
+    ordered = [values[group] for group in sorted(values)]
+    low, high = _bootstrap_mean_ci(
+        ordered,
+        resamples=resamples,
+        confidence=confidence,
+        seed=_seed(seed_key),
+    )
+    return {
+        "independence_groups": len(ordered),
+        "mean": statistics.fmean(ordered),
+        "ci_low": low,
+        "ci_high": high,
+        "confidence_level": confidence,
+        "cluster_bootstrap_resamples": resamples,
+    }
+
+
+def _bootstrap_mean_ci(
+    values: list[float],
+    *,
+    resamples: int,
+    confidence: float,
+    seed: int,
+) -> tuple[float, float]:
+    if not values:
+        raise ValueError("bootstrap requires values")
+    if len(values) == 1:
+        return values[0], values[0]
+    rng = random.Random(seed)
+    estimates = sorted(
+        statistics.fmean(rng.choice(values) for _ in values)
+        for _ in range(resamples)
+    )
+    alpha = 1.0 - confidence
+    return (
+        _quantile(estimates, alpha / 2),
+        _quantile(estimates, 1 - alpha / 2),
+    )
+
+
+def _quantile(values: list[float], probability: float) -> float:
+    position = probability * (len(values) - 1)
+    lower = int(position)
+    upper = min(lower + 1, len(values) - 1)
+    fraction = position - lower
+    return values[lower] * (1 - fraction) + values[upper] * fraction
+
+
+def _seed(value: Any) -> int:
+    return int(sha256(
+        json.dumps(value, sort_keys=True).encode("utf-8")
+    ).hexdigest()[:16], 16)
+
+
+def run(
+    input_path: Path,
+    output_path: Path,
+    *,
+    split_manifest_path: Path | None = None,
+) -> dict[str, Any]:
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    payload = json.loads(input_path.read_text(encoding="utf-8"))
     cases = load_cases(input_path)
+    selected_splits = None
+    split_bound = split_manifest_path is not None
+    if split_manifest_path is not None:
+        manifest = json.loads(
+            split_manifest_path.read_text(encoding="utf-8")
+        )
+        cases, selected_splits = _select_frozen_test_cases(
+            payload,
+            cases,
+            manifest,
+        )
+    elif isinstance(payload, dict):
+        cases = [
+            case
+            for case in cases
+            if (
+                (case.get("admission_screen") or {}).get("decision")
+                in {None, "accept"}
+            )
+        ]
+    if not cases:
+        raise ValueError("no eligible CP-Cert cases")
     for case in cases:
         validate_case_for_experiment(case, schema)
     results = [evaluate_case(case) for case in cases]
+    summary = summarize(results)
+    claim_gate = _cp_cert_claim_gate(
+        summary,
+        split_bound=split_bound,
+    )
     report = {
         "experiment": "cp_cert_reviewed_human_gold",
         "input": str(input_path),
+        "split_manifest": (
+            str(split_manifest_path)
+            if split_manifest_path is not None
+            else None
+        ),
+        "selected_splits": selected_splits,
         "schema": str(SCHEMA_PATH.relative_to(ROOT)),
-        "summary": summarize(results),
+        "research_effectiveness_result": claim_gate["eligible"],
+        "summary": summary,
+        "cp_cert_claim_gate": claim_gate,
         "cases": results,
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -318,13 +566,174 @@ def run(input_path: Path, output_path: Path) -> dict[str, Any]:
     return report
 
 
+def _select_frozen_test_cases(
+    release: Any,
+    cases: list[dict[str, Any]],
+    manifest: Any,
+) -> tuple[list[dict[str, Any]], list[str]]:
+    if not isinstance(release, dict):
+        raise ValueError(
+            "split-bound CP-Cert input must be a reviewed release object"
+        )
+    if not isinstance(manifest, dict):
+        raise ValueError("split manifest root must be an object")
+    if manifest.get("packet_sha256") != release.get("packet_sha256"):
+        raise ValueError("split manifest packet hash differs from release")
+    if manifest.get("gold_release_sha256") != _stable_hash(release):
+        raise ValueError("split manifest gold release hash mismatch")
+    assignments = manifest.get("assignments")
+    if not isinstance(assignments, list):
+        raise ValueError("split manifest assignments must be an array")
+    by_case = {}
+    for item in assignments:
+        if not isinstance(item, dict):
+            raise ValueError("split manifest assignment must be an object")
+        case_id = item.get("case_id")
+        if not isinstance(case_id, str) or case_id in by_case:
+            raise ValueError("split manifest has duplicate/invalid case IDs")
+        if item.get("split") not in {
+            "development",
+            "validation",
+            "test",
+            "external_test",
+            "excluded",
+            "execution_queue",
+        }:
+            raise ValueError(
+                f"{case_id}: split manifest has an invalid split"
+            )
+        by_case[case_id] = item
+    case_ids = {case["case_id"] for case in cases}
+    if set(by_case) != case_ids:
+        raise ValueError("split manifest case set differs from release")
+    selected = []
+    target_splits = {"test", "external_test"}
+    for case in cases:
+        assignment = by_case[case["case_id"]]
+        group = (
+            (case.get("candidate_metadata") or {}).get(
+                "independence_group"
+            )
+            or case.get("independence_group")
+            or f"nonanalytic:{case['case_id']}"
+        )
+        if (
+            assignment.get("independence_group")
+            != group
+        ):
+            raise ValueError(
+                f"{case['case_id']}: split independence_group mismatch"
+            )
+        if assignment.get("split") in target_splits:
+            if (
+                (case.get("admission_screen") or {}).get("decision")
+                not in {None, "accept"}
+            ):
+                raise ValueError(
+                    f"{case['case_id']}: non-accepted case entered test split"
+                )
+            selected.append(case)
+    if not selected:
+        raise ValueError("split manifest has no held-out CP-Cert cases")
+    return selected, sorted({
+        by_case[case["case_id"]]["split"] for case in selected
+    })
+
+
+def _cp_cert_claim_gate(
+    summary: dict[str, Any],
+    *,
+    split_bound: bool,
+    minimum_independence_groups: int = 15,
+) -> dict[str, Any]:
+    exact = (summary.get("by_method") or {}).get("exact") or {}
+    metrics = exact.get("group_level_metrics") or {}
+
+    def mean_value(name: str) -> float | None:
+        item = metrics.get(name) or {}
+        value = item.get("mean")
+        return float(value) if value is not None else None
+
+    valid_rate = mean_value("valid_certificate")
+    trace_rate = mean_value("raw_ref_complete")
+    optimality_rate = mean_value("optimality_verified")
+    size = metrics.get("size_reduction") or {}
+    cost = metrics.get("cost_reduction") or {}
+    size_useful = (
+        size.get("mean") is not None
+        and float(size["mean"]) > 0
+        and float(size.get("ci_low", -1)) > 0
+    )
+    cost_useful = (
+        cost.get("mean") is not None
+        and float(cost["mean"]) > 0
+        and float(cost.get("ci_low", -1)) > 0
+    )
+    groups = int(summary.get("independence_groups") or 0)
+
+    def complete_rate(name: str, value: float | None) -> bool:
+        metric = metrics.get(name) or {}
+        return (
+            int(metric.get("independence_groups") or 0) == groups
+            and value == 1.0
+        )
+
+    gates = {
+        "frozen_held_out_split_bound": split_bound,
+        "minimum_independence_groups": (
+            groups >= minimum_independence_groups
+        ),
+        "all_certificates_valid": complete_rate(
+            "valid_certificate",
+            valid_rate,
+        ),
+        "all_raw_references_verified": complete_rate(
+            "raw_ref_complete",
+            trace_rate,
+        ),
+        "exact_optimality_oracle_verified": complete_rate(
+            "optimality_verified",
+            optimality_rate,
+        ),
+        "positive_ci_lower_bound_for_compression": (
+            size_useful or cost_useful
+        ),
+    }
+    return {
+        "gate_version": "1.0",
+        "claim": (
+            "CP-Cert emits valid, traceable, exact-minimal certificates "
+            "that reduce evidence size or cost on held-out human gold"
+        ),
+        "minimum_independence_groups": minimum_independence_groups,
+        "observed_independence_groups": groups,
+        "gates": gates,
+        "eligible": all(gates.values()),
+        "posthoc_threshold_change_allowed": False,
+    }
+
+
+def _stable_hash(value: Any) -> str:
+    return sha256(json.dumps(
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")).hexdigest()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=Path, required=True)
+    parser.add_argument("--split-manifest", type=Path)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
     try:
-        report = run(args.input, args.output)
+        report = run(
+            args.input,
+            args.output,
+            split_manifest_path=args.split_manifest,
+        )
     except (ValueError, jsonschema.ValidationError) as exc:
         print(f"CP-Cert experiment refused: {exc}", file=sys.stderr)
         return 2

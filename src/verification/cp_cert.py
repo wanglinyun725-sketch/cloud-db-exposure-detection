@@ -264,24 +264,39 @@ def verify_certificate(
     certificate: Certificate,
     evidence: Iterable[EvidenceItem],
     coverage: Mapping[str, Iterable[str]],
+    *,
+    oracle_item_limit: int = 18,
 ) -> dict:
-    """Recompute sufficiency, irreducibility, cost and source traceability."""
+    """Recompute structure, sufficiency, minimality and traceability."""
+    if oracle_item_limit < 0:
+        raise ValueError("oracle_item_limit must be non-negative")
     item_index = _index_items(evidence)
     selected = tuple(certificate.evidence_ids)
-    requirements = set(certificate.required_requirements)
+    selected_ids_unique = len(selected) == len(set(selected))
+    claimed_requirements = set(certificate.required_requirements)
+    expected_requirements: set[str] = set()
+    for values in coverage.values():
+        expected_requirements.update(values)
+    requirements_nonempty = bool(expected_requirements)
     normalized_coverage = {
-        evidence_id: set(values).intersection(requirements)
+        evidence_id: set(values).intersection(expected_requirements)
         for evidence_id, values in coverage.items()
     }
     unknown_evidence_ids = tuple(
         evidence_id for evidence_id in selected if evidence_id not in item_index
     )
     covered = _covered_by(selected, normalized_coverage)
-    sufficient = not unknown_evidence_ids and requirements.issubset(covered)
+    sufficient = (
+        selected_ids_unique
+        and not unknown_evidence_ids
+        and expected_requirements.issubset(covered)
+    )
     deletion_failures = []
     for evidence_id in selected:
         reduced = tuple(item for item in selected if item != evidence_id)
-        if requirements.issubset(_covered_by(reduced, normalized_coverage)):
+        if expected_requirements.issubset(
+            _covered_by(reduced, normalized_coverage)
+        ):
             deletion_failures.append(evidence_id)
     raw_refs_complete = (
         not unknown_evidence_ids
@@ -292,16 +307,142 @@ def verify_certificate(
         for evidence_id in selected
         if evidence_id in item_index
     )
+    expected_raw_refs = tuple(
+        item_index[evidence_id].raw_ref
+        for evidence_id in selected
+        if evidence_id in item_index
+    )
+    cost_matches = abs(
+        recomputed_cost - certificate.total_cost
+    ) <= 1e-9
+    required_requirements_match = (
+        claimed_requirements == expected_requirements
+        and len(certificate.required_requirements)
+        == len(claimed_requirements)
+    )
+    covered_requirements_match = (
+        tuple(sorted(covered))
+        == tuple(sorted(certificate.covered_requirements))
+    )
+    raw_refs_match = certificate.raw_refs == expected_raw_refs
+    expected_certificate_id = _certificate_id(
+        kind=certificate.kind,
+        method=certificate.method,
+        evidence_ids=selected,
+        requirements=certificate.required_requirements,
+        total_cost=certificate.total_cost,
+    )
+    certificate_id_matches = (
+        certificate.certificate_id == expected_certificate_id
+    )
+    irreducible = sufficient and not deletion_failures
+    certificate_claims_match = (
+        certificate.sufficient == sufficient
+        and certificate.irreducible == irreducible
+    )
+    kind_and_method_valid = (
+        certificate.kind in {"positive", "negative"}
+        and certificate.method in {"exact", "greedy"}
+    )
+    available_items = tuple(item_index.values())
+    polarity_matches_kind = all(
+        item.polarity
+        == ("support" if certificate.kind == "positive" else "refute")
+        for item in available_items
+    ) if certificate.kind in {"positive", "negative"} else False
+    expected_approximation_bound = (
+        1.0 + log(max(len(expected_requirements), 1))
+    )
+    method_claims_valid = (
+        certificate.optimal is True
+        and certificate.approximation_bound is None
+        if certificate.method == "exact"
+        else (
+            certificate.optimal is False
+            and certificate.approximation_bound is not None
+            and abs(
+                certificate.approximation_bound
+                - expected_approximation_bound
+            )
+            <= 1e-9
+        )
+        if certificate.method == "greedy"
+        else False
+    )
+    oracle_minimum_cost = None
+    optimality_verified = None
+    approximation_bound_satisfied = None
+    if (
+        expected_requirements
+        and len(available_items) <= oracle_item_limit
+    ):
+        oracle_minimum_cost = brute_force_minimum_cost(
+            tuple(sorted(expected_requirements)),
+            available_items,
+            {
+                evidence_id: set(values)
+                for evidence_id, values in normalized_coverage.items()
+            },
+        )
+        optimality_verified = abs(
+            certificate.total_cost - oracle_minimum_cost
+        ) <= 1e-9
+        if certificate.approximation_bound is not None:
+            approximation_bound_satisfied = (
+                certificate.total_cost
+                <= certificate.approximation_bound
+                * oracle_minimum_cost
+                + 1e-9
+            )
+    optimality_claim_valid = (
+        optimality_verified is not False
+        if certificate.optimal
+        else (
+            certificate.method == "greedy"
+            and approximation_bound_satisfied is not False
+        )
+    )
+    valid = all((
+        requirements_nonempty,
+        sufficient,
+        irreducible,
+        raw_refs_complete,
+        raw_refs_match,
+        cost_matches,
+        required_requirements_match,
+        covered_requirements_match,
+        certificate_id_matches,
+        certificate_claims_match,
+        kind_and_method_valid,
+        polarity_matches_kind,
+        method_claims_valid,
+        optimality_claim_valid,
+    ))
     return {
+        "valid": valid,
+        "requirements_nonempty": requirements_nonempty,
         "sufficient": sufficient,
-        "irreducible": sufficient and not deletion_failures,
+        "irreducible": irreducible,
         "raw_refs_complete": raw_refs_complete,
+        "raw_refs_match": raw_refs_match,
+        "selected_ids_unique": selected_ids_unique,
+        "required_requirements_match": required_requirements_match,
+        "covered_requirements_match": covered_requirements_match,
+        "certificate_id_matches": certificate_id_matches,
+        "certificate_claims_match": certificate_claims_match,
+        "kind_and_method_valid": kind_and_method_valid,
+        "polarity_matches_kind": polarity_matches_kind,
+        "method_claims_valid": method_claims_valid,
         "unknown_evidence_ids": list(unknown_evidence_ids),
         "redundant_evidence_ids": deletion_failures,
         "covered_requirements": sorted(covered),
-        "missing_requirements": sorted(requirements - covered),
+        "missing_requirements": sorted(expected_requirements - covered),
         "recomputed_cost": recomputed_cost,
-        "cost_matches": abs(recomputed_cost - certificate.total_cost) <= 1e-9,
+        "cost_matches": cost_matches,
+        "oracle_minimum_cost": oracle_minimum_cost,
+        "optimality_verified": optimality_verified,
+        "approximation_bound_satisfied": approximation_bound_satisfied,
+        "optimality_claim_valid": optimality_claim_valid,
     }
 
 
@@ -354,16 +495,13 @@ def _build_cover_certificate(
     covered = _covered_by(selected, coverage)
     total_cost = sum(item_index[evidence_id].cost for evidence_id in selected)
     raw_refs = tuple(item_index[evidence_id].raw_ref for evidence_id in selected)
-    payload = {
-        "kind": kind,
-        "method": resolved_method,
-        "evidence_ids": selected,
-        "requirements": universe,
-        "total_cost": total_cost,
-    }
-    certificate_id = "cp-" + sha256(
-        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    ).hexdigest()[:20]
+    certificate_id = _certificate_id(
+        kind=kind,
+        method=resolved_method,
+        evidence_ids=selected,
+        requirements=universe,
+        total_cost=total_cost,
+    )
     irreducible = all(
         not set(universe).issubset(
             _covered_by(
@@ -388,6 +526,30 @@ def _build_cover_certificate(
         approximation_bound=approximation_bound,
         semantics=semantics,
     )
+
+
+def _certificate_id(
+    *,
+    kind: str,
+    method: str,
+    evidence_ids: Sequence[str],
+    requirements: Sequence[str],
+    total_cost: float,
+) -> str:
+    payload = {
+        "kind": kind,
+        "method": method,
+        "evidence_ids": tuple(evidence_ids),
+        "requirements": tuple(requirements),
+        "total_cost": total_cost,
+    }
+    return "cp-" + sha256(
+        json.dumps(
+            payload,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()[:20]
 
 
 def _index_items(items: Iterable[EvidenceItem]) -> dict[str, EvidenceItem]:
