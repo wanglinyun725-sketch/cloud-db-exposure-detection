@@ -8,8 +8,9 @@
 > EC-ReAct 是否能以更低查询成本发现更多人工确认的有效路径，同时减少无证据
 > 结论和错误停止。
 
-机器可读配置位于 `configs/ec_react_main_v1.yaml`。任何主结果运行前必须通过
-`scripts/experiments/run_ec_react_preflight.py --require-ready`。
+机器可读草案位于 `configs/ec_react_main_v2_draft.yaml`；人工 gold 与负对照
+完成并提交后，冻结器产生不可覆盖的 `configs/ec_react_main_v2_frozen.yaml`
+及其 manifest。任何主结果运行前必须同时通过输入预检和冻结绑定校验。
 
 ## 2. 方法矩阵
 
@@ -234,13 +235,29 @@ episode 全部到达详情后候选状态；详情阶段完整候选均值 14.87
 始终带有 `research_effectiveness_result=false`，不得进入主效果表。
 完整边界与复现命令见 `docs/unlabeled_main_dry_run.md`。
 
-正式执行使用：
+正式执行统一使用失败关闭流水线：
 
 ```powershell
-& 'D:\anaconda\python.exe' scripts\experiments\run_ec_react_main.py --plan-only
-& 'D:\anaconda\python.exe' scripts\experiments\run_ec_react_main.py
-& 'D:\anaconda\python.exe' scripts\experiments\analyze_ec_react_main.py
+& 'D:\anaconda\python.exe' scripts\experiments\run_research_pipeline_v2.py --mode status
+& 'D:\anaconda\python.exe' scripts\experiments\run_research_pipeline_v2.py --mode plan
+& 'D:\anaconda\python.exe' scripts\experiments\run_research_pipeline_v2.py --mode execute
 ```
 
-第一条冻结实例级 schedule，第二条按 `schedule_id` 断点续跑 JSONL，第三条生成
-cluster bootstrap 主表与配对置换/Holm 校正表。
+`status` 只审计真人 release、负对照、密钥和冻结绑定，不授权模型调用；
+`plan` 验证实例级 schedule，也不调用模型；`execute` 是唯一授权正式模型调用的
+入口。若传入的是 draft，`execute` 会先调用协议冻结器，并在任何模型调用前
+逐项核对：
+
+1. 冻结 YAML 的实际 SHA-256 与 manifest 一致；
+2. YAML 与 manifest 绑定同一个完整 Git commit；该 commit 必须是执行时 HEAD
+   的祖先，且从该 commit 到 HEAD 的 `src/`、`scripts/`、其他 `configs/`
+   不得变化（只允许提交冻结 YAML 本身），工作区也不得有相关未提交漂移；
+3. 两者记录的 gold、split、本体、外部先验等输入哈希完全一致；
+4. YAML 指向的 manifest 路径与本次执行参数一致；
+5. 冻结配置再次通过主实验 preflight。
+
+真人 release 与 split 必须先提交到 Git；存在相关未提交改动时冻结器会拒绝
+写出 FROZEN 文件。流水线不会把 draft 直接当作主实验配置，也不会把
+`claim_not_passed` 报告成 `ready=true`。通过后按 `schedule_id` 断点续跑
+JSONL，随后生成 cluster bootstrap、配对置换/Holm 校正表、机器 claim decision
+和复现压缩包。

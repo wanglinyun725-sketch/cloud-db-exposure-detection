@@ -1,7 +1,8 @@
 {
-  "pipeline_version": "1.0",
+  "pipeline_version": "1.1",
   "mode": "status",
   "config": "configs\\ec_react_main_v2_draft.yaml",
+  "frozen_config": "configs\\ec_react_main_v2_frozen.yaml",
   "output_dir": "output\\ec_react_main_v2",
   "model_calls_authorized": false,
   "stages": [

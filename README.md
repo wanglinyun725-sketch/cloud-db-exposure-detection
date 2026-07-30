@@ -30,6 +30,11 @@ D:\anaconda\python.exe scripts/experiments/run_research_pipeline_v2.py
 D:\anaconda\python.exe scripts/experiments/audit_goal_acceptance_v2.py
 ```
 
+正式主实验必须显式使用
+`run_research_pipeline_v2.py --mode execute`。该入口在模型调用前自动把已提交的
+真人 release 绑定到 FROZEN 配置，并核对配置、manifest、Git commit 与全部输入
+SHA-256；默认 `status` 模式不会调用模型。
+
 当前 Goal 只有在双人 gold、冻结主实验、路径级门槛、安全终点、完整论文/答辩
 与复现包全部通过并推送 GitHub 后才完成。
 
