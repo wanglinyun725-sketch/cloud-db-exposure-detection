@@ -1,6 +1,6 @@
 {
   "queue_version": "1.0.0",
-  "generated_at": "2026-07-29T13:20:57.903090+00:00",
+  "generated_at": "2026-07-30T08:46:37.890905+00:00",
   "dataset_stage": "deterministic_configuration_oracle_queue_unlabeled",
   "contract_ref": "configs/deterministic_exposure_contract_v1.json",
   "policy": {
@@ -12,19 +12,19 @@
     "generated_labels": 0
   },
   "summary": {
-    "cases": 5,
-    "independence_groups": 5,
-    "sources": 3,
+    "cases": 10,
+    "independence_groups": 10,
+    "sources": 5,
     "platforms": [
       "AWS",
       "Azure",
       "GCP"
     ],
-    "verified_literal_assertions": 9,
+    "verified_literal_assertions": 17,
     "configuration_gold_cases": 0,
     "runtime_gold_cases": 0,
     "path_gold_cases": 0,
-    "needs_execution_cases": 5
+    "needs_execution_cases": 10
   },
   "cases": [
     {
@@ -986,6 +986,983 @@
           "status": "pending",
           "required_scope": "isolated authorized lab only",
           "accepted_oracle": "authorized exact-operation probe plus matching Cloud Audit Log",
+          "decisive_for_runtime_gold": true
+        }
+      ],
+      "admission_status": "needs_execution",
+      "gold_label": null,
+      "path_state": null,
+      "label_origin": null,
+      "upstream_expected_outcome_exposed": false,
+      "agent_output_exposed": false
+    },
+    {
+      "case_id": "terragoat_aws_ec2_userdata_to_rds",
+      "independence_group": "configuration-lineage:terragoat:terragoat_aws_ec2_userdata_to_rds",
+      "source_id": "terragoat",
+      "platform": "AWS",
+      "revision": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "candidate_ref": "data/real_sources/deterministic_config_candidates_v1.json",
+      "data_target": {
+        "type": "database",
+        "service": "Amazon RDS for MySQL",
+        "operation_scope": [
+          "network connect TCP 3306",
+          "database authentication",
+          "scoped SELECT test"
+        ]
+      },
+      "configuration_assertions": [
+        {
+          "assertion_id": "terragoat_aws_rds_public_flag_vpc_ingress",
+          "literal_interpretation": "The RDS resource requests public accessibility, while its attached database security-group ingress is scoped to the VPC CIDR rather than 0.0.0.0/0.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "terragoat",
+            "revision": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+            "archive_relative_path": "data/real_sources/raw/terragoat/729f8da62c6a85ce4af5ad3d123de97776d954c4/snapshot.zip",
+            "archive_sha256": "ac944892b0b6d570eb79ef711d9effffcc1094e4856d206afe2c24bc803faa8b",
+            "archive_member": "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/terraform/aws/db-app.tf",
+            "archive_member_sha256": "242feb266e4ed7fc3a2725f88bade8b0029d46bbda3d66b60c4936381f7deda9",
+            "archive_member_bytes": 12175
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "1a68b11dfe90f098b44c7837a75edd36ced4127c0fef7345a2d4b8a9b8848905",
+              "fragment_length": 36,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 1,
+                  "line_end": 1,
+                  "character_offset": 0
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "5e6fd6f058be9e4bc7634a2ca7e7a64a1d391832d2b7a322f68354be273980c3",
+              "fragment_length": 30,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 22,
+                  "line_end": 22,
+                  "character_offset": 832
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "9b9b1cb303e286512264b83fe87485795c07bef333ce0975947b5118720e1dc6",
+              "fragment_length": 44,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 136,
+                  "line_end": 136,
+                  "character_offset": 4650
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "6044848aa5d02f4b398aabe5feb7664d1296593e2707c0ddf3b36e7dfc419bfb",
+              "fragment_length": 26,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 138,
+                  "line_end": 138,
+                  "character_offset": 4731
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "31b45f0790193dae35aa99e25ae01ec13309d26a75a78859ab1f757282b91f16",
+              "fragment_length": 53,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 141,
+                  "line_end": 141,
+                  "character_offset": 4817
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        },
+        {
+          "assertion_id": "terragoat_aws_ec2_userdata_db_material",
+          "literal_interpretation": "The EC2 user-data template renders the RDS endpoint, username, and password into a local PHP database configuration and uses them for a MySQL connection.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "terragoat",
+            "revision": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+            "archive_relative_path": "data/real_sources/raw/terragoat/729f8da62c6a85ce4af5ad3d123de97776d954c4/snapshot.zip",
+            "archive_sha256": "ac944892b0b6d570eb79ef711d9effffcc1094e4856d206afe2c24bc803faa8b",
+            "archive_member": "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/terraform/aws/db-app.tf",
+            "archive_member_sha256": "242feb266e4ed7fc3a2725f88bade8b0029d46bbda3d66b60c4936381f7deda9",
+            "archive_member_bytes": 12175
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "75e18c3abeca614a83a816afbd12c95e1443521815604df984c77dfbae4ac7a1",
+              "fragment_length": 32,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 243,
+                  "line_end": 243,
+                  "character_offset": 7263
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "aa2ce31d393ec6b031cac40e73900f551320e3a1280004d6917dcb7a1a27f035",
+              "fragment_length": 59,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 263,
+                  "line_end": 263,
+                  "character_offset": 7942
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "f1f2e76f3b09708794838d2e6dc2d6c2bd704bd87c42646796393f045a8e1517",
+              "fragment_length": 61,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 264,
+                  "line_end": 264,
+                  "character_offset": 8002
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "77bf17905caee0ed1b60bde171fb12ac79741df91d85a29a2620accddeab3507",
+              "fragment_length": 41,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 265,
+                  "line_end": 265,
+                  "character_offset": 8064
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "6651531ff038a65e9fb0dd6602c324690a7f02278874cf88ac4807aa731b9996",
+              "fragment_length": 51,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 280,
+                  "line_end": 280,
+                  "character_offset": 8430
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        }
+      ],
+      "evidence_layers": [
+        {
+          "layer": "frozen_configuration",
+          "status": "verified_literal_facts_only",
+          "decisive_for_path": false
+        },
+        {
+          "layer": "provider_native_analysis",
+          "status": "pending",
+          "required_scope": "complete exact principal-action-resource scope",
+          "accepted_oracles": [
+            "AWS IAM Access Analyzer",
+            "AWS IAM policy simulation with exact principal/action/resource"
+          ],
+          "absent_finding_state": "Unknown",
+          "decisive_for_configuration_gold": true
+        },
+        {
+          "layer": "authorized_active_probe",
+          "status": "pending",
+          "required_scope": "isolated authorized lab only",
+          "accepted_oracle": "authorized exact-operation probe plus matching CloudTrail record",
+          "decisive_for_runtime_gold": true
+        }
+      ],
+      "admission_status": "needs_execution",
+      "gold_label": null,
+      "path_state": null,
+      "label_origin": null,
+      "upstream_expected_outcome_exposed": false,
+      "agent_output_exposed": false
+    },
+    {
+      "case_id": "terragoat_azure_mysql_public_transport",
+      "independence_group": "configuration-lineage:terragoat:terragoat_azure_mysql_public_transport",
+      "source_id": "terragoat",
+      "platform": "Azure",
+      "revision": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "candidate_ref": "data/real_sources/deterministic_config_candidates_v1.json",
+      "data_target": {
+        "type": "database",
+        "service": "Azure Database for MySQL",
+        "operation_scope": [
+          "public endpoint resolution",
+          "TCP/MySQL connection",
+          "database authentication",
+          "scoped SELECT test"
+        ]
+      },
+      "configuration_assertions": [
+        {
+          "assertion_id": "terragoat_azure_mysql_public_ssl_disabled",
+          "literal_interpretation": "The Azure MySQL resource enables its public network surface and disables mandatory SSL, but the file alone does not prove an effective firewall rule or authenticated data access.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "terragoat",
+            "revision": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+            "archive_relative_path": "data/real_sources/raw/terragoat/729f8da62c6a85ce4af5ad3d123de97776d954c4/snapshot.zip",
+            "archive_sha256": "ac944892b0b6d570eb79ef711d9effffcc1094e4856d206afe2c24bc803faa8b",
+            "archive_member": "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/terraform/azure/sql.tf",
+            "archive_member_sha256": "78b8f2fae75b8909f02d6ba81495b77f12bd6c9bcfc7b33403ef3cbce7bb683b",
+            "archive_member_bytes": 4472
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "550055f3b59b6fb0ca91a60220f6cfc6325c0f3e605cfb0a13aa364e13e1b9f4",
+              "fragment_length": 41,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 44,
+                  "line_end": 44,
+                  "character_offset": 1741
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "2cf8b90c2a05cbe4ca7ccfc3584c31caf3030a73df23d560dd5c8a8f2475128b",
+              "fragment_length": 40,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 59,
+                  "line_end": 59,
+                  "character_offset": 2327
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "60e90df7a688aa424b143500708f2ebbc9edb56d7b0118f6bfb7e4746037b5a5",
+              "fragment_length": 41,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 60,
+                  "line_end": 60,
+                  "character_offset": 2370
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        }
+      ],
+      "evidence_layers": [
+        {
+          "layer": "frozen_configuration",
+          "status": "verified_literal_facts_only",
+          "decisive_for_path": false
+        },
+        {
+          "layer": "provider_native_analysis",
+          "status": "pending",
+          "required_scope": "complete exact principal-action-resource scope",
+          "accepted_oracles": [
+            "exact Azure RBAC evaluation",
+            "Defender for Cloud attack-path evidence where applicable"
+          ],
+          "absent_finding_state": "Unknown",
+          "decisive_for_configuration_gold": true
+        },
+        {
+          "layer": "authorized_active_probe",
+          "status": "pending",
+          "required_scope": "isolated authorized lab only",
+          "accepted_oracle": "authorized exact-operation probe plus matching Azure data-plane or activity record",
+          "decisive_for_runtime_gold": true
+        }
+      ],
+      "admission_status": "needs_execution",
+      "gold_label": null,
+      "path_state": null,
+      "label_origin": null,
+      "upstream_expected_outcome_exposed": false,
+      "agent_output_exposed": false
+    },
+    {
+      "case_id": "terragoat_gcp_anonymous_gcs_read",
+      "independence_group": "configuration-lineage:terragoat:terragoat_gcp_anonymous_gcs_read",
+      "source_id": "terragoat",
+      "platform": "GCP",
+      "revision": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "candidate_ref": "data/real_sources/deterministic_config_candidates_v1.json",
+      "data_target": {
+        "type": "object_storage",
+        "service": "Google Cloud Storage",
+        "operation_scope": [
+          "storage.objects.list",
+          "storage.objects.get"
+        ]
+      },
+      "configuration_assertions": [
+        {
+          "assertion_id": "terragoat_gcp_allusers_object_viewer",
+          "literal_interpretation": "The frozen GCP stack binds allUsers to roles/storage.objectViewer on the declared bucket; effective permissions and deployed runtime behavior still require provider-native and active verification.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "terragoat",
+            "revision": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+            "archive_relative_path": "data/real_sources/raw/terragoat/729f8da62c6a85ce4af5ad3d123de97776d954c4/snapshot.zip",
+            "archive_sha256": "ac944892b0b6d570eb79ef711d9effffcc1094e4856d206afe2c24bc803faa8b",
+            "archive_member": "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/terraform/gcp/gcs.tf",
+            "archive_member_sha256": "86b8bd6210abbd26d5c5cf9675c26fa1a429af63e42df78955e37515d8f0493f",
+            "archive_member_bytes": 785
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "0712feed60177638d142ad3dcb7bd77b90ce242b6404b56f196b1a0057f3dea8",
+              "fragment_length": 52,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 1,
+                  "line_end": 1,
+                  "character_offset": 0
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "4a3e2fffe6b0afb18fcd2409146f19d0399c43d9b8a9f981ea51e528218ecbe9",
+              "fragment_length": 64,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 17,
+                  "line_end": 17,
+                  "character_offset": 596
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "d880bc2fd7552125c683628921b4ff00d8a469aa80ed3afb3e63452708aab9b4",
+              "fragment_length": 22,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 19,
+                  "line_end": 19,
+                  "character_offset": 720
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "8defc62fb9c71e5a270243cffb83015fba0dbd9ffaff71133ce3099b5b5906b7",
+              "fragment_length": 38,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 20,
+                  "line_end": 20,
+                  "character_offset": 745
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        }
+      ],
+      "evidence_layers": [
+        {
+          "layer": "frozen_configuration",
+          "status": "verified_literal_facts_only",
+          "decisive_for_path": false
+        },
+        {
+          "layer": "provider_native_analysis",
+          "status": "pending",
+          "required_scope": "complete exact principal-action-resource scope",
+          "accepted_oracles": [
+            "GCP Policy Analyzer",
+            "testIamPermissions for exact principal/action/resource"
+          ],
+          "absent_finding_state": "Unknown",
+          "decisive_for_configuration_gold": true
+        },
+        {
+          "layer": "authorized_active_probe",
+          "status": "pending",
+          "required_scope": "isolated authorized lab only",
+          "accepted_oracle": "authorized exact-operation probe plus matching Cloud Audit Log",
+          "decisive_for_runtime_gold": true
+        }
+      ],
+      "admission_status": "needs_execution",
+      "gold_label": null,
+      "path_state": null,
+      "label_origin": null,
+      "upstream_expected_outcome_exposed": false,
+      "agent_output_exposed": false
+    },
+    {
+      "case_id": "cloudfoxable_double_tap_secret_path",
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_double_tap_secret_path",
+      "source_id": "cloudfoxable",
+      "platform": "AWS",
+      "revision": "fc49b7f637268031515ced9fee4b643d3e68db67",
+      "candidate_ref": "data/real_sources/deterministic_config_candidates_v1.json",
+      "data_target": {
+        "type": "secret_store",
+        "service": "AWS Secrets Manager",
+        "operation_scope": [
+          "sts:AssumeRole",
+          "lambda:CreateFunction",
+          "lambda:InvokeFunction",
+          "iam:PassRole",
+          "tag-conditioned EC2 action",
+          "secretsmanager:GetSecretValue"
+        ]
+      },
+      "configuration_assertions": [
+        {
+          "assertion_id": "cloudfoxable_double_tap_secret_role",
+          "literal_interpretation": "The frozen challenge declares DT_flag and attaches a policy permitting GetSecretValue on that exact secret to the double_tap_secret EC2 role.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "cloudfoxable",
+            "revision": "fc49b7f637268031515ced9fee4b643d3e68db67",
+            "archive_relative_path": "data/real_sources/raw/cloudfoxable/fc49b7f637268031515ced9fee4b643d3e68db67/snapshot.zip",
+            "archive_sha256": "bec9436f0e8759601dd7669c108c0921db5b10bc2d941223f0467efb5227fe6d",
+            "archive_member": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/double_tap.tf",
+            "archive_member_sha256": "acdb54b74580ac4132817c407318c3e479561efd182fefa5ef1b2d9e0cb71e60",
+            "archive_member_bytes": 9145
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "1f56404ba3382ba9e60c83f77dfa0b1035ec0ec7753a376ad8dec143a0e988b6",
+              "fragment_length": 61,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 31,
+                  "line_end": 31,
+                  "character_offset": 534
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "6229d047f400236a0b419462d59a7369bdc2e59fa58b67eb40580320525096fd",
+              "fragment_length": 16,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 32,
+                  "line_end": 32,
+                  "character_offset": 600
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "623ce9474022ccbe8b723fd8f47f8b759b4dfce6c8daf994ba81a3523a9773ac",
+              "fragment_length": 52,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 42,
+                  "line_end": 42,
+                  "character_offset": 885
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "b16aefc03f097c98fb3b5c971500fe70a232f27e156180ab40155fe7304a375b",
+              "fragment_length": 31,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 49,
+                  "line_end": 49,
+                  "character_offset": 1089
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "c1d111b3d424220be10790b480818deb28ce7b32f0f21ec72ff9253fd2530dbf",
+              "fragment_length": 52,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 56,
+                  "line_end": 56,
+                  "character_offset": 1321
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "5abdc8067dbe9976ded8bb9664d2dc2c1fc3bd44f49584f20e85fbe53488b140",
+              "fragment_length": 68,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 78,
+                  "line_end": 78,
+                  "character_offset": 1788
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        },
+        {
+          "assertion_id": "cloudfoxable_double_tap_starting_role_lambda_chain",
+          "literal_interpretation": "The starting-user trust, Lambda create/invoke and constrained PassRole permissions, and a Lambda role with tag-conditioned EC2 actions are all present; these literals do not by themselves prove the complete exploit chain.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "cloudfoxable",
+            "revision": "fc49b7f637268031515ced9fee4b643d3e68db67",
+            "archive_relative_path": "data/real_sources/raw/cloudfoxable/fc49b7f637268031515ced9fee4b643d3e68db67/snapshot.zip",
+            "archive_sha256": "bec9436f0e8759601dd7669c108c0921db5b10bc2d941223f0467efb5227fe6d",
+            "archive_member": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/double_tap.tf",
+            "archive_member_sha256": "acdb54b74580ac4132817c407318c3e479561efd182fefa5ef1b2d9e0cb71e60",
+            "archive_member_bytes": 9145
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "ec4b789644d512a4adf6887f09e9391ab91eafd4cb55d332b5d8a7dce72cc16a",
+              "fragment_length": 41,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 228,
+                  "line_end": 228,
+                  "character_offset": 5829
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "867c086e71e40897d09e9f883d7c045b64e4595d639607a93324a0f6751dc1ce",
+              "fragment_length": 37,
+              "occurrence_count": 5,
+              "occurrences": [
+                {
+                  "line_start": 237,
+                  "line_end": 237,
+                  "character_offset": 6050
+                },
+                {
+                  "line_start": 326,
+                  "line_end": 326,
+                  "character_offset": 8055
+                },
+                {
+                  "line_start": 343,
+                  "line_end": 343,
+                  "character_offset": 8383
+                },
+                {
+                  "line_start": 360,
+                  "line_end": 360,
+                  "character_offset": 8711
+                },
+                {
+                  "line_start": 377,
+                  "line_end": 377,
+                  "character_offset": 9039
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "55994f72a5e861ed0036c3375b40a8607f54517d1e39127852c6b2d59b104bb7",
+              "fragment_length": 49,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 245,
+                  "line_end": 245,
+                  "character_offset": 6157
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "45f691d59c7d81d640d6e624354f35f6e8524cc84636fd5dd5ebea95fc7e46a6",
+              "fragment_length": 61,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 251,
+                  "line_end": 251,
+                  "character_offset": 6355
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "9c5106816b00c6f15906e077aee3d6b29f7f2bd549b59954a044c3e5a9101006",
+              "fragment_length": 27,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 256,
+                  "line_end": 256,
+                  "character_offset": 6482
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "28496e4582de668c4a83eab37224124f895d41f05194768ddd80ef3c211f80cc",
+              "fragment_length": 57,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 257,
+                  "line_end": 257,
+                  "character_offset": 6516
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "29159c61fd0c6c7eb66f5fe9777b09a3be56bca99144090d744eed47c119d1e1",
+              "fragment_length": 45,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 269,
+                  "line_end": 269,
+                  "character_offset": 6787
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "0c109043626cf7e8f403ae6a0e471d14832843450cbc3deac617f9219b129a0a",
+              "fragment_length": 18,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 276,
+                  "line_end": 276,
+                  "character_offset": 6988
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "ac761522e710f3523240d80d79bcf15fcf8272cef0851999d73647b774516872",
+              "fragment_length": 38,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 280,
+                  "line_end": 280,
+                  "character_offset": 7091
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        }
+      ],
+      "evidence_layers": [
+        {
+          "layer": "frozen_configuration",
+          "status": "verified_literal_facts_only",
+          "decisive_for_path": false
+        },
+        {
+          "layer": "provider_native_analysis",
+          "status": "pending",
+          "required_scope": "complete exact principal-action-resource scope",
+          "accepted_oracles": [
+            "AWS IAM Access Analyzer",
+            "AWS IAM policy simulation with exact principal/action/resource"
+          ],
+          "absent_finding_state": "Unknown",
+          "decisive_for_configuration_gold": true
+        },
+        {
+          "layer": "authorized_active_probe",
+          "status": "pending",
+          "required_scope": "isolated authorized lab only",
+          "accepted_oracle": "authorized exact-operation probe plus matching CloudTrail record",
+          "decisive_for_runtime_gold": true
+        }
+      ],
+      "admission_status": "needs_execution",
+      "gold_label": null,
+      "path_state": null,
+      "label_origin": null,
+      "upstream_expected_outcome_exposed": false,
+      "agent_output_exposed": false
+    },
+    {
+      "case_id": "cloudfoxable_search1_elasticsearch_exposure",
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_search1_elasticsearch_exposure",
+      "source_id": "cloudfoxable",
+      "platform": "AWS",
+      "revision": "fc49b7f637268031515ced9fee4b643d3e68db67",
+      "candidate_ref": "data/real_sources/deterministic_config_candidates_v1.json",
+      "data_target": {
+        "type": "search_database",
+        "service": "Amazon Elasticsearch Service",
+        "operation_scope": [
+          "network connect HTTPS",
+          "es:ESHttpGet",
+          "scoped test-document read",
+          "paired out-of-scope denial"
+        ]
+      },
+      "configuration_assertions": [
+        {
+          "assertion_id": "cloudfoxable_search1_ip_scoped_es_policy",
+          "literal_interpretation": "The Elasticsearch domain resource policy permits three HTTP actions to any principal only when the request source matches the configured single-IP CIDR.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "cloudfoxable",
+            "revision": "fc49b7f637268031515ced9fee4b643d3e68db67",
+            "archive_relative_path": "data/real_sources/raw/cloudfoxable/fc49b7f637268031515ced9fee4b643d3e68db67/snapshot.zip",
+            "archive_sha256": "bec9436f0e8759601dd7669c108c0921db5b10bc2d941223f0467efb5227fe6d",
+            "archive_member": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/search1and2.tf",
+            "archive_member_sha256": "302fa392992ae17ea9dd76c9b4ef5094df178f01918384923982bf3d6be1bdd4",
+            "archive_member_bytes": 2504
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "f5ddfa3061eb1108014c2e12c2cd393202ecf3e19ba548c5056e755e67b221ec",
+              "fragment_length": 41,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 5,
+                  "line_end": 5,
+                  "character_offset": 166
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "f21df04d6df44125ff78abdc4622bb5485ac55423432c7de20c02a3079e0c3ba",
+              "fragment_length": 30,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 23,
+                  "line_end": 23,
+                  "character_offset": 499
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "ec1578dcac63247fe7878ebd2a705071a9240baf27ddf2d415a1d5a77b35e5e7",
+              "fragment_length": 11,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 29,
+                  "line_end": 29,
+                  "character_offset": 648
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "68b73867b83cea026632dc262caff54c375babbdecb5d00a9f1e327f473788ad",
+              "fragment_length": 14,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 32,
+                  "line_end": 32,
+                  "character_offset": 701
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "db962a087f9a8c3c7032bffe6b91a94a2d7e37dcae23def2a2ba2d69216f5db8",
+              "fragment_length": 15,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 33,
+                  "line_end": 33,
+                  "character_offset": 727
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "48d0ff196fbbafdfdc5a2c794afd090f834588e817997732827585a3ede9895d",
+              "fragment_length": 15,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 34,
+                  "line_end": 34,
+                  "character_offset": 754
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "c0054c756c1a9c9674f5fe122b7a5f9b556ebcc1475c8005b5795431d447d832",
+              "fragment_length": 36,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 41,
+                  "line_end": 41,
+                  "character_offset": 875
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        },
+        {
+          "assertion_id": "cloudfoxable_search1_seeded_test_document",
+          "literal_interpretation": "The frozen challenge includes a deployment-time provisioner that targets the domain endpoint and attempts to seed webserver-log test documents.",
+          "fact_state": "VerifiedLiteralPresence",
+          "raw_ref": {
+            "source_id": "cloudfoxable",
+            "revision": "fc49b7f637268031515ced9fee4b643d3e68db67",
+            "archive_relative_path": "data/real_sources/raw/cloudfoxable/fc49b7f637268031515ced9fee4b643d3e68db67/snapshot.zip",
+            "archive_sha256": "bec9436f0e8759601dd7669c108c0921db5b10bc2d941223f0467efb5227fe6d",
+            "archive_member": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/search1and2.tf",
+            "archive_member_sha256": "302fa392992ae17ea9dd76c9b4ef5094df178f01918384923982bf3d6be1bdd4",
+            "archive_member_bytes": 2504
+          },
+          "fragment_matches": [
+            {
+              "fragment_sha256": "4c9b6dd3c3370eecc2a30ae9a9f4b466f96e8b4e37e5abe2a7974b140e0618f0",
+              "fragment_length": 38,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 55,
+                  "line_end": 55,
+                  "character_offset": 1040
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "0ea6261abaaa4d13d23296249d9d5f22b3a4cf063192a10284670b0511adebd7",
+              "fragment_length": 59,
+              "occurrence_count": 1,
+              "occurrences": [
+                {
+                  "line_start": 57,
+                  "line_end": 57,
+                  "character_offset": 1100
+                }
+              ]
+            },
+            {
+              "fragment_sha256": "3af1375dcc8406ee08e5fd135cfeb56a903568e5e2ca0a9fb3a3715225b8fbf6",
+              "fragment_length": 76,
+              "occurrence_count": 4,
+              "occurrences": [
+                {
+                  "line_start": 62,
+                  "line_end": 62,
+                  "character_offset": 1221
+                },
+                {
+                  "line_start": 63,
+                  "line_end": 63,
+                  "character_offset": 1509
+                },
+                {
+                  "line_start": 64,
+                  "line_end": 64,
+                  "character_offset": 1895
+                },
+                {
+                  "line_start": 65,
+                  "line_end": 65,
+                  "character_offset": 2213
+                }
+              ]
+            }
+          ],
+          "does_not_prove": [
+            "deployed state",
+            "complete-scope provider authorization",
+            "network reachability",
+            "successful data access",
+            "end-to-end path reachability"
+          ]
+        }
+      ],
+      "evidence_layers": [
+        {
+          "layer": "frozen_configuration",
+          "status": "verified_literal_facts_only",
+          "decisive_for_path": false
+        },
+        {
+          "layer": "provider_native_analysis",
+          "status": "pending",
+          "required_scope": "complete exact principal-action-resource scope",
+          "accepted_oracles": [
+            "AWS IAM Access Analyzer",
+            "AWS IAM policy simulation with exact principal/action/resource"
+          ],
+          "absent_finding_state": "Unknown",
+          "decisive_for_configuration_gold": true
+        },
+        {
+          "layer": "authorized_active_probe",
+          "status": "pending",
+          "required_scope": "isolated authorized lab only",
+          "accepted_oracle": "authorized exact-operation probe plus matching CloudTrail record",
           "decisive_for_runtime_gold": true
         }
       ],
