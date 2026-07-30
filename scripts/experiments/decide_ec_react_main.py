@@ -16,6 +16,9 @@ if str(ROOT) not in sys.path:
 from src.experiments.confirmatory_decision import (  # noqa: E402
     evaluate_confirmatory_decision,
 )
+from src.experiments.artifact_chain_v2 import (  # noqa: E402
+    build_decision_binding,
+)
 
 
 DEFAULT_CONFIG = ROOT / "configs" / "ec_react_main_v2_draft.yaml"
@@ -39,13 +42,17 @@ def main() -> int:
             "analysis": str(args.analysis),
         }, ensure_ascii=False))
         return 2
-    config = yaml.safe_load(
-        args.config.resolve().read_text(encoding="utf-8")
-    )
-    analysis = json.loads(
-        args.analysis.resolve().read_text(encoding="utf-8")
-    )
+    config_path = args.config.resolve()
+    analysis_path = args.analysis.resolve()
+    config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    analysis = json.loads(analysis_path.read_text(encoding="utf-8"))
     decision = evaluate_confirmatory_decision(analysis, config)
+    decision["artifact_binding"] = build_decision_binding(
+        ROOT,
+        config_path=config_path,
+        analysis_path=analysis_path,
+        analysis=analysis,
+    )
     output = args.output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(

@@ -48,11 +48,18 @@ D:\anaconda\python.exe scripts/experiments/freeze_review_stress_tests_v2.py `
 再把最终论文 PDF、答辩 PPTX 和复现压缩包绑定到同一决策：
 
 ```powershell
+D:\anaconda\python.exe scripts/experiments/package_reproduction_v2.py
+
 D:\anaconda\python.exe scripts/experiments/finalize_deliverables_v2.py `
   --thesis-pdf output/final/thesis.pdf `
   --defense-deck output/final/defense.pptx `
-  --reproduction-bundle output/final/reproduction.zip
+  --reproduction-bundle output/final/cloud_db_pathbench_reproduction_v2.zip
 ```
+
+复现包不是普通源码压缩包。打包程序从冻结 manifest 指定的 Git commit
+读取代码，加入冻结输入、完整运行 JSONL、分析和决策，并复验从 decision 到
+analysis、runs、run manifest、frozen config 的 SHA256 链。ZIP 使用固定时间戳
+和排序，因此相同输入必须产生完全相同的字节；API key 不进入压缩包。
 
 成功后才会生成：
 

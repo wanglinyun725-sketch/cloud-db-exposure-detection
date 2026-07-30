@@ -11,6 +11,10 @@ from src.experiments.final_deliverables_v2 import (
     validate_review_stress_test_bundle,
     write_once_json,
 )
+from src.experiments.artifact_chain_v2 import (
+    build_analysis_binding,
+    build_decision_binding,
+)
 
 
 def _write_json(path, value):
@@ -21,12 +25,44 @@ def _write_json(path, value):
 
 
 def _passing_decision(tmp_path):
+    config = tmp_path / "frozen.yaml"
+    config.write_text("freeze_status: FROZEN\n", encoding="utf-8")
+    config_hash = sha256(config.read_bytes()).hexdigest()
+    run_manifest = tmp_path / "run_manifest.json"
+    _write_json(run_manifest, {
+        "config_sha256": config_hash,
+        "scheduled_runs": 1,
+        "schedule": [{"schedule_id": "s1"}],
+        "secrets_in_manifest": False,
+    })
+    runs = tmp_path / "runs.jsonl"
+    record = {"schedule_id": "s1", "config_sha256": config_hash}
+    runs.write_text(json.dumps(record) + "\n", encoding="utf-8")
+    analysis = {
+        "run_records": 1,
+        "artifact_binding": build_analysis_binding(
+            tmp_path,
+            config_path=config,
+            run_manifest_path=run_manifest,
+            runs_path=runs,
+            records=[record],
+        ),
+    }
+    analysis_path = tmp_path / "analysis.json"
+    _write_json(analysis_path, analysis)
     path = tmp_path / "decision.json"
-    _write_json(path, {
+    decision = {
         "claim_allowed": True,
         "overall_status": "pass",
         "posthoc_metric_substitution_allowed": False,
-    })
+        "artifact_binding": build_decision_binding(
+            tmp_path,
+            config_path=config,
+            analysis_path=analysis_path,
+            analysis=analysis,
+        ),
+    }
+    _write_json(path, decision)
     return path
 
 

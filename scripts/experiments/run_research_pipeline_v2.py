@@ -19,6 +19,14 @@ DEFAULT_STATUS = (
     ROOT / "output" / "research_design"
     / "research_pipeline_v2_status.json"
 )
+DEFAULT_FREEZE_MANIFEST = (
+    ROOT / "output" / "research_design"
+    / "ec_react_main_v2_freeze_manifest.json"
+)
+DEFAULT_REPRODUCTION_BUNDLE = (
+    ROOT / "output" / "final"
+    / "cloud_db_pathbench_reproduction_v2.zip"
+)
 
 
 def main() -> int:
@@ -33,6 +41,16 @@ def main() -> int:
         "--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR
     )
     parser.add_argument("--status-output", type=Path, default=DEFAULT_STATUS)
+    parser.add_argument(
+        "--freeze-manifest",
+        type=Path,
+        default=DEFAULT_FREEZE_MANIFEST,
+    )
+    parser.add_argument(
+        "--reproduction-output",
+        type=Path,
+        default=DEFAULT_REPRODUCTION_BUNDLE,
+    )
     parser.add_argument("--method", action="append")
     parser.add_argument("--model", action="append")
     args = parser.parse_args()
@@ -173,9 +191,34 @@ def main() -> int:
         "stage": "claim_decision",
         **decision,
     })
+    if decision["returncode"] == 0:
+        reproduction = _run([
+            PYTHON,
+            ROOT / "scripts" / "experiments"
+            / "package_reproduction_v2.py",
+            "--config",
+            config_path,
+            "--freeze-manifest",
+            args.freeze_manifest.resolve(),
+            "--experiment-dir",
+            output_dir,
+            "--output",
+            args.reproduction_output.resolve(),
+        ])
+        status["stages"].append({
+            "stage": "package_reproduction_bundle",
+            **reproduction,
+        })
+        if reproduction["returncode"] != 0:
+            status["ready"] = False
+            status["final_status"] = "claim_passed_but_packaging_failed"
+            _write_status(args.status_output, status)
+            return 2
     status["ready"] = True
     status["final_status"] = (
-        "claim_passed" if decision["returncode"] == 0 else "claim_not_passed"
+        "claim_passed_and_packaged"
+        if decision["returncode"] == 0
+        else "claim_not_passed"
     )
     _write_status(args.status_output, status)
     return decision["returncode"]

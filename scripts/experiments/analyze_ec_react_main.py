@@ -15,6 +15,10 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.experiments.statistics import analyze_frozen_runs  # noqa: E402
+from src.experiments.artifact_chain_v2 import (  # noqa: E402
+    build_analysis_binding,
+    read_jsonl,
+)
 
 
 DEFAULT_CONFIG = ROOT / "configs" / "ec_react_main_v1.yaml"
@@ -31,11 +35,18 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
 
-    config = yaml.safe_load(
-        args.config.resolve().read_text(encoding="utf-8")
-    )
-    records = _read_jsonl(args.runs.resolve())
+    config_path = args.config.resolve()
+    runs_path = args.runs.resolve()
+    config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    records = read_jsonl(runs_path)
     report = analyze_frozen_runs(records, config)
+    report["artifact_binding"] = build_analysis_binding(
+        ROOT,
+        config_path=config_path,
+        run_manifest_path=runs_path.with_name("run_manifest.json"),
+        runs_path=runs_path,
+        records=records,
+    )
     output = args.output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
@@ -82,30 +93,6 @@ def main() -> int:
         ensure_ascii=False,
     ))
     return 0
-
-
-def _read_jsonl(path: Path) -> list[dict]:
-    if not path.is_file():
-        raise FileNotFoundError(f"run file is missing: {path}")
-    rows = []
-    for line_number, line in enumerate(
-        path.read_text(encoding="utf-8").splitlines(),
-        start=1,
-    ):
-        if not line.strip():
-            continue
-        try:
-            value = json.loads(line)
-        except json.JSONDecodeError as exc:
-            raise ValueError(
-                f"invalid JSONL at {path}:{line_number}"
-            ) from exc
-        if not isinstance(value, dict):
-            raise ValueError(
-                f"JSONL row must be an object at {path}:{line_number}"
-            )
-        rows.append(value)
-    return rows
 
 
 def _write_csv(path: Path, rows: list[dict]) -> None:

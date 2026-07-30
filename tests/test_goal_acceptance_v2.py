@@ -7,6 +7,10 @@ from src.experiments.final_deliverables_v2 import (
     build_final_deliverables_manifest,
     build_review_stress_test_bundle,
 )
+from src.experiments.artifact_chain_v2 import (
+    build_analysis_binding,
+    build_decision_binding,
+)
 from src.experiments.goal_acceptance_v2 import (
     _deliverables_pass,
     _model_locks_pass,
@@ -31,12 +35,44 @@ def test_model_gate_requires_both_local_digest_and_exact_strong_snapshot():
 
 
 def test_deliverables_must_be_bound_to_the_final_decision(tmp_path):
+    config = tmp_path / "frozen.yaml"
+    config.write_text("freeze_status: FROZEN\n", encoding="utf-8")
+    config_hash = sha256(config.read_bytes()).hexdigest()
+    run_manifest = tmp_path / "run_manifest.json"
+    run_manifest.write_text(json.dumps({
+        "config_sha256": config_hash,
+        "scheduled_runs": 1,
+        "schedule": [{"schedule_id": "s1"}],
+        "secrets_in_manifest": False,
+    }), encoding="utf-8")
+    runs = tmp_path / "runs.jsonl"
+    record = {"schedule_id": "s1", "config_sha256": config_hash}
+    runs.write_text(json.dumps(record) + "\n", encoding="utf-8")
+    analysis = {
+        "run_records": 1,
+        "artifact_binding": build_analysis_binding(
+            tmp_path,
+            config_path=config,
+            run_manifest_path=run_manifest,
+            runs_path=runs,
+            records=[record],
+        ),
+    }
+    analysis_path = tmp_path / "analysis.json"
+    analysis_path.write_text(json.dumps(analysis), encoding="utf-8")
     decision = tmp_path / "decision.json"
-    decision.write_text(json.dumps({
+    decision_value = {
         "claim_allowed": True,
         "overall_status": "pass",
         "posthoc_metric_substitution_allowed": False,
-    }), encoding="utf-8")
+        "artifact_binding": build_decision_binding(
+            tmp_path,
+            config_path=config,
+            analysis_path=analysis_path,
+            analysis=analysis,
+        ),
+    }
+    decision.write_text(json.dumps(decision_value), encoding="utf-8")
     evidence = tmp_path / "evidence.txt"
     evidence.write_text("evidence", encoding="utf-8")
     decision_hash = sha256(decision.read_bytes()).hexdigest()
