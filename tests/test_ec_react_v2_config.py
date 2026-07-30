@@ -36,6 +36,9 @@ def test_v2_draft_has_one_confirmatory_metric_and_budget():
         "two_sided_p_below": 0.05,
         "minimum_mean_f1_gain": 0.10,
         "minimum_absolute_f1": 0.60,
+        "relative_improvement_rule": (
+            "material_or_holm_significant"
+        ),
         "unsafe_false_reachable_must_not_increase": True,
     }
 
