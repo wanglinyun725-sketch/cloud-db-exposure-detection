@@ -25,6 +25,11 @@ def main() -> int:
     parser.add_argument("--method", action="append")
     parser.add_argument("--model", action="append")
     parser.add_argument(
+        "--plan-only",
+        action="store_true",
+        help="Validate frozen planning inputs without requiring API keys.",
+    )
+    parser.add_argument(
         "--require-ready",
         action="store_true",
         help="Return a non-zero status when any prerequisite is missing.",
@@ -41,6 +46,7 @@ def main() -> int:
         selected_model_ids=(
             set(args.model) if args.model else None
         ),
+        require_model_credentials=not args.plan_only,
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(

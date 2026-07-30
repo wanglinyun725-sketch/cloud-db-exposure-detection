@@ -277,3 +277,24 @@ scorer 与统计分析器已经实现并测试 fine-grained
 7. 配置、gold、split、代码和 schedule 的最终哈希尚未冻结。
 
 阻断项全部关闭前，任何运行只能标记为 pilot、diagnostic 或 engineering validation，不得进入论文主结果表。
+
+## 10. 一键状态、计划与执行
+
+统一入口按 fail-closed 顺序串联双人 gold 冻结、负对照冻结、主预检、调度、
+运行、统计分析与结论决策：
+
+```powershell
+# 只审计当前阻断项，不调用模型
+D:\anaconda\python.exe scripts/experiments/run_research_pipeline_v2.py
+
+# 人工 gold 完成后冻结完整 schedule；不要求 API key、不调用模型
+D:\anaconda\python.exe scripts/experiments/run_research_pipeline_v2.py --mode plan
+
+# 只有 freeze_status=FROZEN 且全部预检通过时才允许正式模型调用
+D:\anaconda\python.exe scripts/experiments/run_research_pipeline_v2.py `
+  --mode execute `
+  --config configs/ec_react_main_v2_frozen.yaml
+```
+
+`status` 和 `plan` 均不会调用模型。`execute` 拒绝草案配置；即使运行结束，
+最终论文主张仍由 `confirmatory_decision.json` 的机器门槛决定。

@@ -58,6 +58,7 @@ def main() -> int:
         config_path,
         selected_method_ids=set(args.method) if args.method else None,
         selected_model_ids=set(args.model) if args.model else None,
+        require_model_credentials=not args.plan_only,
     )
     (output_dir / "preflight.json").write_text(
         json.dumps(preflight, ensure_ascii=False, indent=2) + "\n",

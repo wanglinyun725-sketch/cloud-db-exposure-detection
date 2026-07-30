@@ -41,6 +41,7 @@ def run_preflight(
     environ: Mapping[str, str] | None = None,
     selected_method_ids: set[str] | None = None,
     selected_model_ids: set[str] | None = None,
+    require_model_credentials: bool = True,
 ) -> dict[str, Any]:
     """Audit data, split, model and fairness prerequisites without running."""
     root = Path(root).resolve()
@@ -327,6 +328,7 @@ def run_preflight(
         methods,
         environment,
         blockers,
+        require_credentials=require_model_credentials,
     )
     schedule_errors = schedule_design_errors(config)
     blockers.extend(
@@ -383,6 +385,10 @@ def run_preflight(
     )
     return {
         "preflight_version": "0.1",
+        "preflight_mode": (
+            "execution" if require_model_credentials else "plan_only"
+        ),
+        "model_credentials_enforced": require_model_credentials,
         "experiment_id": config.get("experiment_id"),
         "config_path": str(config_path),
         "config_sha256": sha256(raw_config).hexdigest(),
@@ -1312,6 +1318,8 @@ def _model_status(
     methods: list[dict[str, Any]],
     environment: Mapping[str, str],
     blockers: list[str],
+    *,
+    require_credentials: bool = True,
 ) -> list[dict[str, Any]]:
     if not any(method.get("family") == "llm" for method in methods):
         return []
@@ -1332,7 +1340,7 @@ def _model_status(
             or environment.get(str(model.get("base_url_env")), "")
             or None
         )
-        if key_required and not key_present:
+        if key_required and not key_present and require_credentials:
             blockers.append(
                 f"model {model.get('model_id')} is missing {api_key_env}"
             )
@@ -1376,6 +1384,7 @@ def _model_status(
                 "api_key_env": api_key_env,
                 "api_key_present": key_present,
                 "api_key_required": key_required,
+                "credential_enforced": require_credentials,
                 "model": model_name,
                 "base_url": base_url,
                 "require_runtime_digest": require_digest,

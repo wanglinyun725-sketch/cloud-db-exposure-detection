@@ -1,0 +1,68 @@
+{
+  "pipeline_version": "1.0",
+  "mode": "status",
+  "config": "configs\\ec_react_main_v2_draft.yaml",
+  "output_dir": "output\\ec_react_main_v2",
+  "model_calls_authorized": false,
+  "stages": [
+    {
+      "stage": "freeze_confirmatory_gold",
+      "returncode": 2,
+      "command": [
+        "D:\\anaconda\\python.exe",
+        "scripts\\annotation\\freeze_confirmatory_v1.py"
+      ],
+      "result": {
+        "ready": false,
+        "stage": "awaiting_double_blind",
+        "human_gold_independence_groups": 0,
+        "report": "output\\research_design\\confirmatory_freeze_readiness_v1.json",
+        "gold_written": false,
+        "adjudicator_tasks": null
+      },
+      "stderr": null
+    },
+    {
+      "stage": "freeze_negative_controls",
+      "returncode": 2,
+      "command": [
+        "D:\\anaconda\\python.exe",
+        "scripts\\annotation\\freeze_negative_controls_v1.py"
+      ],
+      "result": {
+        "ready": false,
+        "stage": "awaiting_double_blind",
+        "gold_written": false,
+        "adjudicator_tasks": null,
+        "report": "output\\research_design\\negative_control_freeze_readiness_v1.json"
+      },
+      "stderr": null
+    },
+    {
+      "stage": "main_preflight",
+      "returncode": 2,
+      "command": [
+        "D:\\anaconda\\python.exe",
+        "scripts\\experiments\\run_ec_react_preflight.py",
+        "--config",
+        "configs\\ec_react_main_v2_draft.yaml",
+        "--output",
+        "output\\ec_react_main_v2\\pipeline_preflight.json",
+        "--require-ready"
+      ],
+      "result": {
+        "ready": false,
+        "blockers": 4,
+        "finalized_cases": 0,
+        "source_candidate_cases": 52,
+        "source_independence_groups": 30,
+        "planned_runs_if_ready": 0,
+        "secrets_in_report": false,
+        "output": "output\\ec_react_main_v2\\pipeline_preflight.json"
+      },
+      "stderr": null
+    }
+  ],
+  "ready": false,
+  "final_status": "blocked"
+}
