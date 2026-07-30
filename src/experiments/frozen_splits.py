@@ -78,8 +78,19 @@ def build_frozen_split_manifest(
         analytic_groups.setdefault(group, []).append(case)
 
     group_splits: dict[str, tuple[str, str]] = {}
-    remaining: dict[str, list[dict[str, Any]]] = {}
+
+    # Provenance restrictions take precedence over external-holdout status.
+    # Otherwise an external C-level group could silently enter effectiveness
+    # testing before the restriction below is evaluated.
+    c_level = {
+        group: members
+        for group, members in analytic_groups.items()
+        if any(item["source"]["provenance_level"] == "C" for item in members)
+    }
+    runtime_backed: dict[str, list[dict[str, Any]]] = {}
     for group, members in sorted(analytic_groups.items()):
+        if group in c_level:
+            continue
         source_ids = {item["source"]["source_id"] for item in members}
         if source_ids & external_source_ids:
             group_splits[group] = (
@@ -87,20 +98,10 @@ def build_frozen_split_manifest(
                 "source-predeclared external holdout",
             )
         else:
-            remaining[group] = members
+            runtime_backed[group] = members
 
     # C-level evidence can inform development but never frozen effectiveness
     # testing. Mixed-provenance groups inherit the stricter rule.
-    c_level = {
-        group: members
-        for group, members in remaining.items()
-        if any(item["source"]["provenance_level"] == "C" for item in members)
-    }
-    runtime_backed = {
-        group: members
-        for group, members in remaining.items()
-        if group not in c_level
-    }
     c_denominator = ratios["development"] + ratios["validation"]
     for group, split in _balanced_group_assignment(
         c_level,
