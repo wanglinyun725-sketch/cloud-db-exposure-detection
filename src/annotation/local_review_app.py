@@ -413,15 +413,15 @@ CASE_TEMPLATE = (
 {% if error %}<div class="card error"><b>不能完成：</b>{{ error }}</div>{% endif %}
 {% if saved %}<div class="card success">已保存 {{ saved }}。</div>{% endif %}
 <section class="card">
-<h2>冻结来源上下文</h2>
+<h2>冻结的来源上下文</h2>
 <div class="grid">
 <div><b>来源</b><br>{{ case.source.source_id }}</div>
 <div><b>证据等级</b><br>{{ case.source.provenance_level }}</div>
-<div><b>独立组</b><br>{{ case.candidate_metadata.independence_group }}</div>
+<div><b>独立谱系</b><br>{{ case.candidate_metadata.independence_group }}</div>
 <div><b>运行实例</b><br>{{ case.runtime_instances|length }}</div>
 </div>
 <p>{{ case.candidate_metadata.description }}</p>
-<details><summary>来源和候选元数据</summary><pre>{{ {
+<details><summary>来源与候选元数据</summary><pre>{{ {
   "source": case.source,
   "candidate_metadata": case.candidate_metadata
 }|tojson(indent=2) }}</pre></details>
@@ -437,8 +437,9 @@ CASE_TEMPLATE = (
 <input type="hidden" name="_nonce" value="{{ nonce }}">
 <section class="card">
 <h2>1. 人工准入判断</h2>
-<p class="muted">五个问题必须由当前标注者独立判断。空查询表示 Unknown，
-不能自动写成反证。</p>
+<p class="muted">五个问题必须由当前标注者独立判断。缺少决定性证据时不要猜测：
+使用 needs_execution，并在理由中写清需要哪种 provider-native 分析或主动探针。
+“没有看到”不等于反证。</p>
 {% for field, label_text in [
 ("external_or_low_privilege_entry_defined","存在外部或低权限入口"),
 ("multi_step_path_present","存在多步路径"),
@@ -456,9 +457,9 @@ CASE_TEMPLATE = (
 <label>最终准入决定</label>
 <select name="decision">
 <option value="">尚未判断</option>
-{% for value, text in [("accept","accept：证据充分，可进入 gold"),
-("needs_execution","needs_execution：需要隔离执行补证"),
-("reject","reject：不满足路径准入")] %}
+{% for value, text in [("accept","accept：五项条件均有证据，可进入人工 gold 流程"),
+("needs_execution","needs_execution：关键边需要云原生工具或隔离探针"),
+("reject","reject：明确不满足路径准入条件")] %}
 <option value="{{ value }}" {% if case.admission_screen.decision == value %}selected{% endif %}>{{ text }}</option>
 {% endfor %}
 </select>
@@ -481,7 +482,7 @@ CASE_TEMPLATE = (
 {% endfor %}
 </section>
 <section class="card">
-<h2>3. 人类声明</h2>
+<h2>3. 真人声明</h2>
 <p>“严格校验并完成”表示这些判断由页面顶部显示的标注者本人独立完成。完成后
 文件不可在此界面修改；分歧通过 reviewer/adjudicator 工作流处理。</p>
 </section>
