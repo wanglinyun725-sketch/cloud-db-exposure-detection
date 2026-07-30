@@ -1189,9 +1189,18 @@ class ProgressiveTelemetryPolicy:
 class OpenAICompatibleReActPolicy:
     """Structured ReAct policy for OpenAI-compatible chat endpoints."""
 
-    def __init__(self, client: Any, model: str) -> None:
+    def __init__(
+        self,
+        client: Any,
+        model: str,
+        *,
+        temperature: float | None = 0,
+        reasoning_effort: str | None = None,
+    ) -> None:
         self.client = client
         self.model = model
+        self.temperature = temperature
+        self.reasoning_effort = reasoning_effort
 
     @classmethod
     def from_env(cls) -> "OpenAICompatibleReActPolicy":
@@ -1227,9 +1236,13 @@ class OpenAICompatibleReActPolicy:
                 "For kind=finish use thought/decision/hypothesis/"
                 "evidence_observation_ids."
             )
+        request_options: dict[str, Any] = {}
+        if self.temperature is not None:
+            request_options["temperature"] = self.temperature
+        if self.reasoning_effort is not None:
+            request_options["reasoning_effort"] = self.reasoning_effort
         response = self.client.chat.completions.create(
             model=self.model,
-            temperature=0,
             messages=[
                 {
                     "role": "system",
@@ -1251,6 +1264,7 @@ class OpenAICompatibleReActPolicy:
                     ),
                 },
             ],
+            **request_options,
         )
         content = response.choices[0].message.content or ""
         return _parse_json_object(content)
