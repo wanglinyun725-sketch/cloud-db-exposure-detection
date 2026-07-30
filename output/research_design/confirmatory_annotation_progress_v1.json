@@ -1,0 +1,41 @@
+{
+  "gate_version": "1.0",
+  "protocol_id": "confirmatory_double_human_v1",
+  "packet_sha256": "fe9eb72d45c848aeb30dbaa37e26a03d1841a92c6637cd8de5809b00212ed743",
+  "statistical_unit": "independence_group",
+  "summary": {
+    "target_independence_groups": 30,
+    "case_count": 52,
+    "primary_valid_complete_cases": 0,
+    "reviewer_valid_complete_cases": 0,
+    "primary_complete_groups": 0,
+    "reviewer_complete_groups": 0,
+    "jointly_complete_groups": 0,
+    "resolved_without_adjudication_groups": 0,
+    "pending_adjudication_groups": 0,
+    "human_gold_independence_groups": 0,
+    "remaining_to_double_blind_target": 30
+  },
+  "primary_progress": {
+    "blank": 52,
+    "in_progress": 0,
+    "valid_complete": 0,
+    "invalid": 0
+  },
+  "reviewer_progress": {
+    "blank": 52,
+    "in_progress": 0,
+    "valid_complete": 0,
+    "invalid": 0
+  },
+  "ready_for_agreement": false,
+  "agreement": null,
+  "disputed_independence_groups": [],
+  "human_gold_gate": {
+    "minimum_double_blind_labeled_groups": 30,
+    "double_blind_complete": false,
+    "all_disputes_adjudicated": false,
+    "passes": false,
+    "reason": "Final human gold remains zero until every jointly completed dispute has a valid third-human adjudication and the frozen assignments are finalized."
+  }
+}
