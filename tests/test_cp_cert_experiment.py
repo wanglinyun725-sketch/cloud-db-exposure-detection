@@ -218,8 +218,22 @@ class CPCertExperimentGateTests(unittest.TestCase):
                 output_path,
                 split_manifest_path=split_path,
             )
+            input_sha256 = __import__("hashlib").sha256(
+                input_path.read_bytes()
+            ).hexdigest()
+            split_sha256 = __import__("hashlib").sha256(
+                split_path.read_bytes()
+            ).hexdigest()
 
         self.assertEqual(["test"], report["selected_splits"])
+        self.assertEqual(
+            input_sha256,
+            report["artifact_binding"]["gold_release"]["sha256"],
+        )
+        self.assertEqual(
+            split_sha256,
+            report["artifact_binding"]["split_manifest"]["sha256"],
+        )
         self.assertEqual(
             ["held-out-case"],
             [item["case_id"] for item in report["cases"]],
