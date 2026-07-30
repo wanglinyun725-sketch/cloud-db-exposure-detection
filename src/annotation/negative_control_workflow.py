@@ -331,6 +331,17 @@ def _validate_assignment(assignment: dict[str, Any]) -> None:
             or not screening["rationale"].strip()
         ):
             raise ValueError("screening rationale is required")
+        if (
+            screening["usable_as_negative_control"]
+            and not (
+                screening["cloud_data_relevant"]
+                and screening["non_attack_confirmed"]
+            )
+        ):
+            raise ValueError(
+                "usable negative control requires cloud-data relevance "
+                "and a confirmed non-attack event"
+            )
 
 
 def _validate_pair(primary: dict[str, Any], reviewer: dict[str, Any]) -> None:

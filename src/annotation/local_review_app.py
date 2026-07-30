@@ -27,6 +27,9 @@ from flask import (
     url_for,
 )
 
+from src.annotation.negative_control_workflow import (
+    validate_negative_assignment,
+)
 from src.annotation.workflow import validate_submission
 from src.graph.path_ontology import load_path_ontology
 
@@ -46,6 +49,11 @@ SCREEN_BOOLEAN_FIELDS = (
     "not_a_near_duplicate",
 )
 DECISIONS = {"accept", "needs_execution", "reject"}
+NEGATIVE_SCREEN_BOOLEAN_FIELDS = (
+    "cloud_data_relevant",
+    "non_attack_confirmed",
+    "usable_as_negative_control",
+)
 
 FIELD_EXAMPLES = {
     "nodes": [
@@ -204,7 +212,58 @@ def _apply_form(
     return case
 
 
-def _case_state(case: dict[str, Any]) -> tuple[str, str | None]:
+def _apply_negative_form(
+    source_case: dict[str, Any],
+    form: Any,
+    *,
+    complete: bool,
+) -> dict[str, Any]:
+    case = deepcopy(source_case)
+    screening = dict(case.get("screening") or {})
+    for field in NEGATIVE_SCREEN_BOOLEAN_FIELDS:
+        screening[field] = _parse_bool(form.get(field))
+    screening["rationale"] = str(form.get("rationale") or "")
+    case["screening"] = screening
+    if complete:
+        case["human_attestation"] = True
+        case["completed_at"] = datetime.now(timezone.utc).isoformat()
+    else:
+        case["human_attestation"] = False
+        case["completed_at"] = None
+    return case
+
+
+def _negative_single_assignment(
+    assignment_header: dict[str, Any],
+    case: dict[str, Any],
+) -> dict[str, Any]:
+    assignment = deepcopy(assignment_header)
+    assignment["cases"] = [deepcopy(case)]
+    return assignment
+
+
+def _case_state(
+    case: dict[str, Any],
+    *,
+    workflow_kind: str = "path",
+    assignment_header: dict[str, Any] | None = None,
+) -> tuple[str, str | None]:
+    if workflow_kind == "negative":
+        if case.get("human_attestation") is True:
+            try:
+                validate_negative_assignment(_negative_single_assignment(
+                    assignment_header or {},
+                    case,
+                ))
+            except (KeyError, TypeError, ValueError) as exc:
+                return "invalid", str(exc)
+            return "complete", None
+        screening = case.get("screening") or {}
+        has_content = any(
+            screening.get(field) is not None
+            for field in NEGATIVE_SCREEN_BOOLEAN_FIELDS
+        ) or bool(screening.get("rationale"))
+        return ("draft" if has_content else "blank"), None
     if case.get("human_attestation") is True:
         try:
             validate_submission(case)
@@ -294,6 +353,7 @@ def create_local_review_app(task_dir: str | Path) -> Flask:
     entry_by_file = {
         entry["file"]: deepcopy(entry) for entry in entries
     }
+    workflow_kinds = set()
     for entry in entries:
         case_path = task_dir / entry["file"]
         if not case_path.is_file():
@@ -304,6 +364,18 @@ def create_local_review_app(task_dir: str | Path) -> Flask:
         _verify_source_context(
             case, entry.get("source_context_sha256")
         )
+        if "screening" in case and "candidate_id" in case:
+            workflow_kinds.add("negative")
+        elif "admission_screen" in case and "case_id" in case:
+            workflow_kinds.add("path")
+        else:
+            raise ValueError(f"unsupported annotation task schema: {case_path}")
+    if len(workflow_kinds) != 1:
+        raise ValueError("task bundle mixes incompatible annotation schemas")
+    workflow_kind = workflow_kinds.pop()
+    assignment_header = manifest.get("assignment_header")
+    if not isinstance(assignment_header, dict):
+        raise ValueError("assignment manifest header is missing")
 
     ontology = load_path_ontology()
     nonce = secrets.token_urlsafe(32)
@@ -312,6 +384,7 @@ def create_local_review_app(task_dir: str | Path) -> Flask:
         MAX_CONTENT_LENGTH=8 * 1024 * 1024,
         ANNOTATION_TASK_DIR=str(task_dir),
         ANNOTATION_NONCE=nonce,
+        ANNOTATION_WORKFLOW_KIND=workflow_kind,
     )
 
     def load_case(filename: str) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -335,10 +408,18 @@ def create_local_review_app(task_dir: str | Path) -> Flask:
         checked: str | None = None,
     ):
         position = filenames.index(filename)
-        state, validation_error = _case_state(case)
+        state, validation_error = _case_state(
+            case,
+            workflow_kind=workflow_kind,
+            assignment_header=assignment_header,
+        )
+        if workflow_kind == "negative":
+            template = NEGATIVE_CASE_TEMPLATE
+        else:
+            template = CASE_TEMPLATE
         return (
             render_template_string(
-                CASE_TEMPLATE,
+                template,
                 case=case,
                 filename=filename,
                 state=state,
@@ -387,19 +468,25 @@ def create_local_review_app(task_dir: str | Path) -> Flask:
         group_case_states: dict[str, list[str]] = {}
         for entry in entries:
             case, _ = load_case(entry["file"])
-            state, error = _case_state(case)
+            state, error = _case_state(
+                case,
+                workflow_kind=workflow_kind,
+                assignment_header=assignment_header,
+            )
             counts[state] += 1
             group_id = str(
                 (case.get("candidate_metadata") or {}).get(
                     "independence_group"
                 )
+                or case.get("independence_group")
                 or case.get("case_id")
+                or case.get("candidate_id")
             )
             group_case_states.setdefault(group_id, []).append(state)
             rows.append({
                 "ordinal": entry["ordinal"],
                 "filename": entry["file"],
-                "case_id": case.get("case_id"),
+                "case_id": case.get("case_id") or case.get("candidate_id"),
                 "source_id": (case.get("source") or {}).get("source_id"),
                 "group_id": group_id,
                 "state": state,
@@ -427,10 +514,13 @@ def create_local_review_app(task_dir: str | Path) -> Flask:
             rows=rows,
             counts=counts,
             group_counts=group_counts,
+            workflow_kind=workflow_kind,
         )
 
     @app.get("/guide")
     def guide_page():
+        if workflow_kind == "negative":
+            return render_template_string(NEGATIVE_GUIDE_TEMPLATE)
         return render_template_string(
             GUIDE_TEMPLATE,
             node_types=ontology["node_types"],
@@ -470,16 +560,31 @@ def create_local_review_app(task_dir: str | Path) -> Flask:
         if action not in {"draft", "check", "complete"}:
             abort(400)
         try:
-            candidate = _apply_form(
-                case,
-                request.form,
-                complete=action in {"check", "complete"},
-            )
+            if workflow_kind == "negative":
+                candidate = _apply_negative_form(
+                    case,
+                    request.form,
+                    complete=action in {"check", "complete"},
+                )
+            else:
+                candidate = _apply_form(
+                    case,
+                    request.form,
+                    complete=action in {"check", "complete"},
+                )
             _verify_source_context(
                 candidate, entry.get("source_context_sha256")
             )
             if action in {"check", "complete"}:
-                validate_submission(candidate)
+                if workflow_kind == "negative":
+                    validate_negative_assignment(
+                        _negative_single_assignment(
+                            assignment_header,
+                            candidate,
+                        )
+                    )
+                else:
+                    validate_submission(candidate)
         except (
             KeyError,
             TypeError,
@@ -557,11 +662,14 @@ border-radius:999px;padding:3px 8px}.compact td,.compact th{padding:6px;font-siz
 INDEX_TEMPLATE = (
     BASE_STYLE
     + """
-<header><h1>RealPathBench-CD 本地人工标注</h1>
+<header><h1>RealPathBench-CD
+{% if workflow_kind == "negative" %}负对照筛选{% else %}路径标注{% endif %}</h1>
 <p>仅人工填写；不调用 LLM 或外部 API。来源上下文受 SHA-256 保护。</p></header>
 <main class="wrap">
 <section class="card guide"><b>第一次标注？</b>
-先阅读 <a href="{{ url_for('guide_page') }}">证据判定与 JSON 填写手册</a>。
+先阅读 <a href="{{ url_for('guide_page') }}">
+{% if workflow_kind == "negative" %}真实负对照筛选手册
+{% else %}证据判定与 JSON 填写手册{% endif %}</a>。
 手册只解释规则，不推荐本案例标签。</section>
 <section class="card">
   <div class="grid">
@@ -571,13 +679,17 @@ INDEX_TEMPLATE = (
     <div class="metric"><span>草稿</span><b>{{ counts.draft }}</b></div>
     <div class="metric"><span>已完成</span><b>{{ counts.complete }}</b></div>
     <div class="metric"><span>无效</span><b>{{ counts.invalid }}</b></div>
-    <div class="metric"><span>已完成谱系</span>
+    <div class="metric"><span>已完成{% if workflow_kind == "negative" %}独立记录
+    {% else %}谱系{% endif %}</span>
     <b>{{ group_counts.complete }}/{{ group_counts.total }}</b></div>
-    <div class="metric"><span>进行中谱系</span><b>{{ group_counts.draft }}</b></div>
+    <div class="metric"><span>进行中{% if workflow_kind == "negative" %}独立记录
+    {% else %}谱系{% endif %}</span><b>{{ group_counts.draft }}</b></div>
   </div>
 </section>
 <section class="card">
-<table><thead><tr><th>#</th><th>案例</th><th>独立谱系</th><th>来源</th><th>状态</th></tr></thead>
+<table><thead><tr><th>#</th><th>案例</th>
+<th>{% if workflow_kind == "negative" %}独立来源记录{% else %}独立谱系{% endif %}</th>
+<th>来源</th><th>状态</th></tr></thead>
 <tbody>{% for row in rows %}<tr>
 <td>{{ row.ordinal }}</td>
 <td><a href="{{ url_for('case_page', filename=row.filename) }}">{{ row.case_id }}</a>
@@ -713,6 +825,139 @@ CASE_TEMPLATE = (
 <button class="primary" type="submit" name="action" value="complete">严格校验并完成</button>
 </div>
 </form></main>
+"""
+)
+
+
+NEGATIVE_CASE_TEMPLATE = (
+    BASE_STYLE
+    + """
+<header><h1>{{ ordinal }}/{{ total }} · {{ case.candidate_id }}</h1>
+<p>{{ case.role }} · {{ case.annotator_id }} · <span class="{{ state }}">{{ state }}</span></p>
+</header>
+<main class="wrap">
+<div class="card"><a href="{{ url_for('index') }}">← 任务列表</a>
+{% if previous %} · <a href="{{ url_for('case_page', filename=previous) }}">上一条</a>{% endif %}
+{% if next %} · <a href="{{ url_for('case_page', filename=next) }}">下一条</a>{% endif %}
+</div>
+{% if error %}<div class="card error"><b>不能完成：</b>{{ error }}</div>{% endif %}
+{% if saved %}<div class="card success">已保存 {{ saved }}。</div>{% endif %}
+{% if checked %}<div class="card success">完整性预检通过；任务文件尚未改动。
+确认内容确由你本人独立判断后，才能点击“严格校验并完成”。</div>{% endif %}
+<section class="card guide"><b>这是外部负对照筛选，不是攻击路径标注。</b>
+<a href="{{ url_for('guide_page') }}" target="_blank">打开筛选手册</a>。
+只有“云数据相关”“确认为非攻击”“适合作为负对照”三个问题分别有证据时，
+才可将三项都选为“是”；不确定不能当作“是”。</section>
+<section class="card">
+<h2>冻结的真实来源记录</h2>
+<div class="grid">
+<div><b>云厂商</b><br>{{ case.vendor }}</div>
+<div><b>服务</b><br>{{ case.service_hint }}</div>
+<div><b>年份</b><br>{{ case.year }}</div>
+<div><b>独立记录</b><br><code>{{ case.independence_group }}</code></div>
+</div>
+<h3>原始报告文本</h3>
+<div class="guide">{{ case.report_text }}</div>
+<p><b>数据相关线索字段</b></p>
+<div class="chips">{% for facet in case.data_relevance_facets %}
+<span class="chip">{{ facet }}</span>{% endfor %}
+{% if not case.data_relevance_facets %}<span class="muted">无预筛字段</span>{% endif %}</div>
+<p><b>安全术语命中（仅是检索线索，不是标签）</b></p>
+<div class="chips">{% for hit in case.security_term_hits %}
+<span class="chip">{{ hit }}</span>{% endfor %}
+{% if not case.security_term_hits %}<span class="muted">无</span>{% endif %}</div>
+<details><summary>来源、DOI 与原始引用</summary><pre>{{ {
+"source": case.source,
+"raw_ref": case.raw_ref,
+"source_context_sha256": case.source_context_sha256,
+"packet_sha256": case.packet_sha256
+}|tojson(indent=2) }}</pre></details>
+{% if case.dispute_context %}<details><summary>仅仲裁员可见的双人分歧</summary>
+<pre>{{ case.dispute_context|tojson(indent=2) }}</pre></details>{% endif %}
+</section>
+<form method="post">
+<input type="hidden" name="_nonce" value="{{ nonce }}">
+<section class="card">
+<h2>三项独立判断</h2>
+<div class="two">
+<div><label>1. 与云数据资产/服务相关</label>
+<select name="cloud_data_relevant">
+<option value="" {% if case.screening.cloud_data_relevant is none %}selected{% endif %}>未判断</option>
+<option value="true" {% if case.screening.cloud_data_relevant is sameas true %}selected{% endif %}>是</option>
+<option value="false" {% if case.screening.cloud_data_relevant is sameas false %}selected{% endif %}>否</option>
+</select><p class="muted">报告涉及数据库、对象存储、备份、密钥、数据处理或其
+明确的数据可用性；只出现“云”字样不够。</p></div>
+<div><label>2. 当前记录可确认为非攻击事件</label>
+<select name="non_attack_confirmed">
+<option value="" {% if case.screening.non_attack_confirmed is none %}selected{% endif %}>未判断</option>
+<option value="true" {% if case.screening.non_attack_confirmed is sameas true %}selected{% endif %}>是</option>
+<option value="false" {% if case.screening.non_attack_confirmed is sameas false %}selected{% endif %}>否</option>
+</select><p class="muted">报告内容支持故障、容量、配置、维护等可靠性解释，且没有
+未授权访问或攻击证据；“没写攻击”本身不等于确认为非攻击。</p></div>
+</div>
+<label>3. 适合作为主实验外部负对照</label>
+<select name="usable_as_negative_control">
+<option value="" {% if case.screening.usable_as_negative_control is none %}selected{% endif %}>未判断</option>
+<option value="true" {% if case.screening.usable_as_negative_control is sameas true %}selected{% endif %}>是</option>
+<option value="false" {% if case.screening.usable_as_negative_control is sameas false %}selected{% endif %}>否</option>
+</select>
+<p class="muted">选择“是”要求前两项均为“是”，并且记录足够明确、独立且可追溯；
+前两项为“是”仍可因语义过少等理由在此选“否”。</p>
+<label>人工理由（必须说明依据文本；不要只写“是/否”）</label>
+<textarea class="rationale" name="rationale">{{ case.screening.rationale or "" }}</textarea>
+</section>
+<section class="card">
+<label><input style="width:auto" type="checkbox" required>
+我确认以上筛选由我本人独立完成，没有查看另一位标注者的答案，也没有使用
+LLM 生成标签。</label>
+</section>
+<div class="actions">
+<button class="secondary" type="submit" name="action" value="draft">保存草稿</button>
+<button class="secondary" type="submit" name="action" value="check">只做完整性预检</button>
+<button class="primary" type="submit" name="action" value="complete">严格校验并完成</button>
+</div>
+</form></main>
+"""
+)
+
+
+NEGATIVE_GUIDE_TEMPLATE = (
+    BASE_STYLE
+    + """
+<header><h1>真实外部负对照筛选手册</h1>
+<p>只解释冻结协议，不分析当前记录、不调用模型、不推荐答案。</p></header>
+<main class="wrap">
+<section class="card"><a href="{{ url_for('index') }}">← 返回任务列表</a></section>
+<section class="card">
+<h2>为什么需要负对照</h2>
+<p>负对照用于检验方法是否会把真实云服务故障、维护或容量问题误报成攻击路径。
+这些记录必须来自可追溯的外部来源，并由两位真人独立筛选。</p>
+</section>
+<section class="card">
+<h2>三个问题必须分开判断</h2>
+<table><thead><tr><th>问题</th><th>“是”的最低条件</th><th>不能据此判“是”</th></tr></thead><tbody>
+<tr><td>云数据相关</td><td>明确涉及数据库、对象存储、备份、密钥、数据处理，
+或这些资产的数据可用性。</td><td>只看到云厂商品牌或通用计算服务。</td></tr>
+<tr><td>确认为非攻击</td><td>文本支持故障、容量、配置、维护或其他可靠性解释，
+且不存在未授权访问/攻击证据。</td><td>报告没有出现 attack/security 单词。</td></tr>
+<tr><td>可用作负对照</td><td>前两项均为“是”，记录仍有足够语义、独立谱系和
+可追溯引用，可用于评估误报。</td><td>仅因它来自“incident”数据集。</td></tr>
+</tbody></table>
+<p>“可用作负对照=是”时，前两项必须均为“是”；系统会在完成时严格检查。
+如果文本不足以确认非攻击，应选择“否”，并在理由中写明缺失证据。</p>
+</section>
+<section class="card">
+<h2>如何写理由</h2>
+<p>指出报告中的具体事实，例如受影响的服务、事件类型、时间和恢复说明；
+再解释这些事实分别如何支持三个判断。不要复制数据集名称，也不要猜测未记载的
+根因。</p>
+</section>
+<section class="card">
+<h2>独立性与完成</h2>
+<p>primary 与 reviewer 不得互看答案或共用笔记。可以先保存草稿，再做不写文件的
+完整性预检。两人不一致时，只有第三位真人能查看双方答案并仲裁。</p>
+</section>
+</main>
 """
 )
 
