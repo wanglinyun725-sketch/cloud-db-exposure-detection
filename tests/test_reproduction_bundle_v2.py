@@ -6,6 +6,7 @@ import zipfile
 import pytest
 import yaml
 
+from src.experiments import reproduction_bundle_v2 as reproduction
 from src.experiments.artifact_chain_v2 import (
     build_analysis_binding,
     build_decision_binding,
@@ -126,10 +127,24 @@ def _fixture(tmp_path):
         },
         "research_effectiveness_result": False,
     })
+    _write_json(experiment / "publication_claims_v2.json", {
+        "ledger_version": "2.0",
+        "mandatory_innovations_claim_allowed": True,
+        "cp_cert_innovation_claim_allowed": False,
+    })
     code_files = {
         path: path.encode("utf-8") for path in REQUIRED_CODE_PATHS
     }
     return config, freeze_manifest, experiment, code_files
+
+
+@pytest.fixture(autouse=True)
+def _stub_claim_ledger_recomputation(monkeypatch):
+    monkeypatch.setattr(
+        reproduction,
+        "validate_publication_claim_ledger",
+        lambda root, ledger: ledger,
+    )
 
 
 def test_reproduction_bundle_is_deterministic_and_complete(tmp_path):
@@ -159,6 +174,10 @@ def test_reproduction_bundle_is_deterministic_and_complete(tmp_path):
     assert "output/ec_react_main_v2/runs.jsonl" in names
     assert (
         "output/ec_react_main_v2/cp_cert_experiment_results.json"
+        in names
+    )
+    assert (
+        "output/ec_react_main_v2/publication_claims_v2.json"
         in names
     )
     assert "data/gold.json" in names
@@ -217,6 +236,23 @@ def test_reproduction_bundle_rejects_cp_cert_binding_drift(tmp_path):
     _write_json(cp_path, cp_result)
 
     with pytest.raises(ValueError, match="hash differs"):
+        build_reproduction_bundle_bytes(
+            tmp_path,
+            frozen_config_path=config,
+            freeze_manifest_path=freeze_manifest,
+            experiment_dir=experiment,
+            code_files=code_files,
+        )
+
+
+def test_reproduction_bundle_rejects_blocked_mandatory_claims(tmp_path):
+    config, freeze_manifest, experiment, code_files = _fixture(tmp_path)
+    claims_path = experiment / "publication_claims_v2.json"
+    claims = json.loads(claims_path.read_text(encoding="utf-8"))
+    claims["mandatory_innovations_claim_allowed"] = False
+    _write_json(claims_path, claims)
+
+    with pytest.raises(ValueError, match="allowed mandatory claims"):
         build_reproduction_bundle_bytes(
             tmp_path,
             frozen_config_path=config,

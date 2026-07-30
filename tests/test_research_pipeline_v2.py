@@ -213,6 +213,9 @@ def test_execute_mode_freezes_draft_then_uses_only_frozen_config(
     assert script_names.index(
         "run_cp_cert_experiments.py"
     ) < script_names.index("decide_ec_react_main.py")
+    assert script_names.index(
+        "decide_ec_react_main.py"
+    ) < script_names.index("build_publication_claims_v2.py")
     for script_name in (
         "run_ec_react_main.py",
         "analyze_ec_react_main.py",
@@ -234,5 +237,9 @@ def test_execute_mode_freezes_draft_then_uses_only_frozen_config(
     assert status["final_status"] == "claim_not_passed"
     assert any(
         item["stage"] == "evaluate_cp_cert"
+        for item in status["stages"]
+    )
+    assert any(
+        item["stage"] == "derive_publication_claims"
         for item in status["stages"]
     )

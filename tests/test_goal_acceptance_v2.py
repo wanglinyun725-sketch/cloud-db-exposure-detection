@@ -2,6 +2,10 @@ from hashlib import sha256
 import json
 import zipfile
 
+import pytest
+
+import src.experiments.final_deliverables_v2 as final_deliverables
+import src.experiments.goal_acceptance_v2 as goal_acceptance
 from src.experiments.final_deliverables_v2 import (
     REQUIRED_REVIEW_CHECKS,
     build_final_deliverables_manifest,
@@ -16,6 +20,21 @@ from src.experiments.goal_acceptance_v2 import (
     _model_locks_pass,
     render_goal_acceptance_markdown,
 )
+
+
+@pytest.fixture(autouse=True)
+def _validate_test_publication_ledger(monkeypatch):
+    validator = lambda _root, ledger: ledger
+    monkeypatch.setattr(
+        final_deliverables,
+        "validate_publication_claim_ledger",
+        validator,
+    )
+    monkeypatch.setattr(
+        goal_acceptance,
+        "validate_publication_claim_ledger",
+        validator,
+    )
 
 
 def test_model_gate_requires_both_local_digest_and_exact_strong_snapshot():
@@ -91,10 +110,18 @@ def test_deliverables_must_be_bound_to_the_final_decision(tmp_path):
             "posthoc_threshold_change_allowed": False,
         },
     }), encoding="utf-8")
+    publication_claims = tmp_path / "publication_claims_v2.json"
+    publication_claims.write_text(json.dumps({
+        "mandatory_innovations_claim_allowed": True,
+        "cp_cert_innovation_claim_allowed": False,
+    }), encoding="utf-8")
     evidence = tmp_path / "evidence.txt"
     evidence.write_text("evidence", encoding="utf-8")
     decision_hash = sha256(decision.read_bytes()).hexdigest()
     cp_cert_hash = sha256(cp_result.read_bytes()).hexdigest()
+    publication_claims_hash = sha256(
+        publication_claims.read_bytes()
+    ).hexdigest()
     report_paths = {}
     for index, (review_type, checks) in enumerate(
         sorted(REQUIRED_REVIEW_CHECKS.items())
@@ -110,6 +137,8 @@ def test_deliverables_must_be_bound_to_the_final_decision(tmp_path):
             "confirmatory_decision_sha256": decision_hash,
             "cp_cert_result_sha256": cp_cert_hash,
             "cp_cert_innovation_claim_allowed": False,
+            "publication_claims_sha256": publication_claims_hash,
+            "mandatory_innovations_claim_allowed": True,
             "checks": [
                 {
                     "check_id": check_id,
@@ -125,6 +154,7 @@ def test_deliverables_must_be_bound_to_the_final_decision(tmp_path):
         tmp_path,
         decision_path=decision,
         cp_cert_result_path=cp_result,
+        publication_claims_path=publication_claims,
         report_paths=report_paths,
     )
     review_path = tmp_path / "reviews.json"
@@ -149,17 +179,29 @@ def test_deliverables_must_be_bound_to_the_final_decision(tmp_path):
             "cp_cert_experiment_results.json"
         )
         archive.writestr(cp_member, cp_result.read_bytes())
+        claim_member = (
+            "output/ec_react_main_v2/publication_claims_v2.json"
+        )
+        archive.writestr(claim_member, publication_claims.read_bytes())
         archive.writestr("bundle_manifest.json", json.dumps({
             "confirmatory_decision_sha256": decision_hash,
-            "files": [{
-                "path": cp_member,
-                "sha256": cp_cert_hash,
-            }],
+            "publication_claims_sha256": publication_claims_hash,
+            "files": [
+                {
+                    "path": cp_member,
+                    "sha256": cp_cert_hash,
+                },
+                {
+                    "path": claim_member,
+                    "sha256": publication_claims_hash,
+                },
+            ],
         }))
     manifest = build_final_deliverables_manifest(
         tmp_path,
         decision_path=decision,
         cp_cert_result_path=cp_result,
+        publication_claims_path=publication_claims,
         thesis_pdf=thesis,
         defense_deck=defense,
         reproduction_bundle=reproduction,
@@ -172,6 +214,7 @@ def test_deliverables_must_be_bound_to_the_final_decision(tmp_path):
         manifest,
         decision,
         cp_result,
+        publication_claims,
     ) is True
     manifest["confirmatory_decision_sha256"] = "0" * 64
     assert _deliverables_pass(
@@ -179,6 +222,7 @@ def test_deliverables_must_be_bound_to_the_final_decision(tmp_path):
         manifest,
         decision,
         cp_result,
+        publication_claims,
     ) is False
 
 

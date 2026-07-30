@@ -15,6 +15,9 @@ from src.experiments.final_deliverables_v2 import (
     validate_cp_cert_claim_result,
     validate_review_stress_test_bundle,
 )
+from src.experiments.publication_claims_v2 import (
+    validate_publication_claim_ledger,
+)
 
 
 REQUIRED_PLATFORMS = {"AWS", "AZURE", "GCP"}
@@ -36,6 +39,7 @@ REQUIRED_DELIVERABLE_KINDS = {
     "defense_deck",
     "reproduction_bundle",
     "review_stress_tests",
+    "publication_claims",
 }
 
 
@@ -61,6 +65,10 @@ def build_goal_acceptance(root: str | Path) -> dict[str, Any]:
     cp_cert_result_path = (
         root / "output" / "ec_react_main_v2"
         / "cp_cert_experiment_results.json"
+    )
+    publication_claims_path = (
+        root / "output" / "ec_react_main_v2"
+        / "publication_claims_v2.json"
     )
     frozen_path = root / "configs" / "ec_react_main_v2_frozen.yaml"
     frozen_manifest_path = (
@@ -91,6 +99,10 @@ def build_goal_acceptance(root: str | Path) -> dict[str, Any]:
         (confirmatory or {}).get("ready_to_publish") is True
         and (confirmatory or {}).get(
             "human_gold_independence_groups", 0
+        )
+        >= 30
+        and ((confirmatory or {}).get("split_summary") or {}).get(
+            "analytic_independence_groups", 0
         )
         >= 30
     )
@@ -133,6 +145,7 @@ def build_goal_acceptance(root: str | Path) -> dict[str, Any]:
         deliverables,
         decision_path,
         cp_cert_result_path,
+        publication_claims_path,
     )
     git_sync = _git_sync_status(root)
     git_gate = git_sync["synchronized"] is True
@@ -207,6 +220,11 @@ def build_goal_acceptance(root: str | Path) -> dict[str, Any]:
                 "stage": (confirmatory or {}).get("stage", "missing"),
                 "independence_groups": (confirmatory or {}).get(
                     "human_gold_independence_groups", 0
+                ),
+                "analytic_independence_groups": (
+                    ((confirmatory or {}).get("split_summary") or {}).get(
+                        "analytic_independence_groups", 0
+                    )
                 ),
             },
             "negative_controls": {
@@ -289,6 +307,7 @@ def _deliverables_pass(
     manifest: Mapping[str, Any] | None,
     decision_path: Path,
     cp_cert_result_path: Path,
+    publication_claims_path: Path,
 ) -> bool:
     if manifest is None or manifest.get("status") != "complete":
         return False
@@ -309,6 +328,8 @@ def _deliverables_pass(
         return False
     if not cp_cert_result_path.is_file():
         return False
+    if not publication_claims_path.is_file():
+        return False
     expected_decision = sha256(decision_path.read_bytes()).hexdigest()
     if manifest.get("confirmatory_decision_sha256") != expected_decision:
         return False
@@ -316,6 +337,14 @@ def _deliverables_pass(
         cp_cert_result_path.read_bytes()
     ).hexdigest()
     if manifest.get("cp_cert_result_sha256") != expected_cp_cert:
+        return False
+    expected_publication_claims = sha256(
+        publication_claims_path.read_bytes()
+    ).hexdigest()
+    if (
+        manifest.get("publication_claims_sha256")
+        != expected_publication_claims
+    ):
         return False
     declared_cp_path = Path(str(
         manifest.get("cp_cert_result_path") or ""
@@ -327,16 +356,38 @@ def _deliverables_pass(
     )
     if declared_cp_path.resolve() != cp_cert_result_path.resolve():
         return False
+    declared_claims_path = Path(str(
+        manifest.get("publication_claims_path") or ""
+    ))
+    declared_claims_path = (
+        declared_claims_path
+        if declared_claims_path.is_absolute()
+        else root / declared_claims_path
+    )
+    if declared_claims_path.resolve() != publication_claims_path.resolve():
+        return False
     try:
         cp_cert_claim_allowed = validate_cp_cert_claim_result(
             json.loads(cp_cert_result_path.read_text(encoding="utf-8"))
         )
-    except (ValueError, json.JSONDecodeError):
+        publication_claims = validate_publication_claim_ledger(
+            root,
+            json.loads(
+                publication_claims_path.read_text(encoding="utf-8")
+            ),
+        )
+    except (OSError, ValueError, json.JSONDecodeError):
         return False
     if (
         manifest.get("mandatory_innovations_claim_allowed") is not True
+        or publication_claims.get(
+            "mandatory_innovations_claim_allowed"
+        ) is not True
         or manifest.get("cp_cert_innovation_claim_allowed")
         is not cp_cert_claim_allowed
+        or publication_claims.get(
+            "cp_cert_innovation_claim_allowed"
+        ) is not cp_cert_claim_allowed
     ):
         return False
     artifacts = manifest.get("artifacts")
@@ -370,6 +421,7 @@ def _deliverables_pass(
             review_bundle,
             decision_path=decision_path,
             cp_cert_result_path=cp_cert_result_path,
+            publication_claims_path=publication_claims_path,
         )
     except (OSError, ValueError, json.JSONDecodeError):
         return False

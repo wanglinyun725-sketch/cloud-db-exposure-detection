@@ -9,6 +9,8 @@
   "confirmatory_decision_sha256": "TODO",
   "cp_cert_result_sha256": "TODO",
   "cp_cert_innovation_claim_allowed": false,
+  "publication_claims_sha256": "TODO",
+  "mandatory_innovations_claim_allowed": false,
   "checks": [
     {"check_id": "react_loop", "verdict": "blocked", "evidence_paths": []},
     {"check_id": "tool_scope_semantics", "verdict": "blocked", "evidence_paths": []},
