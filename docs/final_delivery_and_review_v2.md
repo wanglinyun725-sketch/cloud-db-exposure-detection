@@ -66,4 +66,31 @@ analysis、runs、run manifest、frozen config 的 SHA256 链。ZIP 使用固定
 - `output/research_design/review_stress_tests_v2_manifest.json`
 - `output/research_design/final_deliverables_v2_manifest.json`
 
+## Publication claim ledger
+
+Before packaging or review freeze, derive the write-once claim ledger:
+
+```powershell
+D:\anaconda\python.exe scripts/experiments/build_publication_claims_v2.py
+```
+
+The generated `output/ec_react_main_v2/publication_claims_v2.json`
+recomputes the inventory, human-gold freeze, frozen run analysis,
+preregistered decision, and CP-Cert gate from hash-bound inputs. A mandatory
+innovation can appear in the thesis or defense deck only when its ledger
+status is `allowed`. CP-Cert remains a conditional innovation and must be
+reported as failed when its held-out gate does not pass.
+
+The review reports must bind both `publication_claims_sha256` and
+`mandatory_innovations_claim_allowed`. The review and finalization commands
+use the default ledger path above; an explicit path can be supplied with:
+
+```powershell
+--publication-claims output/ec_react_main_v2/publication_claims_v2.json
+```
+
+The final reproduction ZIP contains the ledger itself. Finalization checks
+both the outer declared hash and the actual bytes of the ledger inside the
+ZIP, preventing a manifest-only substitution.
+
 两个文件均采用 write-once 策略；若同一路径已有不同内容，程序拒绝覆盖。Goal v2 客观审计只承认哈希仍匹配的最终清单。

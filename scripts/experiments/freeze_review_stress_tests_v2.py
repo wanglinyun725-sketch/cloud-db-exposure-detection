@@ -24,6 +24,10 @@ DEFAULT_CP_CERT_RESULT = (
     ROOT / "output" / "ec_react_main_v2"
     / "cp_cert_experiment_results.json"
 )
+DEFAULT_PUBLICATION_CLAIMS = (
+    ROOT / "output" / "ec_react_main_v2"
+    / "publication_claims_v2.json"
+)
 DEFAULT_OUTPUT = (
     ROOT / "output" / "research_design"
     / "review_stress_tests_v2_manifest.json"
@@ -38,6 +42,11 @@ def main() -> int:
         type=Path,
         default=DEFAULT_CP_CERT_RESULT,
     )
+    parser.add_argument(
+        "--publication-claims",
+        type=Path,
+        default=DEFAULT_PUBLICATION_CLAIMS,
+    )
     parser.add_argument("--method-review", type=Path, required=True)
     parser.add_argument("--statistics-review", type=Path, required=True)
     parser.add_argument("--cloud-security-review", type=Path, required=True)
@@ -48,6 +57,7 @@ def main() -> int:
             ROOT,
             decision_path=args.decision,
             cp_cert_result_path=args.cp_cert_result,
+            publication_claims_path=args.publication_claims,
             report_paths={
                 "method": args.method_review,
                 "statistics": args.statistics_review,

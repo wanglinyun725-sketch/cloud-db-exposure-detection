@@ -4,6 +4,7 @@ import zipfile
 
 import pytest
 
+import src.experiments.final_deliverables_v2 as final_deliverables
 from src.experiments.final_deliverables_v2 import (
     REQUIRED_REVIEW_CHECKS,
     _validate_reproduction_result_binding,
@@ -16,6 +17,15 @@ from src.experiments.artifact_chain_v2 import (
     build_analysis_binding,
     build_decision_binding,
 )
+
+
+@pytest.fixture(autouse=True)
+def _validate_test_publication_ledger(monkeypatch):
+    monkeypatch.setattr(
+        final_deliverables,
+        "validate_publication_claim_ledger",
+        lambda _root, ledger: ledger,
+    )
 
 
 def _write_json(path, value):
@@ -90,11 +100,23 @@ def _cp_result(tmp_path, *, eligible=False):
     return path
 
 
-def _reports(tmp_path, decision, cp_result):
+def _publication_claims(tmp_path, *, cp_allowed=False):
+    path = tmp_path / "publication_claims_v2.json"
+    _write_json(path, {
+        "mandatory_innovations_claim_allowed": True,
+        "cp_cert_innovation_claim_allowed": cp_allowed,
+    })
+    return path
+
+
+def _reports(tmp_path, decision, cp_result, publication_claims):
     evidence = tmp_path / "evidence.txt"
     evidence.write_text("real evidence", encoding="utf-8")
     decision_hash = sha256(decision.read_bytes()).hexdigest()
     cp_cert_hash = sha256(cp_result.read_bytes()).hexdigest()
+    publication_claims_hash = sha256(
+        publication_claims.read_bytes()
+    ).hexdigest()
     cp_cert_claim_allowed = json.loads(
         cp_result.read_text(encoding="utf-8")
     )["research_effectiveness_result"]
@@ -114,6 +136,8 @@ def _reports(tmp_path, decision, cp_result):
             "confirmatory_decision_sha256": decision_hash,
             "cp_cert_result_sha256": cp_cert_hash,
             "cp_cert_innovation_claim_allowed": cp_cert_claim_allowed,
+            "publication_claims_sha256": publication_claims_hash,
+            "mandatory_innovations_claim_allowed": True,
             "checks": [
                 {
                     "check_id": check_id,
@@ -138,11 +162,18 @@ def _reports(tmp_path, decision, cp_result):
 def test_review_bundle_and_final_artifacts_are_hash_bound(tmp_path):
     decision = _passing_decision(tmp_path)
     cp_result = _cp_result(tmp_path)
-    reports = _reports(tmp_path, decision, cp_result)
+    publication_claims = _publication_claims(tmp_path)
+    reports = _reports(
+        tmp_path,
+        decision,
+        cp_result,
+        publication_claims,
+    )
     bundle = build_review_stress_test_bundle(
         tmp_path,
         decision_path=decision,
         cp_cert_result_path=cp_result,
+        publication_claims_path=publication_claims,
         report_paths=reports,
     )
     bundle_path = tmp_path / "reviews.json"
@@ -152,6 +183,7 @@ def test_review_bundle_and_final_artifacts_are_hash_bound(tmp_path):
         bundle,
         decision_path=decision,
         cp_cert_result_path=cp_result,
+        publication_claims_path=publication_claims,
     )
     artifact_paths = {
         "thesis": tmp_path / "thesis.pdf",
@@ -178,20 +210,36 @@ def test_review_bundle_and_final_artifacts_are_hash_bound(tmp_path):
             "cp_cert_experiment_results.json"
         )
         archive.writestr(cp_member, cp_result.read_bytes())
+        claim_member = (
+            "output/ec_react_main_v2/publication_claims_v2.json"
+        )
+        archive.writestr(claim_member, publication_claims.read_bytes())
         archive.writestr("bundle_manifest.json", json.dumps({
             "confirmatory_decision_sha256": sha256(
                 decision.read_bytes()
             ).hexdigest(),
-            "files": [{
-                "path": cp_member,
-                "sha256": sha256(cp_result.read_bytes()).hexdigest(),
-            }],
+            "publication_claims_sha256": sha256(
+                publication_claims.read_bytes()
+            ).hexdigest(),
+            "files": [
+                {
+                    "path": cp_member,
+                    "sha256": sha256(cp_result.read_bytes()).hexdigest(),
+                },
+                {
+                    "path": claim_member,
+                    "sha256": sha256(
+                        publication_claims.read_bytes()
+                    ).hexdigest(),
+                },
+            ],
         }))
 
     manifest = build_final_deliverables_manifest(
         tmp_path,
         decision_path=decision,
         cp_cert_result_path=cp_result,
+        publication_claims_path=publication_claims,
         thesis_pdf=artifact_paths["thesis"],
         defense_deck=artifact_paths["defense"],
         reproduction_bundle=artifact_paths["reproduction"],
@@ -207,13 +255,15 @@ def test_review_bundle_and_final_artifacts_are_hash_bound(tmp_path):
         "defense_deck",
         "reproduction_bundle",
         "review_stress_tests",
+        "publication_claims",
     }
 
 
 def test_review_bundle_rejects_duplicate_reviewers(tmp_path):
     decision = _passing_decision(tmp_path)
     cp_result = _cp_result(tmp_path)
-    reports = _reports(tmp_path, decision, cp_result)
+    publication_claims = _publication_claims(tmp_path)
+    reports = _reports(tmp_path, decision, cp_result, publication_claims)
     for path in reports.values():
         report = json.loads(path.read_text(encoding="utf-8"))
         report["reviewer_id"] = "same-reviewer"
@@ -224,6 +274,7 @@ def test_review_bundle_rejects_duplicate_reviewers(tmp_path):
             tmp_path,
             decision_path=decision,
             cp_cert_result_path=cp_result,
+            publication_claims_path=publication_claims,
             report_paths=reports,
         )
 
@@ -231,7 +282,8 @@ def test_review_bundle_rejects_duplicate_reviewers(tmp_path):
 def test_review_bundle_rejects_unresolved_major_finding(tmp_path):
     decision = _passing_decision(tmp_path)
     cp_result = _cp_result(tmp_path)
-    reports = _reports(tmp_path, decision, cp_result)
+    publication_claims = _publication_claims(tmp_path)
+    reports = _reports(tmp_path, decision, cp_result, publication_claims)
     report = json.loads(reports["method"].read_text(encoding="utf-8"))
     report["findings"][0]["resolution_status"] = "open"
     _write_json(reports["method"], report)
@@ -241,6 +293,7 @@ def test_review_bundle_rejects_unresolved_major_finding(tmp_path):
             tmp_path,
             decision_path=decision,
             cp_cert_result_path=cp_result,
+            publication_claims_path=publication_claims,
             report_paths=reports,
         )
 
@@ -248,7 +301,8 @@ def test_review_bundle_rejects_unresolved_major_finding(tmp_path):
 def test_review_bundle_rejects_failed_confirmatory_decision(tmp_path):
     decision = _passing_decision(tmp_path)
     cp_result = _cp_result(tmp_path)
-    reports = _reports(tmp_path, decision, cp_result)
+    publication_claims = _publication_claims(tmp_path)
+    reports = _reports(tmp_path, decision, cp_result, publication_claims)
     value = json.loads(decision.read_text(encoding="utf-8"))
     value["claim_allowed"] = False
     value["overall_status"] = "fail"
@@ -259,6 +313,7 @@ def test_review_bundle_rejects_failed_confirmatory_decision(tmp_path):
             tmp_path,
             decision_path=decision,
             cp_cert_result_path=cp_result,
+            publication_claims_path=publication_claims,
             report_paths=reports,
         )
 
@@ -266,11 +321,13 @@ def test_review_bundle_rejects_failed_confirmatory_decision(tmp_path):
 def test_review_bundle_detects_report_drift(tmp_path):
     decision = _passing_decision(tmp_path)
     cp_result = _cp_result(tmp_path)
-    reports = _reports(tmp_path, decision, cp_result)
+    publication_claims = _publication_claims(tmp_path)
+    reports = _reports(tmp_path, decision, cp_result, publication_claims)
     bundle = build_review_stress_test_bundle(
         tmp_path,
         decision_path=decision,
         cp_cert_result_path=cp_result,
+        publication_claims_path=publication_claims,
         report_paths=reports,
     )
     reports["statistics"].write_text("{}\n", encoding="utf-8")
@@ -281,17 +338,20 @@ def test_review_bundle_detects_report_drift(tmp_path):
             bundle,
             decision_path=decision,
             cp_cert_result_path=cp_result,
+            publication_claims_path=publication_claims,
         )
 
 
 def test_review_bundle_detects_evidence_drift(tmp_path):
     decision = _passing_decision(tmp_path)
     cp_result = _cp_result(tmp_path)
-    reports = _reports(tmp_path, decision, cp_result)
+    publication_claims = _publication_claims(tmp_path)
+    reports = _reports(tmp_path, decision, cp_result, publication_claims)
     bundle = build_review_stress_test_bundle(
         tmp_path,
         decision_path=decision,
         cp_cert_result_path=cp_result,
+        publication_claims_path=publication_claims,
         report_paths=reports,
     )
     (tmp_path / "evidence.txt").write_text(
@@ -305,13 +365,15 @@ def test_review_bundle_detects_evidence_drift(tmp_path):
             bundle,
             decision_path=decision,
             cp_cert_result_path=cp_result,
+            publication_claims_path=publication_claims,
         )
 
 
 def test_review_bundle_rejects_cp_cert_claim_status_drift(tmp_path):
     decision = _passing_decision(tmp_path)
     cp_result = _cp_result(tmp_path)
-    reports = _reports(tmp_path, decision, cp_result)
+    publication_claims = _publication_claims(tmp_path)
+    reports = _reports(tmp_path, decision, cp_result, publication_claims)
     report = json.loads(
         reports["statistics"].read_text(encoding="utf-8")
     )
@@ -323,6 +385,7 @@ def test_review_bundle_rejects_cp_cert_claim_status_drift(tmp_path):
             tmp_path,
             decision_path=decision,
             cp_cert_result_path=cp_result,
+            publication_claims_path=publication_claims,
             report_paths=reports,
         )
 
@@ -335,13 +398,15 @@ def test_cp_cert_eligibility_cannot_disagree_with_sub_gates(tmp_path):
         "all_certificates_valid"
     ] = False
     _write_json(cp_result, report)
-    reports = _reports(tmp_path, decision, cp_result)
+    publication_claims = _publication_claims(tmp_path, cp_allowed=True)
+    reports = _reports(tmp_path, decision, cp_result, publication_claims)
 
     with pytest.raises(ValueError, match="disagrees with sub-gates"):
         build_review_stress_test_bundle(
             tmp_path,
             decision_path=decision,
             cp_cert_result_path=cp_result,
+            publication_claims_path=publication_claims,
             report_paths=reports,
         )
 
@@ -349,12 +414,14 @@ def test_cp_cert_eligibility_cannot_disagree_with_sub_gates(tmp_path):
 def test_passing_cp_cert_gate_propagates_without_becoming_mandatory(tmp_path):
     decision = _passing_decision(tmp_path)
     cp_result = _cp_result(tmp_path, eligible=True)
-    reports = _reports(tmp_path, decision, cp_result)
+    publication_claims = _publication_claims(tmp_path, cp_allowed=True)
+    reports = _reports(tmp_path, decision, cp_result, publication_claims)
 
     bundle = build_review_stress_test_bundle(
         tmp_path,
         decision_path=decision,
         cp_cert_result_path=cp_result,
+        publication_claims_path=publication_claims,
         report_paths=reports,
     )
 
@@ -364,22 +431,63 @@ def test_passing_cp_cert_gate_propagates_without_becoming_mandatory(tmp_path):
     )
 
 
+def test_review_bundle_rejects_blocked_mandatory_publication_claims(
+    tmp_path,
+):
+    decision = _passing_decision(tmp_path)
+    cp_result = _cp_result(tmp_path)
+    publication_claims = _publication_claims(tmp_path)
+    claims = json.loads(
+        publication_claims.read_text(encoding="utf-8")
+    )
+    claims["mandatory_innovations_claim_allowed"] = False
+    _write_json(publication_claims, claims)
+    reports = _reports(
+        tmp_path,
+        decision,
+        cp_result,
+        publication_claims,
+    )
+
+    with pytest.raises(ValueError, match="mandatory publication claims"):
+        build_review_stress_test_bundle(
+            tmp_path,
+            decision_path=decision,
+            cp_cert_result_path=cp_result,
+            publication_claims_path=publication_claims,
+            report_paths=reports,
+        )
+
+
 def test_reproduction_bundle_rejects_inner_cp_cert_drift(tmp_path):
     path = tmp_path / "reproduction.zip"
     decision_hash = "a" * 64
     expected_cp_hash = sha256(b"expected").hexdigest()
+    publication_payload = b'{"claims":[]}'
+    publication_hash = sha256(publication_payload).hexdigest()
     member = (
         "output/ec_react_main_v2/"
         "cp_cert_experiment_results.json"
     )
+    claim_member = (
+        "output/ec_react_main_v2/publication_claims_v2.json"
+    )
     with zipfile.ZipFile(path, "w") as archive:
         archive.writestr(member, b"tampered")
+        archive.writestr(claim_member, publication_payload)
         archive.writestr("bundle_manifest.json", json.dumps({
             "confirmatory_decision_sha256": decision_hash,
-            "files": [{
-                "path": member,
-                "sha256": expected_cp_hash,
-            }],
+            "publication_claims_sha256": publication_hash,
+            "files": [
+                {
+                    "path": member,
+                    "sha256": expected_cp_hash,
+                },
+                {
+                    "path": claim_member,
+                    "sha256": publication_hash,
+                },
+            ],
         }))
 
     with pytest.raises(ValueError, match="CP-Cert binding mismatch"):
@@ -387,6 +495,49 @@ def test_reproduction_bundle_rejects_inner_cp_cert_drift(tmp_path):
             path,
             decision_sha256=decision_hash,
             cp_cert_result_sha256=expected_cp_hash,
+            publication_claims_sha256=publication_hash,
+        )
+
+
+def test_reproduction_bundle_rejects_inner_publication_claim_drift(
+    tmp_path,
+):
+    path = tmp_path / "reproduction.zip"
+    decision_hash = "a" * 64
+    cp_payload = b'{"cp":true}'
+    cp_hash = sha256(cp_payload).hexdigest()
+    expected_claim_hash = sha256(b"expected").hexdigest()
+    cp_member = (
+        "output/ec_react_main_v2/"
+        "cp_cert_experiment_results.json"
+    )
+    claim_member = (
+        "output/ec_react_main_v2/publication_claims_v2.json"
+    )
+    with zipfile.ZipFile(path, "w") as archive:
+        archive.writestr(cp_member, cp_payload)
+        archive.writestr(claim_member, b"tampered")
+        archive.writestr("bundle_manifest.json", json.dumps({
+            "confirmatory_decision_sha256": decision_hash,
+            "publication_claims_sha256": expected_claim_hash,
+            "files": [
+                {"path": cp_member, "sha256": cp_hash},
+                {
+                    "path": claim_member,
+                    "sha256": expected_claim_hash,
+                },
+            ],
+        }))
+
+    with pytest.raises(
+        ValueError,
+        match="publication claims binding mismatch",
+    ):
+        _validate_reproduction_result_binding(
+            path,
+            decision_sha256=decision_hash,
+            cp_cert_result_sha256=cp_hash,
+            publication_claims_sha256=expected_claim_hash,
         )
 
 

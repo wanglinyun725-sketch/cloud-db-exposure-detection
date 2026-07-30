@@ -312,6 +312,26 @@ def main() -> int:
         "stage": "claim_decision",
         **decision,
     })
+    claims = _run([
+        PYTHON,
+        ROOT / "scripts" / "experiments"
+        / "build_publication_claims_v2.py",
+        "--decision",
+        output_dir / "confirmatory_decision.json",
+        "--cp-cert-result",
+        output_dir / "cp_cert_experiment_results.json",
+        "--output",
+        output_dir / "publication_claims_v2.json",
+    ])
+    status["stages"].append({
+        "stage": "derive_publication_claims",
+        **claims,
+    })
+    if claims["returncode"] != 0:
+        status["ready"] = False
+        status["final_status"] = "publication_claim_ledger_failed"
+        _write_status(args.status_output, status)
+        return 2
     if decision["returncode"] == 0:
         reproduction = _run([
             PYTHON,

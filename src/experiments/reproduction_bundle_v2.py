@@ -14,6 +14,9 @@ from src.experiments.artifact_chain_v2 import validate_decision_binding
 from src.experiments.final_deliverables_v2 import (
     validate_cp_cert_claim_result,
 )
+from src.experiments.publication_claims_v2 import (
+    validate_publication_claim_ledger,
+)
 
 
 REQUIRED_CODE_PATHS = {
@@ -28,6 +31,7 @@ CORE_RESULT_NAMES = {
     "runs.jsonl",
     "analysis.json",
     "cp_cert_experiment_results.json",
+    "publication_claims_v2.json",
     "confirmatory_decision.json",
 }
 
@@ -71,6 +75,9 @@ def build_reproduction_bundle_bytes(
     cp_cert = _read_json(
         result_paths["cp_cert_experiment_results.json"]
     )
+    publication_claims = _read_json(
+        result_paths["publication_claims_v2.json"]
+    )
     if (
         decision.get("claim_allowed") is not True
         or decision.get("overall_status") != "pass"
@@ -92,6 +99,16 @@ def build_reproduction_bundle_bytes(
         frozen,
         freeze_manifest,
     )
+    validated_claims = validate_publication_claim_ledger(
+        root,
+        publication_claims,
+    )
+    if validated_claims.get(
+        "mandatory_innovations_claim_allowed"
+    ) is not True:
+        raise ValueError(
+            "reproduction packaging requires allowed mandatory claims"
+        )
     run_manifest = _read_json(result_paths["run_manifest.json"])
     if run_manifest.get("secrets_in_manifest") is not False:
         raise ValueError("run manifest is not safe for packaging")
@@ -129,6 +146,9 @@ def build_reproduction_bundle_bytes(
         "frozen_config_sha256": _file_hash(frozen_config_path),
         "confirmatory_decision_sha256": _file_hash(
             result_paths["confirmatory_decision.json"]
+        ),
+        "publication_claims_sha256": _file_hash(
+            result_paths["publication_claims_v2.json"]
         ),
         "files": file_manifest,
         "secrets_in_bundle": False,
@@ -285,6 +305,7 @@ python scripts/experiments/run_research_pipeline_v2.py --mode execute --config {
 python scripts/experiments/analyze_ec_react_main.py --config {frozen_config} --runs {experiment_dir}/runs.jsonl --output {experiment_dir}/analysis.json
 python scripts/experiments/run_cp_cert_experiments.py --input <frozen-gold-release> --split-manifest <frozen-split-manifest> --output {experiment_dir}/cp_cert_experiment_results.json
 python scripts/experiments/decide_ec_react_main.py --config {frozen_config} --analysis {experiment_dir}/analysis.json --output {experiment_dir}/confirmatory_decision.json
+python scripts/experiments/build_publication_claims_v2.py --decision {experiment_dir}/confirmatory_decision.json --cp-cert-result {experiment_dir}/cp_cert_experiment_results.json --output {experiment_dir}/publication_claims_v2.json
 ```
 """
 
