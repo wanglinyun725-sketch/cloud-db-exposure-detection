@@ -1,0 +1,29 @@
+{
+  "freeze_gate_version": "1.0",
+  "packet_sha256": "fe9eb72d45c848aeb30dbaa37e26a03d1841a92c6637cd8de5809b00212ed743",
+  "statistical_unit": "independence_group",
+  "stage": "awaiting_double_blind",
+  "ready_to_publish": false,
+  "human_gold_independence_groups": 0,
+  "progress_summary": {
+    "target_independence_groups": 30,
+    "case_count": 52,
+    "primary_valid_complete_cases": 0,
+    "reviewer_valid_complete_cases": 0,
+    "primary_complete_groups": 0,
+    "reviewer_complete_groups": 0,
+    "jointly_complete_groups": 0,
+    "resolved_without_adjudication_groups": 0,
+    "pending_adjudication_groups": 0,
+    "human_gold_independence_groups": 0,
+    "remaining_to_double_blind_target": 30
+  },
+  "agreement": null,
+  "adjudication": {
+    "required_cases": [],
+    "provided": false,
+    "valid_complete": false
+  },
+  "release_sha256": null,
+  "split_manifest_sha256": null
+}
