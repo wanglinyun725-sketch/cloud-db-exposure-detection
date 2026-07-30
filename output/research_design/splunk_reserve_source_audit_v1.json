@@ -1,0 +1,192 @@
+{
+  "audit_version": "1.0",
+  "source_id": "splunk_attack_data",
+  "repository": "splunk/attack_data",
+  "commit": "3821bdb77c66c95b4e529f62a9d00b168446d1a8",
+  "policy": {
+    "real_upstream_artifacts_only": true,
+    "generated_events": 0,
+    "generated_labels": 0,
+    "structural_triage_is_not_human_admission": true,
+    "repeated_same_operation_is_not_a_multistep_path": true,
+    "excluded_artifacts_do_not_increase_lineage_count": true
+  },
+  "summary": {
+    "audited_artifacts": 5,
+    "reserve_screening_eligible": 1,
+    "structurally_excluded": 4,
+    "new_human_gold": 0
+  },
+  "eligible_dataset_ids": [
+    "T1486/aws_kms_key"
+  ],
+  "artifacts": [
+    {
+      "dataset_id": "T1486/aws_kms_key",
+      "metadata": {
+        "path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.yml",
+        "sha256": "ae4df3a78324f6bb01029e8a53a5540fb3b6b5e81f9cac2405d8e24aab1cfbc3",
+        "bytes": 693,
+        "upstream_url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_kms_key.yml"
+      },
+      "raw": {
+        "path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "bytes": 984076,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "record_format": "cloudtrail",
+      "record_count": 674,
+      "unique_operations": [
+        "CancelKeyDeletion",
+        "CreateAlias",
+        "CreateKey",
+        "Decrypt",
+        "DescribeCustomKeyStores",
+        "DescribeKey",
+        "DisableKey",
+        "EnableKey",
+        "GenerateDataKey",
+        "GetKeyPolicy",
+        "GetKeyRotationStatus",
+        "ListAliases",
+        "ListGrants",
+        "ListKeys",
+        "ListResourceTags",
+        "PutKeyPolicy",
+        "ScheduleKeyDeletion"
+      ],
+      "operation_counts": {
+        "CancelKeyDeletion": 1,
+        "CreateAlias": 1,
+        "CreateKey": 1,
+        "Decrypt": 265,
+        "DescribeCustomKeyStores": 1,
+        "DescribeKey": 140,
+        "DisableKey": 1,
+        "EnableKey": 1,
+        "GenerateDataKey": 2,
+        "GetKeyPolicy": 68,
+        "GetKeyRotationStatus": 13,
+        "ListAliases": 109,
+        "ListGrants": 40,
+        "ListKeys": 17,
+        "ListResourceTags": 10,
+        "PutKeyPolicy": 3,
+        "ScheduleKeyDeletion": 1
+      },
+      "exact_linked_multistep_observed": true,
+      "reserve_human_path_screening_eligible": true,
+      "exclusion_reason": null,
+      "human_gold": false
+    },
+    {
+      "dataset_id": "T1537/aws_ami_shared_public",
+      "metadata": {
+        "path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_ami_shared_public.yml",
+        "sha256": "2546d01240580d8028c5391c9a2fb89da9ec39630b307d8d2bbf83c87a00a939",
+        "bytes": 733,
+        "upstream_url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1537/aws_ami_shared_public/aws_ami_shared_public.yml"
+      },
+      "raw": {
+        "path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_ami_shared_public.json",
+        "sha256": "f2402c34740a6c324cf61a7523bc8f19abb5a60e3a3426f8b17df620593866cf",
+        "bytes": 2979,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1537/aws_ami_shared_public/aws_cloudtrail_events.json"
+      },
+      "record_format": "cloudtrail",
+      "record_count": 2,
+      "unique_operations": [
+        "ModifyImageAttribute"
+      ],
+      "operation_counts": {
+        "ModifyImageAttribute": 2
+      },
+      "exact_linked_multistep_observed": false,
+      "reserve_human_path_screening_eligible": false,
+      "exclusion_reason": "the pinned raw artifact contains only one observed operation type and does not itself prove a multi-step path",
+      "human_gold": false
+    },
+    {
+      "dataset_id": "T1562.008/put_bucketlifecycle",
+      "metadata": {
+        "path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/put_bucketlifecycle.yml",
+        "sha256": "9d9cfd38ec4f0290d344465d03f5b0667687bbf2d05eaf9627622784ac86c713",
+        "bytes": 641,
+        "upstream_url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1562.008/put_bucketlifecycle/put_bucketlifecycle.yml"
+      },
+      "raw": {
+        "path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/put_bucketlifecycle.json",
+        "sha256": "22fcd57ad927f5ec7d714206dbf44a1b853de109de0156cd1bfaf28f38b6479a",
+        "bytes": 10237,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1562.008/put_bucketlifecycle/aws_cloudtrail_events.json"
+      },
+      "record_format": "cloudtrail",
+      "record_count": 5,
+      "unique_operations": [
+        "PutBucketLifecycle"
+      ],
+      "operation_counts": {
+        "PutBucketLifecycle": 5
+      },
+      "exact_linked_multistep_observed": false,
+      "reserve_human_path_screening_eligible": false,
+      "exclusion_reason": "the pinned raw artifact contains only one observed operation type and does not itself prove a multi-step path",
+      "human_gold": false
+    },
+    {
+      "dataset_id": "T1485/aws_delete_knowledge_base",
+      "metadata": {
+        "path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_delete_knowledge_base_old.yml",
+        "sha256": "9692ffff27bac7a2018303a1c3ecf6ec8c4357014cf37f8d0494e6c1ab561174",
+        "bytes": 491,
+        "upstream_url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1485/aws_delete_knowledge_base/aws_delete_knowledge_base_old.yml"
+      },
+      "raw": {
+        "path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_delete_knowledge_base.json",
+        "sha256": "0074532dade6167059a8b32c6fc31cf16e545d2668686e5c636818b9c77742b5",
+        "bytes": 1415,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1485/aws_delete_knowledge_base/cloudtrail.json"
+      },
+      "record_format": "cloudtrail",
+      "record_count": 1,
+      "unique_operations": [
+        "DeleteKnowledgeBase"
+      ],
+      "operation_counts": {
+        "DeleteKnowledgeBase": 1
+      },
+      "exact_linked_multistep_observed": false,
+      "reserve_human_path_screening_eligible": false,
+      "exclusion_reason": "the pinned raw artifact contains only one observed operation type and does not itself prove a multi-step path",
+      "human_gold": false
+    },
+    {
+      "dataset_id": "T1485/decommissioned_buckets",
+      "metadata": {
+        "path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/decommissioned_buckets.yml",
+        "sha256": "2d789af0787d52def61dc1397a02d7f82169c5a9e3a6fd1fff591e7848a7473b",
+        "bytes": 744,
+        "upstream_url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1485/decommissioned_buckets/decommissioned_buckets.yml"
+      },
+      "raw": {
+        "path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/decommissioned_buckets.log",
+        "sha256": "bc6c4d434eeadbd6f7d5524278f9b55ebf7e1e8904b260abd4d2a6a803c9850a",
+        "bytes": 517,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1485/decommissioned_buckets/web_cloudfront_access.log"
+      },
+      "record_format": "cloudfront_access",
+      "record_count": 1,
+      "unique_operations": [
+        "CloudFrontHttpRequest"
+      ],
+      "operation_counts": {
+        "CloudFrontHttpRequest": 1
+      },
+      "exact_linked_multistep_observed": false,
+      "reserve_human_path_screening_eligible": false,
+      "exclusion_reason": "the pinned raw artifact contains only one observed operation type and does not itself prove a multi-step path",
+      "human_gold": false
+    }
+  ]
+}

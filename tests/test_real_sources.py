@@ -12,6 +12,26 @@ REAL_ROOT = ROOT / "data" / "real_sources"
 
 
 class RealSourceIntegrityTests(unittest.TestCase):
+    def test_acquisition_manifest_has_no_run_time_drift_fields(self):
+        manifest = json.loads(
+            (
+                REAL_ROOT / "acquisition_manifest.json"
+            ).read_text(encoding="utf-8")
+        )
+
+        self.assertNotIn("generated_at", manifest)
+        self.assertTrue(
+            manifest["policy"]["manifest_is_deterministic"]
+        )
+        self.assertTrue(
+            manifest["policy"]["download_status_is_not_recorded"]
+        )
+        self.assertTrue(all(
+            artifact["status"] == "verified"
+            for source in manifest["sources"]
+            for artifact in source["artifacts"]
+        ))
+
     def test_source_registry_has_no_pending_provenance_fields(self):
         registry = yaml.safe_load(
             (REAL_ROOT / "source_registry.yaml").read_text(encoding="utf-8")

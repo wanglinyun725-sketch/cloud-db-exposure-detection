@@ -15,7 +15,6 @@ import os
 import shutil
 import tempfile
 import urllib.request
-from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -145,6 +144,142 @@ SOURCES = [
                 "expected_checksum": (
                     "sha256:"
                     "ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca"
+                ),
+            },
+            {
+                "name": "aws_kms_key.yml",
+                "url": (
+                    "https://raw.githubusercontent.com/splunk/attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1486/"
+                    "aws_kms_key/aws_kms_key.yml"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "ae4df3a78324f6bb01029e8a53a5540fb3b6b5e81f9cac2405d8e24aab1cfbc3"
+                ),
+            },
+            {
+                "name": "aws_kms_key.json",
+                "url": (
+                    "https://media.githubusercontent.com/media/splunk/"
+                    "attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1486/"
+                    "aws_kms_key/aws_cloudtrail_events.json"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7"
+                ),
+            },
+            {
+                "name": "aws_ami_shared_public.yml",
+                "url": (
+                    "https://raw.githubusercontent.com/splunk/attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1537/"
+                    "aws_ami_shared_public/aws_ami_shared_public.yml"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "2546d01240580d8028c5391c9a2fb89da9ec39630b307d8d2bbf83c87a00a939"
+                ),
+            },
+            {
+                "name": "aws_ami_shared_public.json",
+                "url": (
+                    "https://media.githubusercontent.com/media/splunk/"
+                    "attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1537/"
+                    "aws_ami_shared_public/aws_cloudtrail_events.json"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "f2402c34740a6c324cf61a7523bc8f19abb5a60e3a3426f8b17df620593866cf"
+                ),
+            },
+            {
+                "name": "put_bucketlifecycle.yml",
+                "url": (
+                    "https://raw.githubusercontent.com/splunk/attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1562.008/"
+                    "put_bucketlifecycle/put_bucketlifecycle.yml"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "9d9cfd38ec4f0290d344465d03f5b0667687bbf2d05eaf9627622784ac86c713"
+                ),
+            },
+            {
+                "name": "put_bucketlifecycle.json",
+                "url": (
+                    "https://media.githubusercontent.com/media/splunk/"
+                    "attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1562.008/"
+                    "put_bucketlifecycle/aws_cloudtrail_events.json"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "22fcd57ad927f5ec7d714206dbf44a1b853de109de0156cd1bfaf28f38b6479a"
+                ),
+            },
+            {
+                "name": "aws_delete_knowledge_base_old.yml",
+                "url": (
+                    "https://raw.githubusercontent.com/splunk/attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1485/"
+                    "aws_delete_knowledge_base/"
+                    "aws_delete_knowledge_base_old.yml"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "9692ffff27bac7a2018303a1c3ecf6ec8c4357014cf37f8d0494e6c1ab561174"
+                ),
+            },
+            {
+                "name": "aws_delete_knowledge_base.json",
+                "url": (
+                    "https://media.githubusercontent.com/media/splunk/"
+                    "attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1485/"
+                    "aws_delete_knowledge_base/cloudtrail.json"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "0074532dade6167059a8b32c6fc31cf16e545d2668686e5c636818b9c77742b5"
+                ),
+            },
+            {
+                "name": "decommissioned_buckets.yml",
+                "url": (
+                    "https://raw.githubusercontent.com/splunk/attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1485/"
+                    "decommissioned_buckets/decommissioned_buckets.yml"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "2d789af0787d52def61dc1397a02d7f82169c5a9e3a6fd1fff591e7848a7473b"
+                ),
+            },
+            {
+                "name": "decommissioned_buckets.log",
+                "url": (
+                    "https://media.githubusercontent.com/media/splunk/"
+                    "attack_data/"
+                    "3821bdb77c66c95b4e529f62a9d00b168446d1a8/"
+                    "datasets/attack_techniques/T1485/"
+                    "decommissioned_buckets/web_cloudfront_access.log"
+                ),
+                "expected_checksum": (
+                    "sha256:"
+                    "bc6c4d434eeadbd6f7d5524278f9b55ebf7e1e8904b260abd4d2a6a803c9850a"
                 ),
             },
         ],
@@ -607,13 +742,14 @@ def main() -> None:
 
     manifest = {
         "manifest_version": "0.1",
-        "generated_at": datetime.now(timezone.utc).isoformat(),
         "generator": Path(__file__).relative_to(ROOT).as_posix(),
         "policy": {
             "sample_generation": False,
             "label_generation": False,
             "raw_artifacts_immutable": True,
             "hash_algorithm": "SHA-256",
+            "manifest_is_deterministic": True,
+            "download_status_is_not_recorded": True,
         },
         "sources": records,
     }
@@ -665,7 +801,7 @@ def download(
     finally:
         if temp_path.exists():
             temp_path.unlink()
-    return {"status": "downloaded", "bytes": size, "sha256": digest.hexdigest()}
+    return {"status": "verified", "bytes": size, "sha256": digest.hexdigest()}
 
 
 def sha256_file(path: Path) -> str:
