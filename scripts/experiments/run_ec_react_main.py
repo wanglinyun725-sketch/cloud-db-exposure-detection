@@ -29,8 +29,8 @@ from src.experiments.ec_react_execution import (  # noqa: E402
 from src.experiments.ec_react_preflight import run_preflight  # noqa: E402
 
 
-DEFAULT_CONFIG = ROOT / "configs" / "ec_react_main_v1.yaml"
-DEFAULT_OUTPUT_DIR = ROOT / "output" / "ec_react_main_v1"
+DEFAULT_CONFIG = ROOT / "configs" / "ec_react_main_v2_frozen.yaml"
+DEFAULT_OUTPUT_DIR = ROOT / "output" / "ec_react_main_v2"
 
 
 def main() -> int:

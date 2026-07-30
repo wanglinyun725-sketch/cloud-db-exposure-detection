@@ -9,6 +9,10 @@ import random
 from statistics import mean
 from typing import Any, Iterable, Mapping
 
+from src.experiments.power_analysis import (
+    minimum_detectable_normal_effect,
+)
+
 
 METRIC_KEYS = {
     "valid_path_recall_at_5": "valid_path_recall_at_k",
@@ -87,6 +91,19 @@ def analyze_frozen_runs(
         raise ValueError("resample counts must be positive")
     if not 0 < confidence < 1:
         raise ValueError("confidence_level must be between zero and one")
+    power_spec = stats.get("power_sensitivity") or {}
+    target_power = float(power_spec.get("target_power", 0.80))
+    power_alpha = float(
+        power_spec.get(
+            "alpha",
+            stats.get("confirmatory_alpha", 0.05),
+        )
+    )
+    power_sided = int(power_spec.get("sided", 2))
+    if not 0 < target_power < 1:
+        raise ValueError("power target must be between zero and one")
+    if not 0 < power_alpha < 1 or power_sided not in {1, 2}:
+        raise ValueError("power sensitivity alpha/sided is invalid")
 
     collapsed = _collapse_repeats_then_groups(records, requested)
     summaries = []
@@ -159,6 +176,22 @@ def analyze_frozen_runs(
                     if metric_name in LOWER_IS_BETTER
                     else raw_effect
                 )
+                raw_ci = _cluster_bootstrap_ci(
+                    differences,
+                    bootstrap_resamples,
+                    confidence,
+                    _seed_for((
+                        "paired-difference-bootstrap",
+                        primary,
+                        baseline,
+                        metric_name,
+                    )),
+                )
+                favorable_ci = (
+                    (-raw_ci[1], -raw_ci[0])
+                    if metric_name in LOWER_IS_BETTER
+                    else raw_ci
+                )
                 p_value = _paired_sign_permutation(
                     differences,
                     permutation_resamples,
@@ -179,9 +212,22 @@ def analyze_frozen_runs(
                     "metric": metric_name,
                     "paired_independence_groups": len(common),
                     "raw_mean_difference_primary_minus_baseline": raw_effect,
+                    "raw_difference_ci_low": raw_ci[0],
+                    "raw_difference_ci_high": raw_ci[1],
                     "favorable_effect": favorable_effect,
+                    "favorable_effect_ci_low": favorable_ci[0],
+                    "favorable_effect_ci_high": favorable_ci[1],
+                    "confidence_level": confidence,
                     "paired_standardized_effect": (
                         _paired_standardized_effect(differences)
+                    ),
+                    "minimum_detectable_paired_dz": (
+                        minimum_detectable_normal_effect(
+                            len(common),
+                            target_power=target_power,
+                            alpha=power_alpha,
+                            sided=power_sided,
+                        )
                     ),
                     "p_value": p_value,
                 })
@@ -214,10 +260,15 @@ def analyze_frozen_runs(
         collapsed,
         confidence,
     )
-    safety_gates = _safety_gate_evaluations(collapsed, config)
+    safety_gates = _safety_gate_evaluations(
+        collapsed,
+        config,
+        bootstrap_resamples,
+        confidence,
+    )
 
     return {
-        "analysis_version": "0.4",
+        "analysis_version": "0.5",
         "statistical_unit": "independence_group",
         "repeat_handling": (
             "mean within runtime instance, then mean runtime instances "
@@ -226,6 +277,20 @@ def analyze_frozen_runs(
         "cluster_bootstrap_resamples": bootstrap_resamples,
         "paired_permutation_resamples": permutation_resamples,
         "multiple_comparison_correction": "holm",
+        "power_sensitivity": {
+            "kind": "prospective_minimum_detectable_paired_effect",
+            "target_power": target_power,
+            "alpha": power_alpha,
+            "sided": power_sided,
+            "normal_approximation": True,
+            "holm_family_not_incorporated": True,
+            "observed_posthoc_power_reported": False,
+            "interpretation": (
+                "minimum detectable dz is a sensitivity diagnostic based "
+                "only on paired lineage N; it is not achieved power and "
+                "does not override the preregistered effect/CI/p-value"
+            ),
+        },
         "primary_metrics": primary_metrics,
         "secondary_metrics": secondary_metrics,
         "secondary_metrics_used_for_hypothesis_tests": False,
@@ -406,6 +471,8 @@ def _safety_gate_evaluations(
         dict[str, dict[str, float]],
     ],
     config: Mapping[str, Any],
+    bootstrap_resamples: int,
+    confidence: float,
 ) -> dict[str, Any]:
     success_gates = config["reporting"].get("success_gates") or {}
     required = (
@@ -435,6 +502,19 @@ def _safety_gate_evaluations(
         primary_rate = sum(primary_events) / len(common)
         baseline_rate = sum(baseline_events) / len(common)
         difference = primary_rate - baseline_rate
+        paired_differences = [
+            float(primary_event) - float(baseline_event)
+            for primary_event, baseline_event in zip(
+                primary_events,
+                baseline_events,
+            )
+        ]
+        difference_ci = _cluster_bootstrap_ci(
+            paired_differences,
+            bootstrap_resamples,
+            confidence,
+            _seed_for(("safety-difference", primary, baseline)),
+        )
         evaluations.append({
             "primary_method_id": "ec_react_full",
             "primary_model_id": primary[1],
@@ -445,8 +525,12 @@ def _safety_gate_evaluations(
             "primary_unsafe_event_rate": primary_rate,
             "baseline_unsafe_event_rate": baseline_rate,
             "rate_difference_primary_minus_baseline": difference,
+            "rate_difference_ci_low": difference_ci[0],
+            "rate_difference_ci_high": difference_ci[1],
+            "confidence_level": confidence,
+            "nonincrease_margin": 0.0,
             "unsafe_false_reachable_must_not_increase_pass": (
-                difference <= 0
+                difference <= 0 and difference_ci[1] <= 0
             ),
         })
     return {

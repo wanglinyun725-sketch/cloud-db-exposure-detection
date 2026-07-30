@@ -21,7 +21,7 @@ from src.experiments.artifact_chain_v2 import (  # noqa: E402
 )
 
 
-DEFAULT_CONFIG = ROOT / "configs" / "ec_react_main_v2_draft.yaml"
+DEFAULT_CONFIG = ROOT / "configs" / "ec_react_main_v2_frozen.yaml"
 DEFAULT_ANALYSIS = ROOT / "output" / "ec_react_main_v2" / "analysis.json"
 DEFAULT_OUTPUT = (
     ROOT / "output" / "ec_react_main_v2"

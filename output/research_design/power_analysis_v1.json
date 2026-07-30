@@ -4,57 +4,65 @@
   "alpha": 0.05,
   "sided": 2,
   "target_power": 0.8,
+  "protocol_lineage_targets": {
+    "minimum_real_independence_groups": 40,
+    "minimum_double_reviewed_gold_groups": 30,
+    "minimum_frozen_test_groups": 15
+  },
   "primary_endpoint_candidate": "group-level fine-grained exact edge F1 difference: EC-ReAct minus vanilla ReAct at budget B=20",
   "normal_approximation": [
     {
       "effect_dz": 0.35,
       "minimum_n_for_80pct_power": 65,
       "power_by_n": {
+        "15": 0.2732396664530427,
+        "20": 0.3467376712829445,
+        "25": 0.41695153567828785,
         "30": 0.48292953870196154,
-        "40": 0.6001244309779648,
-        "50": 0.6966965632780815,
-        "60": 0.7737125893576151,
-        "67": 0.8172440299035126,
-        "80": 0.8791065423733525
+        "40": 0.6001244309779648
       }
     },
     {
       "effect_dz": 0.45,
       "minimum_n_for_80pct_power": 39,
       "power_by_n": {
+        "15": 0.41416345155649914,
+        "20": 0.5209693072187049,
+        "25": 0.6141184281351435,
         "30": 0.6931507888438585,
-        "40": 0.812215152223779,
-        "50": 0.8891494480876034,
-        "60": 0.9364603480232299,
-        "67": 0.9575959453330813,
-        "80": 0.9805365316046002
+        "40": 0.812215152223779
       }
     },
     {
       "effect_dz": 0.5,
       "minimum_n_for_80pct_power": 32,
       "power_by_n": {
+        "15": 0.4906855676699693,
+        "20": 0.6087794846454568,
+        "25": 0.7054180011138004,
         "30": 0.7819079987319799,
-        "40": 0.8853791407623515,
-        "50": 0.9424375431875085,
-        "60": 0.9721272158055217,
-        "67": 0.9835258377311762,
-        "80": 0.9940004700489502
+        "40": 0.8853791407623515
       }
     },
     {
       "effect_dz": 0.65,
       "minimum_n_for_80pct_power": 19,
       "power_by_n": {
+        "15": 0.7114023752205035,
+        "20": 0.8281619116822644,
+        "25": 0.9014810176084309,
         "30": 0.9452265249718552,
-        "40": 0.9842617813595574,
-        "50": 0.9958083568340936,
-        "60": 0.9989471849922262,
-        "67": 0.9996110139161805,
-        "80": 0.999941853727651
+        "40": 0.9842617813595574
       }
     }
   ],
+  "minimum_detectable_dz_by_n": {
+    "15": 0.7233653069427736,
+    "20": 0.6264527320287698,
+    "25": 0.5603163574027157,
+    "30": 0.5114965138143236,
+    "40": 0.44296897491038223
+  },
   "exact_sign_sensitivity": [
     {
       "name": "optimistic_pilot_like",
@@ -62,12 +70,11 @@
       "treatment_win_share": 0.9,
       "minimum_n_for_80pct_power": 19,
       "power_by_n": {
+        "15": 0.6599555352870947,
+        "20": 0.8258274837039475,
+        "25": 0.9193952633561361,
         "30": 0.9656238758294539,
-        "40": 0.9932563030661392,
-        "50": 0.998891089268845,
-        "60": 0.999841239329017,
-        "67": 0.9999627577269342,
-        "80": 0.9999976004231469
+        "40": 0.9932563030661392
       }
     },
     {
@@ -76,12 +83,11 @@
       "treatment_win_share": 0.75,
       "minimum_n_for_80pct_power": 67,
       "power_by_n": {
+        "15": 0.1561394470485311,
+        "20": 0.24248276190524473,
+        "25": 0.32297166102118,
         "30": 0.4086811205034,
-        "40": 0.5477032759386334,
-        "50": 0.6563989360099246,
-        "60": 0.748655592091839,
-        "67": 0.8027751623866956,
-        "80": 0.8793799169698949
+        "40": 0.5477032759386334
       }
     },
     {
@@ -90,18 +96,18 @@
       "treatment_win_share": 0.7,
       "minimum_n_for_80pct_power": 129,
       "power_by_n": {
+        "15": 0.06266015644818701,
+        "20": 0.10865135277462597,
+        "25": 0.15018627581865834,
         "30": 0.19075674430325792,
-        "40": 0.27918613562794137,
-        "50": 0.3541615374904306,
-        "60": 0.42271393735987395,
-        "67": 0.47090867395671127,
-        "80": 0.5580461073450702
+        "40": 0.27918613562794137
       }
     }
   ],
   "interpretation": {
     "pilot_limitation": "The existing LLM pilot has three independent lineages and zero exact edge F1, so it cannot estimate a trustworthy paired variance for the thesis main study.",
-    "minimum_rule": "Forty lineages is a data-governance floor, not automatic statistical adequacy. Final N is selected before freezing from the dev-only variance and this sensitivity table.",
-    "recommended_target": "Aim for at least 80 accepted double-reviewed independent lineages, with at least 67 reserved for the confirmatory paired evaluation."
+    "minimum_rule": "Forty real lineages and thirty double-reviewed gold lineages are protocol floors, not automatic statistical adequacy. The achieved held-out test N and its prospective minimum detectable effect must be reported.",
+    "recommended_target": "Complete all 30 frozen double-reviewed lineages and keep at least 15 independent groups in the held-out test split; use more test groups when the group-safe split permits.",
+    "posthoc_power_policy": "Do not compute observed post-hoc power. Report the paired effect, its 95% confidence interval, Holm-adjusted p-value and the N-based minimum detectable dz."
   }
 }

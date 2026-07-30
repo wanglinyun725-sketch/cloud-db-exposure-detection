@@ -14,8 +14,11 @@ if str(ROOT) not in sys.path:
 from src.experiments.ec_react_preflight import run_preflight  # noqa: E402
 
 
-DEFAULT_CONFIG = ROOT / "configs" / "ec_react_main_v1.yaml"
-DEFAULT_OUTPUT = ROOT / "output" / "ec_react_main_preflight.json"
+DEFAULT_CONFIG = ROOT / "configs" / "ec_react_main_v2_draft.yaml"
+DEFAULT_OUTPUT = (
+    ROOT / "output" / "ec_react_main_v2"
+    / "pipeline_preflight.json"
+)
 
 
 def main() -> int:
