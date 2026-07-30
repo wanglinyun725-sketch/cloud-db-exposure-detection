@@ -22,6 +22,8 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--method", action="append")
+    parser.add_argument("--model", action="append")
     parser.add_argument(
         "--require-ready",
         action="store_true",
@@ -30,7 +32,16 @@ def main() -> int:
     args = parser.parse_args()
     output_path = args.output.resolve()
 
-    report = run_preflight(ROOT, args.config)
+    report = run_preflight(
+        ROOT,
+        args.config,
+        selected_method_ids=(
+            set(args.method) if args.method else None
+        ),
+        selected_model_ids=(
+            set(args.model) if args.model else None
+        ),
+    )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
         json.dumps(report, ensure_ascii=False, indent=2) + "\n",

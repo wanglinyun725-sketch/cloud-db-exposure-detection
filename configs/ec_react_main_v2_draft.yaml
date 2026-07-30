@@ -209,6 +209,55 @@ models:
     temperature: null
     official_model_ref: https://developers.openai.com/api/docs/models/gpt-5.4
 
+schedule_arms:
+  - arm_id: confirmatory_dual_model_b20
+    role: confirmatory_primary
+    method_ids:
+      - ec_react_full
+      - vanilla_react
+    model_ids:
+      - qwen2_5_7b_local
+      - gpt_5_4_snapshot
+    budgets: [20]
+    repeats: 5
+  - arm_id: qwen_component_ablations_b20
+    role: secondary_ablation
+    method_ids:
+      - ablate_pareto
+      - ablate_provider_scope_gate
+      - ablate_external_rule_prior
+      - ablate_four_value_memory
+      - ablate_budget_stop
+      - ablate_evidence_cert
+    model_ids:
+      - qwen2_5_7b_local
+    budgets: [20]
+    repeats: 5
+  - arm_id: qwen_budget_sensitivity
+    role: secondary_budget_sensitivity
+    method_ids:
+      - ec_react_full
+      - vanilla_react
+    model_ids:
+      - qwen2_5_7b_local
+    budgets: [10, 30]
+    repeats: 5
+  - arm_id: randomized_baseline_b20
+    role: secondary_baseline
+    method_ids:
+      - random_tool
+    model_ids: []
+    budgets: [20]
+    repeats: 5
+  - arm_id: deterministic_baselines_b20
+    role: secondary_baseline
+    method_ids:
+      - fixed_order
+      - full_query
+    model_ids: []
+    budgets: [20]
+    repeats: 1
+
 statistics:
   cluster_bootstrap_resamples: 10000
   paired_permutation_resamples: 10000

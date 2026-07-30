@@ -1,8 +1,14 @@
+from copy import deepcopy
 from pathlib import Path
 
 import yaml
 
 from src.experiments.ec_react_preflight import _validate_method_fairness
+from src.experiments.ec_react_execution import (
+    planned_runs_per_instance,
+    planned_runs_per_instance_for_selection,
+    schedule_design_errors,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -103,3 +109,49 @@ def test_v2_data_gate_matches_the_frozen_30_lineage_confirmatory_packet():
     assert data["minimum_independence_groups"] == 20
     assert data["minimum_external_negative_controls"] == 20
     assert "annotation_pilot_packet" not in data
+
+
+def test_v2_uses_an_explicit_non_cartesian_schedule():
+    config = yaml.safe_load(CONFIG.read_text(encoding="utf-8"))
+
+    assert schedule_design_errors(config) == []
+    assert planned_runs_per_instance(config) == 77
+    assert planned_runs_per_instance_for_selection(
+        config,
+        model_ids={"qwen2_5_7b_local"},
+    ) == 67
+    assert planned_runs_per_instance_for_selection(
+        config,
+        model_ids={"gpt_5_4_snapshot"},
+    ) == 17
+    assert planned_runs_per_instance_for_selection(
+        config,
+        method_ids={"ec_react_full"},
+    ) == 20
+    arms = {item["arm_id"]: item for item in config["schedule_arms"]}
+    primary = arms["confirmatory_dual_model_b20"]
+    assert primary["role"] == "confirmatory_primary"
+    assert primary["budgets"] == [20]
+    assert primary["repeats"] == 5
+    assert set(primary["method_ids"]) == {
+        "ec_react_full",
+        "vanilla_react",
+    }
+    assert set(primary["model_ids"]) == {
+        "qwen2_5_7b_local",
+        "gpt_5_4_snapshot",
+    }
+    ablation = arms["qwen_component_ablations_b20"]
+    assert ablation["model_ids"] == ["qwen2_5_7b_local"]
+    assert ablation["budgets"] == [20]
+
+
+def test_explicit_schedule_rejects_duplicate_conditions():
+    config = yaml.safe_load(CONFIG.read_text(encoding="utf-8"))
+    duplicate = deepcopy(config["schedule_arms"][0])
+    duplicate["arm_id"] = "duplicate_primary"
+    config["schedule_arms"].append(duplicate)
+
+    errors = schedule_design_errors(config)
+
+    assert any("duplicate condition" in item for item in errors)

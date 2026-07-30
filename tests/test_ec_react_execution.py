@@ -199,6 +199,56 @@ class ECReactExecutionTests(unittest.TestCase):
             {item["case_id"] for item in schedule},
         )
 
+    def test_v2_schedule_uses_only_preregistered_arms(self):
+        config = yaml.safe_load(
+            (ROOT / "configs" / "ec_react_main_v2_draft.yaml").read_text(
+                encoding="utf-8"
+            )
+        )
+        case = _reviewed_splunk_case()
+        schedule = build_run_schedule(
+            config,
+            {"cases": [case]},
+            {
+                "assignments": [{
+                    "case_id": case["case_id"],
+                    "independence_group": "group-1",
+                    "split": "test",
+                }]
+            },
+        )
+
+        self.assertEqual(77, len(schedule))
+        self.assertEqual(
+            {
+                "confirmatory_dual_model_b20",
+                "qwen_component_ablations_b20",
+                "qwen_budget_sensitivity",
+                "randomized_baseline_b20",
+                "deterministic_baselines_b20",
+            },
+            {item["schedule_arm_id"] for item in schedule},
+        )
+        strong = [
+            item for item in schedule
+            if item["model_id"] == "gpt_5_4_snapshot"
+        ]
+        self.assertEqual(10, len(strong))
+        self.assertEqual({20}, {item["budget"] for item in strong})
+        self.assertEqual(
+            {"ec_react_full", "vanilla_react"},
+            {item["method_id"] for item in strong},
+        )
+        ablations = [
+            item for item in schedule
+            if item["method_id"].startswith("ablate_")
+        ]
+        self.assertEqual(
+            {"qwen2_5_7b_local"},
+            {item["model_id"] for item in ablations},
+        )
+        self.assertEqual({20}, {item["budget"] for item in ablations})
+
 
 if __name__ == "__main__":
     unittest.main()

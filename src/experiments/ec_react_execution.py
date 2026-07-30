@@ -182,6 +182,13 @@ def build_run_schedule(
         item for item in config.get("models", [])
         if model_ids is None or item["model_id"] in model_ids
     ]
+    schedule_arms = config.get("schedule_arms")
+    schedule_errors = schedule_design_errors(config)
+    if schedule_errors:
+        raise ValueError(
+            "invalid explicit schedule design: "
+            + "; ".join(schedule_errors)
+        )
     assignments = {
         item["case_id"]: item
         for item in split_manifest["assignments"]
@@ -226,58 +233,355 @@ def build_run_schedule(
             scheduled_cases.append((case, split))
 
     rows = []
+    scheduled_identities: set[str] = set()
     for case, split in scheduled_cases:
         for instance in sorted(
             case.get("runtime_instances", []),
             key=lambda item: item["instance_id"],
         ):
-            for method in methods:
-                family = method["family"]
-                if family == "llm":
-                    conditions = [
-                        (model["model_id"], repeat, seeds[repeat])
-                        for model in models
-                        for repeat in range(llm_repeats)
-                    ]
-                elif family == "randomized":
-                    conditions = [
-                        (None, repeat, seeds[repeat])
-                        for repeat in range(llm_repeats)
-                    ]
-                else:
-                    conditions = [
-                        (None, repeat, seeds[repeat])
-                        for repeat in range(deterministic_repeats)
-                    ]
-                for budget in shared["budget_grid"]:
-                    for model_id, repeat, seed in conditions:
-                        identity = {
-                            "case_id": case["case_id"],
-                            "instance_id": instance["instance_id"],
-                            "split": split,
-                            "method_id": method["method_id"],
-                            "model_id": model_id,
-                            "budget": budget,
-                            "repeat": repeat,
-                            "seed": seed,
-                        }
-                        rows.append({
-                            **identity,
-                            "scenario_source_id": case["source"][
-                                "source_id"
-                            ],
-                            "runtime_evidence_source_id": (
-                                instance.get("runtime_source_id")
-                                or case["source"]["source_id"]
-                            ),
-                            "platform": instance.get(
-                                "platform", "unspecified"
-                            ),
-                            "schedule_id": (
-                                "schedule-" + _stable_hash(identity)[:24]
-                            ),
-                        })
+            if schedule_arms:
+                arm_conditions = _explicit_arm_conditions(
+                    schedule_arms,
+                    config["methods"],
+                    config.get("models", []),
+                    seeds,
+                    split=split,
+                    method_ids=method_ids,
+                    model_ids=model_ids,
+                )
+            else:
+                arm_conditions = _cartesian_conditions(
+                    methods,
+                    models,
+                    shared,
+                    seeds,
+                )
+            for (
+                arm_id,
+                method,
+                budget,
+                model_id,
+                repeat,
+                seed,
+            ) in arm_conditions:
+                identity = {
+                    "case_id": case["case_id"],
+                    "instance_id": instance["instance_id"],
+                    "split": split,
+                    "method_id": method["method_id"],
+                    "model_id": model_id,
+                    "budget": budget,
+                    "repeat": repeat,
+                    "seed": seed,
+                }
+                identity_hash = _stable_hash(identity)
+                if identity_hash in scheduled_identities:
+                    raise ValueError(
+                        "duplicate experimental condition across schedule "
+                        f"arms for {identity}"
+                    )
+                scheduled_identities.add(identity_hash)
+                rows.append({
+                    **identity,
+                    "schedule_arm_id": arm_id,
+                    "scenario_source_id": case["source"][
+                        "source_id"
+                    ],
+                    "runtime_evidence_source_id": (
+                        instance.get("runtime_source_id")
+                        or case["source"]["source_id"]
+                    ),
+                    "platform": instance.get(
+                        "platform", "unspecified"
+                    ),
+                    "schedule_id": "schedule-" + identity_hash[:24],
+                })
     return rows
+
+
+def schedule_design_errors(
+    config: Mapping[str, Any],
+) -> list[str]:
+    """Return deterministic validation errors for optional explicit arms."""
+    arms = config.get("schedule_arms")
+    if arms is None:
+        return []
+    if not isinstance(arms, list) or not arms:
+        return ["schedule_arms must be a non-empty list"]
+    methods = {
+        item.get("method_id"): item
+        for item in config.get("methods", [])
+        if isinstance(item, Mapping)
+    }
+    models = {
+        item.get("model_id"): item
+        for item in config.get("models", [])
+        if isinstance(item, Mapping)
+    }
+    shared = config.get("shared_execution") or {}
+    allowed_budgets = set(shared.get("budget_grid") or [])
+    seed_count = len(shared.get("random_seeds") or [])
+    errors: list[str] = []
+    arm_ids: set[str] = set()
+    conditions: dict[tuple[Any, ...], str] = {}
+    for index, arm in enumerate(arms):
+        if not isinstance(arm, Mapping):
+            errors.append(f"schedule arm {index} must be an object")
+            continue
+        arm_id = arm.get("arm_id")
+        if not isinstance(arm_id, str) or not arm_id:
+            errors.append(f"schedule arm {index} has no arm_id")
+            continue
+        if arm_id in arm_ids:
+            errors.append(f"duplicate schedule arm_id {arm_id}")
+        arm_ids.add(arm_id)
+        selected_methods = arm.get("method_ids")
+        if not isinstance(selected_methods, list) or not selected_methods:
+            errors.append(f"schedule arm {arm_id} has no methods")
+            continue
+        unknown_methods = sorted(set(selected_methods) - set(methods))
+        if unknown_methods:
+            errors.append(
+                f"schedule arm {arm_id} has unknown methods "
+                f"{unknown_methods}"
+            )
+            continue
+        families = {
+            methods[method_id].get("family")
+            for method_id in selected_methods
+        }
+        if len(families) != 1:
+            errors.append(
+                f"schedule arm {arm_id} mixes method families"
+            )
+            continue
+        family = next(iter(families))
+        selected_models = arm.get("model_ids")
+        if not isinstance(selected_models, list):
+            errors.append(
+                f"schedule arm {arm_id} model_ids must be a list"
+            )
+            continue
+        if family == "llm":
+            if not selected_models:
+                errors.append(
+                    f"LLM schedule arm {arm_id} has no models"
+                )
+                continue
+            unknown_models = sorted(set(selected_models) - set(models))
+            if unknown_models:
+                errors.append(
+                    f"schedule arm {arm_id} has unknown models "
+                    f"{unknown_models}"
+                )
+                continue
+        elif selected_models:
+            errors.append(
+                f"non-LLM schedule arm {arm_id} must not name models"
+            )
+            continue
+        budgets = arm.get("budgets")
+        if not isinstance(budgets, list) or not budgets:
+            errors.append(f"schedule arm {arm_id} has no budgets")
+            continue
+        invalid_budgets = sorted(set(budgets) - allowed_budgets)
+        if invalid_budgets:
+            errors.append(
+                f"schedule arm {arm_id} has budgets outside the frozen "
+                f"grid: {invalid_budgets}"
+            )
+            continue
+        repeats = arm.get("repeats")
+        if (
+            not isinstance(repeats, int)
+            or isinstance(repeats, bool)
+            or repeats < 1
+            or repeats > seed_count
+        ):
+            errors.append(
+                f"schedule arm {arm_id} repeats must be between 1 and "
+                f"{seed_count}"
+            )
+            continue
+        condition_models = selected_models if family == "llm" else [None]
+        for method_id in selected_methods:
+            for model_id in condition_models:
+                for budget in budgets:
+                    for repeat in range(repeats):
+                        condition = (
+                            method_id,
+                            model_id,
+                            budget,
+                            repeat,
+                        )
+                        previous = conditions.get(condition)
+                        if previous is not None:
+                            errors.append(
+                                f"schedule arms {previous} and {arm_id} "
+                                f"duplicate condition {condition}"
+                            )
+                        conditions[condition] = arm_id
+    return errors
+
+
+def planned_runs_per_instance(config: Mapping[str, Any]) -> int:
+    """Count frozen conditions per runtime instance."""
+    return planned_runs_per_instance_for_selection(config)
+
+
+def planned_runs_per_instance_for_selection(
+    config: Mapping[str, Any],
+    *,
+    method_ids: set[str] | None = None,
+    model_ids: set[str] | None = None,
+) -> int:
+    """Count frozen conditions after an explicit execution filter."""
+    errors = schedule_design_errors(config)
+    if errors:
+        raise ValueError("; ".join(errors))
+    shared = config["shared_execution"]
+    arms = config.get("schedule_arms")
+    if not arms:
+        budgets = len(shared.get("budget_grid") or [])
+        llm_repeats = int(shared.get("llm_repeats") or 0)
+        deterministic_repeats = int(
+            shared.get("deterministic_repeats") or 0
+        )
+        model_count = len(config.get("models") or [])
+        total = 0
+        for method in config.get("methods") or []:
+            if (
+                method_ids is not None
+                and method.get("method_id") not in method_ids
+            ):
+                continue
+            if method.get("family") == "llm":
+                selected_model_count = (
+                    model_count
+                    if model_ids is None
+                    else len([
+                        item for item in config.get("models") or []
+                        if item.get("model_id") in model_ids
+                    ])
+                )
+                total += (
+                    budgets * llm_repeats * selected_model_count
+                )
+            elif method.get("family") == "randomized":
+                total += budgets * llm_repeats
+            else:
+                total += budgets * deterministic_repeats
+        return total
+    methods = {
+        item["method_id"]: item for item in config["methods"]
+    }
+    total = 0
+    for arm in arms:
+        selected_methods = [
+            item for item in arm["method_ids"]
+            if method_ids is None or item in method_ids
+        ]
+        if not selected_methods:
+            continue
+        family = methods[selected_methods[0]]["family"]
+        if family == "llm":
+            selected_models = [
+                item for item in arm["model_ids"]
+                if model_ids is None or item in model_ids
+            ]
+            model_count = len(selected_models)
+        else:
+            model_count = 1
+        total += (
+            len(selected_methods)
+            * model_count
+            * len(arm["budgets"])
+            * int(arm["repeats"])
+        )
+    return total
+
+
+def _explicit_arm_conditions(
+    arms: list[Mapping[str, Any]],
+    all_methods: list[Mapping[str, Any]],
+    all_models: list[Mapping[str, Any]],
+    seeds: list[int],
+    *,
+    split: str,
+    method_ids: set[str] | None,
+    model_ids: set[str] | None,
+) -> list[tuple[str, Mapping[str, Any], int, str | None, int, int]]:
+    methods = {item["method_id"]: item for item in all_methods}
+    known_models = {item["model_id"] for item in all_models}
+    output = []
+    for arm in arms:
+        allowed_splits = arm.get("splits")
+        if allowed_splits is not None and split not in allowed_splits:
+            continue
+        for method_id in arm["method_ids"]:
+            if method_ids is not None and method_id not in method_ids:
+                continue
+            method = methods[method_id]
+            if method["family"] == "llm":
+                selected_models = [
+                    item for item in arm["model_ids"]
+                    if item in known_models
+                    and (model_ids is None or item in model_ids)
+                ]
+            else:
+                selected_models = [None]
+            for budget in arm["budgets"]:
+                for selected_model in selected_models:
+                    for repeat in range(int(arm["repeats"])):
+                        output.append((
+                            arm["arm_id"],
+                            method,
+                            int(budget),
+                            selected_model,
+                            repeat,
+                            seeds[repeat],
+                        ))
+    return output
+
+
+def _cartesian_conditions(
+    methods: list[Mapping[str, Any]],
+    models: list[Mapping[str, Any]],
+    shared: Mapping[str, Any],
+    seeds: list[int],
+) -> list[tuple[str, Mapping[str, Any], int, str | None, int, int]]:
+    output = []
+    for method in methods:
+        family = method["family"]
+        if family == "llm":
+            conditions = [
+                (model["model_id"], repeat, seeds[repeat])
+                for model in models
+                for repeat in range(int(shared["llm_repeats"]))
+            ]
+        elif family == "randomized":
+            conditions = [
+                (None, repeat, seeds[repeat])
+                for repeat in range(int(shared["llm_repeats"]))
+            ]
+        else:
+            conditions = [
+                (None, repeat, seeds[repeat])
+                for repeat in range(
+                    int(shared["deterministic_repeats"])
+                )
+            ]
+        for budget in shared["budget_grid"]:
+            for model_id, repeat, seed in conditions:
+                output.append((
+                    "legacy_cartesian",
+                    method,
+                    int(budget),
+                    model_id,
+                    repeat,
+                    seed,
+                ))
+    return output
 
 
 def _validate_run_contract(
