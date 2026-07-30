@@ -1,0 +1,92 @@
+{
+  "audit_version": "2.0",
+  "assessment": "repository evidence only; no subjective score and no school-specific grade guarantee",
+  "objective_complete": false,
+  "passed_gates": 3,
+  "total_gates": 8,
+  "gates": {
+    "real_cross_cloud_benchmark": true,
+    "thirty_lineage_double_human_gold": false,
+    "twenty_human_screened_negative_controls": false,
+    "ec_react_and_baselines_implemented": true,
+    "hash_bound_protocol_frozen": false,
+    "confirmatory_experiment_claim_passed": false,
+    "final_deliverables_bound_to_results": false,
+    "research_branch_synchronized_to_remote": true
+  },
+  "blockers": [
+    {
+      "gate": "thirty_lineage_double_human_gold",
+      "reason": "30个谱系仍需两位不同真人独立标注并完成分歧仲裁"
+    },
+    {
+      "gate": "twenty_human_screened_negative_controls",
+      "reason": "至少20个外部负对照仍需完成双人筛选"
+    },
+    {
+      "gate": "hash_bound_protocol_frozen",
+      "reason": "绑定gold、split、代码版本与哈希的FROZEN协议尚不存在"
+    },
+    {
+      "gate": "confirmatory_experiment_claim_passed",
+      "reason": "冻结双模型实验尚未通过F1、相对增益与安全门槛"
+    },
+    {
+      "gate": "final_deliverables_bound_to_results",
+      "reason": "论文、答辩材料、复现包和三轮审稿压力测试尚未绑定最终决策哈希"
+    }
+  ],
+  "evidence": {
+    "dataset": {
+      "conservative_independence_groups": 40,
+      "source_count": 9,
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ]
+    },
+    "confirmatory_human_gold": {
+      "stage": "awaiting_double_blind",
+      "independence_groups": 0
+    },
+    "negative_controls": {
+      "stage": "awaiting_double_blind",
+      "usable": 0
+    },
+    "method": {
+      "required_methods_present": [
+        "ablate_budget_stop",
+        "ablate_evidence_cert",
+        "ablate_external_rule_prior",
+        "ablate_four_value_memory",
+        "ablate_pareto",
+        "ablate_provider_scope_gate",
+        "ec_react_full",
+        "fixed_order",
+        "full_query",
+        "random_tool",
+        "vanilla_react"
+      ],
+      "schedule_errors": [],
+      "model_locks_pass": true
+    },
+    "frozen_protocol": {
+      "config_present": false,
+      "manifest_present": false
+    },
+    "confirmatory_decision": {
+      "status": "missing"
+    },
+    "deliverables_manifest": {
+      "path": "output\\research_design\\final_deliverables_v2_manifest.json",
+      "present": false
+    },
+    "git": {
+      "branch": "agent/research-upgrade",
+      "behind_upstream": 0,
+      "ahead_of_upstream": 0,
+      "synchronized": true
+    }
+  }
+}
