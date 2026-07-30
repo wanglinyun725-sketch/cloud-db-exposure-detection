@@ -5,6 +5,9 @@ import tempfile
 import unittest
 
 from src.annotation.local_review_app import create_local_review_app
+from src.annotation.negative_control_workflow import (
+    create_negative_assignment,
+)
 from src.annotation.task_bundle import build_case_bundle
 from src.annotation.workflow import create_assignment
 
@@ -16,6 +19,13 @@ RUNTIME_PACKET = (
     / "real_sources"
     / "annotation"
     / "runtime_pilot_round2_unlabeled.json"
+)
+NEGATIVE_PACKET = (
+    ROOT
+    / "data"
+    / "real_sources"
+    / "annotation"
+    / "negative_control_round1_unlabeled.json"
 )
 
 
@@ -235,6 +245,153 @@ class LocalReviewAppTests(unittest.TestCase):
         self.assertEqual(403, forbidden.status_code)
         missing = self.client.get("/case/not-in-manifest.json")
         self.assertEqual(404, missing.status_code)
+
+
+class NegativeLocalReviewAppTests(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.task_dir = Path(self.temporary.name)
+        packet = json.loads(
+            NEGATIVE_PACKET.read_text(encoding="utf-8")
+        )
+        assignment = create_negative_assignment(
+            packet,
+            "primary",
+            "negative-local-review-test",
+        )
+        manifest, documents = build_case_bundle(assignment)
+        (self.task_dir / "assignment_manifest.json").write_text(
+            json.dumps(manifest),
+            encoding="utf-8",
+        )
+        for filename, case in documents.items():
+            (self.task_dir / filename).write_text(
+                json.dumps(case),
+                encoding="utf-8",
+            )
+        self.filename = next(iter(documents))
+        self.case_path = self.task_dir / self.filename
+        self.original = json.loads(
+            self.case_path.read_text(encoding="utf-8")
+        )
+        self.app = create_local_review_app(self.task_dir)
+        self.app.testing = True
+        self.client = self.app.test_client()
+        self.nonce = self.app.config["ANNOTATION_NONCE"]
+
+    def tearDown(self):
+        self.temporary.cleanup()
+
+    def _form(self, **overrides):
+        form = {
+            "_nonce": self.nonce,
+            "action": "draft",
+            "cloud_data_relevant": "",
+            "non_attack_confirmed": "",
+            "usable_as_negative_control": "",
+            "rationale": "Human read the frozen provider report.",
+        }
+        form.update(overrides)
+        return form
+
+    def test_negative_index_case_and_guide_use_the_screening_schema(self):
+        index = self.client.get("/")
+        case = self.client.get(f"/case/{self.filename}")
+        guide = self.client.get("/guide")
+
+        self.assertEqual("negative", self.app.config[
+            "ANNOTATION_WORKFLOW_KIND"
+        ])
+        self.assertEqual(200, index.status_code)
+        self.assertIn("负对照筛选", index.get_data(as_text=True))
+        self.assertIn("0/29", index.get_data(as_text=True))
+        self.assertEqual(200, case.status_code)
+        self.assertIn(
+            self.original["candidate_id"],
+            case.get_data(as_text=True),
+        )
+        self.assertIn("cloud_data_relevant", case.get_data(as_text=True))
+        self.assertEqual(200, guide.status_code)
+        self.assertIn("不推荐答案", guide.get_data(as_text=True))
+
+    def test_negative_draft_only_changes_screening(self):
+        response = self.client.post(
+            f"/case/{self.filename}",
+            data=self._form(
+                cloud_data_relevant="true",
+            ),
+        )
+
+        self.assertEqual(302, response.status_code)
+        saved = json.loads(self.case_path.read_text(encoding="utf-8"))
+        self.assertTrue(saved["screening"]["cloud_data_relevant"])
+        self.assertEqual(
+            self.original["source_context_sha256"],
+            saved["source_context_sha256"],
+        )
+        self.assertEqual(self.original["report_text"], saved["report_text"])
+        self.assertFalse(saved["human_attestation"])
+
+    def test_negative_precheck_is_valid_but_does_not_write(self):
+        response = self.client.post(
+            f"/case/{self.filename}",
+            data=self._form(
+                action="check",
+                cloud_data_relevant="true",
+                non_attack_confirmed="true",
+                usable_as_negative_control="true",
+            ),
+        )
+
+        self.assertEqual(200, response.status_code)
+        self.assertIn(
+            "任务文件尚未改动",
+            response.get_data(as_text=True),
+        )
+        self.assertEqual(
+            self.original,
+            json.loads(self.case_path.read_text(encoding="utf-8")),
+        )
+
+    def test_usable_negative_requires_both_prerequisites(self):
+        response = self.client.post(
+            f"/case/{self.filename}",
+            data=self._form(
+                action="complete",
+                cloud_data_relevant="true",
+                non_attack_confirmed="false",
+                usable_as_negative_control="true",
+            ),
+        )
+
+        self.assertEqual(400, response.status_code)
+        self.assertIn("requires cloud-data relevance", response.get_data(
+            as_text=True
+        ))
+        self.assertEqual(
+            self.original,
+            json.loads(self.case_path.read_text(encoding="utf-8")),
+        )
+
+    def test_valid_negative_completion_is_immutable(self):
+        response = self.client.post(
+            f"/case/{self.filename}",
+            data=self._form(
+                action="complete",
+                cloud_data_relevant="true",
+                non_attack_confirmed="true",
+                usable_as_negative_control="false",
+            ),
+        )
+
+        self.assertEqual(302, response.status_code)
+        completed = json.loads(self.case_path.read_text(encoding="utf-8"))
+        self.assertTrue(completed["human_attestation"])
+        second = self.client.post(
+            f"/case/{self.filename}",
+            data=self._form(),
+        )
+        self.assertEqual(409, second.status_code)
 
 
 if __name__ == "__main__":

@@ -16,6 +16,14 @@
 
 - primary：`http://127.0.0.1:8778/`
 - reviewer：`http://127.0.0.1:8779/`
+- primary 筛选手册：`http://127.0.0.1:8778/guide`
+- reviewer 筛选手册：`http://127.0.0.1:8779/guide`
+
+负对照端口会自动识别独立的 `screening` 协议，不会把负对照误当成攻击路径任务。
+当前任务含 30 个候选案例、29 个 `independence_group` 独立来源记录；列表同时
+显示案例与独立记录进度，避免把同谱系候选重复计数。完成时还会强制检查：
+`usable_as_negative_control=true` 只有在 `cloud_data_relevant=true` 且
+`non_attack_confirmed=true` 时才合法。
 
 primary 与 reviewer 必须由不同真人在互不可见的条件下完成，不应共用笔记或
 查看对方端口。
