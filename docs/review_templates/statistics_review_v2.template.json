@@ -1,0 +1,21 @@
+{
+  "review_version": "2.0",
+  "review_type": "statistics",
+  "status": "draft",
+  "verdict": "blocked",
+  "reviewer_id": "TODO",
+  "reviewer_kind": "human",
+  "independent_of_artifact_authorship": true,
+  "confirmatory_decision_sha256": "TODO",
+  "checks": [
+    {"check_id": "independence_unit", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "group_safe_split", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "confidence_intervals", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "effect_sizes", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "power_analysis", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "holm_correction", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "safety_endpoint", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "missing_data_policy", "verdict": "blocked", "evidence_paths": []}
+  ],
+  "findings": []
+}

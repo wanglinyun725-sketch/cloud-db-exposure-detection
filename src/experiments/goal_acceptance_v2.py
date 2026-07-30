@@ -10,6 +10,9 @@ from typing import Any, Mapping
 import yaml
 
 from src.experiments.ec_react_execution import schedule_design_errors
+from src.experiments.final_deliverables_v2 import (
+    validate_review_stress_test_bundle,
+)
 
 
 REQUIRED_PLATFORMS = {"AWS", "AZURE", "GCP"}
@@ -280,6 +283,19 @@ def _deliverables_pass(
 ) -> bool:
     if manifest is None or manifest.get("status") != "complete":
         return False
+    if (
+        manifest.get("claim_allowed") is not True
+        or manifest.get("review_gate_passed") is not True
+        or manifest.get("posthoc_metric_substitution_allowed") is not False
+    ):
+        return False
+    git_commit = manifest.get("git_commit")
+    if not (
+        isinstance(git_commit, str)
+        and len(git_commit) == 40
+        and all(character in "0123456789abcdef" for character in git_commit)
+    ):
+        return False
     if not decision_path.is_file():
         return False
     expected_decision = sha256(decision_path.read_bytes()).hexdigest()
@@ -303,6 +319,21 @@ def _deliverables_pass(
             return False
         if item.get("sha256") != sha256(path.read_bytes()).hexdigest():
             return False
+    review_path = Path(str(by_kind["review_stress_tests"]["path"]))
+    review_path = (
+        review_path if review_path.is_absolute() else root / review_path
+    )
+    try:
+        review_bundle = json.loads(review_path.read_text(encoding="utf-8"))
+        if not isinstance(review_bundle, dict):
+            return False
+        validate_review_stress_test_bundle(
+            root,
+            review_bundle,
+            decision_path=decision_path,
+        )
+    except (OSError, ValueError, json.JSONDecodeError):
+        return False
     return True
 
 

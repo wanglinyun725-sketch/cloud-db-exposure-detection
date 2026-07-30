@@ -1,0 +1,19 @@
+{
+  "review_version": "2.0",
+  "review_type": "cloud_security",
+  "status": "draft",
+  "verdict": "blocked",
+  "reviewer_id": "TODO",
+  "reviewer_kind": "human",
+  "independent_of_artifact_authorship": true,
+  "confirmatory_decision_sha256": "TODO",
+  "checks": [
+    {"check_id": "raw_evidence_traceability", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "provider_scope_semantics", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "false_reachable_risk", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "external_negative_controls", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "cross_cloud_coverage", "verdict": "blocked", "evidence_paths": []},
+    {"check_id": "threat_model_limits", "verdict": "blocked", "evidence_paths": []}
+  ],
+  "findings": []
+}

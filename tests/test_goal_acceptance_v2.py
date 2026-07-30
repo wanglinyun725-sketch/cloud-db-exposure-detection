@@ -1,5 +1,12 @@
 from hashlib import sha256
+import json
+import zipfile
 
+from src.experiments.final_deliverables_v2 import (
+    REQUIRED_REVIEW_CHECKS,
+    build_final_deliverables_manifest,
+    build_review_stress_test_bundle,
+)
 from src.experiments.goal_acceptance_v2 import (
     _deliverables_pass,
     _model_locks_pass,
@@ -25,28 +32,69 @@ def test_model_gate_requires_both_local_digest_and_exact_strong_snapshot():
 
 def test_deliverables_must_be_bound_to_the_final_decision(tmp_path):
     decision = tmp_path / "decision.json"
-    decision.write_text("{}", encoding="utf-8")
-    artifacts = []
-    for kind in (
-        "thesis_pdf",
-        "defense_deck",
-        "reproduction_bundle",
-        "review_stress_tests",
+    decision.write_text(json.dumps({
+        "claim_allowed": True,
+        "overall_status": "pass",
+        "posthoc_metric_substitution_allowed": False,
+    }), encoding="utf-8")
+    evidence = tmp_path / "evidence.txt"
+    evidence.write_text("evidence", encoding="utf-8")
+    decision_hash = sha256(decision.read_bytes()).hexdigest()
+    report_paths = {}
+    for index, (review_type, checks) in enumerate(
+        sorted(REQUIRED_REVIEW_CHECKS.items())
     ):
-        path = tmp_path / f"{kind}.bin"
-        path.write_text(kind, encoding="utf-8")
-        artifacts.append({
-            "kind": kind,
-            "path": path.name,
-            "sha256": sha256(path.read_bytes()).hexdigest(),
-        })
-    manifest = {
-        "status": "complete",
-        "confirmatory_decision_sha256": sha256(
-            decision.read_bytes()
-        ).hexdigest(),
-        "artifacts": artifacts,
-    }
+        path = tmp_path / f"{review_type}.json"
+        path.write_text(json.dumps({
+            "review_type": review_type,
+            "status": "completed",
+            "verdict": "pass",
+            "reviewer_id": f"reviewer-{index}",
+            "reviewer_kind": "human",
+            "independent_of_artifact_authorship": True,
+            "confirmatory_decision_sha256": decision_hash,
+            "checks": [
+                {
+                    "check_id": check_id,
+                    "verdict": "pass",
+                    "evidence_paths": [evidence.name],
+                }
+                for check_id in sorted(checks)
+            ],
+            "findings": [],
+        }), encoding="utf-8")
+        report_paths[review_type] = path
+    review_bundle = build_review_stress_test_bundle(
+        tmp_path,
+        decision_path=decision,
+        report_paths=report_paths,
+    )
+    review_path = tmp_path / "reviews.json"
+    review_path.write_text(json.dumps(review_bundle), encoding="utf-8")
+    thesis = tmp_path / "thesis.pdf"
+    thesis.write_bytes(b"%PDF-1.7\n%%EOF\n")
+    defense = tmp_path / "defense.pptx"
+    with zipfile.ZipFile(defense, "w") as archive:
+        archive.writestr("[Content_Types].xml", "<Types/>")
+        archive.writestr("ppt/presentation.xml", "<presentation/>")
+    reproduction = tmp_path / "reproduction.zip"
+    with zipfile.ZipFile(reproduction, "w") as archive:
+        for path in (
+            "README.md",
+            "configs/ec_react_main_v2_frozen.yaml",
+            "scripts/experiments/run_research_pipeline_v2.py",
+            "requirements.txt",
+        ):
+            archive.writestr(path, path)
+    manifest = build_final_deliverables_manifest(
+        tmp_path,
+        decision_path=decision,
+        thesis_pdf=thesis,
+        defense_deck=defense,
+        reproduction_bundle=reproduction,
+        review_stress_tests=review_path,
+        git_commit="a" * 40,
+    )
 
     assert _deliverables_pass(tmp_path, manifest, decision) is True
     manifest["confirmatory_decision_sha256"] = "0" * 64
