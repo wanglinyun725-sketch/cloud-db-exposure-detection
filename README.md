@@ -1,4 +1,39 @@
-# CloudDB-PathBench: 云数据库暴露路径侦测基准与EIC-Agent原型
+# Cloud DB PathBench：真实跨云证据路径基准与 EC-ReAct
+
+> 当前研究权威入口是 Graduate Goal v2。下方旧版 EIC-Agent demo 说明仅为中期
+> 原型兼容文档，不代表当前数据、方法或实验结论。
+
+## 研究型 v2 状态
+
+本项目正在构建面向云数据攻击/暴露路径的可复现研究系统：
+
+- 候选库存保守计数 40 个独立谱系，覆盖 AWS、Azure、GCP 和 9 个上游来源；
+- 确认性包为 30 个完整谱系、52 个案例、79 个运行实例、2,548 条观测；
+- EC-ReAct 已实现 ReAct、Tool Use、作用域守卫、四值证据记忆、Pareto 动作
+  选择、硬预算和 CP-Cert；
+- 本地模型锁定 Qwen2.5-7B，强模型锁定 GPT-5.4 日期快照；
+- vanilla ReAct、fixed-order、random-tool、full-query 和六项消融已进入显式
+  冻结调度；
+- 当前 human gold 仍为 0，冻结主实验尚未执行，因此不宣称方法有效。
+
+权威文档：
+
+- [Goal v2 验收契约](docs/graduate_thesis_goal_v2.md)
+- [论文 v2 工作区](docs/thesis_v2/README.md)
+- [主实验预注册草案](docs/preregistration_v2_draft.md)
+- [三轮审稿与最终交付协议](docs/final_delivery_and_review_v2.md)
+
+只读检查当前阻断项，不调用模型：
+
+```powershell
+D:\anaconda\python.exe scripts/experiments/run_research_pipeline_v2.py
+D:\anaconda\python.exe scripts/experiments/audit_goal_acceptance_v2.py
+```
+
+当前 Goal 只有在双人 gold、冻结主实验、路径级门槛、安全终点、完整论文/答辩
+与复现包全部通过并推送 GitHub 后才完成。
+
+## 中期原型兼容说明
 
 ## 项目简介
 
