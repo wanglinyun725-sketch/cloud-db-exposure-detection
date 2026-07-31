@@ -60,6 +60,8 @@ D:\anaconda\python.exe scripts/oracle/build_oracle_execution_queue_v1.py
 D:\anaconda\python.exe scripts/oracle/build_oracle_evidence_bundle_templates_v1.py
 D:\anaconda\python.exe scripts/oracle/build_oracle_scope_candidates_v1.py
 D:\anaconda\python.exe scripts/oracle/build_oracle_probe_contracts_v1.py
+D:\anaconda\python.exe scripts/oracle/audit_replay_supply_safety_v1.py
+D:\anaconda\python.exe scripts/oracle/build_replay_supply_inventory_v1.py
 D:\anaconda\python.exe scripts/oracle/audit_oracle_execution_capability_v1.py --check-auth
 D:\anaconda\python.exe scripts/oracle/apply_completed_oracle_evidence_v1.py --bundle <evaluator-bundle.json> --output <new-registry.json>
 D:\anaconda\python.exe scripts/oracle/build_oracle_split_v1.py
@@ -81,6 +83,10 @@ D:\anaconda\python.exe scripts/oracle/build_oracle_split_v1.py
 - <https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-image-attribute.html>
 - <https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-cli.html>
 - <https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2.html>
+
+固定的跨云公开攻击脚本也不能直接等同于安全复现代码。静态供应审计先验证 acquisition manifest 中的 Zenodo 文件大小和 SHA-256，再在不解压到文件系统、不执行任何上游代码的条件下扫描归档成员。审计不保留原始行或可能的密钥值，只记录规则、成员路径、行号和行哈希。当前固定版 `attack_scripts.zip` 的164个归档成员中，133个文本成员被扫描，64个成员触发298项阻断发现，覆盖把凭据写入容器层、创建长期凭据、公共主体/ACL、广域管理员角色以及未证明资源属于本次运行的删除操作。因此该制品的结论是 `direct_execution_blocked_requires_sanitized_wrapper`，不能按上游 README 原样运行；这些数字是安全审计结果，不是攻击标签或 Gold。
+
+复现供应清单进一步把40个冻结谱系逐一映射为三层：11个 `pinned_iac_lab`、8个 `published_telemetry_only`、21个 `upstream_native_cli`。其中10个跨云脚本谱系被上述供应审计阻断，8个Splunk谱系只保留为公开遥测，20个谱系仍等待来源专属安全审计，只有2个谱系注册了安全探针契约。即使这2个契约存在，授权和执行资格仍全部为 `false`；供应存在、静态扫描通过或契约存在都不能推出可达性，也不能自动授权云操作。
 
 现有证据完成度被分层记录：10个配置谱系的 `configuration` 通道已通过上游归档和成员哈希验证；30个运行时谱系的 `audit_telemetry` 原始制品已验证存在。后者只记为 `artifact_verified`，在事件语义、原生权限分析和主动探针完成前不会升级为允许/拒绝结论。
 

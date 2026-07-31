@@ -1,0 +1,4354 @@
+{
+  "audit_version": "1.0.0",
+  "audit_kind": "static_replay_supply_safety_audit",
+  "source_id": "cross_cloud_observability_2026",
+  "repository": "zenodo:19933893",
+  "commit": "record-19933893-v2",
+  "status": "direct_execution_blocked_requires_sanitized_wrapper",
+  "bindings": {
+    "acquisition_manifest": {
+      "path": "data/real_sources/acquisition_manifest.json",
+      "sha256": "73172de19813f8b45ccb6db585ae711290995ccf1d19f26236bec81fdb6f64f4",
+      "bytes": 38493
+    },
+    "artifacts": [
+      {
+        "name": "README.md",
+        "path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/README.md",
+        "sha256": "b073b2e97aea4073fec2bf387e2c255d987dd8f3710e84f2df3cc59947e510f8",
+        "bytes": 1956,
+        "manifest_status": "verified",
+        "url": "https://zenodo.org/api/files/82e2549e-665e-42f4-8dde-4f78fc07e619/README.md"
+      },
+      {
+        "name": "attack_scripts.zip",
+        "path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/attack_scripts.zip",
+        "sha256": "4599be3e224f3b9b43e76ab4ec1bfa8e3b209ebe529fb218ae4e65dd22417900",
+        "bytes": 168198,
+        "manifest_status": "verified",
+        "url": "https://zenodo.org/api/files/82e2549e-665e-42f4-8dde-4f78fc07e619/attack_scripts.zip"
+      }
+    ]
+  },
+  "policy": {
+    "executed_upstream_code": false,
+    "extracted_archive_to_filesystem": false,
+    "contains_truth_labels": false,
+    "contains_expected_outcomes": false,
+    "retains_source_line_text": false,
+    "retains_possible_secret_values": false,
+    "static_scan_is_runtime_safety_proof": false,
+    "clean_scan_authorizes_execution": false,
+    "blocking_severities": [
+      "critical",
+      "high"
+    ]
+  },
+  "limits": {
+    "max_member_bytes": 8388608,
+    "max_total_uncompressed_bytes": 67108864
+  },
+  "summary": {
+    "artifact_count": 2,
+    "archive_count": 1,
+    "archive_member_count": 164,
+    "scanned_text_member_count": 133,
+    "affected_text_member_count": 64,
+    "finding_count": 298,
+    "blocking_finding_count": 298,
+    "direct_execution_eligible": false,
+    "finding_counts_by_rule": {
+      "RS001": 8,
+      "RS002": 14,
+      "RS003": 35,
+      "RS004": 8,
+      "RS005": 11,
+      "RS006": 172,
+      "RS007": 3,
+      "RS008": 3,
+      "RS009": 1,
+      "RS010": 42,
+      "RS011": 1
+    },
+    "finding_counts_by_severity": {
+      "critical": 76,
+      "high": 222
+    },
+    "finding_counts_by_provider": {
+      "AWS": 36,
+      "AZURE": 171,
+      "CROSS_CLOUD": 1,
+      "GCP": 90
+    }
+  },
+  "rule_catalog": [
+    {
+      "rule_id": "RS001",
+      "title": "credential material is placed in a container build layer",
+      "severity": "critical",
+      "blocks_direct_execution": true
+    },
+    {
+      "rule_id": "RS002",
+      "title": "a command may print credential material to output",
+      "severity": "critical",
+      "blocks_direct_execution": true
+    },
+    {
+      "rule_id": "RS003",
+      "title": "a long-lived cloud credential or service-principal secret is created",
+      "severity": "critical",
+      "blocks_direct_execution": true
+    },
+    {
+      "rule_id": "RS004",
+      "title": "a public principal, public ACL, or public sharing group is enabled",
+      "severity": "critical",
+      "blocks_direct_execution": true
+    },
+    {
+      "rule_id": "RS005",
+      "title": "a broad cloud administrator role is granted",
+      "severity": "critical",
+      "blocks_direct_execution": true
+    },
+    {
+      "rule_id": "RS006",
+      "title": "a cloud destructive operation lacks run-ownership proof",
+      "severity": "high",
+      "blocks_direct_execution": true
+    },
+    {
+      "rule_id": "RS007",
+      "title": "a recursive or forced local deletion is requested",
+      "severity": "high",
+      "blocks_direct_execution": true
+    },
+    {
+      "rule_id": "RS008",
+      "title": "downloaded content is piped directly to a shell",
+      "severity": "high",
+      "blocks_direct_execution": true
+    },
+    {
+      "rule_id": "RS009",
+      "title": "SSH host-key verification is disabled",
+      "severity": "high",
+      "blocks_direct_execution": true
+    },
+    {
+      "rule_id": "RS010",
+      "title": "a static password or secret assignment is present",
+      "severity": "high",
+      "blocks_direct_execution": true
+    },
+    {
+      "rule_id": "RS011",
+      "title": "upstream instructions request credentials in build files",
+      "severity": "high",
+      "blocks_direct_execution": true
+    }
+  ],
+  "archive_checks": [
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_count": 164,
+      "regular_file_count": 147,
+      "scanned_text_file_count": 132,
+      "total_uncompressed_bytes": 405026,
+      "path_traversal_members": 0,
+      "encrypted_members": 0,
+      "symbolic_link_members": 0
+    }
+  ],
+  "scanned_text_members": [
+    {
+      "artifact_name": "README.md",
+      "member_path": "README.md",
+      "provider": "CROSS_CLOUD",
+      "bytes": 1956,
+      "sha256": "b073b2e97aea4073fec2bf387e2c255d987dd8f3710e84f2df3cc59947e510f8",
+      "line_count": 32,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/README.md",
+      "provider": "CROSS_CLOUD",
+      "bytes": 5728,
+      "sha256": "093476d1090235dada7aac9e5987487d9e28f45d06df9728249d40c045570218",
+      "line_count": 97,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/Dockerfile",
+      "provider": "AWS",
+      "bytes": 2057,
+      "sha256": "bb2a4cfe3192df616a9b4c9e9019f6518b10ac25fe3d82ebed540648dd8b2aed",
+      "line_count": 79,
+      "finding_count": 3
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/additional.txt",
+      "provider": "AWS",
+      "bytes": 19,
+      "sha256": "af2fd8209f90975d8c2fd7151f4988ed826fc291cbbe30c0813a0a0bd75fced6",
+      "line_count": 1,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "bytes": 10569,
+      "sha256": "6a126a37e39206addfabccc3101be82035d17b24e416540bf7bb9d597fccb843",
+      "line_count": 282,
+      "finding_count": 29
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/all_automated.sh",
+      "provider": "AWS",
+      "bytes": 3686,
+      "sha256": "9d4056ec73d0916e9e5f7a7254e551e4993d2f2c31b88e2c3a16fc9ed11ae218",
+      "line_count": 83,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/assume-role-policy.json",
+      "provider": "AWS",
+      "bytes": 341,
+      "sha256": "4268ccab98feae4663617ef34d918530fb45af0b7020461b9006f6da0745a6f5",
+      "line_count": 20,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/automated-logging.sh",
+      "provider": "AWS",
+      "bytes": 7918,
+      "sha256": "bd60fe941dd84bad9ee247817214755da067daef1804d619a8bb58f996247357",
+      "line_count": 307,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/benchmark-steps.sh",
+      "provider": "AWS",
+      "bytes": 9038,
+      "sha256": "314c91eb4634cf74bcddcbbb552178a7a2554dc189a2519bb36a4648067725cd",
+      "line_count": 228,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/bucket-policy.json",
+      "provider": "AWS",
+      "bytes": 965,
+      "sha256": "e6f6219d2349642179d9cf48ebae72635a748572851429c935f0ef6b9c020a1e",
+      "line_count": 36,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/command_and_scripting.sh",
+      "provider": "AWS",
+      "bytes": 533,
+      "sha256": "7b04ad7a2304731706ea67b39ec56c9393e2579b7151b34ee5b411a0689a7541",
+      "line_count": 20,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/dst-bucket-policy.json",
+      "provider": "AWS",
+      "bytes": 1004,
+      "sha256": "ce00f6f9899bc89135a358f74deed71f7df43e3c3f856ab9dfe7e698651d6fbe",
+      "line_count": 36,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/event_triggered_execution_attack.sh",
+      "provider": "AWS",
+      "bytes": 4237,
+      "sha256": "da4e03faa05642e6541d26e3d00a5705c4b4f7d11699675a0f92874d1849fe32",
+      "line_count": 119,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/implant_internal_image.sh",
+      "provider": "AWS",
+      "bytes": 3131,
+      "sha256": "6bc4a678b8653ead6ea5aed5714e5c412681f0fef4fa69f3e48641571b2d4036",
+      "line_count": 68,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/lambda_funct_automated_exfiltration/lambda_function.py",
+      "provider": "AWS",
+      "bytes": 912,
+      "sha256": "e55af6935385e1395123dcdb9ac5e7f8013fdfe0b8d89d4d36202aeb3ef74e42",
+      "line_count": 36,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/lambda_funct_event/lambda_function.py",
+      "provider": "AWS",
+      "bytes": 366,
+      "sha256": "e641eceddb9e918d6d74bb3c04b2bc67ba84484d2dbdaa0bb3d72d597bfe0452",
+      "line_count": 13,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/lambda_funct_scheduled/lambda_function.py",
+      "provider": "AWS",
+      "bytes": 518,
+      "sha256": "55b77d099be18a80871bb6b674f7aceb573fd2bcc4978d6623cb16677c8f680d",
+      "line_count": 18,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/lambda_funct_scheduled_transfer/lambda_function.py",
+      "provider": "AWS",
+      "bytes": 937,
+      "sha256": "50f830a95ca3e17b00a83b8b4be422b75f18c5e452320cfa6f591eb00655a7b7",
+      "line_count": 37,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/scheduled_task_attack.sh",
+      "provider": "AWS",
+      "bytes": 4624,
+      "sha256": "18a9487161b74e1cb5c571925fd9ce8f4c30490ca2cf050bb0d98f927e080258",
+      "line_count": 139,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/source-bucket-policy.json",
+      "provider": "AWS",
+      "bytes": 989,
+      "sha256": "558ed74504ded37db27232ed0739733eada2aa3fed8eb3747a16d8aa1ff91ca0",
+      "line_count": 36,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/storage_attacks.sh",
+      "provider": "AWS",
+      "bytes": 9061,
+      "sha256": "11d220c71f65106a59f55bc41b064bbf614150e63ca00c3b42ed8de838e27135",
+      "line_count": 250,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/vm_attacks.sh",
+      "provider": "AWS",
+      "bytes": 21566,
+      "sha256": "58840a1c096a84d96cb001c3bb03583733e027bd19f2284cff71578e71432ff7",
+      "line_count": 431,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/webapp-attacks.sh",
+      "provider": "AWS",
+      "bytes": 1254,
+      "sha256": "a052cb4feb91e6d72c5973974e7846d6bdf695748c09f3cce9dd4bb3fcc327e3",
+      "line_count": 52,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/webapp-benign-cleanup.sh",
+      "provider": "AWS",
+      "bytes": 1550,
+      "sha256": "842b446eb38dac22ba41a14ab50795a4f442440f51ec5db9724ea75253f4dcf4",
+      "line_count": 43,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/webapp-benign.sh",
+      "provider": "AWS",
+      "bytes": 10215,
+      "sha256": "8458f7e6f0f04bd8d6db20d64d78c52f0eafe81316211163728a58b51b4a92ac",
+      "line_count": 231,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/webapp/webapp-app.py",
+      "provider": "AWS",
+      "bytes": 7361,
+      "sha256": "79ab431d85c124488737d82863f4a194fa3c23d3565dafd878019a8e01da71b5",
+      "line_count": 220,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/webapp/webapp-cleanup.sh",
+      "provider": "AWS",
+      "bytes": 636,
+      "sha256": "b077fbfafeb091215fd12d88f01f91334727957373f862e47268aba0646702c5",
+      "line_count": 19,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/webapp/webapp-connection-testing.py",
+      "provider": "AWS",
+      "bytes": 740,
+      "sha256": "4c52d4b8be0a3caf26c3713847a450eb71b9a9581f32fe33673896426e2bdf75",
+      "line_count": 24,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/webapp/webapp-requirements.txt",
+      "provider": "AWS",
+      "bytes": 187,
+      "sha256": "92590ba23b97e61ca9ec4aa162dccd0ee3595ee3211421e510321c9728366cdd",
+      "line_count": 13,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/webapp/webapp-setup-ODBC.sh",
+      "provider": "AWS",
+      "bytes": 1549,
+      "sha256": "bc599a404c6362c8c5eb5783c1f8213a263c528bfa86c2db3aec254a14836c6b",
+      "line_count": 35,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/webapp/webapp-setup.sh",
+      "provider": "AWS",
+      "bytes": 3640,
+      "sha256": "49caafc5a3e667bea29055770976017cb2f94b6a0eb6492e369460cb281154d2",
+      "line_count": 86,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/permissions.json",
+      "provider": "AWS",
+      "bytes": 1416,
+      "sha256": "43dbf7349dc38f4b204dc4ddee144bf0f5d7b7663a03e618992429786e79bc1c",
+      "line_count": 46,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/117_brute_force_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 532,
+      "sha256": "073b7f23104f3e3d3e5eda9d194c1f0cf7f83faeea6f887fe837d40378cd19f4",
+      "line_count": 21,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1966,
+      "sha256": "458570b44a513cf5de6e69c723d1c0adc7b3795c7a17997ad8cb8d2161db9d90",
+      "line_count": 49,
+      "finding_count": 14
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1858,
+      "sha256": "999f8c2df415dbb5827a07942d9043322cbe1716b4252f97abc9d6ce8ecc5127",
+      "line_count": 45,
+      "finding_count": 13
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/132_unsecured_credentials_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1464,
+      "sha256": "f6cd5291f7715854178d37ab570ce1078d81e6c315d514dad8b3334b8e0ee87c",
+      "line_count": 40,
+      "finding_count": 9
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/164_exploitation_of_remote_services_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 829,
+      "sha256": "a9ef073216d7ddc56618291c14bf74a45fec2d8a85e8c941477334490bd0ef4b",
+      "line_count": 29,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1997,
+      "sha256": "803051553f9b80966a0d77783a9abb892011f02bf0f7d3236830d8c0d2388253",
+      "line_count": 49,
+      "finding_count": 13
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/174_archive_collected_data_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 2442,
+      "sha256": "8512c572d553ad87eba456192f2d252999063ecca9599e684159240596e8fb47",
+      "line_count": 45,
+      "finding_count": 4
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/176_automated_collection_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 2778,
+      "sha256": "f9459766827845ef77567cc0faa5b85001b995f03c65b358a1fa414637e04624",
+      "line_count": 55,
+      "finding_count": 5
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/176_logicapp.json",
+      "provider": "AZURE",
+      "bytes": 4393,
+      "sha256": "2ee6a864fcea7aa5c4a3e20456577f230d7c2ad3e884a2fe6f5e5e9811bac433",
+      "line_count": 110,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/178_clipboard_data_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1166,
+      "sha256": "ee7de9152e642fb84a689f7aa94f4cdb10463f6c8dcae1dc38feb1acdf7f291a",
+      "line_count": 27,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/185_data_staged_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1757,
+      "sha256": "2257e565a9580a01cf7b36e25b94c4b2a7f2b95155772811b44cd00a7e6bae3f",
+      "line_count": 37,
+      "finding_count": 3
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/197_ingress_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 862,
+      "sha256": "e0c479e369f79f72ee40e542e1abc3e8ee7e021e6ff68468593acc427134bdc7",
+      "line_count": 26,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/19_drive_by_compromise_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 346,
+      "sha256": "13bafd4a71bf82c0bb3c7f10898fbc0d458cbe9a9d9122e0b1e3e0f20724a46b",
+      "line_count": 18,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/203_remote_access_software_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 899,
+      "sha256": "d508e9641c4266edbb24b2b359cf4abd357c864c65753a867b776c431de27886",
+      "line_count": 27,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/206_automated_exfiltration_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 2868,
+      "sha256": "0721a7b26e5b408a224bf32133dafbf13bd114573163c947b60e5c3252e19c52",
+      "line_count": 59,
+      "finding_count": 5
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/206_automated_exfiltration_logicapp.json",
+      "provider": "AZURE",
+      "bytes": 3121,
+      "sha256": "9148a0ef2832c77b789d61914d2497639cdeee83f3399e0718e0518d54daa3ef",
+      "line_count": 96,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/20_exploit_public_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 381,
+      "sha256": "db0a17cb35ea5306744ec56c6cb336e902684c50ba52e6410f8e521c72d2569f",
+      "line_count": 20,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/20_exploit_public_readme.md",
+      "provider": "AZURE",
+      "bytes": 1667,
+      "sha256": "8b35b9b600b40b73d5ea5d73688acc4aabfab111a2da69b3678361d286348fa8",
+      "line_count": 25,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/213_scheduled_transfer_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 2919,
+      "sha256": "1e543dd438d16e238e2b140e5baf0a5d490544ca563f2d1d51a93b8b21b21463",
+      "line_count": 58,
+      "finding_count": 5
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/213_scheduled_transfer_logicapp.json",
+      "provider": "AZURE",
+      "bytes": 2611,
+      "sha256": "5fb51f06efca9d61258754a5d91b87bf8ae0a3265651b421102414158e085333",
+      "line_count": 86,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/214_transfer_data.sh",
+      "provider": "AZURE",
+      "bytes": 2256,
+      "sha256": "e01e60cf352075175c5eba71eaf1b660abf99cd7018540b06aa93179337b8d7a",
+      "line_count": 40,
+      "finding_count": 3
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/215_account_access_removal_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 807,
+      "sha256": "52df82e3b1c2de1fb8e1f647ce2a8bac5eda2b30f5f34706d485821aea78b3e7",
+      "line_count": 27,
+      "finding_count": 5
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/216_data_destruction_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1596,
+      "sha256": "fd53fcf3af97eee593979c763be69140cb2b05cf567509042f1c2b1643ec0381",
+      "line_count": 36,
+      "finding_count": 6
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/217_data_encrypted_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1073,
+      "sha256": "2876e1c097522f897118dcb4f2f8a36f68739ab415e5962020890fa14efc6915",
+      "line_count": 28,
+      "finding_count": 3
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/218_data_manipulation_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 2256,
+      "sha256": "e01e60cf352075175c5eba71eaf1b660abf99cd7018540b06aa93179337b8d7a",
+      "line_count": 40,
+      "finding_count": 3
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/219_defacement_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1144,
+      "sha256": "b3fc5bf06b71acd9c8aa2fdb242cd9a9569fbcf2cffc4aef5b3d309943bcc577",
+      "line_count": 30,
+      "finding_count": 3
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/220_disk_wipe_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1307,
+      "sha256": "afae5b157d2b014335d1fb88b5827fbd4919de07c71902bb3ff1c1df90731525",
+      "line_count": 33,
+      "finding_count": 3
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/221_endpoint_denial_of_service_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 397,
+      "sha256": "32fd10fe66333bc94812d71b2245e104d191988ed66251471e3f38f8b5d35d43",
+      "line_count": 23,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/223_inhibit_system_recovery_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1712,
+      "sha256": "cde83898748d37b215bdbecb21a3b8ee5f08c3f557ed685a7d517334d451a0e9",
+      "line_count": 47,
+      "finding_count": 3
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/27_valid_account_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 469,
+      "sha256": "1de2275af6334498f816f9f747fcff965c4b3b8fc9b92a26ac8fa4182c463393",
+      "line_count": 20,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/28_cloud_admin_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 768,
+      "sha256": "c3b5473ba42adcbc62713bcf99970acd62eda1eafaeebe79a2bafa047a3d3ef4",
+      "line_count": 24,
+      "finding_count": 4
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/29_command_and_scripting_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1263,
+      "sha256": "0bfbb3fadf0ba8db36777fa931b98d84fd2afa9fe3e244ae8622206074f80849",
+      "line_count": 31,
+      "finding_count": 5
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/40_user_exec_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 814,
+      "sha256": "d901063622113968baaeb2ff6bb1e6c35922693d5536ce0f822c848c108a4274",
+      "line_count": 25,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/42_account_mani_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 840,
+      "sha256": "48b18c3fe21db2617b27c99c5cf762665467ef929670aa1d45bd5a3ebb93888f",
+      "line_count": 23,
+      "finding_count": 3
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/48_create_account_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 423,
+      "sha256": "8977bd9757ff235fe7dbb349390cec9b84ddcf6bdbb45c089213342ee0e25962",
+      "line_count": 18,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/50_event_triggered_exec_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1894,
+      "sha256": "db534286d569439dac2ee4ad55118939e1a3d28e857efb9c881bebdc670b7472",
+      "line_count": 68,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/53_implant_internal_image_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 1689,
+      "sha256": "61bebcdae88b45b4168eb9b44d1b9e74f714551148e11d41acd3e368052efd03",
+      "line_count": 41,
+      "finding_count": 5
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/53_old_implant_internal_image_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 2719,
+      "sha256": "bb6be6267e6ec9426c543ba083be7a31d29cf98a737b5a22033cd268b4ec0f24",
+      "line_count": 72,
+      "finding_count": 5
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/57_scheduled_task_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 2914,
+      "sha256": "0d0bde05036088b0bf48c435b24e0f4ffbc81812c26b4675b9901172b472be01",
+      "line_count": 57,
+      "finding_count": 5
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/57_scheduled_task_logicapp.json",
+      "provider": "AZURE",
+      "bytes": 2539,
+      "sha256": "312b5b91e19f2619d5ded753977ec601155e69b0da26c38b8a4c19281969a350",
+      "line_count": 70,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/59_traffic_signaling_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 993,
+      "sha256": "32816882ff03b97d1e2faba454d48287ece714e7fe16e8d02c159ceb7fb60086",
+      "line_count": 28,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/62_access_token_att_script.sh",
+      "provider": "AZURE",
+      "bytes": 563,
+      "sha256": "ff4d2481a73905aac968bab6c2d5964852795729ad7ef9b6aa047bc3752f4c73",
+      "line_count": 22,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/Dockerfile",
+      "provider": "AZURE",
+      "bytes": 3586,
+      "sha256": "9e1ad7722a4beae72e93aaa2fb487c1b5101d75ef3b76d332ff4a5280fd1a4d0",
+      "line_count": 121,
+      "finding_count": 8
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/additional.txt",
+      "provider": "AZURE",
+      "bytes": 23,
+      "sha256": "d1a6365b6bb9117c9d70e5ff4e83ba226d815858908f26b10ecb713ea153ebff",
+      "line_count": 1,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/all_automated.sh",
+      "provider": "AZURE",
+      "bytes": 3091,
+      "sha256": "a56539f8c662806bcd07f65ae06a528197f89ecaeac570f954acf2081c05d4d1",
+      "line_count": 63,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/automated-logging.sh",
+      "provider": "AZURE",
+      "bytes": 7542,
+      "sha256": "99d0ac5bb4c5da4118debaf86d04ac097ab3ebc2ba61456c3b0ed9861e8b57c4",
+      "line_count": 325,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/diagnostic_settings.sh",
+      "provider": "AZURE",
+      "bytes": 14447,
+      "sha256": "dfa005faedf444840254de8c924506a3b39a61f5727d237113574b3e2ac6c932",
+      "line_count": 376,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/make-vm.sh",
+      "provider": "AZURE",
+      "bytes": 501,
+      "sha256": "72f52154843799c8426a34141b688b73bd7656d3d1a116cb9eacf6ff5ac75d50",
+      "line_count": 8,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/python-setup.sh",
+      "provider": "AZURE",
+      "bytes": 914,
+      "sha256": "1386696e665ce70cd814b0d48e1a346b501db4a1350c7fb0a1a01cd05f6d85ce",
+      "line_count": 24,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/python-start.sh",
+      "provider": "AZURE",
+      "bytes": 394,
+      "sha256": "05483801fc1cb4324e5b437ca81b45b54431f47fe7ee0a6cec16a2c6974bab35",
+      "line_count": 10,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/requirements.txt",
+      "provider": "AZURE",
+      "bytes": 13,
+      "sha256": "0bacd46aaa797b3f336816610038b9091b796d9fcea6699eb60efaceecbc4d99",
+      "line_count": 2,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/time_data_destruction.sh",
+      "provider": "AZURE",
+      "bytes": 1174,
+      "sha256": "6dc4aeee6135495d29af90e5b750d1132a0f86b716148c24ea04a5d02aa29a5f",
+      "line_count": 36,
+      "finding_count": 4
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-app.py",
+      "provider": "AZURE",
+      "bytes": 5984,
+      "sha256": "c909c8a2a25cc463fee9a41861758638b0711f176d350f3bbaf710b3ee51d719",
+      "line_count": 182,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-attacks.sh",
+      "provider": "AZURE",
+      "bytes": 1868,
+      "sha256": "200291a706b976dc8a4775b2d092dcc868dfc90f85763d01beab9ae5b37e52e5",
+      "line_count": 54,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-benign.sh",
+      "provider": "AZURE",
+      "bytes": 3425,
+      "sha256": "a479dc9ca711f22b6f0672ca4711e823002943946aef393ac9f164366ed23f89",
+      "line_count": 102,
+      "finding_count": 4
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-cleanup.sh",
+      "provider": "AZURE",
+      "bytes": 143,
+      "sha256": "678d764fbb13ea661c289e7f99a79a6df1bfdba6ebb01ec8123f6bc0e3846781",
+      "line_count": 6,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-connection-testing.py",
+      "provider": "AZURE",
+      "bytes": 740,
+      "sha256": "4c52d4b8be0a3caf26c3713847a450eb71b9a9581f32fe33673896426e2bdf75",
+      "line_count": 24,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-download-logs.sh",
+      "provider": "AZURE",
+      "bytes": 438,
+      "sha256": "6a77ea3d5fbea2d5dce963901eac847008fe0459e8729645abec119148f6443b",
+      "line_count": 20,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-requirements.txt",
+      "provider": "AZURE",
+      "bytes": 171,
+      "sha256": "938b59a932761706e08f4ab40a41e230bc00bbd184d082ed5517cfb2d31f0866",
+      "line_count": 12,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-setup-ODBC.sh",
+      "provider": "AZURE",
+      "bytes": 1547,
+      "sha256": "38d8c1ab5667f1c982b3189949b7fd9c3bc95f14610ea5e208c54f08fa0fe048",
+      "line_count": 35,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-setup.sh",
+      "provider": "AZURE",
+      "bytes": 2997,
+      "sha256": "98978d0bdcdb1bb639a9a1b4c4e8f003a9b42324418c5d51dfd19c6fdd6b46b3",
+      "line_count": 66,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/Dockerfile",
+      "provider": "GCP",
+      "bytes": 2933,
+      "sha256": "2497ac64c35237475091e6f3b8d79374a2899df2fbdd996ba403e0da7391bc44",
+      "line_count": 84,
+      "finding_count": 3
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/additional.txt",
+      "provider": "GCP",
+      "bytes": 19,
+      "sha256": "06113f8b85113f0d7afbe861bebe17539f4ece00a74c831a8e1b4f2c514457c3",
+      "line_count": 1,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.py",
+      "provider": "GCP",
+      "bytes": 10862,
+      "sha256": "ea2d7a12d51a497f5cb18a85c59917dbb5a340d4122f36f268476406f189a3f1",
+      "line_count": 334,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "bytes": 11135,
+      "sha256": "8147f077e797f9ced631f72dcb90303a230388880449f38a1c3a723984ea168e",
+      "line_count": 235,
+      "finding_count": 20
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/all_automated.sh",
+      "provider": "GCP",
+      "bytes": 3392,
+      "sha256": "87c6e8bbf7376b69324de4d51472c3a42bfdde2c3ce0acd1b88d6bc89c106340",
+      "line_count": 68,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/automated-logging.sh",
+      "provider": "GCP",
+      "bytes": 13577,
+      "sha256": "60609de150ddbccb4c62f61c842c6729b02e5b73102c275dc8e956b44756267a",
+      "line_count": 453,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/command_and_scripting_gcloud.sh",
+      "provider": "GCP",
+      "bytes": 906,
+      "sha256": "e292b5e126b4f68e2e7366741de22a9a7d12d8036edbedf2388b68f2c684b7fd",
+      "line_count": 18,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/edit_account_roles.py",
+      "provider": "GCP",
+      "bytes": 3218,
+      "sha256": "5559b15bd4f9aad62b0dee99c331687bd389c1c9e485405bbf779c6f16a6ecd7",
+      "line_count": 108,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/scheduled_funct/main.py",
+      "provider": "GCP",
+      "bytes": 1089,
+      "sha256": "fbc2878439ca169dfa6ddbc5b492f60bb3503fd4d1385c178e0bfadbd76a7602",
+      "line_count": 36,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/scheduled_funct/requirements.txt",
+      "provider": "GCP",
+      "bytes": 56,
+      "sha256": "0a59a5fa798948f4b9c33840510a78ba12c9b4de882ea9fb6eaae9b19be3a5c2",
+      "line_count": 2,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/scheduled_transfer_funct/main_template.py",
+      "provider": "GCP",
+      "bytes": 1281,
+      "sha256": "9f5435a0a5ec78d7e08228e1731ca7726f18db0fd02375c191035061d7a6a1c5",
+      "line_count": 46,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/scheduled_transfer_funct/requirements.txt",
+      "provider": "GCP",
+      "bytes": 84,
+      "sha256": "27ad1882e71b691e6a3007bb634a921ec0d3a28912d2f2e896ed54e2d32b5d8c",
+      "line_count": 3,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/storage-attacks.py",
+      "provider": "GCP",
+      "bytes": 26833,
+      "sha256": "cc16a057cbf200d405b170e00547dc7423937f58e801366a57ad4fc95b57a7b8",
+      "line_count": 787,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/storage-attacks.sh",
+      "provider": "GCP",
+      "bytes": 1590,
+      "sha256": "bab6c6dfcd4b862b9a1e2c46eb2241d0b4872eb00d8fd4c779babb1132a9e656",
+      "line_count": 64,
+      "finding_count": 3
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "bytes": 26813,
+      "sha256": "25420f5ac7973321629b99a6a59ba505600893f9e2eb1653d49a0e0289499665",
+      "line_count": 723,
+      "finding_count": 43
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-attacks.sh",
+      "provider": "GCP",
+      "bytes": 2771,
+      "sha256": "890219623211f4782e7a2fbfd7e323c7c319139909dc8a225a818e49542e5957",
+      "line_count": 62,
+      "finding_count": 4
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-benign.sh",
+      "provider": "GCP",
+      "bytes": 5063,
+      "sha256": "a7dd5e88fddea451f3d4ae060a358049b39960742ace94ed7b3140a69d5014f7",
+      "line_count": 122,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/Dockerfile",
+      "provider": "GCP",
+      "bytes": 2847,
+      "sha256": "bd1f4bb61ac561307217472bc11c05f2c9b167493bfd44b0086bedfae32e15a4",
+      "line_count": 73,
+      "finding_count": 2
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/GoogleCloud-Readme.md",
+      "provider": "GCP",
+      "bytes": 9255,
+      "sha256": "07c143f3bbe30d6397bb64fd54598b111b4884b151961b14d590793d21069d48",
+      "line_count": 248,
+      "finding_count": 3
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/README.md",
+      "provider": "GCP",
+      "bytes": 870,
+      "sha256": "e564bdfc464f5abd67929e0093a1489b418c621ef1061387cbc8528239f2ef43",
+      "line_count": 29,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/app.flexible.yaml",
+      "provider": "GCP",
+      "bytes": 1130,
+      "sha256": "98eb9200bc22939bfed43f4ef08125d6970696db6764221182e847ea46f04fe4",
+      "line_count": 30,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/app.py",
+      "provider": "GCP",
+      "bytes": 7591,
+      "sha256": "213f5250eecdbbc1f391934bbb537d383513afb8a828a3f8b697ad32b5c622fb",
+      "line_count": 211,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/app.standard.yaml",
+      "provider": "GCP",
+      "bytes": 1071,
+      "sha256": "632cf64bf7d6ec0aaf74db18c4e52d7a2534eb452044cb1056516207219a4056",
+      "line_count": 26,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/connect_connector.py",
+      "provider": "GCP",
+      "bytes": 2891,
+      "sha256": "dba34409965c1eddf58fddbf8800e88278123b4b40b60939a6a39e70c0548b7c",
+      "line_count": 80,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/connect_connector_auto_iam_authn.py",
+      "provider": "GCP",
+      "bytes": 3115,
+      "sha256": "adb7b3713714d6c83b24ea3ba25d4286c07fb620add5df2b8100d0d1b646f68b",
+      "line_count": 83,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/connect_tcp.py",
+      "provider": "GCP",
+      "bytes": 4379,
+      "sha256": "f9f31107283311ed05fe7beb8a57cad2d36212ad992ba877a746129a370c2459",
+      "line_count": 102,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/connect_unix.py",
+      "provider": "GCP",
+      "bytes": 2667,
+      "sha256": "ad434785e97285b06557fd8e5bf44dda1611a47aa111af11f1d3faab9d25a5de",
+      "line_count": 65,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/connection_test.py",
+      "provider": "GCP",
+      "bytes": 2283,
+      "sha256": "9189a90b9ac267ac5610aba763a8f3c2ea3c00237d94a1d706085f80c5d1b0b9",
+      "line_count": 76,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/deployment.yaml",
+      "provider": "GCP",
+      "bytes": 2906,
+      "sha256": "05331eca5a0b791de3efdd89995b7697c851b628d04516af94cd3aceaac3359b",
+      "line_count": 80,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/main.py",
+      "provider": "GCP",
+      "bytes": 1320,
+      "sha256": "2f4408ed629d7723f2cb80237ffe9af926d8ba6978b73dc8bcffa911d9cd438f",
+      "line_count": 39,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/requirements-test.txt",
+      "provider": "GCP",
+      "bytes": 14,
+      "sha256": "cd630d2cb56e0c584340fb084c8f7e66116bea24ea54528060872e88a2732946",
+      "line_count": 1,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/requirements.txt",
+      "provider": "GCP",
+      "bytes": 113,
+      "sha256": "523d5ee3f054a54f52ce461d76f1c770539c8bf49f97b4ac8613211315a010d0",
+      "line_count": 6,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/service-account.yaml",
+      "provider": "GCP",
+      "bytes": 793,
+      "sha256": "35e09d99ae70d49ab8343b63a10c7e1139b0a45903c88f717689f6268a20dfd5",
+      "line_count": 20,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/service.yaml",
+      "provider": "GCP",
+      "bytes": 1057,
+      "sha256": "12ca666987936d9f9867f5583c2a8193c7f4b31b748a47c6144afcfa25a6f105",
+      "line_count": 30,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/start.sh",
+      "provider": "GCP",
+      "bytes": 40,
+      "sha256": "464f330bd7e04496415599d2714adc236914ea252543836604d484b006c5a8b4",
+      "line_count": 3,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-utils/python-setup.sh",
+      "provider": "GCP",
+      "bytes": 709,
+      "sha256": "2f12e958a92351c71659ad6e2b7b21ae4daa5dd7222c80a0fc2fe2f99a18506f",
+      "line_count": 31,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-utils/python-start.sh",
+      "provider": "GCP",
+      "bytes": 475,
+      "sha256": "f9e582a97390168dc464cbaa6b6ac4e1a2f697c192c0d90c97432d4b43df79fc",
+      "line_count": 17,
+      "finding_count": 1
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-utils/webapp-cleanup.sh",
+      "provider": "GCP",
+      "bytes": 368,
+      "sha256": "6fa0e69718cd41a526929b6f0b5735cb5daacb737e433fb5cc8b43c57c829cc6",
+      "line_count": 11,
+      "finding_count": 4
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-utils/webapp-setup.sh",
+      "provider": "GCP",
+      "bytes": 2660,
+      "sha256": "18e97c261821bae63dde77e09dfda99f00d70af086b4af1782c7d554d52cce24",
+      "line_count": 56,
+      "finding_count": 0
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/requirements.txt",
+      "provider": "GCP",
+      "bytes": 175,
+      "sha256": "bdc333e72adc7ac1d5528d9cfdecc6e06987509260548faa27c2dbb8ac3e144a",
+      "line_count": 9,
+      "finding_count": 0
+    }
+  ],
+  "findings": [
+    {
+      "artifact_name": "README.md",
+      "member_path": "README.md",
+      "provider": "CROSS_CLOUD",
+      "line_number": 10,
+      "line_sha256": "856517a451395cff6cc616cb6e77dd391d89d7504567de0c3448e01b727f05a8",
+      "rule_id": "RS011",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/Dockerfile",
+      "provider": "AWS",
+      "line_number": 6,
+      "line_sha256": "11c2981dbcf61cfc9fa9f7c6a0b82d8f53bdf7bcd4244dd3884eb1b99bcafe1e",
+      "rule_id": "RS001",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/Dockerfile",
+      "provider": "AWS",
+      "line_number": 7,
+      "line_sha256": "c9c424904373e4509962f7ac99dc4a2c18b2a755470042f0e64be0ebff52e2c2",
+      "rule_id": "RS001",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/Dockerfile",
+      "provider": "AWS",
+      "line_number": 7,
+      "line_sha256": "c9c424904373e4509962f7ac99dc4a2c18b2a755470042f0e64be0ebff52e2c2",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 17,
+      "line_sha256": "796195218a11633e86d338c41a931455a9a6b5d1f36b7ca9d46a1cae45627d8b",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 31,
+      "line_sha256": "242f5e90f4c59c77d043e8c1f287caadaa3e184d557d0f4b0e5278df8b484943",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 39,
+      "line_sha256": "b99f4f6b93757838062290b5d6d6d35c212ed6acbeea8206a99e00136ecc4aa0",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 56,
+      "line_sha256": "742e34eac0efc485241ac229258ad56c7d4fcae13655f3754df2f07e809dcbc0",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 78,
+      "line_sha256": "cffda542ba51d170f8972aa727a1a325a52c1dc03f1f401dab705b25c56b0953",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 79,
+      "line_sha256": "b30c7fc29570e3839f52d5cdb337b61c893b1825752ce2689cbfbc068279e544",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 91,
+      "line_sha256": "7b8240ed16bbf3f44c7bbf67f277634f6ab0f75ba2cdeeac454768384deea69a",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 92,
+      "line_sha256": "835069013e3112ecce0d679b80f52318dff0eaba59f3efc7ada4589eb002c961",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 93,
+      "line_sha256": "571cf45289809cb9a1b34260d115d1adb0b65f9fe5d5cf38d90ab72f15a8b74f",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 93,
+      "line_sha256": "571cf45289809cb9a1b34260d115d1adb0b65f9fe5d5cf38d90ab72f15a8b74f",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 100,
+      "line_sha256": "796195218a11633e86d338c41a931455a9a6b5d1f36b7ca9d46a1cae45627d8b",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 117,
+      "line_sha256": "242f5e90f4c59c77d043e8c1f287caadaa3e184d557d0f4b0e5278df8b484943",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 163,
+      "line_sha256": "7b8240ed16bbf3f44c7bbf67f277634f6ab0f75ba2cdeeac454768384deea69a",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 164,
+      "line_sha256": "835069013e3112ecce0d679b80f52318dff0eaba59f3efc7ada4589eb002c961",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 165,
+      "line_sha256": "571cf45289809cb9a1b34260d115d1adb0b65f9fe5d5cf38d90ab72f15a8b74f",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 165,
+      "line_sha256": "571cf45289809cb9a1b34260d115d1adb0b65f9fe5d5cf38d90ab72f15a8b74f",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 170,
+      "line_sha256": "796195218a11633e86d338c41a931455a9a6b5d1f36b7ca9d46a1cae45627d8b",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 179,
+      "line_sha256": "f94d0664f75a564f29029a565f55c917e1312cb03bcfd3fd0885086e9cc5571e",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 185,
+      "line_sha256": "242f5e90f4c59c77d043e8c1f287caadaa3e184d557d0f4b0e5278df8b484943",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 201,
+      "line_sha256": "7b8240ed16bbf3f44c7bbf67f277634f6ab0f75ba2cdeeac454768384deea69a",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 202,
+      "line_sha256": "835069013e3112ecce0d679b80f52318dff0eaba59f3efc7ada4589eb002c961",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 203,
+      "line_sha256": "571cf45289809cb9a1b34260d115d1adb0b65f9fe5d5cf38d90ab72f15a8b74f",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 203,
+      "line_sha256": "571cf45289809cb9a1b34260d115d1adb0b65f9fe5d5cf38d90ab72f15a8b74f",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 210,
+      "line_sha256": "796195218a11633e86d338c41a931455a9a6b5d1f36b7ca9d46a1cae45627d8b",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 225,
+      "line_sha256": "242f5e90f4c59c77d043e8c1f287caadaa3e184d557d0f4b0e5278df8b484943",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 241,
+      "line_sha256": "5cc1650135072914a1aaaa5c80f984b264cc1d77fcdb9f2e388a686e8cce8bef",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 242,
+      "line_sha256": "835069013e3112ecce0d679b80f52318dff0eaba59f3efc7ada4589eb002c961",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 243,
+      "line_sha256": "3088f15c2617ee4e5377b9cdd87ab88cb71cf225c7e04778e30323d87012f3ec",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "provider": "AWS",
+      "line_number": 255,
+      "line_sha256": "f257c57439a809188f1114161693fc7720229e29298a3eeb20c4b202ba9927a0",
+      "rule_id": "RS004",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/vm_attacks.sh",
+      "provider": "AWS",
+      "line_number": 229,
+      "line_sha256": "a1c912fc47b7d35d8e8563137231d2754342f39d93d8768b6802eb3d45e7925f",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/webapp-benign.sh",
+      "provider": "AWS",
+      "line_number": 51,
+      "line_sha256": "5bac51e41034e0b179244570dff415adc71738a962572737f31ce6917c61a09e",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/webapp-benign.sh",
+      "provider": "AWS",
+      "line_number": 52,
+      "line_sha256": "46342d8e2854debe5d5be607ece75fe8a7cbb60210a5320510ba3651fbf47444",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/aws-attacks/attack_scripts/webapp/webapp-app.py",
+      "provider": "AWS",
+      "line_number": 41,
+      "line_sha256": "0bbd48bad52ef443c7c1a23deb1fb0eee02f38d6ef46100b8f4d26dd4132f005",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/117_brute_force_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 15,
+      "line_sha256": "ec154e62063f23edf3e773467131eb1c96649439bf8663a7e31eccd6ff126877",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 15,
+      "line_sha256": "4857c574641efd9018ae1b01f36d66bb4002f63c1fb8495602d79568782e18c7",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 15,
+      "line_sha256": "4857c574641efd9018ae1b01f36d66bb4002f63c1fb8495602d79568782e18c7",
+      "rule_id": "RS005",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 16,
+      "line_sha256": "689aede00a073a73bbc550f0c243786a2c5427ae330b57e584b7bf3366cb9392",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 16,
+      "line_sha256": "689aede00a073a73bbc550f0c243786a2c5427ae330b57e584b7bf3366cb9392",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 20,
+      "line_sha256": "3678d6be14e14b9704229fb8afa1a7acdafa31fee3a3270a16a3502ece874abe",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 20,
+      "line_sha256": "3678d6be14e14b9704229fb8afa1a7acdafa31fee3a3270a16a3502ece874abe",
+      "rule_id": "RS005",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 23,
+      "line_sha256": "413db2a8f7cd780e5a9ed7b448f9fcb4dbe65e44206f7550c41df3d5602dee6f",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 23,
+      "line_sha256": "413db2a8f7cd780e5a9ed7b448f9fcb4dbe65e44206f7550c41df3d5602dee6f",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 36,
+      "line_sha256": "3a9da9dda5788920e5e7220c5aff0fe7e63b1984ab3fc0881838809784544354",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 45,
+      "line_sha256": "b0b949069dfa2ddf0b3641b2851cfcc750f78b2508ef2b05da6626d4aad093b1",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 46,
+      "line_sha256": "d74dffb79907602397357fe55479cd82639fb759800f37dde58fd9afbbac7809",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 47,
+      "line_sha256": "377ce3488a38856787a931a9df32d3d632ec625364be6fba8d093ccb1f097ef3",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 48,
+      "line_sha256": "91eb2859462fe4fd0ac7f75d4a0aa5a034cf2af2a532a25ab54f582902c4f500",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/118_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 49,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 11,
+      "line_sha256": "dce1ae50e79931178145506c37bd079d2a7b5416787c1434997ac7dddb1f02c6",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 11,
+      "line_sha256": "dce1ae50e79931178145506c37bd079d2a7b5416787c1434997ac7dddb1f02c6",
+      "rule_id": "RS005",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 12,
+      "line_sha256": "876b58d3cd0414d2ef936d947811ffd7bfd09cb9eb7b4820347b6f30767ce9d6",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 12,
+      "line_sha256": "876b58d3cd0414d2ef936d947811ffd7bfd09cb9eb7b4820347b6f30767ce9d6",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 13,
+      "line_sha256": "3678d6be14e14b9704229fb8afa1a7acdafa31fee3a3270a16a3502ece874abe",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 13,
+      "line_sha256": "3678d6be14e14b9704229fb8afa1a7acdafa31fee3a3270a16a3502ece874abe",
+      "rule_id": "RS005",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 14,
+      "line_sha256": "413db2a8f7cd780e5a9ed7b448f9fcb4dbe65e44206f7550c41df3d5602dee6f",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 14,
+      "line_sha256": "413db2a8f7cd780e5a9ed7b448f9fcb4dbe65e44206f7550c41df3d5602dee6f",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 41,
+      "line_sha256": "b0b949069dfa2ddf0b3641b2851cfcc750f78b2508ef2b05da6626d4aad093b1",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 42,
+      "line_sha256": "d74dffb79907602397357fe55479cd82639fb759800f37dde58fd9afbbac7809",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 43,
+      "line_sha256": "377ce3488a38856787a931a9df32d3d632ec625364be6fba8d093ccb1f097ef3",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 44,
+      "line_sha256": "91eb2859462fe4fd0ac7f75d4a0aa5a034cf2af2a532a25ab54f582902c4f500",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/128_steal_app_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 45,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/132_unsecured_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 12,
+      "line_sha256": "4857c574641efd9018ae1b01f36d66bb4002f63c1fb8495602d79568782e18c7",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/132_unsecured_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 12,
+      "line_sha256": "4857c574641efd9018ae1b01f36d66bb4002f63c1fb8495602d79568782e18c7",
+      "rule_id": "RS005",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/132_unsecured_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 13,
+      "line_sha256": "876b58d3cd0414d2ef936d947811ffd7bfd09cb9eb7b4820347b6f30767ce9d6",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/132_unsecured_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 13,
+      "line_sha256": "876b58d3cd0414d2ef936d947811ffd7bfd09cb9eb7b4820347b6f30767ce9d6",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/132_unsecured_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 15,
+      "line_sha256": "b9fcf4c42ab9eaf2c0a2a596acb2f442e7228cd807f09e5672cbef9ca5f25e6f",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/132_unsecured_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 18,
+      "line_sha256": "21f26706b0d7789d1db228df4125912c3cc0aaf5ce80d769cba868f91314fc52",
+      "rule_id": "RS004",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/132_unsecured_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 38,
+      "line_sha256": "d74dffb79907602397357fe55479cd82639fb759800f37dde58fd9afbbac7809",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/132_unsecured_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 39,
+      "line_sha256": "91eb2859462fe4fd0ac7f75d4a0aa5a034cf2af2a532a25ab54f582902c4f500",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/132_unsecured_credentials_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 40,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/164_exploitation_of_remote_services_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 28,
+      "line_sha256": "0d75df4ce054fb4dfb83aa968f43fe0d1aa7149bf5e32b63a53a905fb200644d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/164_exploitation_of_remote_services_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 29,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 11,
+      "line_sha256": "4857c574641efd9018ae1b01f36d66bb4002f63c1fb8495602d79568782e18c7",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 11,
+      "line_sha256": "4857c574641efd9018ae1b01f36d66bb4002f63c1fb8495602d79568782e18c7",
+      "rule_id": "RS005",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 12,
+      "line_sha256": "38f3cd2de85750efe2a9206725d1ca335aa4b248b262a5eba2fdf25e77922ced",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 12,
+      "line_sha256": "38f3cd2de85750efe2a9206725d1ca335aa4b248b262a5eba2fdf25e77922ced",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 13,
+      "line_sha256": "3678d6be14e14b9704229fb8afa1a7acdafa31fee3a3270a16a3502ece874abe",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 13,
+      "line_sha256": "3678d6be14e14b9704229fb8afa1a7acdafa31fee3a3270a16a3502ece874abe",
+      "rule_id": "RS005",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 14,
+      "line_sha256": "413db2a8f7cd780e5a9ed7b448f9fcb4dbe65e44206f7550c41df3d5602dee6f",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 14,
+      "line_sha256": "413db2a8f7cd780e5a9ed7b448f9fcb4dbe65e44206f7550c41df3d5602dee6f",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 45,
+      "line_sha256": "b0b949069dfa2ddf0b3641b2851cfcc750f78b2508ef2b05da6626d4aad093b1",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 46,
+      "line_sha256": "d74dffb79907602397357fe55479cd82639fb759800f37dde58fd9afbbac7809",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 47,
+      "line_sha256": "377ce3488a38856787a931a9df32d3d632ec625364be6fba8d093ccb1f097ef3",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 48,
+      "line_sha256": "91eb2859462fe4fd0ac7f75d4a0aa5a034cf2af2a532a25ab54f582902c4f500",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/172_use_alternate_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 49,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/174_archive_collected_data_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 38,
+      "line_sha256": "dafa4b40b20fbef9b291bc51e9e580765e54409358086d6c468bac60152d2fac",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/174_archive_collected_data_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 43,
+      "line_sha256": "44d403fe869cbf389cf53b7bfc96dc05c4a0f3c5b9364279c4558c10d6a8dcce",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/174_archive_collected_data_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 44,
+      "line_sha256": "de8186e50cb1c60fa0ffe0b8820397a2b518df31aded2dcb1edafbf91630bed4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/174_archive_collected_data_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 45,
+      "line_sha256": "f308356c8ac42a967cf56e3c925620aac6ac5a53405686d1890273ccf8a4915a",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/176_automated_collection_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 10,
+      "line_sha256": "a682039bdb4e096541c8e8e2e1dfd6fb78b7983ec98ff1041edc2d1f90d4fa05",
+      "rule_id": "RS004",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/176_automated_collection_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 46,
+      "line_sha256": "7c06ce6684edef8461a43555702ce366c5425dfd219c263b86112141ba189b5d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/176_automated_collection_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 51,
+      "line_sha256": "941e32ee1e8ced91f2637f3716fdc1f814d13cecdec8c3e925147b7fefefc31a",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/176_automated_collection_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 52,
+      "line_sha256": "de8186e50cb1c60fa0ffe0b8820397a2b518df31aded2dcb1edafbf91630bed4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/176_automated_collection_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 53,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/178_clipboard_data_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 26,
+      "line_sha256": "0d75df4ce054fb4dfb83aa968f43fe0d1aa7149bf5e32b63a53a905fb200644d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/178_clipboard_data_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 27,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/185_data_staged_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 35,
+      "line_sha256": "941e32ee1e8ced91f2637f3716fdc1f814d13cecdec8c3e925147b7fefefc31a",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/185_data_staged_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 36,
+      "line_sha256": "de8186e50cb1c60fa0ffe0b8820397a2b518df31aded2dcb1edafbf91630bed4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/185_data_staged_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 37,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/197_ingress_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 25,
+      "line_sha256": "0d75df4ce054fb4dfb83aa968f43fe0d1aa7149bf5e32b63a53a905fb200644d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/197_ingress_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 26,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/203_remote_access_software_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 26,
+      "line_sha256": "0d75df4ce054fb4dfb83aa968f43fe0d1aa7149bf5e32b63a53a905fb200644d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/203_remote_access_software_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 27,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/206_automated_exfiltration_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 10,
+      "line_sha256": "a682039bdb4e096541c8e8e2e1dfd6fb78b7983ec98ff1041edc2d1f90d4fa05",
+      "rule_id": "RS004",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/206_automated_exfiltration_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 50,
+      "line_sha256": "7c06ce6684edef8461a43555702ce366c5425dfd219c263b86112141ba189b5d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/206_automated_exfiltration_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 55,
+      "line_sha256": "941e32ee1e8ced91f2637f3716fdc1f814d13cecdec8c3e925147b7fefefc31a",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/206_automated_exfiltration_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 56,
+      "line_sha256": "de8186e50cb1c60fa0ffe0b8820397a2b518df31aded2dcb1edafbf91630bed4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/206_automated_exfiltration_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 57,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/213_scheduled_transfer_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 10,
+      "line_sha256": "a682039bdb4e096541c8e8e2e1dfd6fb78b7983ec98ff1041edc2d1f90d4fa05",
+      "rule_id": "RS004",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/213_scheduled_transfer_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 49,
+      "line_sha256": "7c06ce6684edef8461a43555702ce366c5425dfd219c263b86112141ba189b5d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/213_scheduled_transfer_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 54,
+      "line_sha256": "941e32ee1e8ced91f2637f3716fdc1f814d13cecdec8c3e925147b7fefefc31a",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/213_scheduled_transfer_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 55,
+      "line_sha256": "de8186e50cb1c60fa0ffe0b8820397a2b518df31aded2dcb1edafbf91630bed4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/213_scheduled_transfer_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 56,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/214_transfer_data.sh",
+      "provider": "AZURE",
+      "line_number": 37,
+      "line_sha256": "941e32ee1e8ced91f2637f3716fdc1f814d13cecdec8c3e925147b7fefefc31a",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/214_transfer_data.sh",
+      "provider": "AZURE",
+      "line_number": 38,
+      "line_sha256": "de8186e50cb1c60fa0ffe0b8820397a2b518df31aded2dcb1edafbf91630bed4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/214_transfer_data.sh",
+      "provider": "AZURE",
+      "line_number": 39,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/215_account_access_removal_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 11,
+      "line_sha256": "6ff24ca10846d2256a35d37a54ff126686a6b2a497a4d984710d9f943931d825",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/215_account_access_removal_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 18,
+      "line_sha256": "9109b4da13703db050529154167552663b61d8286deb81f08c79390a050051b3",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/215_account_access_removal_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 19,
+      "line_sha256": "031ba8515ed06b8eed8b3e0d66004e7757540b67bdbcc7831a89fc0275990d04",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/215_account_access_removal_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 21,
+      "line_sha256": "fa5e6a6d31da484aa67645a9d379e003ef485e6519e6c14417c5236e8541fa3c",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/215_account_access_removal_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 24,
+      "line_sha256": "031ba8515ed06b8eed8b3e0d66004e7757540b67bdbcc7831a89fc0275990d04",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/216_data_destruction_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 28,
+      "line_sha256": "cc04c62b2473b362d8303fe982678e9e113f29d757fdb23b51bd198ca9498a7b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/216_data_destruction_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 29,
+      "line_sha256": "c5fa41ccdb11ee6e8e92f69be225ec95fbad325cf8c46fcb0c4013547090c353",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/216_data_destruction_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 30,
+      "line_sha256": "0d92b91eacd51efea60387d3a4e4cd57464c582f366f7374673b1cfeebedb885",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/216_data_destruction_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 34,
+      "line_sha256": "941e32ee1e8ced91f2637f3716fdc1f814d13cecdec8c3e925147b7fefefc31a",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/216_data_destruction_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 35,
+      "line_sha256": "de8186e50cb1c60fa0ffe0b8820397a2b518df31aded2dcb1edafbf91630bed4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/216_data_destruction_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 36,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/217_data_encrypted_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 26,
+      "line_sha256": "941e32ee1e8ced91f2637f3716fdc1f814d13cecdec8c3e925147b7fefefc31a",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/217_data_encrypted_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 27,
+      "line_sha256": "de8186e50cb1c60fa0ffe0b8820397a2b518df31aded2dcb1edafbf91630bed4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/217_data_encrypted_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 28,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/218_data_manipulation_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 37,
+      "line_sha256": "941e32ee1e8ced91f2637f3716fdc1f814d13cecdec8c3e925147b7fefefc31a",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/218_data_manipulation_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 38,
+      "line_sha256": "de8186e50cb1c60fa0ffe0b8820397a2b518df31aded2dcb1edafbf91630bed4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/218_data_manipulation_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 39,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/219_defacement_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 27,
+      "line_sha256": "941e32ee1e8ced91f2637f3716fdc1f814d13cecdec8c3e925147b7fefefc31a",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/219_defacement_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 28,
+      "line_sha256": "de8186e50cb1c60fa0ffe0b8820397a2b518df31aded2dcb1edafbf91630bed4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/219_defacement_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 29,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/220_disk_wipe_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 27,
+      "line_sha256": "9137a07c405e13c54968500e8199f031ac2e9488e5b2cb4a2486a30baabcc2af",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/220_disk_wipe_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 32,
+      "line_sha256": "0d75df4ce054fb4dfb83aa968f43fe0d1aa7149bf5e32b63a53a905fb200644d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/220_disk_wipe_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 33,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/223_inhibit_system_recovery_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 44,
+      "line_sha256": "941e32ee1e8ced91f2637f3716fdc1f814d13cecdec8c3e925147b7fefefc31a",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/223_inhibit_system_recovery_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 45,
+      "line_sha256": "de8186e50cb1c60fa0ffe0b8820397a2b518df31aded2dcb1edafbf91630bed4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/223_inhibit_system_recovery_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 46,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/28_cloud_admin_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 11,
+      "line_sha256": "e9beb950aa5f3494ca513e46ef59694296ef5f527b748a1225651acfad848c48",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/28_cloud_admin_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 19,
+      "line_sha256": "4bf8f093ece3b1c27c7ae9c727f22737a82eee96dd3cf379aad2a3e3a3e45d25",
+      "rule_id": "RS005",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/28_cloud_admin_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 23,
+      "line_sha256": "8ba87f9fec1b24a5c1ec04ff1968dbf1b3004fdb36cfc13b9eb1dfc652f1f3c5",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/28_cloud_admin_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 24,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/29_command_and_scripting_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 11,
+      "line_sha256": "45dd3757e3918702e350ebc470cb196509fcb7a5764712ad6e2bece5a7ef2ed2",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/29_command_and_scripting_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 18,
+      "line_sha256": "3dfd4750df7da9107866275a9fd591801353cf4431a9cdadda9acd63cc4e565d",
+      "rule_id": "RS008",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/29_command_and_scripting_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 25,
+      "line_sha256": "fda5d9e0720a5dbeb0efdb1941b775414c2db650c10c768edb7ab7f46f765eb9",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/29_command_and_scripting_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 30,
+      "line_sha256": "0d75df4ce054fb4dfb83aa968f43fe0d1aa7149bf5e32b63a53a905fb200644d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/29_command_and_scripting_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 31,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/40_user_exec_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 24,
+      "line_sha256": "0d75df4ce054fb4dfb83aa968f43fe0d1aa7149bf5e32b63a53a905fb200644d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/40_user_exec_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 25,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/42_account_mani_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 11,
+      "line_sha256": "6ff24ca10846d2256a35d37a54ff126686a6b2a497a4d984710d9f943931d825",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/42_account_mani_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 19,
+      "line_sha256": "dff859d60a1112b5f4eaf084f670dc2f6e85a2883d60f78e0ed405a23433730d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/42_account_mani_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 23,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/48_create_account_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 14,
+      "line_sha256": "c1a9033e9da5138e4068a564e6f43f8479729e1ee80cdab38ac6be36cedbe5f2",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/48_create_account_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 18,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/50_event_triggered_exec_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 66,
+      "line_sha256": "16f46a29bd56b8a545e50dead3601b504da6d49df1e1ef5dcc58ae51d70800e1",
+      "rule_id": "RS007",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/50_event_triggered_exec_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 68,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/53_implant_internal_image_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 37,
+      "line_sha256": "bd5055ff8dcb5d450420ceda1ed67750a7c480c36d30704ae0c64441460cb736",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/53_implant_internal_image_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 38,
+      "line_sha256": "f58a519b01e073419db575554eb72a94097babff1d5e845c929969e575f54738",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/53_implant_internal_image_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 39,
+      "line_sha256": "0d75df4ce054fb4dfb83aa968f43fe0d1aa7149bf5e32b63a53a905fb200644d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/53_implant_internal_image_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 40,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/53_implant_internal_image_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 41,
+      "line_sha256": "2b8efc3fa739282a59415ba0ca097713540ba4620de9a2555036fff6ab6ea50a",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/53_old_implant_internal_image_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 64,
+      "line_sha256": "bd5055ff8dcb5d450420ceda1ed67750a7c480c36d30704ae0c64441460cb736",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/53_old_implant_internal_image_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 65,
+      "line_sha256": "f58a519b01e073419db575554eb72a94097babff1d5e845c929969e575f54738",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/53_old_implant_internal_image_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 66,
+      "line_sha256": "0d75df4ce054fb4dfb83aa968f43fe0d1aa7149bf5e32b63a53a905fb200644d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/53_old_implant_internal_image_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 70,
+      "line_sha256": "b3ab952559f1db322bd68751660b5022b3b2b9e4c169b88ad11f57505ba16f7b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/53_old_implant_internal_image_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 72,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/57_scheduled_task_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 10,
+      "line_sha256": "a682039bdb4e096541c8e8e2e1dfd6fb78b7983ec98ff1041edc2d1f90d4fa05",
+      "rule_id": "RS004",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/57_scheduled_task_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 48,
+      "line_sha256": "7c06ce6684edef8461a43555702ce366c5425dfd219c263b86112141ba189b5d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/57_scheduled_task_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 53,
+      "line_sha256": "941e32ee1e8ced91f2637f3716fdc1f814d13cecdec8c3e925147b7fefefc31a",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/57_scheduled_task_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 54,
+      "line_sha256": "de8186e50cb1c60fa0ffe0b8820397a2b518df31aded2dcb1edafbf91630bed4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/57_scheduled_task_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 55,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/59_traffic_signaling_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 27,
+      "line_sha256": "0d75df4ce054fb4dfb83aa968f43fe0d1aa7149bf5e32b63a53a905fb200644d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/59_traffic_signaling_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 28,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/62_access_token_att_script.sh",
+      "provider": "AZURE",
+      "line_number": 22,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/Dockerfile",
+      "provider": "AZURE",
+      "line_number": 41,
+      "line_sha256": "32948c1b72d809cd62755108520ced3d4712f0380ed89e6432a0500858548440",
+      "rule_id": "RS008",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/Dockerfile",
+      "provider": "AZURE",
+      "line_number": 49,
+      "line_sha256": "fae460c82f13fe0a6b4c7eb4942e4100abbe1820b7f84779bf23d570dbc2b929",
+      "rule_id": "RS007",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/Dockerfile",
+      "provider": "AZURE",
+      "line_number": 55,
+      "line_sha256": "ce0210f8b3b18095e24a1649e19189010d9e9c55a055d5d5907bec8f611cc6bd",
+      "rule_id": "RS009",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/Dockerfile",
+      "provider": "AZURE",
+      "line_number": 77,
+      "line_sha256": "5d38ecdfa5898d451e9d5cbea680db6b1c75432f7f01e4a968ca334328c553dd",
+      "rule_id": "RS001",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/Dockerfile",
+      "provider": "AZURE",
+      "line_number": 77,
+      "line_sha256": "5d38ecdfa5898d451e9d5cbea680db6b1c75432f7f01e4a968ca334328c553dd",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/Dockerfile",
+      "provider": "AZURE",
+      "line_number": 92,
+      "line_sha256": "e5e659e723bc6b9d34ae1d9a31aa453c94f4a2d4d6fc08b9a509d386985e7c53",
+      "rule_id": "RS001",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/Dockerfile",
+      "provider": "AZURE",
+      "line_number": 92,
+      "line_sha256": "e5e659e723bc6b9d34ae1d9a31aa453c94f4a2d4d6fc08b9a509d386985e7c53",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/Dockerfile",
+      "provider": "AZURE",
+      "line_number": 115,
+      "line_sha256": "d0e110bff7e1d1585d32b9269449cf4610d40460e0dc451388435068784d7d28",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/automated-logging.sh",
+      "provider": "AZURE",
+      "line_number": 318,
+      "line_sha256": "7d5f60cef006dc49c226092011d4ba153f0cd5b8b3d25106551c079b51bc1751",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/automated-logging.sh",
+      "provider": "AZURE",
+      "line_number": 324,
+      "line_sha256": "0bb2a13415adb44616237139b73095960c457634b29b16353563a519262c9cd1",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/python-setup.sh",
+      "provider": "AZURE",
+      "line_number": 9,
+      "line_sha256": "55a9e90a232db8b91843627f28ccae6c6538b6ba428b668ffba1dee9007e6a13",
+      "rule_id": "RS008",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/python-setup.sh",
+      "provider": "AZURE",
+      "line_number": 19,
+      "line_sha256": "bcbf9451a1f67516e6e15f97006832ff41d7437a884ca09381a75670090d49f3",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/python-start.sh",
+      "provider": "AZURE",
+      "line_number": 7,
+      "line_sha256": "bcbf9451a1f67516e6e15f97006832ff41d7437a884ca09381a75670090d49f3",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/time_data_destruction.sh",
+      "provider": "AZURE",
+      "line_number": 29,
+      "line_sha256": "af9f7c7cceaf0ebd5a61f15814f64b75746837ec2bf8ef2dcb6465fa3a201f42",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/time_data_destruction.sh",
+      "provider": "AZURE",
+      "line_number": 34,
+      "line_sha256": "15906840d3d3f2acfedc11166b244f5c7a769e687b4e7ba03291b8c6a95c5f21",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/time_data_destruction.sh",
+      "provider": "AZURE",
+      "line_number": 35,
+      "line_sha256": "38b1bfe50e33fc0b68be1ad1a94f26fa53d747e2125a1549df8afaab2bb8bdec",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/time_data_destruction.sh",
+      "provider": "AZURE",
+      "line_number": 36,
+      "line_sha256": "f3fe2bba236beec9e279edb61230209827bd09a97a672c1ffd91fb9d9fedb03b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-app.py",
+      "provider": "AZURE",
+      "line_number": 34,
+      "line_sha256": "42b505a8378564836384994cf601ee6fe25dc2a4a07fcbe05d4893c5dc731dbc",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-benign.sh",
+      "provider": "AZURE",
+      "line_number": 39,
+      "line_sha256": "6c166d78255600421bd797802b71a8a859d121fe2986a08543128cfb3742e2a3",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-benign.sh",
+      "provider": "AZURE",
+      "line_number": 39,
+      "line_sha256": "6c166d78255600421bd797802b71a8a859d121fe2986a08543128cfb3742e2a3",
+      "rule_id": "RS005",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-benign.sh",
+      "provider": "AZURE",
+      "line_number": 40,
+      "line_sha256": "a38c9754bf7ae3e1ace6181acb1fa32c0ef01dc889a0011ffde8e11292076f7e",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-benign.sh",
+      "provider": "AZURE",
+      "line_number": 50,
+      "line_sha256": "bef1c923594e3114deb156820dfc39b2ad36519234b5225228f74be0b36531b7",
+      "rule_id": "RS004",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-cleanup.sh",
+      "provider": "AZURE",
+      "line_number": 4,
+      "line_sha256": "0d75df4ce054fb4dfb83aa968f43fe0d1aa7149bf5e32b63a53a905fb200644d",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-cleanup.sh",
+      "provider": "AZURE",
+      "line_number": 5,
+      "line_sha256": "0bb2a13415adb44616237139b73095960c457634b29b16353563a519262c9cd1",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-setup.sh",
+      "provider": "AZURE",
+      "line_number": 7,
+      "line_sha256": "9155b0733cfa8272583cf4a78155cdfefdb47092dcda1cb9c609b8aa26a39771",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/azure-attacks/webapp-setup.sh",
+      "provider": "AZURE",
+      "line_number": 59,
+      "line_sha256": "ac1b3146c2238e2c642bbe3e72b31250e9c08109517efa079a42e8f585aa17df",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/Dockerfile",
+      "provider": "GCP",
+      "line_number": 48,
+      "line_sha256": "964b31c0c54c317c696f666b3160184df69719626468918ff39c1371cdb79397",
+      "rule_id": "RS001",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/Dockerfile",
+      "provider": "GCP",
+      "line_number": 57,
+      "line_sha256": "d5d8b3596b3b60c51acbb7b44aaa7901da2cf1502b0355f4a065cee6f2bac297",
+      "rule_id": "RS001",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/Dockerfile",
+      "provider": "GCP",
+      "line_number": 64,
+      "line_sha256": "5a45e20f72c67cbda4c85507aefedc79e92240782f914327adba07d3d7265197",
+      "rule_id": "RS001",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 49,
+      "line_sha256": "8ead25fccee21cb6a36b94c4108fb3c76bf8332d38e3490fabe4d4b658125c83",
+      "rule_id": "RS005",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 53,
+      "line_sha256": "b1c2e10fdbfc4ddac1774df06cfe54d423e756aae34968c7ec10185b54ecc1e4",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 64,
+      "line_sha256": "c0ff1e757bc5403c8b93be854e753b327149dd3812770642f00213acd53090cc",
+      "rule_id": "RS005",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 69,
+      "line_sha256": "bcbdfd4cfd383150c52e1e44ef63e9cf4eba2fa192082d184473b591d9a553d7",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 78,
+      "line_sha256": "08448a5fa914e09be3e161bc6f0379bfc384f909d8989d609ec664329dc082ca",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 79,
+      "line_sha256": "952c9c0e51d7df025000dd2dc01371533ed0847a8e4e8cec2000bb0580e83982",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 80,
+      "line_sha256": "3249932f657b6d14658c9c459c472189c42fc31bfca03ce2d9ca39907c279376",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 98,
+      "line_sha256": "c30b2a8b897176d92bc326491deee65c98cb9081f48236fafe64fc64cdd25125",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 106,
+      "line_sha256": "48f6fa37916a7dd94a7178905806fd8f6034f8840ae33d9f24ccc40f95a1215c",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 120,
+      "line_sha256": "08448a5fa914e09be3e161bc6f0379bfc384f909d8989d609ec664329dc082ca",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 121,
+      "line_sha256": "952c9c0e51d7df025000dd2dc01371533ed0847a8e4e8cec2000bb0580e83982",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 143,
+      "line_sha256": "c30b2a8b897176d92bc326491deee65c98cb9081f48236fafe64fc64cdd25125",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 155,
+      "line_sha256": "48f6fa37916a7dd94a7178905806fd8f6034f8840ae33d9f24ccc40f95a1215c",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 178,
+      "line_sha256": "08448a5fa914e09be3e161bc6f0379bfc384f909d8989d609ec664329dc082ca",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 179,
+      "line_sha256": "952c9c0e51d7df025000dd2dc01371533ed0847a8e4e8cec2000bb0580e83982",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 197,
+      "line_sha256": "e1db762e045259196e934e4bdefad3221d60384a46751200ca19b7375ed288b1",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 205,
+      "line_sha256": "310271b8674b0c8e6cd041a86be6ae3257bce31097adbe445df271b9fe76e65e",
+      "rule_id": "RS004",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 211,
+      "line_sha256": "08448a5fa914e09be3e161bc6f0379bfc384f909d8989d609ec664329dc082ca",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 227,
+      "line_sha256": "25f67dccd56b296fcac002cf9a852a1774bdd7d41dbfb71f5ef7c44d33995b74",
+      "rule_id": "RS003",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/account-attacks.sh",
+      "provider": "GCP",
+      "line_number": 233,
+      "line_sha256": "87ffd27b3a981d40c6ba581a630ee10aed9afb529469408d9b23e6f19811f04f",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/automated-logging.sh",
+      "provider": "GCP",
+      "line_number": 449,
+      "line_sha256": "6f12360c0c8242387ba30dea6c95475c714ebd0a999bb1e2ce6d75d1263cf664",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/storage-attacks.py",
+      "provider": "GCP",
+      "line_number": 738,
+      "line_sha256": "b0f86038ab494e6e9f13e83d0a7bddb382a7ea3d95fb138387f2a2cf89c04a54",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/storage-attacks.sh",
+      "provider": "GCP",
+      "line_number": 53,
+      "line_sha256": "36915c5b558ecc8230fabeede4b8f27d0bee4683cdd6c0ff62a4498a21a6ae8f",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/storage-attacks.sh",
+      "provider": "GCP",
+      "line_number": 61,
+      "line_sha256": "d14ea7fe0973476f28c01f4dca5dba8028f33b1759e3c09d5a0a2298c98ffb6b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/storage-attacks.sh",
+      "provider": "GCP",
+      "line_number": 62,
+      "line_sha256": "2a72f6994df086511c4d4e72d465b64bca2e7c6b6f2379c6b0ea6aa34b4aaff5",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 48,
+      "line_sha256": "1abecf5729399e9889fc0e86775f9ff4ca4c160aadf501fd7e65ffb55d445685",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 52,
+      "line_sha256": "59e2f7d9e123f34dc23dc13c49136c5fcc47556301ced8930c9720df34b3a287",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 53,
+      "line_sha256": "87ffd27b3a981d40c6ba581a630ee10aed9afb529469408d9b23e6f19811f04f",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 78,
+      "line_sha256": "59e2f7d9e123f34dc23dc13c49136c5fcc47556301ced8930c9720df34b3a287",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 79,
+      "line_sha256": "87ffd27b3a981d40c6ba581a630ee10aed9afb529469408d9b23e6f19811f04f",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 106,
+      "line_sha256": "59e2f7d9e123f34dc23dc13c49136c5fcc47556301ced8930c9720df34b3a287",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 107,
+      "line_sha256": "87ffd27b3a981d40c6ba581a630ee10aed9afb529469408d9b23e6f19811f04f",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 132,
+      "line_sha256": "2a97bd6b2f123577ca8c219cff0b54a5a9f86cccb4ca132f9eedd48be4256144",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 133,
+      "line_sha256": "0ab9d2cec7dfb9662dcd7eabf3d07bc8007cf4366aaecc86595ede41335dfa57",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 134,
+      "line_sha256": "323386a65ffb41f2148fc74782533f9ae5b66d1378e3f28f0942086e81393a45",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 145,
+      "line_sha256": "2a89b33bbc6b51a23c0d666a74e9d2b6292c4988351684cd724aa9afe59ba4b8",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 150,
+      "line_sha256": "6f593d463c2971f337c8869c13b8d954b426735731be9498c1c78ca43a852552",
+      "rule_id": "RS007",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 151,
+      "line_sha256": "0c660c1df6b8dc6b4b4085e295caa8bf1680a4ec348a137f524e58c8ecc14b7f",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 152,
+      "line_sha256": "87ffd27b3a981d40c6ba581a630ee10aed9afb529469408d9b23e6f19811f04f",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 179,
+      "line_sha256": "5a2848534a1a11684329e11bc24695b2c4e5f1e8a337b40a7242ffe63fc37be1",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 183,
+      "line_sha256": "59e2f7d9e123f34dc23dc13c49136c5fcc47556301ced8930c9720df34b3a287",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 184,
+      "line_sha256": "87ffd27b3a981d40c6ba581a630ee10aed9afb529469408d9b23e6f19811f04f",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 190,
+      "line_sha256": "5a2848534a1a11684329e11bc24695b2c4e5f1e8a337b40a7242ffe63fc37be1",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 268,
+      "line_sha256": "e2f67b8f339a1e52d0fa57b4fda2de84e12418d2d04a20820571b8f95aad4959",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 273,
+      "line_sha256": "e41ae8b641641ed35fdee06b7a959636c4d39a71254032b11022515f2259e3c8",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 281,
+      "line_sha256": "4dfb61ccf6cf3851bb8ac3d2db6769dc517c9beed59a5870f8daebbe0ce223d4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 289,
+      "line_sha256": "d002729521d0daa239418d7d27b67d86cf36227f51086e4a654bfaefb05e930c",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 377,
+      "line_sha256": "e2f67b8f339a1e52d0fa57b4fda2de84e12418d2d04a20820571b8f95aad4959",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 382,
+      "line_sha256": "e41ae8b641641ed35fdee06b7a959636c4d39a71254032b11022515f2259e3c8",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 390,
+      "line_sha256": "4dfb61ccf6cf3851bb8ac3d2db6769dc517c9beed59a5870f8daebbe0ce223d4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 398,
+      "line_sha256": "d002729521d0daa239418d7d27b67d86cf36227f51086e4a654bfaefb05e930c",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 429,
+      "line_sha256": "59e2f7d9e123f34dc23dc13c49136c5fcc47556301ced8930c9720df34b3a287",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 430,
+      "line_sha256": "87ffd27b3a981d40c6ba581a630ee10aed9afb529469408d9b23e6f19811f04f",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 472,
+      "line_sha256": "59e2f7d9e123f34dc23dc13c49136c5fcc47556301ced8930c9720df34b3a287",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 473,
+      "line_sha256": "87ffd27b3a981d40c6ba581a630ee10aed9afb529469408d9b23e6f19811f04f",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 499,
+      "line_sha256": "59e2f7d9e123f34dc23dc13c49136c5fcc47556301ced8930c9720df34b3a287",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 500,
+      "line_sha256": "87ffd27b3a981d40c6ba581a630ee10aed9afb529469408d9b23e6f19811f04f",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 526,
+      "line_sha256": "59e2f7d9e123f34dc23dc13c49136c5fcc47556301ced8930c9720df34b3a287",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 527,
+      "line_sha256": "87ffd27b3a981d40c6ba581a630ee10aed9afb529469408d9b23e6f19811f04f",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 557,
+      "line_sha256": "59e2f7d9e123f34dc23dc13c49136c5fcc47556301ced8930c9720df34b3a287",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 558,
+      "line_sha256": "87ffd27b3a981d40c6ba581a630ee10aed9afb529469408d9b23e6f19811f04f",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 615,
+      "line_sha256": "c639ba54e2e1f67679f1ac58d11b924ac7056d4376bd59a4c406b0695869aa60",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 621,
+      "line_sha256": "7be98979870549d0990edfa08de6e335f44c7628f7c585dfcabe7f5391075595",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 623,
+      "line_sha256": "52c07cb84551c4c88051f49e7b4aa32d784f328602be3646477203a20f0aecb1",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 624,
+      "line_sha256": "d2e0be47ed7e6a79ba25c6dbfad7433b3584f9eea35c4a4f46330fd34507078b",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 703,
+      "line_sha256": "e41ae8b641641ed35fdee06b7a959636c4d39a71254032b11022515f2259e3c8",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 711,
+      "line_sha256": "4dfb61ccf6cf3851bb8ac3d2db6769dc517c9beed59a5870f8daebbe0ce223d4",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/vm-attacks.sh",
+      "provider": "GCP",
+      "line_number": 719,
+      "line_sha256": "d002729521d0daa239418d7d27b67d86cf36227f51086e4a654bfaefb05e930c",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-attacks.sh",
+      "provider": "GCP",
+      "line_number": 58,
+      "line_sha256": "41f8c2519148c0fbbd07419a5d9760cf2930c5bfaf12097c6d1d74f82b9f7ae3",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-attacks.sh",
+      "provider": "GCP",
+      "line_number": 59,
+      "line_sha256": "d82ced800f1b9c09a659720a201ee39e9e006592c359dde2179a7638de7a2fdf",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-attacks.sh",
+      "provider": "GCP",
+      "line_number": 60,
+      "line_sha256": "ee2525100373776920549895a3ec03de1f83a63e7ef99fcaf9a2a097ec34f576",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-attacks.sh",
+      "provider": "GCP",
+      "line_number": 61,
+      "line_sha256": "64cbd7e6dbf05857dbf7137a1f6ae15cfa65b8c69c10c1cc387339d63351af96",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/Dockerfile",
+      "provider": "GCP",
+      "line_number": 44,
+      "line_sha256": "de74b463496e5c50a0ec417a93209d1da171ef68b6ced9c861bd7124a253037c",
+      "rule_id": "RS001",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/Dockerfile",
+      "provider": "GCP",
+      "line_number": 59,
+      "line_sha256": "4f0566b86f1feaa2416151f798608e8601efb18125b736700f12ef3431aef24c",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/GoogleCloud-Readme.md",
+      "provider": "GCP",
+      "line_number": 42,
+      "line_sha256": "62e64d92972db542e002ad09f36b7a5f1f6ae173ba1a38010cc76b9b4737edd2",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/GoogleCloud-Readme.md",
+      "provider": "GCP",
+      "line_number": 90,
+      "line_sha256": "62e64d92972db542e002ad09f36b7a5f1f6ae173ba1a38010cc76b9b4737edd2",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/GoogleCloud-Readme.md",
+      "provider": "GCP",
+      "line_number": 223,
+      "line_sha256": "eb7eaef21daa6d0775cadeb7e8a1805a5edb1a0ec7b042e504d4e62767540566",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/README.md",
+      "provider": "GCP",
+      "line_number": 17,
+      "line_sha256": "62e64d92972db542e002ad09f36b7a5f1f6ae173ba1a38010cc76b9b4737edd2",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/connect_connector.py",
+      "provider": "GCP",
+      "line_number": 37,
+      "line_sha256": "bb4e4eb5a00f8297806f626c0d96a1a02644bdc0f9af95d7f1f1e5581e43919f",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/connect_tcp.py",
+      "provider": "GCP",
+      "line_number": 32,
+      "line_sha256": "bb4e4eb5a00f8297806f626c0d96a1a02644bdc0f9af95d7f1f1e5581e43919f",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-python/connect_unix.py",
+      "provider": "GCP",
+      "line_number": 28,
+      "line_sha256": "fb1b33118aa13130c37f8c97fb4b92c5e300c8f56cbdfad74898c89e24f30efa",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-utils/python-setup.sh",
+      "provider": "GCP",
+      "line_number": 24,
+      "line_sha256": "cf6eb8d8562e36baadb40d9b9b1f12e8af45bf4433ad775c888f15d6a7fb997c",
+      "rule_id": "RS010",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-utils/python-start.sh",
+      "provider": "GCP",
+      "line_number": 14,
+      "line_sha256": "45ead27b9805192bf308dc60524744b29c324576eebfad9dc9708502c61bbadc",
+      "rule_id": "RS002",
+      "severity": "critical",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-utils/webapp-cleanup.sh",
+      "provider": "GCP",
+      "line_number": 7,
+      "line_sha256": "2f1a8eba229e53299ea8b53d3c2008dfe74a01ab332674c604adf723d906aabe",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-utils/webapp-cleanup.sh",
+      "provider": "GCP",
+      "line_number": 8,
+      "line_sha256": "41258faa529feadbc7c0ba292c6ddf9038ea72e4bce2fb8051cfdf4384b4cfac",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-utils/webapp-cleanup.sh",
+      "provider": "GCP",
+      "line_number": 9,
+      "line_sha256": "6b6600f09cbbf4b617602cbbfe1b76e33dd18fdb4e63fbb4f1e74a2feef53f0c",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    },
+    {
+      "artifact_name": "attack_scripts.zip",
+      "member_path": "attack_scripts/gcp-attacks/attack-scripts/webapp-utils/webapp-cleanup.sh",
+      "provider": "GCP",
+      "line_number": 10,
+      "line_sha256": "64cbd7e6dbf05857dbf7137a1f6ae15cfa65b8c69c10c1cc387339d63351af96",
+      "rule_id": "RS006",
+      "severity": "high",
+      "source_line_retained": false
+    }
+  ],
+  "required_remediation": [
+    "replace upstream orchestration with argv-only adapters",
+    "use short-lived credentials outside image layers",
+    "limit all grants to dedicated test principals and resources",
+    "forbid public principals and broad administrator roles",
+    "prove every mutable resource was created by the current run",
+    "pre-register cleanup and verify post-cleanup inventory",
+    "repeat this audit on the exact adapter bytes before execution"
+  ]
+}
