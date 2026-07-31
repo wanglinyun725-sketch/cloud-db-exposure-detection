@@ -9,14 +9,17 @@ def test_legacy_entry_point_returns_objective_goal_v2_audit():
     assert "weighted_current_score_out_of_10" not in audit
 
 
-def test_zero_human_gold_cannot_complete_the_goal():
+def test_zero_executable_oracle_gold_cannot_complete_the_goal():
     audit = build_audit()
 
     assert audit["objective_complete"] is False
-    assert audit["gates"]["thirty_lineage_double_human_gold"] is False
     assert (
-        audit["evidence"]["confirmatory_human_gold"][
-            "independence_groups"
+        audit["gates"]["thirty_lineage_executable_oracle_gold"]
+        is False
+    )
+    assert (
+        audit["evidence"]["executable_oracle_gold"][
+            "qualifying_independence_groups"
         ]
         == 0
     )

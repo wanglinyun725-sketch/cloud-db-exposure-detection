@@ -1,0 +1,237 @@
+{
+  "split_version": "1.0.0",
+  "split_kind": "executable_oracle_split_v1",
+  "status": "blocked_on_oracle_gold",
+  "oracle_registry_sha256": "4bc10f56f0b1ebb571c1170ee18f92a1a6b1ec00027c4cd3a7a72f5ced3a5044",
+  "bindings": {
+    "oracle_registry": {
+      "path": "data/real_sources/oracle/executable_oracle_registry_v1.json",
+      "sha256": "23a5ab988242303777412eb780aa521942e5323b0f6c0ef8ee7d700c94a0acbb",
+      "bytes": 98510
+    },
+    "split_policy": {
+      "path": "configs/oracle_split_policy_v1.json",
+      "sha256": "03d4824a626ae6c535002afa2590d499b4e6acdbf015d642fa29351d0f36cda9",
+      "bytes": 765
+    }
+  },
+  "policy": {
+    "statistical_unit": "independence_group",
+    "source_isolation": true,
+    "selection_before_gold": true,
+    "unknown_and_conflict_excluded": true,
+    "post_gold_reassignment_forbidden": true
+  },
+  "summary": {
+    "qualifying_groups": 0,
+    "excluded_or_pending_groups": 40,
+    "split_counts": {},
+    "minimum_oracle_gold_groups": 30,
+    "minimum_test_and_external_test_groups": 15,
+    "gold_gate_passes": false,
+    "test_size_passes": false
+  },
+  "assignments": [],
+  "excluded": [
+    {
+      "independence_group": "cloudgoat-scenario:cloud_breach_s3",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m1_ssrf_dynamodb",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m2_ecs_secret_rds_credentials",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_prod_dev_blob_control_pair",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_ssrf_cosmos_storage",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_double_tap_secret_path",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_search1_elasticsearch_exposure",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "configuration-lineage:gcpgoat:gcpgoat_anonymous_bucket_policy_transition",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "configuration-lineage:terragoat:terragoat_aws_ec2_userdata_to_rds",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "configuration-lineage:terragoat:terragoat_azure_mysql_public_transport",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "configuration-lineage:terragoat:terragoat_gcp_anonymous_gcs_read",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "crosscloud-family:automated_collection",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "crosscloud-family:data_destruction",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "splunk-technique:T1098.001",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "splunk-technique:T1110.002",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "splunk-technique:T1486",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "splunk-technique:T1490",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "splunk-technique:T1530",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "splunk-technique:T1537",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "stratus-technique:T1496.A007",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "stratus-technique:T1552.005",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "stratus-technique:T1562.008",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "stratus-technique:T1578.001",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ec2-get-password-data",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.discovery.ec2-download-user-data",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.exfiltration.ec2-share-ami",
+      "truth_state": "Unknown",
+      "reason": "not_qualifying_oracle_gold"
+    }
+  ]
+}

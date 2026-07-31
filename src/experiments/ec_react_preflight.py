@@ -17,12 +17,13 @@ from src.experiments.ec_react_execution import (
     planned_runs_per_instance_for_selection,
     schedule_design_errors,
 )
-from src.experiments.protocol_freeze_v2 import REQUIRED_FROZEN_INPUTS
+from src.experiments.protocol_freeze_v2 import required_frozen_inputs
 from src.graph.path_ontology import (
     load_path_ontology,
     ontology_reference,
     validate_canonical_gold_types,
 )
+from src.oracle_gold.protocol import validate_oracle_registry
 
 
 FINAL_STATUSES = {
@@ -94,6 +95,9 @@ def run_preflight(
     )
 
     data_config = config.get("data") or {}
+    oracle_mode = (
+        data_config.get("gold_protocol") == "executable_oracle_v1"
+    )
     source_packet_path = _resolve(
         root,
         data_config.get("source_packet"),
@@ -198,7 +202,11 @@ def run_preflight(
         )
     release = _read_json_if_present(
         gold_release_path,
-        "human gold release",
+        (
+            "executable Oracle registry"
+            if oracle_mode
+            else "human gold release"
+        ),
         blockers,
     )
     split_manifest = _read_json_if_present(
@@ -206,7 +214,7 @@ def run_preflight(
         "split manifest",
         blockers,
     )
-    negative_configured = (
+    negative_configured = (not oracle_mode) and (
         minimum_negative_controls > 0
         or bool(data_config.get("negative_source_packet"))
         or bool(data_config.get("negative_gold_release"))
@@ -290,34 +298,53 @@ def run_preflight(
                     + ", ".join(pilot_result["failed_checks"])
                 )
 
-    release_summary = _validate_release(
-        release,
-        source_packet_sha,
-        minimum_finalized,
-        minimum_included,
-        minimum_groups,
-        minimum_runtime,
-        ontology_summary.get("reference"),
-        blockers,
-    )
-    split_summary = _validate_splits(
-        split_manifest,
-        release,
-        source_packet_sha,
-        set(data_config.get("allowed_splits") or []),
-        int(data_config.get("minimum_frozen_test_cases") or 0),
-        blockers,
-    )
-    negative_release_summary = _validate_negative_release(
-        negative_gold_release,
-        (
-            _stable_hash(negative_source_packet)
-            if negative_source_packet is not None
-            else None
-        ),
-        minimum_negative_controls,
-        blockers,
-    )
+    if oracle_mode:
+        release_summary, negative_release_summary = (
+            _validate_executable_oracle_release(
+                root,
+                release,
+                minimum_groups=minimum_groups,
+                minimum_runtime=minimum_runtime,
+                minimum_negative_controls=minimum_negative_controls,
+                blockers=blockers,
+            )
+        )
+        split_summary = _validate_oracle_splits(
+            split_manifest,
+            release,
+            set(data_config.get("allowed_splits") or []),
+            int(data_config.get("minimum_frozen_test_cases") or 0),
+            blockers,
+        )
+    else:
+        release_summary = _validate_release(
+            release,
+            source_packet_sha,
+            minimum_finalized,
+            minimum_included,
+            minimum_groups,
+            minimum_runtime,
+            ontology_summary.get("reference"),
+            blockers,
+        )
+        split_summary = _validate_splits(
+            split_manifest,
+            release,
+            source_packet_sha,
+            set(data_config.get("allowed_splits") or []),
+            int(data_config.get("minimum_frozen_test_cases") or 0),
+            blockers,
+        )
+        negative_release_summary = _validate_negative_release(
+            negative_gold_release,
+            (
+                _stable_hash(negative_source_packet)
+                if negative_source_packet is not None
+                else None
+            ),
+            minimum_negative_controls,
+            blockers,
+        )
     model_status = _model_status(
         [
             item
@@ -377,7 +404,11 @@ def run_preflight(
         selected_model_ids,
     )
     planned_runs_at_minimum = _planned_runs(
-        minimum_runtime + minimum_negative_controls,
+        (
+            minimum_runtime
+            if oracle_mode
+            else minimum_runtime + minimum_negative_controls
+        ),
         methods,
         config.get("models") or [],
         shared,
@@ -399,6 +430,7 @@ def run_preflight(
         "source_independence_groups": source_group_count,
         "source_runtime_data_quality": source_runtime_shape,
         "data": {
+            "gold_protocol": data_config.get("gold_protocol"),
             "source_packet": str(source_packet_path),
             "gold_release": str(gold_release_path),
             "split_manifest": str(split_manifest_path),
@@ -467,6 +499,188 @@ def run_preflight(
         "ready": not blockers,
         "secrets_in_report": False,
     }
+
+
+def _validate_executable_oracle_release(
+    root: Path,
+    registry: dict[str, Any] | None,
+    *,
+    minimum_groups: int,
+    minimum_runtime: int,
+    minimum_negative_controls: int,
+    blockers: list[str],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Validate Oracle Gold without accepting human-origin compatibility."""
+    release_summary = {
+        "finalized_cases": 0,
+        "included_cases": 0,
+        "included_independence_groups": 0,
+        "runtime_backed_included_cases": 0,
+        "included_runtime_instances": 0,
+        "instance_labels": 0,
+        "reviewed": 0,
+        "adjudicated": 0,
+        "needs_execution": 0,
+        "rejected": 0,
+        "gold_protocol": "executable_oracle_v1",
+    }
+    negative_summary = {
+        "finalized_cases": 0,
+        "usable_negative_controls": 0,
+        "usable_runtime_instances": 0,
+        "reviewed": 0,
+        "adjudicated": 0,
+        "rejected": 0,
+        "embedded_in_oracle_release": True,
+    }
+    if registry is None:
+        return release_summary, negative_summary
+    try:
+        report = validate_oracle_registry(root, registry)
+    except (FileNotFoundError, TypeError, ValueError) as exc:
+        blockers.append(f"executable Oracle registry is invalid: {exc}")
+        return release_summary, negative_summary
+
+    qualifying_records = [
+        item
+        for item in registry.get("candidates") or []
+        if item.get("counts_toward_oracle_gold") is True
+    ]
+    runtime_records = [
+        item
+        for item in qualifying_records
+        if item.get("category") == "runtime_telemetry"
+    ]
+    runtime_instances = 0
+    inputs = registry.get("inputs") or {}
+    runtime_binding = inputs.get("runtime_packet") or {}
+    runtime_path = _resolve(root, runtime_binding.get("path"))
+    runtime_packet = _read_json_if_present(
+        runtime_path,
+        "Oracle-bound runtime packet",
+        blockers,
+    )
+    if runtime_packet is not None:
+        cases = {
+            str(case.get("case_id")): case
+            for case in runtime_packet.get("cases") or []
+        }
+        for record in runtime_records:
+            for case_id in record.get("case_ids") or []:
+                case = cases.get(str(case_id))
+                if case is None:
+                    blockers.append(
+                        f"Oracle runtime case missing from packet: {case_id}"
+                    )
+                    continue
+                runtime_instances += len(
+                    case.get("runtime_instances") or []
+                )
+
+    qualifying = report["qualifying_oracle_gold_groups"]
+    runtime_groups = len(runtime_records)
+    negatives = report["bounded_negative_or_paired_control_groups"]
+    release_summary.update({
+        "finalized_cases": qualifying,
+        "included_cases": qualifying,
+        "included_independence_groups": qualifying,
+        "runtime_backed_included_cases": runtime_groups,
+        "included_runtime_instances": runtime_instances,
+        "instance_labels": runtime_instances,
+        "oracle_verified": qualifying,
+    })
+    negative_summary.update({
+        "finalized_cases": negatives,
+        "usable_negative_controls": negatives,
+        "oracle_verified": negatives,
+    })
+    if qualifying < minimum_groups:
+        blockers.append(
+            f"executable Oracle registry has {qualifying} qualifying "
+            f"independence groups; minimum is {minimum_groups}"
+        )
+    if runtime_groups < minimum_runtime:
+        blockers.append(
+            f"executable Oracle registry has {runtime_groups} runtime "
+            f"gold groups; minimum is {minimum_runtime}"
+        )
+    if negatives < minimum_negative_controls:
+        blockers.append(
+            f"executable Oracle registry has {negatives} bounded negative "
+            f"or paired controls; minimum is {minimum_negative_controls}"
+        )
+    return release_summary, negative_summary
+
+
+def _validate_oracle_splits(
+    manifest: dict[str, Any] | None,
+    registry: dict[str, Any] | None,
+    allowed_splits: set[str],
+    minimum_frozen_test: int,
+    blockers: list[str],
+) -> dict[str, Any]:
+    """Validate group-level splits bound to the complete Oracle registry."""
+    summary = {
+        "assignments": 0,
+        "independence_groups": 0,
+        "split_counts": {},
+        "runtime_backed_frozen_test_cases": 0,
+        "gold_protocol": "executable_oracle_v1",
+    }
+    if manifest is None or registry is None:
+        return summary
+    if manifest.get("split_kind") != "executable_oracle_split_v1":
+        blockers.append("Oracle split manifest has invalid split_kind")
+    if manifest.get("oracle_registry_sha256") != _stable_hash(registry):
+        blockers.append("Oracle split manifest registry hash mismatch")
+    assignments = manifest.get("assignments")
+    if not isinstance(assignments, list):
+        blockers.append("Oracle split assignments must be an array")
+        return summary
+    qualifying = {
+        str(item.get("independence_group"))
+        for item in registry.get("candidates") or []
+        if item.get("counts_toward_oracle_gold") is True
+    }
+    assigned = [
+        str(item.get("independence_group") or "")
+        for item in assignments
+        if isinstance(item, Mapping)
+    ]
+    if len(assigned) != len(set(assigned)):
+        blockers.append("Oracle split has duplicate independence groups")
+    if set(assigned) != qualifying:
+        blockers.append(
+            "Oracle split group set differs from qualifying Gold"
+        )
+    split_counts: dict[str, int] = {}
+    frozen_test = 0
+    for item in assignments:
+        if not isinstance(item, Mapping):
+            blockers.append("Oracle split assignment must be an object")
+            continue
+        split = item.get("split")
+        if split not in allowed_splits:
+            blockers.append(
+                f"Oracle split group {item.get('independence_group')} "
+                f"has invalid split {split}"
+            )
+            continue
+        split_counts[str(split)] = split_counts.get(str(split), 0) + 1
+        if split in {"test", "external_test"}:
+            frozen_test += 1
+    if frozen_test < minimum_frozen_test:
+        blockers.append(
+            f"Oracle frozen test has {frozen_test} groups; "
+            f"minimum is {minimum_frozen_test}"
+        )
+    summary.update({
+        "assignments": len(assignments),
+        "independence_groups": len(set(assigned)),
+        "split_counts": dict(sorted(split_counts.items())),
+        "runtime_backed_frozen_test_cases": frozen_test,
+    })
+    return summary
 
 
 def _validate_negative_release(
@@ -1423,7 +1637,7 @@ def _validate_freeze_binding(
     if not isinstance(inputs, Mapping):
         blockers.append("frozen protocol lacks input hash bindings")
         return
-    if set(inputs) != REQUIRED_FROZEN_INPUTS:
+    if set(inputs) != required_frozen_inputs(config):
         blockers.append("frozen protocol input binding set is incomplete")
         return
     for name, item in inputs.items():

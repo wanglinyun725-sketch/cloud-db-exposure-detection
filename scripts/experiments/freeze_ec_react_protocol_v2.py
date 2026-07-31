@@ -116,6 +116,8 @@ def _relevant_dirty_paths(
     draft_path: Path,
     preflight: dict[str, Any],
 ) -> list[str]:
+    draft = yaml.safe_load(draft_path.read_text(encoding="utf-8"))
+    data = draft.get("data") or {}
     paths = [
         "src",
         "scripts",
@@ -124,9 +126,17 @@ def _relevant_dirty_paths(
         _portable(Path(preflight["data"]["source_packet"])),
         _portable(Path(preflight["data"]["gold_release"])),
         _portable(Path(preflight["data"]["split_manifest"])),
-        _portable(Path(preflight["data"]["negative_source_packet"])),
-        _portable(Path(preflight["data"]["negative_gold_release"])),
     ]
+    if data.get("gold_protocol") == "executable_oracle_v1":
+        paths.extend([
+            data["oracle_registry"],
+            data["oracle_record_schema"],
+        ])
+    else:
+        paths.extend([
+            _portable(Path(preflight["data"]["negative_source_packet"])),
+            _portable(Path(preflight["data"]["negative_gold_release"])),
+        ])
     output = _git(["status", "--porcelain", "--", *paths])
     return [
         line[3:] if len(line) > 3 else line

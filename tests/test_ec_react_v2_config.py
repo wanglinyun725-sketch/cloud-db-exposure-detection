@@ -101,16 +101,20 @@ def test_v2_model_layer_is_honest_about_what_is_and_is_not_frozen():
     assert strong["temperature"] is None
 
 
-def test_v2_data_gate_matches_the_frozen_30_lineage_confirmatory_packet():
+def test_v2_data_gate_uses_executable_oracle_protocol():
     config = yaml.safe_load(CONFIG.read_text(encoding="utf-8"))
     data = config["data"]
 
     assert data["source_packet"].endswith(
         "runtime_confirmatory_30_unlabeled.json"
     )
-    assert data["minimum_finalized_cases"] == 52
-    assert data["minimum_independence_groups"] == 20
-    assert data["minimum_external_negative_controls"] == 20
+    assert data["gold_protocol"] == "executable_oracle_v1"
+    assert data["oracle_registry"].endswith(
+        "executable_oracle_registry_v1.json"
+    )
+    assert data["minimum_finalized_cases"] == 30
+    assert data["minimum_independence_groups"] == 30
+    assert data["minimum_external_negative_controls"] == 10
     assert "annotation_pilot_packet" not in data
 
 

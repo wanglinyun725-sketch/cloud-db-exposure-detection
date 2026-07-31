@@ -1,0 +1,32 @@
+{
+  "policy_version": "1.0.0",
+  "policy_kind": "source_isolated_oracle_split",
+  "selection_time": "before_any_oracle_gold",
+  "statistical_unit": "independence_group",
+  "source_assignments": {
+    "development": [
+      "awsgoat",
+      "stratus_red_team"
+    ],
+    "validation": [
+      "azuregoat",
+      "cross_cloud_observability_2026",
+      "gcpgoat"
+    ],
+    "test": [
+      "cloudfoxable",
+      "splunk_attack_data"
+    ],
+    "external_test": [
+      "cloudgoat",
+      "terragoat"
+    ]
+  },
+  "rules": {
+    "one_source_in_exactly_one_split": true,
+    "one_independence_group_in_exactly_one_split": true,
+    "unknown_and_conflict_excluded": true,
+    "counterfactual_pair_kept_together": true,
+    "post_gold_reassignment_forbidden": true
+  }
+}

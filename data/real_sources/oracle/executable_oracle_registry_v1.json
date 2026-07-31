@@ -1,0 +1,3114 @@
+{
+  "protocol_version": "1.0.0",
+  "registry_kind": "executable_oracle_gold",
+  "status": "candidate_registry_no_gold",
+  "truth_protocol": {
+    "states": [
+      "Reachable",
+      "NotReachableWithinScope",
+      "Unknown",
+      "Conflict"
+    ],
+    "qualifying_states": [
+      "Reachable",
+      "NotReachableWithinScope"
+    ],
+    "unknown_is_not_gold": true,
+    "conflict_is_not_gold": true,
+    "negative_claim_is_scope_bounded": true
+  },
+  "separation_policy": {
+    "agent_discovery_view_excludes_privileged_oracle": true,
+    "oracle_evidence_available_only_to_evaluator": true,
+    "same_tool_output_cannot_be_agent_evidence_and_gold": true,
+    "configuration_literal_is_runtime_reachability": false,
+    "generated_events": 0,
+    "generated_labels": 0
+  },
+  "inputs": {
+    "runtime_packet": {
+      "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+      "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+      "bytes": 7375251
+    },
+    "configuration_packet": {
+      "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+      "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+      "bytes": 406477
+    },
+    "record_schema": {
+      "path": "data/real_sources/oracle/executable_oracle_record_v1.schema.json",
+      "sha256": "986cdac295a7471b53bb22ffbce3f57ccfa8fdcb64d93991408d6d87143ca70e",
+      "bytes": 4037
+    }
+  },
+  "summary": {
+    "candidate_independence_groups": 40,
+    "source_count": 9,
+    "sources": [
+      "awsgoat",
+      "azuregoat",
+      "cloudfoxable",
+      "cloudgoat",
+      "cross_cloud_observability_2026",
+      "gcpgoat",
+      "splunk_attack_data",
+      "stratus_red_team",
+      "terragoat"
+    ],
+    "platforms": [
+      "AWS",
+      "AZURE",
+      "GCP"
+    ],
+    "truth_state_counts": {
+      "Reachable": 0,
+      "NotReachableWithinScope": 0,
+      "Unknown": 40,
+      "Conflict": 0
+    },
+    "qualifying_oracle_gold_groups": 0,
+    "bounded_negative_or_paired_control_groups": 0
+  },
+  "completion_gate": {
+    "minimum_oracle_gold_groups": 30,
+    "minimum_bounded_negative_or_paired_controls": 10,
+    "oracle_gold_passes": false,
+    "negative_control_passes": false,
+    "passes": false
+  },
+  "candidates": [
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "cloudgoat-scenario:cloud_breach_s3",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "cloudgoat:aws:cloud_breach_s3"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "cloudgoat:aws:cloud_breach_s3",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "7f9fa244c20996ea22464d115b18ed44485047fd9eb9e67a07719b853711bce5"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m1_ssrf_dynamodb",
+      "category": "configuration",
+      "case_ids": [
+        "awsgoat_m1_ssrf_dynamodb"
+      ],
+      "source_ids": [
+        "awsgoat"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "pinned_upstream_configuration",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "awsgoat_m1_ssrf_dynamodb",
+          "packet_path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+          "case_sha256": "eae1fd136f76367d57ed69524f0e4aa2dbf44fe1fe61143ddf4578a1f1bc14c0"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m2_ecs_secret_rds_credentials",
+      "category": "configuration",
+      "case_ids": [
+        "awsgoat_m2_ecs_secret_rds_credentials"
+      ],
+      "source_ids": [
+        "awsgoat"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "pinned_upstream_configuration",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "awsgoat_m2_ecs_secret_rds_credentials",
+          "packet_path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+          "case_sha256": "52553ccf77e7e1cae09fba208ba654dab1c01602f498f87e93b7ce15abfa6fc8"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_prod_dev_blob_control_pair",
+      "category": "configuration",
+      "case_ids": [
+        "azuregoat_prod_dev_blob_control_pair"
+      ],
+      "source_ids": [
+        "azuregoat"
+      ],
+      "platforms": [
+        "AZURE"
+      ],
+      "evidence_stratum": "pinned_upstream_configuration",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "azuregoat_prod_dev_blob_control_pair",
+          "packet_path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+          "case_sha256": "840c5b23dd27fe68ae993faf87c9ee5f0e05e5fc90b6febdc8bdcedc7199fb9e"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_ssrf_cosmos_storage",
+      "category": "configuration",
+      "case_ids": [
+        "azuregoat_ssrf_cosmos_storage"
+      ],
+      "source_ids": [
+        "azuregoat"
+      ],
+      "platforms": [
+        "AZURE"
+      ],
+      "evidence_stratum": "pinned_upstream_configuration",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "azuregoat_ssrf_cosmos_storage",
+          "packet_path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+          "case_sha256": "6924be40889c4a3e09cc2ba8ea1269d2d257c0c0747e34c7ed6e6402563212a6"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_double_tap_secret_path",
+      "category": "configuration",
+      "case_ids": [
+        "cloudfoxable_double_tap_secret_path"
+      ],
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "pinned_upstream_configuration",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "cloudfoxable_double_tap_secret_path",
+          "packet_path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+          "case_sha256": "44819e1fcd0dfeca936522f125851fa7c31973e5dd233296b5ebf7011a9f4f27"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_search1_elasticsearch_exposure",
+      "category": "configuration",
+      "case_ids": [
+        "cloudfoxable_search1_elasticsearch_exposure"
+      ],
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "pinned_upstream_configuration",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "cloudfoxable_search1_elasticsearch_exposure",
+          "packet_path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+          "case_sha256": "13ed74bb634ddc772c27320c9593c61578a3865904adc141b022bc1a60bfc976"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "configuration-lineage:gcpgoat:gcpgoat_anonymous_bucket_policy_transition",
+      "category": "configuration",
+      "case_ids": [
+        "gcpgoat_anonymous_bucket_policy_transition"
+      ],
+      "source_ids": [
+        "gcpgoat"
+      ],
+      "platforms": [
+        "GCP"
+      ],
+      "evidence_stratum": "pinned_upstream_configuration",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "gcpgoat_anonymous_bucket_policy_transition",
+          "packet_path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+          "case_sha256": "20da6d3527cfe35014209e131da1041e404987c34575576719616d86443d56a6"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "configuration-lineage:terragoat:terragoat_aws_ec2_userdata_to_rds",
+      "category": "configuration",
+      "case_ids": [
+        "terragoat_aws_ec2_userdata_to_rds"
+      ],
+      "source_ids": [
+        "terragoat"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "pinned_upstream_configuration",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "terragoat_aws_ec2_userdata_to_rds",
+          "packet_path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+          "case_sha256": "d5829160ab9d2b07c5c242bc0e1dcf1764e8790d6b4876e33f47ba71c8f3d0e2"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "configuration-lineage:terragoat:terragoat_azure_mysql_public_transport",
+      "category": "configuration",
+      "case_ids": [
+        "terragoat_azure_mysql_public_transport"
+      ],
+      "source_ids": [
+        "terragoat"
+      ],
+      "platforms": [
+        "AZURE"
+      ],
+      "evidence_stratum": "pinned_upstream_configuration",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "terragoat_azure_mysql_public_transport",
+          "packet_path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+          "case_sha256": "83d3c175d07dca4f28dbf267f43c6d8f976446117d4f9f819f13b7b5b82f88a8"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "configuration-lineage:terragoat:terragoat_gcp_anonymous_gcs_read",
+      "category": "configuration",
+      "case_ids": [
+        "terragoat_gcp_anonymous_gcs_read"
+      ],
+      "source_ids": [
+        "terragoat"
+      ],
+      "platforms": [
+        "GCP"
+      ],
+      "evidence_stratum": "pinned_upstream_configuration",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "terragoat_gcp_anonymous_gcs_read",
+          "packet_path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+          "case_sha256": "10aaa2c4551681722020898714bbf0b49c305023f058174affba97c765646616"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "crosscloud:aws:archive_collected_data",
+        "crosscloud:azure:archive_collected_data",
+        "crosscloud:gcp:archive_collected_data"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "crosscloud:aws:archive_collected_data",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "2640fde52b447d5dce83db3bbc4f886029ee8ac33138d4a9df9148ed77c48585"
+        },
+        {
+          "case_id": "crosscloud:azure:archive_collected_data",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "0b38d0ae5c690236419e2a8c9be1a6e01341cee7cad2faa401596c3ff8652eef"
+        },
+        {
+          "case_id": "crosscloud:gcp:archive_collected_data",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "bb1dfd014ab5d7e2871c1e815021c87fddf28b91dc3e6744e058468e71b141fc"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "crosscloud-family:automated_collection",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "crosscloud:aws:automated_collection",
+        "crosscloud:azure:automated_collection",
+        "crosscloud:gcp:automated_collection"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "crosscloud:aws:automated_collection",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "5a94e8772800c0d10e9a125c434506f77e82d8ed14f84edc2b0e173f1eb0e095"
+        },
+        {
+          "case_id": "crosscloud:azure:automated_collection",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "6e42f26262997adee20380575eed9b4a8f961b5f1601c4d60530e10fa06b9496"
+        },
+        {
+          "case_id": "crosscloud:gcp:automated_collection",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "e501352dfcb64f815cf207482fe1e03aaa5b67bb4e1a5d4bd4ad22bc87473568"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "crosscloud:aws:automated_exfiltration",
+        "crosscloud:azure:automated_exfiltration",
+        "crosscloud:gcp:automated_exfiltration"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "crosscloud:aws:automated_exfiltration",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "9cbc62edc79e045cfbe349b08c5c0869ddd5f4451f814fa7bfe2d743dbfb816a"
+        },
+        {
+          "case_id": "crosscloud:azure:automated_exfiltration",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "ff5af544c71df4c889092d3551bdabc1f525297c39f7fec60c69a0e8a000d28c"
+        },
+        {
+          "case_id": "crosscloud:gcp:automated_exfiltration",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "b7e34cae349eeccf782ddae8a006dd2774b038d5a25b8a755142141836b8c51e"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "crosscloud:aws:credentials_from_password_stores",
+        "crosscloud:azure:credentials_from_password_stores",
+        "crosscloud:gcp:credentials_from_password_stores"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "crosscloud:aws:credentials_from_password_stores",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "1af61ce0ebf172f2b2749086043af3de2bf1863baa33b8dbc1d09cc8a308ed82"
+        },
+        {
+          "case_id": "crosscloud:azure:credentials_from_password_stores",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "6dcc667ce47aa4ff7ed01bae62cda83ffbaf44bcc60832ade904c9f1ef20ee2d"
+        },
+        {
+          "case_id": "crosscloud:gcp:credentials_from_password_stores",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "c8f58652d2c6995236fbe97c3e103e82869f89a8067e092b4ced0f62604ed988"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "crosscloud-family:data_destruction",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "crosscloud:aws:data_destruction",
+        "crosscloud:azure:data_destruction",
+        "crosscloud:gcp:data_destruction"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "crosscloud:aws:data_destruction",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "5a7ff057e1612172408ff271d6675d52b8e9b609e093ec6da5acedd58b62be7f"
+        },
+        {
+          "case_id": "crosscloud:azure:data_destruction",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "7633d666b3a0f27f3292c5f85713f753d5f50ff483a1cc7a7c6559db8566ab93"
+        },
+        {
+          "case_id": "crosscloud:gcp:data_destruction",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "8ca263a5669c61772a1698f43ed163bc26f1b3c80f2e6beaf7beff4c65dd1bc2"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "crosscloud:aws:data_encrypted_for_impact",
+        "crosscloud:azure:data_encrypted_for_impact",
+        "crosscloud:gcp:data_encrypted_for_impact"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "crosscloud:aws:data_encrypted_for_impact",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "096a7dfec14e04e4c8a151287539bec98bfbb68848118dc79cf4ddb9a5ef49b7"
+        },
+        {
+          "case_id": "crosscloud:azure:data_encrypted_for_impact",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "a8ec20d634e2b51394f4504e3fb828d4661c2c6846d43c08b82e0e48c1d78937"
+        },
+        {
+          "case_id": "crosscloud:gcp:data_encrypted_for_impact",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "9c280f96fbfc9049043fe1c2ed2dbd07b62221af8d0e3be05de2808fbb5f45a5"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "crosscloud:aws:inhibit_system_recovery",
+        "crosscloud:azure:inhibit_system_recovery",
+        "crosscloud:gcp:inhibit_system_recovery"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "crosscloud:aws:inhibit_system_recovery",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "c6b12e37a04218835247756e6fa7d167da450f533d123d8e153605271f834ff2"
+        },
+        {
+          "case_id": "crosscloud:azure:inhibit_system_recovery",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "695fa9f9423ac17866f327cfacb178cb323912c58b7eda0733463d43bf8bcdab"
+        },
+        {
+          "case_id": "crosscloud:gcp:inhibit_system_recovery",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "794e32d89305b3f2fee45e7802c94a569e66458ad26b4c8a9a5f84dd28d00464"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "crosscloud:aws:scheduled_transfer",
+        "crosscloud:azure:scheduled_transfer",
+        "crosscloud:gcp:scheduled_transfer"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "crosscloud:aws:scheduled_transfer",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "8c8a5911483dcd1b29c12a97e23cdb06b7780c7a82a979b88387bdbb5ab29370"
+        },
+        {
+          "case_id": "crosscloud:azure:scheduled_transfer",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "2708700f8ea67e1f6befca64ac9323af08502cb7615173b050d43448482332d9"
+        },
+        {
+          "case_id": "crosscloud:gcp:scheduled_transfer",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "952bc6f90aefcad4631052195f7217648c66d723345f48950cb8a3ad2e62b4e3"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "crosscloud:aws:steal_application_access_token",
+        "crosscloud:azure:steal_application_access_token",
+        "crosscloud:gcp:steal_application_access_token"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "crosscloud:aws:steal_application_access_token",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "4bad6d130f403e9e766fcfe9cd48a9c449aad3f9ee7fb129168376ce21f30305"
+        },
+        {
+          "case_id": "crosscloud:azure:steal_application_access_token",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "cc3cd1e486e47eff494ee544f64d510a2e951e38f99cf2aff782fb284c1d1469"
+        },
+        {
+          "case_id": "crosscloud:gcp:steal_application_access_token",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "29f406c5b9be1ad396a3fe040e26ec196d8aa4981de3ef7d87eb0ff8592ee07d"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "crosscloud:aws:unsecured_credentials",
+        "crosscloud:azure:unsecured_credentials",
+        "crosscloud:gcp:unsecured_credentials"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "crosscloud:aws:unsecured_credentials",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "79cadf03984fd692c598138f0e9c436a2ac2788d4238ff4247cc95ddcfdae453"
+        },
+        {
+          "case_id": "crosscloud:azure:unsecured_credentials",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "0876f1a165d3c0836b670e5bf7015717c6386b5e7c4d0d163d7ad8941eee81ad"
+        },
+        {
+          "case_id": "crosscloud:gcp:unsecured_credentials",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "2b081dab568163d2e3d9fd72b831cca276c24c748a28d78c7b7d39053b2968d2"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "61f3c2ad55fcb2a86cc94c4d040d0c8365a9176e9dd2961aaedd03bcc698262f"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "27eaf7208e09e54072fde8c6281893dad97e92229d17238be358129a2da4cc73"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "splunk-technique:T1098.001",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AZURE"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "89e71afeae7d8ba8cd6636858bac4c6192de0cad3735eb4b8fcb15c64466dc57"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "splunk-technique:T1110.002",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "a6fcf026dcfb56d77de5458ebd972df409f672b7851c741777a56e5a69222db8"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "splunk-technique:T1486",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1486/s3_file_encryption"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "splunk:datasets/attack_techniques/T1486/s3_file_encryption",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "ecb1594e58e27ee73d885d40da226f9f73dcfaad2944d76b94964745863f281f"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "splunk-technique:T1490",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1490/aws_bucket_version"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "7e818e592a140a5139bb2f987a800ee7137213991e936a26be59196f67f98f31"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "splunk-technique:T1530",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1530/aws_s3_public_bucket"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "splunk:datasets/attack_techniques/T1530/aws_s3_public_bucket",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "903804c888ca4a8a3394cf5498bef9ef6020678a963972415cd80d0062008c7f"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "splunk-technique:T1537",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+        "splunk:datasets/attack_techniques/T1537/aws_snapshot_exfil"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "7eccb4413ca69ac95af0389c006af648cec77f3066f8664343d50c031e4f09b6"
+        },
+        {
+          "case_id": "splunk:datasets/attack_techniques/T1537/aws_snapshot_exfil",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "7c8754c4d2076458d0fa76baf3f413d2a4cdfd1cf615683d544879320b0326cf"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "stratus-technique:T1496.A007",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "stratus:aws.exfiltration.rds-share-snapshot"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "stratus:aws.exfiltration.rds-share-snapshot",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "3482a2aa3ead72087d37e40e05634f2881ce862483d5e4ea77d9c5a7454c1392"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "stratus-technique:T1552.005",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "stratus:aws.credential-access.ec2-steal-instance-credentials"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "stratus:aws.credential-access.ec2-steal-instance-credentials",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "05b73f259b012fadb125bf4fc1023325350a77968a60e8d702320499546c0e7d"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "stratus-technique:T1562.008",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+        "stratus:aws.defense-evasion.cloudtrail-lifecycle-rule"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "833681b5a44f41dcb7d5b5299a3e5db72931a2834d35f2c1d4867c2591a95c3c"
+        },
+        {
+          "case_id": "stratus:aws.defense-evasion.cloudtrail-lifecycle-rule",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "62212da631effeaf01358fe4d35bffeda5a68caf9167a3e7bb46d5f653b99554"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "stratus-technique:T1578.001",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "stratus:aws.exfiltration.ec2-share-ebs-snapshot"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "stratus:aws.exfiltration.ec2-share-ebs-snapshot",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "374861157afa3269e2557cc7be9576b84e594cec427f67c92793add0d7461ab8"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ec2-get-password-data",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "stratus:aws.credential-access.ec2-get-password-data"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "stratus:aws.credential-access.ec2-get-password-data",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "ef3ec16b0a209fbe52e75f9df1e9b1a1122c7c2d377ea9f1bd619a6740992338"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "9db425cf0594114b77121822faa74346a075d7f5aab0dd24a65eca0f8c80d6b0"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "stratus:aws.credential-access.secretsmanager-retrieve-secrets"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "938153dc531e6f4fcd0f8b9fd2e2376abf74136822d53f0743e65240e38b2db9"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "stratus:aws.credential-access.ssm-retrieve-securestring-parameters"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "653d85eea33fd91a328fd24de208dbeeebe4c79190e68d00c4fa3eb95893b54b"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "stratus:aws.defense-evasion.dns-delete-logs"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "stratus:aws.defense-evasion.dns-delete-logs",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "b12c6fbe39aae6e57781705ba8392e9e4b63932bdf2f64e0adf81679afa94607"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "stratus_red_team:stratus:aws.discovery.ec2-download-user-data",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "stratus:aws.discovery.ec2-download-user-data"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "stratus:aws.discovery.ec2-download-user-data",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "6558437ca64f3ba0e44c06846c35be92dce45e0a53ba693803d89b329cdf8efe"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    },
+    {
+      "oracle_record_version": "1.0.0",
+      "independence_group": "stratus_red_team:stratus:aws.exfiltration.ec2-share-ami",
+      "category": "runtime_telemetry",
+      "case_ids": [
+        "stratus:aws.exfiltration.ec2-share-ami"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "evidence_stratum": "published_real_cloud_telemetry",
+      "controlled_counterfactual": false,
+      "truth_state": "Unknown",
+      "counts_toward_oracle_gold": false,
+      "scope": {
+        "status": "pending",
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "evidence_channels": {
+        "configuration": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "provider_native_analysis": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "authorized_active_probe": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        },
+        "audit_telemetry": {
+          "status": "pending",
+          "outcome": null,
+          "evidence": []
+        }
+      },
+      "critical_edges": [],
+      "leakage_control": {
+        "agent_view_artifact": null,
+        "evaluator_only_artifacts": [],
+        "views_are_hash_distinct": null,
+        "oracle_outputs_withheld_until_scoring": true
+      },
+      "source_case_bindings": [
+        {
+          "case_id": "stratus:aws.exfiltration.ec2-share-ami",
+          "packet_path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+          "case_sha256": "f7ca26c5abbd016dcf8285bec9e17b150208030af226cb53b32bc32a8cdd7561"
+        }
+      ],
+      "qualification": {
+        "status": "pending",
+        "failure_reasons": [
+          "truth_state_is_not_qualifying",
+          "scope_not_frozen",
+          "independent_evidence_channels_incomplete",
+          "critical_edges_not_bound",
+          "agent_oracle_separation_not_proven"
+        ]
+      }
+    }
+  ]
+}

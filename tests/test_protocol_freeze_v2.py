@@ -4,6 +4,7 @@ from pathlib import Path
 import yaml
 
 from src.experiments.protocol_freeze_v2 import (
+    ORACLE_REQUIRED_FROZEN_INPUTS,
     REQUIRED_FROZEN_INPUTS,
     build_freeze_manifest,
     build_frozen_protocol,
@@ -17,16 +18,7 @@ CONFIG = ROOT / "configs" / "ec_react_main_v2_draft.yaml"
 
 
 def _inputs():
-    names = [
-        "source_packet",
-        "gold_release",
-        "split_manifest",
-        "negative_source_packet",
-        "negative_gold_release",
-        "path_ontology",
-        "external_action_prior",
-        "external_action_source_archive",
-    ]
+    names = sorted(ORACLE_REQUIRED_FROZEN_INPUTS)
     return {
         name: {
             "path": f"{name}.json",
