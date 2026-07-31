@@ -566,16 +566,30 @@ def _validate_executable_oracle_release(
             for case in runtime_packet.get("cases") or []
         }
         for record in runtime_records:
-            for case_id in record.get("case_ids") or []:
-                case = cases.get(str(case_id))
-                if case is None:
-                    blockers.append(
-                        f"Oracle runtime case missing from packet: {case_id}"
-                    )
-                    continue
-                runtime_instances += len(
-                    case.get("runtime_instances") or []
+            selected = record.get("selected_oracle_unit") or {}
+            case_id = str(selected.get("case_id") or "")
+            instance_id = str(
+                selected.get("runtime_instance_id") or ""
+            )
+            case = cases.get(case_id)
+            if case is None:
+                blockers.append(
+                    f"selected Oracle runtime case missing from packet: "
+                    f"{case_id}"
                 )
+                continue
+            matching = [
+                item
+                for item in case.get("runtime_instances") or []
+                if str(item.get("instance_id") or "") == instance_id
+            ]
+            if len(matching) != 1:
+                blockers.append(
+                    f"selected Oracle runtime instance is not unique in "
+                    f"packet: {case_id}/{instance_id}"
+                )
+                continue
+            runtime_instances += 1
 
     qualifying = report["qualifying_oracle_gold_groups"]
     runtime_groups = len(runtime_records)

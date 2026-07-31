@@ -33,7 +33,8 @@ def build_execution_queue(
         if candidate.get("counts_toward_oracle_gold") is True:
             continue
         platform_tasks = []
-        for platform in candidate["platforms"]:
+        selected_platform = candidate["selected_oracle_unit"]["platform"]
+        for platform in [selected_platform]:
             contract = contracts.get(platform)
             if not isinstance(contract, Mapping):
                 raise ValueError(
@@ -77,6 +78,7 @@ def build_execution_queue(
             "category": candidate["category"],
             "source_ids": candidate["source_ids"],
             "case_ids": candidate["case_ids"],
+            "selected_oracle_unit": candidate["selected_oracle_unit"],
             "truth_state_before_execution": candidate["truth_state"],
             "expected_truth_state": None,
             "status": "pending",

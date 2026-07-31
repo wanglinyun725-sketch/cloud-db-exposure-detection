@@ -19,6 +19,7 @@
     "critical_edges",
     "leakage_control",
     "source_case_bindings",
+    "selected_oracle_unit",
     "qualification"
   ],
   "properties": {
@@ -120,6 +121,29 @@
     },
     "leakage_control": {"type": "object"},
     "source_case_bindings": {"type": "array", "minItems": 1},
+    "selected_oracle_unit": {
+      "type": "object",
+      "required": [
+        "unit_id",
+        "case_id",
+        "runtime_instance_id",
+        "platform",
+        "selection_rule",
+        "selection_digest"
+      ],
+      "properties": {
+        "unit_id": {"type": "string", "minLength": 1},
+        "case_id": {"type": "string", "minLength": 1},
+        "runtime_instance_id": {"type": ["string", "null"]},
+        "platform": {"enum": ["AWS", "AZURE", "GCP"]},
+        "selection_rule": {"type": "string", "minLength": 1},
+        "selection_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
     "qualification": {"type": "object"}
   },
   "$defs": {
