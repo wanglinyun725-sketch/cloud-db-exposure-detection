@@ -2,12 +2,12 @@
   "split_version": "1.0.0",
   "split_kind": "executable_oracle_split_v1",
   "status": "blocked_on_oracle_gold",
-  "oracle_registry_sha256": "379fee6991c89bf8209df0efef530bb3637abd8a72f7d479ef54f52c2dc8a4ed",
+  "oracle_registry_sha256": "163d7f6f1eed34ef8d4d17870bb5380d8a8046e9f3fecce2398ca3dea0e22938",
   "bindings": {
     "oracle_registry": {
       "path": "data/real_sources/oracle/executable_oracle_registry_v1.json",
-      "sha256": "ab3989baf7d126fdb8fc7df645b41f2790c0a6c0c5b4982630ccc1d31272a109",
-      "bytes": 149099
+      "sha256": "ad754679d199574fd9bb01a8d7aa6076efe158c9197e176cab3739a380181d4c",
+      "bytes": 142139
     },
     "split_policy": {
       "path": "configs/oracle_split_policy_v1.json",
