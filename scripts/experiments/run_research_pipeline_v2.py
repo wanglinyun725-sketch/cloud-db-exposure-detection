@@ -1,4 +1,4 @@
-"""Fail-closed orchestration from human freeze to claim decision."""
+"""Fail-closed orchestration from executable Oracle Gold to claim decision."""
 from __future__ import annotations
 
 import argparse
@@ -44,7 +44,7 @@ def main() -> int:
         type=Path,
         default=DEFAULT_FROZEN_CONFIG,
         help=(
-            "Immutable execution config emitted after human releases are "
+            "Immutable execution config emitted after Oracle releases are "
             "committed and the draft protocol passes preflight."
         ),
     )
@@ -80,23 +80,15 @@ def main() -> int:
         "ready": False,
         "final_status": "blocked",
     }
-    confirmatory = _run([
+    oracle = _run([
         PYTHON,
-        ROOT / "scripts" / "annotation"
-        / "freeze_confirmatory_v1.py",
+        ROOT / "scripts" / "oracle"
+        / "audit_executable_oracle_registry_v1.py",
+        "--require-ready",
     ])
     status["stages"].append({
-        "stage": "freeze_confirmatory_gold",
-        **confirmatory,
-    })
-    negative = _run([
-        PYTHON,
-        ROOT / "scripts" / "annotation"
-        / "freeze_negative_controls_v1.py",
-    ])
-    status["stages"].append({
-        "stage": "freeze_negative_controls",
-        **negative,
+        "stage": "validate_executable_oracle_gold",
+        **oracle,
     })
 
     preflight_output = output_dir / "pipeline_preflight.json"

@@ -20,6 +20,28 @@ REQUIRED_FROZEN_INPUTS = {
     "external_action_prior",
     "external_action_source_archive",
 }
+ORACLE_REQUIRED_FROZEN_INPUTS = {
+    "source_packet",
+    "oracle_registry",
+    "oracle_record_schema",
+    "split_manifest",
+    "path_ontology",
+    "external_action_prior",
+    "external_action_source_archive",
+}
+
+
+def required_frozen_inputs(
+    config: Mapping[str, Any],
+) -> set[str]:
+    """Return the exact artifact set for the configured Gold protocol."""
+    data = config.get("data")
+    if (
+        isinstance(data, Mapping)
+        and data.get("gold_protocol") == "executable_oracle_v1"
+    ):
+        return set(ORACLE_REQUIRED_FROZEN_INPUTS)
+    return set(REQUIRED_FROZEN_INPUTS)
 
 
 def collect_frozen_inputs(
@@ -31,16 +53,31 @@ def collect_frozen_inputs(
     data = config["data"]
     ontology = config["path_ontology"]
     prior = config["external_action_prior"]
-    declared = {
-        "source_packet": data["source_packet"],
-        "gold_release": data["gold_release"],
-        "split_manifest": data["split_manifest"],
-        "negative_source_packet": data["negative_source_packet"],
-        "negative_gold_release": data["negative_gold_release"],
-        "path_ontology": ontology["path"],
-        "external_action_prior": prior["path"],
-        "external_action_source_archive": prior["source_archive_path"],
-    }
+    if data.get("gold_protocol") == "executable_oracle_v1":
+        declared = {
+            "source_packet": data["source_packet"],
+            "oracle_registry": data["oracle_registry"],
+            "oracle_record_schema": data["oracle_record_schema"],
+            "split_manifest": data["split_manifest"],
+            "path_ontology": ontology["path"],
+            "external_action_prior": prior["path"],
+            "external_action_source_archive": prior[
+                "source_archive_path"
+            ],
+        }
+    else:
+        declared = {
+            "source_packet": data["source_packet"],
+            "gold_release": data["gold_release"],
+            "split_manifest": data["split_manifest"],
+            "negative_source_packet": data["negative_source_packet"],
+            "negative_gold_release": data["negative_gold_release"],
+            "path_ontology": ontology["path"],
+            "external_action_prior": prior["path"],
+            "external_action_source_archive": prior[
+                "source_archive_path"
+            ],
+        }
     output = {}
     for name, value in declared.items():
         path = Path(value)
@@ -74,7 +111,7 @@ def build_frozen_protocol(
         raise ValueError("git_commit must be a full lowercase SHA-1")
     if not _is_sha256(draft_sha256):
         raise ValueError("draft_sha256 must be a lowercase SHA-256")
-    if set(frozen_inputs) != REQUIRED_FROZEN_INPUTS:
+    if set(frozen_inputs) != required_frozen_inputs(draft):
         raise ValueError(
             "frozen inputs do not match the required protocol artifacts"
         )

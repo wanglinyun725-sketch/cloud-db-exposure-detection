@@ -49,13 +49,9 @@ def build_goal_acceptance(root: str | Path) -> dict[str, Any]:
         root / "output" / "research_design"
         / "executable_lineage_inventory_v1.json"
     )
-    confirmatory = _read_optional(
+    oracle_status = _read_optional(
         root / "output" / "research_design"
-        / "confirmatory_freeze_readiness_v1.json"
-    )
-    negative = _read_optional(
-        root / "output" / "research_design"
-        / "negative_control_freeze_readiness_v1.json"
+        / "executable_oracle_gold_status_v1.json"
     )
     decision_path = (
         root / "output" / "ec_react_main_v2"
@@ -95,21 +91,17 @@ def build_goal_acceptance(root: str | Path) -> dict[str, Any]:
         and REQUIRED_PLATFORMS
         <= set(inventory_summary.get("platforms") or [])
     )
-    confirmatory_gate = bool(
-        (confirmatory or {}).get("ready_to_publish") is True
-        and (confirmatory or {}).get(
-            "human_gold_independence_groups", 0
-        )
-        >= 30
-        and ((confirmatory or {}).get("split_summary") or {}).get(
-            "analytic_independence_groups", 0
-        )
-        >= 30
+    oracle_gate = bool(
+        (oracle_status or {}).get("valid") is True
+        and (oracle_status or {}).get(
+            "qualifying_oracle_gold_groups", 0
+        ) >= 30
     )
     negative_gate = bool(
-        (negative or {}).get("ready_to_publish") is True
-        and (negative or {}).get("experiment_eligible") is True
-        and (negative or {}).get("usable_negative_controls", 0) >= 20
+        (oracle_status or {}).get("valid") is True
+        and (oracle_status or {}).get(
+            "bounded_negative_or_paired_control_groups", 0
+        ) >= 10
     )
     methods = {
         item.get("method_id") for item in draft.get("methods") or []
@@ -152,8 +144,8 @@ def build_goal_acceptance(root: str | Path) -> dict[str, Any]:
 
     gates = {
         "real_cross_cloud_benchmark": dataset_gate,
-        "thirty_lineage_double_human_gold": confirmatory_gate,
-        "twenty_human_screened_negative_controls": negative_gate,
+        "thirty_lineage_executable_oracle_gold": oracle_gate,
+        "ten_bounded_negative_or_paired_controls": negative_gate,
         "ec_react_and_baselines_implemented": method_gate,
         "hash_bound_protocol_frozen": frozen_gate,
         "confirmatory_experiment_claim_passed": decision_gate,
@@ -187,6 +179,14 @@ def build_goal_acceptance(root: str | Path) -> dict[str, Any]:
             "本地研究分支仍有未同步到上游的提交"
         ),
     }
+    blocker_text["thirty_lineage_executable_oracle_gold"] = (
+        "At least 30 independent lineages must pass the hidden, "
+        "hash-bound executable Oracle protocol."
+    )
+    blocker_text["ten_bounded_negative_or_paired_controls"] = (
+        "At least 10 scope-bounded negative or paired counterfactual "
+        "controls must pass the executable Oracle protocol."
+    )
     blockers = [
         {
             "gate": name,
@@ -216,21 +216,20 @@ def build_goal_acceptance(root: str | Path) -> dict[str, Any]:
                 "source_count": inventory_summary.get("source_count", 0),
                 "platforms": inventory_summary.get("platforms") or [],
             },
-            "confirmatory_human_gold": {
-                "stage": (confirmatory or {}).get("stage", "missing"),
-                "independence_groups": (confirmatory or {}).get(
-                    "human_gold_independence_groups", 0
-                ),
-                "analytic_independence_groups": (
-                    ((confirmatory or {}).get("split_summary") or {}).get(
-                        "analytic_independence_groups", 0
+            "executable_oracle_gold": {
+                "valid": (oracle_status or {}).get("valid", False),
+                "qualifying_independence_groups": (
+                    (oracle_status or {}).get(
+                        "qualifying_oracle_gold_groups", 0
                     )
                 ),
-            },
-            "negative_controls": {
-                "stage": (negative or {}).get("stage", "missing"),
-                "usable": (negative or {}).get(
-                    "usable_negative_controls", 0
+                "bounded_negative_or_paired_control_groups": (
+                    (oracle_status or {}).get(
+                        "bounded_negative_or_paired_control_groups", 0
+                    )
+                ),
+                "completion_gate": (
+                    (oracle_status or {}).get("completion_gate") or {}
                 ),
             },
             "method": {

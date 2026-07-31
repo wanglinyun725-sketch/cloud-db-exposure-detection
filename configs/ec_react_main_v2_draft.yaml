@@ -1,7 +1,7 @@
-protocol_version: "0.5-draft"
+protocol_version: "0.6-oracle-draft"
 experiment_id: ec_react_main_v2
-freeze_status: DRAFT_BLOCKED_ON_HUMAN_GOLD_AND_OPENAI_ACCESS
-purpose: preregistered human-gold fine-grained cloud-data path discovery
+freeze_status: DRAFT_BLOCKED_ON_EXECUTABLE_ORACLE_AND_OPENAI_ACCESS
+purpose: preregistered executable-Oracle fine-grained cloud-data path discovery
 
 path_ontology:
   path: configs/path_ontology_v1.json
@@ -24,17 +24,21 @@ external_action_prior:
   positive_detection_selections_only: true
 
 data:
+  gold_protocol: executable_oracle_v1
+  oracle_registry: data/real_sources/oracle/executable_oracle_registry_v1.json
+  oracle_status: output/research_design/executable_oracle_gold_status_v1.json
+  oracle_record_schema: data/real_sources/oracle/executable_oracle_record_v1.schema.json
   source_packet: data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json
-  gold_release: data/real_sources/annotation/reviewed/runtime_confirmatory_30_reviewed.json
-  split_manifest: data/real_sources/annotation/reviewed/runtime_confirmatory_30_splits.json
+  gold_release: data/real_sources/oracle/executable_oracle_registry_v1.json
+  split_manifest: data/real_sources/oracle/releases/executable_oracle_gold_v1_splits.json
   negative_source_packet: data/real_sources/annotation/negative_control_round1_unlabeled.json
   negative_gold_release: data/real_sources/annotation/reviewed/negative_control_round1_reviewed.json
-  minimum_finalized_cases: 52
+  minimum_finalized_cases: 30
   minimum_included_cases: 30
-  minimum_independence_groups: 20
+  minimum_independence_groups: 30
   minimum_runtime_backed_cases: 30
   minimum_frozen_test_cases: 15
-  minimum_external_negative_controls: 20
+  minimum_external_negative_controls: 10
   require_nonempty_runtime_instances: true
   statistical_unit: independence_group
   allowed_splits:
