@@ -1,0 +1,100 @@
+policy_version: "1.0.0"
+policy_kind: isolated_cloud_oracle_execution
+execution_default: disabled
+authorization_sentinel:
+  environment_variable: PATHBENCH_ORACLE_EXECUTION
+  required_value: I_AUTHORIZE_ISOLATED_TEST_RESOURCES_ONLY
+
+safety:
+  production_accounts_forbidden: true
+  require_dedicated_account_subscription_or_project: true
+  require_no_sensitive_data: true
+  resource_name_prefix: pathbench-oracle-
+  mandatory_tags:
+    managed-by: cloud-db-pathbench
+    purpose: executable-oracle
+  maximum_ttl_hours: 4
+  maximum_estimated_cost_usd_per_lineage: 5
+  destructive_actions_only_on_run_owned_resources: true
+  public_endpoints_must_use_random_unpredictable_names: true
+  teardown_required: true
+  post_teardown_inventory_required: true
+  credentials_must_not_enter_artifacts: true
+
+evidence_contract:
+  channels:
+    - configuration
+    - provider_native_analysis
+    - authorized_active_probe
+    - audit_telemetry
+  raw_stdout_stderr_preserved: true
+  sha256_required: true
+  wall_clock_time_required: true
+  provider_request_id_required_when_available: true
+  expected_outcome_hidden_from_agent: true
+  minimum_independent_channels_per_critical_edge: 2
+
+provider_contracts:
+  AWS:
+    required_tools:
+      - aws
+      - terraform
+    configuration_oracles:
+      - terraform_show_json
+      - aws_resource_policy_get
+    provider_native_oracles:
+      - aws_access_analyzer
+      - aws_iam_simulation_when_supported
+    active_probe_transport:
+      - aws_cli_with_dedicated_low_privilege_profile
+      - anonymous_https_for_public_data_only
+    audit_sources:
+      - cloudtrail_lookup_events
+      - cloudtrail_lake_or_s3_delivery
+  AZURE:
+    required_tools:
+      - az
+      - terraform
+    configuration_oracles:
+      - terraform_show_json
+      - azure_resource_graph
+    provider_native_oracles:
+      - azure_rbac_check_access
+      - azure_resource_effective_configuration
+    active_probe_transport:
+      - az_cli_with_dedicated_service_principal
+      - anonymous_https_for_public_blob_only
+    audit_sources:
+      - azure_activity_log
+      - azure_resource_logs
+  GCP:
+    required_tools:
+      - gcloud
+      - terraform
+    configuration_oracles:
+      - terraform_show_json
+      - gcloud_asset_effective_iam_policy
+    provider_native_oracles:
+      - gcloud_policy_troubleshoot_iam
+      - test_iam_permissions_for_authenticated_probe
+    active_probe_transport:
+      - gcloud_with_dedicated_service_account
+      - anonymous_https_for_public_object_only
+    audit_sources:
+      - gcp_audit_logs
+
+truth_rules:
+  Reachable:
+    configuration: verified_facts
+    provider_native_analysis: allows
+    authorized_active_probe: allowed
+    audit_telemetry: allowed_observed
+  NotReachableWithinScope:
+    configuration: verified_facts
+    provider_native_analysis: denies
+    authorized_active_probe: denied
+    audit_telemetry: denied_observed
+  Unknown:
+    rule: any_required_channel_missing
+  Conflict:
+    rule: independent_verified_channels_disagree

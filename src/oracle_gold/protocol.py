@@ -371,6 +371,44 @@ def _add_candidate(
         "packet_path": packet_path.relative_to(root).as_posix(),
         "case_sha256": _stable_hash(case),
     })
+    if category == "configuration":
+        evidence_id = "configuration-" + sha256(
+            group.encode("utf-8")
+        ).hexdigest()[:20]
+        row["evidence_channels"]["configuration"] = {
+            "status": "verified",
+            "outcome": "verified_facts",
+            "evidence": [{
+                "evidence_id": evidence_id,
+                "artifact": _binding(root, packet_path),
+                "case_id": case_id,
+                "case_sha256": _stable_hash(case),
+                "evidence_role": (
+                    "byte_verified_pinned_upstream_configuration"
+                ),
+                "does_not_prove": "runtime_reachability",
+            }],
+        }
+    elif case.get("runtime_instances"):
+        evidence_id = "telemetry-" + sha256(
+            f"{group}:{case_id}".encode("utf-8")
+        ).hexdigest()[:20]
+        channel = row["evidence_channels"]["audit_telemetry"]
+        if channel["status"] == "pending":
+            channel["status"] = "artifact_verified"
+        channel["evidence"].append({
+            "evidence_id": evidence_id,
+            "artifact": _binding(root, packet_path),
+            "case_id": case_id,
+            "case_sha256": _stable_hash(case),
+            "evidence_role": "published_real_cloud_audit_telemetry",
+            "observation_count": sum(
+                len(instance.get("observations") or [])
+                for instance in case.get("runtime_instances") or []
+            ),
+            "semantic_outcome_pending": True,
+        })
+        channel["evidence"].sort(key=lambda item: item["evidence_id"])
     row["case_ids"] = sorted(set(row["case_ids"]))
     row["source_ids"] = sorted(set(row["source_ids"]))
     row["platforms"] = sorted(set(row["platforms"]))

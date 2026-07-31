@@ -1,0 +1,57 @@
+{
+  "report_version": "1.0.0",
+  "report_kind": "oracle_execution_capability",
+  "secrets_in_report": false,
+  "credential_values_recorded": false,
+  "authorization_sentinel_present": false,
+  "platforms": {
+    "AWS": {
+      "tools": {
+        "aws": true,
+        "terraform": false
+      },
+      "authenticated": false,
+      "isolated_scope_configured": false,
+      "execution_authorized": false,
+      "blockers": [
+        "missing_tool:terraform",
+        "not_authenticated",
+        "isolated_scope_not_configured",
+        "execution_sentinel_absent"
+      ]
+    },
+    "AZURE": {
+      "tools": {
+        "az": false,
+        "terraform": false
+      },
+      "authenticated": false,
+      "isolated_scope_configured": false,
+      "execution_authorized": false,
+      "blockers": [
+        "missing_tool:az",
+        "missing_tool:terraform",
+        "not_authenticated",
+        "isolated_scope_not_configured",
+        "execution_sentinel_absent"
+      ]
+    },
+    "GCP": {
+      "tools": {
+        "gcloud": true,
+        "terraform": false
+      },
+      "authenticated": false,
+      "isolated_scope_configured": false,
+      "execution_authorized": false,
+      "blockers": [
+        "missing_tool:terraform",
+        "not_authenticated",
+        "isolated_scope_not_configured",
+        "execution_sentinel_absent"
+      ]
+    }
+  },
+  "ready_platforms": [],
+  "any_execution_authorized": false
+}

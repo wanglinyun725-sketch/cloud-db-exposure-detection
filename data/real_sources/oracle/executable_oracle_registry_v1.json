@@ -38,8 +38,8 @@
     },
     "record_schema": {
       "path": "data/real_sources/oracle/executable_oracle_record_v1.schema.json",
-      "sha256": "986cdac295a7471b53bb22ffbce3f57ccfa8fdcb64d93991408d6d87143ca70e",
-      "bytes": 4037
+      "sha256": "9d7e2bf0b3aee15981817b9da968b56b4b970d8915553a2a4a2d3f41a5615309",
+      "bytes": 4138
     }
   },
   "summary": {
@@ -120,9 +120,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-bb41cf53a32201a7e097",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "cloudgoat:aws:cloud_breach_s3",
+              "case_sha256": "7f9fa244c20996ea22464d115b18ed44485047fd9eb9e67a07719b853711bce5",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 103,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -177,9 +191,22 @@
       },
       "evidence_channels": {
         "configuration": {
-          "status": "pending",
-          "outcome": null,
-          "evidence": []
+          "status": "verified",
+          "outcome": "verified_facts",
+          "evidence": [
+            {
+              "evidence_id": "configuration-c3bde1c72a812e06a870",
+              "artifact": {
+                "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                "bytes": 406477
+              },
+              "case_id": "awsgoat_m1_ssrf_dynamodb",
+              "case_sha256": "eae1fd136f76367d57ed69524f0e4aa2dbf44fe1fe61143ddf4578a1f1bc14c0",
+              "evidence_role": "byte_verified_pinned_upstream_configuration",
+              "does_not_prove": "runtime_reachability"
+            }
+          ]
         },
         "provider_native_analysis": {
           "status": "pending",
@@ -249,9 +276,22 @@
       },
       "evidence_channels": {
         "configuration": {
-          "status": "pending",
-          "outcome": null,
-          "evidence": []
+          "status": "verified",
+          "outcome": "verified_facts",
+          "evidence": [
+            {
+              "evidence_id": "configuration-7d9834932c6896da4a4c",
+              "artifact": {
+                "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                "bytes": 406477
+              },
+              "case_id": "awsgoat_m2_ecs_secret_rds_credentials",
+              "case_sha256": "52553ccf77e7e1cae09fba208ba654dab1c01602f498f87e93b7ce15abfa6fc8",
+              "evidence_role": "byte_verified_pinned_upstream_configuration",
+              "does_not_prove": "runtime_reachability"
+            }
+          ]
         },
         "provider_native_analysis": {
           "status": "pending",
@@ -321,9 +361,22 @@
       },
       "evidence_channels": {
         "configuration": {
-          "status": "pending",
-          "outcome": null,
-          "evidence": []
+          "status": "verified",
+          "outcome": "verified_facts",
+          "evidence": [
+            {
+              "evidence_id": "configuration-51810be132a6d682de0d",
+              "artifact": {
+                "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                "bytes": 406477
+              },
+              "case_id": "azuregoat_prod_dev_blob_control_pair",
+              "case_sha256": "840c5b23dd27fe68ae993faf87c9ee5f0e05e5fc90b6febdc8bdcedc7199fb9e",
+              "evidence_role": "byte_verified_pinned_upstream_configuration",
+              "does_not_prove": "runtime_reachability"
+            }
+          ]
         },
         "provider_native_analysis": {
           "status": "pending",
@@ -393,9 +446,22 @@
       },
       "evidence_channels": {
         "configuration": {
-          "status": "pending",
-          "outcome": null,
-          "evidence": []
+          "status": "verified",
+          "outcome": "verified_facts",
+          "evidence": [
+            {
+              "evidence_id": "configuration-fefb8f73af1038cd29e4",
+              "artifact": {
+                "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                "bytes": 406477
+              },
+              "case_id": "azuregoat_ssrf_cosmos_storage",
+              "case_sha256": "6924be40889c4a3e09cc2ba8ea1269d2d257c0c0747e34c7ed6e6402563212a6",
+              "evidence_role": "byte_verified_pinned_upstream_configuration",
+              "does_not_prove": "runtime_reachability"
+            }
+          ]
         },
         "provider_native_analysis": {
           "status": "pending",
@@ -465,9 +531,22 @@
       },
       "evidence_channels": {
         "configuration": {
-          "status": "pending",
-          "outcome": null,
-          "evidence": []
+          "status": "verified",
+          "outcome": "verified_facts",
+          "evidence": [
+            {
+              "evidence_id": "configuration-2f255d8861cfb037ae59",
+              "artifact": {
+                "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                "bytes": 406477
+              },
+              "case_id": "cloudfoxable_double_tap_secret_path",
+              "case_sha256": "44819e1fcd0dfeca936522f125851fa7c31973e5dd233296b5ebf7011a9f4f27",
+              "evidence_role": "byte_verified_pinned_upstream_configuration",
+              "does_not_prove": "runtime_reachability"
+            }
+          ]
         },
         "provider_native_analysis": {
           "status": "pending",
@@ -537,9 +616,22 @@
       },
       "evidence_channels": {
         "configuration": {
-          "status": "pending",
-          "outcome": null,
-          "evidence": []
+          "status": "verified",
+          "outcome": "verified_facts",
+          "evidence": [
+            {
+              "evidence_id": "configuration-c32785dbcfd91a787c03",
+              "artifact": {
+                "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                "bytes": 406477
+              },
+              "case_id": "cloudfoxable_search1_elasticsearch_exposure",
+              "case_sha256": "13ed74bb634ddc772c27320c9593c61578a3865904adc141b022bc1a60bfc976",
+              "evidence_role": "byte_verified_pinned_upstream_configuration",
+              "does_not_prove": "runtime_reachability"
+            }
+          ]
         },
         "provider_native_analysis": {
           "status": "pending",
@@ -609,9 +701,22 @@
       },
       "evidence_channels": {
         "configuration": {
-          "status": "pending",
-          "outcome": null,
-          "evidence": []
+          "status": "verified",
+          "outcome": "verified_facts",
+          "evidence": [
+            {
+              "evidence_id": "configuration-853b905626007f9b5aab",
+              "artifact": {
+                "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                "bytes": 406477
+              },
+              "case_id": "gcpgoat_anonymous_bucket_policy_transition",
+              "case_sha256": "20da6d3527cfe35014209e131da1041e404987c34575576719616d86443d56a6",
+              "evidence_role": "byte_verified_pinned_upstream_configuration",
+              "does_not_prove": "runtime_reachability"
+            }
+          ]
         },
         "provider_native_analysis": {
           "status": "pending",
@@ -681,9 +786,22 @@
       },
       "evidence_channels": {
         "configuration": {
-          "status": "pending",
-          "outcome": null,
-          "evidence": []
+          "status": "verified",
+          "outcome": "verified_facts",
+          "evidence": [
+            {
+              "evidence_id": "configuration-48df1512d24efb5ebeeb",
+              "artifact": {
+                "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                "bytes": 406477
+              },
+              "case_id": "terragoat_aws_ec2_userdata_to_rds",
+              "case_sha256": "d5829160ab9d2b07c5c242bc0e1dcf1764e8790d6b4876e33f47ba71c8f3d0e2",
+              "evidence_role": "byte_verified_pinned_upstream_configuration",
+              "does_not_prove": "runtime_reachability"
+            }
+          ]
         },
         "provider_native_analysis": {
           "status": "pending",
@@ -753,9 +871,22 @@
       },
       "evidence_channels": {
         "configuration": {
-          "status": "pending",
-          "outcome": null,
-          "evidence": []
+          "status": "verified",
+          "outcome": "verified_facts",
+          "evidence": [
+            {
+              "evidence_id": "configuration-f7ed089a2b5d43704ced",
+              "artifact": {
+                "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                "bytes": 406477
+              },
+              "case_id": "terragoat_azure_mysql_public_transport",
+              "case_sha256": "83d3c175d07dca4f28dbf267f43c6d8f976446117d4f9f819f13b7b5b82f88a8",
+              "evidence_role": "byte_verified_pinned_upstream_configuration",
+              "does_not_prove": "runtime_reachability"
+            }
+          ]
         },
         "provider_native_analysis": {
           "status": "pending",
@@ -825,9 +956,22 @@
       },
       "evidence_channels": {
         "configuration": {
-          "status": "pending",
-          "outcome": null,
-          "evidence": []
+          "status": "verified",
+          "outcome": "verified_facts",
+          "evidence": [
+            {
+              "evidence_id": "configuration-05f90c3e752e16e2dcfc",
+              "artifact": {
+                "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                "bytes": 406477
+              },
+              "case_id": "terragoat_gcp_anonymous_gcs_read",
+              "case_sha256": "10aaa2c4551681722020898714bbf0b49c305023f058174affba97c765646616",
+              "evidence_role": "byte_verified_pinned_upstream_configuration",
+              "does_not_prove": "runtime_reachability"
+            }
+          ]
         },
         "provider_native_analysis": {
           "status": "pending",
@@ -916,9 +1060,49 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-8f866bb94b01c88cdca6",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:azure:archive_collected_data",
+              "case_sha256": "0b38d0ae5c690236419e2a8c9be1a6e01341cee7cad2faa401596c3ff8652eef",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 64,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-9790907e8f9c0bcac1e1",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:aws:archive_collected_data",
+              "case_sha256": "2640fde52b447d5dce83db3bbc4f886029ee8ac33138d4a9df9148ed77c48585",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 16,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-dbdaaf80cee7787b8276",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:gcp:archive_collected_data",
+              "case_sha256": "bb1dfd014ab5d7e2871c1e815021c87fddf28b91dc3e6744e058468e71b141fc",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 8,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -1002,9 +1186,49 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-629dadedf6d1aaecf262",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:azure:automated_collection",
+              "case_sha256": "6e42f26262997adee20380575eed9b4a8f961b5f1601c4d60530e10fa06b9496",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 53,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-812604c89032a998cef9",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:gcp:automated_collection",
+              "case_sha256": "e501352dfcb64f815cf207482fe1e03aaa5b67bb4e1a5d4bd4ad22bc87473568",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 14,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-f254f53fc62f67fa2058",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:aws:automated_collection",
+              "case_sha256": "5a94e8772800c0d10e9a125c434506f77e82d8ed14f84edc2b0e173f1eb0e095",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 13,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -1088,9 +1312,49 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-017da9e9b86ba7bebb9d",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:gcp:automated_exfiltration",
+              "case_sha256": "b7e34cae349eeccf782ddae8a006dd2774b038d5a25b8a755142141836b8c51e",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 553,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-5c1a87812a5b569b1149",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:aws:automated_exfiltration",
+              "case_sha256": "9cbc62edc79e045cfbe349b08c5c0869ddd5f4451f814fa7bfe2d743dbfb816a",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 227,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-ed7b9afedfc8c95bdb10",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:azure:automated_exfiltration",
+              "case_sha256": "ff5af544c71df4c889092d3551bdabc1f525297c39f7fec60c69a0e8a000d28c",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 49,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -1174,9 +1438,49 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-45fbcf34ad84753a5219",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:azure:credentials_from_password_stores",
+              "case_sha256": "6dcc667ce47aa4ff7ed01bae62cda83ffbaf44bcc60832ade904c9f1ef20ee2d",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 28,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-aad80ee5029dff7a0f67",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:aws:credentials_from_password_stores",
+              "case_sha256": "1af61ce0ebf172f2b2749086043af3de2bf1863baa33b8dbc1d09cc8a308ed82",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 18,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-d4f8da11135a171d762e",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:gcp:credentials_from_password_stores",
+              "case_sha256": "c8f58652d2c6995236fbe97c3e103e82869f89a8067e092b4ced0f62604ed988",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 17,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -1260,9 +1564,49 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-5aab02da02eef4c798e9",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:gcp:data_destruction",
+              "case_sha256": "8ca263a5669c61772a1698f43ed163bc26f1b3c80f2e6beaf7beff4c65dd1bc2",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 3,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-809c9241e8df3c06b080",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:aws:data_destruction",
+              "case_sha256": "5a7ff057e1612172408ff271d6675d52b8e9b609e093ec6da5acedd58b62be7f",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 34,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-8f4dfec7768be62fdfaa",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:azure:data_destruction",
+              "case_sha256": "7633d666b3a0f27f3292c5f85713f753d5f50ff483a1cc7a7c6559db8566ab93",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 28,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -1346,9 +1690,49 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-342e3e7d0ec50927c6d1",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:aws:data_encrypted_for_impact",
+              "case_sha256": "096a7dfec14e04e4c8a151287539bec98bfbb68848118dc79cf4ddb9a5ef49b7",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 8,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-5834ba6d5e356de2cacb",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:azure:data_encrypted_for_impact",
+              "case_sha256": "a8ec20d634e2b51394f4504e3fb828d4661c2c6846d43c08b82e0e48c1d78937",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 34,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-77585246cc1f9c0a4efc",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:gcp:data_encrypted_for_impact",
+              "case_sha256": "9c280f96fbfc9049043fe1c2ed2dbd07b62221af8d0e3be05de2808fbb5f45a5",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 9,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -1432,9 +1816,49 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-8898d6d88aeecca2bae5",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:aws:inhibit_system_recovery",
+              "case_sha256": "c6b12e37a04218835247756e6fa7d167da450f533d123d8e153605271f834ff2",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 63,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-b028a4868d277c77eda5",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:gcp:inhibit_system_recovery",
+              "case_sha256": "794e32d89305b3f2fee45e7802c94a569e66458ad26b4c8a9a5f84dd28d00464",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 2,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-dc66721c01cc09523c47",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:azure:inhibit_system_recovery",
+              "case_sha256": "695fa9f9423ac17866f327cfacb178cb323912c58b7eda0733463d43bf8bcdab",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 30,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -1518,9 +1942,49 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-0e7b69bf28df642778a0",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:gcp:scheduled_transfer",
+              "case_sha256": "952bc6f90aefcad4631052195f7217648c66d723345f48950cb8a3ad2e62b4e3",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 514,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-a4e3761b8f72217e6914",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:azure:scheduled_transfer",
+              "case_sha256": "2708700f8ea67e1f6befca64ac9323af08502cb7615173b050d43448482332d9",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 47,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-c86445a275b368f7e9cc",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:aws:scheduled_transfer",
+              "case_sha256": "8c8a5911483dcd1b29c12a97e23cdb06b7780c7a82a979b88387bdbb5ab29370",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 180,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -1604,9 +2068,49 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-269ab62bf71be5958d5d",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:aws:steal_application_access_token",
+              "case_sha256": "4bad6d130f403e9e766fcfe9cd48a9c449aad3f9ee7fb129168376ce21f30305",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 24,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-680c6259147f7b5d275d",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:azure:steal_application_access_token",
+              "case_sha256": "cc3cd1e486e47eff494ee544f64d510a2e951e38f99cf2aff782fb284c1d1469",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 36,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-84a64efe744c44338977",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:gcp:steal_application_access_token",
+              "case_sha256": "29f406c5b9be1ad396a3fe040e26ec196d8aa4981de3ef7d87eb0ff8592ee07d",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 18,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -1690,9 +2194,49 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-9964519d9a0df8829daf",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:azure:unsecured_credentials",
+              "case_sha256": "0876f1a165d3c0836b670e5bf7015717c6386b5e7c4d0d163d7ad8941eee81ad",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 25,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-9d61758904020c3947e9",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:gcp:unsecured_credentials",
+              "case_sha256": "2b081dab568163d2e3d9fd72b831cca276c24c748a28d78c7b7d39053b2968d2",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 11,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-dab4b941bd19d996dde4",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "crosscloud:aws:unsecured_credentials",
+              "case_sha256": "79cadf03984fd692c598138f0e9c436a2ac2788d4238ff4247cc95ddcfdae453",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 4,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -1772,9 +2316,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-716ce7d1822bad49402e",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+              "case_sha256": "61f3c2ad55fcb2a86cc94c4d040d0c8365a9176e9dd2961aaedd03bcc698262f",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 0,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -1844,9 +2402,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-e9b7656077ee3752e0b5",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+              "case_sha256": "27eaf7208e09e54072fde8c6281893dad97e92229d17238be358129a2da4cc73",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 0,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -1916,9 +2488,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-d69e15b4fb04acaebe02",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential",
+              "case_sha256": "89e71afeae7d8ba8cd6636858bac4c6192de0cad3735eb4b8fcb15c64466dc57",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 0,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -1988,9 +2574,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-48d2409557012eea12aa",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+              "case_sha256": "a6fcf026dcfb56d77de5458ebd972df409f672b7851c741777a56e5a69222db8",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 0,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -2060,9 +2660,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-ff6e24501d2f9332e249",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "splunk:datasets/attack_techniques/T1486/s3_file_encryption",
+              "case_sha256": "ecb1594e58e27ee73d885d40da226f9f73dcfaad2944d76b94964745863f281f",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 0,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -2132,9 +2746,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-6214bb5e061553a63ccd",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+              "case_sha256": "7e818e592a140a5139bb2f987a800ee7137213991e936a26be59196f67f98f31",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 0,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -2204,9 +2832,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-4c4ceb320db884cb97fb",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "splunk:datasets/attack_techniques/T1530/aws_s3_public_bucket",
+              "case_sha256": "903804c888ca4a8a3394cf5498bef9ef6020678a963972415cd80d0062008c7f",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 0,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -2277,9 +2919,36 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-432f5e5b45468a755ec4",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+              "case_sha256": "7eccb4413ca69ac95af0389c006af648cec77f3066f8664343d50c031e4f09b6",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 0,
+              "semantic_outcome_pending": true
+            },
+            {
+              "evidence_id": "telemetry-623689e18e0c4ee946a6",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "splunk:datasets/attack_techniques/T1537/aws_snapshot_exfil",
+              "case_sha256": "7c8754c4d2076458d0fa76baf3f413d2a4cdfd1cf615683d544879320b0326cf",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 0,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -2354,9 +3023,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-83e410fc96d1dd31d52b",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "stratus:aws.exfiltration.rds-share-snapshot",
+              "case_sha256": "3482a2aa3ead72087d37e40e05634f2881ce862483d5e4ea77d9c5a7454c1392",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 1,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -2426,9 +3109,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-e4df8dbd3575b6749e34",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "stratus:aws.credential-access.ec2-steal-instance-credentials",
+              "case_sha256": "05b73f259b012fadb125bf4fc1023325350a77968a60e8d702320499546c0e7d",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 45,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -2499,9 +3196,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-682b70b7a43e3d49cb9e",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+              "case_sha256": "833681b5a44f41dcb7d5b5299a3e5db72931a2834d35f2c1d4867c2591a95c3c",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 1,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -2576,9 +3287,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-b4d035c9c3c19305b492",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "stratus:aws.exfiltration.ec2-share-ebs-snapshot",
+              "case_sha256": "374861157afa3269e2557cc7be9576b84e594cec427f67c92793add0d7461ab8",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 1,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -2648,9 +3373,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-d8a35c95e4f5293fb307",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "stratus:aws.credential-access.ec2-get-password-data",
+              "case_sha256": "ef3ec16b0a209fbe52e75f9df1e9b1a1122c7c2d377ea9f1bd619a6740992338",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 34,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -2720,9 +3459,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-903d4422d458a1b6e97f",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+              "case_sha256": "9db425cf0594114b77121822faa74346a075d7f5aab0dd24a65eca0f8c80d6b0",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 5,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -2792,9 +3545,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-3669f61d8c94e8bb8c78",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+              "case_sha256": "938153dc531e6f4fcd0f8b9fd2e2376abf74136822d53f0743e65240e38b2db9",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 21,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -2864,9 +3631,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-e8338cf8b096a71d9029",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+              "case_sha256": "653d85eea33fd91a328fd24de208dbeeebe4c79190e68d00c4fa3eb95893b54b",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 10,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -2936,9 +3717,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-e166a9ea348229251096",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "stratus:aws.defense-evasion.dns-delete-logs",
+              "case_sha256": "b12c6fbe39aae6e57781705ba8392e9e4b63932bdf2f64e0adf81679afa94607",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 1,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -3008,9 +3803,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-a46adbf79c973e3f7a4a",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "stratus:aws.discovery.ec2-download-user-data",
+              "case_sha256": "6558437ca64f3ba0e44c06846c35be92dce45e0a53ba693803d89b329cdf8efe",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 19,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
@@ -3080,9 +3889,23 @@
           "evidence": []
         },
         "audit_telemetry": {
-          "status": "pending",
+          "status": "artifact_verified",
           "outcome": null,
-          "evidence": []
+          "evidence": [
+            {
+              "evidence_id": "telemetry-334f8d9811ae909e3cf7",
+              "artifact": {
+                "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                "bytes": 7375251
+              },
+              "case_id": "stratus:aws.exfiltration.ec2-share-ami",
+              "case_sha256": "f7ca26c5abbd016dcf8285bec9e17b150208030af226cb53b32bc32a8cdd7561",
+              "evidence_role": "published_real_cloud_audit_telemetry",
+              "observation_count": 1,
+              "semantic_outcome_pending": true
+            }
+          ]
         }
       },
       "critical_edges": [],
