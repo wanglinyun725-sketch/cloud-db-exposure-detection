@@ -13,6 +13,8 @@ from .evidence_bundle import (
 )
 from .scope_candidates import build_scope_candidate_inventory
 from .probe_contracts import build_probe_contract_registry
+from .replay_safety import build_replay_safety_audit
+from .replay_supply import build_replay_supply_inventory
 
 __all__ = [
     "apply_completed_evidence_bundles",
@@ -20,6 +22,8 @@ __all__ = [
     "build_evidence_bundle_templates",
     "build_scope_candidate_inventory",
     "build_probe_contract_registry",
+    "build_replay_safety_audit",
+    "build_replay_supply_inventory",
     "derive_truth_state",
     "refresh_registry_derived_fields",
     "validate_evidence_bundle",
