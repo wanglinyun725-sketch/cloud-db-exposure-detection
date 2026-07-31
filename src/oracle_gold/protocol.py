@@ -141,7 +141,87 @@ def build_candidate_registry(
         },
         "candidates": candidates,
     }
+    refresh_registry_derived_fields(root, registry)
     validate_oracle_registry(root, registry)
+    return registry
+
+
+def refresh_registry_derived_fields(
+    root: str | Path,
+    registry: dict[str, Any],
+) -> dict[str, Any]:
+    """Recompute all label-derived fields; never trust supplied counters."""
+    root = Path(root).resolve()
+    candidates = registry.get("candidates")
+    if not isinstance(candidates, list) or not candidates:
+        raise ValueError("Oracle registry has no candidates")
+    states = {state: 0 for state in TRUTH_STATES}
+    sources: set[str] = set()
+    platforms: set[str] = set()
+    qualifying = 0
+    negatives = 0
+    for candidate in candidates:
+        state = str(candidate.get("truth_state") or "")
+        if state not in TRUTH_STATES:
+            raise ValueError(f"invalid Oracle truth state: {state}")
+        errors = _qualification_errors(root, candidate)
+        is_gold = state in QUALIFYING_STATES and not errors
+        candidate["counts_toward_oracle_gold"] = is_gold
+        candidate["qualification"] = {
+            "status": (
+                "qualified"
+                if is_gold
+                else "conflict"
+                if state == "Conflict"
+                else "pending"
+            ),
+            "failure_reasons": errors,
+        }
+        states[state] += 1
+        sources.update(
+            str(value) for value in candidate.get("source_ids") or []
+        )
+        platforms.update(
+            str(value) for value in candidate.get("platforms") or []
+        )
+        if is_gold:
+            qualifying += 1
+            if (
+                state == "NotReachableWithinScope"
+                or candidate.get("controlled_counterfactual") is True
+            ):
+                negatives += 1
+    registry["summary"] = {
+        "candidate_independence_groups": len(candidates),
+        "source_count": len(sources),
+        "sources": sorted(sources),
+        "platforms": sorted(platforms),
+        "truth_state_counts": {
+            state: states[state]
+            for state in (
+                "Reachable",
+                "NotReachableWithinScope",
+                "Unknown",
+                "Conflict",
+            )
+        },
+        "qualifying_oracle_gold_groups": qualifying,
+        "bounded_negative_or_paired_control_groups": negatives,
+    }
+    registry["completion_gate"] = {
+        "minimum_oracle_gold_groups": 30,
+        "minimum_bounded_negative_or_paired_controls": 10,
+        "oracle_gold_passes": qualifying >= 30,
+        "negative_control_passes": negatives >= 10,
+        "passes": qualifying >= 30 and negatives >= 10,
+    }
+    registry["status"] = (
+        "oracle_gold_ready"
+        if registry["completion_gate"]["passes"]
+        else "candidate_registry_partial_gold"
+        if qualifying
+        else "candidate_registry_no_gold"
+    )
     return registry
 
 
@@ -246,6 +326,20 @@ def validate_oracle_registry(
             raise ValueError(
                 f"fail-closed gold flag mismatch for {group}: "
                 f"{candidate_errors}"
+            )
+        expected_qualification = {
+            "status": (
+                "qualified"
+                if should_qualify
+                else "conflict"
+                if state == "Conflict"
+                else "pending"
+            ),
+            "failure_reasons": candidate_errors,
+        }
+        if candidate.get("qualification") != expected_qualification:
+            raise ValueError(
+                f"Oracle qualification is not reproducible for {group}"
             )
         if should_qualify:
             qualifying += 1

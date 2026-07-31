@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cloud-db-pathbench.local/schema/oracle-evidence-bundle-v1",
+  "title": "Cloud DB PathBench privileged Oracle evidence bundle",
+  "type": "object",
+  "required": [
+    "bundle_version",
+    "bundle_kind",
+    "status",
+    "task_binding",
+    "run",
+    "scope",
+    "channels",
+    "critical_edges",
+    "leakage_control"
+  ],
+  "properties": {
+    "bundle_version": {"const": "1.0.0"},
+    "bundle_kind": {"const": "privileged_oracle_evidence"},
+    "status": {"enum": ["pending", "completed"]},
+    "task_binding": {
+      "type": "object",
+      "required": [
+        "queue",
+        "policy",
+        "task_id",
+        "independence_group",
+        "selected_oracle_unit"
+      ],
+      "properties": {
+        "queue": {"$ref": "#/$defs/artifact"},
+        "policy": {"$ref": "#/$defs/artifact"},
+        "task_id": {"type": "string", "minLength": 1},
+        "independence_group": {"type": "string", "minLength": 1},
+        "selected_oracle_unit": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "run": {
+      "type": "object",
+      "required": [
+        "status",
+        "run_id",
+        "platform",
+        "started_at",
+        "finished_at",
+        "estimated_cost_usd",
+        "credential_values_recorded",
+        "authorization",
+        "teardown"
+      ],
+      "properties": {
+        "status": {"enum": ["pending", "completed"]},
+        "run_id": {"type": ["string", "null"]},
+        "platform": {"enum": ["AWS", "AZURE", "GCP"]},
+        "started_at": {"type": ["string", "null"]},
+        "finished_at": {"type": ["string", "null"]},
+        "estimated_cost_usd": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "credential_values_recorded": {"const": false},
+        "authorization": {
+          "type": "object",
+          "required": [
+            "dedicated_scope_verified",
+            "production_scope",
+            "sentinel_verified",
+            "no_sensitive_data_attested",
+            "run_owned_resources_only"
+          ],
+          "properties": {
+            "dedicated_scope_verified": {"type": "boolean"},
+            "production_scope": {"type": ["boolean", "null"]},
+            "sentinel_verified": {"type": "boolean"},
+            "no_sensitive_data_attested": {"type": "boolean"},
+            "run_owned_resources_only": {"type": "boolean"}
+          },
+          "additionalProperties": false
+        },
+        "teardown": {
+          "type": "object",
+          "required": ["status", "inventory_artifact"],
+          "properties": {
+            "status": {"enum": ["pending", "verified_clean"]},
+            "inventory_artifact": {
+              "oneOf": [
+                {"type": "null"},
+                {"$ref": "#/$defs/artifact"}
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "status",
+        "principals",
+        "actions",
+        "resources",
+        "network_origins",
+        "time_window"
+      ],
+      "properties": {
+        "status": {"enum": ["pending", "frozen"]},
+        "principals": {"type": "array", "items": {"type": "string"}},
+        "actions": {"type": "array", "items": {"type": "string"}},
+        "resources": {"type": "array", "items": {"type": "string"}},
+        "network_origins": {"type": "array", "items": {"type": "string"}},
+        "time_window": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "channels": {
+      "type": "object",
+      "required": [
+        "configuration",
+        "provider_native_analysis",
+        "authorized_active_probe",
+        "audit_telemetry"
+      ],
+      "properties": {
+        "configuration": {"$ref": "#/$defs/channel"},
+        "provider_native_analysis": {"$ref": "#/$defs/channel"},
+        "authorized_active_probe": {"$ref": "#/$defs/channel"},
+        "audit_telemetry": {"$ref": "#/$defs/channel"}
+      },
+      "additionalProperties": false
+    },
+    "critical_edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["src", "edge_type", "dst", "evidence_refs"],
+        "properties": {
+          "src": {"type": "string", "minLength": 1},
+          "edge_type": {"type": "string", "minLength": 1},
+          "dst": {"type": "string", "minLength": 1},
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 2,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "leakage_control": {
+      "type": "object",
+      "required": [
+        "agent_view_artifact",
+        "evaluator_only_artifacts",
+        "oracle_outputs_withheld_until_scoring"
+      ],
+      "properties": {
+        "agent_view_artifact": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/artifact"}
+          ]
+        },
+        "evaluator_only_artifacts": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/artifact"}
+        },
+        "oracle_outputs_withheld_until_scoring": {"const": true}
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "required": ["path", "sha256", "bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "bytes": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "adapter": {
+      "type": "object",
+      "required": ["adapter_id", "adapter_version", "deterministic"],
+      "properties": {
+        "adapter_id": {"type": "string", "minLength": 1},
+        "adapter_version": {"type": "string", "minLength": 1},
+        "deterministic": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "evidence_id",
+        "artifact",
+        "adapter",
+        "scope_binding_sha256",
+        "observed_at",
+        "wall_clock_seconds",
+        "command_argv_sha256",
+        "provider_request_ids"
+      ],
+      "properties": {
+        "evidence_id": {"type": "string", "minLength": 1},
+        "artifact": {"$ref": "#/$defs/artifact"},
+        "adapter": {"$ref": "#/$defs/adapter"},
+        "scope_binding_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "observed_at": {"type": "string", "minLength": 1},
+        "wall_clock_seconds": {"type": "number", "minimum": 0},
+        "command_argv_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "provider_request_ids": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "additionalProperties": false
+    },
+    "channel": {
+      "type": "object",
+      "required": ["status", "outcome", "evidence"],
+      "properties": {
+        "status": {"enum": ["pending", "verified", "conflict"]},
+        "outcome": {"type": ["string", "null"]},
+        "evidence": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/evidence"}
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
