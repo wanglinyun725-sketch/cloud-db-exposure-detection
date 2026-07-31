@@ -59,6 +59,7 @@ D:\anaconda\python.exe scripts/oracle/audit_executable_oracle_registry_v1.py
 D:\anaconda\python.exe scripts/oracle/build_oracle_execution_queue_v1.py
 D:\anaconda\python.exe scripts/oracle/build_oracle_evidence_bundle_templates_v1.py
 D:\anaconda\python.exe scripts/oracle/build_oracle_scope_candidates_v1.py
+D:\anaconda\python.exe scripts/oracle/build_oracle_probe_contracts_v1.py
 D:\anaconda\python.exe scripts/oracle/audit_oracle_execution_capability_v1.py --check-auth
 D:\anaconda\python.exe scripts/oracle/apply_completed_oracle_evidence_v1.py --bundle <evaluator-bundle.json> --output <new-registry.json>
 D:\anaconda\python.exe scripts/oracle/build_oracle_split_v1.py
@@ -73,6 +74,13 @@ D:\anaconda\python.exe scripts/oracle/build_oracle_split_v1.py
 每个任务还有一份无标签、无预期结果的证据包模板。执行完成的证据包必须绑定队列、策略、冻结单元和范围哈希，记录四通道原始制品、确定性适配器版本、命令摘要、时间、成本及清理后库存；真值字段不允许由执行者填写，而由验证器根据四通道结果唯一推导。测试中的合成制品只验证门禁代码，不进入数据注册表、Gold计数或实验结果。
 
 作用域候选清单只从冻结评测单元中复制可观察字段，不选择终点边、不补全缺失字段，也不产生标签。当前30个运行时谱系中22个含至少一条真实观测，8个所选谱系的上游实例为空；只有7个运行时谱系同时观察到了五类作用域字段，其中仅2个天然形成单一主体、动作、资源和网络来源的候选。解析器不会把筛选器的 `key/name` 参数误当作资源标识。10个配置谱系仍需部署后解析精确主体、资源、网络和时间。候选清单不能直接写入证据包的 `frozen` 范围。
+
+首批探针契约只覆盖两个可无歧义映射的AWS权限变更：EBS快照共享和AMI启动权限共享。契约不会复用历史账号、资源ID或IP，而要求当前运行创建资源，并只允许把权限授予另一个隔离测试账号；禁止使用公共组 `all`。AWS CLI支持对这两个修改操作进行`--dry-run`权限检查，但本协议只把它作为安全预检，不把DryRun结果当作运行时可达Gold。实际探针、后置状态读取、CloudTrail精确事件查询和逆向清理均以argv数组预注册，默认不执行：
+
+- <https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-snapshot-attribute.html>
+- <https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-image-attribute.html>
+- <https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-cli.html>
+- <https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2.html>
 
 现有证据完成度被分层记录：10个配置谱系的 `configuration` 通道已通过上游归档和成员哈希验证；30个运行时谱系的 `audit_telemetry` 原始制品已验证存在。后者只记为 `artifact_verified`，在事件语义、原生权限分析和主动探针完成前不会升级为允许/拒绝结论。
 

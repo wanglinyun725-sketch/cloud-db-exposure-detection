@@ -12,12 +12,14 @@ from .evidence_bundle import (
     validate_evidence_bundle,
 )
 from .scope_candidates import build_scope_candidate_inventory
+from .probe_contracts import build_probe_contract_registry
 
 __all__ = [
     "apply_completed_evidence_bundles",
     "build_candidate_registry",
     "build_evidence_bundle_templates",
     "build_scope_candidate_inventory",
+    "build_probe_contract_registry",
     "derive_truth_state",
     "refresh_registry_derived_fields",
     "validate_evidence_bundle",
