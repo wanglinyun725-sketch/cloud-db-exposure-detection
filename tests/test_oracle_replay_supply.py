@@ -36,7 +36,7 @@ def test_committed_supply_inventory_is_reproducible_and_fail_closed():
     assert json.loads(COMMITTED.read_text(encoding="utf-8")) == built
     assert built["summary"]["lineage_count"] == 40
     assert built["summary"]["source_supply_count"] == 9
-    assert built["summary"]["safe_probe_contract_count"] == 2
+    assert built["summary"]["safe_probe_contract_count"] == 5
     assert built["summary"]["execution_eligible_count"] == 0
     assert len({
         row["independence_group"] for row in built["lineages"]
@@ -66,7 +66,10 @@ def test_supply_inventory_separates_replay_tiers_and_blockers():
     ] == 8
     assert statuses[
         "safe_adapter_contract_registered_execution_disabled"
-    ] == 2
+    ] == 5
+    assert statuses[
+        "pinned_supply_available_source_specific_audit_pending"
+    ] == 17
     cross_supply = next(
         item
         for item in built["source_supplies"]

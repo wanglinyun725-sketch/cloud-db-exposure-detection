@@ -84,9 +84,17 @@ D:\anaconda\python.exe scripts/oracle/build_oracle_split_v1.py
 - <https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-cli.html>
 - <https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2.html>
 
+在固定版 Stratus 源码基础上，另有3个凭据读取谱系被收缩为低影响终点边契约：单个 Secrets Manager secret、显式列出的两个 secrets 批量读取，以及单个 SSM SecureString parameter。每个资源必须由当前运行创建，只能装入无真实凭据的 canary；禁止上游的账户范围枚举、高数量收集和秘密值打印。CLI `--query` 在输出层排除 `SecretString`、`SecretBinary` 与 parameter `Value`，评估器还会执行二次字段剥离并禁止持久化原始 stdout。该收缩只验证精确终点边，不声称复现上游的广域收集行为：
+
+- <https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieving-secrets_cli.html>
+- <https://docs.aws.amazon.com/cli/latest/reference/secretsmanager/batch-get-secret-value.html>
+- <https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-cloudtrail.html>
+- <https://docs.aws.amazon.com/cli/latest/reference/ssm/get-parameters.html>
+- <https://docs.aws.amazon.com/cli/latest/reference/ssm/put-parameter.html>
+
 固定的跨云公开攻击脚本也不能直接等同于安全复现代码。静态供应审计先验证 acquisition manifest 中的 Zenodo 文件大小和 SHA-256，再在不解压到文件系统、不执行任何上游代码的条件下扫描归档成员。审计不保留原始行或可能的密钥值，只记录规则、成员路径、行号和行哈希。当前固定版 `attack_scripts.zip` 的164个归档成员中，133个文本成员被扫描，64个成员触发298项阻断发现，覆盖把凭据写入容器层、创建长期凭据、公共主体/ACL、广域管理员角色以及未证明资源属于本次运行的删除操作。因此该制品的结论是 `direct_execution_blocked_requires_sanitized_wrapper`，不能按上游 README 原样运行；这些数字是安全审计结果，不是攻击标签或 Gold。
 
-复现供应清单进一步把40个冻结谱系逐一映射为三层：11个 `pinned_iac_lab`、8个 `published_telemetry_only`、21个 `upstream_native_cli`。其中10个跨云脚本谱系被上述供应审计阻断，8个Splunk谱系只保留为公开遥测，20个谱系仍等待来源专属安全审计，只有2个谱系注册了安全探针契约。即使这2个契约存在，授权和执行资格仍全部为 `false`；供应存在、静态扫描通过或契约存在都不能推出可达性，也不能自动授权云操作。
+复现供应清单进一步把40个冻结谱系逐一映射为三层：11个 `pinned_iac_lab`、8个 `published_telemetry_only`、21个 `upstream_native_cli`。其中10个跨云脚本谱系被上述供应审计阻断，8个Splunk谱系只保留为公开遥测，17个谱系仍等待来源专属安全审计，已有5个谱系注册了安全探针契约。即使这5个契约存在，授权和执行资格仍全部为 `false`；供应存在、静态扫描通过或契约存在都不能推出可达性，也不能自动授权云操作。
 
 现有证据完成度被分层记录：10个配置谱系的 `configuration` 通道已通过上游归档和成员哈希验证；30个运行时谱系的 `audit_telemetry` 原始制品已验证存在。后者只记为 `artifact_verified`，在事件语义、原生权限分析和主动探针完成前不会升级为允许/拒绝结论。
 

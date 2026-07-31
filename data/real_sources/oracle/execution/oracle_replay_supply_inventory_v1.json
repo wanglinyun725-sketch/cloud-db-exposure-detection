@@ -15,8 +15,8 @@
     },
     "probe_contracts": {
       "path": "data/real_sources/oracle/execution/oracle_probe_contracts_v1.json",
-      "sha256": "2ed802085462ac6674d93101fc036862857ae1f75aa3922298f962720ccc2418",
-      "bytes": 19388
+      "sha256": "a37bdc5114bed6df7a34b5bf82909e6d5dab9618e7ae20947899d7ca7b4c50cc",
+      "bytes": 52396
     },
     "cross_cloud_replay_safety_audit": {
       "path": "data/real_sources/oracle/execution/cross_cloud_replay_safety_audit_v1.json",
@@ -39,7 +39,7 @@
   "summary": {
     "lineage_count": 40,
     "source_supply_count": 9,
-    "safe_probe_contract_count": 2,
+    "safe_probe_contract_count": 5,
     "execution_eligible_count": 0,
     "lineage_counts_by_replay_tier": {
       "pinned_iac_lab": 11,
@@ -48,9 +48,9 @@
     },
     "lineage_counts_by_supply_status": {
       "blocked_upstream_archive_requires_sanitized_adapter": 10,
-      "pinned_supply_available_source_specific_audit_pending": 20,
+      "pinned_supply_available_source_specific_audit_pending": 17,
       "published_telemetry_only_no_authorized_replay_adapter": 8,
-      "safe_adapter_contract_registered_execution_disabled": 2
+      "safe_adapter_contract_registered_execution_disabled": 5
     },
     "lineage_counts_by_platform": {
       "AWS": 28,
@@ -776,7 +776,7 @@
       "safe_probe_contract": {
         "contract_id": "probe-contract-dbf8c658593217784173",
         "contract_registry_path": "data/real_sources/oracle/execution/oracle_probe_contracts_v1.json",
-        "contract_registry_sha256": "2ed802085462ac6674d93101fc036862857ae1f75aa3922298f962720ccc2418"
+        "contract_registry_sha256": "a37bdc5114bed6df7a34b5bf82909e6d5dab9618e7ae20947899d7ca7b4c50cc"
       },
       "required_next_action": "resolve current-run placeholders, pass every authorization gate, then execute through the evaluator"
     },
@@ -803,12 +803,16 @@
       "selected_oracle_unit_id": "oracle-unit-9aec7d1dc066bb5cb539",
       "selected_oracle_unit_digest": "a5bb0e5f8ba0c01ce14629ad36c349c2a2db1bf5f282979b1fe9b7845ca93c34",
       "replay_tier": "upstream_native_cli",
-      "supply_status": "pinned_supply_available_source_specific_audit_pending",
+      "supply_status": "safe_adapter_contract_registered_execution_disabled",
       "eligible_for_execution": false,
       "authorization_granted": false,
       "source_supply_id": "source-supply-12ebc13a5c1997e39a47",
-      "safe_probe_contract": null,
-      "required_next_action": "audit the exact technique implementation and wrap only run-owned resources"
+      "safe_probe_contract": {
+        "contract_id": "probe-contract-a5bb0e5f8ba0c01ce146",
+        "contract_registry_path": "data/real_sources/oracle/execution/oracle_probe_contracts_v1.json",
+        "contract_registry_sha256": "a37bdc5114bed6df7a34b5bf82909e6d5dab9618e7ae20947899d7ca7b4c50cc"
+      },
+      "required_next_action": "resolve current-run placeholders, pass every authorization gate, then execute through the evaluator"
     },
     {
       "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
@@ -818,12 +822,16 @@
       "selected_oracle_unit_id": "oracle-unit-d5e3da644f56c1a1eb47",
       "selected_oracle_unit_digest": "7462f1089b5a99f5a73c27951bc2405acd7498517dee6c2c75a334ef5b76a4d0",
       "replay_tier": "upstream_native_cli",
-      "supply_status": "pinned_supply_available_source_specific_audit_pending",
+      "supply_status": "safe_adapter_contract_registered_execution_disabled",
       "eligible_for_execution": false,
       "authorization_granted": false,
       "source_supply_id": "source-supply-12ebc13a5c1997e39a47",
-      "safe_probe_contract": null,
-      "required_next_action": "audit the exact technique implementation and wrap only run-owned resources"
+      "safe_probe_contract": {
+        "contract_id": "probe-contract-7462f1089b5a99f5a73c",
+        "contract_registry_path": "data/real_sources/oracle/execution/oracle_probe_contracts_v1.json",
+        "contract_registry_sha256": "a37bdc5114bed6df7a34b5bf82909e6d5dab9618e7ae20947899d7ca7b4c50cc"
+      },
+      "required_next_action": "resolve current-run placeholders, pass every authorization gate, then execute through the evaluator"
     },
     {
       "independence_group": "stratus_red_team:stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
@@ -833,12 +841,16 @@
       "selected_oracle_unit_id": "oracle-unit-77c8de1b71dc4d30a5c2",
       "selected_oracle_unit_digest": "df2740e0d87f835b69397503b7bbdc6b08b59153671874312ba1b66aebe4cbeb",
       "replay_tier": "upstream_native_cli",
-      "supply_status": "pinned_supply_available_source_specific_audit_pending",
+      "supply_status": "safe_adapter_contract_registered_execution_disabled",
       "eligible_for_execution": false,
       "authorization_granted": false,
       "source_supply_id": "source-supply-12ebc13a5c1997e39a47",
-      "safe_probe_contract": null,
-      "required_next_action": "audit the exact technique implementation and wrap only run-owned resources"
+      "safe_probe_contract": {
+        "contract_id": "probe-contract-df2740e0d87f835b6939",
+        "contract_registry_path": "data/real_sources/oracle/execution/oracle_probe_contracts_v1.json",
+        "contract_registry_sha256": "a37bdc5114bed6df7a34b5bf82909e6d5dab9618e7ae20947899d7ca7b4c50cc"
+      },
+      "required_next_action": "resolve current-run placeholders, pass every authorization gate, then execute through the evaluator"
     },
     {
       "independence_group": "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs",
@@ -885,7 +897,7 @@
       "safe_probe_contract": {
         "contract_id": "probe-contract-d15b2147d8cfa5899094",
         "contract_registry_path": "data/real_sources/oracle/execution/oracle_probe_contracts_v1.json",
-        "contract_registry_sha256": "2ed802085462ac6674d93101fc036862857ae1f75aa3922298f962720ccc2418"
+        "contract_registry_sha256": "a37bdc5114bed6df7a34b5bf82909e6d5dab9618e7ae20947899d7ca7b4c50cc"
       },
       "required_next_action": "resolve current-run placeholders, pass every authorization gate, then execute through the evaluator"
     }
