@@ -1,0 +1,515 @@
+{
+  "registry_version": "1.0.0",
+  "registry_kind": "outcome_free_oracle_probe_contracts",
+  "status": "execution_disabled_requires_runtime_resolution",
+  "bindings": {
+    "scope_inventory": {
+      "path": "data/real_sources/oracle/execution/oracle_scope_candidates_v1.json",
+      "sha256": "357376058d594797952f0547485d2cc59f2b23080a0f378158ff6047ae92ec7a",
+      "bytes": 70390
+    }
+  },
+  "policy": {
+    "evaluator_only": true,
+    "contains_truth_labels": false,
+    "contains_expected_outcomes": false,
+    "historical_resource_ids_reused": false,
+    "public_sharing_forbidden": true,
+    "shell_interpolation_forbidden": true,
+    "argv_execution_only": true,
+    "generated_events": 0,
+    "generated_labels": 0
+  },
+  "summary": {
+    "candidate_groups": 40,
+    "supported_contracts": 2,
+    "unsupported_or_unresolved_groups": 38,
+    "platform_counts": {
+      "AWS": 2,
+      "AZURE": 0,
+      "GCP": 0
+    }
+  },
+  "contracts": [
+    {
+      "contract_id": "probe-contract-dbf8c658593217784173",
+      "independence_group": "stratus-technique:T1578.001",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-00b85231dcb5dbdd349b",
+        "case_id": "stratus:aws.exfiltration.ec2-share-ebs-snapshot",
+        "runtime_instance_id": "instance-c2ef6ed8736fdc5b055e",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "dbf8c65859321778417304ad467205b20afd77bd9f6bc8feae4267028bb92d97"
+      },
+      "visibility": "evaluator_only",
+      "status": "requires_runtime_resolution",
+      "derivation": {
+        "observed_action": "ec2.amazonaws.com:ModifySnapshotAttribute",
+        "observed_resource_field": "request.snapshotId",
+        "selection_rule": "exactly one observed principal/action/resource/network and an allow-listed deterministic safe adapter",
+        "historical_values_copied_into_runtime_scope": false
+      },
+      "runtime_scope_template": {
+        "principals": [
+          "{{DEDICATED_PROBE_PRINCIPAL_ARN}}"
+        ],
+        "actions": [
+          "ec2:ModifySnapshotAttribute"
+        ],
+        "resources": [
+          "arn:{{AWS_PARTITION}}:ec2:{{AWS_REGION}}::snapshot/{{RUN_OWNED_SNAPSHOT_ID}}"
+        ],
+        "network_origins": [
+          "{{RUNNER_EGRESS_CIDR}}"
+        ],
+        "time_window": [
+          "{{RUN_STARTED_AT}}",
+          "{{RUN_FINISHED_AT}}"
+        ]
+      },
+      "provider_native_analysis": {
+        "adapter_id": "aws_iam_simulate_principal_policy_v1",
+        "command_argv_template": [
+          "aws",
+          "iam",
+          "simulate-principal-policy",
+          "--policy-source-arn",
+          "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+          "--action-names",
+          "ec2:ModifySnapshotAttribute",
+          "--resource-arns",
+          "arn:{{AWS_PARTITION}}:ec2:{{AWS_REGION}}::snapshot/{{RUN_OWNED_SNAPSHOT_ID}}",
+          "--no-paginate",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ]
+      },
+      "authorized_active_probe": {
+        "permission_precheck_argv_template": [
+          "aws",
+          "ec2",
+          "modify-snapshot-attribute",
+          "--snapshot-id",
+          "{{RUN_OWNED_SNAPSHOT_ID}}",
+          "--attribute",
+          "createVolumePermission",
+          "--operation-type",
+          "add",
+          "--user-ids",
+          "{{ISOLATED_COUNTERPART_ACCOUNT_ID}}",
+          "--dry-run",
+          "--region",
+          "{{AWS_REGION}}",
+          "--no-cli-pager"
+        ],
+        "probe_argv_template": [
+          "aws",
+          "ec2",
+          "modify-snapshot-attribute",
+          "--snapshot-id",
+          "{{RUN_OWNED_SNAPSHOT_ID}}",
+          "--attribute",
+          "createVolumePermission",
+          "--operation-type",
+          "add",
+          "--user-ids",
+          "{{ISOLATED_COUNTERPART_ACCOUNT_ID}}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--no-cli-pager"
+        ],
+        "postcondition_argv_template": [
+          "aws",
+          "ec2",
+          "describe-snapshot-attribute",
+          "--snapshot-id",
+          "{{RUN_OWNED_SNAPSHOT_ID}}",
+          "--attribute",
+          "createVolumePermission",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "cleanup_argv_template": [
+          "aws",
+          "ec2",
+          "modify-snapshot-attribute",
+          "--snapshot-id",
+          "{{RUN_OWNED_SNAPSHOT_ID}}",
+          "--attribute",
+          "createVolumePermission",
+          "--operation-type",
+          "remove",
+          "--user-ids",
+          "{{ISOLATED_COUNTERPART_ACCOUNT_ID}}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--no-cli-pager"
+        ],
+        "dry_run_is_qualifying_runtime_evidence": false,
+        "actual_mutation_requires_all_safety_gates": true
+      },
+      "audit_telemetry": {
+        "adapter_id": "aws_cloudtrail_exact_event_v1",
+        "command_argv_template": [
+          "aws",
+          "cloudtrail",
+          "lookup-events",
+          "--lookup-attributes",
+          "AttributeKey=EventName,AttributeValue=ModifySnapshotAttribute",
+          "--start-time",
+          "{{RUN_STARTED_AT}}",
+          "--end-time",
+          "{{RUN_FINISHED_AT}}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "required_event_predicates": {
+          "eventSource": "ec2.amazonaws.com",
+          "eventName": "ModifySnapshotAttribute",
+          "userIdentity.arn": "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+          "sourceIPAddress": "{{RUNNER_EGRESS_IP}}",
+          "request_resource_id": "{{RUN_OWNED_SNAPSHOT_ID}}"
+        },
+        "official_reference": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-cli.html"
+      },
+      "safety": {
+        "owner_account_must_be_dedicated": true,
+        "counterpart_account_must_be_dedicated": true,
+        "owner_and_counterpart_accounts_must_differ": true,
+        "resource_must_be_created_by_current_run": true,
+        "public_group_all_forbidden": true,
+        "historical_account_resource_and_ip_values_forbidden": true,
+        "cleanup_mandatory": true,
+        "post_cleanup_inventory_mandatory": true
+      },
+      "controlled_counterfactual_template": {
+        "same_runtime_scope_required": true,
+        "only_mutation": "attach exact explicit deny for action/resource to dedicated probe principal",
+        "pair_assignment_frozen_before_execution": true,
+        "expected_truth_state": null
+      },
+      "official_cli_reference": "https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-snapshot-attribute.html",
+      "official_resource_reference": "https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2.html"
+    },
+    {
+      "contract_id": "probe-contract-d15b2147d8cfa5899094",
+      "independence_group": "stratus_red_team:stratus:aws.exfiltration.ec2-share-ami",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-c6e3f0dc894b14cb26ea",
+        "case_id": "stratus:aws.exfiltration.ec2-share-ami",
+        "runtime_instance_id": "instance-b36c72e16fa470622f78",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "d15b2147d8cfa5899094c90e6d8c2b86c195c387feca388a419a3aa8362fa97e"
+      },
+      "visibility": "evaluator_only",
+      "status": "requires_runtime_resolution",
+      "derivation": {
+        "observed_action": "ec2.amazonaws.com:ModifyImageAttribute",
+        "observed_resource_field": "request.imageId",
+        "selection_rule": "exactly one observed principal/action/resource/network and an allow-listed deterministic safe adapter",
+        "historical_values_copied_into_runtime_scope": false
+      },
+      "runtime_scope_template": {
+        "principals": [
+          "{{DEDICATED_PROBE_PRINCIPAL_ARN}}"
+        ],
+        "actions": [
+          "ec2:ModifyImageAttribute"
+        ],
+        "resources": [
+          "arn:{{AWS_PARTITION}}:ec2:{{AWS_REGION}}::image/{{RUN_OWNED_AMI_ID}}"
+        ],
+        "network_origins": [
+          "{{RUNNER_EGRESS_CIDR}}"
+        ],
+        "time_window": [
+          "{{RUN_STARTED_AT}}",
+          "{{RUN_FINISHED_AT}}"
+        ]
+      },
+      "provider_native_analysis": {
+        "adapter_id": "aws_iam_simulate_principal_policy_v1",
+        "command_argv_template": [
+          "aws",
+          "iam",
+          "simulate-principal-policy",
+          "--policy-source-arn",
+          "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+          "--action-names",
+          "ec2:ModifyImageAttribute",
+          "--resource-arns",
+          "arn:{{AWS_PARTITION}}:ec2:{{AWS_REGION}}::image/{{RUN_OWNED_AMI_ID}}",
+          "--no-paginate",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ]
+      },
+      "authorized_active_probe": {
+        "permission_precheck_argv_template": [
+          "aws",
+          "ec2",
+          "modify-image-attribute",
+          "--image-id",
+          "{{RUN_OWNED_AMI_ID}}",
+          "--launch-permission",
+          "Add=[{UserId={{ISOLATED_COUNTERPART_ACCOUNT_ID}}}]",
+          "--dry-run",
+          "--region",
+          "{{AWS_REGION}}",
+          "--no-cli-pager"
+        ],
+        "probe_argv_template": [
+          "aws",
+          "ec2",
+          "modify-image-attribute",
+          "--image-id",
+          "{{RUN_OWNED_AMI_ID}}",
+          "--launch-permission",
+          "Add=[{UserId={{ISOLATED_COUNTERPART_ACCOUNT_ID}}}]",
+          "--region",
+          "{{AWS_REGION}}",
+          "--no-cli-pager"
+        ],
+        "postcondition_argv_template": [
+          "aws",
+          "ec2",
+          "describe-image-attribute",
+          "--image-id",
+          "{{RUN_OWNED_AMI_ID}}",
+          "--attribute",
+          "launchPermission",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "cleanup_argv_template": [
+          "aws",
+          "ec2",
+          "modify-image-attribute",
+          "--image-id",
+          "{{RUN_OWNED_AMI_ID}}",
+          "--launch-permission",
+          "Remove=[{UserId={{ISOLATED_COUNTERPART_ACCOUNT_ID}}}]",
+          "--region",
+          "{{AWS_REGION}}",
+          "--no-cli-pager"
+        ],
+        "dry_run_is_qualifying_runtime_evidence": false,
+        "actual_mutation_requires_all_safety_gates": true
+      },
+      "audit_telemetry": {
+        "adapter_id": "aws_cloudtrail_exact_event_v1",
+        "command_argv_template": [
+          "aws",
+          "cloudtrail",
+          "lookup-events",
+          "--lookup-attributes",
+          "AttributeKey=EventName,AttributeValue=ModifyImageAttribute",
+          "--start-time",
+          "{{RUN_STARTED_AT}}",
+          "--end-time",
+          "{{RUN_FINISHED_AT}}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "required_event_predicates": {
+          "eventSource": "ec2.amazonaws.com",
+          "eventName": "ModifyImageAttribute",
+          "userIdentity.arn": "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+          "sourceIPAddress": "{{RUNNER_EGRESS_IP}}",
+          "request_resource_id": "{{RUN_OWNED_AMI_ID}}"
+        },
+        "official_reference": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-cli.html"
+      },
+      "safety": {
+        "owner_account_must_be_dedicated": true,
+        "counterpart_account_must_be_dedicated": true,
+        "owner_and_counterpart_accounts_must_differ": true,
+        "resource_must_be_created_by_current_run": true,
+        "public_group_all_forbidden": true,
+        "historical_account_resource_and_ip_values_forbidden": true,
+        "cleanup_mandatory": true,
+        "post_cleanup_inventory_mandatory": true
+      },
+      "controlled_counterfactual_template": {
+        "same_runtime_scope_required": true,
+        "only_mutation": "attach exact explicit deny for action/resource to dedicated probe principal",
+        "pair_assignment_frozen_before_execution": true,
+        "expected_truth_state": null
+      },
+      "official_cli_reference": "https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-image-attribute.html",
+      "official_resource_reference": "https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2.html"
+    }
+  ],
+  "rejected_or_unresolved": [
+    {
+      "independence_group": "cloudgoat-scenario:cloud_breach_s3",
+      "reason": "multi_value_scope_requires_prelabel_terminal_selection"
+    },
+    {
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m1_ssrf_dynamodb",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m2_ecs_secret_rds_credentials",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_prod_dev_blob_control_pair",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_ssrf_cosmos_storage",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_double_tap_secret_path",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_search1_elasticsearch_exposure",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:gcpgoat:gcpgoat_anonymous_bucket_policy_transition",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:terragoat:terragoat_aws_ec2_userdata_to_rds",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:terragoat:terragoat_azure_mysql_public_transport",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:terragoat:terragoat_gcp_anonymous_gcs_read",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:automated_collection",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:data_destruction",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "splunk-technique:T1098.001",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "splunk-technique:T1110.002",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "splunk-technique:T1486",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "splunk-technique:T1490",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "splunk-technique:T1530",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "splunk-technique:T1537",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "stratus-technique:T1496.A007",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "stratus-technique:T1552.005",
+      "reason": "multi_value_scope_requires_prelabel_terminal_selection"
+    },
+    {
+      "independence_group": "stratus-technique:T1562.008",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ec2-get-password-data",
+      "reason": "multi_value_scope_requires_prelabel_terminal_selection"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "reason": "multi_value_scope_requires_prelabel_terminal_selection"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.discovery.ec2-download-user-data",
+      "reason": "multi_value_scope_requires_prelabel_terminal_selection"
+    }
+  ]
+}
