@@ -124,3 +124,28 @@ def test_tampered_source_case_binding_is_rejected():
 
     with pytest.raises(ValueError, match="source case hash mismatch"):
         validate_oracle_registry(ROOT, forged)
+
+
+def test_selected_oracle_unit_is_frozen_before_gold():
+    registry = _build()
+    selected = [
+        candidate["selected_oracle_unit"]
+        for candidate in registry["candidates"]
+    ]
+
+    assert len(selected) == 40
+    assert len({item["unit_id"] for item in selected}) == 40
+    assert {item["platform"] for item in selected} == {
+        "AWS",
+        "AZURE",
+        "GCP",
+    }
+    forged = deepcopy(registry)
+    forged["candidates"][0]["selected_oracle_unit"][
+        "selection_digest"
+    ] = "0" * 64
+    with pytest.raises(
+        ValueError,
+        match="selected Oracle unit is not reproducible",
+    ):
+        validate_oracle_registry(ROOT, forged)

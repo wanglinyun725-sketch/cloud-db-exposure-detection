@@ -73,6 +73,8 @@ def build_candidate_registry(
             packet_path=configuration_path,
         )
 
+    for record in records.values():
+        _freeze_selected_oracle_unit(record)
     candidates = [records[key] for key in sorted(records)]
     source_ids = sorted({
         source
@@ -225,6 +227,10 @@ def validate_oracle_registry(
             candidate,
             packet_cases[category],
         )
+        _validate_selected_oracle_unit(
+            candidate,
+            packet_cases[category],
+        )
         sources.update(str(value) for value in candidate.get("source_ids") or [])
         platforms.update(
             str(value) for value in candidate.get("platforms") or []
@@ -350,6 +356,7 @@ def _add_candidate(
             "oracle_outputs_withheld_until_scoring": True,
         },
         "source_case_bindings": [],
+        "_unit_candidates": [],
         "qualification": {
             "status": "pending",
             "failure_reasons": [
@@ -372,47 +379,117 @@ def _add_candidate(
         "case_sha256": _stable_hash(case),
     })
     if category == "configuration":
+        row["_unit_candidates"].append({
+            "case_id": case_id,
+            "runtime_instance_id": None,
+            "platform": next(iter(platform_values)),
+            "case_sha256": _stable_hash(case),
+            "packet_binding": _binding(root, packet_path),
+            "observation_count": 0,
+        })
+    else:
+        for instance in case.get("runtime_instances") or []:
+            row["_unit_candidates"].append({
+                "case_id": case_id,
+                "runtime_instance_id": str(instance["instance_id"]),
+                "platform": str(instance["platform"]).upper(),
+                "case_sha256": _stable_hash(case),
+                "packet_binding": _binding(root, packet_path),
+                "observation_count": len(
+                    instance.get("observations") or []
+                ),
+            })
+    row["case_ids"] = sorted(set(row["case_ids"]))
+    row["source_ids"] = sorted(set(row["source_ids"]))
+    row["platforms"] = sorted(set(row["platforms"]))
+    row["source_case_bindings"].sort(key=lambda item: item["case_id"])
+
+
+def _freeze_selected_oracle_unit(
+    record: dict[str, Any],
+) -> None:
+    """Select one unit per lineage before labels using a stable hash."""
+    unit_candidates = record.pop("_unit_candidates")
+    if not unit_candidates:
+        raise ValueError(
+            "independence group has no executable/configuration unit: "
+            + record["independence_group"]
+        )
+    platforms = sorted({
+        item["platform"] for item in unit_candidates
+    })
+    digest = sha256(
+        record["independence_group"].encode("utf-8")
+    ).hexdigest()
+    platform = platforms[int(digest[:8], 16) % len(platforms)]
+    eligible = sorted(
+        (
+            item for item in unit_candidates
+            if item["platform"] == platform
+        ),
+        key=lambda item: (
+            item["case_id"],
+            item["runtime_instance_id"] or "",
+        ),
+    )
+    selected = eligible[0]
+    unit_key = (
+        f"{record['independence_group']}:{selected['case_id']}:"
+        f"{selected['runtime_instance_id'] or 'configuration'}"
+    )
+    record["selected_oracle_unit"] = {
+        "unit_id": "oracle-unit-" + sha256(
+            unit_key.encode("utf-8")
+        ).hexdigest()[:20],
+        "case_id": selected["case_id"],
+        "runtime_instance_id": selected["runtime_instance_id"],
+        "platform": selected["platform"],
+        "selection_rule": (
+            "sha256(lineage) selects platform, then lexicographically "
+            "smallest case_id/runtime_instance_id; frozen before Gold"
+        ),
+        "selection_digest": digest,
+    }
+    if record["category"] == "configuration":
         evidence_id = "configuration-" + sha256(
-            group.encode("utf-8")
+            unit_key.encode("utf-8")
         ).hexdigest()[:20]
-        row["evidence_channels"]["configuration"] = {
+        record["evidence_channels"]["configuration"] = {
             "status": "verified",
             "outcome": "verified_facts",
             "evidence": [{
                 "evidence_id": evidence_id,
-                "artifact": _binding(root, packet_path),
-                "case_id": case_id,
-                "case_sha256": _stable_hash(case),
+                "artifact": selected["packet_binding"],
+                "case_id": selected["case_id"],
+                "case_sha256": selected["case_sha256"],
                 "evidence_role": (
                     "byte_verified_pinned_upstream_configuration"
                 ),
                 "does_not_prove": "runtime_reachability",
             }],
         }
-    elif case.get("runtime_instances"):
+    else:
         evidence_id = "telemetry-" + sha256(
-            f"{group}:{case_id}".encode("utf-8")
+            unit_key.encode("utf-8")
         ).hexdigest()[:20]
-        channel = row["evidence_channels"]["audit_telemetry"]
-        if channel["status"] == "pending":
-            channel["status"] = "artifact_verified"
-        channel["evidence"].append({
-            "evidence_id": evidence_id,
-            "artifact": _binding(root, packet_path),
-            "case_id": case_id,
-            "case_sha256": _stable_hash(case),
-            "evidence_role": "published_real_cloud_audit_telemetry",
-            "observation_count": sum(
-                len(instance.get("observations") or [])
-                for instance in case.get("runtime_instances") or []
-            ),
-            "semantic_outcome_pending": True,
-        })
-        channel["evidence"].sort(key=lambda item: item["evidence_id"])
-    row["case_ids"] = sorted(set(row["case_ids"]))
-    row["source_ids"] = sorted(set(row["source_ids"]))
-    row["platforms"] = sorted(set(row["platforms"]))
-    row["source_case_bindings"].sort(key=lambda item: item["case_id"])
+        record["evidence_channels"]["audit_telemetry"] = {
+            "status": "artifact_verified",
+            "outcome": None,
+            "evidence": [{
+                "evidence_id": evidence_id,
+                "artifact": selected["packet_binding"],
+                "case_id": selected["case_id"],
+                "case_sha256": selected["case_sha256"],
+                "runtime_instance_id": selected[
+                    "runtime_instance_id"
+                ],
+                "evidence_role": (
+                    "published_real_cloud_audit_telemetry"
+                ),
+                "observation_count": selected["observation_count"],
+                "semantic_outcome_pending": True,
+            }],
+        }
 
 
 def _qualification_errors(
@@ -553,6 +630,61 @@ def _validate_source_case_bindings(
         bound_ids.append(case_id)
     if sorted(bound_ids) != sorted(candidate.get("case_ids") or []):
         raise ValueError("candidate case IDs differ from source bindings")
+
+
+def _validate_selected_oracle_unit(
+    candidate: Mapping[str, Any],
+    packet_cases: Mapping[str, Mapping[str, Any]],
+) -> None:
+    group = str(candidate["independence_group"])
+    units = []
+    for case_id in candidate.get("case_ids") or []:
+        case = packet_cases[str(case_id)]
+        instances = case.get("runtime_instances") or []
+        if instances:
+            units.extend({
+                "case_id": str(case_id),
+                "runtime_instance_id": str(instance["instance_id"]),
+                "platform": str(instance["platform"]).upper(),
+            } for instance in instances)
+        elif candidate.get("category") == "configuration":
+            metadata = case.get("candidate_metadata") or {}
+            units.append({
+                "case_id": str(case_id),
+                "runtime_instance_id": None,
+                "platform": str(metadata.get("platform") or "").upper(),
+            })
+    if not units:
+        raise ValueError(f"Oracle group has no selectable unit: {group}")
+    digest = sha256(group.encode("utf-8")).hexdigest()
+    platforms = sorted({item["platform"] for item in units})
+    platform = platforms[int(digest[:8], 16) % len(platforms)]
+    selected = sorted(
+        (item for item in units if item["platform"] == platform),
+        key=lambda item: (
+            item["case_id"],
+            item["runtime_instance_id"] or "",
+        ),
+    )[0]
+    unit_key = (
+        f"{group}:{selected['case_id']}:"
+        f"{selected['runtime_instance_id'] or 'configuration'}"
+    )
+    expected = {
+        "unit_id": "oracle-unit-" + sha256(
+            unit_key.encode("utf-8")
+        ).hexdigest()[:20],
+        **selected,
+        "selection_rule": (
+            "sha256(lineage) selects platform, then lexicographically "
+            "smallest case_id/runtime_instance_id; frozen before Gold"
+        ),
+        "selection_digest": digest,
+    }
+    if candidate.get("selected_oracle_unit") != expected:
+        raise ValueError(
+            f"selected Oracle unit is not reproducible: {group}"
+        )
 
 
 def _validate_binding(

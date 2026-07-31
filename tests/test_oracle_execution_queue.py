@@ -34,9 +34,9 @@ def test_queue_is_label_blind_and_execution_disabled():
     assert queue["summary"] == {
         "pending_independence_groups": 40,
         "platform_task_counts": {
-            "AWS": 34,
-            "AZURE": 14,
-            "GCP": 12,
+            "AWS": 28,
+            "AZURE": 5,
+            "GCP": 7,
         },
         "required_tools": ["aws", "az", "gcloud", "terraform"],
         "authorized_tasks": 0,
@@ -49,6 +49,9 @@ def test_queue_is_label_blind_and_execution_disabled():
         task["expected_truth_state"] is None
         and task["safety"]["execution_authorized"] is False
         and task["status"] == "pending"
+        and len(task["platform_tasks"]) == 1
+        and task["platform_tasks"][0]["platform"]
+        == task["selected_oracle_unit"]["platform"]
         for task in queue["tasks"]
     )
     assert queue["policy"]["generated_events"] == 0
