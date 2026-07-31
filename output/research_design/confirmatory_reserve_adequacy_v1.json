@@ -1,0 +1,97 @@
+{
+  "audit_version": "1.0",
+  "audit_kind": "confirmatory_annotation_supply",
+  "status": "insufficient_reserve",
+  "policy": {
+    "statistical_unit": "independence_group",
+    "target_human_gold_groups": 30,
+    "minimum_structurally_eligible_reserve_groups": 5,
+    "reserve_fraction_of_target": 0.16666666666666666,
+    "reserve_is_operational_attrition_buffer": true,
+    "reserve_is_not_human_gold": true,
+    "structural_screen_is_not_admission": true,
+    "generated_events": 0,
+    "generated_labels": 0,
+    "publication_gate_unchanged": true
+  },
+  "inputs": {
+    "primary_packet": {
+      "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+      "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+      "bytes": 7375251
+    },
+    "structural_audit": {
+      "path": "output/research_design/splunk_reserve_source_audit_v1.json",
+      "sha256": "cfad34fe536a48972164fd4da1dd2fa4a08f3788a93719ab0b240212bd0c2198",
+      "bytes": 17317
+    },
+    "reserve_candidates": [
+      {
+        "path": "data/real_sources/splunk_kms_s3_reserve_candidate_v1.json",
+        "sha256": "5b2cc68a122bd26d186a2a0e8755ed73e1e784feff5f62e80d2b8aea9bf6f70a",
+        "bytes": 151341
+      }
+    ]
+  },
+  "summary": {
+    "primary_independence_groups": 30,
+    "structurally_eligible_reserve_groups": 1,
+    "total_screenable_independence_groups": 31,
+    "target_human_gold_groups": 30,
+    "primary_rejections_tolerated_before_supply_shortfall": 1,
+    "minimum_reserve_groups": 5,
+    "missing_reserve_groups": 4,
+    "robust_annotation_supply_ready": false,
+    "new_human_gold": 0
+  },
+  "primary_independence_groups": [
+    "cloudgoat-scenario:cloud_breach_s3",
+    "crosscloud-family:archive_collected_data",
+    "crosscloud-family:automated_collection",
+    "crosscloud-family:automated_exfiltration",
+    "crosscloud-family:credentials_from_password_stores",
+    "crosscloud-family:data_destruction",
+    "crosscloud-family:data_encrypted_for_impact",
+    "crosscloud-family:inhibit_system_recovery",
+    "crosscloud-family:scheduled_transfer",
+    "crosscloud-family:steal_application_access_token",
+    "crosscloud-family:unsecured_credentials",
+    "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+    "source-case:splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+    "splunk-technique:T1098.001",
+    "splunk-technique:T1110.002",
+    "splunk-technique:T1486",
+    "splunk-technique:T1490",
+    "splunk-technique:T1530",
+    "splunk-technique:T1537",
+    "stratus-technique:T1496.A007",
+    "stratus-technique:T1552.005",
+    "stratus-technique:T1562.008",
+    "stratus-technique:T1578.001",
+    "stratus_red_team:stratus:aws.credential-access.ec2-get-password-data",
+    "stratus_red_team:stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+    "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+    "stratus_red_team:stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+    "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs",
+    "stratus_red_team:stratus:aws.discovery.ec2-download-user-data",
+    "stratus_red_team:stratus:aws.exfiltration.ec2-share-ami"
+  ],
+  "reserve_candidates": [
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1486/aws_kms_key",
+      "dataset_id": "T1486/aws_kms_key",
+      "independence_group": "splunk-dataset:T1486/aws_kms_key",
+      "source_id": "splunk_attack_data",
+      "structural_multistep_observed": true,
+      "human_admission_status": "pending",
+      "counts_as_human_gold": false,
+      "candidate_binding": {
+        "path": "data/real_sources/splunk_kms_s3_reserve_candidate_v1.json",
+        "sha256": "5b2cc68a122bd26d186a2a0e8755ed73e1e784feff5f62e80d2b8aea9bf6f70a",
+        "bytes": 151341
+      }
+    }
+  ],
+  "interpretation": "The primary packet has no attrition margin unless a reserve candidate later passes the same independent double-human admission and adjudication protocol. Structural eligibility alone must never be reported as human gold.",
+  "required_next_action": "Acquire and structurally screen at least 4 additional independent real-runtime candidate group(s), then submit all reserves to the frozen double-human protocol."
+}

@@ -1,0 +1,75 @@
+{
+  "contract_id": "deterministic_exposure_v1",
+  "version": "1.0.0",
+  "purpose": "Produce auditable configuration-level and runtime-level cloud exposure verdicts without using generated or narrative labels as gold.",
+  "layers": [
+    {
+      "id": "frozen_configuration",
+      "required": true,
+      "accepted_evidence": [
+        "pinned Terraform or equivalent IaC",
+        "provider inventory or deployment state tied to the same revision"
+      ],
+      "does_not_prove": "allow or deny by itself"
+    },
+    {
+      "id": "provider_native_analysis",
+      "required_for": "configuration_gold",
+      "accepted_evidence": [
+        "AWS IAM Access Analyzer or IAM policy validation result",
+        "Azure Defender for Cloud attack-path graph or exact RBAC evaluation",
+        "GCP Policy Analyzer or testIamPermissions result"
+      ],
+      "negative_rule": "Only an explicit deny over a complete principal-action-resource scope is negative evidence; an absent finding is Unknown."
+    },
+    {
+      "id": "authorized_active_probe",
+      "required_for": "runtime_gold",
+      "accepted_evidence": [
+        "successful exact operation plus matching provider audit record",
+        "explicit access-denied response over a complete query scope"
+      ],
+      "safety": "Run only in an isolated, authorized lab subscription/project/account; preserve cleanup evidence and never target production."
+    }
+  ],
+  "verdicts": {
+    "configuration": [
+      "Supported",
+      "Contradicted",
+      "Unknown",
+      "Conflict"
+    ],
+    "runtime": [
+      "Supported",
+      "Contradicted",
+      "Unknown",
+      "Conflict"
+    ],
+    "path": [
+      "Reachable",
+      "NotReachable",
+      "Unknown",
+      "Conflict"
+    ]
+  },
+  "gold_tiers": {
+    "configuration_gold": "Every positive mandatory edge has a complete-scope native allow result, or at least one mandatory edge has a complete-scope native deny result for a negative path.",
+    "runtime_gold": "Every positive mandatory edge has a successful probe with audit evidence, or at least one mandatory edge has an explicit complete-scope denied probe for a negative path."
+  },
+  "anti_leakage": {
+    "agent_visible": [
+      "frozen configuration",
+      "inventory",
+      "tool schemas",
+      "observations acquired within the query budget"
+    ],
+    "evaluator_only": [
+      "upstream walkthrough",
+      "native analyzer verdict",
+      "active-probe expected result",
+      "gold certificate"
+    ],
+    "split_unit": "scenario and lineage family, never individual events from the same deployment"
+  },
+  "human_role": "Humans audit source eligibility, semantic parser errors, and a stratified sample of certificates; they do not manually invent deterministic permission edges."
+}

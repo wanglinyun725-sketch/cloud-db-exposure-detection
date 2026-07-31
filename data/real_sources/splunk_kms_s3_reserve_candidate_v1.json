@@ -1,0 +1,3301 @@
+{
+  "candidate_version": "1.0",
+  "candidate_kind": "unlabeled_runtime_reserve",
+  "case_id": "splunk:datasets/attack_techniques/T1486/aws_kms_key",
+  "independence_group": "splunk-dataset:T1486/aws_kms_key",
+  "source": {
+    "source_id": "splunk_attack_data",
+    "repository": "splunk/attack_data",
+    "commit": "3821bdb77c66c95b4e529f62a9d00b168446d1a8",
+    "metadata_artifact": {
+      "path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.yml",
+      "sha256": "ae4df3a78324f6bb01029e8a53a5540fb3b6b5e81f9cac2405d8e24aab1cfbc3",
+      "bytes": 693,
+      "upstream_url": "https://raw.githubusercontent.com/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_kms_key.yml"
+    },
+    "raw_artifact": {
+      "path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+      "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+      "bytes": 984076,
+      "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+    },
+    "provenance_level": "B",
+    "environment": "Splunk Attack Range"
+  },
+  "candidate_metadata": {
+    "platforms": [
+      "AWS"
+    ],
+    "services": [
+      "AWS KMS",
+      "Amazon S3"
+    ],
+    "key_id": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+    "cloud_data_target": "arn:aws:s3:::patricktestbucketencrypt/kms_aws_events_encrypted.json",
+    "observed_operation_count": 111,
+    "unique_operations": [
+      "CancelKeyDeletion",
+      "CreateAlias",
+      "CreateKey",
+      "DescribeKey",
+      "DisableKey",
+      "EnableKey",
+      "GenerateDataKey",
+      "GetKeyPolicy",
+      "GetKeyRotationStatus",
+      "ListAliases",
+      "ListGrants",
+      "ListResourceTags",
+      "PutKeyPolicy",
+      "ScheduleKeyDeletion"
+    ],
+    "operation_counts": {
+      "CancelKeyDeletion": 1,
+      "CreateAlias": 1,
+      "CreateKey": 1,
+      "DescribeKey": 38,
+      "DisableKey": 1,
+      "EnableKey": 1,
+      "GenerateDataKey": 2,
+      "GetKeyPolicy": 22,
+      "GetKeyRotationStatus": 8,
+      "ListAliases": 19,
+      "ListGrants": 5,
+      "ListResourceTags": 8,
+      "PutKeyPolicy": 3,
+      "ScheduleKeyDeletion": 1
+    },
+    "structural_multistep_observed": true,
+    "successful_data_key_call_observed": true,
+    "failed_data_key_call_observed": true,
+    "external_or_low_privilege_entry": "unknown",
+    "human_admission_required": true
+  },
+  "policy": {
+    "raw_events_generated": 0,
+    "labels_generated": 0,
+    "admission_decisions_generated": 0,
+    "normalization_only": true,
+    "candidate_is_not_gold": true,
+    "single_upstream_dataset_is_one_independence_group": true,
+    "observed_operation_does_not_prove_attack_intent": true,
+    "publication_use_before_double_human_review": false
+  },
+  "annotation": {
+    "status": "pending",
+    "label_origin": null
+  },
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": [],
+  "observations": [
+    {
+      "observation_id": "obs-bfb35b8272ddb0e7f7c896e3",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T09:56:31Z",
+      "service": "kms.amazonaws.com",
+      "operation": "CreateAlias",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "aliasName": "alias/patrick_test",
+        "targetKeyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 458,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-0a63a4f2dad26899b1e1447a",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T09:56:31Z",
+      "service": "kms.amazonaws.com",
+      "operation": "CreateKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "origin": "AWS_KMS",
+        "policy": "{\n    \"Id\": \"key-consolepolicy-3\",\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Sid\": \"Enable IAM User Permissions\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:root\"\n            },\n            \"Action\": \"kms:*\",\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow access for Key Administrators\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:Create*\",\n                \"kms:Describe*\",\n                \"kms:Enable*\",\n                \"kms:List*\",\n                \"kms:Put*\",\n                \"kms:Update*\",\n                \"kms:Revoke*\",\n                \"kms:Disable*\",\n                \"kms:Get*\",\n                \"kms:Delete*\",\n                \"kms:TagResource\",\n                \"kms:UntagResource\",\n                \"kms:ScheduleKeyDeletion\",\n                \"kms:CancelKeyDeletion\"\n            ],\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow use of the key\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:Encrypt\",\n                \"kms:Decrypt\",\n                \"kms:ReEncrypt*\",\n                \"kms:GenerateDataKey*\",\n                \"kms:DescribeKey\"\n            ],\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow attachment of persistent resources\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:CreateGrant\",\n                \"kms:ListGrants\",\n                \"kms:RevokeGrant\"\n            ],\n            \"Resource\": \"*\",\n            \"Condition\": {\n                \"Bool\": {\n                    \"kms:GrantIsForAWSResource\": \"true\"\n                }\n            }\n        },\n        {\n            \"Sid\": \"Allow use of the key\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"*\"\n            },\n            \"Action\": [\n                \"kms:Encrypt\"\n            ],\n            \"Resource\": \"*\"\n        }\n    ]\n}",
+        "description": "",
+        "customerMasterKeySpec": "SYMMETRIC_DEFAULT",
+        "bypassPolicyLockoutSafetyCheck": false,
+        "tags": [],
+        "keyUsage": "ENCRYPT_DECRYPT"
+      },
+      "response": {
+        "responseElements": {
+          "keyMetadata": {
+            "aWSAccountId": "111111111111",
+            "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+            "arn": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+            "creationDate": "Jan 11, 2021, 9:56:30 AM",
+            "enabled": true,
+            "description": "",
+            "keyUsage": "ENCRYPT_DECRYPT",
+            "keyState": "Enabled",
+            "origin": "AWS_KMS",
+            "keyManager": "CUSTOMER",
+            "customerMasterKeySpec": "SYMMETRIC_DEFAULT",
+            "encryptionAlgorithms": [
+              "SYMMETRIC_DEFAULT"
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 459,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-1e56246aef93b4ebbf16e21a",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T09:58:46Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 450,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-86d614cba5346e719083e96c",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T09:58:46Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 452,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-faa80154af138b4df25fa390",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T09:59:46Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 444,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-b3093c8bfce716294fa08f35",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:00:59Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 432,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-3242cddb064e84452099726f",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:00:59Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 434,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-f78b50650506bbed7fec8039",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:03:54Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 425,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-4ff3592cbbd2687bac30463e",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:03:55Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 421,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-2c864a4b1c88c34a7e0df80e",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:04:10Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 416,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-7ab2d9f25895333b77a07961",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:05:50Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 413,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-b237ffe7589eb8ba40cc9427",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:05:50Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 414,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-946a807556ecbde8bc29fead",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:07:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListGrants",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 400,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-38844fcb71f5d76b99c829a3",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:07:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 401,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-633d98b28144661e7eaa0730",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:07:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 402,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-4f851c60973fb1fcd3204b7a",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:07:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyRotationStatus",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 403,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-2ee623c4fb8dcaf9eaee6e7c",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:07:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 404,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-e6ce9b4a7d5b3c8b6230dc40",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:07:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListResourceTags",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 405,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-00e538978e77abf07d6b7737",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:07:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 406,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-8c82612c5c95220e2aa5e3f8",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:08:22Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 397,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-64217f1e58be8bb564323369",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:08:22Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 398,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-31eecd1487115d10429a5c2c",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:21:28Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 367,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-7a43d4d71989b8748867c382",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:21:28Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 368,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-577a14b308abbc2762afe6bf",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:21:29Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 363,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-93bb7a0e378160cfa0886a2e",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:21:29Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 364,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-84ab39d3e712721ee113e6d3",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:21:47Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 361,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-d69d4f03432306cd7faf3704",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:21:54Z",
+      "service": "kms.amazonaws.com",
+      "operation": "PutKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default",
+        "policy": "{\n    \"Version\": \"2012-10-17\",\n    \"Id\": \"key-consolepolicy-3\",\n    \"Statement\": [\n        {\n            \"Sid\": \"Enable IAM User Permissions\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:root\"\n            },\n            \"Action\": \"kms:*\",\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow access for Key Administrators\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:Create*\",\n                \"kms:Describe*\",\n                \"kms:Enable*\",\n                \"kms:List*\",\n                \"kms:Put*\",\n                \"kms:Update*\",\n                \"kms:Revoke*\",\n                \"kms:Disable*\",\n                \"kms:Get*\",\n                \"kms:Delete*\",\n                \"kms:TagResource\",\n                \"kms:UntagResource\",\n                \"kms:ScheduleKeyDeletion\",\n                \"kms:CancelKeyDeletion\"\n            ],\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow use of the key\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:Encrypt\",\n                \"kms:Decrypt\",\n                \"kms:ReEncrypt*\",\n                \"kms:GenerateDataKey*\",\n                \"kms:DescribeKey\"\n            ],\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow attachment of persistent resources\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:CreateGrant\",\n                \"kms:ListGrants\",\n                \"kms:RevokeGrant\"\n            ],\n            \"Resource\": \"*\",\n            \"Condition\": {\n                \"Bool\": {\n                    \"kms:GrantIsForAWSResource\": \"true\"\n                }\n            }\n        },\n        {\n            \"Sid\": \"Allow use of the key\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"*\"\n            },\n            \"Action\": \"kms:Decrypt\",\n            \"Resource\": \"*\"\n        }\n    ]\n}",
+        "bypassPolicyLockoutSafetyCheck": false
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 359,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-e0dc0014843e171791db22c2",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:21:54Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 360,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-9767c2076ca6b1bf4eda6203",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:21:56Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 358,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-3fe3bfddea881017a720a572",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:22:02Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 354,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-02d8ae70524f94ffc786368b",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:22:02Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 355,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-c337850deee9505dd62de714",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:22:02Z",
+      "service": "kms.amazonaws.com",
+      "operation": "PutKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default",
+        "policy": "{\n    \"Version\": \"2012-10-17\",\n    \"Id\": \"key-consolepolicy-3\",\n    \"Statement\": [\n        {\n            \"Sid\": \"Enable IAM User Permissions\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:root\"\n            },\n            \"Action\": \"kms:*\",\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow access for Key Administrators\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:Create*\",\n                \"kms:Describe*\",\n                \"kms:Enable*\",\n                \"kms:List*\",\n                \"kms:Put*\",\n                \"kms:Update*\",\n                \"kms:Revoke*\",\n                \"kms:Disable*\",\n                \"kms:Get*\",\n                \"kms:Delete*\",\n                \"kms:TagResource\",\n                \"kms:UntagResource\",\n                \"kms:ScheduleKeyDeletion\",\n                \"kms:CancelKeyDeletion\"\n            ],\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow use of the key\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:Encrypt\",\n                \"kms:Decrypt\",\n                \"kms:ReEncrypt*\",\n                \"kms:GenerateDataKey*\",\n                \"kms:DescribeKey\"\n            ],\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow attachment of persistent resources\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:CreateGrant\",\n                \"kms:ListGrants\",\n                \"kms:RevokeGrant\"\n            ],\n            \"Resource\": \"*\",\n            \"Condition\": {\n                \"Bool\": {\n                    \"kms:GrantIsForAWSResource\": \"true\"\n                }\n            }\n        },\n        {\n            \"Sid\": \"Allow use of the key\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"*\"\n            },\n            \"Action\": \"kms:Encrypt\",\n            \"Resource\": \"*\"\n        }\n    ]\n}",
+        "bypassPolicyLockoutSafetyCheck": false
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 356,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-3c4e663827ae490ea0f8363b",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:22:02Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 357,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-5cf02d44751d0a22553d4f2f",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:30:53Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 335,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-7c31092698a98db5d8aab163",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:30:53Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 336,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-006e0924ef30721fe67f0ee8",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:32:15Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListGrants",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 327,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-b696a4e49efc67b6fc8a461d",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:32:15Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 328,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-a08e4985500beb5c659fcad7",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:32:15Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 329,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-13bf6b41eac167d1101eb1df",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:32:15Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 330,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-daf17a41a0ee6f5a0055ecde",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:32:15Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 331,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-175bc7614506b5ca6101f7c0",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:32:15Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyRotationStatus",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 332,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-9fdb38616f3e9efbb6c725b7",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:32:15Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListResourceTags",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 333,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-8981c35cb688a475e2598037",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:33:02Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 325,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-6880ae03ebdc94e947ea1fab",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T10:33:02Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 326,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-7d924a44f6d4113286d6c26e",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:00:51Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 281,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-e349dd9a0d03184e912c2224",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:00:51Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 282,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-840a66d1b44da94cd6c4e85e",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:01:00Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 277,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-803d5103d5224d1e09a6f663",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:03:57Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 269,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-6822bdf46ec6c1fcb9a631ba",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:03:57Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 270,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-ab45517b2916d6b076ee1381",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:04:16Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 268,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-08dde3b625d9f9b725186da4",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:04:39Z",
+      "service": "kms.amazonaws.com",
+      "operation": "PutKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default",
+        "policy": "{\n    \"Version\": \"2012-10-17\",\n    \"Id\": \"key-consolepolicy-3\",\n    \"Statement\": [\n        {\n            \"Sid\": \"Enable IAM User Permissions\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:root\"\n            },\n            \"Action\": \"kms:*\",\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow access for Key Administrators\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:Create*\",\n                \"kms:Describe*\",\n                \"kms:Enable*\",\n                \"kms:List*\",\n                \"kms:Put*\",\n                \"kms:Update*\",\n                \"kms:Revoke*\",\n                \"kms:Disable*\",\n                \"kms:Get*\",\n                \"kms:Delete*\",\n                \"kms:TagResource\",\n                \"kms:UntagResource\",\n                \"kms:ScheduleKeyDeletion\",\n                \"kms:CancelKeyDeletion\"\n            ],\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow use of the key\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:Encrypt\",\n                \"kms:Decrypt\",\n                \"kms:ReEncrypt*\",\n                \"kms:GenerateDataKey*\",\n                \"kms:DescribeKey\"\n            ],\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow attachment of persistent resources\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:CreateGrant\",\n                \"kms:ListGrants\",\n                \"kms:RevokeGrant\"\n            ],\n            \"Resource\": \"*\",\n            \"Condition\": {\n                \"Bool\": {\n                    \"kms:GrantIsForAWSResource\": \"true\"\n                }\n            }\n        },\n        {\n            \"Sid\": \"Allow use of the key\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"*\"\n            },\n            \"Action\": [\n                \"kms:Encrypt\"\n            ],\n            \"Resource\": \"*\"\n        }\n    ]\n}",
+        "bypassPolicyLockoutSafetyCheck": false
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 264,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-bc001ff922af2303b9fbb139",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:04:39Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 265,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-5ad05a37e49a21bcd136edc3",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:04:39Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 266,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-f7502c4305d6e34736d7ee2f",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:04:39Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 267,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-4138e698f905d7dbeecc9777",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:05:38Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 261,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-f9824ea804e44aa8c00cfb9d",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:05:38Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 262,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-5fe0c80431039ac8ae0459b2",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:03Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 247,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-a026110d7cd2fc49f6a25219",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:03Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 248,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-c43742288db94e0148ce3a25",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:04Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 244,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-3af9f6c4f116e31430035e1b",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 237,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-356bc6b37dfb62c383b321a6",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListGrants",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 238,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-c63fc6459b43300d53322026",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 239,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-6e35a750f106202b7d5c93dc",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 240,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-0e590cfa832218cd01e0824c",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyRotationStatus",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 241,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-b8110909a9fa7d29fc04cac2",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListResourceTags",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 242,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-871cef54e247643154db9421",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:14Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 243,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-8debbd5357e98d09f93409e6",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:17Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DisableKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 236,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-f0464579c6891a74e7601a6e",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:39Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 222,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-39271333fa3b41369eb96590",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:42Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 219,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-8c6e74f7ebdec1f99e69fda4",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:18:59Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ScheduleKeyDeletion",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "pendingWindowInDays": 7,
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": {
+          "keyId": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+          "deletionDate": "Jan 18, 2021, 11:18:59 AM"
+        },
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 217,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-6727f98907ee550a216c7b27",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:19:55Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 214,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-50d7330c796533776d72924a",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:19:55Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 215,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-5b6d5da14059fac4251d4cf8",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:33:09Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 187,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-6e5ecbd4eabf2938f3e558ee",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:33:09Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 188,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-db45380ef5abc5c1a114ef19",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:33:09Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListGrants",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 189,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-2cb71ce040d6ce738c8c6cc3",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:33:09Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 190,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-5600c6b53dc54f1d7563e097",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:33:09Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListResourceTags",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 191,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-0739d4736443e78ca2190c2b",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:33:09Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyRotationStatus",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 192,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-345d5f7e2c1cde6b8b815d75",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:33:09Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 193,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-a3e1d23f691b15b27f195aad",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:33:09Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListResourceTags",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 194,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-8ae45146f1f9bc5a79d619d1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:33:09Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 195,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-bb903d364b05398dfca169d8",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:33:09Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 196,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-7b45a455c9f43011304fd461",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T11:33:09Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyRotationStatus",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 197,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-0bec609e94040064d22aef7a",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:19:29Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 135,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-196a80ef23f3b499ec225396",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:19:30Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 130,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-f53425b167e313a6a3c11fe0",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:25:42Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 117,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-b001a8e0f645dc422318f415",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:25:42Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 119,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-339f7061c15b7adf711c4eff",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:34:38Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListAliases",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "limit": 100
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 94,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-ebac612d19b037b3ad402978",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:34:38Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 97,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-5f3c5c5bc500af719f7fe853",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:39:56Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 86,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-dab6783ac26bdb4bc2aaea67",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:39:59Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 84,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-832679b702dbdb3898eafa00",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:40:10Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GenerateDataKey",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "KMSInvalidStateException",
+      "request": {
+        "encryptionContext": {
+          "aws:s3:arn": "arn:aws:s3:::patricktestbucketencrypt/kms_aws_events_encrypted.json"
+        },
+        "keyId": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "keySpec": "AES_256"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": "KMSInvalidStateException",
+        "errorMessage": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1 is pending deletion."
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 83,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-894b884850b4d343cb03e87b",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:40:27Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 81,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-5e93a38f51874a075fd1cc15",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:40:27Z",
+      "service": "kms.amazonaws.com",
+      "operation": "CancelKeyDeletion",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": {
+          "keyId": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+        },
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 82,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-74f19fcd6ec297c3254523f8",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:40:39Z",
+      "service": "kms.amazonaws.com",
+      "operation": "EnableKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 59,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-841a69fc9bc357cb5858ea75",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:40:47Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GenerateDataKey",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keySpec": "AES_256",
+        "keyId": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "encryptionContext": {
+          "aws:s3:arn": "arn:aws:s3:::patricktestbucketencrypt/kms_aws_events_encrypted.json"
+        }
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 58,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-2e7bc1e91b6c22a4cdcb1113",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:52:11Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 46,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-2d137934bc359c48af2f995d",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:52:11Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 47,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-e6be747873e801dbad551ff8",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:52:11Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListResourceTags",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 48,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-59af5d7e05f683b4d0d9a8d4",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:52:11Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyRotationStatus",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 49,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-5a22f22aac0117fc0839d32e",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:52:11Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 50,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-9e26de57ea0e44016cc08484",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:52:11Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyRotationStatus",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 51,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-db4fdb8e54ebb5af54d3dbe7",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:52:11Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListResourceTags",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 52,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-fa8a5cb184b056102aaf7862",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:52:11Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 53,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-dc449a0139a8a13ab19758ee",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:52:16Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 43,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-058e8d00e2a3dc8f9d477967",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:52:16Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 44,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-d640a32bd963d7c266d4f3f7",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:52:16Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListGrants",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForAccessAnalyzer/access-analyzer",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 45,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-ff16d431c303bbc43106fe53",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T13:01:01Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyRotationStatus",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 13,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-805e2b7bb571312dd4ae498e",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T13:01:01Z",
+      "service": "kms.amazonaws.com",
+      "operation": "ListResourceTags",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 26,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-e9aca9ffb2f81c58a80d66d2",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T13:01:01Z",
+      "service": "kms.amazonaws.com",
+      "operation": "GetKeyPolicy",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "policyName": "default"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 30,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-285c12e6318ef43d5fd37adb",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T13:01:01Z",
+      "service": "kms.amazonaws.com",
+      "operation": "DescribeKey",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/config-role-us-west-2/KMSDescribeHandlerSession",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_kms_key.json",
+        "sha256": "8c6869476565588356d30a0c20d3767b2d64de8f871af2e97b2b0d57c4cc64b7",
+        "record_index": 37,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    }
+  ],
+  "observation_sequence_sha256": "11459f2b50b9075d896e64ace45cef9828e7f0fd45e19af170fb52de1f54bdfe"
+}

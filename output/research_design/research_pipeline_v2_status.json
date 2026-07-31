@@ -1,0 +1,102 @@
+{
+  "pipeline_version": "1.2",
+  "mode": "status",
+  "config": "configs\\ec_react_main_v2_draft.yaml",
+  "frozen_config": "configs\\ec_react_main_v2_frozen.yaml",
+  "output_dir": "output\\ec_react_main_v2",
+  "model_calls_authorized": false,
+  "stages": [
+    {
+      "stage": "validate_executable_oracle_gold",
+      "returncode": 2,
+      "command": [
+        "D:\\anaconda\\python.exe",
+        "scripts\\oracle\\audit_executable_oracle_registry_v1.py",
+        "--require-ready"
+      ],
+      "result": {
+        "valid": true,
+        "candidate_groups": 40,
+        "qualifying_oracle_gold_groups": 0,
+        "bounded_negative_or_paired_control_groups": 0,
+        "qualification_error_count": 40,
+        "qualification_errors": [
+          "cloudgoat-scenario:cloud_breach_s3: truth_state_is_not_qualifying",
+          "configuration-lineage:awsgoat:awsgoat_m1_ssrf_dynamodb: truth_state_is_not_qualifying",
+          "configuration-lineage:awsgoat:awsgoat_m2_ecs_secret_rds_credentials: truth_state_is_not_qualifying",
+          "configuration-lineage:azuregoat:azuregoat_prod_dev_blob_control_pair: truth_state_is_not_qualifying",
+          "configuration-lineage:azuregoat:azuregoat_ssrf_cosmos_storage: truth_state_is_not_qualifying",
+          "configuration-lineage:cloudfoxable:cloudfoxable_double_tap_secret_path: truth_state_is_not_qualifying",
+          "configuration-lineage:cloudfoxable:cloudfoxable_search1_elasticsearch_exposure: truth_state_is_not_qualifying",
+          "configuration-lineage:gcpgoat:gcpgoat_anonymous_bucket_policy_transition: truth_state_is_not_qualifying",
+          "configuration-lineage:terragoat:terragoat_aws_ec2_userdata_to_rds: truth_state_is_not_qualifying",
+          "configuration-lineage:terragoat:terragoat_azure_mysql_public_transport: truth_state_is_not_qualifying",
+          "configuration-lineage:terragoat:terragoat_gcp_anonymous_gcs_read: truth_state_is_not_qualifying",
+          "crosscloud-family:archive_collected_data: truth_state_is_not_qualifying",
+          "crosscloud-family:automated_collection: truth_state_is_not_qualifying",
+          "crosscloud-family:automated_exfiltration: truth_state_is_not_qualifying",
+          "crosscloud-family:credentials_from_password_stores: truth_state_is_not_qualifying",
+          "crosscloud-family:data_destruction: truth_state_is_not_qualifying",
+          "crosscloud-family:data_encrypted_for_impact: truth_state_is_not_qualifying",
+          "crosscloud-family:inhibit_system_recovery: truth_state_is_not_qualifying",
+          "crosscloud-family:scheduled_transfer: truth_state_is_not_qualifying",
+          "crosscloud-family:steal_application_access_token: truth_state_is_not_qualifying",
+          "crosscloud-family:unsecured_credentials: truth_state_is_not_qualifying",
+          "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync: truth_state_is_not_qualifying",
+          "source-case:splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject: truth_state_is_not_qualifying",
+          "splunk-technique:T1098.001: truth_state_is_not_qualifying",
+          "splunk-technique:T1110.002: truth_state_is_not_qualifying",
+          "splunk-technique:T1486: truth_state_is_not_qualifying",
+          "splunk-technique:T1490: truth_state_is_not_qualifying",
+          "splunk-technique:T1530: truth_state_is_not_qualifying",
+          "splunk-technique:T1537: truth_state_is_not_qualifying",
+          "stratus-technique:T1496.A007: truth_state_is_not_qualifying",
+          "stratus-technique:T1552.005: truth_state_is_not_qualifying",
+          "stratus-technique:T1562.008: truth_state_is_not_qualifying",
+          "stratus-technique:T1578.001: truth_state_is_not_qualifying",
+          "stratus_red_team:stratus:aws.credential-access.ec2-get-password-data: truth_state_is_not_qualifying",
+          "stratus_red_team:stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets: truth_state_is_not_qualifying",
+          "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets: truth_state_is_not_qualifying",
+          "stratus_red_team:stratus:aws.credential-access.ssm-retrieve-securestring-parameters: truth_state_is_not_qualifying",
+          "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs: truth_state_is_not_qualifying",
+          "stratus_red_team:stratus:aws.discovery.ec2-download-user-data: truth_state_is_not_qualifying",
+          "stratus_red_team:stratus:aws.exfiltration.ec2-share-ami: truth_state_is_not_qualifying"
+        ],
+        "completion_gate": {
+          "minimum_oracle_gold_groups": 30,
+          "minimum_bounded_negative_or_paired_controls": 10,
+          "oracle_gold_passes": false,
+          "negative_control_passes": false,
+          "passes": false
+        }
+      },
+      "stderr": null
+    },
+    {
+      "stage": "main_preflight",
+      "returncode": 2,
+      "command": [
+        "D:\\anaconda\\python.exe",
+        "scripts\\experiments\\run_ec_react_preflight.py",
+        "--config",
+        "configs\\ec_react_main_v2_draft.yaml",
+        "--output",
+        "output\\ec_react_main_v2\\pipeline_preflight.json",
+        "--require-ready"
+      ],
+      "result": {
+        "ready": false,
+        "blockers": 5,
+        "finalized_cases": 0,
+        "source_candidate_cases": 52,
+        "source_independence_groups": 30,
+        "planned_runs_if_ready": 0,
+        "secrets_in_report": false,
+        "output": "output\\ec_react_main_v2\\pipeline_preflight.json"
+      },
+      "stderr": null
+    }
+  ],
+  "ready": false,
+  "final_status": "blocked"
+}

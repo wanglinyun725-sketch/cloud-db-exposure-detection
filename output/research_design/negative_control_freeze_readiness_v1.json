@@ -1,0 +1,27 @@
+{
+  "freeze_gate_version": "1.0",
+  "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+  "stage": "awaiting_double_blind",
+  "ready_to_publish": false,
+  "experiment_eligible": false,
+  "minimum_usable_negative_controls": 20,
+  "primary_progress": {
+    "blank": 30,
+    "in_progress": 0,
+    "valid_complete": 0,
+    "invalid": 0
+  },
+  "reviewer_progress": {
+    "blank": 30,
+    "in_progress": 0,
+    "valid_complete": 0,
+    "invalid": 0
+  },
+  "agreement": null,
+  "adjudication": {
+    "required_cases": [],
+    "provided": false,
+    "valid_complete": false
+  },
+  "release_sha256": null
+}

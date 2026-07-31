@@ -1,0 +1,1329 @@
+{
+  "registry_version": "1.0.0",
+  "registry_kind": "outcome_free_oracle_probe_contracts",
+  "status": "execution_disabled_requires_runtime_resolution",
+  "bindings": {
+    "scope_inventory": {
+      "path": "data/real_sources/oracle/execution/oracle_scope_candidates_v1.json",
+      "sha256": "357376058d594797952f0547485d2cc59f2b23080a0f378158ff6047ae92ec7a",
+      "bytes": 70390
+    },
+    "stratus_archive": {
+      "path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+      "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+      "bytes": 2006283
+    }
+  },
+  "policy": {
+    "evaluator_only": true,
+    "contains_truth_labels": false,
+    "contains_expected_outcomes": false,
+    "historical_resource_ids_reused": false,
+    "public_sharing_forbidden": true,
+    "shell_interpolation_forbidden": true,
+    "argv_execution_only": true,
+    "generated_events": 0,
+    "generated_labels": 0
+  },
+  "summary": {
+    "candidate_groups": 40,
+    "supported_contracts": 5,
+    "unsupported_or_unresolved_groups": 35,
+    "platform_counts": {
+      "AWS": 5,
+      "AZURE": 0,
+      "GCP": 0
+    }
+  },
+  "contracts": [
+    {
+      "contract_id": "probe-contract-dbf8c658593217784173",
+      "independence_group": "stratus-technique:T1578.001",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-00b85231dcb5dbdd349b",
+        "case_id": "stratus:aws.exfiltration.ec2-share-ebs-snapshot",
+        "runtime_instance_id": "instance-c2ef6ed8736fdc5b055e",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "dbf8c65859321778417304ad467205b20afd77bd9f6bc8feae4267028bb92d97"
+      },
+      "visibility": "evaluator_only",
+      "status": "requires_runtime_resolution",
+      "derivation": {
+        "observed_action": "ec2.amazonaws.com:ModifySnapshotAttribute",
+        "observed_resource_field": "request.snapshotId",
+        "selection_rule": "exactly one observed principal/action/resource/network and an allow-listed deterministic safe adapter",
+        "historical_values_copied_into_runtime_scope": false
+      },
+      "runtime_scope_template": {
+        "principals": [
+          "{{DEDICATED_PROBE_PRINCIPAL_ARN}}"
+        ],
+        "actions": [
+          "ec2:ModifySnapshotAttribute"
+        ],
+        "resources": [
+          "arn:{{AWS_PARTITION}}:ec2:{{AWS_REGION}}::snapshot/{{RUN_OWNED_SNAPSHOT_ID}}"
+        ],
+        "network_origins": [
+          "{{RUNNER_EGRESS_CIDR}}"
+        ],
+        "time_window": [
+          "{{RUN_STARTED_AT}}",
+          "{{RUN_FINISHED_AT}}"
+        ]
+      },
+      "provider_native_analysis": {
+        "adapter_id": "aws_iam_simulate_principal_policy_v1",
+        "command_argv_template": [
+          "aws",
+          "iam",
+          "simulate-principal-policy",
+          "--policy-source-arn",
+          "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+          "--action-names",
+          "ec2:ModifySnapshotAttribute",
+          "--resource-arns",
+          "arn:{{AWS_PARTITION}}:ec2:{{AWS_REGION}}::snapshot/{{RUN_OWNED_SNAPSHOT_ID}}",
+          "--no-paginate",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ]
+      },
+      "authorized_active_probe": {
+        "permission_precheck_argv_template": [
+          "aws",
+          "ec2",
+          "modify-snapshot-attribute",
+          "--snapshot-id",
+          "{{RUN_OWNED_SNAPSHOT_ID}}",
+          "--attribute",
+          "createVolumePermission",
+          "--operation-type",
+          "add",
+          "--user-ids",
+          "{{ISOLATED_COUNTERPART_ACCOUNT_ID}}",
+          "--dry-run",
+          "--region",
+          "{{AWS_REGION}}",
+          "--no-cli-pager"
+        ],
+        "probe_argv_template": [
+          "aws",
+          "ec2",
+          "modify-snapshot-attribute",
+          "--snapshot-id",
+          "{{RUN_OWNED_SNAPSHOT_ID}}",
+          "--attribute",
+          "createVolumePermission",
+          "--operation-type",
+          "add",
+          "--user-ids",
+          "{{ISOLATED_COUNTERPART_ACCOUNT_ID}}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--no-cli-pager"
+        ],
+        "postcondition_argv_template": [
+          "aws",
+          "ec2",
+          "describe-snapshot-attribute",
+          "--snapshot-id",
+          "{{RUN_OWNED_SNAPSHOT_ID}}",
+          "--attribute",
+          "createVolumePermission",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "cleanup_argv_template": [
+          "aws",
+          "ec2",
+          "modify-snapshot-attribute",
+          "--snapshot-id",
+          "{{RUN_OWNED_SNAPSHOT_ID}}",
+          "--attribute",
+          "createVolumePermission",
+          "--operation-type",
+          "remove",
+          "--user-ids",
+          "{{ISOLATED_COUNTERPART_ACCOUNT_ID}}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--no-cli-pager"
+        ],
+        "dry_run_is_qualifying_runtime_evidence": false,
+        "actual_mutation_requires_all_safety_gates": true
+      },
+      "audit_telemetry": {
+        "adapter_id": "aws_cloudtrail_exact_event_v1",
+        "command_argv_template": [
+          "aws",
+          "cloudtrail",
+          "lookup-events",
+          "--lookup-attributes",
+          "AttributeKey=EventName,AttributeValue=ModifySnapshotAttribute",
+          "--start-time",
+          "{{RUN_STARTED_AT}}",
+          "--end-time",
+          "{{RUN_FINISHED_AT}}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "required_event_predicates": {
+          "eventSource": "ec2.amazonaws.com",
+          "eventName": "ModifySnapshotAttribute",
+          "userIdentity.arn": "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+          "sourceIPAddress": "{{RUNNER_EGRESS_IP}}",
+          "request_resource_id": "{{RUN_OWNED_SNAPSHOT_ID}}"
+        },
+        "official_reference": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-cli.html"
+      },
+      "safety": {
+        "owner_account_must_be_dedicated": true,
+        "counterpart_account_must_be_dedicated": true,
+        "owner_and_counterpart_accounts_must_differ": true,
+        "resource_must_be_created_by_current_run": true,
+        "public_group_all_forbidden": true,
+        "historical_account_resource_and_ip_values_forbidden": true,
+        "cleanup_mandatory": true,
+        "post_cleanup_inventory_mandatory": true
+      },
+      "controlled_counterfactual_template": {
+        "same_runtime_scope_required": true,
+        "only_mutation": "attach exact explicit deny for action/resource to dedicated probe principal",
+        "pair_assignment_frozen_before_execution": true,
+        "expected_truth_state": null
+      },
+      "official_cli_reference": "https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-snapshot-attribute.html",
+      "official_resource_reference": "https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2.html",
+      "upstream_implementation": {
+        "source_id": "stratus_red_team",
+        "repository": "DataDog/stratus-red-team",
+        "commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+        "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+        "members": [
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.ec2-share-ebs-snapshot.md",
+            "sha256": "351293ababf71279c3024b0744b8f4f86c8161f529a4a5e5af967d6fa96a49db",
+            "bytes": 5056
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.exfiltration.ec2-share-ebs-snapshot.json",
+            "sha256": "a8893b719dcd60f626063b9bd83dc2b34958f4a59b1d3c16bdda8c49cecf8411",
+            "bytes": 1566
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/v2/internal/attacktechniques/aws/exfiltration/ec2-share-ebs-snapshot/main.go",
+            "sha256": "be133ef3668517899f4b1369732b370079a55a342ce5e07fd56804fdac668eed",
+            "bytes": 5113
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/v2/internal/attacktechniques/aws/exfiltration/ec2-share-ebs-snapshot/main.tf",
+            "sha256": "46902fce26c852daa869b3f0d58fe66d4ba459cc0146d4679978f3f395881f11",
+            "bytes": 914
+          }
+        ],
+        "source_code_executed_by_contract_builder": false
+      }
+    },
+    {
+      "contract_id": "probe-contract-a5bb0e5f8ba0c01ce146",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-9aec7d1dc066bb5cb539",
+        "case_id": "stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+        "runtime_instance_id": "instance-5266491fa3c3dc815793",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "a5bb0e5f8ba0c01ce14629ad36c349c2a2db1bf5f282979b1fe9b7845ca93c34"
+      },
+      "visibility": "evaluator_only",
+      "status": "requires_runtime_resolution",
+      "derivation": {
+        "upstream_technique": "aws.credential-access.secretsmanager-batch-retrieve-secrets",
+        "observed_actions": [
+          "secretsmanager.amazonaws.com:BatchGetSecretValue"
+        ],
+        "terminal_actions_selected": [
+          "secretsmanager:BatchGetSecretValue",
+          "secretsmanager:GetSecretValue"
+        ],
+        "selection_rule": "pinned Stratus terminal read narrowed to explicit current-run resources with a value-redacting CLI query",
+        "upstream_behavior_narrowed": true,
+        "narrowing_does_not_reproduce": "account-wide enumeration or high-volume collection",
+        "historical_values_copied_into_runtime_scope": false
+      },
+      "upstream_implementation": {
+        "source_id": "stratus_red_team",
+        "repository": "DataDog/stratus-red-team",
+        "commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+        "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+        "members": [
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.credential-access.secretsmanager-batch-retrieve-secrets.md",
+            "sha256": "9bdf8f385743561a573291cb76e3c2e8f9872de020bbefc43a975e0dfffb8eb2",
+            "bytes": 10323
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-batch-retrieve-secrets.json",
+            "sha256": "78ad40df953552efb6339d902b6abc9e88e3052459c43eb050aa61042aa1eff4",
+            "bytes": 6752
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/v2/internal/attacktechniques/aws/credential-access/secretsmanager-batch-retrieve-secrets/main.go",
+            "sha256": "d86230d119dcfb4d77aefef69aea48aad89581124ae7113f3cba727968de1178",
+            "bytes": 4650
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/v2/internal/attacktechniques/aws/credential-access/secretsmanager-batch-retrieve-secrets/main.tf",
+            "sha256": "0be483b0f54d64db2590fca567be110cbe42d55c7d90f37d9c3f59dbcf8cde36",
+            "bytes": 1082
+          }
+        ],
+        "source_code_executed_by_contract_builder": false
+      },
+      "runtime_scope_template": {
+        "principals": [
+          "{{DEDICATED_PROBE_PRINCIPAL_ARN}}"
+        ],
+        "actions": [
+          "secretsmanager:BatchGetSecretValue",
+          "secretsmanager:GetSecretValue"
+        ],
+        "resources": [
+          "{{RUN_OWNED_SECRET_1_ARN}}",
+          "{{RUN_OWNED_SECRET_2_ARN}}"
+        ],
+        "network_origins": [
+          "{{RUNNER_EGRESS_CIDR}}"
+        ],
+        "time_window": [
+          "{{RUN_STARTED_AT}}",
+          "{{RUN_FINISHED_AT}}"
+        ]
+      },
+      "provider_native_analysis": {
+        "adapter_id": "aws_iam_simulate_principal_policy_v1",
+        "command_argv_templates": [
+          [
+            "aws",
+            "iam",
+            "simulate-principal-policy",
+            "--policy-source-arn",
+            "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+            "--action-names",
+            "secretsmanager:BatchGetSecretValue",
+            "--resource-arns",
+            "{{RUN_OWNED_SECRET_1_ARN}}",
+            "{{RUN_OWNED_SECRET_2_ARN}}",
+            "--no-paginate",
+            "--output",
+            "json",
+            "--no-cli-pager"
+          ],
+          [
+            "aws",
+            "iam",
+            "simulate-principal-policy",
+            "--policy-source-arn",
+            "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+            "--action-names",
+            "secretsmanager:GetSecretValue",
+            "--resource-arns",
+            "{{RUN_OWNED_SECRET_1_ARN}}",
+            "{{RUN_OWNED_SECRET_2_ARN}}",
+            "--no-paginate",
+            "--output",
+            "json",
+            "--no-cli-pager"
+          ]
+        ],
+        "all_terminal_actions_must_be_evaluated": true
+      },
+      "evaluator_setup": {
+        "command_argv_templates": [
+          [
+            "aws",
+            "secretsmanager",
+            "create-secret",
+            "--cli-input-json",
+            "file://{{EVALUATOR_PRIVATE_CREATE_SECRET_1_JSON}}",
+            "--region",
+            "{{AWS_REGION}}",
+            "--no-cli-pager"
+          ],
+          [
+            "aws",
+            "secretsmanager",
+            "create-secret",
+            "--cli-input-json",
+            "file://{{EVALUATOR_PRIVATE_CREATE_SECRET_2_JSON}}",
+            "--region",
+            "{{AWS_REGION}}",
+            "--no-cli-pager"
+          ]
+        ],
+        "private_cli_input_files_must_be_mode_0600": true,
+        "private_cli_input_files_deleted_after_setup": true,
+        "canary_contains_no_real_credentials_or_personal_data": true,
+        "resource_tags_required": {
+          "pathbench-run": "{{RUN_ID}}"
+        }
+      },
+      "authorized_active_probe": {
+        "probe_argv_template": [
+          "aws",
+          "secretsmanager",
+          "batch-get-secret-value",
+          "--secret-id-list",
+          "{{RUN_OWNED_SECRET_1_ARN}}",
+          "{{RUN_OWNED_SECRET_2_ARN}}",
+          "--query",
+          "{SecretValues:SecretValues[].{ARN:ARN,Name:Name,VersionId:VersionId},Errors:Errors[].{SecretId:SecretId,ErrorCode:ErrorCode}}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "postcondition_argv_template": [
+          "aws",
+          "secretsmanager",
+          "list-secrets",
+          "--filters",
+          "Key=tag-key,Values=pathbench-run",
+          "Key=tag-value,Values={{RUN_ID}}",
+          "--query",
+          "SecretList[].{ARN:ARN,Name:Name,Tags:Tags}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "cleanup_argv_templates": [
+          [
+            "aws",
+            "secretsmanager",
+            "delete-secret",
+            "--secret-id",
+            "{{RUN_OWNED_SECRET_1_ARN}}",
+            "--force-delete-without-recovery",
+            "--region",
+            "{{AWS_REGION}}",
+            "--no-cli-pager"
+          ],
+          [
+            "aws",
+            "secretsmanager",
+            "delete-secret",
+            "--secret-id",
+            "{{RUN_OWNED_SECRET_2_ARN}}",
+            "--force-delete-without-recovery",
+            "--region",
+            "{{AWS_REGION}}",
+            "--no-cli-pager"
+          ]
+        ],
+        "post_cleanup_inventory_argv_template": [
+          "aws",
+          "secretsmanager",
+          "list-secrets",
+          "--include-planned-deletion",
+          "--filters",
+          "Key=tag-key,Values=pathbench-run",
+          "Key=tag-value,Values={{RUN_ID}}",
+          "--query",
+          "SecretList[].{ARN:ARN,Name:Name,DeletedDate:DeletedDate}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "dry_run_available": false,
+        "dry_run_is_qualifying_runtime_evidence": false,
+        "actual_call_requires_all_safety_gates": true
+      },
+      "sensitive_response_handling": {
+        "upstream_stdout_behavior_reused": false,
+        "secret_values_may_be_logged": false,
+        "cli_query_excludes_sensitive_values": true,
+        "defense_in_depth_json_pointers_to_drop": [
+          "/SecretValues/*/SecretString",
+          "/SecretValues/*/SecretBinary"
+        ],
+        "raw_stdout_persistence_forbidden": true,
+        "agent_visibility": "none",
+        "retained_fields": "resource identifiers, versions, API status and error codes only"
+      },
+      "audit_telemetry": {
+        "adapter_id": "aws_cloudtrail_exact_event_v1",
+        "command_argv_template": [
+          "aws",
+          "cloudtrail",
+          "lookup-events",
+          "--lookup-attributes",
+          "AttributeKey=EventName,AttributeValue=BatchGetSecretValue",
+          "--start-time",
+          "{{RUN_STARTED_AT}}",
+          "--end-time",
+          "{{RUN_FINISHED_AT}}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "required_event_predicates": {
+          "eventSource": "secretsmanager.amazonaws.com",
+          "eventName": "BatchGetSecretValue",
+          "userIdentity.arn": "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+          "sourceIPAddress": "{{RUNNER_EGRESS_IP}}",
+          "requestParameters.secretIdList": [
+            "{{RUN_OWNED_SECRET_1_ARN}}",
+            "{{RUN_OWNED_SECRET_2_ARN}}"
+          ]
+        },
+        "official_reference": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-cli.html"
+      },
+      "safety": {
+        "owner_account_must_be_dedicated": true,
+        "resource_must_be_created_by_current_run": true,
+        "explicit_resource_identifiers_only": true,
+        "public_group_all_forbidden": true,
+        "account_wide_enumeration_forbidden": true,
+        "upstream_high_volume_behavior_forbidden": true,
+        "historical_account_resource_and_ip_values_forbidden": true,
+        "real_secret_material_forbidden": true,
+        "cleanup_mandatory": true,
+        "post_cleanup_inventory_mandatory": true
+      },
+      "controlled_counterfactual_template": {
+        "same_runtime_scope_required": true,
+        "only_mutation": "attach exact explicit deny for every terminal action/resource to the dedicated probe principal",
+        "pair_assignment_frozen_before_execution": true,
+        "expected_truth_state": null
+      },
+      "official_references": [
+        "https://docs.aws.amazon.com/cli/latest/reference/secretsmanager/batch-get-secret-value.html",
+        "https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-cloudtrail.html"
+      ]
+    },
+    {
+      "contract_id": "probe-contract-7462f1089b5a99f5a73c",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-d5e3da644f56c1a1eb47",
+        "case_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+        "runtime_instance_id": "instance-8111a8c6907ac5c47d1b",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "7462f1089b5a99f5a73c27951bc2405acd7498517dee6c2c75a334ef5b76a4d0"
+      },
+      "visibility": "evaluator_only",
+      "status": "requires_runtime_resolution",
+      "derivation": {
+        "upstream_technique": "aws.credential-access.secretsmanager-retrieve-secrets",
+        "observed_actions": [
+          "secretsmanager.amazonaws.com:GetSecretValue",
+          "secretsmanager.amazonaws.com:ListSecrets"
+        ],
+        "terminal_actions_selected": [
+          "secretsmanager:GetSecretValue"
+        ],
+        "selection_rule": "pinned Stratus terminal read narrowed to explicit current-run resources with a value-redacting CLI query",
+        "upstream_behavior_narrowed": true,
+        "narrowing_does_not_reproduce": "account-wide enumeration or high-volume collection",
+        "historical_values_copied_into_runtime_scope": false
+      },
+      "upstream_implementation": {
+        "source_id": "stratus_red_team",
+        "repository": "DataDog/stratus-red-team",
+        "commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+        "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+        "members": [
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.credential-access.secretsmanager-retrieve-secrets.md",
+            "sha256": "b396bb3406f29a3ccec8d12b650954b67850978ed4ce2dbdec49e533cf7ebd37",
+            "bytes": 30208
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "bytes": 27489
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/v2/internal/attacktechniques/aws/credential-access/secretsmanager-retrieve-secrets/main.go",
+            "sha256": "45c66d5f06d4237d5c546af791c9b2e44f6a2143571d4389ce16c23ba8ea8f3a",
+            "bytes": 2619
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/v2/internal/attacktechniques/aws/credential-access/secretsmanager-retrieve-secrets/main.tf",
+            "sha256": "7965c0e56bd2dd906eea79ef7a0237431062a3c5db9a2a65e757adaebf108abe",
+            "bytes": 1075
+          }
+        ],
+        "source_code_executed_by_contract_builder": false
+      },
+      "runtime_scope_template": {
+        "principals": [
+          "{{DEDICATED_PROBE_PRINCIPAL_ARN}}"
+        ],
+        "actions": [
+          "secretsmanager:GetSecretValue"
+        ],
+        "resources": [
+          "{{RUN_OWNED_SECRET_ARN}}"
+        ],
+        "network_origins": [
+          "{{RUNNER_EGRESS_CIDR}}"
+        ],
+        "time_window": [
+          "{{RUN_STARTED_AT}}",
+          "{{RUN_FINISHED_AT}}"
+        ]
+      },
+      "provider_native_analysis": {
+        "adapter_id": "aws_iam_simulate_principal_policy_v1",
+        "command_argv_templates": [
+          [
+            "aws",
+            "iam",
+            "simulate-principal-policy",
+            "--policy-source-arn",
+            "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+            "--action-names",
+            "secretsmanager:GetSecretValue",
+            "--resource-arns",
+            "{{RUN_OWNED_SECRET_ARN}}",
+            "--no-paginate",
+            "--output",
+            "json",
+            "--no-cli-pager"
+          ]
+        ],
+        "all_terminal_actions_must_be_evaluated": true
+      },
+      "evaluator_setup": {
+        "command_argv_templates": [
+          [
+            "aws",
+            "secretsmanager",
+            "create-secret",
+            "--cli-input-json",
+            "file://{{EVALUATOR_PRIVATE_CREATE_SECRET_JSON}}",
+            "--region",
+            "{{AWS_REGION}}",
+            "--no-cli-pager"
+          ]
+        ],
+        "private_cli_input_files_must_be_mode_0600": true,
+        "private_cli_input_files_deleted_after_setup": true,
+        "canary_contains_no_real_credentials_or_personal_data": true,
+        "resource_tags_required": {
+          "pathbench-run": "{{RUN_ID}}"
+        }
+      },
+      "authorized_active_probe": {
+        "probe_argv_template": [
+          "aws",
+          "secretsmanager",
+          "get-secret-value",
+          "--secret-id",
+          "{{RUN_OWNED_SECRET_ARN}}",
+          "--query",
+          "{ARN:ARN,Name:Name,VersionId:VersionId,VersionStages:VersionStages}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "postcondition_argv_template": [
+          "aws",
+          "secretsmanager",
+          "describe-secret",
+          "--secret-id",
+          "{{RUN_OWNED_SECRET_ARN}}",
+          "--query",
+          "{ARN:ARN,Name:Name,Tags:Tags,DeletedDate:DeletedDate}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "cleanup_argv_templates": [
+          [
+            "aws",
+            "secretsmanager",
+            "delete-secret",
+            "--secret-id",
+            "{{RUN_OWNED_SECRET_ARN}}",
+            "--force-delete-without-recovery",
+            "--region",
+            "{{AWS_REGION}}",
+            "--no-cli-pager"
+          ]
+        ],
+        "post_cleanup_inventory_argv_template": [
+          "aws",
+          "secretsmanager",
+          "describe-secret",
+          "--secret-id",
+          "{{RUN_OWNED_SECRET_ARN}}",
+          "--query",
+          "{ARN:ARN,Name:Name,DeletedDate:DeletedDate}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "dry_run_available": false,
+        "dry_run_is_qualifying_runtime_evidence": false,
+        "actual_call_requires_all_safety_gates": true
+      },
+      "sensitive_response_handling": {
+        "upstream_stdout_behavior_reused": false,
+        "secret_values_may_be_logged": false,
+        "cli_query_excludes_sensitive_values": true,
+        "defense_in_depth_json_pointers_to_drop": [
+          "/SecretString",
+          "/SecretBinary"
+        ],
+        "raw_stdout_persistence_forbidden": true,
+        "agent_visibility": "none",
+        "retained_fields": "resource identifiers, versions, API status and error codes only"
+      },
+      "audit_telemetry": {
+        "adapter_id": "aws_cloudtrail_exact_event_v1",
+        "command_argv_template": [
+          "aws",
+          "cloudtrail",
+          "lookup-events",
+          "--lookup-attributes",
+          "AttributeKey=EventName,AttributeValue=GetSecretValue",
+          "--start-time",
+          "{{RUN_STARTED_AT}}",
+          "--end-time",
+          "{{RUN_FINISHED_AT}}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "required_event_predicates": {
+          "eventSource": "secretsmanager.amazonaws.com",
+          "eventName": "GetSecretValue",
+          "userIdentity.arn": "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+          "sourceIPAddress": "{{RUNNER_EGRESS_IP}}",
+          "requestParameters.secretId": "{{RUN_OWNED_SECRET_ARN}}"
+        },
+        "official_reference": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-cli.html"
+      },
+      "safety": {
+        "owner_account_must_be_dedicated": true,
+        "resource_must_be_created_by_current_run": true,
+        "explicit_resource_identifiers_only": true,
+        "public_group_all_forbidden": true,
+        "account_wide_enumeration_forbidden": true,
+        "upstream_high_volume_behavior_forbidden": true,
+        "historical_account_resource_and_ip_values_forbidden": true,
+        "real_secret_material_forbidden": true,
+        "cleanup_mandatory": true,
+        "post_cleanup_inventory_mandatory": true
+      },
+      "controlled_counterfactual_template": {
+        "same_runtime_scope_required": true,
+        "only_mutation": "attach exact explicit deny for every terminal action/resource to the dedicated probe principal",
+        "pair_assignment_frozen_before_execution": true,
+        "expected_truth_state": null
+      },
+      "official_references": [
+        "https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieving-secrets_cli.html",
+        "https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-cloudtrail.html"
+      ]
+    },
+    {
+      "contract_id": "probe-contract-df2740e0d87f835b6939",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-77c8de1b71dc4d30a5c2",
+        "case_id": "stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+        "runtime_instance_id": "instance-056fe5fce11fa8d20b76",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "df2740e0d87f835b69397503b7bbdc6b08b59153671874312ba1b66aebe4cbeb"
+      },
+      "visibility": "evaluator_only",
+      "status": "requires_runtime_resolution",
+      "derivation": {
+        "upstream_technique": "aws.credential-access.ssm-retrieve-securestring-parameters",
+        "observed_actions": [
+          "ssm.amazonaws.com:DescribeParameters",
+          "ssm.amazonaws.com:GetParameters"
+        ],
+        "terminal_actions_selected": [
+          "ssm:GetParameters"
+        ],
+        "selection_rule": "pinned Stratus terminal read narrowed to explicit current-run resources with a value-redacting CLI query",
+        "upstream_behavior_narrowed": true,
+        "narrowing_does_not_reproduce": "account-wide enumeration or high-volume collection",
+        "historical_values_copied_into_runtime_scope": false
+      },
+      "upstream_implementation": {
+        "source_id": "stratus_red_team",
+        "repository": "DataDog/stratus-red-team",
+        "commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+        "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+        "members": [
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.credential-access.ssm-retrieve-securestring-parameters.md",
+            "sha256": "a94045a3ce6b73cd659d5439feab9eb31127231f46f56d97196d28b6aa4d7651",
+            "bytes": 27638
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.ssm-retrieve-securestring-parameters.json",
+            "sha256": "3215cb1d7dd8c88414f217a0712c08176fe0964ec1a4f0cbaed023c6844d8abc",
+            "bytes": 25017
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/v2/internal/attacktechniques/aws/credential-access/ssm-retrieve-securestring-parameters/main.go",
+            "sha256": "bd169031d946859050e95ee3c154251d5842486479bd86d7e1df6cc9072b5a48",
+            "bytes": 3183
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/v2/internal/attacktechniques/aws/credential-access/ssm-retrieve-securestring-parameters/main.tf",
+            "sha256": "ad7e56978b9b2d91a0c0f12eb683a9e0f6d7acaafcfda4c9cc7f2df944dc7104",
+            "bytes": 925
+          }
+        ],
+        "source_code_executed_by_contract_builder": false
+      },
+      "runtime_scope_template": {
+        "principals": [
+          "{{DEDICATED_PROBE_PRINCIPAL_ARN}}"
+        ],
+        "actions": [
+          "ssm:GetParameters"
+        ],
+        "resources": [
+          "arn:{{AWS_PARTITION}}:ssm:{{AWS_REGION}}:{{DEDICATED_OWNER_ACCOUNT_ID}}:parameter/pathbench/{{RUN_ID}}/canary"
+        ],
+        "network_origins": [
+          "{{RUNNER_EGRESS_CIDR}}"
+        ],
+        "time_window": [
+          "{{RUN_STARTED_AT}}",
+          "{{RUN_FINISHED_AT}}"
+        ]
+      },
+      "provider_native_analysis": {
+        "adapter_id": "aws_iam_simulate_principal_policy_v1",
+        "command_argv_templates": [
+          [
+            "aws",
+            "iam",
+            "simulate-principal-policy",
+            "--policy-source-arn",
+            "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+            "--action-names",
+            "ssm:GetParameters",
+            "--resource-arns",
+            "arn:{{AWS_PARTITION}}:ssm:{{AWS_REGION}}:{{DEDICATED_OWNER_ACCOUNT_ID}}:parameter/pathbench/{{RUN_ID}}/canary",
+            "--no-paginate",
+            "--output",
+            "json",
+            "--no-cli-pager"
+          ]
+        ],
+        "all_terminal_actions_must_be_evaluated": true
+      },
+      "evaluator_setup": {
+        "command_argv_templates": [
+          [
+            "aws",
+            "ssm",
+            "put-parameter",
+            "--cli-input-json",
+            "file://{{EVALUATOR_PRIVATE_PUT_PARAMETER_JSON}}",
+            "--region",
+            "{{AWS_REGION}}",
+            "--no-cli-pager"
+          ]
+        ],
+        "private_cli_input_files_must_be_mode_0600": true,
+        "private_cli_input_files_deleted_after_setup": true,
+        "canary_contains_no_real_credentials_or_personal_data": true,
+        "resource_tags_required": {
+          "pathbench-run": "{{RUN_ID}}"
+        }
+      },
+      "authorized_active_probe": {
+        "probe_argv_template": [
+          "aws",
+          "ssm",
+          "get-parameters",
+          "--names",
+          "/pathbench/{{RUN_ID}}/canary",
+          "--with-decryption",
+          "--query",
+          "{Parameters:Parameters[].{Name:Name,Type:Type,Version:Version,ARN:ARN,DataType:DataType},InvalidParameters:InvalidParameters}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "postcondition_argv_template": [
+          "aws",
+          "ssm",
+          "describe-parameters",
+          "--parameter-filters",
+          "Key=Name,Option=Equals,Values=/pathbench/{{RUN_ID}}/canary",
+          "--query",
+          "Parameters[].{Name:Name,Type:Type,Version:Version,DataType:DataType}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "cleanup_argv_templates": [
+          [
+            "aws",
+            "ssm",
+            "delete-parameter",
+            "--name",
+            "/pathbench/{{RUN_ID}}/canary",
+            "--region",
+            "{{AWS_REGION}}",
+            "--no-cli-pager"
+          ]
+        ],
+        "post_cleanup_inventory_argv_template": [
+          "aws",
+          "ssm",
+          "describe-parameters",
+          "--parameter-filters",
+          "Key=Name,Option=Equals,Values=/pathbench/{{RUN_ID}}/canary",
+          "--query",
+          "Parameters[].{Name:Name,Type:Type}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "dry_run_available": false,
+        "dry_run_is_qualifying_runtime_evidence": false,
+        "actual_call_requires_all_safety_gates": true
+      },
+      "sensitive_response_handling": {
+        "upstream_stdout_behavior_reused": false,
+        "secret_values_may_be_logged": false,
+        "cli_query_excludes_sensitive_values": true,
+        "defense_in_depth_json_pointers_to_drop": [
+          "/Parameters/*/Value"
+        ],
+        "raw_stdout_persistence_forbidden": true,
+        "agent_visibility": "none",
+        "retained_fields": "resource identifiers, versions, API status and error codes only"
+      },
+      "audit_telemetry": {
+        "adapter_id": "aws_cloudtrail_exact_event_v1",
+        "command_argv_template": [
+          "aws",
+          "cloudtrail",
+          "lookup-events",
+          "--lookup-attributes",
+          "AttributeKey=EventName,AttributeValue=GetParameters",
+          "--start-time",
+          "{{RUN_STARTED_AT}}",
+          "--end-time",
+          "{{RUN_FINISHED_AT}}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "required_event_predicates": {
+          "eventSource": "ssm.amazonaws.com",
+          "eventName": "GetParameters",
+          "userIdentity.arn": "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+          "sourceIPAddress": "{{RUNNER_EGRESS_IP}}",
+          "requestParameters.names": [
+            "/pathbench/{{RUN_ID}}/canary"
+          ],
+          "requestParameters.withDecryption": true
+        },
+        "official_reference": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-cli.html"
+      },
+      "safety": {
+        "owner_account_must_be_dedicated": true,
+        "resource_must_be_created_by_current_run": true,
+        "explicit_resource_identifiers_only": true,
+        "public_group_all_forbidden": true,
+        "account_wide_enumeration_forbidden": true,
+        "upstream_high_volume_behavior_forbidden": true,
+        "historical_account_resource_and_ip_values_forbidden": true,
+        "real_secret_material_forbidden": true,
+        "cleanup_mandatory": true,
+        "post_cleanup_inventory_mandatory": true
+      },
+      "controlled_counterfactual_template": {
+        "same_runtime_scope_required": true,
+        "only_mutation": "attach exact explicit deny for every terminal action/resource to the dedicated probe principal",
+        "pair_assignment_frozen_before_execution": true,
+        "expected_truth_state": null
+      },
+      "official_references": [
+        "https://docs.aws.amazon.com/cli/latest/reference/ssm/get-parameters.html",
+        "https://docs.aws.amazon.com/cli/latest/reference/ssm/put-parameter.html"
+      ]
+    },
+    {
+      "contract_id": "probe-contract-d15b2147d8cfa5899094",
+      "independence_group": "stratus_red_team:stratus:aws.exfiltration.ec2-share-ami",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-c6e3f0dc894b14cb26ea",
+        "case_id": "stratus:aws.exfiltration.ec2-share-ami",
+        "runtime_instance_id": "instance-b36c72e16fa470622f78",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "d15b2147d8cfa5899094c90e6d8c2b86c195c387feca388a419a3aa8362fa97e"
+      },
+      "visibility": "evaluator_only",
+      "status": "requires_runtime_resolution",
+      "derivation": {
+        "observed_action": "ec2.amazonaws.com:ModifyImageAttribute",
+        "observed_resource_field": "request.imageId",
+        "selection_rule": "exactly one observed principal/action/resource/network and an allow-listed deterministic safe adapter",
+        "historical_values_copied_into_runtime_scope": false
+      },
+      "runtime_scope_template": {
+        "principals": [
+          "{{DEDICATED_PROBE_PRINCIPAL_ARN}}"
+        ],
+        "actions": [
+          "ec2:ModifyImageAttribute"
+        ],
+        "resources": [
+          "arn:{{AWS_PARTITION}}:ec2:{{AWS_REGION}}::image/{{RUN_OWNED_AMI_ID}}"
+        ],
+        "network_origins": [
+          "{{RUNNER_EGRESS_CIDR}}"
+        ],
+        "time_window": [
+          "{{RUN_STARTED_AT}}",
+          "{{RUN_FINISHED_AT}}"
+        ]
+      },
+      "provider_native_analysis": {
+        "adapter_id": "aws_iam_simulate_principal_policy_v1",
+        "command_argv_template": [
+          "aws",
+          "iam",
+          "simulate-principal-policy",
+          "--policy-source-arn",
+          "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+          "--action-names",
+          "ec2:ModifyImageAttribute",
+          "--resource-arns",
+          "arn:{{AWS_PARTITION}}:ec2:{{AWS_REGION}}::image/{{RUN_OWNED_AMI_ID}}",
+          "--no-paginate",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ]
+      },
+      "authorized_active_probe": {
+        "permission_precheck_argv_template": [
+          "aws",
+          "ec2",
+          "modify-image-attribute",
+          "--image-id",
+          "{{RUN_OWNED_AMI_ID}}",
+          "--launch-permission",
+          "Add=[{UserId={{ISOLATED_COUNTERPART_ACCOUNT_ID}}}]",
+          "--dry-run",
+          "--region",
+          "{{AWS_REGION}}",
+          "--no-cli-pager"
+        ],
+        "probe_argv_template": [
+          "aws",
+          "ec2",
+          "modify-image-attribute",
+          "--image-id",
+          "{{RUN_OWNED_AMI_ID}}",
+          "--launch-permission",
+          "Add=[{UserId={{ISOLATED_COUNTERPART_ACCOUNT_ID}}}]",
+          "--region",
+          "{{AWS_REGION}}",
+          "--no-cli-pager"
+        ],
+        "postcondition_argv_template": [
+          "aws",
+          "ec2",
+          "describe-image-attribute",
+          "--image-id",
+          "{{RUN_OWNED_AMI_ID}}",
+          "--attribute",
+          "launchPermission",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "cleanup_argv_template": [
+          "aws",
+          "ec2",
+          "modify-image-attribute",
+          "--image-id",
+          "{{RUN_OWNED_AMI_ID}}",
+          "--launch-permission",
+          "Remove=[{UserId={{ISOLATED_COUNTERPART_ACCOUNT_ID}}}]",
+          "--region",
+          "{{AWS_REGION}}",
+          "--no-cli-pager"
+        ],
+        "dry_run_is_qualifying_runtime_evidence": false,
+        "actual_mutation_requires_all_safety_gates": true
+      },
+      "audit_telemetry": {
+        "adapter_id": "aws_cloudtrail_exact_event_v1",
+        "command_argv_template": [
+          "aws",
+          "cloudtrail",
+          "lookup-events",
+          "--lookup-attributes",
+          "AttributeKey=EventName,AttributeValue=ModifyImageAttribute",
+          "--start-time",
+          "{{RUN_STARTED_AT}}",
+          "--end-time",
+          "{{RUN_FINISHED_AT}}",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
+        "required_event_predicates": {
+          "eventSource": "ec2.amazonaws.com",
+          "eventName": "ModifyImageAttribute",
+          "userIdentity.arn": "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
+          "sourceIPAddress": "{{RUNNER_EGRESS_IP}}",
+          "request_resource_id": "{{RUN_OWNED_AMI_ID}}"
+        },
+        "official_reference": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-cli.html"
+      },
+      "safety": {
+        "owner_account_must_be_dedicated": true,
+        "counterpart_account_must_be_dedicated": true,
+        "owner_and_counterpart_accounts_must_differ": true,
+        "resource_must_be_created_by_current_run": true,
+        "public_group_all_forbidden": true,
+        "historical_account_resource_and_ip_values_forbidden": true,
+        "cleanup_mandatory": true,
+        "post_cleanup_inventory_mandatory": true
+      },
+      "controlled_counterfactual_template": {
+        "same_runtime_scope_required": true,
+        "only_mutation": "attach exact explicit deny for action/resource to dedicated probe principal",
+        "pair_assignment_frozen_before_execution": true,
+        "expected_truth_state": null
+      },
+      "official_cli_reference": "https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-image-attribute.html",
+      "official_resource_reference": "https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2.html",
+      "upstream_implementation": {
+        "source_id": "stratus_red_team",
+        "repository": "DataDog/stratus-red-team",
+        "commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+        "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+        "members": [
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.ec2-share-ami.md",
+            "sha256": "da0ea5013f9941d43478d737598a59dd986d5b18f01f12ea562883f4f96cea3c",
+            "bytes": 3365
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.exfiltration.ec2-share-ami.json",
+            "sha256": "8cdf5b8bedb2c3f08c1ac45a6eba6204928c66e9561728641bcd8469b1c4d7b2",
+            "bytes": 1541
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/v2/internal/attacktechniques/aws/exfiltration/ec2-share-ami/main.go",
+            "sha256": "52d02e5b20520606328f9ddeb74caec23fedae1d123b3bdb663e9a2e814d8a4c",
+            "bytes": 3248
+          },
+          {
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/v2/internal/attacktechniques/aws/exfiltration/ec2-share-ami/main.tf",
+            "sha256": "dece3fadcc52c2175127fcbfe5447e2de08c3b6c7931b6de1f76ffddc9492dca",
+            "bytes": 1191
+          }
+        ],
+        "source_code_executed_by_contract_builder": false
+      }
+    }
+  ],
+  "rejected_or_unresolved": [
+    {
+      "independence_group": "cloudgoat-scenario:cloud_breach_s3",
+      "reason": "multi_value_scope_requires_prelabel_terminal_selection"
+    },
+    {
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m1_ssrf_dynamodb",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m2_ecs_secret_rds_credentials",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_prod_dev_blob_control_pair",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_ssrf_cosmos_storage",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_double_tap_secret_path",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_search1_elasticsearch_exposure",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:gcpgoat:gcpgoat_anonymous_bucket_policy_transition",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:terragoat:terragoat_aws_ec2_userdata_to_rds",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:terragoat:terragoat_azure_mysql_public_transport",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "configuration-lineage:terragoat:terragoat_gcp_anonymous_gcs_read",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:automated_collection",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:data_destruction",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "splunk-technique:T1098.001",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "splunk-technique:T1110.002",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "splunk-technique:T1486",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "splunk-technique:T1490",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "splunk-technique:T1530",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "splunk-technique:T1537",
+      "reason": "no_selected_runtime_observation_or_deployment_required"
+    },
+    {
+      "independence_group": "stratus-technique:T1496.A007",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "stratus-technique:T1552.005",
+      "reason": "multi_value_scope_requires_prelabel_terminal_selection"
+    },
+    {
+      "independence_group": "stratus-technique:T1562.008",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ec2-get-password-data",
+      "reason": "multi_value_scope_requires_prelabel_terminal_selection"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs",
+      "reason": "one_or_more_scope_fields_unresolved"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.discovery.ec2-download-user-data",
+      "reason": "multi_value_scope_requires_prelabel_terminal_selection"
+    }
+  ]
+}

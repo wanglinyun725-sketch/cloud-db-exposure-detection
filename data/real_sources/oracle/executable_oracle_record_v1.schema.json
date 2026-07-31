@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cloud-db-pathbench.local/schema/executable-oracle-record-v1",
+  "title": "Cloud DB PathBench executable Oracle record",
+  "type": "object",
+  "required": [
+    "oracle_record_version",
+    "independence_group",
+    "category",
+    "case_ids",
+    "source_ids",
+    "platforms",
+    "evidence_stratum",
+    "controlled_counterfactual",
+    "truth_state",
+    "counts_toward_oracle_gold",
+    "scope",
+    "evidence_channels",
+    "critical_edges",
+    "leakage_control",
+    "source_case_bindings",
+    "selected_oracle_unit",
+    "qualification"
+  ],
+  "properties": {
+    "oracle_record_version": {"const": "1.0.0"},
+    "independence_group": {"type": "string", "minLength": 1},
+    "category": {
+      "enum": ["runtime_telemetry", "configuration"]
+    },
+    "case_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "source_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "platforms": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["AWS", "AZURE", "GCP"]}
+    },
+    "evidence_stratum": {
+      "enum": [
+        "published_real_cloud_telemetry",
+        "pinned_upstream_configuration",
+        "isolated_range_replay",
+        "controlled_counterfactual"
+      ]
+    },
+    "controlled_counterfactual": {"type": "boolean"},
+    "truth_state": {
+      "enum": [
+        "Reachable",
+        "NotReachableWithinScope",
+        "Unknown",
+        "Conflict"
+      ]
+    },
+    "counts_toward_oracle_gold": {"type": "boolean"},
+    "scope": {
+      "type": "object",
+      "required": [
+        "status",
+        "principals",
+        "actions",
+        "resources",
+        "network_origins",
+        "time_window"
+      ],
+      "properties": {
+        "status": {"enum": ["pending", "frozen"]},
+        "principals": {"type": "array", "items": {"type": "string"}},
+        "actions": {"type": "array", "items": {"type": "string"}},
+        "resources": {"type": "array", "items": {"type": "string"}},
+        "network_origins": {"type": "array", "items": {"type": "string"}},
+        "time_window": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "evidence_channels": {
+      "type": "object",
+      "required": [
+        "configuration",
+        "provider_native_analysis",
+        "authorized_active_probe",
+        "audit_telemetry"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "configuration": {"$ref": "#/$defs/channel"},
+        "provider_native_analysis": {"$ref": "#/$defs/channel"},
+        "authorized_active_probe": {"$ref": "#/$defs/channel"},
+        "audit_telemetry": {"$ref": "#/$defs/channel"}
+      }
+    },
+    "critical_edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["src", "edge_type", "dst", "evidence_refs"],
+        "properties": {
+          "src": {"type": "string", "minLength": 1},
+          "edge_type": {"type": "string", "minLength": 1},
+          "dst": {"type": "string", "minLength": 1},
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 2,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "leakage_control": {"type": "object"},
+    "source_case_bindings": {"type": "array", "minItems": 1},
+    "selected_oracle_unit": {
+      "type": "object",
+      "required": [
+        "unit_id",
+        "case_id",
+        "runtime_instance_id",
+        "platform",
+        "selection_rule",
+        "selection_digest"
+      ],
+      "properties": {
+        "unit_id": {"type": "string", "minLength": 1},
+        "case_id": {"type": "string", "minLength": 1},
+        "runtime_instance_id": {"type": ["string", "null"]},
+        "platform": {"enum": ["AWS", "AZURE", "GCP"]},
+        "selection_rule": {"type": "string", "minLength": 1},
+        "selection_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "qualification": {"type": "object"}
+  },
+  "$defs": {
+    "channel": {
+      "type": "object",
+      "required": ["status", "outcome", "evidence"],
+      "properties": {
+        "status": {
+          "enum": [
+            "pending",
+            "artifact_verified",
+            "verified",
+            "conflict"
+          ]
+        },
+        "outcome": {
+          "type": ["string", "null"]
+        },
+        "evidence": {"type": "array"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

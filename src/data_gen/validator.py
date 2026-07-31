@@ -10,8 +10,11 @@ import sys
 from pathlib import Path
 from collections import Counter
 
+from src.graph.evidence_semantics import validate_semantic_attrs
+
 VALID_NODE_TYPES = {"Network", "Identity", "DBInstance", "DBObject", "SensitiveTag", "AuditEvent", "RiskFinding", "Control"}
 VALID_EDGE_TYPES = {"can_connect", "can_assume", "has_permission", "contains", "classified_as", "accessed", "triggered", "has_risk", "owns", "protected_by"}
+VALID_EXPECTED_TYPES = {"Observed_Risk", "Potential_Exposure", "Insufficient_Evidence", "Low_Risk", "Refuted", "Invalid_Path"}
 REQUIRED_EDGE_TYPES_IN_PATH = {"can_connect", "has_permission"}
 
 
@@ -26,10 +29,10 @@ def validate_sample(sample: dict, idx: int) -> list:
     if not sample.get("sample_id"):
         violations.append(f"[R1] sample_id 缺失")
 
-    # ─── R2: scenario 必须是 S1-S6 ───
+    # ─── R2: scenario 非空 ───
     sc = sample.get("scenario", "")
-    if sc not in {"S1", "S2", "S3", "S4", "S5", "S6"}:
-        violations.append(f"[R2] scenario='{sc}' 不在 S1-S6 范围内")
+    if not sc:
+        violations.append(f"[R2] scenario 缺失")
 
     # ─── R3: 节点类型必须合法 ───
     for n in sample.get("nodes", []):
@@ -86,10 +89,10 @@ def validate_sample(sample: dict, idx: int) -> list:
     if not has_target:
         violations.append(f"[R10] 无高敏目标节点（需 SensitiveTag level >= 3）")
 
-    # ─── R11: gold_paths 必须非空 ───
+    # ─── R11: 必须有路径标注或状态标注 ───
     gold = sample.get("gold_paths", [])
-    if not gold:
-        violations.append(f"[R11] gold_paths 为空")
+    if not gold and not sample.get("expected_state"):
+        violations.append(f"[R11] gold_paths 为空且 expected_state 缺失")
 
     # ─── R12: gold_path 中的节点必须存在于 nodes 中 ───
     for gp in gold:
@@ -99,13 +102,18 @@ def validate_sample(sample: dict, idx: int) -> list:
 
     # ─── R13: expected_type 必须合法 ───
     et = sample.get("expected_type", "")
-    if et not in {"Observed_Risk", "Potential_Exposure", "Insufficient_Evidence", "Low_Risk"}:
+    if et not in VALID_EXPECTED_TYPES:
         violations.append(f"[R13] expected_type='{et}' 不合法")
 
     # ─── R14: 每条边必须有 evidence_ref ───
     for e in edges:
         if not e.get("attrs", {}).get("evidence_ref"):
             violations.append(f"[R14] 边 {e['source']}→{e['target']} 缺少 evidence_ref")
+
+    # ─── R15: 可选证据语义字段必须合法 ───
+    for e in edges:
+        for msg in validate_semantic_attrs(e["type"], e.get("attrs", {})):
+            violations.append(f"[R15] 边 {e['source']}→{e['target']} {msg}")
 
     return violations
 
@@ -114,6 +122,8 @@ def validate_dataset(filepath: str) -> dict:
     """校验整个数据集"""
     with open(filepath, "r", encoding="utf-8") as f:
         samples = json.load(f)
+    if isinstance(samples, dict):
+        samples = [samples]
 
     total = len(samples)
     passed = 0

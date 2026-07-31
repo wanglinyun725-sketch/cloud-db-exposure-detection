@@ -1,0 +1,745 @@
+{
+  "inventory_version": "1.1.0",
+  "generated_at": "2026-07-30T08:46:38.154536+00:00",
+  "status": "executable_candidates_not_gold",
+  "inputs": {
+    "runtime_queue": "data/real_sources/annotation/runtime_ready_queue_v1_unlabeled.json",
+    "configuration_queue": "data/real_sources/annotation/configuration_oracle_queue_v1_unlabeled.json",
+    "lineage_admission_audit": "output/research_design/lineage_admission_audit_v1.json"
+  },
+  "summary": {
+    "runtime_independence_groups": 32,
+    "configuration_independence_groups": 10,
+    "combined_independence_groups": 42,
+    "near_duplicate_review_pending_groups": 2,
+    "conservative_independence_groups": 40,
+    "source_count": 9,
+    "sources": [
+      "awsgoat",
+      "azuregoat",
+      "cloudfoxable",
+      "cloudgoat",
+      "cross_cloud_observability_2026",
+      "gcpgoat",
+      "splunk_attack_data",
+      "stratus_red_team",
+      "terragoat"
+    ],
+    "platforms": [
+      "AWS",
+      "AZURE",
+      "GCP"
+    ],
+    "human_gold_independence_groups": 0,
+    "double_blind_labeled_independence_groups": 0,
+    "adjudicated_independence_groups": 0
+  },
+  "minimum_candidate_gate": {
+    "minimum_independence_groups": 40,
+    "minimum_sources": 6,
+    "required_platforms": [
+      "AWS",
+      "AZURE",
+      "GCP"
+    ],
+    "groups_pass": true,
+    "sources_pass": true,
+    "platforms_pass": true,
+    "passes": true
+  },
+  "human_gold_gate": {
+    "minimum_double_blind_labeled_groups": 30,
+    "current": 0,
+    "remaining": 30,
+    "passes": false
+  },
+  "policy": {
+    "candidate_count_is_gold_count": false,
+    "configuration_literal_is_path_verdict": false,
+    "runtime_ready_is_human_accepted": false,
+    "final_independence_requires_blind_review_and_deduplication": true,
+    "near_duplicate_groups_counted_toward_minimum": false
+  },
+  "groups": [
+    {
+      "category": "configuration",
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m1_ssrf_dynamodb",
+      "case_ids": [
+        "awsgoat_m1_ssrf_dynamodb"
+      ],
+      "source_ids": [
+        "awsgoat"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "configuration",
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m2_ecs_secret_rds_credentials",
+      "case_ids": [
+        "awsgoat_m2_ecs_secret_rds_credentials"
+      ],
+      "source_ids": [
+        "awsgoat"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "configuration",
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_prod_dev_blob_control_pair",
+      "case_ids": [
+        "azuregoat_prod_dev_blob_control_pair"
+      ],
+      "source_ids": [
+        "azuregoat"
+      ],
+      "platforms": [
+        "AZURE"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "configuration",
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_ssrf_cosmos_storage",
+      "case_ids": [
+        "azuregoat_ssrf_cosmos_storage"
+      ],
+      "source_ids": [
+        "azuregoat"
+      ],
+      "platforms": [
+        "AZURE"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "configuration",
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_double_tap_secret_path",
+      "case_ids": [
+        "cloudfoxable_double_tap_secret_path"
+      ],
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "configuration",
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_search1_elasticsearch_exposure",
+      "case_ids": [
+        "cloudfoxable_search1_elasticsearch_exposure"
+      ],
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "configuration",
+      "independence_group": "configuration-lineage:gcpgoat:gcpgoat_anonymous_bucket_policy_transition",
+      "case_ids": [
+        "gcpgoat_anonymous_bucket_policy_transition"
+      ],
+      "source_ids": [
+        "gcpgoat"
+      ],
+      "platforms": [
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "configuration",
+      "independence_group": "configuration-lineage:terragoat:terragoat_aws_ec2_userdata_to_rds",
+      "case_ids": [
+        "terragoat_aws_ec2_userdata_to_rds"
+      ],
+      "source_ids": [
+        "terragoat"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "configuration",
+      "independence_group": "configuration-lineage:terragoat:terragoat_azure_mysql_public_transport",
+      "case_ids": [
+        "terragoat_azure_mysql_public_transport"
+      ],
+      "source_ids": [
+        "terragoat"
+      ],
+      "platforms": [
+        "AZURE"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "configuration",
+      "independence_group": "configuration-lineage:terragoat:terragoat_gcp_anonymous_gcs_read",
+      "case_ids": [
+        "terragoat_gcp_anonymous_gcs_read"
+      ],
+      "source_ids": [
+        "terragoat"
+      ],
+      "platforms": [
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "cloudgoat-scenario:cloud_breach_s3",
+      "case_ids": [
+        "cloudgoat:aws:cloud_breach_s3"
+      ],
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "case_ids": [
+        "crosscloud:aws:archive_collected_data",
+        "crosscloud:azure:archive_collected_data",
+        "crosscloud:gcp:archive_collected_data"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "crosscloud-family:automated_collection",
+      "case_ids": [
+        "crosscloud:aws:automated_collection",
+        "crosscloud:azure:automated_collection",
+        "crosscloud:gcp:automated_collection"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "case_ids": [
+        "crosscloud:aws:automated_exfiltration",
+        "crosscloud:azure:automated_exfiltration",
+        "crosscloud:gcp:automated_exfiltration"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "case_ids": [
+        "crosscloud:aws:credentials_from_password_stores",
+        "crosscloud:azure:credentials_from_password_stores",
+        "crosscloud:gcp:credentials_from_password_stores"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "crosscloud-family:data_destruction",
+      "case_ids": [
+        "crosscloud:aws:data_destruction",
+        "crosscloud:azure:data_destruction",
+        "crosscloud:gcp:data_destruction"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "case_ids": [
+        "crosscloud:aws:data_encrypted_for_impact",
+        "crosscloud:azure:data_encrypted_for_impact",
+        "crosscloud:gcp:data_encrypted_for_impact"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "crosscloud-family:data_manipulation",
+      "case_ids": [
+        "crosscloud:aws:data_manipulation",
+        "crosscloud:azure:data_manipulation",
+        "crosscloud:gcp:data_manipulation"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": true
+    },
+    {
+      "category": "runtime",
+      "independence_group": "crosscloud-family:data_staged",
+      "case_ids": [
+        "crosscloud:aws:data_staged",
+        "crosscloud:azure:data_staged",
+        "crosscloud:gcp:data_staged"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": true
+    },
+    {
+      "category": "runtime",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "case_ids": [
+        "crosscloud:aws:inhibit_system_recovery",
+        "crosscloud:azure:inhibit_system_recovery",
+        "crosscloud:gcp:inhibit_system_recovery"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "case_ids": [
+        "crosscloud:aws:scheduled_transfer",
+        "crosscloud:azure:scheduled_transfer",
+        "crosscloud:gcp:scheduled_transfer"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "case_ids": [
+        "crosscloud:aws:steal_application_access_token",
+        "crosscloud:azure:steal_application_access_token",
+        "crosscloud:gcp:steal_application_access_token"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "case_ids": [
+        "crosscloud:aws:unsecured_credentials",
+        "crosscloud:azure:unsecured_credentials",
+        "crosscloud:gcp:unsecured_credentials"
+      ],
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "platforms": [
+        "AWS",
+        "AZURE",
+        "GCP"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "splunk-technique:T1098.001",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AZURE"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "splunk-technique:T1110.002",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "splunk-technique:T1486",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1486/s3_file_encryption"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "splunk-technique:T1490",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1490/aws_bucket_version"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "splunk-technique:T1530",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1530/aws_s3_public_bucket"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "splunk-technique:T1537",
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+        "splunk:datasets/attack_techniques/T1537/aws_snapshot_exfil"
+      ],
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "stratus-technique:T1496.A007",
+      "case_ids": [
+        "stratus:aws.exfiltration.rds-share-snapshot"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "stratus-technique:T1552.005",
+      "case_ids": [
+        "stratus:aws.credential-access.ec2-steal-instance-credentials"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "stratus-technique:T1562.008",
+      "case_ids": [
+        "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+        "stratus:aws.defense-evasion.cloudtrail-lifecycle-rule"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "stratus-technique:T1578.001",
+      "case_ids": [
+        "stratus:aws.exfiltration.ec2-share-ebs-snapshot"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ec2-get-password-data",
+      "case_ids": [
+        "stratus:aws.credential-access.ec2-get-password-data"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "case_ids": [
+        "stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "case_ids": [
+        "stratus:aws.credential-access.secretsmanager-retrieve-secrets"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+      "case_ids": [
+        "stratus:aws.credential-access.ssm-retrieve-securestring-parameters"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs",
+      "case_ids": [
+        "stratus:aws.defense-evasion.dns-delete-logs"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "stratus_red_team:stratus:aws.discovery.ec2-download-user-data",
+      "case_ids": [
+        "stratus:aws.discovery.ec2-download-user-data"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    },
+    {
+      "category": "runtime",
+      "independence_group": "stratus_red_team:stratus:aws.exfiltration.ec2-share-ami",
+      "case_ids": [
+        "stratus:aws.exfiltration.ec2-share-ami"
+      ],
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "platforms": [
+        "AWS"
+      ],
+      "gold_status": "unlabeled",
+      "near_duplicate_review_required": false
+    }
+  ]
+}

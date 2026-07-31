@@ -4,10 +4,12 @@ import os
 import sys
 from typing import TypedDict, Annotated, Optional
 from pathlib import Path
+from dotenv import load_dotenv
 
 # 项目根目录
 ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT))
+load_dotenv(ROOT / ".env")
 
 from src.graph.graph_builder import build_graph, get_entry_nodes, get_target_nodes, load_samples, print_graph_summary
 from src.graph.constrained_search import constrained_dfs
@@ -62,6 +64,8 @@ class AgentState(TypedDict):
 # ════════════════════════════════════════════════
 def get_llm_client():
     """获取 LLM 客户端（DeepSeek）"""
+    if os.environ.get("EIC_DISABLE_LLM", "").strip().lower() in {"1", "true", "yes"}:
+        return None
     api_key = os.environ.get("DEEPSEEK_API_KEY", "sk-6eff39f5e9c54e5c8146b01c2fbfa478")
     if not HAS_OPENAI:
         return None
@@ -602,21 +606,25 @@ def should_continue(state: AgentState) -> str:
     idx = state["current_path_idx"]
     paths = state["candidate_paths"]
     
-    if idx < len(paths) - 1:
+    # advance_to_next 已经先把索引加一；只要新索引仍落在候选范围内，
+    # 就必须继续处理。旧条件会稳定漏掉最后一条候选路径。
+    if idx < len(paths):
         return "next_path"
     return "finish"
 
 
 def advance_to_next(state: AgentState) -> dict:
     """推进到下一条路径"""
-    results = state.get("all_results", [])
-    results.append({
-        "path": state["current_path"],
-        "evidence_vector": state["evidence_vector"],
-        "gate_result": state["gate_result"],
-        "attribution": state["attribution"],
-        "remediation": state["remediation"],
-    })
+    results = list(state.get("all_results", []))
+    # 空候选集也会经过一次状态机骨架；不要把空路径记录成真实结果。
+    if state.get("current_path") and state.get("gate_result"):
+        results.append({
+            "path": state["current_path"],
+            "evidence_vector": state["evidence_vector"],
+            "gate_result": state["gate_result"],
+            "attribution": state["attribution"],
+            "remediation": state["remediation"],
+        })
     return {
         "all_results": results,
         "current_path_idx": state["current_path_idx"] + 1,

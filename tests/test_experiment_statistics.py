@@ -1,0 +1,402 @@
+import unittest
+
+from src.experiments.statistics import analyze_frozen_runs
+
+
+def _config():
+    return {
+        "methods": [
+            {"method_id": "ec_react_full", "family": "llm"},
+            {"method_id": "vanilla_react", "family": "llm"},
+        ],
+        "statistics": {
+            "cluster_bootstrap_resamples": 200,
+            "paired_permutation_resamples": 500,
+            "confidence_level": 0.95,
+        },
+        "reporting": {
+            "primary_metrics": [
+                "exact_path_match",
+                "mean_query_cost",
+            ]
+        },
+    }
+
+
+def _records():
+    rows = []
+    instance_groups = [
+        ("g1-a", "g1"),
+        ("g1-b", "g1"),
+        ("g2-a", "g2"),
+        ("g3-a", "g3"),
+    ]
+    for method in ("ec_react_full", "vanilla_react"):
+        for instance_id, group in instance_groups:
+            for repeat in range(2):
+                full = method == "ec_react_full"
+                run_id = f"{method}-{instance_id}-{repeat}"
+                rows.append({
+                    "run_id": run_id,
+                    "schedule_id": "schedule-" + run_id,
+                    "research_effectiveness_result": True,
+                    "human_gold_used_for_scoring_only": True,
+                    "config_sha256": "a" * 64,
+                    "method_id": method,
+                    "model_id": "model-a",
+                    "budget": 10,
+                    "split": "test",
+                    "independence_group": group,
+                    "case_id": "case-" + instance_id,
+                    "instance_id": instance_id,
+                    "score": {
+                        "exact_path_match": full,
+                        "query_cost": 2 if full else 5,
+                    },
+                })
+    return rows
+
+
+def _source_records():
+    rows = []
+    for source, platform in (
+        ("source-a", "AWS"),
+        ("source-b", "AZURE"),
+    ):
+        for index in range(6):
+            group = f"{source}-g{index}"
+            instance_id = f"{group}-i"
+            for method in ("ec_react_full", "vanilla_react"):
+                positive_gain = source == "source-a"
+                exact = (
+                    positive_gain
+                    if method == "ec_react_full"
+                    else not positive_gain
+                )
+                query_cost = (
+                    2
+                    if exact
+                    else 5
+                )
+                run_id = f"{method}-{instance_id}"
+                rows.append({
+                    "run_id": run_id,
+                    "schedule_id": "schedule-" + run_id,
+                    "research_effectiveness_result": True,
+                    "human_gold_used_for_scoring_only": True,
+                    "config_sha256": "b" * 64,
+                    "method_id": method,
+                    "model_id": "model-a",
+                    "budget": 10,
+                    "split": "test",
+                    "source_id": source,
+                    "scenario_source_id": source,
+                    "runtime_evidence_source_id": source,
+                    "platform": platform,
+                    "independence_group": group,
+                    "case_id": "case-" + group,
+                    "instance_id": instance_id,
+                    "score": {
+                        "exact_path_match": exact,
+                        "query_cost": query_cost,
+                    },
+                })
+    return rows
+
+
+def _efficiency_records():
+    rows = []
+    for index in range(8):
+        group = f"g{index}"
+        for method, model, f1, cost in (
+            ("ec_react_full", "model-a", 0.78, 6.0),
+            ("vanilla_react", "model-a", 0.70, 8.0),
+            ("full_query", None, 0.80, 10.0),
+        ):
+            run_id = f"{method}-{group}"
+            rows.append({
+                "run_id": run_id,
+                "schedule_id": "schedule-" + run_id,
+                "research_effectiveness_result": True,
+                "human_gold_used_for_scoring_only": True,
+                "config_sha256": "c" * 64,
+                "method_id": method,
+                "model_id": model,
+                "budget": 20,
+                "split": "test",
+                "independence_group": group,
+                "case_id": "case-" + group,
+                "instance_id": "instance-" + group,
+                "score": {
+                    "certified_fine_edge_f1_at_k": f1,
+                    "query_cost": cost,
+                    "unsafe_false_reachable": (
+                        method == "vanilla_react" and index == 0
+                    ),
+                },
+            })
+    return rows
+
+
+class ExperimentStatisticsTests(unittest.TestCase):
+    def test_repeats_and_instances_are_collapsed_before_group_inference(self):
+        report = analyze_frozen_runs(_records(), _config())
+
+        self.assertEqual(16, report["run_records"])
+        self.assertEqual(4, report["unique_runtime_instances"])
+        self.assertEqual(3, report["unique_independence_groups"])
+        self.assertTrue(report["pseudo_replication_guard"])
+        self.assertTrue(all(
+            item["independence_groups"] == 3
+            for item in report["summaries"]
+        ))
+        comparisons = {
+            item["metric"]: item
+            for item in report["paired_comparisons"]
+        }
+        self.assertEqual(1.0, comparisons["exact_path_match"]["favorable_effect"])
+        self.assertEqual(3.0, comparisons["mean_query_cost"]["favorable_effect"])
+        self.assertTrue(all(
+            item["paired_independence_groups"] == 3
+            for item in comparisons.values()
+        ))
+        self.assertTrue(all(
+            0 <= item["p_value"] <= item["p_holm"] <= 1
+            for item in comparisons.values()
+        ))
+        self.assertTrue(all(
+            item["raw_difference_ci_low"]
+            <= item["raw_mean_difference_primary_minus_baseline"]
+            <= item["raw_difference_ci_high"]
+            for item in comparisons.values()
+        ))
+        self.assertTrue(all(
+            item["minimum_detectable_paired_dz"] is not None
+            for item in comparisons.values()
+        ))
+        self.assertFalse(
+            report["power_sensitivity"][
+                "observed_posthoc_power_reported"
+            ]
+        )
+
+    def test_duplicate_run_record_is_rejected(self):
+        records = _records()
+        records.append(dict(records[0]))
+
+        with self.assertRaisesRegex(ValueError, "run_id"):
+            analyze_frozen_runs(records, _config())
+
+    def test_ontology_sensitivity_is_summarized_not_hypothesis_tested(self):
+        config = _config()
+        config["reporting"]["secondary_metrics"] = [
+            "coarse_exact_path_match",
+        ]
+        records = _records()
+        for record in records:
+            record["score"]["coarse_exact_path_match"] = True
+
+        report = analyze_frozen_runs(records, config)
+
+        self.assertIn(
+            "coarse_exact_path_match",
+            {item["metric"] for item in report["summaries"]},
+        )
+        self.assertNotIn(
+            "coarse_exact_path_match",
+            {item["metric"] for item in report["paired_comparisons"]},
+        )
+        self.assertFalse(
+            report["secondary_metrics_used_for_hypothesis_tests"]
+        )
+
+    def test_source_slices_and_gain_heterogeneity_are_machine_reported(self):
+        config = _config()
+        config["reporting"]["primary_metrics"] = [
+            "exact_path_match",
+            "mean_query_cost",
+        ]
+        config["reporting"]["required_slices"] = [
+            "scenario_source_id",
+            "runtime_evidence_source_id",
+            "platform",
+            "split",
+        ]
+        config["statistics"]["source_heterogeneity"] = {
+            "dimensions": [
+                "scenario_source_id",
+                "runtime_evidence_source_id",
+            ],
+            "baseline_method_id": "vanilla_react",
+            "minimum_independence_groups_per_source": 5,
+            "permutation_resamples": 2000,
+        }
+
+        report = analyze_frozen_runs(_source_records(), config)
+
+        self.assertEqual(
+            set(config["reporting"]["required_slices"]),
+            {
+                item["slice_dimension"]
+                for item in report["slice_summaries"]
+            },
+        )
+        gains = report["source_heterogeneity"][
+            "source_gain_summaries"
+        ]
+        scenario_gains = {
+            item["source"]: item["mean_favorable_gain"]
+            for item in gains
+            if (
+                item["source_dimension"] == "scenario_source_id"
+                and item["metric"] == "exact_path_match"
+            )
+        }
+        self.assertEqual(
+            {"source-a": 1.0, "source-b": -1.0},
+            scenario_gains,
+        )
+        tests = report["source_heterogeneity"][
+            "heterogeneity_tests"
+        ]
+        cost_gains = {
+            item["source"]: item["mean_favorable_gain"]
+            for item in gains
+            if (
+                item["source_dimension"] == "scenario_source_id"
+                and item["metric"] == "mean_query_cost"
+            )
+        }
+        self.assertEqual(
+            {"source-a": 3.0, "source-b": -3.0},
+            cost_gains,
+        )
+        self.assertEqual(4, len(tests))
+        self.assertTrue(all(
+            item["difference_in_mean_gain"] > 0
+            and item["p_holm"] < 0.05
+            for item in tests
+        ))
+
+    def test_required_slice_cannot_be_silently_missing(self):
+        config = _config()
+        config["reporting"]["required_slices"] = ["platform"]
+        with self.assertRaisesRegex(ValueError, "required slice"):
+            analyze_frozen_runs(_records(), config)
+
+    def test_fine_edge_f1_is_supported_as_confirmatory_metric(self):
+        config = _config()
+        config["reporting"]["primary_metrics"] = [
+            "certified_fine_edge_f1_at_5",
+        ]
+        records = _records()
+        for record in records:
+            record["score"]["certified_fine_edge_f1_at_k"] = (
+                0.8
+                if record["method_id"] == "ec_react_full"
+                else 0.5
+            )
+
+        report = analyze_frozen_runs(records, config)
+
+        comparisons = report["paired_comparisons"]
+        self.assertEqual(1, len(comparisons))
+        self.assertEqual(
+            "certified_fine_edge_f1_at_5",
+            comparisons[0]["metric"],
+        )
+        self.assertAlmostEqual(
+            0.3,
+            comparisons[0]["favorable_effect"],
+        )
+
+    def test_preregistered_efficiency_and_zero_event_gates_are_reported(self):
+        config = _config()
+        config["methods"] = [
+            {"method_id": "ec_react_full", "family": "llm"},
+            {"method_id": "vanilla_react", "family": "llm"},
+            {"method_id": "full_query", "family": "deterministic"},
+        ]
+        config["reporting"] = {
+            "primary_metrics": ["certified_fine_edge_f1_at_5"],
+            "secondary_metrics": [
+                "mean_query_cost",
+                "unsafe_false_reachable",
+            ],
+            "efficiency_gates": {
+                "accuracy_baseline_method_id": "full_query",
+                "accuracy_metric": "certified_fine_edge_f1_at_5",
+                "cost_metric": "mean_query_cost",
+                "noninferiority_margin": -0.05,
+                "minimum_mean_cost_reduction_fraction": 0.20,
+            },
+            "success_gates": {
+                "unsafe_false_reachable_must_not_increase": True,
+            },
+        }
+
+        report = analyze_frozen_runs(_efficiency_records(), config)
+
+        evaluations = report["efficiency_gate_evaluations"]["evaluations"]
+        self.assertEqual(1, len(evaluations))
+        gate = evaluations[0]
+        self.assertAlmostEqual(-0.02, gate["mean_accuracy_difference"])
+        self.assertAlmostEqual(0.40, gate["mean_cost_reduction_fraction"])
+        self.assertTrue(gate["accuracy_noninferiority_pass"])
+        self.assertTrue(gate["cost_reduction_pass"])
+        self.assertTrue(gate["efficiency_claim_pass"])
+
+        safety = {
+            (item["method_id"], item["model_id"]): item
+            for item in report["safety_error_summaries"]
+        }
+        full = safety[("ec_react_full", "model-a")]
+        self.assertEqual(0, full["lineages_with_at_least_one_event"])
+        self.assertAlmostEqual(
+            1 - 0.05 ** (1 / 8),
+            full["zero_event_exact_one_sided_upper"],
+        )
+        safety_gates = report["safety_gate_evaluations"]["evaluations"]
+        self.assertEqual(1, len(safety_gates))
+        self.assertLessEqual(
+            safety_gates[0]["rate_difference_ci_high"],
+            0,
+        )
+        self.assertTrue(
+            safety_gates[0][
+                "unsafe_false_reachable_must_not_increase_pass"
+            ]
+        )
+
+    def test_safety_nonincrease_requires_the_paired_ci_not_only_the_mean(self):
+        config = _config()
+        config["reporting"] = {
+            "primary_metrics": ["certified_fine_edge_f1_at_5"],
+            "secondary_metrics": ["unsafe_false_reachable"],
+            "success_gates": {
+                "unsafe_false_reachable_must_not_increase": True,
+            },
+        }
+        records = _efficiency_records()
+        for record in records:
+            group = record["independence_group"]
+            method = record["method_id"]
+            record["score"]["unsafe_false_reachable"] = (
+                (method == "ec_react_full" and group == "g0")
+                or (method == "vanilla_react" and group == "g1")
+            )
+
+        report = analyze_frozen_runs(records, config)
+        gate = report["safety_gate_evaluations"]["evaluations"][0]
+
+        self.assertEqual(0.0, gate[
+            "rate_difference_primary_minus_baseline"
+        ])
+        self.assertGreater(gate["rate_difference_ci_high"], 0)
+        self.assertFalse(
+            gate["unsafe_false_reachable_must_not_increase_pass"]
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()

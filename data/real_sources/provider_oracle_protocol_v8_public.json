@@ -1,0 +1,2620 @@
+{
+  "protocol_version": "8.0-pilot",
+  "dataset_role": "agent_visible",
+  "research_effectiveness_result": false,
+  "warning": "Protocol-scale pilot only: eighteen provider-runtime cases and seven epistemic controls across sixteen independence groups. V8 adds outcome-aware permission exposure and two successful-control-plane Unknown cases; it remains underpowered for population-level effectiveness claims.",
+  "policy": {
+    "generated_cloud_events": 0,
+    "gold_file_loaded_by_agent": false,
+    "same_tool_schema_for_all_cases": true,
+    "unknown_is_not_denial": true,
+    "configuration_controls_are_provider_gold": false,
+    "provider_oracle_contract_v2_cases": 4
+  },
+  "cases": [
+    {
+      "candidate_id": "oracle-v3:aws:iam-user-secret-read",
+      "source_id": "cross_cloud_observability_2026",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the observed low-privilege principal reaches the exact managed-secret target through the evidenced API call.",
+      "environment": "DOI-published controlled AWS subscription telemetry",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-6d1bcfaaa03a5aa65b5c87b4"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v3:awsgoat:dynamodb-config-only",
+      "source_id": "awsgoat",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the stated low-privilege application entry can reach the declared DynamoDB data target. Only frozen configuration is available in this episode.",
+      "environment": "pinned executable-lab Terraform; deployment not run",
+      "platform": "AWS",
+      "evidence_layers": [
+        "configuration"
+      ],
+      "observation_ids": [
+        "obs-v3-f496c1496cca3981741f183a"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v3:gcp:archive-object-read",
+      "source_id": "cross_cloud_observability_2026",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the observed service account enumerates the bucket and reads an exact object.",
+      "environment": "DOI-published controlled GCP subscription telemetry",
+      "platform": "GCP",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-19fcdfeb264d0b80f5ddc5d7",
+        "obs-v3-f9fe230975462d9e8d4b194a"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v3:gcp:low-priority-secret-read",
+      "source_id": "cross_cloud_observability_2026",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the observed low-privilege principal reaches the exact managed-secret target through the evidenced API call.",
+      "environment": "DOI-published controlled GCP subscription telemetry",
+      "platform": "GCP",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-36b7ad61f0bc2a4897aaf382"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v3:gcp:scheduled-function-bucket-list",
+      "source_id": "cross_cloud_observability_2026",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the scheduled function's service account can enumerate the exact Cloud Storage bucket.",
+      "environment": "DOI-published controlled GCP subscription telemetry",
+      "platform": "GCP",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-90b5c4a0b9ee047df2a1ce81",
+        "obs-v3-1eafdc9b4c8831bb5c8bf030",
+        "obs-v3-66ba69c718f98a6a144e43fb",
+        "obs-v3-ceef8085781bc75964a469ab"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v3:otrf:s3-assumed-role-read",
+      "source_id": "otrf_security_datasets",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the observed assumed-role principal reaches an S3 data object through the evidenced operations.",
+      "environment": "published CloudGoat-linked AWS lab telemetry",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-c16dbed0ccd551fdb2e7b053",
+        "obs-v3-39d2889daaa75cbd9218af11"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v4:config-only:awsgoat_m2_ecs_secret_rds_credentials",
+      "source_id": "awsgoat",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the stated entry reaches the stated cloud data target. Only hash-frozen configuration assertions are available; no native analyzer or runtime outcome is present.",
+      "environment": "pinned executable-lab Terraform; deployment and native permission oracle not run",
+      "platform": "AWS",
+      "evidence_layers": [
+        "configuration"
+      ],
+      "observation_ids": [
+        "obs-v3-780e5422452418d6addb2bfe"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "source_id": "azuregoat",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the stated entry reaches the stated cloud data target. Only hash-frozen configuration assertions are available; no native analyzer or runtime outcome is present.",
+      "environment": "pinned executable-lab Terraform; deployment and native permission oracle not run",
+      "platform": "Azure",
+      "evidence_layers": [
+        "configuration"
+      ],
+      "observation_ids": [
+        "obs-v3-dad9d9bf0b9b5dd326d01930",
+        "obs-v3-dc0638b6ce7670e12338f618"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v4:config-only:azuregoat_ssrf_cosmos_storage",
+      "source_id": "azuregoat",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the stated entry reaches the stated cloud data target. Only hash-frozen configuration assertions are available; no native analyzer or runtime outcome is present.",
+      "environment": "pinned executable-lab Terraform; deployment and native permission oracle not run",
+      "platform": "Azure",
+      "evidence_layers": [
+        "configuration"
+      ],
+      "observation_ids": [
+        "obs-v3-40e7211f372744f3cdc69f16"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v4:config-only:gcpgoat_anonymous_bucket_policy_transition",
+      "source_id": "gcpgoat",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the stated entry reaches the stated cloud data target. Only hash-frozen configuration assertions are available; no native analyzer or runtime outcome is present.",
+      "environment": "pinned executable-lab Terraform; deployment and native permission oracle not run",
+      "platform": "GCP",
+      "evidence_layers": [
+        "configuration"
+      ],
+      "observation_ids": [
+        "obs-v3-f891a27be92279a998011dc2",
+        "obs-v3-6fd7eb5824bbbe66ff2825eb"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v4:splunk:iam-user-s3-object-read",
+      "source_id": "splunk_attack_data",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the observed IAM user reaches the exact S3 object named in the successful provider audit record.",
+      "environment": "published Splunk Attack Data AWS telemetry",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-8ccb4eb72aae912204360bc7"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v4:stratus:iam-user-secret-read",
+      "source_id": "stratus_red_team",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the observed IAM user reaches an exact managed secret through the evidenced list and read operations.",
+      "environment": "published Stratus Red Team AWS detonation log",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-0b06a329f6508e7d63a260c1",
+        "obs-v3-dc96ba8f0ffff16071eabc72"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "source_id": "splunk_attack_data",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "At 2021-01-11T12:40:10Z, determine whether the observed IAM user could complete the exact KMS-encrypted S3 CopyObject request under the provider state recorded at that instant.",
+      "environment": "author-published Splunk Attack Data AWS CloudTrail; exact matching request later succeeds as a target-existence control",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-65307689f866a00cea0ebc7f",
+        "obs-v3-fdbbdb0b165e7190feb4a949"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v6:splunk-denial:es-list-domains:us-east-1",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "At the denied event time, determine whether the observed IAM user could perform ListDomainNames against the exact account/region catalogue scope. Do not infer access to unobserved individual objects.",
+      "environment": "pinned Splunk Attack Data AWS attack-range CloudTrail with a same-scope successful control call by a different IAM user",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-6a82248a88ccb620925b831b",
+        "obs-v3-d82de8ddbdc3598ae1da6ee4"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v6:splunk-denial:s3-list-buckets:us-east-1",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "At the denied event time, determine whether the observed IAM user could perform ListBuckets against the exact account/region catalogue scope. Do not infer access to unobserved individual objects.",
+      "environment": "pinned Splunk Attack Data AWS attack-range CloudTrail with a same-scope successful control call by a different IAM user",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-66768aa6dc66a004af10981a",
+        "obs-v3-817bb09f70815f03d4d42b0c"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v6:splunk-denial:secrets-list:us-east-1",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "At the denied event time, determine whether the observed IAM user could perform ListSecrets against the exact account/region catalogue scope. Do not infer access to unobserved individual objects.",
+      "environment": "pinned Splunk Attack Data AWS attack-range CloudTrail with a same-scope successful control call by a different IAM user",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-de4d7c49c3ded71cf9dd0398",
+        "obs-v3-8fda72527d0ba01f99047570"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v7:splunk-accessdenied:dynamodb-list:us-east-1",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "At the recorded event time, determine whether the observed IAM user could perform ListTables against the exact account and region catalogue scope. Do not infer access to unobserved individual data objects.",
+      "environment": "pinned Splunk Attack Data AWS attack-range CloudTrail discovery-sweep artifact; no same-scope success control is available in this artifact",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-86db1611ca1003205c587934"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v7:splunk-accessdenied:rds-describe:us-east-1",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "At the recorded event time, determine whether the observed IAM user could perform DescribeDBInstances against the exact account and region catalogue scope. Do not infer access to unobserved individual data objects.",
+      "environment": "pinned Splunk Attack Data AWS attack-range CloudTrail discovery-sweep artifact; no same-scope success control is available in this artifact",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-2587e2cdce86969333eb1cf0"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v7:splunk-accessdenied:redshift-describe:us-east-1",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "At the recorded event time, determine whether the observed IAM user could perform DescribeClusters against the exact account and region catalogue scope. Do not infer access to unobserved individual data objects.",
+      "environment": "pinned Splunk Attack Data AWS attack-range CloudTrail discovery-sweep artifact; no same-scope success control is available in this artifact",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-716eccd5ebfb73c689d6034e"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v7:splunk-accessdenied:secrets-list:us-east-1",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "At the recorded event time, determine whether the observed IAM user could perform ListSecrets against the exact account and region catalogue scope. Do not infer access to unobserved individual data objects.",
+      "environment": "pinned Splunk Attack Data AWS attack-range CloudTrail discovery-sweep artifact; no same-scope success control is available in this artifact",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-827b0f52d015fc12fbfd8912"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v7:splunk-accessdenied:ssm-describe-parameters:us-east-1",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "At the recorded event time, determine whether the observed IAM user could perform DescribeParameters against the exact account and region catalogue scope. Do not infer access to unobserved individual data objects.",
+      "environment": "pinned Splunk Attack Data AWS attack-range CloudTrail discovery-sweep artifact; no same-scope success control is available in this artifact",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-9a473b7b48d1508703d56dfb"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the successful master-password reset proves that the observed principal reached database records. Separate credential control from network and SQL data-plane evidence.",
+      "environment": "pinned Splunk Attack Data AWS attack-range CloudTrail; no database connection or query record is present",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-0159d06219a02b173f5049b0",
+        "obs-v3-4a7fa4dc200a640885a111c8"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the successful ACL changes made any named S3 bucket effectively readable by an external or anonymous principal. Require blocker state or an active read observation.",
+      "environment": "pinned Splunk Attack Data AWS attack-range CloudTrail; Block Public Access state and anonymous GetObject probes are absent",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-fd16f5f82023717d7ab93168",
+        "obs-v3-1e778fdddd4a572afa2333ad",
+        "obs-v3-5aceaf5ed7bad21cc49e8ad1",
+        "obs-v3-8ea66f45cde151f777fec450",
+        "obs-v3-e3b0196e68e21d97b6e7543f",
+        "obs-v3-e8ba577705bacf69698d60d1",
+        "obs-v3-71946d01b47f6b9202136330",
+        "obs-v3-ddbfc1e68b3102159911fec4",
+        "obs-v3-ad5d6a44d33ae90218547e20"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v8:splunk:snapshot-external-share",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the observed principal made the exact EBS snapshot available to the named external account. Distinguish permission exposure from an unobserved downstream data copy.",
+      "environment": "pinned Splunk Attack Data AWS attack-range CloudTrail; the same capture records snapshot encryption state and the share result",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-cf5dc246c8142dda51d629af",
+        "obs-v3-9d26f19c42d9d2a49a6f34c7"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "candidate_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "upstream_dataset_id": "source-pinned; evaluator lineage withheld",
+      "author": "upstream publisher",
+      "published_date": "source registry",
+      "description": "Determine whether the exact snapshot was shared with the named invalid external account at the recorded event time. Do not generalize the result to another grantee or later state.",
+      "environment": "pinned Splunk Attack Data AWS attack-range CloudTrail with a same-actor, same-snapshot successful permission control",
+      "platform": "AWS",
+      "evidence_layers": [
+        "runtime"
+      ],
+      "observation_ids": [
+        "obs-v3-68cb604e9b0588bbbef962bb",
+        "obs-v3-c08baab58a2f6031fbe165bd"
+      ],
+      "path_label": null,
+      "evidence_state": null
+    }
+  ],
+  "observations": [
+    {
+      "schema": "aws_cloudtrail",
+      "timestamp": "2024-12-03T03:51:35Z",
+      "service": "secretsmanager.amazonaws.com",
+      "operation": "GetSecretValue",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::ACCOUNT_ID:user/myusername2860",
+      "source_ip": "IP",
+      "account_id": "ACCOUNT_ID",
+      "region": "us-east-1",
+      "event_status": "SuccessOrUnspecified",
+      "request": "{\"secretId\": \"rootkey\"}\nresource=[]",
+      "response": "null",
+      "observation_id": "obs-v3-6d1bcfaaa03a5aa65b5c87b4",
+      "candidate_id": "oracle-v3:aws:iam-user-secret-read",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "9a4c149ade5d5d0c45097b0d27304b7fd774c0386d24372ef89a748b3d7224c8",
+        "record_index": 38,
+        "upstream_path": "member-9a4c149ade5d5d0c",
+        "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "[]"
+    },
+    {
+      "observation_id": "obs-v3-f496c1496cca3981741f183a",
+      "candidate_id": "oracle-v3:awsgoat:dynamodb-config-only",
+      "schema": "terraform_hcl",
+      "timestamp": null,
+      "evidence_layer": "configuration",
+      "oracle_kind": "frozen Terraform syntax validation",
+      "scope_completeness": "unknown",
+      "provider_decision": "not_run",
+      "service": "dynamodb.amazonaws.com",
+      "operation": "FrozenTerraformConfiguration",
+      "actor_type": "configuration",
+      "actor_id": null,
+      "account_id": null,
+      "region": null,
+      "event_status": "ConfigurationObserved",
+      "target_resource": "blog-users DynamoDB table",
+      "source_ip": null,
+      "request": {
+        "expected_fragments": [
+          "resource \"aws_api_gateway_method\" \"endpoint\"",
+          "authorization = \"NONE\""
+        ],
+        "literal_interpretation": "The API Gateway method is configured without API Gateway authorization."
+      },
+      "response": {
+        "provider_native_analysis": "not_run",
+        "authorized_runtime_probe": "not_run"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/awsgoat/b24869ad455ed8d1393d00ecdc15ee638d1c1332/snapshot.zip",
+        "archive_sha256": "5f79c2b8dfbd2993ee69454bc5707a293ee6b17f22337a94c05b48ae33793a70",
+        "member_path": "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-1/main.tf",
+        "member_sha256": "f2e98b5e148d66d7ac3b44349ce71e4114e1343ed7861312a7e343f423541e73",
+        "line_scope": "literal fragments; exact line numbers not normalized"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2024-10-31T19:29:40.177805113Z",
+      "service": "storage.googleapis.com",
+      "operation": "storage.objects.list",
+      "actor_type": "unknown",
+      "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": "IP",
+      "account_id": "PROJECT_ID",
+      "region": "us",
+      "event_status": "SuccessOrUnspecified",
+      "request": "null\nresource=projects/_/buckets/opaque-resource-66ed45d2539840c2",
+      "response": "null",
+      "observation_id": "obs-v3-19fcdfeb264d0b80f5ddc5d7",
+      "candidate_id": "oracle-v3:gcp:archive-object-read",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "a83d066bd75aaea72809e7bf2bee7dc4a2b275e8f39ec56203cbaef482588a8d",
+        "record_index": 23,
+        "upstream_path": "member-a83d066bd75aaea7",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "projects/_/buckets/opaque-resource-66ed45d2539840c2"
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2024-10-31T19:29:50.490091260Z",
+      "service": "storage.googleapis.com",
+      "operation": "storage.objects.get",
+      "actor_type": "unknown",
+      "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": "IP",
+      "account_id": "PROJECT_ID",
+      "region": "us",
+      "event_status": "SuccessOrUnspecified",
+      "request": "null\nresource=projects/_/buckets/opaque-resource-66ed45d2539840c2/objects/test_9.txt",
+      "response": "null",
+      "observation_id": "obs-v3-f9fe230975462d9e8d4b194a",
+      "candidate_id": "oracle-v3:gcp:archive-object-read",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "a83d066bd75aaea72809e7bf2bee7dc4a2b275e8f39ec56203cbaef482588a8d",
+        "record_index": 4,
+        "upstream_path": "member-a83d066bd75aaea7",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "projects/_/buckets/opaque-resource-66ed45d2539840c2/objects/test_9.txt"
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2024-11-01T21:07:17.635465538Z",
+      "service": "secretmanager.googleapis.com",
+      "operation": "google.cloud.secretmanager.v1.SecretManagerService.AccessSecretVersion",
+      "actor_type": "serviceAccount",
+      "actor_id": "low-priority-account251@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": "IP",
+      "account_id": "PROJECT_ID",
+      "region": null,
+      "event_status": "SuccessOrUnspecified",
+      "request": "{\"@type\": \"type.googleapis.com/google.cloud.secretmanager.v1.AccessSecretVersionRequest\", \"name\": \"projects/PROJECT_ID/secrets/my-secret/versions/latest\"}\nresource=projects/815467646559/secrets/my-secret/versions/latest",
+      "response": "null",
+      "observation_id": "obs-v3-36b7ad61f0bc2a4897aaf382",
+      "candidate_id": "oracle-v3:gcp:low-priority-secret-read",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "141b0d3968e57f715613c40640445fffdc2adda1ef798dffbbe9de2f50e62dbc",
+        "record_index": 5,
+        "upstream_path": "member-141b0d3968e57f71",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "projects/815467646559/secrets/my-secret/versions/latest"
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2025-09-24T03:58:39.207532889Z",
+      "service": "cloudscheduler.googleapis.com",
+      "operation": "google.cloud.scheduler.v1.CloudScheduler.CreateJob",
+      "actor_type": "unknown",
+      "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": "IP",
+      "account_id": "PROJECT_ID",
+      "region": null,
+      "event_status": "SuccessOrUnspecified",
+      "request": "{\"@type\": \"type.googleapis.com/google.cloud.scheduler.v1.CreateJobRequest\", \"job\": {\"name\": \"projects/PROJECT_ID/locations/us-central1/jobs/check-bucket-changes-job\", \"retryConfig\": {\"maxBackoffDuration\": \"3600s\", \"maxDoublings\": 5, \"minBackoffDuration\": \"5s\", \"retryCount\": 0}, \"schedule\": \"*/1 * * * *\", \"timeZone\": \"UTC\"}, \"parent\": \"projects/PROJECT_ID/locations/us-central1\"}\nresource=projects/PROJECT_ID/locations/us-central1",
+      "response": "{\"@type\": \"type.googleapis.com/google.cloud.scheduler.v1.Job\", \"name\": \"projects/PROJECT_ID/locations/us-central1/jobs/check-bucket-changes-job\", \"retryConfig\": {\"maxBackoffDuration\": \"3600s\", \"maxDoublings\": 5, \"maxRetryDuration\": \"0s\", \"minBackoffDuration\": \"5s\"}, \"schedule\": \"*/1 * * * *\", \"state\": \"ENABLED\", \"timeZone\": \"UTC\", \"userUpdateTime\": \"2025-09-24T03:58:40Z\"}",
+      "observation_id": "obs-v3-1eafdc9b4c8831bb5c8bf030",
+      "candidate_id": "oracle-v3:gcp:scheduled-function-bucket-list",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+        "record_index": 142,
+        "upstream_path": "member-a9c86a96df498e05",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "check-bucket-changes scheduler job"
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2025-09-24T04:03:05.786046721Z",
+      "service": "storage.googleapis.com",
+      "operation": "storage.objects.list",
+      "actor_type": "unknown",
+      "actor_id": "quickstart-service-account71@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": "2600:1900:0:2d05::1d01",
+      "account_id": "PROJECT_ID",
+      "region": "us-central1",
+      "event_status": "Code:7",
+      "request": "null\nresource=projects/_/buckets/storage_bucket71",
+      "response": "null",
+      "observation_id": "obs-v3-66ba69c718f98a6a144e43fb",
+      "candidate_id": "oracle-v3:gcp:scheduled-function-bucket-list",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+        "record_index": 60,
+        "upstream_path": "member-a9c86a96df498e05",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "deny",
+      "target_resource": "projects/_/buckets/storage_bucket71"
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2025-09-24T03:58:35.598138889Z",
+      "service": "cloudfunctions.googleapis.com",
+      "operation": "google.cloud.functions.v2.FunctionService.CreateFunction",
+      "actor_type": "serviceAccount",
+      "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": null,
+      "account_id": "PROJECT_ID",
+      "region": null,
+      "event_status": "SuccessOrUnspecified",
+      "request": "null\nresource=projects/PROJECT_ID/locations/us-central1/functions/check-bucket-changes",
+      "response": "{\"@type\": \"type.googleapis.com/google.cloud.functions.v2.Function\", \"buildConfig\": {\"automaticUpdatePolicy\": {}, \"dockerRegistry\": \"ARTIFACT_REGISTRY\", \"dockerRepository\": \"projects/PROJECT_ID/locations/us-central1/repositories/gcf-artifacts\", \"entryPoint\": \"check_bucket_changes\", \"runtime\": \"python310\", \"source\": {}}, \"createTime\": \"2025-09-24T03:56:18.402899270Z\", \"environment\": \"GEN_2\", \"labels\": {\"deployment-tool\": \"cli-gcloud\"}, \"name\": \"projects/PROJECT_ID/locations/us-central1/functions/check-bucket-changes\", \"satisfiesPzi\": true, \"serviceConfig\": {\"allTrafficOnLatestRevision\": true, \"availableCpu\": \"0.1666\", \"availableMemory\": \"256M\", \"ingressSettings\": \"ALLOW_ALL\", \"maxInstanceCount\": 100, \"maxInstanceRequestConcurrency\": 1, \"revision\": \"check-bucket-changes-00001-kiv\", \"serviceAccountEmail\": \"quickstart-service-account71@PROJECT_ID.iam.gserviceaccount.com\", \"timeoutSeconds\": 60, \"uri\": \"https://check-bucket-changes-rnxsa3u3jq-uc.a.run.app\"}, \"state\": \"ACTIVE\", \"updateTime\": \"2025-09-24T03:56:18.402899270Z\", \"url\": \"https://us-central1-PROJECT_ID.cloudfunctions.net/check-bucket-changes\"}",
+      "observation_id": "obs-v3-90b5c4a0b9ee047df2a1ce81",
+      "candidate_id": "oracle-v3:gcp:scheduled-function-bucket-list",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+        "record_index": 152,
+        "upstream_path": "member-a9c86a96df498e05",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "check-bucket-changes function"
+    },
+    {
+      "schema": "gcp_audit_log",
+      "timestamp": "2025-09-24T04:03:58.698611090Z",
+      "service": "storage.googleapis.com",
+      "operation": "storage.objects.list",
+      "actor_type": "unknown",
+      "actor_id": "PROJECT_ID-sa@PROJECT_ID.iam.gserviceaccount.com",
+      "source_ip": "IP",
+      "account_id": "PROJECT_ID",
+      "region": "us-central1",
+      "event_status": "SuccessOrUnspecified",
+      "request": "null\nresource=projects/_/buckets/storage_bucket71",
+      "response": "null",
+      "observation_id": "obs-v3-ceef8085781bc75964a469ab",
+      "candidate_id": "oracle-v3:gcp:scheduled-function-bucket-list",
+      "raw_ref": {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "a9c86a96df498e05832fa47375407990294dbff04b6c662e784bf899990059d8",
+        "record_index": 4,
+        "upstream_path": "member-a9c86a96df498e05",
+        "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "GCP Cloud Audit Logs",
+      "scope_completeness": "complete",
+      "provider_decision": "allow_control_different_principal",
+      "target_resource": "projects/_/buckets/storage_bucket71"
+    },
+    {
+      "observation_id": "obs-v3-39d2889daaa75cbd9218af11",
+      "candidate_id": "oracle-v3:otrf:s3-assumed-role-read",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2020-09-14T01:02:34.000Z",
+      "service": "s3.amazonaws.com",
+      "operation": "GetObject",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+      "source_ip": "1.2.3.4",
+      "account_id": "123456789123",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "request": {
+        "key": "ring.txt",
+        "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
+        "bucketName": "mordors3stack-s3bucket-llp2yingx64a"
+      },
+      "response": null,
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+        "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+        "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+        "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+        "record_index": 79,
+        "event_id": "771299cb-e200-4926-9604-c85358b30499"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "mordors3stack-s3bucket-llp2yingx64a/ring.txt"
+    },
+    {
+      "observation_id": "obs-v3-c16dbed0ccd551fdb2e7b053",
+      "candidate_id": "oracle-v3:otrf:s3-assumed-role-read",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2020-09-14T01:00:33.000Z",
+      "service": "s3.amazonaws.com",
+      "operation": "ListObjects",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+      "source_ip": "1.2.3.4",
+      "account_id": "123456789123",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "request": {
+        "prefix": "",
+        "encoding-type": "url",
+        "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
+        "list-type": "2",
+        "bucketName": "mordors3stack-s3bucket-llp2yingx64a"
+      },
+      "response": null,
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+        "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+        "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+        "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+        "record_index": 44,
+        "event_id": "bf575a0c-c344-4302-a468-00e6a84a127a"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "mordors3stack-s3bucket-llp2yingx64a"
+    },
+    {
+      "observation_id": "obs-v3-780e5422452418d6addb2bfe",
+      "candidate_id": "oracle-v4:config-only:awsgoat_m2_ecs_secret_rds_credentials",
+      "schema": "terraform_hcl",
+      "timestamp": null,
+      "evidence_layer": "configuration",
+      "oracle_kind": "frozen Terraform syntax validation",
+      "scope_completeness": "unknown",
+      "provider_decision": "not_run",
+      "service": "aws-secrets-manager",
+      "operation": "FrozenTerraformConfiguration",
+      "actor_type": "configuration",
+      "actor_id": null,
+      "account_id": null,
+      "region": null,
+      "event_status": "ConfigurationObserved",
+      "target_resource": "AWS Secrets Manager",
+      "source_ip": null,
+      "request": {
+        "expected_fragments": [
+          "resource \"aws_iam_role\" \"ecs-task-role\"",
+          "resource \"aws_iam_role_policy_attachment\" \"ecs-task-role-attachment-2\"",
+          "policy_arn = \"arn:aws:iam::aws:policy/SecretsManagerReadWrite\"",
+          "task_role_arn            = aws_iam_role.ecs-task-role.arn"
+        ],
+        "literal_interpretation": "The ECS task uses ecs-task-role and that role is attached to AWS SecretsManagerReadWrite."
+      },
+      "response": {
+        "provider_native_analysis": "not_run",
+        "authorized_runtime_probe": "not_run"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/awsgoat/b24869ad455ed8d1393d00ecdc15ee638d1c1332/snapshot.zip",
+        "archive_sha256": "5f79c2b8dfbd2993ee69454bc5707a293ee6b17f22337a94c05b48ae33793a70",
+        "member_path": "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-2/main.tf",
+        "member_sha256": "fc2729d44332cca399cdaa2474dbcbfe09425f25bdc9d50975fbbf9c4d698f7f",
+        "assertion_id": "awsgoat_m2_task_role_secret_policy",
+        "line_scope": "literal fragments; exact line numbers not normalized"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-v3-dad9d9bf0b9b5dd326d01930",
+      "candidate_id": "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "schema": "terraform_hcl",
+      "timestamp": null,
+      "evidence_layer": "configuration",
+      "oracle_kind": "frozen Terraform syntax validation",
+      "scope_completeness": "unknown",
+      "provider_decision": "not_run",
+      "service": "azure-blob-storage",
+      "operation": "FrozenTerraformConfiguration",
+      "actor_type": "configuration",
+      "actor_id": null,
+      "account_id": null,
+      "region": null,
+      "event_status": "ConfigurationObserved",
+      "target_resource": "Azure Blob Storage",
+      "source_ip": null,
+      "request": {
+        "expected_fragments": [
+          "resource \"azurerm_storage_container\" \"storage_container_prod\"",
+          "container_access_type = \"blob\""
+        ],
+        "literal_interpretation": "The production container grants anonymous blob access but does not configure anonymous container listing."
+      },
+      "response": {
+        "provider_native_analysis": "not_run",
+        "authorized_runtime_probe": "not_run"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/azuregoat/b97045952e6df00de735a7f27fd7c4994dcfe8c0/snapshot.zip",
+        "archive_sha256": "ccd24e4f41dfa85f8345fa8f132a6a917811ac05d9350a45f77f8be3500dea2a",
+        "member_path": "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/main.tf",
+        "member_sha256": "2fa47c4d48b423b208b1b3e114fc679374d84b2dcae37f2c9edb42503f755e53",
+        "assertion_id": "azuregoat_prod_blob_only",
+        "line_scope": "literal fragments; exact line numbers not normalized"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-v3-dc0638b6ce7670e12338f618",
+      "candidate_id": "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "schema": "terraform_hcl",
+      "timestamp": null,
+      "evidence_layer": "configuration",
+      "oracle_kind": "frozen Terraform syntax validation",
+      "scope_completeness": "unknown",
+      "provider_decision": "not_run",
+      "service": "azure-blob-storage",
+      "operation": "FrozenTerraformConfiguration",
+      "actor_type": "configuration",
+      "actor_id": null,
+      "account_id": null,
+      "region": null,
+      "event_status": "ConfigurationObserved",
+      "target_resource": "Azure Blob Storage",
+      "source_ip": null,
+      "request": {
+        "expected_fragments": [
+          "resource \"azurerm_storage_container\" \"storage_container_dev\"",
+          "container_access_type = \"container\""
+        ],
+        "literal_interpretation": "The development container grants anonymous container and blob access."
+      },
+      "response": {
+        "provider_native_analysis": "not_run",
+        "authorized_runtime_probe": "not_run"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/azuregoat/b97045952e6df00de735a7f27fd7c4994dcfe8c0/snapshot.zip",
+        "archive_sha256": "ccd24e4f41dfa85f8345fa8f132a6a917811ac05d9350a45f77f8be3500dea2a",
+        "member_path": "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/main.tf",
+        "member_sha256": "2fa47c4d48b423b208b1b3e114fc679374d84b2dcae37f2c9edb42503f755e53",
+        "assertion_id": "azuregoat_dev_container_public",
+        "line_scope": "literal fragments; exact line numbers not normalized"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-v3-40e7211f372744f3cdc69f16",
+      "candidate_id": "oracle-v4:config-only:azuregoat_ssrf_cosmos_storage",
+      "schema": "terraform_hcl",
+      "timestamp": null,
+      "evidence_layer": "configuration",
+      "oracle_kind": "frozen Terraform syntax validation",
+      "scope_completeness": "unknown",
+      "provider_decision": "not_run",
+      "service": "azure-cosmos-db-and-azure-blob-storage",
+      "operation": "FrozenTerraformConfiguration",
+      "actor_type": "configuration",
+      "actor_id": null,
+      "account_id": null,
+      "region": null,
+      "event_status": "ConfigurationObserved",
+      "target_resource": "Azure Cosmos DB and Azure Blob Storage",
+      "source_ip": null,
+      "request": {
+        "expected_fragments": [
+          "resource \"azurerm_cosmosdb_account\" \"db\"",
+          "resource \"azurerm_storage_account\" \"storage_account\""
+        ],
+        "literal_interpretation": "The same frozen module declares an Azure Cosmos DB account and Azure Storage account."
+      },
+      "response": {
+        "provider_native_analysis": "not_run",
+        "authorized_runtime_probe": "not_run"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/azuregoat/b97045952e6df00de735a7f27fd7c4994dcfe8c0/snapshot.zip",
+        "archive_sha256": "ccd24e4f41dfa85f8345fa8f132a6a917811ac05d9350a45f77f8be3500dea2a",
+        "member_path": "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/main.tf",
+        "member_sha256": "2fa47c4d48b423b208b1b3e114fc679374d84b2dcae37f2c9edb42503f755e53",
+        "assertion_id": "azuregoat_cosmos_and_storage_declared",
+        "line_scope": "literal fragments; exact line numbers not normalized"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-v3-6fd7eb5824bbbe66ff2825eb",
+      "candidate_id": "oracle-v4:config-only:gcpgoat_anonymous_bucket_policy_transition",
+      "schema": "terraform_hcl",
+      "timestamp": null,
+      "evidence_layer": "configuration",
+      "oracle_kind": "frozen Terraform syntax validation",
+      "scope_completeness": "unknown",
+      "provider_decision": "not_run",
+      "service": "google-cloud-storage",
+      "operation": "FrozenTerraformConfiguration",
+      "actor_type": "configuration",
+      "actor_id": null,
+      "account_id": null,
+      "region": null,
+      "event_status": "ConfigurationObserved",
+      "target_resource": "Google Cloud Storage",
+      "source_ip": null,
+      "request": {
+        "expected_fragments": [
+          "resource \"google_project_iam_custom_role\" \"dev-role\"",
+          "permissions = [\"storage.objects.get\", \"storage.buckets.setIamPolicy\", \"storage.buckets.getIamPolicy\"]",
+          "resource \"google_storage_bucket_iam_member\" \"add_policy_role2\"",
+          "member = \"allUsers\""
+        ],
+        "literal_interpretation": "The development bucket gives allUsers object read plus bucket IAM read/write, but not initial object listing."
+      },
+      "response": {
+        "provider_native_analysis": "not_run",
+        "authorized_runtime_probe": "not_run"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/gcpgoat/44605c4bff4b2da7611dfce78696bb53db6d8c54/snapshot.zip",
+        "archive_sha256": "f8e59451cdf074144cac7fe97f87477296ca88a6c9a605eab72baf82dff85af8",
+        "member_path": "GCPGoat-44605c4bff4b2da7611dfce78696bb53db6d8c54/main.tf",
+        "member_sha256": "73f61b6b52e1874e5e674a502de7310848aec3d61a521ca7c872c8c864ff8ac8",
+        "assertion_id": "gcpgoat_dev_allusers_policy_mutation",
+        "line_scope": "literal fragments; exact line numbers not normalized"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-v3-f891a27be92279a998011dc2",
+      "candidate_id": "oracle-v4:config-only:gcpgoat_anonymous_bucket_policy_transition",
+      "schema": "terraform_hcl",
+      "timestamp": null,
+      "evidence_layer": "configuration",
+      "oracle_kind": "frozen Terraform syntax validation",
+      "scope_completeness": "unknown",
+      "provider_decision": "not_run",
+      "service": "google-cloud-storage",
+      "operation": "FrozenTerraformConfiguration",
+      "actor_type": "configuration",
+      "actor_id": null,
+      "account_id": null,
+      "region": null,
+      "event_status": "ConfigurationObserved",
+      "target_resource": "Google Cloud Storage",
+      "source_ip": null,
+      "request": {
+        "expected_fragments": [
+          "resource \"google_project_iam_custom_role\" \"prod-role\"",
+          "permissions = [\"storage.objects.get\"]",
+          "resource \"google_storage_bucket_iam_member\" \"add_policy_role\"",
+          "member = \"allUsers\""
+        ],
+        "literal_interpretation": "The production bucket custom role gives allUsers object read when an object name is known, but not object listing."
+      },
+      "response": {
+        "provider_native_analysis": "not_run",
+        "authorized_runtime_probe": "not_run"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/gcpgoat/44605c4bff4b2da7611dfce78696bb53db6d8c54/snapshot.zip",
+        "archive_sha256": "f8e59451cdf074144cac7fe97f87477296ca88a6c9a605eab72baf82dff85af8",
+        "member_path": "GCPGoat-44605c4bff4b2da7611dfce78696bb53db6d8c54/main.tf",
+        "member_sha256": "73f61b6b52e1874e5e674a502de7310848aec3d61a521ca7c872c8c864ff8ac8",
+        "assertion_id": "gcpgoat_prod_allusers_object_get",
+        "line_scope": "literal fragments; exact line numbers not normalized"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-v3-8ccb4eb72aae912204360bc7",
+      "candidate_id": "oracle-v4:splunk:iam-user-s3-object-read",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2023-04-11T01:18:47Z",
+      "service": "s3.amazonaws.com",
+      "operation": "GetObject",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.38",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "bucketName": "security-content",
+        "Host": "security-content.s3.us-west-2.amazonaws.com",
+        "x-amz-request-payer": "requester",
+        "key": "stories/use_of_cleartext_protocols.yml"
+      },
+      "response": null,
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1530/aws_exfil_high_no_getobject/cloudtrail.json",
+        "sha256": "c71e5bf5d092955415d3a94f446681a1bc55a66f0d765b2cf9b3718edbf7461b",
+        "record_index": 0,
+        "upstream_path": "datasets/attack_techniques/T1530/aws_exfil_high_no_getobject/cloudtrail.json",
+        "git_blob_sha": "c33392a00f5c57c7e7c32ff4cc797068deeabc2c",
+        "lfs_oid_sha256": "c71e5bf5d092955415d3a94f446681a1bc55a66f0d765b2cf9b3718edbf7461b"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "security-content/stories/use_of_cleartext_protocols.yml"
+    },
+    {
+      "observation_id": "obs-v3-0b06a329f6508e7d63a260c1",
+      "candidate_id": "oracle-v4:stratus:iam-user-secret-read",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2024-07-31T12:36:48Z",
+      "service": "secretsmanager.amazonaws.com",
+      "operation": "ListSecrets",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::903144391865:user/christophe",
+      "source_ip": "253.201.144.253",
+      "account_id": "903144391865",
+      "region": "cn-centraleast-1r",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "filters": [
+          {
+            "key": "tag-key",
+            "values": [
+              "StratusRedTeam"
+            ]
+          }
+        ],
+        "maxResults": 100
+      },
+      "response": null,
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+        "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+        "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+        "record_index": 10,
+        "event_id": "0451b1de-e314-437f-a18d-827565e02bc9"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "AWS Secrets Manager catalog"
+    },
+    {
+      "observation_id": "obs-v3-dc96ba8f0ffff16071eabc72",
+      "candidate_id": "oracle-v4:stratus:iam-user-secret-read",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2024-07-31T12:36:48Z",
+      "service": "secretsmanager.amazonaws.com",
+      "operation": "GetSecretValue",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::903144391865:user/christophe",
+      "source_ip": "253.201.144.253",
+      "account_id": "903144391865",
+      "region": "cn-centraleast-1r",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-4-Rma50d"
+      },
+      "response": null,
+      "raw_ref": {
+        "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+        "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+        "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+        "record_index": 11,
+        "event_id": "99207de2-f8ea-4160-bbe8-22cb14da3a26"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail",
+      "scope_completeness": "complete",
+      "provider_decision": "allow",
+      "target_resource": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-4-Rma50d"
+    },
+    {
+      "observation_id": "obs-v3-65307689f866a00cea0ebc7f",
+      "candidate_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:40:10Z",
+      "service": "s3.amazonaws.com",
+      "operation": "CopyObject",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+      "source_ip": "95.90.199.65",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "KMS.KMSInvalidStateException",
+      "request": {
+        "bucketName": "patricktestbucketencrypt",
+        "x-amz-server-side-encryption-aws-kms-key-id": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "Host": "patricktestbucketencrypt.s3.us-west-2.amazonaws.com",
+        "x-amz-server-side-encryption": "aws:kms",
+        "x-amz-copy-source": "patricktestbucketencrypt/kms_aws_events.json",
+        "key": "kms_aws_events_encrypted.json"
+      },
+      "response": {
+        "errorCode": "KMS.KMSInvalidStateException",
+        "errorMessage": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1 is pending deletion.",
+        "state_interpretation": "KMS key pending deletion at event time"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json",
+        "sha256": "29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647",
+        "record_index": 1,
+        "upstream_path": "datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json",
+        "git_blob_sha": "da23e4ac23e1dc585e5fe3cd3ff2627fc9f06064",
+        "lfs_oid_sha256": "29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail service outcome",
+      "scope_completeness": "complete",
+      "provider_decision": "deny",
+      "target_resource": "patricktestbucketencrypt/kms_aws_events_encrypted.json"
+    },
+    {
+      "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+      "candidate_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:40:47Z",
+      "service": "s3.amazonaws.com",
+      "operation": "CopyObject",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+      "source_ip": "95.90.199.65",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "bucketName": "patricktestbucketencrypt",
+        "x-amz-server-side-encryption-aws-kms-key-id": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "Host": "patricktestbucketencrypt.s3.us-west-2.amazonaws.com",
+        "x-amz-server-side-encryption": "aws:kms",
+        "x-amz-copy-source": "patricktestbucketencrypt/kms_aws_events.json",
+        "key": "kms_aws_events_encrypted.json"
+      },
+      "response": {
+        "x-amz-server-side-encryption": "aws:kms",
+        "x-amz-server-side-encryption-aws-kms-key-id": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json",
+        "sha256": "29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647",
+        "record_index": 0,
+        "upstream_path": "datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json",
+        "git_blob_sha": "da23e4ac23e1dc585e5fe3cd3ff2627fc9f06064",
+        "lfs_oid_sha256": "29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail same-request success control",
+      "scope_completeness": "complete",
+      "provider_decision": "allow_control_later_state",
+      "target_resource": "patricktestbucketencrypt/kms_aws_events_encrypted.json"
+    },
+    {
+      "observation_id": "obs-v3-6a82248a88ccb620925b831b",
+      "candidate_id": "oracle-v6:splunk-denial:es-list-domains:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:35:13Z",
+      "service": "es.amazonaws.com",
+      "operation": "ListDomainNames",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::760111141337:user/cloudsploit",
+      "account_id": "760111141337",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:es:us-east-1:760111141337:domain/*",
+      "target_type": "database",
+      "source_ip": "95.9.125.40",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::760111141337:user/cloudsploit is not authorized to perform: es:ListDomainNames on resource: arn:aws:es:us-east-1:760111141337:domain/*"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_excessive_list_command_usage.json",
+        "sha256": "d0e597bf34919e87ff53d757766a71431847d8788ca80ffe78d8ac23bb498f35",
+        "record_index": 775,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_excessive_list_command_usage/aws_iam_excessive_list_command_usage.json"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail service outcome",
+      "scope_completeness": "complete",
+      "provider_decision": "deny"
+    },
+    {
+      "observation_id": "obs-v3-d82de8ddbdc3598ae1da6ee4",
+      "candidate_id": "oracle-v6:splunk-denial:es-list-domains:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T13:29:07Z",
+      "service": "es.amazonaws.com",
+      "operation": "ListDomainNames",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::760111141337:user/cloudmapper",
+      "account_id": "760111141337",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "target_resource": "arn:aws:es:us-east-1:760111141337:domain/*",
+      "target_type": "database",
+      "source_ip": "95.9.125.40",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "pair_role": "same_scope_success_control",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_excessive_list_command_usage.json",
+        "sha256": "d0e597bf34919e87ff53d757766a71431847d8788ca80ffe78d8ac23bb498f35",
+        "record_index": 411,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_excessive_list_command_usage/aws_iam_excessive_list_command_usage.json"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail same-scope success control",
+      "scope_completeness": "complete",
+      "provider_decision": "allow_control_different_principal"
+    },
+    {
+      "observation_id": "obs-v3-66768aa6dc66a004af10981a",
+      "candidate_id": "oracle-v6:splunk-denial:s3-list-buckets:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:33:05Z",
+      "service": "s3.amazonaws.com",
+      "operation": "ListBuckets",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::760111141337:user/cloudsploit",
+      "account_id": "760111141337",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "aws://760111141337/s3/bucket-catalog",
+      "target_type": "object_storage",
+      "source_ip": "95.9.125.40",
+      "request": {
+        "Host": "s3.amazonaws.com"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "Access Denied"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_excessive_list_command_usage.json",
+        "sha256": "d0e597bf34919e87ff53d757766a71431847d8788ca80ffe78d8ac23bb498f35",
+        "record_index": 996,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_excessive_list_command_usage/aws_iam_excessive_list_command_usage.json"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail service outcome",
+      "scope_completeness": "complete",
+      "provider_decision": "deny"
+    },
+    {
+      "observation_id": "obs-v3-817bb09f70815f03d4d42b0c",
+      "candidate_id": "oracle-v6:splunk-denial:s3-list-buckets:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T13:11:36Z",
+      "service": "s3.amazonaws.com",
+      "operation": "ListBuckets",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::760111141337:user/cloudmapper",
+      "account_id": "760111141337",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "target_resource": "aws://760111141337/s3/bucket-catalog",
+      "target_type": "object_storage",
+      "source_ip": "95.9.125.40",
+      "request": {
+        "Host": "s3.amazonaws.com"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "pair_role": "same_scope_success_control",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_excessive_list_command_usage.json",
+        "sha256": "d0e597bf34919e87ff53d757766a71431847d8788ca80ffe78d8ac23bb498f35",
+        "record_index": 456,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_excessive_list_command_usage/aws_iam_excessive_list_command_usage.json"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail same-scope success control",
+      "scope_completeness": "complete",
+      "provider_decision": "allow_control_different_principal"
+    },
+    {
+      "observation_id": "obs-v3-8fda72527d0ba01f99047570",
+      "candidate_id": "oracle-v6:splunk-denial:secrets-list:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T13:33:55Z",
+      "service": "secretsmanager.amazonaws.com",
+      "operation": "ListSecrets",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::760111141337:user/cloudmapper",
+      "account_id": "760111141337",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "target_resource": "arn:aws:secretsmanager:us-east-1:760111141337:secret-catalog/*",
+      "target_type": "secret_store",
+      "source_ip": "95.9.125.40",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "pair_role": "same_scope_success_control",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_excessive_list_command_usage.json",
+        "sha256": "d0e597bf34919e87ff53d757766a71431847d8788ca80ffe78d8ac23bb498f35",
+        "record_index": 160,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_excessive_list_command_usage/aws_iam_excessive_list_command_usage.json"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail same-scope success control",
+      "scope_completeness": "complete",
+      "provider_decision": "allow_control_different_principal"
+    },
+    {
+      "observation_id": "obs-v3-de4d7c49c3ded71cf9dd0398",
+      "candidate_id": "oracle-v6:splunk-denial:secrets-list:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:33:06Z",
+      "service": "secretsmanager.amazonaws.com",
+      "operation": "ListSecrets",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::760111141337:user/cloudsploit",
+      "account_id": "760111141337",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:secretsmanager:us-east-1:760111141337:secret-catalog/*",
+      "target_type": "secret_store",
+      "source_ip": "95.9.125.40",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::760111141337:user/cloudsploit is not authorized to perform: secretsmanager:ListSecrets"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_excessive_list_command_usage.json",
+        "sha256": "d0e597bf34919e87ff53d757766a71431847d8788ca80ffe78d8ac23bb498f35",
+        "record_index": 990,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_excessive_list_command_usage/aws_iam_excessive_list_command_usage.json"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail service outcome",
+      "scope_completeness": "complete",
+      "provider_decision": "deny"
+    },
+    {
+      "observation_id": "obs-v3-86db1611ca1003205c587934",
+      "candidate_id": "oracle-v7:splunk-accessdenied:dynamodb-list:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:34:58Z",
+      "service": "dynamodb.amazonaws.com",
+      "operation": "ListTables",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::731544447609:user/cloudsploit",
+      "account_id": "731544447609",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:dynamodb:us-east-1:731544447609:table-catalog/*",
+      "target_type": "database",
+      "source_ip": "34.12.134.20",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::731544447609:user/cloudsploit is not authorized to perform: dynamodb:ListTables on resource: arn:aws:dynamodb:us-east-1:731544447609:table/*"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_accessdenied_discovery_events.json",
+        "sha256": "4f52389f17745abf5fa1cf30c055d4f9d34022fcfb8e5c2544c70177da228433",
+        "record_index": 668,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail service outcome",
+      "scope_completeness": "complete",
+      "provider_decision": "deny"
+    },
+    {
+      "observation_id": "obs-v3-2587e2cdce86969333eb1cf0",
+      "candidate_id": "oracle-v7:splunk-accessdenied:rds-describe:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:33:04Z",
+      "service": "rds.amazonaws.com",
+      "operation": "DescribeDBInstances",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::731544447609:user/cloudsploit",
+      "account_id": "731544447609",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:rds:us-east-1:731544447609:db-catalog/*",
+      "target_type": "database",
+      "source_ip": "34.12.134.20",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::731544447609:user/cloudsploit is not authorized to perform: rds:DescribeDBInstances on resource: arn:aws:rds:us-east-1:731544447609:db:*"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_accessdenied_discovery_events.json",
+        "sha256": "4f52389f17745abf5fa1cf30c055d4f9d34022fcfb8e5c2544c70177da228433",
+        "record_index": 1022,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail service outcome",
+      "scope_completeness": "complete",
+      "provider_decision": "deny"
+    },
+    {
+      "observation_id": "obs-v3-716eccd5ebfb73c689d6034e",
+      "candidate_id": "oracle-v7:splunk-accessdenied:redshift-describe:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:33:04Z",
+      "service": "redshift.amazonaws.com",
+      "operation": "DescribeClusters",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::731544447609:user/cloudsploit",
+      "account_id": "731544447609",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:redshift:us-east-1:731544447609:cluster-catalog/*",
+      "target_type": "database",
+      "source_ip": "34.12.134.20",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::731544447609:user/cloudsploit is not authorized to perform: redshift:DescribeClusters on resource: arn:aws:redshift:us-east-1:731544447609:cluster:*"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_accessdenied_discovery_events.json",
+        "sha256": "4f52389f17745abf5fa1cf30c055d4f9d34022fcfb8e5c2544c70177da228433",
+        "record_index": 1021,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail service outcome",
+      "scope_completeness": "complete",
+      "provider_decision": "deny"
+    },
+    {
+      "observation_id": "obs-v3-827b0f52d015fc12fbfd8912",
+      "candidate_id": "oracle-v7:splunk-accessdenied:secrets-list:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:33:06Z",
+      "service": "secretsmanager.amazonaws.com",
+      "operation": "ListSecrets",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::731544447609:user/cloudsploit",
+      "account_id": "731544447609",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:secretsmanager:us-east-1:731544447609:secret-catalog/*",
+      "target_type": "secret_store",
+      "source_ip": "34.12.134.20",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::731544447609:user/cloudsploit is not authorized to perform: secretsmanager:ListSecrets"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_accessdenied_discovery_events.json",
+        "sha256": "4f52389f17745abf5fa1cf30c055d4f9d34022fcfb8e5c2544c70177da228433",
+        "record_index": 986,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail service outcome",
+      "scope_completeness": "complete",
+      "provider_decision": "deny"
+    },
+    {
+      "observation_id": "obs-v3-9a473b7b48d1508703d56dfb",
+      "candidate_id": "oracle-v7:splunk-accessdenied:ssm-describe-parameters:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:33:08Z",
+      "service": "ssm.amazonaws.com",
+      "operation": "DescribeParameters",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::731544447609:user/cloudsploit",
+      "account_id": "731544447609",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:ssm:us-east-1:731544447609:parameter-catalog/*",
+      "target_type": "secret_store",
+      "source_ip": "34.12.134.20",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::731544447609:user/cloudsploit is not authorized to perform: ssm:DescribeParameters on resource: arn:aws:ssm:us-east-1:731544447609:*"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_accessdenied_discovery_events.json",
+        "sha256": "4f52389f17745abf5fa1cf30c055d4f9d34022fcfb8e5c2544c70177da228433",
+        "record_index": 962,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail service outcome",
+      "scope_completeness": "complete",
+      "provider_decision": "deny"
+    },
+    {
+      "observation_id": "obs-v3-0159d06219a02b173f5049b0",
+      "candidate_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2022-08-05T09:19:15Z",
+      "service": "rds.amazonaws.com",
+      "operation": "ModifyDBInstance",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/gowthamarajr@splunk.com",
+      "source_ip": "AWS Internal",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "dBInstanceIdentifier": "database-1",
+        "applyImmediately": true,
+        "masterUserPassword": "****",
+        "allowMajorVersionUpgrade": false,
+        "deletionProtection": true
+      },
+      "response": {
+        "dBInstanceIdentifier": "database-1",
+        "dBInstanceClass": "db.m6g.large",
+        "engine": "postgres",
+        "dBInstanceStatus": "available",
+        "masterUsername": "postgres",
+        "endpoint": {
+          "address": "database-1.ce6wk5bvtc0t.us-west-2.rds.amazonaws.com",
+          "port": 5432,
+          "hostedZoneId": "Z1PVIF0B656C1W"
+        },
+        "allocatedStorage": 5,
+        "instanceCreateTime": "Aug 5, 2022 9:02:51 AM",
+        "preferredBackupWindow": "06:35-07:05",
+        "backupRetentionPeriod": 7,
+        "dBSecurityGroups": [],
+        "vpcSecurityGroups": [
+          {
+            "vpcSecurityGroupId": "sg-46cfd020",
+            "status": "active"
+          }
+        ],
+        "dBParameterGroups": [
+          {
+            "dBParameterGroupName": "default.postgres14",
+            "parameterApplyStatus": "in-sync"
+          }
+        ],
+        "availabilityZone": "us-west-2a",
+        "dBSubnetGroup": {
+          "dBSubnetGroupName": "default",
+          "dBSubnetGroupDescription": "default",
+          "vpcId": "vpc-5f02343b",
+          "subnetGroupStatus": "Complete",
+          "subnets": [
+            {
+              "subnetIdentifier": "subnet-43225f35",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2b"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            },
+            {
+              "subnetIdentifier": "subnet-e55d7881",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2a"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            },
+            {
+              "subnetIdentifier": "subnet-0beddb972f034bdaa",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2c"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            },
+            {
+              "subnetIdentifier": "subnet-2d70cd75",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2c"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            }
+          ]
+        },
+        "preferredMaintenanceWindow": "sat:11:44-sat:12:14",
+        "pendingModifiedValues": {
+          "masterUserPassword": "****"
+        },
+        "latestRestorableTime": "Aug 5, 2022 9:12:31 AM",
+        "multiAZ": false,
+        "engineVersion": "14.2",
+        "autoMinorVersionUpgrade": true,
+        "readReplicaDBInstanceIdentifiers": [],
+        "licenseModel": "postgresql-license",
+        "storageThroughput": 0,
+        "optionGroupMemberships": [
+          {
+            "optionGroupName": "default:postgres-14",
+            "status": "in-sync"
+          }
+        ],
+        "publiclyAccessible": false,
+        "storageType": "standard",
+        "dbInstancePort": 0,
+        "storageEncrypted": true,
+        "kmsKeyId": "arn:aws:kms:us-west-2:111111111111:key/318bcd5d-c453-489d-b63a-07753eab0623",
+        "dbiResourceId": "db-IX2K4LYFLBVZDHBYNPEAVFHFQM",
+        "cACertificateIdentifier": "rds-ca-2019",
+        "domainMemberships": [],
+        "copyTagsToSnapshot": true,
+        "monitoringInterval": 60,
+        "enhancedMonitoringResourceArn": "arn:aws:logs:us-west-2:111111111111:log-group:RDSOSMetrics:log-stream:db-IX2K4LYFLBVZDHBYNPEAVFHFQM",
+        "monitoringRoleArn": "arn:aws:iam::111111111111:role/rds-monitoring-role",
+        "dBInstanceArn": "arn:aws:rds:us-west-2:111111111111:db:database-1",
+        "iAMDatabaseAuthenticationEnabled": false,
+        "performanceInsightsEnabled": true,
+        "performanceInsightsKMSKeyId": "arn:aws:kms:us-west-2:111111111111:key/318bcd5d-c453-489d-b63a-07753eab0623",
+        "performanceInsightsRetentionPeriod": 7,
+        "deletionProtection": true,
+        "associatedRoles": [],
+        "httpEndpointEnabled": false,
+        "tagList": [],
+        "customerOwnedIpEnabled": false,
+        "networkType": "IPV4",
+        "backupTarget": "region"
+      },
+      "resources": null,
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_rds_password_reset.json",
+        "artifact_sha256": "7015688e41e2afca485d25fcf1fc2e655402fc036e372ca0ad6d2fefc9430c1f",
+        "line_number": 1,
+        "event_id": "46351ca1-760e-4eef-b3ff-19723e13fbf8"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail control-plane outcome",
+      "scope_completeness": "incomplete_for_database_data_plane",
+      "provider_decision": "allow",
+      "target_resource": "database-1"
+    },
+    {
+      "observation_id": "obs-v3-4a7fa4dc200a640885a111c8",
+      "candidate_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2022-08-05T09:08:03Z",
+      "service": "rds.amazonaws.com",
+      "operation": "ModifyDBInstance",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/gowthamarajr@splunk.com",
+      "source_ip": "AWS Internal",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "dBInstanceIdentifier": "database-1",
+        "applyImmediately": true,
+        "masterUserPassword": "****",
+        "allowMajorVersionUpgrade": false
+      },
+      "response": {
+        "dBInstanceIdentifier": "database-1",
+        "dBInstanceClass": "db.m6g.large",
+        "engine": "postgres",
+        "dBInstanceStatus": "available",
+        "masterUsername": "postgres",
+        "endpoint": {
+          "address": "database-1.ce6wk5bvtc0t.us-west-2.rds.amazonaws.com",
+          "port": 5432,
+          "hostedZoneId": "Z1PVIF0B656C1W"
+        },
+        "allocatedStorage": 5,
+        "instanceCreateTime": "Aug 5, 2022 9:02:51 AM",
+        "preferredBackupWindow": "06:35-07:05",
+        "backupRetentionPeriod": 7,
+        "dBSecurityGroups": [],
+        "vpcSecurityGroups": [
+          {
+            "vpcSecurityGroupId": "sg-46cfd020",
+            "status": "active"
+          }
+        ],
+        "dBParameterGroups": [
+          {
+            "dBParameterGroupName": "default.postgres14",
+            "parameterApplyStatus": "in-sync"
+          }
+        ],
+        "availabilityZone": "us-west-2a",
+        "dBSubnetGroup": {
+          "dBSubnetGroupName": "default",
+          "dBSubnetGroupDescription": "default",
+          "vpcId": "vpc-5f02343b",
+          "subnetGroupStatus": "Complete",
+          "subnets": [
+            {
+              "subnetIdentifier": "subnet-43225f35",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2b"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            },
+            {
+              "subnetIdentifier": "subnet-e55d7881",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2a"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            },
+            {
+              "subnetIdentifier": "subnet-0beddb972f034bdaa",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2c"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            },
+            {
+              "subnetIdentifier": "subnet-2d70cd75",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2c"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            }
+          ]
+        },
+        "preferredMaintenanceWindow": "sat:11:44-sat:12:14",
+        "pendingModifiedValues": {
+          "masterUserPassword": "****"
+        },
+        "latestRestorableTime": "Aug 5, 2022 9:04:41 AM",
+        "multiAZ": false,
+        "engineVersion": "14.2",
+        "autoMinorVersionUpgrade": true,
+        "readReplicaDBInstanceIdentifiers": [],
+        "licenseModel": "postgresql-license",
+        "storageThroughput": 0,
+        "optionGroupMemberships": [
+          {
+            "optionGroupName": "default:postgres-14",
+            "status": "in-sync"
+          }
+        ],
+        "publiclyAccessible": false,
+        "storageType": "standard",
+        "dbInstancePort": 0,
+        "storageEncrypted": true,
+        "kmsKeyId": "arn:aws:kms:us-west-2:111111111111:key/318bcd5d-c453-489d-b63a-07753eab0623",
+        "dbiResourceId": "db-IX2K4LYFLBVZDHBYNPEAVFHFQM",
+        "cACertificateIdentifier": "rds-ca-2019",
+        "domainMemberships": [],
+        "copyTagsToSnapshot": true,
+        "monitoringInterval": 60,
+        "enhancedMonitoringResourceArn": "arn:aws:logs:us-west-2:111111111111:log-group:RDSOSMetrics:log-stream:db-IX2K4LYFLBVZDHBYNPEAVFHFQM",
+        "monitoringRoleArn": "arn:aws:iam::111111111111:role/rds-monitoring-role",
+        "dBInstanceArn": "arn:aws:rds:us-west-2:111111111111:db:database-1",
+        "iAMDatabaseAuthenticationEnabled": false,
+        "performanceInsightsEnabled": true,
+        "performanceInsightsKMSKeyId": "arn:aws:kms:us-west-2:111111111111:key/318bcd5d-c453-489d-b63a-07753eab0623",
+        "performanceInsightsRetentionPeriod": 7,
+        "deletionProtection": false,
+        "associatedRoles": [],
+        "httpEndpointEnabled": false,
+        "tagList": [],
+        "customerOwnedIpEnabled": false,
+        "networkType": "IPV4",
+        "backupTarget": "region"
+      },
+      "resources": null,
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_rds_password_reset.json",
+        "artifact_sha256": "7015688e41e2afca485d25fcf1fc2e655402fc036e372ca0ad6d2fefc9430c1f",
+        "line_number": 2,
+        "event_id": "be9ab680-586e-49e9-a81b-1678ba8e58b5"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail control-plane outcome",
+      "scope_completeness": "incomplete_for_database_data_plane",
+      "provider_decision": "allow",
+      "target_resource": "database-1"
+    },
+    {
+      "observation_id": "obs-v3-1e778fdddd4a572afa2333ad",
+      "candidate_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-12T14:03:05Z",
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketAcl",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+      "source_ip": "95.90.199.65",
+      "account_id": "111111111111",
+      "region": "eu-central-1",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "bucketName": "patricktestbucket19",
+        "Host": "patricktestbucket19.s3.eu-central-1.amazonaws.com",
+        "acl": "",
+        "accessControlList": {
+          "x-amz-grant-write": "uri=http://acs.amazonaws.com/groups/global/AuthenticatedUsers"
+        }
+      },
+      "response": null,
+      "resources": [
+        {
+          "accountId": "111111111111",
+          "type": "AWS::S3::Bucket",
+          "ARN": "arn:aws:s3:::patricktestbucket19"
+        }
+      ],
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_s3_public_bucket.json",
+        "artifact_sha256": "a7812406c446a6a2c9864f2fe3b07e6b177c18b893dbd2ed0b11b649ddfc7eda",
+        "line_number": 2,
+        "event_id": "a571f08a-6e82-4dec-baf8-b0456746bdf1"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail ACL-change outcome",
+      "scope_completeness": "incomplete_for_effective_external_access",
+      "provider_decision": "allow",
+      "target_resource": "patricktestbucket19"
+    },
+    {
+      "observation_id": "obs-v3-5aceaf5ed7bad21cc49e8ad1",
+      "candidate_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-12T14:02:52Z",
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketAcl",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+      "source_ip": "95.90.199.65",
+      "account_id": "111111111111",
+      "region": "eu-central-1",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "bucketName": "patricktestbucket19",
+        "Host": "patricktestbucket19.s3.eu-central-1.amazonaws.com",
+        "acl": "",
+        "accessControlList": {
+          "x-amz-grant-read-acp": "uri=http://acs.amazonaws.com/groups/global/AuthenticatedUsers"
+        }
+      },
+      "response": null,
+      "resources": [
+        {
+          "accountId": "111111111111",
+          "type": "AWS::S3::Bucket",
+          "ARN": "arn:aws:s3:::patricktestbucket19"
+        }
+      ],
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_s3_public_bucket.json",
+        "artifact_sha256": "a7812406c446a6a2c9864f2fe3b07e6b177c18b893dbd2ed0b11b649ddfc7eda",
+        "line_number": 3,
+        "event_id": "eb7d0e73-c699-43a0-9270-249e3f14345f"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail ACL-change outcome",
+      "scope_completeness": "incomplete_for_effective_external_access",
+      "provider_decision": "allow",
+      "target_resource": "patricktestbucket19"
+    },
+    {
+      "observation_id": "obs-v3-71946d01b47f6b9202136330",
+      "candidate_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-12T12:54:55Z",
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketAcl",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+      "source_ip": "95.90.199.65",
+      "account_id": "111111111111",
+      "region": "eu-central-1",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "bucketName": "patricktestbucket18",
+        "Host": "patricktestbucket18.s3.eu-central-1.amazonaws.com",
+        "acl": "",
+        "accessControlList": {
+          "x-amz-grant-full-control": "uri=http://acs.amazonaws.com/groups/global/AllUsers"
+        }
+      },
+      "response": null,
+      "resources": [
+        {
+          "accountId": "111111111111",
+          "type": "AWS::S3::Bucket",
+          "ARN": "arn:aws:s3:::patricktestbucket18"
+        }
+      ],
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_s3_public_bucket.json",
+        "artifact_sha256": "a7812406c446a6a2c9864f2fe3b07e6b177c18b893dbd2ed0b11b649ddfc7eda",
+        "line_number": 7,
+        "event_id": "5e2bf999-6c99-4fdb-b263-569772bbc335"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail ACL-change outcome",
+      "scope_completeness": "incomplete_for_effective_external_access",
+      "provider_decision": "allow",
+      "target_resource": "patricktestbucket18"
+    },
+    {
+      "observation_id": "obs-v3-8ea66f45cde151f777fec450",
+      "candidate_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-12T14:02:39Z",
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketAcl",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+      "source_ip": "95.90.199.65",
+      "account_id": "111111111111",
+      "region": "eu-central-1",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "bucketName": "patricktestbucket19",
+        "Host": "patricktestbucket19.s3.eu-central-1.amazonaws.com",
+        "acl": "",
+        "accessControlList": {
+          "x-amz-grant-read": "uri=http://acs.amazonaws.com/groups/global/AuthenticatedUsers"
+        }
+      },
+      "response": null,
+      "resources": [
+        {
+          "accountId": "111111111111",
+          "type": "AWS::S3::Bucket",
+          "ARN": "arn:aws:s3:::patricktestbucket19"
+        }
+      ],
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_s3_public_bucket.json",
+        "artifact_sha256": "a7812406c446a6a2c9864f2fe3b07e6b177c18b893dbd2ed0b11b649ddfc7eda",
+        "line_number": 4,
+        "event_id": "f3acc9c7-cc86-4413-b764-848d64d1f5fd"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail ACL-change outcome",
+      "scope_completeness": "incomplete_for_effective_external_access",
+      "provider_decision": "allow",
+      "target_resource": "patricktestbucket19"
+    },
+    {
+      "observation_id": "obs-v3-ad5d6a44d33ae90218547e20",
+      "candidate_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-12T12:29:14Z",
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketAcl",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "source_ip": "95.90.199.65",
+      "account_id": "111111111111",
+      "region": "eu-central-1",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "bucketName": "patricktestbucket17",
+        "Host": "s3.eu-central-1.amazonaws.com",
+        "AccessControlPolicy": {
+          "AccessControlList": {
+            "Grant": [
+              {
+                "Grantee": {
+                  "xsi:type": "CanonicalUser",
+                  "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+                  "ID": "b6fed2b36141247803254afecf272e30b80a3ea8713425a9650d994d39c2632d"
+                },
+                "Permission": "FULL_CONTROL"
+              },
+              {
+                "Grantee": {
+                  "xsi:type": "Group",
+                  "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+                  "URI": "http://acs.amazonaws.com/groups/global/AllUsers"
+                },
+                "Permission": "READ"
+              },
+              {
+                "Grantee": {
+                  "xsi:type": "Group",
+                  "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+                  "URI": "http://acs.amazonaws.com/groups/global/AllUsers"
+                },
+                "Permission": "READ_ACP"
+              }
+            ]
+          },
+          "xmlns": "http://s3.amazonaws.com/doc/2006-03-01/",
+          "Owner": {
+            "ID": "b6fed2b36141247803254afecf272e30b80a3ea8713425a9650d994d39c2632d"
+          }
+        },
+        "acl": ""
+      },
+      "response": null,
+      "resources": [
+        {
+          "accountId": "111111111111",
+          "type": "AWS::S3::Bucket",
+          "ARN": "arn:aws:s3:::patricktestbucket17"
+        }
+      ],
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_s3_public_bucket.json",
+        "artifact_sha256": "a7812406c446a6a2c9864f2fe3b07e6b177c18b893dbd2ed0b11b649ddfc7eda",
+        "line_number": 9,
+        "event_id": "60baeb6d-1ddb-433d-8290-a14c02967c8f"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail ACL-change outcome",
+      "scope_completeness": "incomplete_for_effective_external_access",
+      "provider_decision": "allow",
+      "target_resource": "patricktestbucket17"
+    },
+    {
+      "observation_id": "obs-v3-ddbfc1e68b3102159911fec4",
+      "candidate_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-12T12:29:59Z",
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketAcl",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+      "source_ip": "95.90.199.65",
+      "account_id": "111111111111",
+      "region": "eu-central-1",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "bucketName": "patricktestbucket17",
+        "Host": "s3.eu-central-1.amazonaws.com",
+        "AccessControlPolicy": {
+          "AccessControlList": {
+            "Grant": {
+              "Grantee": {
+                "xsi:type": "CanonicalUser",
+                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+                "ID": "b6fed2b36141247803254afecf272e30b80a3ea8713425a9650d994d39c2632d"
+              },
+              "Permission": "FULL_CONTROL"
+            }
+          },
+          "xmlns": "http://s3.amazonaws.com/doc/2006-03-01/",
+          "Owner": {
+            "ID": "b6fed2b36141247803254afecf272e30b80a3ea8713425a9650d994d39c2632d"
+          }
+        },
+        "acl": ""
+      },
+      "response": null,
+      "resources": [
+        {
+          "accountId": "111111111111",
+          "type": "AWS::S3::Bucket",
+          "ARN": "arn:aws:s3:::patricktestbucket17"
+        }
+      ],
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_s3_public_bucket.json",
+        "artifact_sha256": "a7812406c446a6a2c9864f2fe3b07e6b177c18b893dbd2ed0b11b649ddfc7eda",
+        "line_number": 8,
+        "event_id": "97e6c60a-8c1d-489b-b53c-251ded1b4983"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail ACL-change outcome",
+      "scope_completeness": "incomplete_for_effective_external_access",
+      "provider_decision": "allow",
+      "target_resource": "patricktestbucket17"
+    },
+    {
+      "observation_id": "obs-v3-e3b0196e68e21d97b6e7543f",
+      "candidate_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-12T14:02:16Z",
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketAcl",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+      "source_ip": "95.90.199.65",
+      "account_id": "111111111111",
+      "region": "eu-central-1",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "bucketName": "patricktestbucket19",
+        "Host": "patricktestbucket19.s3.eu-central-1.amazonaws.com",
+        "acl": "",
+        "accessControlList": {
+          "x-amz-grant-full-control": "uri=http://acs.amazonaws.com/groups/global/AuthenticatedUsers"
+        }
+      },
+      "response": null,
+      "resources": [
+        {
+          "accountId": "111111111111",
+          "type": "AWS::S3::Bucket",
+          "ARN": "arn:aws:s3:::patricktestbucket19"
+        }
+      ],
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_s3_public_bucket.json",
+        "artifact_sha256": "a7812406c446a6a2c9864f2fe3b07e6b177c18b893dbd2ed0b11b649ddfc7eda",
+        "line_number": 5,
+        "event_id": "55843208-5410-43bc-b100-1a99d401e58f"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail ACL-change outcome",
+      "scope_completeness": "incomplete_for_effective_external_access",
+      "provider_decision": "allow",
+      "target_resource": "patricktestbucket19"
+    },
+    {
+      "observation_id": "obs-v3-e8ba577705bacf69698d60d1",
+      "candidate_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-12T12:55:53Z",
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketAcl",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+      "source_ip": "95.90.199.65",
+      "account_id": "111111111111",
+      "region": "eu-central-1",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "bucketName": "patricktestbucket18",
+        "Host": "patricktestbucket18.s3.eu-central-1.amazonaws.com",
+        "acl": "",
+        "accessControlList": {
+          "x-amz-grant-full-control": "uri=http://acs.amazonaws.com/groups/global/AuthenticatedUsers"
+        }
+      },
+      "response": null,
+      "resources": [
+        {
+          "accountId": "111111111111",
+          "type": "AWS::S3::Bucket",
+          "ARN": "arn:aws:s3:::patricktestbucket18"
+        }
+      ],
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_s3_public_bucket.json",
+        "artifact_sha256": "a7812406c446a6a2c9864f2fe3b07e6b177c18b893dbd2ed0b11b649ddfc7eda",
+        "line_number": 6,
+        "event_id": "c905859d-47b7-4992-b0fb-dccd7e6004d9"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail ACL-change outcome",
+      "scope_completeness": "incomplete_for_effective_external_access",
+      "provider_decision": "allow",
+      "target_resource": "patricktestbucket18"
+    },
+    {
+      "observation_id": "obs-v3-fd16f5f82023717d7ab93168",
+      "candidate_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-12T14:03:17Z",
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketAcl",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+      "source_ip": "95.90.199.65",
+      "account_id": "111111111111",
+      "region": "eu-central-1",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "bucketName": "patricktestbucket19",
+        "Host": "patricktestbucket19.s3.eu-central-1.amazonaws.com",
+        "acl": "",
+        "accessControlList": {
+          "x-amz-grant-write-acp": "uri=http://acs.amazonaws.com/groups/global/AuthenticatedUsers"
+        }
+      },
+      "response": null,
+      "resources": [
+        {
+          "accountId": "111111111111",
+          "type": "AWS::S3::Bucket",
+          "ARN": "arn:aws:s3:::patricktestbucket19"
+        }
+      ],
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_s3_public_bucket.json",
+        "artifact_sha256": "a7812406c446a6a2c9864f2fe3b07e6b177c18b893dbd2ed0b11b649ddfc7eda",
+        "line_number": 1,
+        "event_id": "9feee3c9-711f-4f7d-af4c-992907a2a521"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail ACL-change outcome",
+      "scope_completeness": "incomplete_for_effective_external_access",
+      "provider_decision": "allow",
+      "target_resource": "patricktestbucket19"
+    },
+    {
+      "observation_id": "obs-v3-9d26f19c42d9d2a49a6f34c7",
+      "candidate_id": "oracle-v8:splunk:snapshot-external-share",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2023-03-20T22:31:36Z",
+      "service": "ec2.amazonaws.com",
+      "operation": "ModifySnapshotAttribute",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/bhavin_console",
+      "source_ip": "72.135.1.1",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "snapshotId": "snap-02effb3bb62786b18",
+        "createVolumePermission": {
+          "add": {
+            "items": [
+              {
+                "userId": "012345678912"
+              }
+            ]
+          }
+        },
+        "attributeType": "CREATE_VOLUME_PERMISSION"
+      },
+      "response": {
+        "requestId": "f58433e6-a7f4-4e63-9cba-7ecc60ab74b2",
+        "_return": true
+      },
+      "resources": null,
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json",
+        "artifact_sha256": "ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca",
+        "line_number": 8,
+        "event_id": "62e027d3-7191-48f4-b5fe-4b66c58b3008"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail permission-change outcome",
+      "scope_completeness": "complete_for_exact_snapshot_share",
+      "provider_decision": "allow",
+      "target_resource": "snap-02effb3bb62786b18/external-account:012345678912"
+    },
+    {
+      "observation_id": "obs-v3-cf5dc246c8142dda51d629af",
+      "candidate_id": "oracle-v8:splunk:snapshot-external-share",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2023-03-20T22:31:18Z",
+      "service": "ec2.amazonaws.com",
+      "operation": "CreateSnapshot",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/bhavin_console",
+      "source_ip": "72.135.1.1",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "volumeId": "vol-0363e53e12f67c9b7",
+        "tagSpecificationSet": {
+          "items": [
+            {
+              "resourceType": "snapshot",
+              "tags": [
+                {
+                  "key": "StratusRedTeam",
+                  "value": "true"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "response": {
+        "requestId": "fefed928-d461-45f0-802f-a99d94c833a8",
+        "snapshotId": "snap-02effb3bb62786b18",
+        "volumeId": "vol-0363e53e12f67c9b7",
+        "status": "pending",
+        "startTime": 1679351478226,
+        "ownerId": "111111111111",
+        "volumeSize": "1",
+        "encrypted": false,
+        "tagSet": {
+          "items": [
+            {
+              "key": "StratusRedTeam",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "resources": null,
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json",
+        "artifact_sha256": "ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca",
+        "line_number": 9,
+        "event_id": "2d52d141-d1e6-4d1f-a380-1461c1bf9f83"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail control-plane outcome",
+      "scope_completeness": "complete_for_snapshot_encryption_state",
+      "provider_decision": "allow",
+      "target_resource": "snap-02effb3bb62786b18"
+    },
+    {
+      "observation_id": "obs-v3-68cb604e9b0588bbbef962bb",
+      "candidate_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-06-22T20:58:37Z",
+      "service": "ec2.amazonaws.com",
+      "operation": "ModifySnapshotAttribute",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+      "source_ip": "72.135.232.230",
+      "account_id": "591511666666",
+      "region": "us-east-2",
+      "event_status": "Success",
+      "error_code": null,
+      "error_message": null,
+      "request": {
+        "snapshotId": "snap-03fb276e9eb29328e",
+        "createVolumePermission": {
+          "add": {
+            "items": [
+              {
+                "group": "all"
+              }
+            ]
+          }
+        },
+        "attributeType": "CREATE_VOLUME_PERMISSION"
+      },
+      "response": {
+        "requestId": "ac7be9f0-04ab-41cb-bc4f-554ead99baa2",
+        "_return": true
+      },
+      "resources": null,
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json",
+        "artifact_sha256": "ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca",
+        "line_number": 7,
+        "event_id": "fab03b36-09e5-4ec8-b7b4-69a13ef6a59b"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail target-existence control",
+      "scope_completeness": "control_only",
+      "provider_decision": "allow",
+      "target_resource": "snap-03fb276e9eb29328e"
+    },
+    {
+      "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+      "candidate_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-06-22T21:03:16Z",
+      "service": "ec2.amazonaws.com",
+      "operation": "ModifySnapshotAttribute",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+      "source_ip": "72.135.232.230",
+      "account_id": "591511666666",
+      "region": "us-east-2",
+      "event_status": "Client.InvalidAMIAttributeItemValue",
+      "error_code": "Client.InvalidAMIAttributeItemValue",
+      "error_message": "UserId (123456123) is invalid.",
+      "request": {
+        "snapshotId": "snap-03fb276e9eb29328e",
+        "createVolumePermission": {
+          "add": {
+            "items": [
+              {
+                "userId": "123456123"
+              }
+            ]
+          }
+        },
+        "attributeType": "CREATE_VOLUME_PERMISSION"
+      },
+      "response": null,
+      "resources": null,
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json",
+        "artifact_sha256": "ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca",
+        "line_number": 5,
+        "event_id": "1592cb54-9c0d-497f-8cfd-eb5c8c8736fe"
+      },
+      "path_label": null,
+      "evidence_state": null,
+      "evidence_layer": "runtime",
+      "oracle_kind": "AWS CloudTrail request-validation outcome",
+      "scope_completeness": "complete_for_exact_snapshot_and_grantee",
+      "provider_decision": "deny",
+      "target_resource": "snap-03fb276e9eb29328e/external-account:123456123"
+    }
+  ]
+}

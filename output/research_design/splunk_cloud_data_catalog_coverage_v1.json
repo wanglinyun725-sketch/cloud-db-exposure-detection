@@ -1,0 +1,146 @@
+{
+  "audit_version": "1.0",
+  "source_id": "splunk_attack_data_2026_expansion",
+  "repository": "splunk/attack_data",
+  "commit": "67fe973a954cc35688ad9b4906ed6e85af5892e9",
+  "catalogue_rule": {
+    "path_prefix": "datasets/attack_techniques/",
+    "case_insensitive_keywords": "(s3|rds|dynamo|database|cosmos|storage|bucket|snapshot|exfil|kms|secret|blob|bigquery|redshift|cloudfunction|datasync)",
+    "rule_frozen_before_counting": true,
+    "metadata_match_is_not_attack_label": true
+  },
+  "inputs": {
+    "repository_tree": {
+      "path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/repository-tree.json",
+      "sha256": "8498195a00c85c3a0e2ad7483ab4e6cfbcb226d839870a2de37afa8729f770ca",
+      "bytes": 1484994
+    },
+    "primary_packet": {
+      "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+      "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+      "bytes": 7375251
+    },
+    "structural_audit": {
+      "path": "output/research_design/splunk_reserve_source_audit_v1.json",
+      "sha256": "cfad34fe536a48972164fd4da1dd2fa4a08f3788a93719ab0b240212bd0c2198",
+      "bytes": 17317
+    }
+  },
+  "summary": {
+    "matching_metadata_datasets": 15,
+    "already_in_frozen_primary_packet": 8,
+    "eligible_unlabeled_reserve": 1,
+    "structurally_excluded": 2,
+    "out_of_preregistered_scope": 4,
+    "unclassified": 0,
+    "catalogue_coverage_complete": true,
+    "new_human_gold": 0
+  },
+  "datasets": [
+    {
+      "dataset_id": "T1048.003/nslookup_exfil",
+      "metadata_path": "datasets/attack_techniques/T1048.003/nslookup_exfil/nslookup_exfil.yml",
+      "disposition": "out_of_preregistered_scope",
+      "reason": "host/network DNS exfiltration; no provider-native cloud data target",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1098/windows_multiple_passwords_changed",
+      "metadata_path": "datasets/attack_techniques/T1098/windows_multiple_passwords_changed/windows_multiple_passwords_changed.yml",
+      "disposition": "out_of_preregistered_scope",
+      "reason": "Windows identity telemetry; no provider-native cloud data target",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1110.002/aws_rds_password_reset",
+      "metadata_path": "datasets/attack_techniques/T1110.002/aws_rds_password_reset/aws_rds_password_reset.yml",
+      "disposition": "already_in_frozen_primary_packet",
+      "reason": "already supplied to the frozen double-human packet",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1119/aws_exfil_datasync",
+      "metadata_path": "datasets/attack_techniques/T1119/aws_exfil_datasync/aws_exfil_datasync_old.yml",
+      "disposition": "already_in_frozen_primary_packet",
+      "reason": "already supplied to the frozen double-human packet",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1485/decommissioned_buckets",
+      "metadata_path": "datasets/attack_techniques/T1485/decommissioned_buckets/decommissioned_buckets.yml",
+      "disposition": "structurally_excluded",
+      "reason": "the pinned raw artifact contains only one observed operation type and does not itself prove a multi-step path",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1486/aws_kms_key",
+      "metadata_path": "datasets/attack_techniques/T1486/aws_kms_key/aws_kms_key.yml",
+      "disposition": "eligible_unlabeled_reserve",
+      "reason": "hash-bound multi-step candidate awaiting human admission",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1486/s3_file_encryption",
+      "metadata_path": "datasets/attack_techniques/T1486/s3_file_encryption/s3_file_encryption.yml",
+      "disposition": "already_in_frozen_primary_packet",
+      "reason": "already supplied to the frozen double-human packet",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1490/aws_bucket_version",
+      "metadata_path": "datasets/attack_techniques/T1490/aws_bucket_version/aws_bucket_version.yml",
+      "disposition": "already_in_frozen_primary_packet",
+      "reason": "already supplied to the frozen double-human packet",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1530/aws_exfil_high_no_getobject",
+      "metadata_path": "datasets/attack_techniques/T1530/aws_exfil_high_no_getobject/aws_exfil_high_no_getobject_old.yml",
+      "disposition": "already_in_frozen_primary_packet",
+      "reason": "already supplied to the frozen double-human packet",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1530/aws_s3_public_bucket",
+      "metadata_path": "datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_s3_public_bucket.yml",
+      "disposition": "already_in_frozen_primary_packet",
+      "reason": "already supplied to the frozen double-human packet",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1537/aws_exfil_risk_events",
+      "metadata_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_exfil_risk_events.yml",
+      "disposition": "already_in_frozen_primary_packet",
+      "reason": "already supplied to the frozen double-human packet",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1537/aws_snapshot_exfil",
+      "metadata_path": "datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_snapshot_exfil.yml",
+      "disposition": "already_in_frozen_primary_packet",
+      "reason": "already supplied to the frozen double-human packet",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1552.001/ie_intelliform_storage",
+      "metadata_path": "datasets/attack_techniques/T1552.001/ie_intelliform_storage/ie_intelliform_storage_old.yml",
+      "disposition": "out_of_preregistered_scope",
+      "reason": "endpoint browser storage telemetry; not cloud-provider telemetry",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1552.007/kube_audit_get_secret",
+      "metadata_path": "datasets/attack_techniques/T1552.007/kube_audit_get_secret/kube_audit_get_secret_old.yml",
+      "disposition": "out_of_preregistered_scope",
+      "reason": "Kubernetes secret retrieval; outside the preregistered AWS, Azure, and GCP provider-native cloud-data scope",
+      "counts_as_human_gold": false
+    },
+    {
+      "dataset_id": "T1562.008/put_bucketlifecycle",
+      "metadata_path": "datasets/attack_techniques/T1562.008/put_bucketlifecycle/put_bucketlifecycle.yml",
+      "disposition": "structurally_excluded",
+      "reason": "the pinned raw artifact contains only one observed operation type and does not itself prove a multi-step path",
+      "counts_as_human_gold": false
+    }
+  ]
+}

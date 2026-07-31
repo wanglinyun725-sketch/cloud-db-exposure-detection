@@ -1,0 +1,281 @@
+{
+  "index_version": "1.0.0",
+  "source": {
+    "source_id": "splunk_attack_data_2026_expansion",
+    "repository": "splunk/attack_data",
+    "commit": "67fe973a954cc35688ad9b4906ed6e85af5892e9",
+    "raw_relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_excessive_list_command_usage.json",
+    "raw_sha256": "d0e597bf34919e87ff53d757766a71431847d8788ca80ffe78d8ac23bb498f35",
+    "raw_bytes": 5038501
+  },
+  "policy": {
+    "source": "recorded upstream AWS CloudTrail attack-range events",
+    "generated_samples": 0,
+    "generated_labels": 0,
+    "normalization_only": true,
+    "same_scope_definition": "account + region + provider service + operation",
+    "scope_warning": "A catalogue denial proves only that the denied principal could not perform that exact enumeration operation. It does not prove that no individual object could be read."
+  },
+  "summary": {
+    "raw_records": 4196,
+    "candidate_cases": 3,
+    "observations": 6,
+    "independence_groups": 1,
+    "service_counts": {
+      "s3.amazonaws.com": 2,
+      "secretsmanager.amazonaws.com": 2,
+      "es.amazonaws.com": 2
+    }
+  },
+  "cases": [
+    {
+      "case_id": "splunk-denial:s3-list-buckets:us-east-1",
+      "service": "s3.amazonaws.com",
+      "operation": "ListBuckets",
+      "region": "us-east-1",
+      "target_scope": "aws://760111141337/s3/bucket-catalog",
+      "target_type": "object_storage",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "independence_group": "splunk-dataset:T1580/aws_iam_excessive_list_command_usage",
+      "denied_principal": "arn:aws:iam::760111141337:user/cloudsploit",
+      "control_principal": "arn:aws:iam::760111141337:user/cloudmapper",
+      "observation_ids": [
+        "obs-ecb8ba849519aaf041cecae3",
+        "obs-68bf82c6cf25bf059c3dd077"
+      ],
+      "annotation_status": "provider_certificate_candidate",
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "case_id": "splunk-denial:secrets-list:us-east-1",
+      "service": "secretsmanager.amazonaws.com",
+      "operation": "ListSecrets",
+      "region": "us-east-1",
+      "target_scope": "arn:aws:secretsmanager:us-east-1:760111141337:secret-catalog/*",
+      "target_type": "secret_store",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "independence_group": "splunk-dataset:T1580/aws_iam_excessive_list_command_usage",
+      "denied_principal": "arn:aws:iam::760111141337:user/cloudsploit",
+      "control_principal": "arn:aws:iam::760111141337:user/cloudmapper",
+      "observation_ids": [
+        "obs-8b3bd8a9bf968658b640443b",
+        "obs-789420f4f0f535d4f50463e2"
+      ],
+      "annotation_status": "provider_certificate_candidate",
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "case_id": "splunk-denial:es-list-domains:us-east-1",
+      "service": "es.amazonaws.com",
+      "operation": "ListDomainNames",
+      "region": "us-east-1",
+      "target_scope": "arn:aws:es:us-east-1:760111141337:domain/*",
+      "target_type": "database",
+      "source_id": "splunk_attack_data_2026_expansion",
+      "independence_group": "splunk-dataset:T1580/aws_iam_excessive_list_command_usage",
+      "denied_principal": "arn:aws:iam::760111141337:user/cloudsploit",
+      "control_principal": "arn:aws:iam::760111141337:user/cloudmapper",
+      "observation_ids": [
+        "obs-d9ec10f154278a94fea31c2f",
+        "obs-1fc79af08fa9dfa7c1e6fa40"
+      ],
+      "annotation_status": "provider_certificate_candidate",
+      "path_label": null,
+      "evidence_state": null
+    }
+  ],
+  "observations": [
+    {
+      "observation_id": "obs-ecb8ba849519aaf041cecae3",
+      "candidate_id": "splunk-denial:s3-list-buckets:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:33:05Z",
+      "service": "s3.amazonaws.com",
+      "operation": "ListBuckets",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::760111141337:user/cloudsploit",
+      "account_id": "760111141337",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "aws://760111141337/s3/bucket-catalog",
+      "target_type": "object_storage",
+      "source_ip": "95.9.125.40",
+      "request": {
+        "Host": "s3.amazonaws.com"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "Access Denied"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_excessive_list_command_usage.json",
+        "sha256": "d0e597bf34919e87ff53d757766a71431847d8788ca80ffe78d8ac23bb498f35",
+        "record_index": 996,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_excessive_list_command_usage/aws_iam_excessive_list_command_usage.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-68bf82c6cf25bf059c3dd077",
+      "candidate_id": "splunk-denial:s3-list-buckets:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T13:11:36Z",
+      "service": "s3.amazonaws.com",
+      "operation": "ListBuckets",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::760111141337:user/cloudmapper",
+      "account_id": "760111141337",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "target_resource": "aws://760111141337/s3/bucket-catalog",
+      "target_type": "object_storage",
+      "source_ip": "95.9.125.40",
+      "request": {
+        "Host": "s3.amazonaws.com"
+      },
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "pair_role": "same_scope_success_control",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_excessive_list_command_usage.json",
+        "sha256": "d0e597bf34919e87ff53d757766a71431847d8788ca80ffe78d8ac23bb498f35",
+        "record_index": 456,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_excessive_list_command_usage/aws_iam_excessive_list_command_usage.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-8b3bd8a9bf968658b640443b",
+      "candidate_id": "splunk-denial:secrets-list:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:33:06Z",
+      "service": "secretsmanager.amazonaws.com",
+      "operation": "ListSecrets",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::760111141337:user/cloudsploit",
+      "account_id": "760111141337",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:secretsmanager:us-east-1:760111141337:secret-catalog/*",
+      "target_type": "secret_store",
+      "source_ip": "95.9.125.40",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::760111141337:user/cloudsploit is not authorized to perform: secretsmanager:ListSecrets"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_excessive_list_command_usage.json",
+        "sha256": "d0e597bf34919e87ff53d757766a71431847d8788ca80ffe78d8ac23bb498f35",
+        "record_index": 990,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_excessive_list_command_usage/aws_iam_excessive_list_command_usage.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-789420f4f0f535d4f50463e2",
+      "candidate_id": "splunk-denial:secrets-list:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T13:33:55Z",
+      "service": "secretsmanager.amazonaws.com",
+      "operation": "ListSecrets",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::760111141337:user/cloudmapper",
+      "account_id": "760111141337",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "target_resource": "arn:aws:secretsmanager:us-east-1:760111141337:secret-catalog/*",
+      "target_type": "secret_store",
+      "source_ip": "95.9.125.40",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "pair_role": "same_scope_success_control",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_excessive_list_command_usage.json",
+        "sha256": "d0e597bf34919e87ff53d757766a71431847d8788ca80ffe78d8ac23bb498f35",
+        "record_index": 160,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_excessive_list_command_usage/aws_iam_excessive_list_command_usage.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-d9ec10f154278a94fea31c2f",
+      "candidate_id": "splunk-denial:es-list-domains:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T11:35:13Z",
+      "service": "es.amazonaws.com",
+      "operation": "ListDomainNames",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::760111141337:user/cloudsploit",
+      "account_id": "760111141337",
+      "region": "us-east-1",
+      "event_status": "AccessDenied",
+      "target_resource": "arn:aws:es:us-east-1:760111141337:domain/*",
+      "target_type": "database",
+      "source_ip": "95.9.125.40",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": "AccessDenied",
+        "errorMessage": "User: arn:aws:iam::760111141337:user/cloudsploit is not authorized to perform: es:ListDomainNames on resource: arn:aws:es:us-east-1:760111141337:domain/*"
+      },
+      "pair_role": "denied_principal",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_excessive_list_command_usage.json",
+        "sha256": "d0e597bf34919e87ff53d757766a71431847d8788ca80ffe78d8ac23bb498f35",
+        "record_index": 775,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_excessive_list_command_usage/aws_iam_excessive_list_command_usage.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    },
+    {
+      "observation_id": "obs-1fc79af08fa9dfa7c1e6fa40",
+      "candidate_id": "splunk-denial:es-list-domains:us-east-1",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-04-13T13:29:07Z",
+      "service": "es.amazonaws.com",
+      "operation": "ListDomainNames",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::760111141337:user/cloudmapper",
+      "account_id": "760111141337",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "target_resource": "arn:aws:es:us-east-1:760111141337:domain/*",
+      "target_type": "database",
+      "source_ip": "95.9.125.40",
+      "request": null,
+      "response": {
+        "responseElements": null,
+        "errorCode": null,
+        "errorMessage": null
+      },
+      "pair_role": "same_scope_success_control",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data_2026_expansion/67fe973a954cc35688ad9b4906ed6e85af5892e9/aws_iam_excessive_list_command_usage.json",
+        "sha256": "d0e597bf34919e87ff53d757766a71431847d8788ca80ffe78d8ac23bb498f35",
+        "record_index": 411,
+        "upstream_url": "https://media.githubusercontent.com/media/splunk/attack_data/67fe973a954cc35688ad9b4906ed6e85af5892e9/datasets/attack_techniques/T1580/aws_iam_excessive_list_command_usage/aws_iam_excessive_list_command_usage.json"
+      },
+      "path_label": null,
+      "evidence_state": null
+    }
+  ]
+}

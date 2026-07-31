@@ -1,0 +1,408 @@
+{
+  "audit_version": "1.0.0",
+  "generated_at": "2026-07-30T08:46:37.439217+00:00",
+  "inputs": {
+    "manifest": "data/real_sources/acquisition_manifest.json",
+    "candidates": "data/real_sources/deterministic_config_candidates_v1.json"
+  },
+  "policy_assertions": {
+    "upstream_walkthrough_is_gold": false,
+    "generated_labels": 0,
+    "gold_labels": 0,
+    "missing_finding_is_negative": false
+  },
+  "summary": {
+    "frozen_sources": 7,
+    "candidate_cases": 10,
+    "platforms": [
+      "AWS",
+      "Azure",
+      "GCP"
+    ],
+    "configuration_refs_verified": 10,
+    "upstream_claim_refs_verified": 10,
+    "configuration_assertions_verified": 17,
+    "runtime_gold_cases": 0,
+    "configuration_gold_cases": 0
+  },
+  "sources": {
+    "awsgoat": {
+      "revision": "b24869ad455ed8d1393d00ecdc15ee638d1c1332",
+      "snapshot_sha256": "5f79c2b8dfbd2993ee69454bc5707a293ee6b17f22337a94c05b48ae33793a70",
+      "snapshot_bytes": 36135714,
+      "archive_files": 437,
+      "terraform_files": 2,
+      "markdown_files": 20,
+      "upstream_attack_manual_files": 11,
+      "role": "cross_layer_executable_lab",
+      "platform": "AWS"
+    },
+    "azuregoat": {
+      "revision": "b97045952e6df00de735a7f27fd7c4994dcfe8c0",
+      "snapshot_sha256": "ccd24e4f41dfa85f8345fa8f132a6a917811ac05d9350a45f77f8be3500dea2a",
+      "snapshot_bytes": 42465155,
+      "archive_files": 1826,
+      "terraform_files": 1,
+      "markdown_files": 16,
+      "upstream_attack_manual_files": 5,
+      "role": "cross_layer_executable_lab",
+      "platform": "Azure"
+    },
+    "gcpgoat": {
+      "revision": "44605c4bff4b2da7611dfce78696bb53db6d8c54",
+      "snapshot_sha256": "f8e59451cdf074144cac7fe97f87477296ca88a6c9a605eab72baf82dff85af8",
+      "snapshot_bytes": 32012265,
+      "archive_files": 583,
+      "terraform_files": 1,
+      "markdown_files": 11,
+      "upstream_attack_manual_files": 3,
+      "role": "cross_layer_executable_lab",
+      "platform": "GCP"
+    },
+    "iam_vulnerable": {
+      "revision": "0f298666f9b7cfa01488b86912afdb211773188a",
+      "snapshot_sha256": "03b1169d01a3dba6d5160c1018c906f4f7864cc5aca19dddf22455becd739b80",
+      "snapshot_bytes": 102420,
+      "archive_files": 74,
+      "terraform_files": 59,
+      "markdown_files": 2,
+      "upstream_attack_manual_files": 0,
+      "role": "aws_identity_path_component_library",
+      "platform": "AWS"
+    },
+    "terragoat": {
+      "revision": "729f8da62c6a85ce4af5ad3d123de97776d954c4",
+      "snapshot_sha256": "ac944892b0b6d570eb79ef711d9effffcc1094e4856d206afe2c24bc803faa8b",
+      "snapshot_bytes": 419303,
+      "archive_files": 72,
+      "terraform_files": 47,
+      "markdown_files": 4,
+      "upstream_attack_manual_files": 0,
+      "role": "cross_cloud_configuration_negative_and_positive_pool",
+      "platform": "multi_cloud"
+    },
+    "cloudfoxable": {
+      "revision": "fc49b7f637268031515ced9fee4b643d3e68db67",
+      "snapshot_sha256": "bec9436f0e8759601dd7669c108c0921db5b10bc2d941223f0467efb5227fe6d",
+      "snapshot_bytes": 22702486,
+      "archive_files": 2491,
+      "terraform_files": 91,
+      "markdown_files": 30,
+      "upstream_attack_manual_files": 0,
+      "role": "executable_aws_challenge_configuration_pool",
+      "platform": "AWS"
+    },
+    "terraform_iam_policy_validator": {
+      "revision": "f75804eba3f6bb9e10e3350be33a1caee67b32a3",
+      "snapshot_sha256": "e11cb94374432a1a6415bd613e945d4b7c1846c37562628844958bcbdd7ffc49",
+      "snapshot_bytes": 98204,
+      "archive_files": 72,
+      "terraform_files": 8,
+      "markdown_files": 8,
+      "upstream_attack_manual_files": 0,
+      "role": "aws_native_oracle_adapter",
+      "platform": "AWS"
+    }
+  },
+  "cases": [
+    {
+      "case_id": "awsgoat_m1_ssrf_dynamodb",
+      "source_id": "awsgoat",
+      "platform": "AWS",
+      "configuration_members": [
+        "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-1/main.tf"
+      ],
+      "upstream_claim_members": [
+        "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/attack-manuals/module-1/06-Server Side Request Forgery Part 2.md"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "awsgoat_m1_public_api_method",
+          "member": "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-1/main.tf",
+          "literal_fragments_verified": 2,
+          "literal_interpretation": "The API Gateway method is configured without API Gateway authorization.",
+          "result": "verified_against_frozen_source"
+        },
+        {
+          "assertion_id": "awsgoat_m1_lambda_dynamodb_wildcard",
+          "member": "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-1/main.tf",
+          "literal_fragments_verified": 5,
+          "literal_interpretation": "The Lambda data role is attached to a policy containing an allow for all DynamoDB actions on all resources.",
+          "result": "verified_against_frozen_source"
+        },
+        {
+          "assertion_id": "awsgoat_m1_blog_users_table",
+          "member": "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-1/main.tf",
+          "literal_fragments_verified": 2,
+          "literal_interpretation": "The frozen module declares the blog-users DynamoDB table.",
+          "result": "verified_against_frozen_source"
+        }
+      ],
+      "mandatory_claim_count": 3,
+      "evidence_status": "terraform_semantics_valid_awaiting_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null,
+      "audit_result": "references_verified_candidate_not_gold"
+    },
+    {
+      "case_id": "awsgoat_m2_ecs_secret_rds_credentials",
+      "source_id": "awsgoat",
+      "platform": "AWS",
+      "configuration_members": [
+        "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-2/main.tf"
+      ],
+      "upstream_claim_members": [
+        "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/attack-manuals/module-2/02-File Upload and Task Metadata.md"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "awsgoat_m2_task_role_secret_policy",
+          "member": "AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-2/main.tf",
+          "literal_fragments_verified": 4,
+          "literal_interpretation": "The ECS task uses ecs-task-role and that role is attached to AWS SecretsManagerReadWrite.",
+          "result": "verified_against_frozen_source"
+        }
+      ],
+      "mandatory_claim_count": 3,
+      "evidence_status": "terraform_semantics_valid_awaiting_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null,
+      "audit_result": "references_verified_candidate_not_gold"
+    },
+    {
+      "case_id": "azuregoat_ssrf_cosmos_storage",
+      "source_id": "azuregoat",
+      "platform": "Azure",
+      "configuration_members": [
+        "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/main.tf"
+      ],
+      "upstream_claim_members": [
+        "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/attack-manuals/module-1/03-Server Side Request Forgery Part 2.md"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "azuregoat_cosmos_and_storage_declared",
+          "member": "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/main.tf",
+          "literal_fragments_verified": 2,
+          "literal_interpretation": "The same frozen module declares an Azure Cosmos DB account and Azure Storage account.",
+          "result": "verified_against_frozen_source"
+        }
+      ],
+      "mandatory_claim_count": 3,
+      "evidence_status": "terraform_semantics_valid_with_deprecation_warnings_awaiting_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null,
+      "audit_result": "references_verified_candidate_not_gold"
+    },
+    {
+      "case_id": "azuregoat_prod_dev_blob_control_pair",
+      "source_id": "azuregoat",
+      "platform": "Azure",
+      "configuration_members": [
+        "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/main.tf"
+      ],
+      "upstream_claim_members": [
+        "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/attack-manuals/module-1/04-Security Misconfiguration.md"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "azuregoat_prod_blob_only",
+          "member": "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/main.tf",
+          "literal_fragments_verified": 2,
+          "literal_interpretation": "The production container grants anonymous blob access but does not configure anonymous container listing.",
+          "result": "verified_against_frozen_source"
+        },
+        {
+          "assertion_id": "azuregoat_dev_container_public",
+          "member": "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/main.tf",
+          "literal_fragments_verified": 2,
+          "literal_interpretation": "The development container grants anonymous container and blob access.",
+          "result": "verified_against_frozen_source"
+        }
+      ],
+      "mandatory_claim_count": 3,
+      "evidence_status": "terraform_semantics_valid_with_deprecation_warnings_awaiting_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null,
+      "audit_result": "references_verified_candidate_not_gold"
+    },
+    {
+      "case_id": "gcpgoat_anonymous_bucket_policy_transition",
+      "source_id": "gcpgoat",
+      "platform": "GCP",
+      "configuration_members": [
+        "GCPGoat-44605c4bff4b2da7611dfce78696bb53db6d8c54/main.tf"
+      ],
+      "upstream_claim_members": [
+        "GCPGoat-44605c4bff4b2da7611dfce78696bb53db6d8c54/attack-manuals/module-1/02-Misconfigured Storage Bucket Policies.md"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "gcpgoat_prod_allusers_object_get",
+          "member": "GCPGoat-44605c4bff4b2da7611dfce78696bb53db6d8c54/main.tf",
+          "literal_fragments_verified": 4,
+          "literal_interpretation": "The production bucket custom role gives allUsers object read when an object name is known, but not object listing.",
+          "result": "verified_against_frozen_source"
+        },
+        {
+          "assertion_id": "gcpgoat_dev_allusers_policy_mutation",
+          "member": "GCPGoat-44605c4bff4b2da7611dfce78696bb53db6d8c54/main.tf",
+          "literal_fragments_verified": 4,
+          "literal_interpretation": "The development bucket gives allUsers object read plus bucket IAM read/write, but not initial object listing.",
+          "result": "verified_against_frozen_source"
+        }
+      ],
+      "mandatory_claim_count": 3,
+      "evidence_status": "terraform_semantics_valid_awaiting_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null,
+      "audit_result": "references_verified_candidate_not_gold"
+    },
+    {
+      "case_id": "terragoat_aws_ec2_userdata_to_rds",
+      "source_id": "terragoat",
+      "platform": "AWS",
+      "configuration_members": [
+        "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/terraform/aws/db-app.tf"
+      ],
+      "upstream_claim_members": [
+        "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/README.md"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "terragoat_aws_rds_public_flag_vpc_ingress",
+          "member": "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/terraform/aws/db-app.tf",
+          "literal_fragments_verified": 5,
+          "literal_interpretation": "The RDS resource requests public accessibility, while its attached database security-group ingress is scoped to the VPC CIDR rather than 0.0.0.0/0.",
+          "result": "verified_against_frozen_source"
+        },
+        {
+          "assertion_id": "terragoat_aws_ec2_userdata_db_material",
+          "member": "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/terraform/aws/db-app.tf",
+          "literal_fragments_verified": 5,
+          "literal_interpretation": "The EC2 user-data template renders the RDS endpoint, username, and password into a local PHP database configuration and uses them for a MySQL connection.",
+          "result": "verified_against_frozen_source"
+        }
+      ],
+      "mandatory_claim_count": 3,
+      "evidence_status": "frozen_source_literals_verified_awaiting_semantic_validation_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null,
+      "audit_result": "references_verified_candidate_not_gold"
+    },
+    {
+      "case_id": "terragoat_azure_mysql_public_transport",
+      "source_id": "terragoat",
+      "platform": "Azure",
+      "configuration_members": [
+        "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/terraform/azure/sql.tf"
+      ],
+      "upstream_claim_members": [
+        "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/README.md"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "terragoat_azure_mysql_public_ssl_disabled",
+          "member": "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/terraform/azure/sql.tf",
+          "literal_fragments_verified": 3,
+          "literal_interpretation": "The Azure MySQL resource enables its public network surface and disables mandatory SSL, but the file alone does not prove an effective firewall rule or authenticated data access.",
+          "result": "verified_against_frozen_source"
+        }
+      ],
+      "mandatory_claim_count": 3,
+      "evidence_status": "frozen_source_literals_verified_awaiting_semantic_validation_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null,
+      "audit_result": "references_verified_candidate_not_gold"
+    },
+    {
+      "case_id": "terragoat_gcp_anonymous_gcs_read",
+      "source_id": "terragoat",
+      "platform": "GCP",
+      "configuration_members": [
+        "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/terraform/gcp/gcs.tf"
+      ],
+      "upstream_claim_members": [
+        "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/README.md"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "terragoat_gcp_allusers_object_viewer",
+          "member": "terragoat-729f8da62c6a85ce4af5ad3d123de97776d954c4/terraform/gcp/gcs.tf",
+          "literal_fragments_verified": 4,
+          "literal_interpretation": "The frozen GCP stack binds allUsers to roles/storage.objectViewer on the declared bucket; effective permissions and deployed runtime behavior still require provider-native and active verification.",
+          "result": "verified_against_frozen_source"
+        }
+      ],
+      "mandatory_claim_count": 3,
+      "evidence_status": "frozen_source_literals_verified_awaiting_semantic_validation_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null,
+      "audit_result": "references_verified_candidate_not_gold"
+    },
+    {
+      "case_id": "cloudfoxable_double_tap_secret_path",
+      "source_id": "cloudfoxable",
+      "platform": "AWS",
+      "configuration_members": [
+        "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/double_tap.tf"
+      ],
+      "upstream_claim_members": [
+        "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/challenge.yml"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "cloudfoxable_double_tap_secret_role",
+          "member": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/double_tap.tf",
+          "literal_fragments_verified": 6,
+          "literal_interpretation": "The frozen challenge declares DT_flag and attaches a policy permitting GetSecretValue on that exact secret to the double_tap_secret EC2 role.",
+          "result": "verified_against_frozen_source"
+        },
+        {
+          "assertion_id": "cloudfoxable_double_tap_starting_role_lambda_chain",
+          "member": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/double_tap.tf",
+          "literal_fragments_verified": 9,
+          "literal_interpretation": "The starting-user trust, Lambda create/invoke and constrained PassRole permissions, and a Lambda role with tag-conditioned EC2 actions are all present; these literals do not by themselves prove the complete exploit chain.",
+          "result": "verified_against_frozen_source"
+        }
+      ],
+      "mandatory_claim_count": 3,
+      "evidence_status": "frozen_source_literals_verified_awaiting_semantic_validation_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null,
+      "audit_result": "references_verified_candidate_not_gold"
+    },
+    {
+      "case_id": "cloudfoxable_search1_elasticsearch_exposure",
+      "source_id": "cloudfoxable",
+      "platform": "AWS",
+      "configuration_members": [
+        "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/search1and2.tf"
+      ],
+      "upstream_claim_members": [
+        "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/challenge.yml"
+      ],
+      "configuration_assertions": [
+        {
+          "assertion_id": "cloudfoxable_search1_ip_scoped_es_policy",
+          "member": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/search1and2.tf",
+          "literal_fragments_verified": 7,
+          "literal_interpretation": "The Elasticsearch domain resource policy permits three HTTP actions to any principal only when the request source matches the configured single-IP CIDR.",
+          "result": "verified_against_frozen_source"
+        },
+        {
+          "assertion_id": "cloudfoxable_search1_seeded_test_document",
+          "member": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/search1and2.tf",
+          "literal_fragments_verified": 3,
+          "literal_interpretation": "The frozen challenge includes a deployment-time provisioner that targets the domain endpoint and attempts to seed webserver-log test documents.",
+          "result": "verified_against_frozen_source"
+        }
+      ],
+      "mandatory_claim_count": 3,
+      "evidence_status": "frozen_source_literals_verified_awaiting_semantic_validation_native_analysis_and_runtime_probe",
+      "gold_label": null,
+      "label_origin": null,
+      "audit_result": "references_verified_candidate_not_gold"
+    }
+  ]
+}

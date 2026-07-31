@@ -1,0 +1,1653 @@
+{
+  "inventory_version": "1.0.0",
+  "inventory_kind": "label_free_oracle_scope_candidates",
+  "status": "not_frozen_not_gold",
+  "bindings": {
+    "oracle_registry": {
+      "path": "data/real_sources/oracle/executable_oracle_registry_v1.json",
+      "sha256": "ad754679d199574fd9bb01a8d7aa6076efe158c9197e176cab3739a380181d4c",
+      "bytes": 142139
+    },
+    "runtime_packet": {
+      "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+      "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+      "bytes": 7375251
+    },
+    "configuration_packet": {
+      "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+      "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+      "bytes": 406477
+    }
+  },
+  "policy": {
+    "scope_candidates_are_frozen_scope": false,
+    "scope_candidates_are_truth_labels": false,
+    "empty_observation_is_negative_evidence": false,
+    "generated_events": 0,
+    "generated_labels": 0
+  },
+  "summary": {
+    "independence_groups": 40,
+    "runtime_groups": 30,
+    "runtime_groups_with_observations": 22,
+    "runtime_groups_without_observations": 8,
+    "configuration_groups": 10,
+    "candidates_with_all_scope_fields_observed": 7,
+    "single_claim_scope_candidates": 2,
+    "platform_counts": {
+      "AWS": 28,
+      "AZURE": 5,
+      "GCP": 7
+    }
+  },
+  "candidates": [
+    {
+      "independence_group": "cloudgoat-scenario:cloud_breach_s3",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-dee846f3c87a47674ae2",
+        "case_id": "cloudgoat:aws:cloud_breach_s3",
+        "runtime_instance_id": "instance-fb087c5e71c13441aa22",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "05204fdc029c55b3981d5c1023f8432f18f6e4ea09ac89dd9207ccb4be038e69"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::123456789123:user/pedro",
+          "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40"
+        ],
+        "actions": [
+          "compute-optimizer.amazonaws.com:GetEnrollmentStatus",
+          "ec2.amazonaws.com:DescribeAccountAttributes",
+          "ec2.amazonaws.com:DescribeAddresses",
+          "ec2.amazonaws.com:DescribeAvailabilityZones",
+          "ec2.amazonaws.com:DescribeClassicLinkInstances",
+          "ec2.amazonaws.com:DescribeHosts",
+          "ec2.amazonaws.com:DescribeInstanceAttribute",
+          "ec2.amazonaws.com:DescribeInstanceCreditSpecifications",
+          "ec2.amazonaws.com:DescribeInstanceStatus",
+          "ec2.amazonaws.com:DescribeInstanceTypes",
+          "ec2.amazonaws.com:DescribeInstances",
+          "ec2.amazonaws.com:DescribeKeyPairs",
+          "ec2.amazonaws.com:DescribeLaunchTemplates",
+          "ec2.amazonaws.com:DescribePlacementGroups",
+          "ec2.amazonaws.com:DescribeSecurityGroups",
+          "ec2.amazonaws.com:DescribeSnapshots",
+          "ec2.amazonaws.com:DescribeTags",
+          "ec2.amazonaws.com:DescribeVolumeStatus",
+          "ec2.amazonaws.com:DescribeVolumes",
+          "ec2.amazonaws.com:DescribeVolumesModifications",
+          "elasticloadbalancing.amazonaws.com:DescribeLoadBalancers",
+          "monitoring.amazonaws.com:DescribeAlarms",
+          "s3.amazonaws.com:GetObject",
+          "s3.amazonaws.com:ListBuckets",
+          "s3.amazonaws.com:ListObjects",
+          "sts.amazonaws.com:AssumeRole"
+        ],
+        "resources": [
+          "request.DescribeInstanceCreditSpecificationsRequest.InstanceId.content=i-0317f6c6b66ae9c40",
+          "request.DescribeInstanceCreditSpecificationsRequest.InstanceId.content=i-044b1baf4c96e1b62",
+          "request.DescribeInstanceCreditSpecificationsRequest.InstanceId.tag=1",
+          "request.bucketName=mordors3stack-s3bucket-llp2yingx64a",
+          "request.instanceId=i-0317f6c6b66ae9c40",
+          "request.instanceId=i-044b1baf4c96e1b62",
+          "request.instancesSet.item[0].instanceId=i-0317f6c6b66ae9c40",
+          "request.instancesSet.item[0].instanceId=i-044b1baf4c96e1b62",
+          "request.instancesSet.items[0].instanceId=i-0317f6c6b66ae9c40",
+          "request.instancesSet.items[0].instanceId=i-044b1baf4c96e1b62",
+          "request.instancesSet.items[1].instanceId=i-044b1baf4c96e1b62",
+          "request.key=ring.txt"
+        ],
+        "network_origins": [
+          "1.2.3.4",
+          "ec2.amazonaws.com"
+        ],
+        "time_window": [
+          "2020-09-14T00:44:20.000Z",
+          "2020-09-14T01:13:20.000Z"
+        ]
+      },
+      "observation_count": 103,
+      "all_scope_fields_observed": true,
+      "unresolved_fields": [],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m1_ssrf_dynamodb",
+      "category": "configuration",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-7527faf4875725de244e",
+        "case_id": "awsgoat_m1_ssrf_dynamodb",
+        "runtime_instance_id": null,
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "c3bde1c72a812e06a87063ba5b3bdf46fd4eae79f62de9011436dfbdfdcef2b9"
+      },
+      "scope_candidate_status": "deployment_resolution_required",
+      "scope_fields": {
+        "principals": [],
+        "actions": [
+          "ListTables",
+          "PutItem",
+          "Scan"
+        ],
+        "resources": [
+          "service_hint:Amazon DynamoDB"
+        ],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "principals",
+        "network_origins",
+        "time_window",
+        "exact_resource_identifiers"
+      ],
+      "selection_semantics": "operation and service hints copied from byte-verified upstream configuration; deployment must resolve exact live scope"
+    },
+    {
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m2_ecs_secret_rds_credentials",
+      "category": "configuration",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-902035ad3c34b4af9a4c",
+        "case_id": "awsgoat_m2_ecs_secret_rds_credentials",
+        "runtime_instance_id": null,
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "7d9834932c6896da4a4ccea07a0b96054418f791ebfe159fb84018d3cdf3355e"
+      },
+      "scope_candidate_status": "deployment_resolution_required",
+      "scope_fields": {
+        "principals": [],
+        "actions": [
+          "GetSecretValue",
+          "ListSecrets"
+        ],
+        "resources": [
+          "service_hint:AWS Secrets Manager"
+        ],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "principals",
+        "network_origins",
+        "time_window",
+        "exact_resource_identifiers"
+      ],
+      "selection_semantics": "operation and service hints copied from byte-verified upstream configuration; deployment must resolve exact live scope"
+    },
+    {
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_prod_dev_blob_control_pair",
+      "category": "configuration",
+      "platform": "AZURE",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-d627a1fc4bd7ff5b85c8",
+        "case_id": "azuregoat_prod_dev_blob_control_pair",
+        "runtime_instance_id": null,
+        "platform": "AZURE",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "51810be132a6d682de0dde9a519128b0172c79eae991c1034ee9cfed19ee2784"
+      },
+      "scope_candidate_status": "deployment_resolution_required",
+      "scope_fields": {
+        "principals": [],
+        "actions": [
+          "List container",
+          "Read blob"
+        ],
+        "resources": [
+          "service_hint:Azure Blob Storage"
+        ],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "principals",
+        "network_origins",
+        "time_window",
+        "exact_resource_identifiers"
+      ],
+      "selection_semantics": "operation and service hints copied from byte-verified upstream configuration; deployment must resolve exact live scope"
+    },
+    {
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_ssrf_cosmos_storage",
+      "category": "configuration",
+      "platform": "AZURE",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-6570ae4de813424f59ae",
+        "case_id": "azuregoat_ssrf_cosmos_storage",
+        "runtime_instance_id": null,
+        "platform": "AZURE",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "fefb8f73af1038cd29e4c1b2e1e3c9ae149d9377f46a6ddc4a60b1018f779c3f"
+      },
+      "scope_candidate_status": "deployment_resolution_required",
+      "scope_fields": {
+        "principals": [],
+        "actions": [
+          "Blob read/list",
+          "Cosmos DB item read/write"
+        ],
+        "resources": [
+          "service_hint:Azure Cosmos DB and Azure Blob Storage"
+        ],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "principals",
+        "network_origins",
+        "time_window",
+        "exact_resource_identifiers"
+      ],
+      "selection_semantics": "operation and service hints copied from byte-verified upstream configuration; deployment must resolve exact live scope"
+    },
+    {
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_double_tap_secret_path",
+      "category": "configuration",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-388a45eb9624134a066e",
+        "case_id": "cloudfoxable_double_tap_secret_path",
+        "runtime_instance_id": null,
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "2f255d8861cfb037ae590df56d8c533e19e6d941a76b1fabef1bfc7b5f7b8f1c"
+      },
+      "scope_candidate_status": "deployment_resolution_required",
+      "scope_fields": {
+        "principals": [],
+        "actions": [
+          "iam:PassRole",
+          "lambda:CreateFunction",
+          "lambda:InvokeFunction",
+          "secretsmanager:GetSecretValue",
+          "sts:AssumeRole",
+          "tag-conditioned EC2 action"
+        ],
+        "resources": [
+          "service_hint:AWS Secrets Manager"
+        ],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "principals",
+        "network_origins",
+        "time_window",
+        "exact_resource_identifiers"
+      ],
+      "selection_semantics": "operation and service hints copied from byte-verified upstream configuration; deployment must resolve exact live scope"
+    },
+    {
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_search1_elasticsearch_exposure",
+      "category": "configuration",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-dd0d97308423d0ee30c8",
+        "case_id": "cloudfoxable_search1_elasticsearch_exposure",
+        "runtime_instance_id": null,
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "c32785dbcfd91a787c03e71797cc8a4e4aa978c15b958e4983c68bad8345eaf6"
+      },
+      "scope_candidate_status": "deployment_resolution_required",
+      "scope_fields": {
+        "principals": [],
+        "actions": [
+          "es:ESHttpGet",
+          "network connect HTTPS",
+          "paired out-of-scope denial",
+          "scoped test-document read"
+        ],
+        "resources": [
+          "service_hint:Amazon Elasticsearch Service"
+        ],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "principals",
+        "network_origins",
+        "time_window",
+        "exact_resource_identifiers"
+      ],
+      "selection_semantics": "operation and service hints copied from byte-verified upstream configuration; deployment must resolve exact live scope"
+    },
+    {
+      "independence_group": "configuration-lineage:gcpgoat:gcpgoat_anonymous_bucket_policy_transition",
+      "category": "configuration",
+      "platform": "GCP",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-dc80368fc16572d85b8a",
+        "case_id": "gcpgoat_anonymous_bucket_policy_transition",
+        "runtime_instance_id": null,
+        "platform": "GCP",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "853b905626007f9b5aab270a564dbb6fcb6e2fcb203c9e133c72b4ae2a4c8746"
+      },
+      "scope_candidate_status": "deployment_resolution_required",
+      "scope_fields": {
+        "principals": [],
+        "actions": [
+          "storage.buckets.getIamPolicy",
+          "storage.buckets.setIamPolicy",
+          "storage.objects.list"
+        ],
+        "resources": [
+          "service_hint:Google Cloud Storage"
+        ],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "principals",
+        "network_origins",
+        "time_window",
+        "exact_resource_identifiers"
+      ],
+      "selection_semantics": "operation and service hints copied from byte-verified upstream configuration; deployment must resolve exact live scope"
+    },
+    {
+      "independence_group": "configuration-lineage:terragoat:terragoat_aws_ec2_userdata_to_rds",
+      "category": "configuration",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-2b2cbd6f81eda1591974",
+        "case_id": "terragoat_aws_ec2_userdata_to_rds",
+        "runtime_instance_id": null,
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "48df1512d24efb5ebeeb6cd7bc66ac176f94a2ddacf44cb3bee71c9e93bdcb88"
+      },
+      "scope_candidate_status": "deployment_resolution_required",
+      "scope_fields": {
+        "principals": [],
+        "actions": [
+          "database authentication",
+          "network connect TCP 3306",
+          "scoped SELECT test"
+        ],
+        "resources": [
+          "service_hint:Amazon RDS for MySQL"
+        ],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "principals",
+        "network_origins",
+        "time_window",
+        "exact_resource_identifiers"
+      ],
+      "selection_semantics": "operation and service hints copied from byte-verified upstream configuration; deployment must resolve exact live scope"
+    },
+    {
+      "independence_group": "configuration-lineage:terragoat:terragoat_azure_mysql_public_transport",
+      "category": "configuration",
+      "platform": "AZURE",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-5df25d5f412e824928a5",
+        "case_id": "terragoat_azure_mysql_public_transport",
+        "runtime_instance_id": null,
+        "platform": "AZURE",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "f7ed089a2b5d43704cedf43d169ee74ec0725835f3e1c6b08e5e0bb1a1c9d4ed"
+      },
+      "scope_candidate_status": "deployment_resolution_required",
+      "scope_fields": {
+        "principals": [],
+        "actions": [
+          "TCP/MySQL connection",
+          "database authentication",
+          "public endpoint resolution",
+          "scoped SELECT test"
+        ],
+        "resources": [
+          "service_hint:Azure Database for MySQL"
+        ],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "principals",
+        "network_origins",
+        "time_window",
+        "exact_resource_identifiers"
+      ],
+      "selection_semantics": "operation and service hints copied from byte-verified upstream configuration; deployment must resolve exact live scope"
+    },
+    {
+      "independence_group": "configuration-lineage:terragoat:terragoat_gcp_anonymous_gcs_read",
+      "category": "configuration",
+      "platform": "GCP",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-600311c8d9762295fb8a",
+        "case_id": "terragoat_gcp_anonymous_gcs_read",
+        "runtime_instance_id": null,
+        "platform": "GCP",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "05f90c3e752e16e2dcfc3d245e6b4cdd0746d17212095943f89bb9d838651661"
+      },
+      "scope_candidate_status": "deployment_resolution_required",
+      "scope_fields": {
+        "principals": [],
+        "actions": [
+          "storage.objects.get",
+          "storage.objects.list"
+        ],
+        "resources": [
+          "service_hint:Google Cloud Storage"
+        ],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "principals",
+        "network_origins",
+        "time_window",
+        "exact_resource_identifiers"
+      ],
+      "selection_semantics": "operation and service hints copied from byte-verified upstream configuration; deployment must resolve exact live scope"
+    },
+    {
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "category": "runtime_telemetry",
+      "platform": "GCP",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-403a734fe6d1a310e3c6",
+        "case_id": "crosscloud:gcp:archive_collected_data",
+        "runtime_instance_id": "episode-4d87767d5bc8c617",
+        "platform": "GCP",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "90e91adfdbec86c0686c3d047615b6c558d5519cf5891221965588d7adea78e2"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "cloud-attacks@PROJECT_ID.iam.gserviceaccount.com"
+        ],
+        "actions": [
+          "cloudkms.googleapis.com:CreateCryptoKey",
+          "cloudkms.googleapis.com:CreateKeyRing",
+          "cloudkms.googleapis.com:SetIamPolicy",
+          "storage.googleapis.com:storage.buckets.create",
+          "storage.googleapis.com:storage.buckets.update"
+        ],
+        "resources": [],
+        "network_origins": [
+          "REDACTED_IP"
+        ],
+        "time_window": [
+          "2024-03-22T20:26:53.595512220Z",
+          "2024-03-22T20:28:06.671540415Z"
+        ]
+      },
+      "observation_count": 6,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "crosscloud-family:automated_collection",
+      "category": "runtime_telemetry",
+      "platform": "GCP",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-d89e800c28f42ef16ddd",
+        "case_id": "crosscloud:gcp:automated_collection",
+        "runtime_instance_id": "episode-af66459843f7888b",
+        "platform": "GCP",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "5e1ad1dbed95fd5bd8a7afa4cb334d2860520d5990b5b41446e0b78e71c04a75"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "cloud-attacks@PROJECT_ID.iam.gserviceaccount.com"
+        ],
+        "actions": [
+          "cloudresourcemanager.googleapis.com:SetIamPolicy",
+          "storage.googleapis.com:storage.buckets.create",
+          "storage.googleapis.com:storage.buckets.delete",
+          "storagetransfer.googleapis.com:google.storagetransfer.v1.StorageTransferService.CreateTransferJob",
+          "storagetransfer.googleapis.com:google.storagetransfer.v1.StorageTransferService.DeleteTransferJob"
+        ],
+        "resources": [],
+        "network_origins": [
+          "IP"
+        ],
+        "time_window": [
+          "2024-10-14T21:54:47.436759528Z",
+          "2024-10-14T21:58:33.183127389Z"
+        ]
+      },
+      "observation_count": 7,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-cab9ef5939d8b07fd879",
+        "case_id": "crosscloud:aws:automated_exfiltration",
+        "runtime_instance_id": "episode-a9d7c939c6c45573",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "08bb2247398809fe009bd86285f78cc3c374f1faedc4684c11d49cdcebe64335"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::ACCOUNT_ID:root",
+          "arn:aws:sts::ACCOUNT_ID:assumed-role/AWSServiceRoleForResourceExplorer/resource-explorer-2",
+          "arn:aws:sts::ACCOUNT_ID:assumed-role/LambdaS3Role/myLambdaFunction",
+          "cloudtrail.amazonaws.com",
+          "lambda.amazonaws.com",
+          "resource-explorer-2.amazonaws.com"
+        ],
+        "actions": [
+          "glue.amazonaws.com:GetCrawlers",
+          "iam.amazonaws.com:AttachRolePolicy",
+          "iam.amazonaws.com:CreateRole",
+          "iam.amazonaws.com:DeleteRole",
+          "iam.amazonaws.com:DetachRolePolicy",
+          "iot.amazonaws.com:ListTopicRules",
+          "kms.amazonaws.com:GenerateDataKey",
+          "lambda.amazonaws.com:AddPermission20150331v2",
+          "lambda.amazonaws.com:CreateFunction20150331",
+          "lambda.amazonaws.com:DeleteFunction20150331",
+          "logs.amazonaws.com:CreateLogStream",
+          "s3.amazonaws.com:CreateBucket",
+          "s3.amazonaws.com:DeleteBucket",
+          "s3.amazonaws.com:GetBucketAcl",
+          "s3.amazonaws.com:PutBucketNotification",
+          "sqs.amazonaws.com:CreateQueue",
+          "sqs.amazonaws.com:DeleteQueue",
+          "sts.amazonaws.com:AssumeRole",
+          "sts.amazonaws.com:GetCallerIdentity"
+        ],
+        "resources": [],
+        "network_origins": [
+          "IP",
+          "REDACTED_IP",
+          "cloudtrail.amazonaws.com",
+          "lambda.amazonaws.com",
+          "resource-explorer-2.amazonaws.com"
+        ],
+        "time_window": [
+          "2025-09-24T04:16:42Z",
+          "2025-09-24T04:23:55Z"
+        ]
+      },
+      "observation_count": 117,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-731a976d5e709393a87f",
+        "case_id": "crosscloud:aws:credentials_from_password_stores",
+        "runtime_instance_id": "episode-8bb4bc556cc245b4",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "6fec947eefa486725fa9caeb08ca83d0a24e051e6dae36add34354523713b7ce"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::ACCOUNT_ID:root",
+          "arn:aws:iam::ACCOUNT_ID:user/myusername",
+          "secretsmanager.amazonaws.com"
+        ],
+        "actions": [
+          "iam.amazonaws.com:AttachUserPolicy",
+          "iam.amazonaws.com:CreateAccessKey",
+          "iam.amazonaws.com:CreateUser",
+          "iam.amazonaws.com:DeleteAccessKey",
+          "kms.amazonaws.com:Decrypt",
+          "kms.amazonaws.com:GenerateDataKey",
+          "secretsmanager.amazonaws.com:CreateSecret",
+          "secretsmanager.amazonaws.com:DeleteSecret",
+          "secretsmanager.amazonaws.com:EndSecretVersionDelete",
+          "secretsmanager.amazonaws.com:GetSecretValue",
+          "secretsmanager.amazonaws.com:StartSecretVersionDelete"
+        ],
+        "resources": [],
+        "network_origins": [
+          "IP",
+          "secretsmanager.amazonaws.com"
+        ],
+        "time_window": [
+          "2024-10-07T20:34:01Z",
+          "2024-10-07T20:35:00Z"
+        ]
+      },
+      "observation_count": 18,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "crosscloud-family:data_destruction",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-be2b13b8ea8838f8cad2",
+        "case_id": "crosscloud:aws:data_destruction",
+        "runtime_instance_id": "episode-350e721ec4452bc6",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "b77a8d7cf3b73fa1319cd26bd31cc7cba7cb37f96e9b46ed7414eda478619ca8"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::ACCOUNT_ID:root",
+          "cloudtrail.amazonaws.com"
+        ],
+        "actions": [
+          "kms.amazonaws.com:GenerateDataKey",
+          "logs.amazonaws.com:FilterLogEvents",
+          "s3.amazonaws.com:CreateBucket"
+        ],
+        "resources": [],
+        "network_origins": [
+          "IP",
+          "cloudtrail.amazonaws.com"
+        ],
+        "time_window": [
+          "2025-01-11T19:48:39Z",
+          "2025-01-11T19:56:11Z"
+        ]
+      },
+      "observation_count": 20,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "category": "runtime_telemetry",
+      "platform": "GCP",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-44fefd6e9f3ca3389ff7",
+        "case_id": "crosscloud:gcp:data_encrypted_for_impact",
+        "runtime_instance_id": "episode-21269834a06778f3",
+        "platform": "GCP",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "092360339574657bbc9fe09b463133b583c084ca52af6729a109fe43b6322cac"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "cloud-attacks@PROJECT_ID.iam.gserviceaccount.com"
+        ],
+        "actions": [
+          "cloudkms.googleapis.com:CreateCryptoKey",
+          "cloudkms.googleapis.com:CreateKeyRing",
+          "cloudkms.googleapis.com:SetIamPolicy",
+          "storage.googleapis.com:storage.buckets.create",
+          "storage.googleapis.com:storage.buckets.update"
+        ],
+        "resources": [],
+        "network_origins": [
+          "REDACTED_IP"
+        ],
+        "time_window": [
+          "2024-08-30T16:00:23.334150897Z",
+          "2024-08-30T16:00:31.981217193Z"
+        ]
+      },
+      "observation_count": 5,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "category": "runtime_telemetry",
+      "platform": "GCP",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-73567debfd5d7975131f",
+        "case_id": "crosscloud:gcp:inhibit_system_recovery",
+        "runtime_instance_id": "episode-1d68bed6d797bfe4",
+        "platform": "GCP",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "1ab0cce2fdaf0c0ff2117b7305c0e056016c57ff23cf62dd08b7ac2d5f46227c"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "cloud-attacks@PROJECT_ID.iam.gserviceaccount.com"
+        ],
+        "actions": [
+          "storage.googleapis.com:storage.buckets.create"
+        ],
+        "resources": [],
+        "network_origins": [
+          "REDACTED_IP"
+        ],
+        "time_window": [
+          "2024-08-30T16:19:42.637356046Z",
+          "2024-08-30T16:19:42.637356046Z"
+        ]
+      },
+      "observation_count": 1,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-ac2713479d436efde740",
+        "case_id": "crosscloud:aws:scheduled_transfer",
+        "runtime_instance_id": "episode-554e90ab5ebf85dc",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "1f85d47464e171ebf1c128fb2d51d87083906e917e432d0588fde6b5574a6756"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "AWS Internal",
+          "arn:aws:iam::ACCOUNT_ID:root",
+          "arn:aws:sts::ACCOUNT_ID:assumed-role/LambdaS3Role/myLambdaFunction",
+          "cloudtrail.amazonaws.com",
+          "lambda.amazonaws.com"
+        ],
+        "actions": [
+          "events.amazonaws.com:DeleteRule",
+          "events.amazonaws.com:PutRule",
+          "events.amazonaws.com:PutTargets",
+          "events.amazonaws.com:RemoveTargets",
+          "iam.amazonaws.com:AttachRolePolicy",
+          "iam.amazonaws.com:CreateRole",
+          "iam.amazonaws.com:DeleteRole",
+          "iam.amazonaws.com:DetachRolePolicy",
+          "kms.amazonaws.com:GenerateDataKey",
+          "lambda.amazonaws.com:AddPermission20150331v2",
+          "lambda.amazonaws.com:CreateFunction20150331",
+          "lambda.amazonaws.com:DeleteFunction20150331",
+          "lambda.amazonaws.com:GetFunctionConfiguration20150331v2",
+          "logs.amazonaws.com:CreateLogStream",
+          "monitoring.amazonaws.com:DescribeAlarms",
+          "notifications.amazonaws.com:ListManagedNotificationEvents",
+          "s3.amazonaws.com:CreateBucket",
+          "s3.amazonaws.com:DeleteBucket",
+          "s3.amazonaws.com:PutBucketNotification",
+          "sqs.amazonaws.com:CreateQueue",
+          "sqs.amazonaws.com:DeleteQueue",
+          "sts.amazonaws.com:AssumeRole",
+          "sts.amazonaws.com:GetCallerIdentity"
+        ],
+        "resources": [],
+        "network_origins": [
+          "AWS Internal",
+          "IP",
+          "REDACTED_IP",
+          "cloudtrail.amazonaws.com",
+          "lambda.amazonaws.com"
+        ],
+        "time_window": [
+          "2025-09-23T18:51:33Z",
+          "2025-09-23T18:57:43Z"
+        ]
+      },
+      "observation_count": 63,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "category": "runtime_telemetry",
+      "platform": "GCP",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-81dfe4c7b8ab5c8b931b",
+        "case_id": "crosscloud:gcp:steal_application_access_token",
+        "runtime_instance_id": "episode-94ee3739d708fe1d",
+        "platform": "GCP",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "c61d43659769ce9837cbab3def58e9e51160119f2bbfacae49314b53b4874d2e"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "cloud-attacks@PROJECT_ID.iam.gserviceaccount.com"
+        ],
+        "actions": [
+          "iam.googleapis.com:google.iam.admin.v1.CreateServiceAccount",
+          "iam.googleapis.com:google.iam.admin.v1.CreateServiceAccountKey",
+          "iam.googleapis.com:google.iam.admin.v1.DeleteServiceAccount",
+          "storage.googleapis.com:storage.buckets.create",
+          "storage.googleapis.com:storage.buckets.delete",
+          "storage.googleapis.com:storage.setIamPermissions"
+        ],
+        "resources": [],
+        "network_origins": [
+          "IP"
+        ],
+        "time_window": [
+          "2024-12-12T21:04:13.022334672Z",
+          "2024-12-12T21:05:53.581599615Z"
+        ]
+      },
+      "observation_count": 9,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "category": "runtime_telemetry",
+      "platform": "AZURE",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-f47730162206637c5217",
+        "case_id": "crosscloud:azure:unsecured_credentials",
+        "runtime_instance_id": "episode-2f13529bdce728b1",
+        "platform": "AZURE",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "2960b59a4f258f211674d1f028b252f727d1d1209c9660fb0e13c8ba497e8b3e"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "REDACTED_GUID"
+        ],
+        "actions": [
+          "Microsoft.Authorization:Microsoft.Authorization/roleAssignments/write",
+          "Microsoft.OperationalInsights:Microsoft.OperationalInsights/workspaces/write",
+          "Microsoft.Storage:Microsoft.Authorization/policies/audit/action",
+          "Microsoft.Storage:Microsoft.Authorization/policies/auditIfNotExists/action",
+          "Microsoft.Storage:Microsoft.Storage/storageAccounts/listKeys/action",
+          "Microsoft.Storage:Microsoft.Storage/storageAccounts/read",
+          "Microsoft.Storage:Microsoft.Storage/storageAccounts/write"
+        ],
+        "resources": [],
+        "network_origins": [],
+        "time_window": [
+          "2024-10-27T21:46:02.1821024Z",
+          "2024-10-27T21:54:30.8776029Z"
+        ]
+      },
+      "observation_count": 14,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "network_origins",
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-25bf98de43a17a31cac6",
+        "case_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+        "runtime_instance_id": "instance-d5a1ecf002946f732e37",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "394b7d554370b5b94194308617489846f11c93dc585b58aa0aa8b8c766453665"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "actions",
+        "network_origins",
+        "principals",
+        "resources",
+        "time_window"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-69487543976a7ad7f3b0",
+        "case_id": "splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+        "runtime_instance_id": "instance-638879d57461dab165a1",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "562be532c87c9331371d44f670528007bc4d5b45667a78ca1aed9b79c1f4a9fa"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "actions",
+        "network_origins",
+        "principals",
+        "resources",
+        "time_window"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "splunk-technique:T1098.001",
+      "category": "runtime_telemetry",
+      "platform": "AZURE",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-0e6011ac72ddc5f87a1a",
+        "case_id": "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential",
+        "runtime_instance_id": "instance-821cc2827e0ce8e42251",
+        "platform": "AZURE",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "f9bf88a881731d92cc028848fae34901881bd1c8d43e5b1b4297f3e75eca519f"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "actions",
+        "network_origins",
+        "principals",
+        "resources",
+        "time_window"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "splunk-technique:T1110.002",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-6cabc2e690a4aab1755d",
+        "case_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+        "runtime_instance_id": "instance-5f351c3f035d3c08971f",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "5796438dc431b1a5800bfe2cb9d9ed79a1f99d8d4c0909912093862f7b01a381"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "actions",
+        "network_origins",
+        "principals",
+        "resources",
+        "time_window"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "splunk-technique:T1486",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-dea5c2c928061578d4fb",
+        "case_id": "splunk:datasets/attack_techniques/T1486/s3_file_encryption",
+        "runtime_instance_id": "instance-aaa5f752a12d6fd66be7",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "da9d5aa7934d544b32a296a2c96d6357269fd58491f4f22d1a35d2370401af5a"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "actions",
+        "network_origins",
+        "principals",
+        "resources",
+        "time_window"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "splunk-technique:T1490",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-f87c6c29b100cf6c2c92",
+        "case_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+        "runtime_instance_id": "instance-85acc58c8feb9d4c8f1a",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "ea9a2e720ad75efbf9bf03073cef6b3da44bdb6b8f4eb9613b54de397c38deb7"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "actions",
+        "network_origins",
+        "principals",
+        "resources",
+        "time_window"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "splunk-technique:T1530",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-ed4e3f1350c88f69a363",
+        "case_id": "splunk:datasets/attack_techniques/T1530/aws_s3_public_bucket",
+        "runtime_instance_id": "instance-c0bb67803ca05fb0f0d5",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "b78bde0f2d197ac5f446dc6e475a557c294c932ccc77323c8f53d8a694bef098"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "actions",
+        "network_origins",
+        "principals",
+        "resources",
+        "time_window"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "splunk-technique:T1537",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-6518002236894fe3bed4",
+        "case_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+        "runtime_instance_id": "instance-67f3d25541725954cb24",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "1d07beb4abb6756c098707804bc9b4531ae606ea2871ced995a6c15f72548e74"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [],
+        "actions": [],
+        "resources": [],
+        "network_origins": [],
+        "time_window": []
+      },
+      "observation_count": 0,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "actions",
+        "network_origins",
+        "principals",
+        "resources",
+        "time_window"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "stratus-technique:T1496.A007",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-cb04649331ef37c0033d",
+        "case_id": "stratus:aws.exfiltration.rds-share-snapshot",
+        "runtime_instance_id": "instance-9a2d1fad976e3b436158",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "3501e129e36ade1e2a494933a44df08eb5cc517aba517506021ef299031f4d1f"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::171471557522:user/christophe"
+        ],
+        "actions": [
+          "rds.amazonaws.com:ModifyDBSnapshotAttribute"
+        ],
+        "resources": [],
+        "network_origins": [
+          "204.10.215.184"
+        ],
+        "time_window": [
+          "2024-08-01T12:38:06Z",
+          "2024-08-01T12:38:06Z"
+        ]
+      },
+      "observation_count": 1,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "stratus-technique:T1552.005",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-46b80e5d17297a908ad5",
+        "case_id": "stratus:aws.credential-access.ec2-steal-instance-credentials",
+        "runtime_instance_id": "instance-7f76fcbacfea6ab1d476",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "e6dc5eec8df62683273ab335a9b5868cd06dd08aa2949142aee0031b655aab12"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::017622104382:user/christophe",
+          "arn:aws:sts::017622104382:assumed-role/stratus-red-team-ec2-steal-credentials-role/i-786a3A8B5C0d92eF4"
+        ],
+        "actions": [
+          "ec2.amazonaws.com:DescribeInstances",
+          "ssm.amazonaws.com:DescribeInstanceInformation",
+          "ssm.amazonaws.com:GetCommandInvocation",
+          "ssm.amazonaws.com:SendCommand",
+          "sts.amazonaws.com:GetCallerIdentity"
+        ],
+        "resources": [
+          "request.instanceId=i-786a3A8B5C0d92eF4"
+        ],
+        "network_origins": [
+          "18.236.253.47"
+        ],
+        "time_window": [
+          "2024-08-02T08:22:39Z",
+          "2024-08-02T08:23:56Z"
+        ]
+      },
+      "observation_count": 45,
+      "all_scope_fields_observed": true,
+      "unresolved_fields": [],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "stratus-technique:T1562.008",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-36cd71af6223ba451fe5",
+        "case_id": "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+        "runtime_instance_id": "instance-e9e6c76389abad6f9f98",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "66c4b6a84216f7670c3120181796bb6f804441cc6f5eb3c40298b2248240e9c4"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::958312252124:user/christophe"
+        ],
+        "actions": [
+          "cloudtrail.amazonaws.com:PutEventSelectors"
+        ],
+        "resources": [],
+        "network_origins": [
+          "221.254.191.250"
+        ],
+        "time_window": [
+          "2024-07-31T12:50:02Z",
+          "2024-07-31T12:50:02Z"
+        ]
+      },
+      "observation_count": 1,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "stratus-technique:T1578.001",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-00b85231dcb5dbdd349b",
+        "case_id": "stratus:aws.exfiltration.ec2-share-ebs-snapshot",
+        "runtime_instance_id": "instance-c2ef6ed8736fdc5b055e",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "dbf8c65859321778417304ad467205b20afd77bd9f6bc8feae4267028bb92d97"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::756680937392:user/christophe"
+        ],
+        "actions": [
+          "ec2.amazonaws.com:ModifySnapshotAttribute"
+        ],
+        "resources": [
+          "request.snapshotId=snap-041993b54a9b3af6f"
+        ],
+        "network_origins": [
+          "253.76.43.253"
+        ],
+        "time_window": [
+          "2024-08-01T12:28:02Z",
+          "2024-08-01T12:28:02Z"
+        ]
+      },
+      "observation_count": 1,
+      "all_scope_fields_observed": true,
+      "unresolved_fields": [],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ec2-get-password-data",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-4e0cd98cebadc46c3c18",
+        "case_id": "stratus:aws.credential-access.ec2-get-password-data",
+        "runtime_instance_id": "instance-5c9b95ef863a591b7d52",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "43ead2744893d9670449157d7bcdfbe59d0e77de10587b8293b9af270e6c713a"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::457448411975:user/christophe",
+          "arn:aws:sts::457448411975:assumed-role/stratus-red-team-ec2-get-password-data-role/aws-go-sdk-1722375070115152000"
+        ],
+        "actions": [
+          "ec2.amazonaws.com:GetPasswordData",
+          "sts.amazonaws.com:AssumeRole"
+        ],
+        "resources": [
+          "request.instanceId=i-8hy3natzpp4ef7ri",
+          "request.instanceId=i-aq9pmsueolxr81r5",
+          "request.instanceId=i-awmjjnq5sr691kgp",
+          "request.instanceId=i-bf83vbyeoo24svtd",
+          "request.instanceId=i-bykprumj5lnfe4oh",
+          "request.instanceId=i-ce85lye2frdpml4s",
+          "request.instanceId=i-dcw41yq2wp8h1d58",
+          "request.instanceId=i-gjzajayb7tgntj7f",
+          "request.instanceId=i-gspajwz8z9wrutsz",
+          "request.instanceId=i-gz7w6xbdutwhlvb2",
+          "request.instanceId=i-i2jnm5swa59p4fxg",
+          "request.instanceId=i-jcoba14jc619sc9k",
+          "request.instanceId=i-l2yrvbrcwc3ytkcz",
+          "request.instanceId=i-n2d16wuklpqfdsr9",
+          "request.instanceId=i-ny0ek1fbv2k4irgb",
+          "request.instanceId=i-nzv1jjfn03nnujti",
+          "request.instanceId=i-okja04dckx6yg2uq",
+          "request.instanceId=i-ozzfav7qglzosg49",
+          "request.instanceId=i-p9e9ocan02xrzude",
+          "request.instanceId=i-qivk0oox9ac6grv7",
+          "request.instanceId=i-qsdkik5t0ihwxj43",
+          "request.instanceId=i-rbn1gvh843rzs87g",
+          "request.instanceId=i-t3wz01wvchd1i3ji",
+          "request.instanceId=i-vgu76uxucxlpp04e",
+          "request.instanceId=i-x7jwh6qy39glvq1r",
+          "request.instanceId=i-xjos2kzunblws25p",
+          "request.instanceId=i-yjhbbydwe3p29swd",
+          "request.instanceId=i-ymn0oq6iadzm0v0t",
+          "request.instanceId=i-yqe6th46jb26scec",
+          "request.instanceId=i-z4rfvoc4sgtoirf6"
+        ],
+        "network_origins": [
+          "200.249.253.51"
+        ],
+        "time_window": [
+          "2024-07-30T21:31:10Z",
+          "2024-07-30T21:31:21Z"
+        ]
+      },
+      "observation_count": 34,
+      "all_scope_fields_observed": true,
+      "unresolved_fields": [],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-9aec7d1dc066bb5cb539",
+        "case_id": "stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+        "runtime_instance_id": "instance-5266491fa3c3dc815793",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "a5bb0e5f8ba0c01ce14629ad36c349c2a2db1bf5f282979b1fe9b7845ca93c34"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::165109126369:user/christophe"
+        ],
+        "actions": [
+          "secretsmanager.amazonaws.com:BatchGetSecretValue"
+        ],
+        "resources": [],
+        "network_origins": [
+          "88.223.251.255"
+        ],
+        "time_window": [
+          "2024-07-31T12:29:16Z",
+          "2024-07-31T12:29:17Z"
+        ]
+      },
+      "observation_count": 5,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-d5e3da644f56c1a1eb47",
+        "case_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+        "runtime_instance_id": "instance-8111a8c6907ac5c47d1b",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "7462f1089b5a99f5a73c27951bc2405acd7498517dee6c2c75a334ef5b76a4d0"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::903144391865:user/christophe"
+        ],
+        "actions": [
+          "secretsmanager.amazonaws.com:GetSecretValue",
+          "secretsmanager.amazonaws.com:ListSecrets"
+        ],
+        "resources": [
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-0-28bajb",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-1-fXrpF0",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-10-DyLJjP",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-11-OyGWSO",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-12-DyLJjP",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-13-MNjL4W",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-14-3JB2S0",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-15-SAZN9Q",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-16-JcCztd",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-17-JF56OW",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-18-4Rzn83",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-19-fXrpF0",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-2-WNXFB1",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-3-DyLJjP",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-4-Rma50d",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-5-fyShdO",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-6-JcCztd",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-7-WNXFB1",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-8-jLR7H1",
+          "request.secretId=arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-9-BHrKxX"
+        ],
+        "network_origins": [
+          "253.201.144.253"
+        ],
+        "time_window": [
+          "2024-07-31T12:36:48Z",
+          "2024-07-31T12:36:52Z"
+        ]
+      },
+      "observation_count": 21,
+      "all_scope_fields_observed": true,
+      "unresolved_fields": [],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-77c8de1b71dc4d30a5c2",
+        "case_id": "stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+        "runtime_instance_id": "instance-056fe5fce11fa8d20b76",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "df2740e0d87f835b69397503b7bbdc6b08b59153671874312ba1b66aebe4cbeb"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::933175858973:user/christophe"
+        ],
+        "actions": [
+          "ssm.amazonaws.com:DescribeParameters",
+          "ssm.amazonaws.com:GetParameters"
+        ],
+        "resources": [],
+        "network_origins": [
+          "250.202.242.232"
+        ],
+        "time_window": [
+          "2024-08-01T15:26:55Z",
+          "2024-08-01T15:26:58Z"
+        ]
+      },
+      "observation_count": 10,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-e938bdcd05b8fba72456",
+        "case_id": "stratus:aws.defense-evasion.dns-delete-logs",
+        "runtime_instance_id": "instance-a354c1eca42299ff1bd7",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "413ae33b02f6d72d8b47b850eab79cb9afe0ce34949a7e9c0b6c98d5544c77c1"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::206821776919:user/christophe"
+        ],
+        "actions": [
+          "route53resolver.amazonaws.com:DeleteResolverQueryLogConfig"
+        ],
+        "resources": [],
+        "network_origins": [
+          "251.234.045.249"
+        ],
+        "time_window": [
+          "2024-07-31T14:23:46Z",
+          "2024-07-31T14:23:46Z"
+        ]
+      },
+      "observation_count": 1,
+      "all_scope_fields_observed": false,
+      "unresolved_fields": [
+        "resources"
+      ],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.discovery.ec2-download-user-data",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-0e3ddcfef89ef20ccd99",
+        "case_id": "stratus:aws.discovery.ec2-download-user-data",
+        "runtime_instance_id": "instance-d5d3e3288e05ad5cd89c",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "06566dbaf120da706784d9d53a4345458c9c0dc3b74c6b699f0e9fc27e830a29"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::321848314756:user/christophe",
+          "arn:aws:sts::321848314756:assumed-role/stratus-red-team-get-usr-data-role/aws-go-sdk-1722455550269043000"
+        ],
+        "actions": [
+          "ec2.amazonaws.com:DescribeInstanceAttribute",
+          "sts.amazonaws.com:AssumeRole"
+        ],
+        "resources": [
+          "request.instanceId=i-0c140b58",
+          "request.instanceId=i-1780bff0",
+          "request.instanceId=i-2c3565b4",
+          "request.instanceId=i-346d369e",
+          "request.instanceId=i-36d80d67",
+          "request.instanceId=i-3753597f",
+          "request.instanceId=i-42416187",
+          "request.instanceId=i-4cb766e5",
+          "request.instanceId=i-66a17941",
+          "request.instanceId=i-68604a68",
+          "request.instanceId=i-751e5b81",
+          "request.instanceId=i-95b86090",
+          "request.instanceId=i-cee23f5f",
+          "request.instanceId=i-df55c340",
+          "request.instanceId=i-eacdbb0b"
+        ],
+        "network_origins": [
+          "255.18.064.253"
+        ],
+        "time_window": [
+          "2024-07-31T19:52:31Z",
+          "2024-07-31T19:52:38Z"
+        ]
+      },
+      "observation_count": 19,
+      "all_scope_fields_observed": true,
+      "unresolved_fields": [],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    },
+    {
+      "independence_group": "stratus_red_team:stratus:aws.exfiltration.ec2-share-ami",
+      "category": "runtime_telemetry",
+      "platform": "AWS",
+      "selected_oracle_unit": {
+        "unit_id": "oracle-unit-c6e3f0dc894b14cb26ea",
+        "case_id": "stratus:aws.exfiltration.ec2-share-ami",
+        "runtime_instance_id": "instance-b36c72e16fa470622f78",
+        "platform": "AWS",
+        "selection_rule": "sha256(lineage) selects platform, then lexicographically smallest case_id/runtime_instance_id; frozen before Gold",
+        "selection_digest": "d15b2147d8cfa5899094c90e6d8c2b86c195c387feca388a419a3aa8362fa97e"
+      },
+      "scope_candidate_status": "observed_not_frozen",
+      "scope_fields": {
+        "principals": [
+          "arn:aws:iam::118238665043:user/christophe"
+        ],
+        "actions": [
+          "ec2.amazonaws.com:ModifyImageAttribute"
+        ],
+        "resources": [
+          "request.imageId=ami-de1fbCab6ccB03e6D"
+        ],
+        "network_origins": [
+          "253.19.58.252"
+        ],
+        "time_window": [
+          "2024-08-01T12:25:57Z",
+          "2024-08-01T12:25:57Z"
+        ]
+      },
+      "observation_count": 1,
+      "all_scope_fields_observed": true,
+      "unresolved_fields": [],
+      "selection_semantics": "all normalized values observed in the frozen selected runtime instance; no terminal edge or truth outcome selected"
+    }
+  ]
+}
