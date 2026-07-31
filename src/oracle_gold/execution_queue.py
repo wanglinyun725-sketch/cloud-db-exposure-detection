@@ -178,6 +178,21 @@ def _validate_policy(policy: Mapping[str, Any]) -> None:
     ):
         if safety.get(field) is not True:
             raise ValueError(f"mandatory safety control disabled: {field}")
+    evidence_contract = policy.get("evidence_contract")
+    if not isinstance(evidence_contract, Mapping):
+        raise ValueError("Oracle execution policy lacks evidence contract")
+    for field in (
+        "raw_stdout_stderr_preserved_when_non_sensitive",
+        "value_bearing_raw_responses_must_not_be_persisted",
+        "sensitive_fields_removed_before_persistence",
+        "sanitized_stdout_stderr_preserved",
+        "sha256_required",
+        "expected_outcome_hidden_from_agent",
+    ):
+        if evidence_contract.get(field) is not True:
+            raise ValueError(
+                f"mandatory evidence control disabled: {field}"
+            )
     if set(policy.get("provider_contracts") or {}) != {
         "AWS",
         "AZURE",

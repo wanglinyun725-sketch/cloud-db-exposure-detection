@@ -135,3 +135,17 @@ def test_every_contract_binds_pinned_stratus_implementation_bytes():
             len(member["sha256"]) == 64 and member["bytes"] > 0
             for member in upstream["members"]
         )
+
+
+def test_every_contract_has_post_cleanup_inventory_and_explicit_ownership():
+    built = _build()
+
+    for contract in built["contracts"]:
+        active = contract["authorized_active_probe"]
+        assert "post_cleanup_inventory_argv_template" in active
+        if contract["independence_group"].endswith(
+            "ssm-retrieve-securestring-parameters"
+        ):
+            serialized = json.dumps(contract)
+            assert "{{RUN_OWNED_PARAMETER_NAME}}" in serialized
+            assert "/pathbench/{{RUN_ID}}/canary" not in serialized

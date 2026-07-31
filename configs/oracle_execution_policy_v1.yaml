@@ -27,7 +27,10 @@ evidence_contract:
     - provider_native_analysis
     - authorized_active_probe
     - audit_telemetry
-  raw_stdout_stderr_preserved: true
+  raw_stdout_stderr_preserved_when_non_sensitive: true
+  value_bearing_raw_responses_must_not_be_persisted: true
+  sensitive_fields_removed_before_persistence: true
+  sanitized_stdout_stderr_preserved: true
   sha256_required: true
   wall_clock_time_required: true
   provider_request_id_required_when_available: true

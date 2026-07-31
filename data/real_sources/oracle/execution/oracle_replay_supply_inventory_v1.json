@@ -15,8 +15,8 @@
     },
     "probe_contracts": {
       "path": "data/real_sources/oracle/execution/oracle_probe_contracts_v1.json",
-      "sha256": "a37bdc5114bed6df7a34b5bf82909e6d5dab9618e7ae20947899d7ca7b4c50cc",
-      "bytes": 52396
+      "sha256": "3b0848ea33671ec2338be7d71c5f5acb3053f9ced49b3ee1d4804bc318528221",
+      "bytes": 53167
     },
     "cross_cloud_replay_safety_audit": {
       "path": "data/real_sources/oracle/execution/cross_cloud_replay_safety_audit_v1.json",
@@ -776,7 +776,7 @@
       "safe_probe_contract": {
         "contract_id": "probe-contract-dbf8c658593217784173",
         "contract_registry_path": "data/real_sources/oracle/execution/oracle_probe_contracts_v1.json",
-        "contract_registry_sha256": "a37bdc5114bed6df7a34b5bf82909e6d5dab9618e7ae20947899d7ca7b4c50cc"
+        "contract_registry_sha256": "3b0848ea33671ec2338be7d71c5f5acb3053f9ced49b3ee1d4804bc318528221"
       },
       "required_next_action": "resolve current-run placeholders, pass every authorization gate, then execute through the evaluator"
     },
@@ -810,7 +810,7 @@
       "safe_probe_contract": {
         "contract_id": "probe-contract-a5bb0e5f8ba0c01ce146",
         "contract_registry_path": "data/real_sources/oracle/execution/oracle_probe_contracts_v1.json",
-        "contract_registry_sha256": "a37bdc5114bed6df7a34b5bf82909e6d5dab9618e7ae20947899d7ca7b4c50cc"
+        "contract_registry_sha256": "3b0848ea33671ec2338be7d71c5f5acb3053f9ced49b3ee1d4804bc318528221"
       },
       "required_next_action": "resolve current-run placeholders, pass every authorization gate, then execute through the evaluator"
     },
@@ -829,7 +829,7 @@
       "safe_probe_contract": {
         "contract_id": "probe-contract-7462f1089b5a99f5a73c",
         "contract_registry_path": "data/real_sources/oracle/execution/oracle_probe_contracts_v1.json",
-        "contract_registry_sha256": "a37bdc5114bed6df7a34b5bf82909e6d5dab9618e7ae20947899d7ca7b4c50cc"
+        "contract_registry_sha256": "3b0848ea33671ec2338be7d71c5f5acb3053f9ced49b3ee1d4804bc318528221"
       },
       "required_next_action": "resolve current-run placeholders, pass every authorization gate, then execute through the evaluator"
     },
@@ -848,7 +848,7 @@
       "safe_probe_contract": {
         "contract_id": "probe-contract-df2740e0d87f835b6939",
         "contract_registry_path": "data/real_sources/oracle/execution/oracle_probe_contracts_v1.json",
-        "contract_registry_sha256": "a37bdc5114bed6df7a34b5bf82909e6d5dab9618e7ae20947899d7ca7b4c50cc"
+        "contract_registry_sha256": "3b0848ea33671ec2338be7d71c5f5acb3053f9ced49b3ee1d4804bc318528221"
       },
       "required_next_action": "resolve current-run placeholders, pass every authorization gate, then execute through the evaluator"
     },
@@ -897,7 +897,7 @@
       "safe_probe_contract": {
         "contract_id": "probe-contract-d15b2147d8cfa5899094",
         "contract_registry_path": "data/real_sources/oracle/execution/oracle_probe_contracts_v1.json",
-        "contract_registry_sha256": "a37bdc5114bed6df7a34b5bf82909e6d5dab9618e7ae20947899d7ca7b4c50cc"
+        "contract_registry_sha256": "3b0848ea33671ec2338be7d71c5f5acb3053f9ced49b3ee1d4804bc318528221"
       },
       "required_next_action": "resolve current-run placeholders, pass every authorization gate, then execute through the evaluator"
     }

@@ -94,6 +94,20 @@ SUPPORTED_AWS_PROBES = {
             "{{AWS_REGION}}",
             "--no-cli-pager",
         ],
+        "post_cleanup_inventory": [
+            "aws",
+            "ec2",
+            "describe-snapshot-attribute",
+            "--snapshot-id",
+            "{{RUN_OWNED_SNAPSHOT_ID}}",
+            "--attribute",
+            "createVolumePermission",
+            "--region",
+            "{{AWS_REGION}}",
+            "--output",
+            "json",
+            "--no-cli-pager",
+        ],
         "cloudtrail_event_name": "ModifySnapshotAttribute",
         "official_cli_reference": (
             "https://docs.aws.amazon.com/cli/latest/reference/ec2/"
@@ -164,6 +178,20 @@ SUPPORTED_AWS_PROBES = {
             "Remove=[{UserId={{ISOLATED_COUNTERPART_ACCOUNT_ID}}}]",
             "--region",
             "{{AWS_REGION}}",
+            "--no-cli-pager",
+        ],
+        "post_cleanup_inventory": [
+            "aws",
+            "ec2",
+            "describe-image-attribute",
+            "--image-id",
+            "{{RUN_OWNED_AMI_ID}}",
+            "--attribute",
+            "launchPermission",
+            "--region",
+            "{{AWS_REGION}}",
+            "--output",
+            "json",
             "--no-cli-pager",
         ],
         "cloudtrail_event_name": "ModifyImageAttribute",
@@ -451,8 +479,8 @@ STRATUS_BOUNDED_READ_PROBES = {
         "resource_arn_templates": [
             (
                 "arn:{{AWS_PARTITION}}:ssm:{{AWS_REGION}}:"
-                "{{DEDICATED_OWNER_ACCOUNT_ID}}:parameter/"
-                "pathbench/{{RUN_ID}}/canary"
+                "{{DEDICATED_OWNER_ACCOUNT_ID}}:parameter"
+                "{{RUN_OWNED_PARAMETER_NAME}}"
             ),
         ],
         "setup_argv_templates": [[
@@ -470,7 +498,7 @@ STRATUS_BOUNDED_READ_PROBES = {
             "ssm",
             "get-parameters",
             "--names",
-            "/pathbench/{{RUN_ID}}/canary",
+            "{{RUN_OWNED_PARAMETER_NAME}}",
             "--with-decryption",
             "--query",
             (
@@ -491,7 +519,7 @@ STRATUS_BOUNDED_READ_PROBES = {
             "--parameter-filters",
             (
                 "Key=Name,Option=Equals,"
-                "Values=/pathbench/{{RUN_ID}}/canary"
+                "Values={{RUN_OWNED_PARAMETER_NAME}}"
             ),
             "--query",
             (
@@ -509,7 +537,7 @@ STRATUS_BOUNDED_READ_PROBES = {
             "ssm",
             "delete-parameter",
             "--name",
-            "/pathbench/{{RUN_ID}}/canary",
+            "{{RUN_OWNED_PARAMETER_NAME}}",
             "--region",
             "{{AWS_REGION}}",
             "--no-cli-pager",
@@ -521,7 +549,7 @@ STRATUS_BOUNDED_READ_PROBES = {
             "--parameter-filters",
             (
                 "Key=Name,Option=Equals,"
-                "Values=/pathbench/{{RUN_ID}}/canary"
+                "Values={{RUN_OWNED_PARAMETER_NAME}}"
             ),
             "--query",
             "Parameters[].{Name:Name,Type:Type}",
@@ -534,7 +562,7 @@ STRATUS_BOUNDED_READ_PROBES = {
         "cloudtrail_event_name": "GetParameters",
         "request_resource_predicate": {
             "requestParameters.names": [
-                "/pathbench/{{RUN_ID}}/canary",
+                "{{RUN_OWNED_PARAMETER_NAME}}",
             ],
             "requestParameters.withDecryption": True,
         },
@@ -741,6 +769,9 @@ def _build_contract(
             "probe_argv_template": plan["probe"],
             "postcondition_argv_template": plan["postcondition"],
             "cleanup_argv_template": plan["cleanup"],
+            "post_cleanup_inventory_argv_template": plan[
+                "post_cleanup_inventory"
+            ],
             "dry_run_is_qualifying_runtime_evidence": False,
             "actual_mutation_requires_all_safety_gates": True,
         },

@@ -156,6 +156,20 @@
           "{{AWS_REGION}}",
           "--no-cli-pager"
         ],
+        "post_cleanup_inventory_argv_template": [
+          "aws",
+          "ec2",
+          "describe-snapshot-attribute",
+          "--snapshot-id",
+          "{{RUN_OWNED_SNAPSHOT_ID}}",
+          "--attribute",
+          "createVolumePermission",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
+          "--no-cli-pager"
+        ],
         "dry_run_is_qualifying_runtime_evidence": false,
         "actual_mutation_requires_all_safety_gates": true
       },
@@ -822,7 +836,7 @@
           "ssm:GetParameters"
         ],
         "resources": [
-          "arn:{{AWS_PARTITION}}:ssm:{{AWS_REGION}}:{{DEDICATED_OWNER_ACCOUNT_ID}}:parameter/pathbench/{{RUN_ID}}/canary"
+          "arn:{{AWS_PARTITION}}:ssm:{{AWS_REGION}}:{{DEDICATED_OWNER_ACCOUNT_ID}}:parameter{{RUN_OWNED_PARAMETER_NAME}}"
         ],
         "network_origins": [
           "{{RUNNER_EGRESS_CIDR}}"
@@ -844,7 +858,7 @@
             "--action-names",
             "ssm:GetParameters",
             "--resource-arns",
-            "arn:{{AWS_PARTITION}}:ssm:{{AWS_REGION}}:{{DEDICATED_OWNER_ACCOUNT_ID}}:parameter/pathbench/{{RUN_ID}}/canary",
+            "arn:{{AWS_PARTITION}}:ssm:{{AWS_REGION}}:{{DEDICATED_OWNER_ACCOUNT_ID}}:parameter{{RUN_OWNED_PARAMETER_NAME}}",
             "--no-paginate",
             "--output",
             "json",
@@ -879,7 +893,7 @@
           "ssm",
           "get-parameters",
           "--names",
-          "/pathbench/{{RUN_ID}}/canary",
+          "{{RUN_OWNED_PARAMETER_NAME}}",
           "--with-decryption",
           "--query",
           "{Parameters:Parameters[].{Name:Name,Type:Type,Version:Version,ARN:ARN,DataType:DataType},InvalidParameters:InvalidParameters}",
@@ -894,7 +908,7 @@
           "ssm",
           "describe-parameters",
           "--parameter-filters",
-          "Key=Name,Option=Equals,Values=/pathbench/{{RUN_ID}}/canary",
+          "Key=Name,Option=Equals,Values={{RUN_OWNED_PARAMETER_NAME}}",
           "--query",
           "Parameters[].{Name:Name,Type:Type,Version:Version,DataType:DataType}",
           "--region",
@@ -909,7 +923,7 @@
             "ssm",
             "delete-parameter",
             "--name",
-            "/pathbench/{{RUN_ID}}/canary",
+            "{{RUN_OWNED_PARAMETER_NAME}}",
             "--region",
             "{{AWS_REGION}}",
             "--no-cli-pager"
@@ -920,7 +934,7 @@
           "ssm",
           "describe-parameters",
           "--parameter-filters",
-          "Key=Name,Option=Equals,Values=/pathbench/{{RUN_ID}}/canary",
+          "Key=Name,Option=Equals,Values={{RUN_OWNED_PARAMETER_NAME}}",
           "--query",
           "Parameters[].{Name:Name,Type:Type}",
           "--region",
@@ -968,7 +982,7 @@
           "userIdentity.arn": "{{DEDICATED_PROBE_PRINCIPAL_ARN}}",
           "sourceIPAddress": "{{RUNNER_EGRESS_IP}}",
           "requestParameters.names": [
-            "/pathbench/{{RUN_ID}}/canary"
+            "{{RUN_OWNED_PARAMETER_NAME}}"
           ],
           "requestParameters.withDecryption": true
         },
@@ -1103,6 +1117,20 @@
           "Remove=[{UserId={{ISOLATED_COUNTERPART_ACCOUNT_ID}}}]",
           "--region",
           "{{AWS_REGION}}",
+          "--no-cli-pager"
+        ],
+        "post_cleanup_inventory_argv_template": [
+          "aws",
+          "ec2",
+          "describe-image-attribute",
+          "--image-id",
+          "{{RUN_OWNED_AMI_ID}}",
+          "--attribute",
+          "launchPermission",
+          "--region",
+          "{{AWS_REGION}}",
+          "--output",
+          "json",
           "--no-cli-pager"
         ],
         "dry_run_is_qualifying_runtime_evidence": false,

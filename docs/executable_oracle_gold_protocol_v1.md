@@ -63,6 +63,7 @@ D:\anaconda\python.exe scripts/oracle/build_oracle_probe_contracts_v1.py
 D:\anaconda\python.exe scripts/oracle/audit_replay_supply_safety_v1.py
 D:\anaconda\python.exe scripts/oracle/build_replay_supply_inventory_v1.py
 D:\anaconda\python.exe scripts/oracle/audit_oracle_execution_capability_v1.py --check-auth
+D:\anaconda\python.exe scripts/oracle/preflight_oracle_probe_v1.py --contract-id <id> --runtime-context <runtime.json> --authorization-context <authorization.json> --output <preflight-report.json>
 D:\anaconda\python.exe scripts/oracle/apply_completed_oracle_evidence_v1.py --bundle <evaluator-bundle.json> --output <new-registry.json>
 D:\anaconda\python.exe scripts/oracle/build_oracle_split_v1.py
 ```
@@ -91,6 +92,8 @@ D:\anaconda\python.exe scripts/oracle/build_oracle_split_v1.py
 - <https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-cloudtrail.html>
 - <https://docs.aws.amazon.com/cli/latest/reference/ssm/get-parameters.html>
 - <https://docs.aws.amazon.com/cli/latest/reference/ssm/put-parameter.html>
+
+运行时预检只在内存中解析argv，不执行命令。它要求授权哨兵、专用非生产账户、精确 `/32` 或 `/128` 出口、递增且不超过TTL的UTC时间窗、政策内成本、强制标签、本轮资源清单、隔离账户差异以及私密输入文件的路径/大小/SHA-256/访问控制证明全部成立。落盘报告不包含运行时值、完整argv或私密文件路径；任一检查失败时，已解析步骤会被清空。秘密值承载响应不得原样持久化，只有去敏stdout/stderr及其哈希可进入证据包。
 
 固定的跨云公开攻击脚本也不能直接等同于安全复现代码。静态供应审计先验证 acquisition manifest 中的 Zenodo 文件大小和 SHA-256，再在不解压到文件系统、不执行任何上游代码的条件下扫描归档成员。审计不保留原始行或可能的密钥值，只记录规则、成员路径、行号和行哈希。当前固定版 `attack_scripts.zip` 的164个归档成员中，133个文本成员被扫描，64个成员触发298项阻断发现，覆盖把凭据写入容器层、创建长期凭据、公共主体/ACL、广域管理员角色以及未证明资源属于本次运行的删除操作。因此该制品的结论是 `direct_execution_blocked_requires_sanitized_wrapper`，不能按上游 README 原样运行；这些数字是安全审计结果，不是攻击标签或 Gold。
 
