@@ -70,6 +70,32 @@ def test_candidates_are_not_promoted_from_artifacts_alone():
         and candidate["counts_toward_oracle_gold"] is False
         for candidate in registry["candidates"]
     )
+    configuration = [
+        candidate
+        for candidate in registry["candidates"]
+        if candidate["category"] == "configuration"
+    ]
+    runtime = [
+        candidate
+        for candidate in registry["candidates"]
+        if candidate["category"] == "runtime_telemetry"
+    ]
+    assert len(configuration) == 10
+    assert all(
+        candidate["evidence_channels"]["configuration"]["status"]
+        == "verified"
+        for candidate in configuration
+    )
+    assert all(
+        candidate["evidence_channels"]["configuration"]["status"]
+        == "pending"
+        for candidate in runtime
+    )
+    assert all(
+        candidate["evidence_channels"]["audit_telemetry"]["status"]
+        == "artifact_verified"
+        for candidate in runtime
+    )
 
 
 def test_forged_reachable_flag_fails_closed():

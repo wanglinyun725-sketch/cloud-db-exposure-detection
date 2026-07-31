@@ -56,9 +56,16 @@
 ```powershell
 D:\anaconda\python.exe scripts/oracle/build_executable_oracle_registry_v1.py
 D:\anaconda\python.exe scripts/oracle/audit_executable_oracle_registry_v1.py
+D:\anaconda\python.exe scripts/oracle/build_oracle_execution_queue_v1.py
+D:\anaconda\python.exe scripts/oracle/audit_oracle_execution_capability_v1.py --check-auth
+D:\anaconda\python.exe scripts/oracle/build_oracle_split_v1.py
 ```
 
 当前候选注册表固定40个保守独立谱系、9个上游来源及AWS/Azure/GCP。首次迁移时40个案例全部为 `Unknown`，Gold计数为0。这是预期的 fail-closed 结果。
+
+执行队列将40个谱系展开为60个平台任务（部分跨云谱系同时需要三个云平台），默认禁止执行。只有专用测试账户/订阅/项目、工具、费用上限、无敏感数据声明和清理方案全部满足后，执行器才能获得授权；队列本身不包含预期答案。
+
+现有证据完成度被分层记录：10个配置谱系的 `configuration` 通道已通过上游归档和成员哈希验证；30个运行时谱系的 `audit_telemetry` 原始制品已验证存在。后者只记为 `artifact_verified`，在事件语义、原生权限分析和主动探针完成前不会升级为允许/拒绝结论。
 
 完成门槛：
 

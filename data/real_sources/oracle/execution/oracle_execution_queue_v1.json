@@ -1,0 +1,4846 @@
+{
+  "queue_version": "1.0.0",
+  "queue_kind": "executable_oracle_evidence_collection",
+  "status": "execution_disabled_pending_isolated_credentials",
+  "bindings": {
+    "oracle_registry": {
+      "path": "data/real_sources/oracle/executable_oracle_registry_v1.json",
+      "sha256": "5cd3f46bd424169bffba4523a82c5974f62699820bf103ef7b97f9e2171abe84",
+      "bytes": 141836
+    },
+    "execution_policy": {
+      "path": "configs/oracle_execution_policy_v1.yaml",
+      "sha256": "47c6245ebe0cbe683b3ddc99e7c24846ba8586adfad215f45d30b7b9216f5e20",
+      "bytes": 2989
+    }
+  },
+  "policy": {
+    "generated_events": 0,
+    "generated_labels": 0,
+    "expected_outcomes_exposed": false,
+    "execution_default": "disabled",
+    "authorization_sentinel": {
+      "environment_variable": "PATHBENCH_ORACLE_EXECUTION",
+      "required_value": "I_AUTHORIZE_ISOLATED_TEST_RESOURCES_ONLY"
+    },
+    "production_accounts_forbidden": true,
+    "configuration_only_cannot_promote": true
+  },
+  "summary": {
+    "pending_independence_groups": 40,
+    "platform_task_counts": {
+      "AWS": 34,
+      "AZURE": 14,
+      "GCP": 12
+    },
+    "required_tools": [
+      "aws",
+      "az",
+      "gcloud",
+      "terraform"
+    ],
+    "authorized_tasks": 0,
+    "executed_tasks": 0,
+    "new_oracle_gold_groups": 0,
+    "configuration_verified_groups": 10,
+    "telemetry_artifact_verified_groups": 30
+  },
+  "tasks": [
+    {
+      "task_id": "oracle-task-05204fdc029c55b3981d",
+      "independence_group": "cloudgoat-scenario:cloud_breach_s3",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "cloudgoat"
+      ],
+      "case_ids": [
+        "cloudgoat:aws:cloud_breach_s3"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-bb41cf53a32201a7e097"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-c3bde1c72a812e06a870",
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m1_ssrf_dynamodb",
+      "category": "configuration",
+      "source_ids": [
+        "awsgoat"
+      ],
+      "case_ids": [
+        "awsgoat_m1_ssrf_dynamodb"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "verified",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                  "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                  "bytes": 406477
+                }
+              ],
+              "existing_evidence_ids": [
+                "configuration-c3bde1c72a812e06a870"
+              ]
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "pending",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-7d9834932c6896da4a4c",
+      "independence_group": "configuration-lineage:awsgoat:awsgoat_m2_ecs_secret_rds_credentials",
+      "category": "configuration",
+      "source_ids": [
+        "awsgoat"
+      ],
+      "case_ids": [
+        "awsgoat_m2_ecs_secret_rds_credentials"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "verified",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                  "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                  "bytes": 406477
+                }
+              ],
+              "existing_evidence_ids": [
+                "configuration-7d9834932c6896da4a4c"
+              ]
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "pending",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-51810be132a6d682de0d",
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_prod_dev_blob_control_pair",
+      "category": "configuration",
+      "source_ids": [
+        "azuregoat"
+      ],
+      "case_ids": [
+        "azuregoat_prod_dev_blob_control_pair"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "verified",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                  "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                  "bytes": 406477
+                }
+              ],
+              "existing_evidence_ids": [
+                "configuration-51810be132a6d682de0d"
+              ]
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-fefb8f73af1038cd29e4",
+      "independence_group": "configuration-lineage:azuregoat:azuregoat_ssrf_cosmos_storage",
+      "category": "configuration",
+      "source_ids": [
+        "azuregoat"
+      ],
+      "case_ids": [
+        "azuregoat_ssrf_cosmos_storage"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "verified",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                  "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                  "bytes": 406477
+                }
+              ],
+              "existing_evidence_ids": [
+                "configuration-fefb8f73af1038cd29e4"
+              ]
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-2f255d8861cfb037ae59",
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_double_tap_secret_path",
+      "category": "configuration",
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "case_ids": [
+        "cloudfoxable_double_tap_secret_path"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "verified",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                  "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                  "bytes": 406477
+                }
+              ],
+              "existing_evidence_ids": [
+                "configuration-2f255d8861cfb037ae59"
+              ]
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "pending",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-c32785dbcfd91a787c03",
+      "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_search1_elasticsearch_exposure",
+      "category": "configuration",
+      "source_ids": [
+        "cloudfoxable"
+      ],
+      "case_ids": [
+        "cloudfoxable_search1_elasticsearch_exposure"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "verified",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                  "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                  "bytes": 406477
+                }
+              ],
+              "existing_evidence_ids": [
+                "configuration-c32785dbcfd91a787c03"
+              ]
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "pending",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-853b905626007f9b5aab",
+      "independence_group": "configuration-lineage:gcpgoat:gcpgoat_anonymous_bucket_policy_transition",
+      "category": "configuration",
+      "source_ids": [
+        "gcpgoat"
+      ],
+      "case_ids": [
+        "gcpgoat_anonymous_bucket_policy_transition"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "GCP",
+          "required_tools": [
+            "gcloud",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "verified",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "gcloud_asset_effective_iam_policy"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                  "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                  "bytes": 406477
+                }
+              ],
+              "existing_evidence_ids": [
+                "configuration-853b905626007f9b5aab"
+              ]
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_policy_troubleshoot_iam",
+                "test_iam_permissions_for_authenticated_probe"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_with_dedicated_service_account",
+                "anonymous_https_for_public_object_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcp_audit_logs"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-48df1512d24efb5ebeeb",
+      "independence_group": "configuration-lineage:terragoat:terragoat_aws_ec2_userdata_to_rds",
+      "category": "configuration",
+      "source_ids": [
+        "terragoat"
+      ],
+      "case_ids": [
+        "terragoat_aws_ec2_userdata_to_rds"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "verified",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                  "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                  "bytes": 406477
+                }
+              ],
+              "existing_evidence_ids": [
+                "configuration-48df1512d24efb5ebeeb"
+              ]
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "pending",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-f7ed089a2b5d43704ced",
+      "independence_group": "configuration-lineage:terragoat:terragoat_azure_mysql_public_transport",
+      "category": "configuration",
+      "source_ids": [
+        "terragoat"
+      ],
+      "case_ids": [
+        "terragoat_azure_mysql_public_transport"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "verified",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                  "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                  "bytes": 406477
+                }
+              ],
+              "existing_evidence_ids": [
+                "configuration-f7ed089a2b5d43704ced"
+              ]
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-05f90c3e752e16e2dcfc",
+      "independence_group": "configuration-lineage:terragoat:terragoat_gcp_anonymous_gcs_read",
+      "category": "configuration",
+      "source_ids": [
+        "terragoat"
+      ],
+      "case_ids": [
+        "terragoat_gcp_anonymous_gcs_read"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "GCP",
+          "required_tools": [
+            "gcloud",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "verified",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "gcloud_asset_effective_iam_policy"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/configuration_supplemental_10_unlabeled.json",
+                  "sha256": "9676a713c5a517cb51bda060372b90518249a49d975cc811618b862623ff7277",
+                  "bytes": 406477
+                }
+              ],
+              "existing_evidence_ids": [
+                "configuration-05f90c3e752e16e2dcfc"
+              ]
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_policy_troubleshoot_iam",
+                "test_iam_permissions_for_authenticated_probe"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_with_dedicated_service_account",
+                "anonymous_https_for_public_object_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcp_audit_logs"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-90e91adfdbec86c0686c",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "case_ids": [
+        "crosscloud:aws:archive_collected_data",
+        "crosscloud:azure:archive_collected_data",
+        "crosscloud:gcp:archive_collected_data"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-8f866bb94b01c88cdca6",
+                "telemetry-9790907e8f9c0bcac1e1",
+                "telemetry-dbdaaf80cee7787b8276"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-8f866bb94b01c88cdca6",
+                "telemetry-9790907e8f9c0bcac1e1",
+                "telemetry-dbdaaf80cee7787b8276"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "GCP",
+          "required_tools": [
+            "gcloud",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "gcloud_asset_effective_iam_policy"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_policy_troubleshoot_iam",
+                "test_iam_permissions_for_authenticated_probe"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_with_dedicated_service_account",
+                "anonymous_https_for_public_object_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "gcp_audit_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-8f866bb94b01c88cdca6",
+                "telemetry-9790907e8f9c0bcac1e1",
+                "telemetry-dbdaaf80cee7787b8276"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-5e1ad1dbed95fd5bd8a7",
+      "independence_group": "crosscloud-family:automated_collection",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "case_ids": [
+        "crosscloud:aws:automated_collection",
+        "crosscloud:azure:automated_collection",
+        "crosscloud:gcp:automated_collection"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-629dadedf6d1aaecf262",
+                "telemetry-812604c89032a998cef9",
+                "telemetry-f254f53fc62f67fa2058"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-629dadedf6d1aaecf262",
+                "telemetry-812604c89032a998cef9",
+                "telemetry-f254f53fc62f67fa2058"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "GCP",
+          "required_tools": [
+            "gcloud",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "gcloud_asset_effective_iam_policy"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_policy_troubleshoot_iam",
+                "test_iam_permissions_for_authenticated_probe"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_with_dedicated_service_account",
+                "anonymous_https_for_public_object_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "gcp_audit_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-629dadedf6d1aaecf262",
+                "telemetry-812604c89032a998cef9",
+                "telemetry-f254f53fc62f67fa2058"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-08bb2247398809fe009b",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "case_ids": [
+        "crosscloud:aws:automated_exfiltration",
+        "crosscloud:azure:automated_exfiltration",
+        "crosscloud:gcp:automated_exfiltration"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-017da9e9b86ba7bebb9d",
+                "telemetry-5c1a87812a5b569b1149",
+                "telemetry-ed7b9afedfc8c95bdb10"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-017da9e9b86ba7bebb9d",
+                "telemetry-5c1a87812a5b569b1149",
+                "telemetry-ed7b9afedfc8c95bdb10"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "GCP",
+          "required_tools": [
+            "gcloud",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "gcloud_asset_effective_iam_policy"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_policy_troubleshoot_iam",
+                "test_iam_permissions_for_authenticated_probe"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_with_dedicated_service_account",
+                "anonymous_https_for_public_object_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "gcp_audit_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-017da9e9b86ba7bebb9d",
+                "telemetry-5c1a87812a5b569b1149",
+                "telemetry-ed7b9afedfc8c95bdb10"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-6fec947eefa486725fa9",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "case_ids": [
+        "crosscloud:aws:credentials_from_password_stores",
+        "crosscloud:azure:credentials_from_password_stores",
+        "crosscloud:gcp:credentials_from_password_stores"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-45fbcf34ad84753a5219",
+                "telemetry-aad80ee5029dff7a0f67",
+                "telemetry-d4f8da11135a171d762e"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-45fbcf34ad84753a5219",
+                "telemetry-aad80ee5029dff7a0f67",
+                "telemetry-d4f8da11135a171d762e"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "GCP",
+          "required_tools": [
+            "gcloud",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "gcloud_asset_effective_iam_policy"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_policy_troubleshoot_iam",
+                "test_iam_permissions_for_authenticated_probe"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_with_dedicated_service_account",
+                "anonymous_https_for_public_object_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "gcp_audit_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-45fbcf34ad84753a5219",
+                "telemetry-aad80ee5029dff7a0f67",
+                "telemetry-d4f8da11135a171d762e"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-b77a8d7cf3b73fa1319c",
+      "independence_group": "crosscloud-family:data_destruction",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "case_ids": [
+        "crosscloud:aws:data_destruction",
+        "crosscloud:azure:data_destruction",
+        "crosscloud:gcp:data_destruction"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-5aab02da02eef4c798e9",
+                "telemetry-809c9241e8df3c06b080",
+                "telemetry-8f4dfec7768be62fdfaa"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-5aab02da02eef4c798e9",
+                "telemetry-809c9241e8df3c06b080",
+                "telemetry-8f4dfec7768be62fdfaa"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "GCP",
+          "required_tools": [
+            "gcloud",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "gcloud_asset_effective_iam_policy"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_policy_troubleshoot_iam",
+                "test_iam_permissions_for_authenticated_probe"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_with_dedicated_service_account",
+                "anonymous_https_for_public_object_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "gcp_audit_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-5aab02da02eef4c798e9",
+                "telemetry-809c9241e8df3c06b080",
+                "telemetry-8f4dfec7768be62fdfaa"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-092360339574657bbc9f",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "case_ids": [
+        "crosscloud:aws:data_encrypted_for_impact",
+        "crosscloud:azure:data_encrypted_for_impact",
+        "crosscloud:gcp:data_encrypted_for_impact"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-342e3e7d0ec50927c6d1",
+                "telemetry-5834ba6d5e356de2cacb",
+                "telemetry-77585246cc1f9c0a4efc"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-342e3e7d0ec50927c6d1",
+                "telemetry-5834ba6d5e356de2cacb",
+                "telemetry-77585246cc1f9c0a4efc"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "GCP",
+          "required_tools": [
+            "gcloud",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "gcloud_asset_effective_iam_policy"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_policy_troubleshoot_iam",
+                "test_iam_permissions_for_authenticated_probe"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_with_dedicated_service_account",
+                "anonymous_https_for_public_object_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "gcp_audit_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-342e3e7d0ec50927c6d1",
+                "telemetry-5834ba6d5e356de2cacb",
+                "telemetry-77585246cc1f9c0a4efc"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-1ab0cce2fdaf0c0ff211",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "case_ids": [
+        "crosscloud:aws:inhibit_system_recovery",
+        "crosscloud:azure:inhibit_system_recovery",
+        "crosscloud:gcp:inhibit_system_recovery"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-8898d6d88aeecca2bae5",
+                "telemetry-b028a4868d277c77eda5",
+                "telemetry-dc66721c01cc09523c47"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-8898d6d88aeecca2bae5",
+                "telemetry-b028a4868d277c77eda5",
+                "telemetry-dc66721c01cc09523c47"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "GCP",
+          "required_tools": [
+            "gcloud",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "gcloud_asset_effective_iam_policy"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_policy_troubleshoot_iam",
+                "test_iam_permissions_for_authenticated_probe"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_with_dedicated_service_account",
+                "anonymous_https_for_public_object_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "gcp_audit_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-8898d6d88aeecca2bae5",
+                "telemetry-b028a4868d277c77eda5",
+                "telemetry-dc66721c01cc09523c47"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-1f85d47464e171ebf1c1",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "case_ids": [
+        "crosscloud:aws:scheduled_transfer",
+        "crosscloud:azure:scheduled_transfer",
+        "crosscloud:gcp:scheduled_transfer"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-0e7b69bf28df642778a0",
+                "telemetry-a4e3761b8f72217e6914",
+                "telemetry-c86445a275b368f7e9cc"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-0e7b69bf28df642778a0",
+                "telemetry-a4e3761b8f72217e6914",
+                "telemetry-c86445a275b368f7e9cc"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "GCP",
+          "required_tools": [
+            "gcloud",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "gcloud_asset_effective_iam_policy"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_policy_troubleshoot_iam",
+                "test_iam_permissions_for_authenticated_probe"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_with_dedicated_service_account",
+                "anonymous_https_for_public_object_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "gcp_audit_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-0e7b69bf28df642778a0",
+                "telemetry-a4e3761b8f72217e6914",
+                "telemetry-c86445a275b368f7e9cc"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-c61d43659769ce9837cb",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "case_ids": [
+        "crosscloud:aws:steal_application_access_token",
+        "crosscloud:azure:steal_application_access_token",
+        "crosscloud:gcp:steal_application_access_token"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-269ab62bf71be5958d5d",
+                "telemetry-680c6259147f7b5d275d",
+                "telemetry-84a64efe744c44338977"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-269ab62bf71be5958d5d",
+                "telemetry-680c6259147f7b5d275d",
+                "telemetry-84a64efe744c44338977"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "GCP",
+          "required_tools": [
+            "gcloud",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "gcloud_asset_effective_iam_policy"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_policy_troubleshoot_iam",
+                "test_iam_permissions_for_authenticated_probe"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_with_dedicated_service_account",
+                "anonymous_https_for_public_object_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "gcp_audit_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-269ab62bf71be5958d5d",
+                "telemetry-680c6259147f7b5d275d",
+                "telemetry-84a64efe744c44338977"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-2960b59a4f258f211674",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "cross_cloud_observability_2026"
+      ],
+      "case_ids": [
+        "crosscloud:aws:unsecured_credentials",
+        "crosscloud:azure:unsecured_credentials",
+        "crosscloud:gcp:unsecured_credentials"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-9964519d9a0df8829daf",
+                "telemetry-9d61758904020c3947e9",
+                "telemetry-dab4b941bd19d996dde4"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-9964519d9a0df8829daf",
+                "telemetry-9d61758904020c3947e9",
+                "telemetry-dab4b941bd19d996dde4"
+              ]
+            }
+          ]
+        },
+        {
+          "platform": "GCP",
+          "required_tools": [
+            "gcloud",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "gcloud_asset_effective_iam_policy"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_policy_troubleshoot_iam",
+                "test_iam_permissions_for_authenticated_probe"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "gcloud_with_dedicated_service_account",
+                "anonymous_https_for_public_object_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "gcp_audit_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-9964519d9a0df8829daf",
+                "telemetry-9d61758904020c3947e9",
+                "telemetry-dab4b941bd19d996dde4"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-394b7d554370b5b94194",
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-716ce7d1822bad49402e"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-562be532c87c9331371d",
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-e9b7656077ee3752e0b5"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-f9bf88a881731d92cc02",
+      "independence_group": "splunk-technique:T1098.001",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AZURE",
+          "required_tools": [
+            "az",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "azure_resource_graph"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "azure_rbac_check_access",
+                "azure_resource_effective_configuration"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "az_cli_with_dedicated_service_principal",
+                "anonymous_https_for_public_blob_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "azure_activity_log",
+                "azure_resource_logs"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-d69e15b4fb04acaebe02"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-5796438dc431b1a5800b",
+      "independence_group": "splunk-technique:T1110.002",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-48d2409557012eea12aa"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-da9d5aa7934d544b32a2",
+      "independence_group": "splunk-technique:T1486",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1486/s3_file_encryption"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-ff6e24501d2f9332e249"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-ea9a2e720ad75efbf9bf",
+      "independence_group": "splunk-technique:T1490",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1490/aws_bucket_version"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-6214bb5e061553a63ccd"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-b78bde0f2d197ac5f446",
+      "independence_group": "splunk-technique:T1530",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1530/aws_s3_public_bucket"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-4c4ceb320db884cb97fb"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-1d07beb4abb6756c0987",
+      "independence_group": "splunk-technique:T1537",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "splunk_attack_data"
+      ],
+      "case_ids": [
+        "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+        "splunk:datasets/attack_techniques/T1537/aws_snapshot_exfil"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                },
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-432f5e5b45468a755ec4",
+                "telemetry-623689e18e0c4ee946a6"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-3501e129e36ade1e2a49",
+      "independence_group": "stratus-technique:T1496.A007",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "case_ids": [
+        "stratus:aws.exfiltration.rds-share-snapshot"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-83e410fc96d1dd31d52b"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-e6dc5eec8df62683273a",
+      "independence_group": "stratus-technique:T1552.005",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "case_ids": [
+        "stratus:aws.credential-access.ec2-steal-instance-credentials"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-e4df8dbd3575b6749e34"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-66c4b6a84216f7670c31",
+      "independence_group": "stratus-technique:T1562.008",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "case_ids": [
+        "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+        "stratus:aws.defense-evasion.cloudtrail-lifecycle-rule"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-682b70b7a43e3d49cb9e"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-dbf8c658593217784173",
+      "independence_group": "stratus-technique:T1578.001",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "case_ids": [
+        "stratus:aws.exfiltration.ec2-share-ebs-snapshot"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-b4d035c9c3c19305b492"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-43ead2744893d9670449",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ec2-get-password-data",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "case_ids": [
+        "stratus:aws.credential-access.ec2-get-password-data"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-d8a35c95e4f5293fb307"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-a5bb0e5f8ba0c01ce146",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "case_ids": [
+        "stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-903d4422d458a1b6e97f"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-7462f1089b5a99f5a73c",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "case_ids": [
+        "stratus:aws.credential-access.secretsmanager-retrieve-secrets"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-3669f61d8c94e8bb8c78"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-df2740e0d87f835b6939",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "case_ids": [
+        "stratus:aws.credential-access.ssm-retrieve-securestring-parameters"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-e8338cf8b096a71d9029"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-413ae33b02f6d72d8b47",
+      "independence_group": "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "case_ids": [
+        "stratus:aws.defense-evasion.dns-delete-logs"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-e166a9ea348229251096"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-06566dbaf120da706784",
+      "independence_group": "stratus_red_team:stratus:aws.discovery.ec2-download-user-data",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "case_ids": [
+        "stratus:aws.discovery.ec2-download-user-data"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-a46adbf79c973e3f7a4a"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    },
+    {
+      "task_id": "oracle-task-d15b2147d8cfa5899094",
+      "independence_group": "stratus_red_team:stratus:aws.exfiltration.ec2-share-ami",
+      "category": "runtime_telemetry",
+      "source_ids": [
+        "stratus_red_team"
+      ],
+      "case_ids": [
+        "stratus:aws.exfiltration.ec2-share-ami"
+      ],
+      "truth_state_before_execution": "Unknown",
+      "expected_truth_state": null,
+      "status": "pending",
+      "scope_freeze_status": "pending",
+      "platform_tasks": [
+        {
+          "platform": "AWS",
+          "required_tools": [
+            "aws",
+            "terraform"
+          ],
+          "channels": [
+            {
+              "channel": "configuration",
+              "status": "pending",
+              "accepted_oracles": [
+                "terraform_show_json",
+                "aws_resource_policy_get"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "provider_native_analysis",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_access_analyzer",
+                "aws_iam_simulation_when_supported"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "authorized_active_probe",
+              "status": "pending",
+              "accepted_oracles": [
+                "aws_cli_with_dedicated_low_privilege_profile",
+                "anonymous_https_for_public_data_only"
+              ],
+              "artifact_bindings": [],
+              "existing_evidence_ids": []
+            },
+            {
+              "channel": "audit_telemetry",
+              "status": "artifact_verified",
+              "accepted_oracles": [
+                "cloudtrail_lookup_events",
+                "cloudtrail_lake_or_s3_delivery"
+              ],
+              "artifact_bindings": [
+                {
+                  "path": "data/real_sources/annotation/runtime_confirmatory_30_unlabeled.json",
+                  "sha256": "eefdbd6998d416284ba5bcb2434671924dcf9d09eee4c6fd5c5a670cdc6bbff6",
+                  "bytes": 7375251
+                }
+              ],
+              "existing_evidence_ids": [
+                "telemetry-334f8d9811ae909e3cf7"
+              ]
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "execution_authorized": false,
+        "isolated_environment_verified": false,
+        "no_sensitive_data_attested": false,
+        "cost_estimate_approved": false,
+        "teardown_plan_verified": false
+      },
+      "promotion_rule": "all protocol channels and critical-edge bindings must pass src.oracle_gold.protocol.validate_oracle_registry"
+    }
+  ]
+}

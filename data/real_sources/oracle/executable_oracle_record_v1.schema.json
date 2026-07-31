@@ -127,7 +127,14 @@
       "type": "object",
       "required": ["status", "outcome", "evidence"],
       "properties": {
-        "status": {"enum": ["pending", "verified", "conflict"]},
+        "status": {
+          "enum": [
+            "pending",
+            "artifact_verified",
+            "verified",
+            "conflict"
+          ]
+        },
         "outcome": {
           "type": ["string", "null"]
         },
