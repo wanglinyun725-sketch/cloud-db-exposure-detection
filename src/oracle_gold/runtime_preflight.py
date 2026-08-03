@@ -19,6 +19,18 @@ SSM_PARAMETER_NAME = re.compile(
 )
 AWS_REGION = re.compile(r"[a-z]{2}(?:-[a-z0-9]+)+-\d")
 ACCOUNT_ID = re.compile(r"\d{12}")
+GCP_PROJECT_ID = re.compile(r"[a-z][a-z0-9-]{4,28}[a-z0-9]")
+GCP_LOCATION = re.compile(r"[A-Za-z][A-Za-z0-9-]{1,29}")
+GCP_SERVICE_ACCOUNT = re.compile(
+    r"[a-z][a-z0-9-]{4,28}[a-z0-9]@"
+    r"(?P<project>[a-z][a-z0-9-]{4,28}[a-z0-9])\."
+    r"iam\.gserviceaccount\.com"
+)
+GCS_RUN_BUCKET = re.compile(r"pathbench-oracle-[0-9a-f]{32}")
+GCS_RUN_OBJECT = re.compile(
+    r"canary-(?P<run_id>[a-z0-9][a-z0-9-]{7,31})\.json"
+)
+GCP_RUN_ROLE = re.compile(r"pathbenchOracle[0-9a-f]{16}")
 SHA256 = re.compile(r"[0-9a-f]{64}")
 SENSITIVE_KEY = re.compile(
     r"(?i)(?:password|secret_value|access_key|private_key|session_token|"
@@ -29,6 +41,87 @@ FORBIDDEN_AWS_FLAGS = {
     "--endpoint-url",
     "--no-sign-request",
     "--no-verify-ssl",
+}
+FORBIDDEN_GCLOUD_FLAGS = {
+    "--access-token-file",
+    "--account",
+    "--configuration",
+    "--log-http",
+    "--trace-token",
+    "--verbosity",
+}
+AWS_COMMAND_ALLOWLIST = {
+    "setup": {
+        ("secretsmanager", "create-secret"),
+        ("ssm", "put-parameter"),
+    },
+    "provider_native_analysis": {
+        ("iam", "simulate-principal-policy"),
+    },
+    "permission_precheck": {
+        ("ec2", "modify-image-attribute"),
+        ("ec2", "modify-snapshot-attribute"),
+    },
+    "active_probe": {
+        ("ec2", "modify-image-attribute"),
+        ("ec2", "modify-snapshot-attribute"),
+        ("secretsmanager", "batch-get-secret-value"),
+        ("secretsmanager", "get-secret-value"),
+        ("ssm", "get-parameters"),
+    },
+    "postcondition": {
+        ("ec2", "describe-image-attribute"),
+        ("ec2", "describe-snapshot-attribute"),
+        ("secretsmanager", "describe-secret"),
+        ("secretsmanager", "list-secrets"),
+        ("ssm", "describe-parameters"),
+    },
+    "audit_telemetry": {("cloudtrail", "lookup-events")},
+    "cleanup": {
+        ("ec2", "modify-image-attribute"),
+        ("ec2", "modify-snapshot-attribute"),
+        ("secretsmanager", "delete-secret"),
+        ("ssm", "delete-parameter"),
+    },
+    "post_cleanup_inventory": {
+        ("ec2", "describe-image-attribute"),
+        ("ec2", "describe-snapshot-attribute"),
+        ("secretsmanager", "describe-secret"),
+        ("secretsmanager", "list-secrets"),
+        ("ssm", "describe-parameters"),
+    },
+}
+GCLOUD_COMMAND_ALLOWLIST = {
+    "setup": {
+        ("storage", "buckets", "create"),
+        ("storage", "buckets", "update"),
+        ("storage", "buckets", "add-iam-policy-binding"),
+        ("iam", "roles", "create"),
+        ("storage", "cp"),
+    },
+    "provider_native_analysis": {
+        ("storage", "buckets", "get-iam-policy"),
+        ("policy-intelligence", "troubleshoot-policy", "iam"),
+    },
+    "active_probe": {
+        ("storage", "buckets", "add-iam-policy-binding"),
+        ("storage", "objects", "describe"),
+    },
+    "postcondition": {
+        ("storage", "buckets", "get-iam-policy"),
+        ("storage", "objects", "describe"),
+    },
+    "audit_telemetry": {("logging", "read")},
+    "cleanup": {
+        ("storage", "buckets", "remove-iam-policy-binding"),
+        ("storage", "buckets", "delete"),
+        ("iam", "roles", "delete"),
+        ("storage", "rm"),
+    },
+    "post_cleanup_inventory": {
+        ("storage", "buckets", "describe"),
+        ("iam", "roles", "describe"),
+    },
 }
 PHASE_ORDER = (
     "setup",
@@ -67,10 +160,13 @@ def preflight_probe_contract(
 ) -> ExecutionPreflight:
     """Validate and resolve a contract but never execute a command."""
     blockers: list[str] = []
+    platform = str(contract.get("platform") or "")
     _reject_sensitive_input_keys(runtime_values, "runtime_values", blockers)
     _reject_sensitive_input_keys(authorization, "authorization", blockers)
     _validate_policy(policy, blockers)
-    _validate_authorization(authorization, policy, blockers)
+    _validate_authorization(
+        authorization, policy, platform=platform, blockers=blockers
+    )
 
     required = sorted(_find_placeholders(contract))
     supplied = set(runtime_values)
@@ -84,6 +180,7 @@ def preflight_probe_contract(
         required,
         runtime_values,
         authorization,
+        platform,
         blockers,
     )
 
@@ -97,6 +194,9 @@ def preflight_probe_contract(
             )
             _validate_resolved_argv(
                 resolved,
+                phase=phase,
+                platform=platform,
+                runtime_values=runtime_values,
                 template_path=template_path,
                 blockers=blockers,
             )
@@ -118,6 +218,7 @@ def preflight_probe_contract(
         "report_kind": "oracle_contract_runtime_preflight",
         "contract_id": contract.get("contract_id"),
         "independence_group": contract.get("independence_group"),
+        "platform": platform,
         "ready_for_execution": ready,
         "commands_executed": 0,
         "truth_labels_present": False,
@@ -213,6 +314,8 @@ def _validate_policy(
 def _validate_authorization(
     authorization: Mapping[str, Any],
     policy: Mapping[str, Any],
+    *,
+    platform: str,
     blockers: list[str],
 ) -> None:
     safety = policy.get("safety") or {}
@@ -231,16 +334,59 @@ def _validate_authorization(
     if authorization.get("production_scope") is not False:
         blockers.append("production_scope_not_explicitly_false")
 
-    owner = str(authorization.get("owner_account_id") or "")
-    if not ACCOUNT_ID.fullmatch(owner):
-        blockers.append("owner_account_id_invalid")
-    counterpart = authorization.get("counterpart_account_id")
-    if counterpart is not None:
-        counterpart = str(counterpart)
-        if not ACCOUNT_ID.fullmatch(counterpart):
-            blockers.append("counterpart_account_id_invalid")
-        elif counterpart == owner:
-            blockers.append("owner_and_counterpart_accounts_not_distinct")
+    if platform == "AWS":
+        owner = str(authorization.get("owner_account_id") or "")
+        if not ACCOUNT_ID.fullmatch(owner):
+            blockers.append("owner_account_id_invalid")
+        counterpart = authorization.get("counterpart_account_id")
+        if counterpart is not None:
+            counterpart = str(counterpart)
+            if not ACCOUNT_ID.fullmatch(counterpart):
+                blockers.append("counterpart_account_id_invalid")
+            elif counterpart == owner:
+                blockers.append(
+                    "owner_and_counterpart_accounts_not_distinct"
+                )
+    elif platform == "GCP":
+        owner = str(authorization.get("owner_project_id") or "")
+        probe = str(authorization.get("probe_project_id") or "")
+        probe_identity = str(
+            authorization.get("probe_service_account_email") or ""
+        )
+        if not GCP_PROJECT_ID.fullmatch(owner):
+            blockers.append("owner_project_id_invalid")
+        if not GCP_PROJECT_ID.fullmatch(probe):
+            blockers.append("probe_project_id_invalid")
+        elif probe == owner:
+            blockers.append("owner_and_probe_projects_not_distinct")
+        identity_match = GCP_SERVICE_ACCOUNT.fullmatch(probe_identity)
+        if identity_match is None:
+            blockers.append("probe_service_account_email_invalid")
+        elif identity_match.group("project") != probe:
+            blockers.append("probe_service_account_project_mismatch")
+        if authorization.get(
+            "resource_names_cryptographically_random_attested"
+        ) is not True:
+            blockers.append(
+                "authorization_attestation_missing:"
+                "resource_names_cryptographically_random_attested"
+            )
+        if authorization.get(
+            "gcp_storage_data_access_logs_enabled_attested"
+        ) is not True:
+            blockers.append(
+                "authorization_attestation_missing:"
+                "gcp_storage_data_access_logs_enabled_attested"
+            )
+        if authorization.get(
+            "probe_impersonation_authorized_attested"
+        ) is not True:
+            blockers.append(
+                "authorization_attestation_missing:"
+                "probe_impersonation_authorized_attested"
+            )
+    else:
+        blockers.append("unsupported_contract_platform")
 
     estimated = authorization.get("estimated_cost_usd")
     maximum_cost = safety.get(
@@ -274,6 +420,7 @@ def _validate_runtime_values(
     required: Sequence[str],
     values: Mapping[str, str],
     authorization: Mapping[str, Any],
+    platform: str,
     blockers: list[str],
 ) -> None:
     valid_strings: dict[str, str] = {}
@@ -356,12 +503,70 @@ def _validate_runtime_values(
         ):
             blockers.append("run_owned_parameter_run_id_mismatch")
 
+    if platform == "GCP":
+        _validate_gcp_runtime_values(
+            valid_strings, authorization, blockers
+        )
+
     _validate_network(valid_strings, blockers)
     _validate_time_window(valid_strings, authorization, blockers)
     _validate_run_owned_resources(
         valid_strings, authorization, owner, blockers
     )
     _validate_private_inputs(valid_strings, authorization, blockers)
+
+
+def _validate_gcp_runtime_values(
+    values: Mapping[str, str],
+    authorization: Mapping[str, Any],
+    blockers: list[str],
+) -> None:
+    owner = values.get("GCP_OWNER_PROJECT_ID")
+    if owner is not None:
+        if not GCP_PROJECT_ID.fullmatch(owner):
+            blockers.append("gcp_owner_project_id_invalid")
+        elif owner != str(authorization.get("owner_project_id") or ""):
+            blockers.append("runtime_owner_project_mismatch")
+    location = values.get("GCP_LOCATION")
+    if location is not None and not GCP_LOCATION.fullmatch(location):
+        blockers.append("gcp_location_invalid")
+    service_account = values.get("DEDICATED_GCP_PROBE_SERVICE_ACCOUNT")
+    if service_account is not None:
+        match = GCP_SERVICE_ACCOUNT.fullmatch(service_account)
+        if match is None:
+            blockers.append("gcp_probe_service_account_invalid")
+        else:
+            probe_project = str(
+                authorization.get("probe_project_id") or ""
+            )
+            if match.group("project") != probe_project:
+                blockers.append("gcp_probe_service_account_project_mismatch")
+        if service_account != str(
+            authorization.get("probe_service_account_email") or ""
+        ):
+            blockers.append("runtime_probe_service_account_mismatch")
+    bucket = values.get("RUN_OWNED_GCS_BUCKET")
+    if bucket is not None and not GCS_RUN_BUCKET.fullmatch(bucket):
+        blockers.append(
+            "runtime_resource_identifier_invalid:RUN_OWNED_GCS_BUCKET"
+        )
+    object_name = values.get("RUN_OWNED_GCS_OBJECT")
+    if object_name is not None:
+        match = GCS_RUN_OBJECT.fullmatch(object_name)
+        if match is None:
+            blockers.append(
+                "runtime_resource_identifier_invalid:RUN_OWNED_GCS_OBJECT"
+            )
+        elif (
+            "RUN_ID" in values
+            and match.group("run_id") != values["RUN_ID"]
+        ):
+            blockers.append("run_owned_gcs_object_run_id_mismatch")
+    role_id = values.get("RUN_OWNED_GCP_ROLE_ID")
+    if role_id is not None and not GCP_RUN_ROLE.fullmatch(role_id):
+        blockers.append(
+            "runtime_resource_identifier_invalid:RUN_OWNED_GCP_ROLE_ID"
+        )
 
 
 def _validate_network(
@@ -470,6 +675,8 @@ def _validate_private_inputs(
     if set(metadata) != names:
         blockers.append("private_input_metadata_key_mismatch")
         return
+    if not names:
+        return
     private_root_value = authorization.get("evaluator_private_root")
     if not isinstance(private_root_value, str):
         blockers.append("evaluator_private_root_missing")
@@ -488,6 +695,9 @@ def _validate_private_inputs(
             blockers.append(f"private_input_metadata_invalid:{name}")
             continue
         path = Path(values[name])
+        if not path.is_absolute():
+            blockers.append(f"private_input_path_not_absolute:{name}")
+            continue
         try:
             resolved = path.resolve(strict=True)
             resolved.relative_to(private_root)
@@ -546,9 +756,19 @@ def _collect_command_templates(
             "probe_argv_template",
         ),
         (
+            "active_probe",
+            "authorized_active_probe",
+            "probe_argv_templates",
+        ),
+        (
             "postcondition",
             "authorized_active_probe",
             "postcondition_argv_template",
+        ),
+        (
+            "postcondition",
+            "authorized_active_probe",
+            "postcondition_argv_templates",
         ),
         (
             "audit_telemetry",
@@ -569,6 +789,11 @@ def _collect_command_templates(
             "post_cleanup_inventory",
             "authorized_active_probe",
             "post_cleanup_inventory_argv_template",
+        ),
+        (
+            "post_cleanup_inventory",
+            "authorized_active_probe",
+            "post_cleanup_inventory_argv_templates",
         ),
     )
     for phase, section_name, field_name in locations:
@@ -597,16 +822,108 @@ def _collect_command_templates(
 def _validate_resolved_argv(
     argv: Sequence[str],
     *,
+    phase: str,
+    platform: str,
+    runtime_values: Mapping[str, str],
     template_path: str,
     blockers: list[str],
 ) -> None:
-    if not argv or argv[0] != "aws":
+    if not argv:
         blockers.append(f"program_not_allowlisted:{template_path}")
         return
-    if any(token in FORBIDDEN_AWS_FLAGS for token in argv):
-        blockers.append(f"forbidden_aws_flag:{template_path}")
+    if platform == "AWS":
+        _validate_aws_argv(argv, phase, template_path, blockers)
+    elif platform == "GCP":
+        _validate_gcloud_argv(
+            argv,
+            phase,
+            runtime_values,
+            template_path,
+            blockers,
+        )
+    else:
+        blockers.append(f"program_not_allowlisted:{template_path}")
     if any(PLACEHOLDER.search(token) for token in argv):
         blockers.append(f"unresolved_placeholder:{template_path}")
+
+
+def _validate_aws_argv(
+    argv: Sequence[str],
+    phase: str,
+    template_path: str,
+    blockers: list[str],
+) -> None:
+    if argv[0] != "aws" or len(argv) < 3:
+        blockers.append(f"program_not_allowlisted:{template_path}")
+        return
+    if (argv[1], argv[2]) not in AWS_COMMAND_ALLOWLIST.get(phase, set()):
+        blockers.append(f"aws_operation_not_allowlisted:{template_path}")
+    if any(_flag_matches(token, FORBIDDEN_AWS_FLAGS) for token in argv):
+        blockers.append(f"forbidden_aws_flag:{template_path}")
+
+
+def _validate_gcloud_argv(
+    argv: Sequence[str],
+    phase: str,
+    runtime_values: Mapping[str, str],
+    template_path: str,
+    blockers: list[str],
+) -> None:
+    if argv[0] != "gcloud" or len(argv) < 3:
+        blockers.append(f"program_not_allowlisted:{template_path}")
+        return
+    command = _gcloud_command_prefix(argv)
+    if command not in GCLOUD_COMMAND_ALLOWLIST.get(phase, set()):
+        blockers.append(f"gcloud_operation_not_allowlisted:{template_path}")
+    if any(_flag_matches(token, FORBIDDEN_GCLOUD_FLAGS) for token in argv):
+        blockers.append(f"forbidden_gcloud_flag:{template_path}")
+    project_values = _flag_values(argv, "--project")
+    expected_project = runtime_values.get("GCP_OWNER_PROJECT_ID")
+    if project_values != [expected_project]:
+        blockers.append(f"gcloud_project_scope_mismatch:{template_path}")
+    impersonated = _flag_values(argv, "--impersonate-service-account")
+    expected_probe = runtime_values.get(
+        "DEDICATED_GCP_PROBE_SERVICE_ACCOUNT"
+    )
+    if phase == "active_probe":
+        if impersonated != [expected_probe]:
+            blockers.append(
+                f"gcloud_probe_identity_mismatch:{template_path}"
+            )
+    elif impersonated:
+        blockers.append(
+            f"gcloud_impersonation_outside_probe:{template_path}"
+        )
+
+
+def _gcloud_command_prefix(argv: Sequence[str]) -> tuple[str, ...]:
+    if tuple(argv[1:3]) == ("logging", "read"):
+        return ("logging", "read")
+    if len(argv) >= 4 and tuple(argv[1:3]) == ("iam", "roles"):
+        return tuple(argv[1:4])
+    if len(argv) >= 4 and tuple(argv[1:3]) == ("storage", "buckets"):
+        return tuple(argv[1:4])
+    if len(argv) >= 4 and tuple(argv[1:3]) == ("storage", "objects"):
+        return tuple(argv[1:4])
+    if len(argv) >= 4 and tuple(argv[1:3]) == (
+        "policy-intelligence", "troubleshoot-policy"
+    ):
+        return tuple(argv[1:4])
+    return tuple(argv[1:3])
+
+
+def _flag_values(argv: Sequence[str], flag: str) -> list[str]:
+    values = []
+    for index, token in enumerate(argv):
+        if token == flag and index + 1 < len(argv):
+            values.append(argv[index + 1])
+        elif token.startswith(flag + "="):
+            values.append(token.split("=", 1)[1])
+    return values
+
+
+def _flag_matches(token: str, flags: set[str]) -> bool:
+    return token in flags or any(token.startswith(flag + "=") for flag in flags)
 
 
 def _validate_step_coverage(

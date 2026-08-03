@@ -97,7 +97,9 @@ D:\anaconda\python.exe scripts/oracle/build_oracle_split_v1.py
 
 固定的跨云公开攻击脚本也不能直接等同于安全复现代码。静态供应审计先验证 acquisition manifest 中的 Zenodo 文件大小和 SHA-256，再在不解压到文件系统、不执行任何上游代码的条件下扫描归档成员。审计不保留原始行或可能的密钥值，只记录规则、成员路径、行号和行哈希。当前固定版 `attack_scripts.zip` 的164个归档成员中，133个文本成员被扫描，64个成员触发298项阻断发现，覆盖把凭据写入容器层、创建长期凭据、公共主体/ACL、广域管理员角色以及未证明资源属于本次运行的删除操作。因此该制品的结论是 `direct_execution_blocked_requires_sanitized_wrapper`，不能按上游 README 原样运行；这些数字是安全审计结果，不是攻击标签或 Gold。
 
-复现供应清单进一步把40个冻结谱系逐一映射为三层：11个 `pinned_iac_lab`、8个 `published_telemetry_only`、21个 `upstream_native_cli`。其中10个跨云脚本谱系被上述供应审计阻断，8个Splunk谱系只保留为公开遥测，17个谱系仍等待来源专属安全审计，已有5个谱系注册了安全探针契约。即使这5个契约存在，授权和执行资格仍全部为 `false`；供应存在、静态扫描通过或契约存在都不能推出可达性，也不能自动授权云操作。
+复现供应清单进一步把40个冻结谱系逐一映射为三层：11个 `pinned_iac_lab`、8个 `published_telemetry_only`、21个 `upstream_native_cli`。其中10个跨云脚本谱系被上述供应审计阻断，8个Splunk谱系只保留为公开遥测，16个谱系仍等待来源专属安全审计，已有6个谱系注册了安全探针契约（AWS 5、GCP 1、Azure 0）。即使这些契约存在，授权和执行资格仍全部为 `false`；供应存在、静态扫描通过或契约存在都不能推出可达性，也不能自动授权云操作。
+
+首个GCP契约绑定固定GCPGoat提交、归档和 `main.tf` 成员哈希，只复现一个随机、无真实数据、本轮创建桶上的窄化策略变更路径。Google官方说明Cloud Audit Logs不跟踪公共对象访问，因此协议禁止把匿名GET伪称为Cloud Audit证据。契约改用两步探针：独立低权限服务账号先通过仅含 `storage.buckets.get/getIamPolicy/setIamPolicy` 的临时自定义角色修改精确桶策略，再读取本轮canary对象元数据；前一步必须匹配Admin Activity，后一步必须在预先启用Data Access日志的隔离项目中匹配Data Access记录。缺少任一事件、探针身份与所有者项目未隔离、桶名不含至少128位随机后缀或清理库存不成立，均保持 `Unknown`。公开对象访问若后续作为独立案例，只能使用GCP官方建议的Usage Logs，并显式处理其小时级延迟与不保证及时/完整交付的限制。
 
 现有证据完成度被分层记录：10个配置谱系的 `configuration` 通道已通过上游归档和成员哈希验证；30个运行时谱系的 `audit_telemetry` 原始制品已验证存在。后者只记为 `artifact_verified`，在事件语义、原生权限分析和主动探针完成前不会升级为允许/拒绝结论。
 

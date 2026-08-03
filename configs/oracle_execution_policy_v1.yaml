@@ -84,7 +84,9 @@ provider_contracts:
       - gcloud_with_dedicated_service_account
       - anonymous_https_for_public_object_only
     audit_sources:
-      - gcp_audit_logs
+      - gcp_admin_activity_audit_logs
+      - gcp_data_access_audit_logs_when_pre_enabled
+      - gcp_usage_logs_for_public_object_access_only
 
 truth_rules:
   Reachable:

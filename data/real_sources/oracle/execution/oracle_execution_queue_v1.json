@@ -10,8 +10,8 @@
     },
     "execution_policy": {
       "path": "configs/oracle_execution_policy_v1.yaml",
-      "sha256": "7abc0cfb4ea8d76efcf2053e3f798e414f96caece81144b4f23dd49dfd69a6a0",
-      "bytes": 3160
+      "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
+      "bytes": 3280
     }
   },
   "policy": {
@@ -748,7 +748,9 @@
               "channel": "audit_telemetry",
               "status": "pending",
               "accepted_oracles": [
-                "gcp_audit_logs"
+                "gcp_admin_activity_audit_logs",
+                "gcp_data_access_audit_logs_when_pre_enabled",
+                "gcp_usage_logs_for_public_object_access_only"
               ],
               "artifact_bindings": [],
               "existing_evidence_ids": []
@@ -1017,7 +1019,9 @@
               "channel": "audit_telemetry",
               "status": "pending",
               "accepted_oracles": [
-                "gcp_audit_logs"
+                "gcp_admin_activity_audit_logs",
+                "gcp_data_access_audit_logs_when_pre_enabled",
+                "gcp_usage_logs_for_public_object_access_only"
               ],
               "artifact_bindings": [],
               "existing_evidence_ids": []
@@ -1100,7 +1104,9 @@
               "channel": "audit_telemetry",
               "status": "artifact_verified",
               "accepted_oracles": [
-                "gcp_audit_logs"
+                "gcp_admin_activity_audit_logs",
+                "gcp_data_access_audit_logs_when_pre_enabled",
+                "gcp_usage_logs_for_public_object_access_only"
               ],
               "artifact_bindings": [
                 {
@@ -1191,7 +1197,9 @@
               "channel": "audit_telemetry",
               "status": "artifact_verified",
               "accepted_oracles": [
-                "gcp_audit_logs"
+                "gcp_admin_activity_audit_logs",
+                "gcp_data_access_audit_logs_when_pre_enabled",
+                "gcp_usage_logs_for_public_object_access_only"
               ],
               "artifact_bindings": [
                 {
@@ -1558,7 +1566,9 @@
               "channel": "audit_telemetry",
               "status": "artifact_verified",
               "accepted_oracles": [
-                "gcp_audit_logs"
+                "gcp_admin_activity_audit_logs",
+                "gcp_data_access_audit_logs_when_pre_enabled",
+                "gcp_usage_logs_for_public_object_access_only"
               ],
               "artifact_bindings": [
                 {
@@ -1649,7 +1659,9 @@
               "channel": "audit_telemetry",
               "status": "artifact_verified",
               "accepted_oracles": [
-                "gcp_audit_logs"
+                "gcp_admin_activity_audit_logs",
+                "gcp_data_access_audit_logs_when_pre_enabled",
+                "gcp_usage_logs_for_public_object_access_only"
               ],
               "artifact_bindings": [
                 {
@@ -1832,7 +1844,9 @@
               "channel": "audit_telemetry",
               "status": "artifact_verified",
               "accepted_oracles": [
-                "gcp_audit_logs"
+                "gcp_admin_activity_audit_logs",
+                "gcp_data_access_audit_logs_when_pre_enabled",
+                "gcp_usage_logs_for_public_object_access_only"
               ],
               "artifact_bindings": [
                 {

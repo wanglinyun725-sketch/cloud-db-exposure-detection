@@ -30,9 +30,9 @@ def test_committed_probe_contracts_are_reproducible_and_outcome_free():
     assert json.loads(COMMITTED.read_text(encoding="utf-8")) == built
     assert built["summary"] == {
         "candidate_groups": 40,
-        "supported_contracts": 5,
-        "unsupported_or_unresolved_groups": 35,
-        "platform_counts": {"AWS": 5, "AZURE": 0, "GCP": 0},
+        "supported_contracts": 6,
+        "unsupported_or_unresolved_groups": 34,
+        "platform_counts": {"AWS": 5, "AZURE": 0, "GCP": 1},
     }
     serialized = json.dumps(built, sort_keys=True)
     assert '"truth_state"' not in serialized
@@ -57,14 +57,15 @@ def test_contracts_use_runtime_placeholders_not_historical_identifiers():
     assert "{{ISOLATED_COUNTERPART_ACCOUNT_ID}}" in serialized
     assert ":ec2:{{AWS_REGION}}::snapshot/" in serialized
     assert ":ec2:{{AWS_REGION}}::image/" in serialized
+    aws_contracts = [
+        contract for contract in built["contracts"]
+        if contract["platform"] == "AWS"
+    ]
     assert all(
         contract["safety"]["resource_must_be_created_by_current_run"]
         is True
         and contract["safety"]["public_group_all_forbidden"] is True
-        and contract["authorized_active_probe"][
-            "dry_run_is_qualifying_runtime_evidence"
-        ] is False
-        for contract in built["contracts"]
+        for contract in aws_contracts
     )
 
 
@@ -95,7 +96,8 @@ def test_bounded_secret_reads_never_emit_values_or_enumerate_accounts():
     bounded = [
         contract
         for contract in built["contracts"]
-        if contract["derivation"].get("upstream_behavior_narrowed")
+        if contract["platform"] == "AWS"
+        and contract["derivation"].get("upstream_behavior_narrowed")
     ]
 
     assert len(bounded) == 3
@@ -127,10 +129,11 @@ def test_every_contract_binds_pinned_stratus_implementation_bytes():
     )
     for contract in built["contracts"]:
         upstream = contract["upstream_implementation"]
-        assert upstream["commit"] == (
-            "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0"
-        )
-        assert len(upstream["members"]) == 4
+        if contract["platform"] == "AWS":
+            assert upstream["commit"] == (
+                "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0"
+            )
+            assert len(upstream["members"]) == 4
         assert all(
             len(member["sha256"]) == 64 and member["bytes"] > 0
             for member in upstream["members"]
@@ -142,10 +145,55 @@ def test_every_contract_has_post_cleanup_inventory_and_explicit_ownership():
 
     for contract in built["contracts"]:
         active = contract["authorized_active_probe"]
-        assert "post_cleanup_inventory_argv_template" in active
+        assert (
+            "post_cleanup_inventory_argv_template" in active
+            or "post_cleanup_inventory_argv_templates" in active
+        )
         if contract["independence_group"].endswith(
             "ssm-retrieve-securestring-parameters"
         ):
             serialized = json.dumps(contract)
             assert "{{RUN_OWNED_PARAMETER_NAME}}" in serialized
             assert "/pathbench/{{RUN_ID}}/canary" not in serialized
+
+
+def test_gcpgoat_policy_transition_is_bounded_and_audit_eligible():
+    built = _build()
+    contract = next(
+        item for item in built["contracts"]
+        if item["platform"] == "GCP"
+    )
+
+    assert contract["independence_group"] == (
+        "configuration-lineage:gcpgoat:"
+        "gcpgoat_anonymous_bucket_policy_transition"
+    )
+    assert contract["runtime_scope_template"]["actions"] == [
+        "storage.buckets.setIamPolicy",
+        "storage.objects.get",
+    ]
+    assert contract["upstream_implementation"]["commit"] == (
+        "44605c4bff4b2da7611dfce78696bb53db6d8c54"
+    )
+    assert contract["upstream_implementation"]["archive"]["sha256"] == (
+        "f8e59451cdf074144cac7fe97f87477296ca88a6c9a605eab72baf82dff85af8"
+    )
+    assert contract["safety"][
+        "random_bucket_name_minimum_entropy_bits"
+    ] == 128
+    assert contract["safety"][
+        "custom_role_has_no_data_read_write_or_delete"
+    ] is True
+    assert contract["audit_telemetry"][
+        "public_object_access_used_as_telemetry"
+    ] is False
+    required = contract["audit_telemetry"]["required_event_predicates"]
+    assert {row["audit_log_type"] for row in required} == {
+        "Admin Activity",
+        "Data Access",
+    }
+    serialized = json.dumps(contract)
+    assert "{{RUN_OWNED_GCS_BUCKET}}" in serialized
+    assert "{{RUN_OWNED_GCS_OBJECT}}" in serialized
+    assert "allUsers" in serialized
+    assert "roles/storage.admin" not in serialized

@@ -53,6 +53,38 @@ def _authorization(tmp_path, *, run_owned, private_inputs=None):
     }
 
 
+def _gcp_authorization(tmp_path, *, run_owned, private_inputs):
+    return {
+        "authorization_sentinel": (
+            "I_AUTHORIZE_ISOLATED_TEST_RESOURCES_ONLY"
+        ),
+        "dedicated_scope_attested": True,
+        "production_scope": False,
+        "no_sensitive_data_attested": True,
+        "teardown_plan_verified": True,
+        "post_teardown_inventory_plan_verified": True,
+        "cost_estimate_approved": True,
+        "owner_project_id": "pathbench-owner-12345",
+        "probe_project_id": "pathbench-probe-12345",
+        "probe_service_account_email": (
+            "pathbench-probe@pathbench-probe-12345."
+            "iam.gserviceaccount.com"
+        ),
+        "resource_names_cryptographically_random_attested": True,
+        "gcp_storage_data_access_logs_enabled_attested": True,
+        "probe_impersonation_authorized_attested": True,
+        "estimated_cost_usd": 0.10,
+        "ttl_hours": 2,
+        "resource_tags": {
+            "managed-by": "cloud-db-pathbench",
+            "purpose": "executable-oracle",
+        },
+        "run_owned_resource_identifiers": list(run_owned),
+        "evaluator_private_root": str(tmp_path.resolve()),
+        "private_inputs": private_inputs,
+    }
+
+
 def test_bounded_secret_contract_resolves_in_memory_without_leaking_value(
     tmp_path,
 ):
@@ -315,5 +347,121 @@ def test_ssm_parameter_must_be_explicitly_run_owned_and_match_run_id(
     assert result.audit_report["ready_for_execution"] is False
     assert "run_owned_parameter_run_id_mismatch" in (
         result.audit_report["blockers"]
+    )
+    assert result.resolved_steps == ()
+
+
+def test_gcp_policy_transition_contract_resolves_without_label_leakage(
+    tmp_path,
+):
+    group = (
+        "configuration-lineage:gcpgoat:"
+        "gcpgoat_anonymous_bucket_policy_transition"
+    )
+    contract = _contract(group)
+    canary = tmp_path / "canary.json"
+    canary.write_text(
+        '{"kind":"non-sensitive-pathbench-canary"}',
+        encoding="utf-8",
+    )
+    data = canary.read_bytes()
+    bucket = "pathbench-oracle-0123456789abcdef0123456789abcdef"
+    object_name = "canary-a1b2c3d4.json"
+    role_id = "pathbenchOracle0123456789abcdef"
+    probe = (
+        "pathbench-probe@pathbench-probe-12345."
+        "iam.gserviceaccount.com"
+    )
+    private_inputs = {
+        "EVALUATOR_PRIVATE_GCS_CANARY_FILE": {
+            "path": str(canary.resolve()),
+            "sha256": sha256(data).hexdigest(),
+            "bytes": len(data),
+            "access_control_verified": True,
+            "contains_real_secret": False,
+        },
+    }
+    runtime = {
+        "DEDICATED_GCP_PROBE_SERVICE_ACCOUNT": probe,
+        "EVALUATOR_PRIVATE_GCS_CANARY_FILE": str(canary.resolve()),
+        "GCP_LOCATION": "US",
+        "GCP_OWNER_PROJECT_ID": "pathbench-owner-12345",
+        "RUN_FINISHED_AT": "2026-07-31T10:30:00Z",
+        "RUN_ID": "a1b2c3d4",
+        "RUN_OWNED_GCP_ROLE_ID": role_id,
+        "RUN_OWNED_GCS_BUCKET": bucket,
+        "RUN_OWNED_GCS_OBJECT": object_name,
+        "RUN_STARTED_AT": "2026-07-31T10:00:00Z",
+        "RUNNER_EGRESS_CIDR": "203.0.113.17/32",
+        "RUNNER_EGRESS_IP": "203.0.113.17",
+    }
+    result = preflight_probe_contract(
+        contract,
+        runtime_values=runtime,
+        authorization=_gcp_authorization(
+            tmp_path,
+            run_owned=[bucket, object_name, role_id],
+            private_inputs=private_inputs,
+        ),
+        policy=_policy(),
+    )
+
+    assert result.audit_report["ready_for_execution"] is True
+    assert result.audit_report["platform"] == "GCP"
+    assert result.audit_report["commands_executed"] == 0
+    assert result.audit_report["resolved_step_count"] == 19
+    assert result.audit_report["blockers"] == []
+    persisted = json.dumps(result.audit_report, sort_keys=True)
+    for private_value in (bucket, object_name, role_id, probe, str(canary)):
+        assert private_value not in persisted
+
+
+def test_gcp_contract_rejects_guessable_bucket_and_missing_audit_attestation(
+    tmp_path,
+):
+    group = (
+        "configuration-lineage:gcpgoat:"
+        "gcpgoat_anonymous_bucket_policy_transition"
+    )
+    contract = _contract(group)
+    authorization = _gcp_authorization(
+        tmp_path,
+        run_owned=["pathbench-oracle-easy", "canary-a1b2c3d4.json"],
+        private_inputs={},
+    )
+    authorization["gcp_storage_data_access_logs_enabled_attested"] = False
+    result = preflight_probe_contract(
+        contract,
+        runtime_values={
+            "DEDICATED_GCP_PROBE_SERVICE_ACCOUNT": (
+                authorization["probe_service_account_email"]
+            ),
+            "EVALUATOR_PRIVATE_GCS_CANARY_FILE": str(
+                tmp_path / "missing.json"
+            ),
+            "GCP_LOCATION": "US",
+            "GCP_OWNER_PROJECT_ID": authorization["owner_project_id"],
+            "RUN_FINISHED_AT": "2026-07-31T10:30:00Z",
+            "RUN_ID": "a1b2c3d4",
+            "RUN_OWNED_GCP_ROLE_ID": "pathbenchOracle0123456789abcdef",
+            "RUN_OWNED_GCS_BUCKET": "pathbench-oracle-easy",
+            "RUN_OWNED_GCS_OBJECT": "canary-a1b2c3d4.json",
+            "RUN_STARTED_AT": "2026-07-31T10:00:00Z",
+            "RUNNER_EGRESS_CIDR": "203.0.113.17/32",
+            "RUNNER_EGRESS_IP": "203.0.113.17",
+        },
+        authorization=authorization,
+        policy=_policy(),
+    )
+
+    assert result.audit_report["ready_for_execution"] is False
+    assert (
+        "runtime_resource_identifier_invalid:RUN_OWNED_GCS_BUCKET"
+        in result.audit_report["blockers"]
+    )
+    assert (
+        "authorization_attestation_missing:"
+        "gcp_storage_data_access_logs_enabled_attested"
+        in result.audit_report["blockers"]
     )
     assert result.resolved_steps == ()
