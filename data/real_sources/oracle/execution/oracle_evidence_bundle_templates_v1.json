@@ -5,13 +5,13 @@
   "bindings": {
     "queue": {
       "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-      "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-      "bytes": 137762
+      "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+      "bytes": 137882
     },
     "policy": {
       "path": "configs/oracle_execution_policy_v1.yaml",
-      "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-      "bytes": 3280
+      "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+      "bytes": 3293
     }
   },
   "policy": {
@@ -37,13 +37,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-05204fdc029c55b3981d",
         "independence_group": "cloudgoat-scenario:cloud_breach_s3",
@@ -120,13 +120,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-c3bde1c72a812e06a870",
         "independence_group": "configuration-lineage:awsgoat:awsgoat_m1_ssrf_dynamodb",
@@ -203,13 +203,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-7d9834932c6896da4a4c",
         "independence_group": "configuration-lineage:awsgoat:awsgoat_m2_ecs_secret_rds_credentials",
@@ -286,13 +286,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-51810be132a6d682de0d",
         "independence_group": "configuration-lineage:azuregoat:azuregoat_prod_dev_blob_control_pair",
@@ -369,13 +369,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-fefb8f73af1038cd29e4",
         "independence_group": "configuration-lineage:azuregoat:azuregoat_ssrf_cosmos_storage",
@@ -452,13 +452,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-2f255d8861cfb037ae59",
         "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_double_tap_secret_path",
@@ -535,13 +535,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-c32785dbcfd91a787c03",
         "independence_group": "configuration-lineage:cloudfoxable:cloudfoxable_search1_elasticsearch_exposure",
@@ -618,13 +618,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-853b905626007f9b5aab",
         "independence_group": "configuration-lineage:gcpgoat:gcpgoat_anonymous_bucket_policy_transition",
@@ -701,13 +701,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-48df1512d24efb5ebeeb",
         "independence_group": "configuration-lineage:terragoat:terragoat_aws_ec2_userdata_to_rds",
@@ -784,13 +784,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-f7ed089a2b5d43704ced",
         "independence_group": "configuration-lineage:terragoat:terragoat_azure_mysql_public_transport",
@@ -867,13 +867,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-05f90c3e752e16e2dcfc",
         "independence_group": "configuration-lineage:terragoat:terragoat_gcp_anonymous_gcs_read",
@@ -950,13 +950,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-90e91adfdbec86c0686c",
         "independence_group": "crosscloud-family:archive_collected_data",
@@ -1033,13 +1033,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-5e1ad1dbed95fd5bd8a7",
         "independence_group": "crosscloud-family:automated_collection",
@@ -1116,13 +1116,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-08bb2247398809fe009b",
         "independence_group": "crosscloud-family:automated_exfiltration",
@@ -1199,13 +1199,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-6fec947eefa486725fa9",
         "independence_group": "crosscloud-family:credentials_from_password_stores",
@@ -1282,13 +1282,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-b77a8d7cf3b73fa1319c",
         "independence_group": "crosscloud-family:data_destruction",
@@ -1365,13 +1365,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-092360339574657bbc9f",
         "independence_group": "crosscloud-family:data_encrypted_for_impact",
@@ -1448,13 +1448,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-1ab0cce2fdaf0c0ff211",
         "independence_group": "crosscloud-family:inhibit_system_recovery",
@@ -1531,13 +1531,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-1f85d47464e171ebf1c1",
         "independence_group": "crosscloud-family:scheduled_transfer",
@@ -1614,13 +1614,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-c61d43659769ce9837cb",
         "independence_group": "crosscloud-family:steal_application_access_token",
@@ -1697,13 +1697,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-2960b59a4f258f211674",
         "independence_group": "crosscloud-family:unsecured_credentials",
@@ -1780,13 +1780,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-394b7d554370b5b94194",
         "independence_group": "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
@@ -1863,13 +1863,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-562be532c87c9331371d",
         "independence_group": "source-case:splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
@@ -1946,13 +1946,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-f9bf88a881731d92cc02",
         "independence_group": "splunk-technique:T1098.001",
@@ -2029,13 +2029,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-5796438dc431b1a5800b",
         "independence_group": "splunk-technique:T1110.002",
@@ -2112,13 +2112,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-da9d5aa7934d544b32a2",
         "independence_group": "splunk-technique:T1486",
@@ -2195,13 +2195,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-ea9a2e720ad75efbf9bf",
         "independence_group": "splunk-technique:T1490",
@@ -2278,13 +2278,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-b78bde0f2d197ac5f446",
         "independence_group": "splunk-technique:T1530",
@@ -2361,13 +2361,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-1d07beb4abb6756c0987",
         "independence_group": "splunk-technique:T1537",
@@ -2444,13 +2444,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-3501e129e36ade1e2a49",
         "independence_group": "stratus-technique:T1496.A007",
@@ -2527,13 +2527,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-e6dc5eec8df62683273a",
         "independence_group": "stratus-technique:T1552.005",
@@ -2610,13 +2610,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-66c4b6a84216f7670c31",
         "independence_group": "stratus-technique:T1562.008",
@@ -2693,13 +2693,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-dbf8c658593217784173",
         "independence_group": "stratus-technique:T1578.001",
@@ -2776,13 +2776,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-43ead2744893d9670449",
         "independence_group": "stratus_red_team:stratus:aws.credential-access.ec2-get-password-data",
@@ -2859,13 +2859,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-a5bb0e5f8ba0c01ce146",
         "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
@@ -2942,13 +2942,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-7462f1089b5a99f5a73c",
         "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
@@ -3025,13 +3025,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-df2740e0d87f835b6939",
         "independence_group": "stratus_red_team:stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
@@ -3108,13 +3108,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-413ae33b02f6d72d8b47",
         "independence_group": "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs",
@@ -3191,13 +3191,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-06566dbaf120da706784",
         "independence_group": "stratus_red_team:stratus:aws.discovery.ec2-download-user-data",
@@ -3274,13 +3274,13 @@
       "task_binding": {
         "queue": {
           "path": "data/real_sources/oracle/execution/oracle_execution_queue_v1.json",
-          "sha256": "b9a459ae51d3fb5946ed795dfc06b2825a56f9f045663bf68f61c04243da6be6",
-          "bytes": 137762
+          "sha256": "2ddbcb218fbe2a33da16d5d04de6754c89e01a518043dbd2cb8f198106dbc124",
+          "bytes": 137882
         },
         "policy": {
           "path": "configs/oracle_execution_policy_v1.yaml",
-          "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-          "bytes": 3280
+          "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+          "bytes": 3293
         },
         "task_id": "oracle-task-d15b2147d8cfa5899094",
         "independence_group": "stratus_red_team:stratus:aws.exfiltration.ec2-share-ami",

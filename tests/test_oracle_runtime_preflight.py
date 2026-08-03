@@ -85,6 +85,44 @@ def _gcp_authorization(tmp_path, *, run_owned, private_inputs):
     }
 
 
+def _azure_authorization(tmp_path, *, run_owned, private_inputs):
+    subscription = "11111111-1111-4111-8111-111111111111"
+    return {
+        "authorization_sentinel": (
+            "I_AUTHORIZE_ISOLATED_TEST_RESOURCES_ONLY"
+        ),
+        "dedicated_scope_attested": True,
+        "production_scope": False,
+        "no_sensitive_data_attested": True,
+        "teardown_plan_verified": True,
+        "post_teardown_inventory_plan_verified": True,
+        "cost_estimate_approved": True,
+        "owner_subscription_id": subscription,
+        "owner_tenant_id": "22222222-2222-4222-8222-222222222222",
+        "log_analytics_workspace_customer_id": (
+            "33333333-3333-4333-8333-333333333333"
+        ),
+        "log_analytics_workspace_resource_id": (
+            f"/subscriptions/{subscription}/resourceGroups/"
+            "pathbench-logs/providers/Microsoft.OperationalInsights/"
+            "workspaces/pathbench-oracle-logs"
+        ),
+        "azure_cli_identity_subscription_bound_attested": True,
+        "azure_blob_resource_log_sink_ready_attested": True,
+        "anonymous_probe_has_no_authorization_material_attested": True,
+        "resource_names_cryptographically_random_attested": True,
+        "estimated_cost_usd": 0.25,
+        "ttl_hours": 2,
+        "resource_tags": {
+            "managed-by": "cloud-db-pathbench",
+            "purpose": "executable-oracle",
+        },
+        "run_owned_resource_identifiers": list(run_owned),
+        "evaluator_private_root": str(tmp_path.resolve()),
+        "private_inputs": private_inputs,
+    }
+
+
 def test_bounded_secret_contract_resolves_in_memory_without_leaking_value(
     tmp_path,
 ):
@@ -464,4 +502,158 @@ def test_gcp_contract_rejects_guessable_bucket_and_missing_audit_attestation(
         "gcp_storage_data_access_logs_enabled_attested"
         in result.audit_report["blockers"]
     )
+    assert result.resolved_steps == ()
+
+
+def test_azure_blob_pair_resolves_to_bounded_anonymous_requests(tmp_path):
+    group = (
+        "configuration-lineage:azuregoat:"
+        "azuregoat_prod_dev_blob_control_pair"
+    )
+    contract = _contract(group)
+    canary = tmp_path / "azure-canary.json"
+    canary.write_text(
+        '{"kind":"non-sensitive-pathbench-canary"}',
+        encoding="utf-8",
+    )
+    data = canary.read_bytes()
+    resource_group = (
+        "pathbench-oracle-0123456789abcdef0123456789abcdef"
+    )
+    account = "pb0123456789abcdef012345"
+    prod = "prod-0123456789abcdef0123456789abcdef"
+    dev = "dev-fedcba9876543210fedcba9876543210"
+    blob = "canary-a1b2c3d4.json"
+    diagnostic = "pathbench-oracle-fedcba9876543210fedcba9876543210"
+    authorization = _azure_authorization(
+        tmp_path,
+        run_owned=[
+            resource_group,
+            account,
+            prod,
+            dev,
+            blob,
+            diagnostic,
+        ],
+        private_inputs={
+            "EVALUATOR_PRIVATE_AZURE_CANARY_FILE": {
+                "path": str(canary.resolve()),
+                "sha256": sha256(data).hexdigest(),
+                "bytes": len(data),
+                "access_control_verified": True,
+                "contains_real_secret": False,
+            },
+        },
+    )
+    runtime = {
+        "AZURE_SUBSCRIPTION_ID": authorization["owner_subscription_id"],
+        "AZURE_TENANT_ID": authorization["owner_tenant_id"],
+        "AZURE_LOCATION": "eastus",
+        "DEDICATED_AZURE_LOG_ANALYTICS_WORKSPACE_CUSTOMER_ID": (
+            authorization["log_analytics_workspace_customer_id"]
+        ),
+        "DEDICATED_AZURE_LOG_ANALYTICS_WORKSPACE_RESOURCE_ID": (
+            authorization["log_analytics_workspace_resource_id"]
+        ),
+        "EVALUATOR_PRIVATE_AZURE_CANARY_FILE": str(canary.resolve()),
+        "ORACLE_NULL_SINK": "NUL",
+        "RUN_ID": "a1b2c3d4",
+        "RUN_OWNED_AZURE_RESOURCE_GROUP": resource_group,
+        "RUN_OWNED_AZURE_STORAGE_ACCOUNT": account,
+        "RUN_OWNED_AZURE_PROD_CONTAINER": prod,
+        "RUN_OWNED_AZURE_DEV_CONTAINER": dev,
+        "RUN_OWNED_AZURE_CANARY_BLOB": blob,
+        "RUN_OWNED_AZURE_DIAGNOSTIC_SETTING": diagnostic,
+        "AZURE_PROD_LIST_CLIENT_REQUEST_ID": (
+            "44444444-4444-4444-8444-444444444441"
+        ),
+        "AZURE_PROD_GET_CLIENT_REQUEST_ID": (
+            "44444444-4444-4444-8444-444444444442"
+        ),
+        "AZURE_DEV_LIST_CLIENT_REQUEST_ID": (
+            "44444444-4444-4444-8444-444444444443"
+        ),
+        "AZURE_DEV_GET_CLIENT_REQUEST_ID": (
+            "44444444-4444-4444-8444-444444444444"
+        ),
+        "RUN_STARTED_AT": "2026-07-31T10:00:00Z",
+        "RUN_FINISHED_AT": "2026-07-31T10:30:00Z",
+        "RUNNER_EGRESS_CIDR": "203.0.113.17/32",
+        "RUNNER_EGRESS_IP": "203.0.113.17",
+    }
+
+    result = preflight_probe_contract(
+        contract,
+        runtime_values=runtime,
+        authorization=authorization,
+        policy=_policy(),
+    )
+
+    assert result.audit_report["ready_for_execution"] is True
+    assert result.audit_report["platform"] == "AZURE"
+    assert result.audit_report["resolved_step_count"] == 20
+    assert result.audit_report["blockers"] == []
+    probes = [
+        step for step in result.resolved_steps
+        if step.phase == "active_probe"
+    ]
+    assert len(probes) == 4
+    assert all(step.argv[:2] == ("curl", "--disable") for step in probes)
+    persisted = json.dumps(result.audit_report, sort_keys=True)
+    for value in (
+        resource_group,
+        account,
+        prod,
+        dev,
+        str(canary),
+    ):
+        assert value not in persisted
+
+    tampered = json.loads(json.dumps(contract))
+    account_create = tampered["evaluator_setup"][
+        "command_argv_templates"
+    ][1]
+    account_create[account_create.index("--name") + 1] = (
+        "pbffffffffffffffffffffff"
+    )
+    rejected = preflight_probe_contract(
+        tampered,
+        runtime_values=runtime,
+        authorization=authorization,
+        policy=_policy(),
+    )
+    assert rejected.audit_report["ready_for_execution"] is False
+    assert any(
+        blocker.startswith("az_storage_account_mismatch:")
+        for blocker in rejected.audit_report["blockers"]
+    )
+    assert rejected.resolved_steps == ()
+
+
+def test_azure_contract_rejects_reused_names_and_missing_log_sink_attestation(
+    tmp_path,
+):
+    group = (
+        "configuration-lineage:azuregoat:"
+        "azuregoat_prod_dev_blob_control_pair"
+    )
+    contract = _contract(group)
+    authorization = _azure_authorization(
+        tmp_path,
+        run_owned=[],
+        private_inputs={},
+    )
+    authorization["azure_blob_resource_log_sink_ready_attested"] = False
+    result = preflight_probe_contract(
+        contract,
+        runtime_values={},
+        authorization=authorization,
+        policy=_policy(),
+    )
+
+    assert result.audit_report["ready_for_execution"] is False
+    assert (
+        "authorization_attestation_missing:"
+        "azure_blob_resource_log_sink_ready_attested"
+    ) in result.audit_report["blockers"]
     assert result.resolved_steps == ()

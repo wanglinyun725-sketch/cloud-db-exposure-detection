@@ -25,6 +25,10 @@ GCPGOAT_POLICY_TRANSITION_GROUP = (
     "configuration-lineage:gcpgoat:"
     "gcpgoat_anonymous_bucket_policy_transition"
 )
+AZUREGOAT_BLOB_CONTROL_PAIR_GROUP = (
+    "configuration-lineage:azuregoat:"
+    "azuregoat_prod_dev_blob_control_pair"
+)
 
 
 SUPPORTED_AWS_PROBES = {
@@ -626,6 +630,14 @@ def build_probe_contract_registry(
     contracts = []
     rejected = []
     for row in inventory.get("candidates") or []:
+        if row["independence_group"] == AZUREGOAT_BLOB_CONTROL_PAIR_GROUP:
+            contracts.append(_build_azure_blob_control_pair_contract(
+                row,
+                configuration_bindings[
+                    row["selected_oracle_unit"]["case_id"]
+                ],
+            ))
+            continue
         if row["independence_group"] == GCPGOAT_POLICY_TRANSITION_GROUP:
             contracts.append(_build_gcp_policy_transition_contract(
                 row,
@@ -912,6 +924,436 @@ def _build_bounded_read_contract(
         native_commands=native_commands,
         predicates=predicates,
     )
+
+
+def _build_azure_blob_control_pair_contract(
+    row: Mapping[str, Any],
+    implementation_binding: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Build a minimal, audit-visible AzureGoat Blob control pair.
+
+    The pinned lab deploys many unrelated and costly resources.  This
+    contract reproduces only its literal ``blob`` versus ``container``
+    access-level pair in a fresh storage account.  It never executes the
+    upstream Terraform and never copies upstream payload data.
+    """
+    group = row["independence_group"]
+    contract_id = "probe-contract-" + sha256(
+        group.encode("utf-8")
+    ).hexdigest()[:20]
+    account = "{{RUN_OWNED_AZURE_STORAGE_ACCOUNT}}"
+    resource_group = "{{RUN_OWNED_AZURE_RESOURCE_GROUP}}"
+    prod = "{{RUN_OWNED_AZURE_PROD_CONTAINER}}"
+    dev = "{{RUN_OWNED_AZURE_DEV_CONTAINER}}"
+    blob = "{{RUN_OWNED_AZURE_CANARY_BLOB}}"
+    subscription = "{{AZURE_SUBSCRIPTION_ID}}"
+    account_id = (
+        "/subscriptions/{{AZURE_SUBSCRIPTION_ID}}/resourceGroups/"
+        "{{RUN_OWNED_AZURE_RESOURCE_GROUP}}/providers/Microsoft.Storage/"
+        "storageAccounts/{{RUN_OWNED_AZURE_STORAGE_ACCOUNT}}"
+    )
+    blob_service_id = account_id + "/blobServices/default"
+    prod_url = f"https://{account}.blob.core.windows.net/{prod}"
+    dev_url = f"https://{account}.blob.core.windows.net/{dev}"
+    prod_blob_url = prod_url + f"/{blob}"
+    dev_blob_url = dev_url + f"/{blob}"
+    az_common = [
+        "--subscription", subscription,
+        "--output", "json",
+        "--only-show-errors",
+    ]
+    storage_common = [
+        "--account-name", account,
+        "--auth-mode", "key",
+        *az_common,
+    ]
+    diagnostic_logs = json.dumps([
+        {"category": "StorageRead", "enabled": True},
+        {"category": "StorageWrite", "enabled": True},
+        {"category": "StorageDelete", "enabled": True},
+    ], separators=(",", ":"))
+
+    def anonymous_get(
+        url: str,
+        request_id: str,
+        *,
+        one_byte: bool = False,
+    ) -> list[str]:
+        argv = [
+            "curl", "--disable", "--silent", "--show-error",
+            "--noproxy", "*", "--proto", "=https",
+            "--tlsv1.2", "--connect-timeout", "10",
+            "--max-time", "30", "--max-redirs", "0",
+            "--request", "GET",
+            "--header", "x-ms-version: 2023-11-03",
+            "--header", f"x-ms-client-request-id: {request_id}",
+            "--user-agent", "CloudDB-PathBench-Oracle/1.0",
+        ]
+        if one_byte:
+            argv.extend(["--range", "0-0"])
+        argv.extend([
+            "--output", "{{ORACLE_NULL_SINK}}",
+            "--write-out",
+            (
+                '{"http_code":"%{http_code}",'
+                '"remote_ip":"%{remote_ip}",'
+                '"num_redirects":%{num_redirects},'
+                '"size_download":%{size_download},'
+                '"time_total":%{time_total}}\\n'
+            ),
+            "--url", url,
+        ])
+        return argv
+
+    prod_list_url = prod_url + "?restype=container&comp=list&maxresults=1"
+    dev_list_url = dev_url + "?restype=container&comp=list&maxresults=1"
+    kql = (
+        "StorageBlobLogs "
+        "| where TimeGenerated between "
+        "(datetime({{RUN_STARTED_AT}}) .. datetime({{RUN_FINISHED_AT}})) "
+        f'| where AccountName == "{account}" '
+        '| where AuthenticationType == "Anonymous" '
+        f'| where CallerIpAddress startswith "{{{{RUNNER_EGRESS_IP}}}}" '
+        "| where ClientRequestId in "
+        "(\"{{AZURE_PROD_GET_CLIENT_REQUEST_ID}}\","
+        "\"{{AZURE_DEV_LIST_CLIENT_REQUEST_ID}}\","
+        "\"{{AZURE_DEV_GET_CLIENT_REQUEST_ID}}\") "
+        "| project TimeGenerated, AccountName, AuthenticationType, "
+        "CallerIpAddress, ClientRequestId, OperationName, StatusCode, "
+        "StatusText, Uri, CorrelationId, TlsVersion "
+        "| order by TimeGenerated asc"
+    )
+    return {
+        "contract_id": contract_id,
+        "independence_group": group,
+        "platform": "AZURE",
+        "selected_oracle_unit": row["selected_oracle_unit"],
+        "visibility": "evaluator_only",
+        "status": "requires_runtime_resolution",
+        "derivation": {
+            "upstream_configuration_case": (
+                row["selected_oracle_unit"]["case_id"]
+            ),
+            "terminal_actions_selected": [
+                "BlobService.ListBlobs",
+                "BlobService.GetBlob",
+            ],
+            "selection_rule": (
+                "pinned AzureGoat production blob-only versus development "
+                "container-public pair, minimally reproduced with one "
+                "random current-run account and non-sensitive canary"
+            ),
+            "upstream_behavior_narrowed": True,
+            "full_azuregoat_deployment_executed": False,
+            "upstream_payloads_copied": False,
+            "historical_values_copied_into_runtime_scope": False,
+        },
+        "upstream_implementation": implementation_binding,
+        "runtime_scope_template": {
+            "tenant_boundary": "{{AZURE_TENANT_ID}}",
+            "principals": [
+                "anonymous HTTPS client with no Authorization header"
+            ],
+            "actions": [
+                "BlobService.ListBlobs",
+                "BlobService.GetBlob",
+            ],
+            "resources": [
+                prod_url,
+                prod_blob_url,
+                dev_url,
+                dev_blob_url,
+            ],
+            "network_origins": ["{{RUNNER_EGRESS_CIDR}}"],
+            "time_window": [
+                "{{RUN_STARTED_AT}}",
+                "{{RUN_FINISHED_AT}}",
+            ],
+        },
+        "evaluator_setup": {
+            "command_argv_templates": [
+                [
+                    "az", "group", "create",
+                    "--name", resource_group,
+                    "--location", "{{AZURE_LOCATION}}",
+                    "--tags",
+                    "managed-by=cloud-db-pathbench",
+                    "purpose=executable-oracle",
+                    "pathbench-run={{RUN_ID}}",
+                    *az_common,
+                ],
+                [
+                    "az", "storage", "account", "create",
+                    "--name", account,
+                    "--resource-group", resource_group,
+                    "--location", "{{AZURE_LOCATION}}",
+                    "--sku", "Standard_LRS",
+                    "--kind", "StorageV2",
+                    "--https-only", "true",
+                    "--min-tls-version", "TLS1_2",
+                    "--allow-blob-public-access", "true",
+                    "--public-network-access", "Enabled",
+                    "--default-action", "Allow",
+                    "--tags",
+                    "managed-by=cloud-db-pathbench",
+                    "purpose=executable-oracle",
+                    "pathbench-run={{RUN_ID}}",
+                    *az_common,
+                ],
+                [
+                    "az", "monitor", "diagnostic-settings", "create",
+                    "--name", "{{RUN_OWNED_AZURE_DIAGNOSTIC_SETTING}}",
+                    "--resource", blob_service_id,
+                    "--workspace",
+                    "{{DEDICATED_AZURE_LOG_ANALYTICS_WORKSPACE_RESOURCE_ID}}",
+                    "--export-to-resource-specific", "true",
+                    "--logs", diagnostic_logs,
+                    *az_common,
+                ],
+                [
+                    "az", "storage", "container", "create",
+                    "--name", prod,
+                    "--public-access", "blob",
+                    *storage_common,
+                ],
+                [
+                    "az", "storage", "container", "create",
+                    "--name", dev,
+                    "--public-access", "container",
+                    *storage_common,
+                ],
+                [
+                    "az", "storage", "blob", "upload",
+                    "--container-name", prod,
+                    "--name", blob,
+                    "--file", "{{EVALUATOR_PRIVATE_AZURE_CANARY_FILE}}",
+                    "--overwrite", "true",
+                    "--content-type", "application/json",
+                    *storage_common,
+                ],
+                [
+                    "az", "storage", "blob", "upload",
+                    "--container-name", dev,
+                    "--name", blob,
+                    "--file", "{{EVALUATOR_PRIVATE_AZURE_CANARY_FILE}}",
+                    "--overwrite", "true",
+                    "--content-type", "application/json",
+                    *storage_common,
+                ],
+            ],
+            "source_semantics_reproduced": {
+                "production_container_access": "blob",
+                "development_container_access": "container",
+            },
+            "resource_tags_required": {
+                "managed-by": "cloud-db-pathbench",
+                "purpose": "executable-oracle",
+                "pathbench-run": "{{RUN_ID}}",
+            },
+            "private_canary_file_must_be_mode_0600": True,
+            "private_canary_contains_no_real_credentials_or_personal_data": (
+                True
+            ),
+            "diagnostic_setting_must_precede_active_probe": True,
+        },
+        "provider_native_analysis": {
+            "adapter_id": "azure_blob_effective_public_configuration_v1",
+            "command_argv_templates": [
+                [
+                    "az", "storage", "account", "show",
+                    "--ids", account_id,
+                    "--query",
+                    (
+                        "{id:id,allowBlobPublicAccess:allowBlobPublicAccess,"
+                        "publicNetworkAccess:publicNetworkAccess,"
+                        "defaultAction:networkRuleSet.defaultAction,"
+                        "minimumTlsVersion:minimumTlsVersion}"
+                    ),
+                    *az_common,
+                ],
+                [
+                    "az", "storage", "container", "show-permission",
+                    "--name", prod,
+                    *storage_common,
+                ],
+                [
+                    "az", "storage", "container", "show-permission",
+                    "--name", dev,
+                    *storage_common,
+                ],
+                [
+                    "az", "monitor", "diagnostic-settings", "show",
+                    "--name", "{{RUN_OWNED_AZURE_DIAGNOSTIC_SETTING}}",
+                    "--resource", blob_service_id,
+                    *az_common,
+                ],
+            ],
+            "all_commands_must_agree": True,
+            "configuration_is_not_runtime_reachability": True,
+        },
+        "authorized_active_probe": {
+            "probe_argv_templates": [
+                anonymous_get(
+                    prod_list_url,
+                    "{{AZURE_PROD_LIST_CLIENT_REQUEST_ID}}",
+                ),
+                anonymous_get(
+                    prod_blob_url,
+                    "{{AZURE_PROD_GET_CLIENT_REQUEST_ID}}",
+                    one_byte=True,
+                ),
+                anonymous_get(
+                    dev_list_url,
+                    "{{AZURE_DEV_LIST_CLIENT_REQUEST_ID}}",
+                ),
+                anonymous_get(
+                    dev_blob_url,
+                    "{{AZURE_DEV_GET_CLIENT_REQUEST_ID}}",
+                    one_byte=True,
+                ),
+            ],
+            "postcondition_argv_templates": [
+                [
+                    "az", "storage", "blob", "show",
+                    "--container-name", prod,
+                    "--name", blob,
+                    "--query", "{name:name,size:properties.contentLength,"
+                    "etag:properties.etag,contentType:properties.contentSettings."
+                    "contentType}",
+                    *storage_common,
+                ],
+                [
+                    "az", "storage", "blob", "show",
+                    "--container-name", dev,
+                    "--name", blob,
+                    "--query", "{name:name,size:properties.contentLength,"
+                    "etag:properties.etag,contentType:properties.contentSettings."
+                    "contentType}",
+                    *storage_common,
+                ],
+            ],
+            "cleanup_argv_templates": [[
+                "az", "group", "delete",
+                "--name", resource_group,
+                "--yes",
+                "--subscription", subscription,
+                "--only-show-errors",
+            ]],
+            "post_cleanup_inventory_argv_templates": [[
+                "az", "group", "exists",
+                "--name", resource_group,
+                *az_common,
+            ]],
+            "expected_cleanup_inventory_state": (
+                "resource group existence is false"
+            ),
+            "curl_config_loading_disabled": True,
+            "authorization_header_forbidden": True,
+            "proxy_use_disabled": True,
+            "response_body_discarded": True,
+            "actual_probe_requires_all_safety_gates": True,
+        },
+        "audit_telemetry": {
+            "adapter_id": "azure_storage_blob_logs_exact_requests_v1",
+            "command_argv_template": [
+                "az", "monitor", "log-analytics", "query",
+                "--workspace",
+                "{{DEDICATED_AZURE_LOG_ANALYTICS_WORKSPACE_CUSTOMER_ID}}",
+                "--analytics-query", kql,
+                "--timespan",
+                "{{RUN_STARTED_AT}}/{{RUN_FINISHED_AT}}",
+                *az_common,
+            ],
+            "required_event_predicates": [
+                {
+                    "ClientRequestId": (
+                        "{{AZURE_PROD_GET_CLIENT_REQUEST_ID}}"
+                    ),
+                    "AuthenticationType": "Anonymous",
+                    "OperationName": "GetBlob",
+                    "StatusCode": ["200", "206"],
+                    "Uri": prod_blob_url,
+                    "CallerIpAddress": "{{RUNNER_EGRESS_IP}}:*",
+                },
+                {
+                    "ClientRequestId": (
+                        "{{AZURE_DEV_LIST_CLIENT_REQUEST_ID}}"
+                    ),
+                    "AuthenticationType": "Anonymous",
+                    "OperationName": "ListBlobs",
+                    "StatusCode": ["200"],
+                    "Uri_prefix": dev_list_url,
+                    "CallerIpAddress": "{{RUNNER_EGRESS_IP}}:*",
+                },
+                {
+                    "ClientRequestId": (
+                        "{{AZURE_DEV_GET_CLIENT_REQUEST_ID}}"
+                    ),
+                    "AuthenticationType": "Anonymous",
+                    "OperationName": "GetBlob",
+                    "StatusCode": ["200", "206"],
+                    "Uri": dev_blob_url,
+                    "CallerIpAddress": "{{RUNNER_EGRESS_IP}}:*",
+                },
+            ],
+            "all_required_events_must_be_present": True,
+            "poll_until_complete": {
+                "maximum_wait_seconds": 1200,
+                "poll_interval_seconds": 30,
+                "timeout_truth_state": "Unknown",
+            },
+            "failed_anonymous_requests_expected_in_resource_logs": False,
+            "production_list_denial_is_supporting_only": True,
+            "absence_of_failed_anonymous_log_is_not_denial_evidence": True,
+            "official_reference": (
+                "https://learn.microsoft.com/en-us/azure/storage/blobs/"
+                "monitor-blob-storage"
+            ),
+        },
+        "safety": {
+            "owner_subscription_must_be_dedicated": True,
+            "resource_group_must_be_created_by_current_run": True,
+            "storage_account_must_be_created_by_current_run": True,
+            "random_storage_account_minimum_entropy_bits": 88,
+            "public_access_limited_to_two_random_run_owned_containers": True,
+            "public_access_is_read_only": True,
+            "real_data_forbidden": True,
+            "authorization_headers_and_tokens_forbidden_in_probe": True,
+            "dedicated_external_log_workspace_required": True,
+            "blob_resource_logs_must_be_pre_enabled": True,
+            "cleanup_mandatory": True,
+            "post_cleanup_inventory_mandatory": True,
+        },
+        "controlled_counterfactual_template": {
+            "same_runtime_scope_required": True,
+            "only_mutation": (
+                "set storage-account allowBlobPublicAccess=false, wait for "
+                "documented propagation, then repeat the same four probes"
+            ),
+            "pair_assignment_frozen_before_execution": True,
+            "failed_anonymous_requests_not_logged_by_platform": True,
+            "not_independently_qualifying_without_required_channels": True,
+            "expected_truth_state": None,
+        },
+        "official_references": [
+            (
+                "https://learn.microsoft.com/en-us/azure/storage/blobs/"
+                "anonymous-read-access-configure"
+            ),
+            (
+                "https://learn.microsoft.com/en-us/azure/storage/blobs/"
+                "monitor-blob-storage"
+            ),
+            (
+                "https://learn.microsoft.com/en-us/azure/azure-monitor/"
+                "reference/tables/storagebloblogs"
+            ),
+            (
+                "https://learn.microsoft.com/en-us/rest/api/"
+                "storageservices/authorize-requests-to-azure-storage"
+            ),
+        ],
+    }
 
 
 def _build_gcp_policy_transition_contract(

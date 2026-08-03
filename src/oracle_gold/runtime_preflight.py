@@ -31,6 +31,25 @@ GCS_RUN_OBJECT = re.compile(
     r"canary-(?P<run_id>[a-z0-9][a-z0-9-]{7,31})\.json"
 )
 GCP_RUN_ROLE = re.compile(r"pathbenchOracle[0-9a-f]{16}")
+UUID = re.compile(
+    r"[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-"
+    r"[89ab][0-9a-f]{3}-[0-9a-f]{12}"
+)
+AZURE_LOCATION = re.compile(r"[a-z][a-z0-9]{1,31}")
+AZURE_RUN_RESOURCE_GROUP = re.compile(r"pathbench-oracle-[0-9a-f]{32}")
+AZURE_RUN_STORAGE_ACCOUNT = re.compile(r"pb[0-9a-f]{22}")
+AZURE_RUN_CONTAINER = re.compile(r"(?:prod|dev)-[0-9a-f]{32}")
+AZURE_RUN_BLOB = re.compile(
+    r"canary-(?P<run_id>[a-z0-9][a-z0-9-]{7,31})\.json"
+)
+AZURE_RUN_DIAGNOSTIC = re.compile(r"pathbench-oracle-[0-9a-f]{32}")
+AZURE_LOG_WORKSPACE_RESOURCE_ID = re.compile(
+    r"/subscriptions/(?P<subscription>[0-9a-f-]{36})/"
+    r"resourceGroups/(?P<resource_group>[A-Za-z0-9._()\-]{1,90})/"
+    r"providers/Microsoft\.OperationalInsights/workspaces/"
+    r"(?P<workspace>[A-Za-z0-9][A-Za-z0-9-]{2,62})",
+    re.IGNORECASE,
+)
 SHA256 = re.compile(r"[0-9a-f]{64}")
 SENSITIVE_KEY = re.compile(
     r"(?i)(?:password|secret_value|access_key|private_key|session_token|"
@@ -49,6 +68,28 @@ FORBIDDEN_GCLOUD_FLAGS = {
     "--log-http",
     "--trace-token",
     "--verbosity",
+}
+FORBIDDEN_AZ_FLAGS = {
+    "--account-key",
+    "--connection-string",
+    "--debug",
+    "--sas-token",
+    "--verbose",
+}
+FORBIDDEN_CURL_FLAGS = {
+    "--anyauth",
+    "--basic",
+    "--config",
+    "--digest",
+    "--header-file",
+    "--location",
+    "--netrc",
+    "--netrc-file",
+    "--negotiate",
+    "--oauth2-bearer",
+    "--proxy",
+    "--proxy-header",
+    "--user",
 }
 AWS_COMMAND_ALLOWLIST = {
     "setup": {
@@ -121,6 +162,32 @@ GCLOUD_COMMAND_ALLOWLIST = {
     "post_cleanup_inventory": {
         ("storage", "buckets", "describe"),
         ("iam", "roles", "describe"),
+    },
+}
+AZ_COMMAND_ALLOWLIST = {
+    "setup": {
+        ("group", "create"),
+        ("storage", "account", "create"),
+        ("storage", "container", "create"),
+        ("storage", "blob", "upload"),
+        ("monitor", "diagnostic-settings", "create"),
+    },
+    "provider_native_analysis": {
+        ("storage", "account", "show"),
+        ("storage", "container", "show-permission"),
+        ("monitor", "diagnostic-settings", "show"),
+    },
+    "postcondition": {
+        ("storage", "blob", "show"),
+    },
+    "audit_telemetry": {
+        ("monitor", "log-analytics", "query"),
+    },
+    "cleanup": {
+        ("group", "delete"),
+    },
+    "post_cleanup_inventory": {
+        ("group", "exists"),
     },
 }
 PHASE_ORDER = (
@@ -385,6 +452,50 @@ def _validate_authorization(
                 "authorization_attestation_missing:"
                 "probe_impersonation_authorized_attested"
             )
+    elif platform == "AZURE":
+        subscription = str(
+            authorization.get("owner_subscription_id") or ""
+        ).casefold()
+        tenant = str(authorization.get("owner_tenant_id") or "").casefold()
+        customer_id = str(
+            authorization.get(
+                "log_analytics_workspace_customer_id"
+            ) or ""
+        ).casefold()
+        workspace_resource = str(
+            authorization.get(
+                "log_analytics_workspace_resource_id"
+            ) or ""
+        )
+        if not UUID.fullmatch(subscription):
+            blockers.append("owner_subscription_id_invalid")
+        if not UUID.fullmatch(tenant):
+            blockers.append("owner_tenant_id_invalid")
+        if not UUID.fullmatch(customer_id):
+            blockers.append(
+                "log_analytics_workspace_customer_id_invalid"
+            )
+        workspace_match = AZURE_LOG_WORKSPACE_RESOURCE_ID.fullmatch(
+            workspace_resource
+        )
+        if workspace_match is None:
+            blockers.append(
+                "log_analytics_workspace_resource_id_invalid"
+            )
+        elif workspace_match.group("subscription").casefold() != subscription:
+            blockers.append(
+                "log_analytics_workspace_subscription_mismatch"
+            )
+        for field in (
+            "azure_cli_identity_subscription_bound_attested",
+            "azure_blob_resource_log_sink_ready_attested",
+            "anonymous_probe_has_no_authorization_material_attested",
+            "resource_names_cryptographically_random_attested",
+        ):
+            if authorization.get(field) is not True:
+                blockers.append(
+                    f"authorization_attestation_missing:{field}"
+                )
     else:
         blockers.append("unsupported_contract_platform")
 
@@ -507,6 +618,10 @@ def _validate_runtime_values(
         _validate_gcp_runtime_values(
             valid_strings, authorization, blockers
         )
+    elif platform == "AZURE":
+        _validate_azure_runtime_values(
+            valid_strings, authorization, blockers
+        )
 
     _validate_network(valid_strings, blockers)
     _validate_time_window(valid_strings, authorization, blockers)
@@ -567,6 +682,145 @@ def _validate_gcp_runtime_values(
         blockers.append(
             "runtime_resource_identifier_invalid:RUN_OWNED_GCP_ROLE_ID"
         )
+
+
+def _validate_azure_runtime_values(
+    values: Mapping[str, str],
+    authorization: Mapping[str, Any],
+    blockers: list[str],
+) -> None:
+    subscription = values.get("AZURE_SUBSCRIPTION_ID")
+    expected_subscription = str(
+        authorization.get("owner_subscription_id") or ""
+    ).casefold()
+    if subscription is not None:
+        if not UUID.fullmatch(subscription.casefold()):
+            blockers.append("azure_subscription_id_invalid")
+        elif subscription.casefold() != expected_subscription:
+            blockers.append("runtime_owner_subscription_mismatch")
+    tenant = values.get("AZURE_TENANT_ID")
+    if tenant is not None:
+        if not UUID.fullmatch(tenant.casefold()):
+            blockers.append("azure_tenant_id_invalid")
+        elif tenant.casefold() != str(
+            authorization.get("owner_tenant_id") or ""
+        ).casefold():
+            blockers.append("runtime_owner_tenant_mismatch")
+    location = values.get("AZURE_LOCATION")
+    if location is not None and not AZURE_LOCATION.fullmatch(location):
+        blockers.append("azure_location_invalid")
+
+    workspace_resource = values.get(
+        "DEDICATED_AZURE_LOG_ANALYTICS_WORKSPACE_RESOURCE_ID"
+    )
+    if workspace_resource is not None:
+        match = AZURE_LOG_WORKSPACE_RESOURCE_ID.fullmatch(
+            workspace_resource
+        )
+        if match is None:
+            blockers.append("azure_log_workspace_resource_id_invalid")
+        else:
+            if (
+                subscription is not None
+                and match.group("subscription").casefold()
+                != subscription.casefold()
+            ):
+                blockers.append(
+                    "azure_log_workspace_subscription_mismatch"
+                )
+            run_group = values.get("RUN_OWNED_AZURE_RESOURCE_GROUP")
+            if (
+                run_group is not None
+                and match.group("resource_group").casefold()
+                == run_group.casefold()
+            ):
+                blockers.append("azure_log_workspace_inside_run_group")
+        if workspace_resource != str(
+            authorization.get(
+                "log_analytics_workspace_resource_id"
+            ) or ""
+        ):
+            blockers.append("runtime_log_workspace_resource_mismatch")
+    customer_id = values.get(
+        "DEDICATED_AZURE_LOG_ANALYTICS_WORKSPACE_CUSTOMER_ID"
+    )
+    if customer_id is not None:
+        if not UUID.fullmatch(customer_id.casefold()):
+            blockers.append("azure_log_workspace_customer_id_invalid")
+        elif customer_id.casefold() != str(
+            authorization.get(
+                "log_analytics_workspace_customer_id"
+            ) or ""
+        ).casefold():
+            blockers.append("runtime_log_workspace_customer_mismatch")
+
+    patterns = (
+        (
+            "RUN_OWNED_AZURE_RESOURCE_GROUP",
+            AZURE_RUN_RESOURCE_GROUP,
+        ),
+        (
+            "RUN_OWNED_AZURE_STORAGE_ACCOUNT",
+            AZURE_RUN_STORAGE_ACCOUNT,
+        ),
+        (
+            "RUN_OWNED_AZURE_PROD_CONTAINER",
+            AZURE_RUN_CONTAINER,
+        ),
+        (
+            "RUN_OWNED_AZURE_DEV_CONTAINER",
+            AZURE_RUN_CONTAINER,
+        ),
+        (
+            "RUN_OWNED_AZURE_DIAGNOSTIC_SETTING",
+            AZURE_RUN_DIAGNOSTIC,
+        ),
+    )
+    for key, pattern in patterns:
+        value = values.get(key)
+        if value is not None and not pattern.fullmatch(value):
+            blockers.append(f"runtime_resource_identifier_invalid:{key}")
+    prod = values.get("RUN_OWNED_AZURE_PROD_CONTAINER")
+    dev = values.get("RUN_OWNED_AZURE_DEV_CONTAINER")
+    if prod is not None and not prod.startswith("prod-"):
+        blockers.append("azure_prod_container_prefix_invalid")
+    if dev is not None and not dev.startswith("dev-"):
+        blockers.append("azure_dev_container_prefix_invalid")
+    if prod is not None and dev is not None and prod == dev:
+        blockers.append("azure_control_containers_not_distinct")
+    blob = values.get("RUN_OWNED_AZURE_CANARY_BLOB")
+    if blob is not None:
+        match = AZURE_RUN_BLOB.fullmatch(blob)
+        if match is None:
+            blockers.append(
+                "runtime_resource_identifier_invalid:"
+                "RUN_OWNED_AZURE_CANARY_BLOB"
+            )
+        elif (
+            "RUN_ID" in values
+            and match.group("run_id") != values["RUN_ID"]
+        ):
+            blockers.append("run_owned_azure_blob_run_id_mismatch")
+
+    request_id_names = (
+        "AZURE_PROD_LIST_CLIENT_REQUEST_ID",
+        "AZURE_PROD_GET_CLIENT_REQUEST_ID",
+        "AZURE_DEV_LIST_CLIENT_REQUEST_ID",
+        "AZURE_DEV_GET_CLIENT_REQUEST_ID",
+    )
+    request_ids = []
+    for name in request_id_names:
+        value = values.get(name)
+        if value is None:
+            continue
+        if not UUID.fullmatch(value.casefold()) or value[14] != "4":
+            blockers.append(f"azure_client_request_id_invalid:{name}")
+        request_ids.append(value.casefold())
+    if len(request_ids) != len(set(request_ids)):
+        blockers.append("azure_client_request_ids_not_distinct")
+    null_sink = values.get("ORACLE_NULL_SINK")
+    if null_sink is not None and null_sink not in {"NUL", "/dev/null"}:
+        blockers.append("oracle_null_sink_invalid")
 
 
 def _validate_network(
@@ -841,6 +1095,25 @@ def _validate_resolved_argv(
             template_path,
             blockers,
         )
+    elif platform == "AZURE":
+        if argv[0] == "az":
+            _validate_az_argv(
+                argv,
+                phase,
+                runtime_values,
+                template_path,
+                blockers,
+            )
+        elif argv[0] == "curl":
+            _validate_azure_curl_argv(
+                argv,
+                phase,
+                runtime_values,
+                template_path,
+                blockers,
+            )
+        else:
+            blockers.append(f"program_not_allowlisted:{template_path}")
     else:
         blockers.append(f"program_not_allowlisted:{template_path}")
     if any(PLACEHOLDER.search(token) for token in argv):
@@ -894,6 +1167,249 @@ def _validate_gcloud_argv(
         blockers.append(
             f"gcloud_impersonation_outside_probe:{template_path}"
         )
+
+
+def _validate_az_argv(
+    argv: Sequence[str],
+    phase: str,
+    runtime_values: Mapping[str, str],
+    template_path: str,
+    blockers: list[str],
+) -> None:
+    if argv[0] != "az" or len(argv) < 3:
+        blockers.append(f"program_not_allowlisted:{template_path}")
+        return
+    command = _az_command_prefix(argv)
+    if command not in AZ_COMMAND_ALLOWLIST.get(phase, set()):
+        blockers.append(f"az_operation_not_allowlisted:{template_path}")
+    if any(_flag_matches(token, FORBIDDEN_AZ_FLAGS) for token in argv):
+        blockers.append(f"forbidden_az_flag:{template_path}")
+    subscription_values = _flag_values(argv, "--subscription")
+    if subscription_values != [
+        runtime_values.get("AZURE_SUBSCRIPTION_ID")
+    ]:
+        blockers.append(f"az_subscription_scope_mismatch:{template_path}")
+    if "--only-show-errors" not in argv:
+        blockers.append(f"az_only_show_errors_missing:{template_path}")
+
+    run_group = runtime_values.get("RUN_OWNED_AZURE_RESOURCE_GROUP")
+    account = runtime_values.get("RUN_OWNED_AZURE_STORAGE_ACCOUNT")
+    subscription = runtime_values.get("AZURE_SUBSCRIPTION_ID")
+    account_id = (
+        f"/subscriptions/{subscription}/resourceGroups/{run_group}/"
+        f"providers/Microsoft.Storage/storageAccounts/{account}"
+    )
+    blob_service_id = account_id + "/blobServices/default"
+
+    if command == ("storage", "account", "create"):
+        if _flag_values(argv, "--name") != [account]:
+            blockers.append(f"az_storage_account_mismatch:{template_path}")
+        if _flag_values(argv, "--resource-group") != [run_group]:
+            blockers.append(f"az_resource_group_mismatch:{template_path}")
+        for flag, value in (
+            ("--allow-blob-public-access", "true"),
+            ("--https-only", "true"),
+            ("--min-tls-version", "TLS1_2"),
+            ("--public-network-access", "Enabled"),
+            ("--default-action", "Allow"),
+        ):
+            if _flag_values(argv, flag) != [value]:
+                blockers.append(
+                    f"az_storage_safety_setting_mismatch:{template_path}:"
+                    f"{flag}"
+                )
+    elif command == ("storage", "account", "show"):
+        if _flag_values(argv, "--ids") != [account_id]:
+            blockers.append(f"az_storage_account_mismatch:{template_path}")
+
+    if command[:2] == ("storage", "container") or command[:2] == (
+        "storage", "blob"
+    ):
+        if _flag_values(argv, "--account-name") != [
+            runtime_values.get("RUN_OWNED_AZURE_STORAGE_ACCOUNT")
+        ]:
+            blockers.append(f"az_storage_account_mismatch:{template_path}")
+        if _flag_values(argv, "--auth-mode") != ["key"]:
+            blockers.append(f"az_storage_auth_mode_mismatch:{template_path}")
+
+    prod = runtime_values.get("RUN_OWNED_AZURE_PROD_CONTAINER")
+    dev = runtime_values.get("RUN_OWNED_AZURE_DEV_CONTAINER")
+    if command in {
+        ("storage", "container", "create"),
+        ("storage", "container", "show-permission"),
+    }:
+        names = _flag_values(argv, "--name")
+        if len(names) != 1 or names[0] not in {prod, dev}:
+            blockers.append(f"az_container_scope_mismatch:{template_path}")
+        if command == ("storage", "container", "create"):
+            expected_access = "blob" if names == [prod] else "container"
+            if _flag_values(argv, "--public-access") != [expected_access]:
+                blockers.append(
+                    f"az_container_access_mismatch:{template_path}"
+                )
+    if command in {
+        ("storage", "blob", "upload"),
+        ("storage", "blob", "show"),
+    }:
+        containers = _flag_values(argv, "--container-name")
+        if len(containers) != 1 or containers[0] not in {prod, dev}:
+            blockers.append(f"az_blob_container_mismatch:{template_path}")
+        if _flag_values(argv, "--name") != [
+            runtime_values.get("RUN_OWNED_AZURE_CANARY_BLOB")
+        ]:
+            blockers.append(f"az_blob_name_mismatch:{template_path}")
+    if command == ("storage", "blob", "upload"):
+        if _flag_values(argv, "--file") != [
+            runtime_values.get("EVALUATOR_PRIVATE_AZURE_CANARY_FILE")
+        ]:
+            blockers.append(f"az_blob_input_mismatch:{template_path}")
+        if _flag_values(argv, "--overwrite") != ["true"]:
+            blockers.append(f"az_blob_overwrite_mismatch:{template_path}")
+
+    if command in {
+        ("group", "create"),
+        ("group", "delete"),
+        ("group", "exists"),
+    } and _flag_values(argv, "--name") != [run_group]:
+        blockers.append(f"az_resource_group_mismatch:{template_path}")
+    if command == ("group", "delete") and "--no-wait" in argv:
+        blockers.append(f"az_async_cleanup_forbidden:{template_path}")
+
+    if command == ("monitor", "log-analytics", "query"):
+        if _flag_values(argv, "--workspace") != [
+            runtime_values.get(
+                "DEDICATED_AZURE_LOG_ANALYTICS_WORKSPACE_CUSTOMER_ID"
+            )
+        ]:
+            blockers.append(f"az_log_workspace_mismatch:{template_path}")
+        if _flag_values(argv, "--timespan") != [
+            runtime_values.get("RUN_STARTED_AT")
+            + "/"
+            + runtime_values.get("RUN_FINISHED_AT")
+        ]:
+            blockers.append(f"az_log_timespan_mismatch:{template_path}")
+        queries = _flag_values(argv, "--analytics-query")
+        required_query_values = {
+            account,
+            runtime_values.get("RUNNER_EGRESS_IP"),
+            runtime_values.get("AZURE_PROD_GET_CLIENT_REQUEST_ID"),
+            runtime_values.get("AZURE_DEV_LIST_CLIENT_REQUEST_ID"),
+            runtime_values.get("AZURE_DEV_GET_CLIENT_REQUEST_ID"),
+        }
+        if (
+            len(queries) != 1
+            or 'AuthenticationType == "Anonymous"' not in queries[0]
+            or not all(value in queries[0] for value in required_query_values)
+        ):
+            blockers.append(f"az_log_query_scope_mismatch:{template_path}")
+    if command in {
+        ("monitor", "diagnostic-settings", "create"),
+        ("monitor", "diagnostic-settings", "show"),
+    }:
+        resource_values = _flag_values(argv, "--resource")
+        if resource_values != [blob_service_id]:
+            blockers.append(
+                f"az_diagnostic_resource_mismatch:{template_path}"
+            )
+        if _flag_values(argv, "--name") != [
+            runtime_values.get("RUN_OWNED_AZURE_DIAGNOSTIC_SETTING")
+        ]:
+            blockers.append(
+                f"az_diagnostic_name_mismatch:{template_path}"
+            )
+    if command == ("monitor", "diagnostic-settings", "create"):
+        if _flag_values(argv, "--workspace") != [
+            runtime_values.get(
+                "DEDICATED_AZURE_LOG_ANALYTICS_WORKSPACE_RESOURCE_ID"
+            )
+        ]:
+            blockers.append(
+                f"az_diagnostic_workspace_mismatch:{template_path}"
+            )
+
+
+def _validate_azure_curl_argv(
+    argv: Sequence[str],
+    phase: str,
+    runtime_values: Mapping[str, str],
+    template_path: str,
+    blockers: list[str],
+) -> None:
+    if phase != "active_probe" or tuple(argv[:2]) != (
+        "curl", "--disable"
+    ):
+        blockers.append(f"curl_probe_not_allowlisted:{template_path}")
+        return
+    if any(_flag_matches(token, FORBIDDEN_CURL_FLAGS) for token in argv):
+        blockers.append(f"forbidden_curl_flag:{template_path}")
+    if _flag_values(argv, "--noproxy") != ["*"]:
+        blockers.append(f"curl_proxy_not_disabled:{template_path}")
+    if _flag_values(argv, "--proto") != ["=https"]:
+        blockers.append(f"curl_https_only_missing:{template_path}")
+    if _flag_values(argv, "--request") != ["GET"]:
+        blockers.append(f"curl_method_not_bounded_get:{template_path}")
+    if _flag_values(argv, "--max-redirs") != ["0"]:
+        blockers.append(f"curl_redirects_not_disabled:{template_path}")
+    if _flag_values(argv, "--output") != [
+        runtime_values.get("ORACLE_NULL_SINK")
+    ]:
+        blockers.append(f"curl_response_not_discarded:{template_path}")
+
+    headers = _flag_values(argv, "--header")
+    if len(headers) != 2:
+        blockers.append(f"curl_header_set_invalid:{template_path}")
+    if any(header.casefold().startswith("authorization:") for header in headers):
+        blockers.append(f"curl_authorization_header_forbidden:{template_path}")
+    request_headers = [
+        header.split(":", 1)[1].strip()
+        for header in headers
+        if header.casefold().startswith("x-ms-client-request-id:")
+    ]
+    expected_request_ids = {
+        runtime_values.get(name)
+        for name in (
+            "AZURE_PROD_LIST_CLIENT_REQUEST_ID",
+            "AZURE_PROD_GET_CLIENT_REQUEST_ID",
+            "AZURE_DEV_LIST_CLIENT_REQUEST_ID",
+            "AZURE_DEV_GET_CLIENT_REQUEST_ID",
+        )
+    }
+    if len(request_headers) != 1 or request_headers[0] not in (
+        expected_request_ids
+    ):
+        blockers.append(f"curl_client_request_id_invalid:{template_path}")
+    if not any(
+        header == "x-ms-version: 2023-11-03" for header in headers
+    ):
+        blockers.append(f"curl_storage_version_missing:{template_path}")
+
+    urls = _flag_values(argv, "--url")
+    account = runtime_values.get("RUN_OWNED_AZURE_STORAGE_ACCOUNT")
+    prod = runtime_values.get("RUN_OWNED_AZURE_PROD_CONTAINER")
+    dev = runtime_values.get("RUN_OWNED_AZURE_DEV_CONTAINER")
+    blob = runtime_values.get("RUN_OWNED_AZURE_CANARY_BLOB")
+    allowed_prefixes = {
+        f"https://{account}.blob.core.windows.net/{prod}",
+        f"https://{account}.blob.core.windows.net/{dev}",
+    }
+    if len(urls) != 1 or not any(
+        urls[0] == prefix + f"/{blob}"
+        or urls[0] == prefix + "?restype=container&comp=list&maxresults=1"
+        for prefix in allowed_prefixes
+    ):
+        blockers.append(f"curl_probe_url_out_of_scope:{template_path}")
+
+
+def _az_command_prefix(argv: Sequence[str]) -> tuple[str, ...]:
+    if len(argv) >= 4 and tuple(argv[1:3]) in {
+        ("storage", "account"),
+        ("storage", "container"),
+        ("storage", "blob"),
+        ("monitor", "diagnostic-settings"),
+        ("monitor", "log-analytics"),
+    }:
+        return tuple(argv[1:4])
+    return tuple(argv[1:3])
 
 
 def _gcloud_command_prefix(argv: Sequence[str]) -> tuple[str, ...]:

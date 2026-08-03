@@ -97,9 +97,11 @@ D:\anaconda\python.exe scripts/oracle/build_oracle_split_v1.py
 
 固定的跨云公开攻击脚本也不能直接等同于安全复现代码。静态供应审计先验证 acquisition manifest 中的 Zenodo 文件大小和 SHA-256，再在不解压到文件系统、不执行任何上游代码的条件下扫描归档成员。审计不保留原始行或可能的密钥值，只记录规则、成员路径、行号和行哈希。当前固定版 `attack_scripts.zip` 的164个归档成员中，133个文本成员被扫描，64个成员触发298项阻断发现，覆盖把凭据写入容器层、创建长期凭据、公共主体/ACL、广域管理员角色以及未证明资源属于本次运行的删除操作。因此该制品的结论是 `direct_execution_blocked_requires_sanitized_wrapper`，不能按上游 README 原样运行；这些数字是安全审计结果，不是攻击标签或 Gold。
 
-复现供应清单进一步把40个冻结谱系逐一映射为三层：11个 `pinned_iac_lab`、8个 `published_telemetry_only`、21个 `upstream_native_cli`。其中10个跨云脚本谱系被上述供应审计阻断，8个Splunk谱系只保留为公开遥测，16个谱系仍等待来源专属安全审计，已有6个谱系注册了安全探针契约（AWS 5、GCP 1、Azure 0）。即使这些契约存在，授权和执行资格仍全部为 `false`；供应存在、静态扫描通过或契约存在都不能推出可达性，也不能自动授权云操作。
+复现供应清单进一步把40个冻结谱系逐一映射为三层：11个 `pinned_iac_lab`、8个 `published_telemetry_only`、21个 `upstream_native_cli`。其中10个跨云脚本谱系被上述供应审计阻断，8个Splunk谱系只保留为公开遥测，15个谱系仍等待来源专属安全审计，已有7个谱系注册了安全探针契约（AWS 5、GCP 1、Azure 1）。即使这些契约存在，授权和执行资格仍全部为 `false`；供应存在、静态扫描通过或契约存在都不能推出可达性，也不能自动授权云操作。
 
 首个GCP契约绑定固定GCPGoat提交、归档和 `main.tf` 成员哈希，只复现一个随机、无真实数据、本轮创建桶上的窄化策略变更路径。Google官方说明Cloud Audit Logs不跟踪公共对象访问，因此协议禁止把匿名GET伪称为Cloud Audit证据。契约改用两步探针：独立低权限服务账号先通过仅含 `storage.buckets.get/getIamPolicy/setIamPolicy` 的临时自定义角色修改精确桶策略，再读取本轮canary对象元数据；前一步必须匹配Admin Activity，后一步必须在预先启用Data Access日志的隔离项目中匹配Data Access记录。缺少任一事件、探针身份与所有者项目未隔离、桶名不含至少128位随机后缀或清理库存不成立，均保持 `Unknown`。公开对象访问若后续作为独立案例，只能使用GCP官方建议的Usage Logs，并显式处理其小时级延迟与不保证及时/完整交付的限制。
+
+首个Azure契约绑定固定AzureGoat提交、归档及 `main.tf` 成员哈希，但不执行包含虚拟机、函数、Cosmos DB和上游演示数据的完整靶场。它只在专用订阅的随机本轮存储账户中复现同源的 `blob`（匿名对象读、禁止匿名列举）与 `container`（匿名对象读和列举）访问级别，并上传无敏感信息的本轮canary。四个直接HTTPS探针显式禁用curl配置、代理、重定向和所有认证材料，以独立UUID作为 `x-ms-client-request-id`；正式正向证据必须在外部专用Log Analytics工作区的 `StorageBlobLogs` 中同时匹配匿名认证类型、请求UUID、操作、精确URI、出口IP、状态码和时间窗。Azure官方说明大多数失败的匿名请求不会写入资源日志，因此生产容器列举失败只保留为辅助客户端证据，严禁用日志缺失证明拒绝；若任一成功请求日志在20分钟有界轮询内仍未到达，案例保持 `Unknown`。
 
 现有证据完成度被分层记录：10个配置谱系的 `configuration` 通道已通过上游归档和成员哈希验证；30个运行时谱系的 `audit_telemetry` 原始制品已验证存在。后者只记为 `artifact_verified`，在事件语义、原生权限分析和主动探针完成前不会升级为允许/拒绝结论。
 
@@ -116,6 +118,10 @@ D:\anaconda\python.exe scripts/oracle/build_oracle_split_v1.py
   <https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-concepts.html>
 - Azure Blob匿名访问同时受存储账户设置和容器访问级别约束：
   <https://learn.microsoft.com/en-us/azure/storage/blobs/anonymous-read-access-configure>
+- Azure Blob资源日志只有在预先创建诊断设置后才会保存；成功匿名请求会记录，而大多数失败匿名请求不会记录：
+  <https://learn.microsoft.com/en-us/azure/storage/blobs/monitor-blob-storage>
+- `StorageBlobLogs` 提供认证类型、调用方IP、客户端请求ID、操作、状态码和URI等精确关联字段：
+  <https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/storagebloblogs>
 - GCP Cloud Storage公共读取要求相应公开主体授权，且可能被Public Access Prevention覆盖：
   <https://cloud.google.com/storage/docs/access-control/making-data-public>
 

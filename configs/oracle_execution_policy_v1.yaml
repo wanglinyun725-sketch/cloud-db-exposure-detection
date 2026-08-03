@@ -57,6 +57,7 @@ provider_contracts:
   AZURE:
     required_tools:
       - az
+      - curl
       - terraform
     configuration_oracles:
       - terraform_show_json

@@ -38,7 +38,9 @@ def test_queue_is_label_blind_and_execution_disabled():
             "AZURE": 5,
             "GCP": 7,
         },
-        "required_tools": ["aws", "az", "gcloud", "terraform"],
+        "required_tools": [
+            "aws", "az", "curl", "gcloud", "terraform"
+        ],
         "authorized_tasks": 0,
         "executed_tasks": 0,
         "new_oracle_gold_groups": 0,

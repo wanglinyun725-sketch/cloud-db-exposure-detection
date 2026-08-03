@@ -30,9 +30,9 @@ def test_committed_probe_contracts_are_reproducible_and_outcome_free():
     assert json.loads(COMMITTED.read_text(encoding="utf-8")) == built
     assert built["summary"] == {
         "candidate_groups": 40,
-        "supported_contracts": 6,
-        "unsupported_or_unresolved_groups": 34,
-        "platform_counts": {"AWS": 5, "AZURE": 0, "GCP": 1},
+        "supported_contracts": 7,
+        "unsupported_or_unresolved_groups": 33,
+        "platform_counts": {"AWS": 5, "AZURE": 1, "GCP": 1},
     }
     serialized = json.dumps(built, sort_keys=True)
     assert '"truth_state"' not in serialized
@@ -197,3 +197,64 @@ def test_gcpgoat_policy_transition_is_bounded_and_audit_eligible():
     assert "{{RUN_OWNED_GCS_OBJECT}}" in serialized
     assert "allUsers" in serialized
     assert "roles/storage.admin" not in serialized
+
+
+def test_azuregoat_blob_pair_is_minimal_anonymous_and_audit_visible():
+    built = _build()
+    contract = next(
+        item for item in built["contracts"]
+        if item["platform"] == "AZURE"
+    )
+
+    assert contract["independence_group"] == (
+        "configuration-lineage:azuregoat:"
+        "azuregoat_prod_dev_blob_control_pair"
+    )
+    upstream = contract["upstream_implementation"]
+    assert upstream["commit"] == (
+        "b97045952e6df00de735a7f27fd7c4994dcfe8c0"
+    )
+    assert upstream["archive"]["sha256"] == (
+        "ccd24e4f41dfa85f8345fa8f132a6a917811ac05d9350a45f77f8be3500dea2a"
+    )
+    assert upstream["members"] == [{
+        "member_path": (
+            "AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0/"
+            "main.tf"
+        ),
+        "sha256": (
+            "2fa47c4d48b423b208b1b3e114fc679374d84b2dcae37f2c9edb42503f755e53"
+        ),
+        "bytes": 22154,
+    }]
+    assert contract["derivation"][
+        "full_azuregoat_deployment_executed"
+    ] is False
+    assert contract["derivation"]["upstream_payloads_copied"] is False
+    probes = contract["authorized_active_probe"]["probe_argv_templates"]
+    assert len(probes) == 4
+    for probe in probes:
+        assert probe[:2] == ["curl", "--disable"]
+        assert "--noproxy" in probe
+        assert "--user" not in probe
+        assert "--oauth2-bearer" not in probe
+        assert not any(
+            token.casefold().startswith("authorization:")
+            for token in probe
+        )
+    required = contract["audit_telemetry"][
+        "required_event_predicates"
+    ]
+    assert {row["OperationName"] for row in required} == {
+        "ListBlobs",
+        "GetBlob",
+    }
+    assert all(
+        row["AuthenticationType"] == "Anonymous" for row in required
+    )
+    assert contract["audit_telemetry"][
+        "absence_of_failed_anonymous_log_is_not_denial_evidence"
+    ] is True
+    assert contract["safety"][
+        "random_storage_account_minimum_entropy_bits"
+    ] == 88

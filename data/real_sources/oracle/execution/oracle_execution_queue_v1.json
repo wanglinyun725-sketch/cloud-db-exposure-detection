@@ -10,8 +10,8 @@
     },
     "execution_policy": {
       "path": "configs/oracle_execution_policy_v1.yaml",
-      "sha256": "eb4d3a7d31abe7c7990fabec30a959e91fadb24e59fce2f2b09c5da217d778f9",
-      "bytes": 3280
+      "sha256": "3fb70351e33776333d45f0c088ea87ffa168eece1dccdea1fd067450644ee565",
+      "bytes": 3293
     }
   },
   "policy": {
@@ -36,6 +36,7 @@
     "required_tools": [
       "aws",
       "az",
+      "curl",
       "gcloud",
       "terraform"
     ],
@@ -343,6 +344,7 @@
           "platform": "AZURE",
           "required_tools": [
             "az",
+            "curl",
             "terraform"
           ],
           "channels": [
@@ -433,6 +435,7 @@
           "platform": "AZURE",
           "required_tools": [
             "az",
+            "curl",
             "terraform"
           ],
           "channels": [
@@ -884,6 +887,7 @@
           "platform": "AZURE",
           "required_tools": [
             "az",
+            "curl",
             "terraform"
           ],
           "channels": [
@@ -1900,6 +1904,7 @@
           "platform": "AZURE",
           "required_tools": [
             "az",
+            "curl",
             "terraform"
           ],
           "channels": [
@@ -2170,6 +2175,7 @@
           "platform": "AZURE",
           "required_tools": [
             "az",
+            "curl",
             "terraform"
           ],
           "channels": [
