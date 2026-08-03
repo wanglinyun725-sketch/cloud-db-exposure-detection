@@ -5,6 +5,13 @@ authorization_sentinel:
   environment_variable: PATHBENCH_ORACLE_EXECUTION
   required_value: I_AUTHORIZE_ISOLATED_TEST_RESOURCES_ONLY
 
+staged_runtime:
+  maximum_setup_stdout_bytes: 1048576
+  raw_setup_stdout_persistence_forbidden: true
+  cloud_generated_values_must_use_allowlisted_validators: true
+  dynamic_resources_must_be_added_to_run_owned_inventory: true
+  post_setup_full_repreflight_required: true
+
 safety:
   production_accounts_forbidden: true
   require_dedicated_account_subscription_or_project: true

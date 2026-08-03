@@ -226,6 +226,30 @@ def preflight_probe_contract(
     policy: Mapping[str, Any],
 ) -> ExecutionPreflight:
     """Validate and resolve a contract but never execute a command."""
+    return preflight_probe_contract_stage(
+        contract,
+        runtime_values=runtime_values,
+        authorization=authorization,
+        policy=policy,
+    )
+
+
+def preflight_probe_contract_stage(
+    contract: Mapping[str, Any],
+    *,
+    runtime_values: Mapping[str, str],
+    authorization: Mapping[str, Any],
+    policy: Mapping[str, Any],
+    allowed_missing_placeholders: Sequence[str] = (),
+    selected_phases: Sequence[str] | None = None,
+    required_phases: Sequence[str] | None = None,
+) -> ExecutionPreflight:
+    """Preflight either the full contract or a dependency-safe phase set.
+
+    ``allowed_missing_placeholders`` is only for values declared as outputs of
+    an earlier stage by :mod:`src.oracle_gold.staged_runtime`.  A selected
+    command may never reference one of those unresolved values.
+    """
     blockers: list[str] = []
     platform = str(contract.get("platform") or "")
     _reject_sensitive_input_keys(runtime_values, "runtime_values", blockers)
@@ -236,15 +260,39 @@ def preflight_probe_contract(
     )
 
     required = sorted(_find_placeholders(contract))
+    deferred = set(allowed_missing_placeholders)
+    unknown_deferred = sorted(deferred - set(required))
+    blockers.extend(
+        f"deferred_placeholder_not_in_contract:{name}"
+        for name in unknown_deferred
+    )
+    selected = (
+        set(selected_phases) if selected_phases is not None else None
+    )
+    if selected is not None:
+        unknown_phases = sorted(selected - set(PHASE_ORDER))
+        blockers.extend(
+            f"unknown_selected_phase:{phase}" for phase in unknown_phases
+        )
+    coverage = (
+        tuple(required_phases)
+        if required_phases is not None
+        else None
+    )
+    if coverage is not None:
+        blockers.extend(
+            f"unknown_required_phase:{phase}"
+            for phase in sorted(set(coverage) - set(PHASE_ORDER))
+        )
     supplied = set(runtime_values)
-    missing = sorted(set(required) - supplied)
+    missing = sorted(set(required) - supplied - deferred)
     unexpected = sorted(supplied - set(required))
     blockers.extend(f"missing_runtime_value:{name}" for name in missing)
     blockers.extend(
         f"unexpected_runtime_value:{name}" for name in unexpected
     )
     _validate_runtime_values(
-        required,
+        sorted(set(required) - deferred),
         runtime_values,
         authorization,
         platform,
@@ -252,9 +300,23 @@ def preflight_probe_contract(
     )
 
     templates = _collect_command_templates(contract, blockers)
+    if selected is not None:
+        templates = [
+            item for item in templates if item[0] in selected
+        ]
     resolved_steps: list[ResolvedStep] = []
     if not blockers:
         for phase, template_path, argv in templates:
+            unresolved = sorted(
+                _find_placeholders(argv) - supplied
+            )
+            if unresolved:
+                blockers.extend(
+                    f"deferred_placeholder_used_in_selected_phase:"
+                    f"{template_path}:{name}"
+                    for name in unresolved
+                )
+                continue
             resolved = tuple(
                 _replace_placeholders(token, runtime_values)
                 for token in argv
@@ -273,7 +335,12 @@ def preflight_probe_contract(
                 argv=resolved,
                 argv_sha256=_argv_digest(resolved),
             ))
-    _validate_step_coverage(contract, resolved_steps, blockers)
+    _validate_step_coverage(
+        contract,
+        resolved_steps,
+        blockers,
+        required_phases=coverage,
+    )
 
     blockers = sorted(set(blockers))
     ready = not blockers
@@ -286,6 +353,11 @@ def preflight_probe_contract(
         "contract_id": contract.get("contract_id"),
         "independence_group": contract.get("independence_group"),
         "platform": platform,
+        "contract_binding_sha256": mapping_binding_sha256(contract),
+        "authorization_binding_sha256": mapping_binding_sha256(
+            authorization
+        ),
+        "policy_binding_sha256": mapping_binding_sha256(policy),
         "ready_for_execution": ready,
         "commands_executed": 0,
         "truth_labels_present": False,
@@ -297,6 +369,12 @@ def preflight_probe_contract(
             authorization, policy
         ),
         "required_placeholder_count": len(required),
+        "deferred_placeholder_count": len(deferred),
+        "selected_phases": (
+            [phase for phase in PHASE_ORDER if phase in selected]
+            if selected is not None
+            else list(PHASE_ORDER)
+        ),
         "supplied_runtime_value_count": len(runtime_values),
         "private_input_count": _safe_collection_length(
             authorization.get("private_inputs")
@@ -351,11 +429,15 @@ def _validate_policy(
         blockers.append("execution_default_not_disabled")
     safety = policy.get("safety")
     evidence = policy.get("evidence_contract")
+    staged = policy.get("staged_runtime")
     if not isinstance(safety, Mapping):
         blockers.append("policy_safety_missing")
         return
     if not isinstance(evidence, Mapping):
         blockers.append("policy_evidence_contract_missing")
+        return
+    if not isinstance(staged, Mapping):
+        blockers.append("policy_staged_runtime_missing")
         return
     for field in (
         "production_accounts_forbidden",
@@ -376,6 +458,17 @@ def _validate_policy(
     ):
         if evidence.get(field) is not True:
             blockers.append(f"evidence_control_disabled:{field}")
+    maximum_stdout = staged.get("maximum_setup_stdout_bytes")
+    if not isinstance(maximum_stdout, int) or maximum_stdout <= 0:
+        blockers.append("staged_runtime_maximum_stdout_invalid")
+    for field in (
+        "raw_setup_stdout_persistence_forbidden",
+        "cloud_generated_values_must_use_allowlisted_validators",
+        "dynamic_resources_must_be_added_to_run_owned_inventory",
+        "post_setup_full_repreflight_required",
+    ):
+        if staged.get(field) is not True:
+            blockers.append(f"staged_runtime_control_disabled:{field}")
 
 
 def _validate_authorization(
@@ -1446,18 +1539,21 @@ def _validate_step_coverage(
     contract: Mapping[str, Any],
     steps: Sequence[ResolvedStep],
     blockers: list[str],
+    *,
+    required_phases: Sequence[str] | None = None,
 ) -> None:
     if blockers:
         return
     phases = Counter(step.phase for step in steps)
-    for phase in (
+    phases_required = required_phases or (
         "provider_native_analysis",
         "active_probe",
         "postcondition",
         "audit_telemetry",
         "cleanup",
         "post_cleanup_inventory",
-    ):
+    )
+    for phase in phases_required:
         if not phases[phase]:
             blockers.append(f"required_execution_phase_missing:{phase}")
     if contract.get("visibility") != "evaluator_only":
@@ -1530,6 +1626,27 @@ def _runtime_binding_digest(values: Mapping[str, str]) -> str:
         separators=(",", ":"),
     ).encode("utf-8")
     return sha256(payload).hexdigest()
+
+
+def mapping_binding_sha256(value: Mapping[str, Any]) -> str | None:
+    """Hash a JSON-compatible mapping without persisting its values."""
+    try:
+        payload = json.dumps(
+            value,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    except (TypeError, ValueError):
+        return None
+    return sha256(payload).hexdigest()
+
+
+def runtime_binding_sha256(values: Mapping[str, str]) -> str | None:
+    """Hash runtime values using per-value hashes for report safety."""
+    if not all(isinstance(value, str) for value in values.values()):
+        return None
+    return _runtime_binding_digest(values)
 
 
 def _safe_collection_length(value: Any) -> int:

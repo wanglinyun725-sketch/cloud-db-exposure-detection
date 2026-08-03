@@ -16,6 +16,11 @@ from .probe_contracts import build_probe_contract_registry
 from .replay_safety import build_replay_safety_audit
 from .replay_supply import build_replay_supply_inventory
 from .runtime_preflight import preflight_probe_contract
+from .staged_runtime import (
+    InMemorySetupResult,
+    bind_staged_setup_outputs,
+    preflight_staged_setup,
+)
 
 __all__ = [
     "apply_completed_evidence_bundles",
@@ -26,6 +31,9 @@ __all__ = [
     "build_replay_safety_audit",
     "build_replay_supply_inventory",
     "preflight_probe_contract",
+    "preflight_staged_setup",
+    "bind_staged_setup_outputs",
+    "InMemorySetupResult",
     "derive_truth_state",
     "refresh_registry_derived_fields",
     "validate_evidence_bundle",

@@ -121,6 +121,39 @@ def test_bounded_secret_reads_never_emit_values_or_enumerate_accounts():
         assert "--filters" not in probe
 
 
+def test_cloud_generated_secret_arns_use_hidden_staged_bindings():
+    built = _build()
+    staged = [
+        contract for contract in built["contracts"]
+        if "runtime_binding_plan" in contract
+    ]
+
+    assert len(staged) == 2
+    assert {contract["independence_group"] for contract in staged} == {
+        (
+            "stratus_red_team:stratus:"
+            "aws.credential-access.secretsmanager-retrieve-secrets"
+        ),
+        (
+            "stratus_red_team:stratus:"
+            "aws.credential-access.secretsmanager-batch-retrieve-secrets"
+        ),
+    }
+    for contract in staged:
+        plan = contract["runtime_binding_plan"]
+        assert plan["agent_visibility"] == "none"
+        assert plan["raw_setup_stdout_persistence_forbidden"] is True
+        assert plan["post_setup_full_repreflight_required"] is True
+        assert all(
+            output["placeholder"].startswith("RUN_OWNED_SECRET")
+            and output["validator_id"]
+            == "aws_secretsmanager_secret_arn_v1"
+            and output["run_owned"] is True
+            and output["sensitive"] is False
+            for output in plan["outputs"]
+        )
+
+
 def test_every_contract_binds_pinned_stratus_implementation_bytes():
     built = _build()
 

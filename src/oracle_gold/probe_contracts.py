@@ -336,6 +336,16 @@ STRATUS_BOUNDED_READ_PROBES = {
             "/SecretString",
             "/SecretBinary",
         ],
+        "setup_output_bindings": [{
+            "placeholder": "RUN_OWNED_SECRET_ARN",
+            "source_template_path": (
+                "evaluator_setup.command_argv_templates[0]"
+            ),
+            "json_pointer": "/ARN",
+            "validator_id": "aws_secretsmanager_secret_arn_v1",
+            "run_owned": True,
+            "sensitive": False,
+        }],
         "official_references": [
             (
                 "https://docs.aws.amazon.com/secretsmanager/latest/"
@@ -468,6 +478,28 @@ STRATUS_BOUNDED_READ_PROBES = {
         "sensitive_json_pointers": [
             "/SecretValues/*/SecretString",
             "/SecretValues/*/SecretBinary",
+        ],
+        "setup_output_bindings": [
+            {
+                "placeholder": "RUN_OWNED_SECRET_1_ARN",
+                "source_template_path": (
+                    "evaluator_setup.command_argv_templates[0]"
+                ),
+                "json_pointer": "/ARN",
+                "validator_id": "aws_secretsmanager_secret_arn_v1",
+                "run_owned": True,
+                "sensitive": False,
+            },
+            {
+                "placeholder": "RUN_OWNED_SECRET_2_ARN",
+                "source_template_path": (
+                    "evaluator_setup.command_argv_templates[1]"
+                ),
+                "json_pointer": "/ARN",
+                "validator_id": "aws_secretsmanager_secret_arn_v1",
+                "run_owned": True,
+                "sensitive": False,
+            },
         ],
         "official_references": [
             (
@@ -1770,7 +1802,7 @@ def _finish_bounded_read_contract(
     native_commands: list[list[str]],
     predicates: Mapping[str, Any],
 ) -> dict[str, Any]:
-    return {
+    contract = {
         "contract_id": contract_id,
         "independence_group": group,
         "platform": row["platform"],
@@ -1893,6 +1925,16 @@ def _finish_bounded_read_contract(
         },
         "official_references": plan["official_references"],
     }
+    setup_output_bindings = plan.get("setup_output_bindings")
+    if setup_output_bindings:
+        contract["runtime_binding_plan"] = {
+            "plan_version": "1.0.0",
+            "outputs": setup_output_bindings,
+            "raw_setup_stdout_persistence_forbidden": True,
+            "agent_visibility": "none",
+            "post_setup_full_repreflight_required": True,
+        }
+    return contract
 
 
 def _load_implementation_bindings(

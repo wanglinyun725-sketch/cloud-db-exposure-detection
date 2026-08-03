@@ -1560,7 +1560,31 @@
       "official_references": [
         "https://docs.aws.amazon.com/cli/latest/reference/secretsmanager/batch-get-secret-value.html",
         "https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-cloudtrail.html"
-      ]
+      ],
+      "runtime_binding_plan": {
+        "plan_version": "1.0.0",
+        "outputs": [
+          {
+            "placeholder": "RUN_OWNED_SECRET_1_ARN",
+            "source_template_path": "evaluator_setup.command_argv_templates[0]",
+            "json_pointer": "/ARN",
+            "validator_id": "aws_secretsmanager_secret_arn_v1",
+            "run_owned": true,
+            "sensitive": false
+          },
+          {
+            "placeholder": "RUN_OWNED_SECRET_2_ARN",
+            "source_template_path": "evaluator_setup.command_argv_templates[1]",
+            "json_pointer": "/ARN",
+            "validator_id": "aws_secretsmanager_secret_arn_v1",
+            "run_owned": true,
+            "sensitive": false
+          }
+        ],
+        "raw_setup_stdout_persistence_forbidden": true,
+        "agent_visibility": "none",
+        "post_setup_full_repreflight_required": true
+      }
     },
     {
       "contract_id": "probe-contract-7462f1089b5a99f5a73c",
@@ -1798,7 +1822,23 @@
       "official_references": [
         "https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieving-secrets_cli.html",
         "https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-cloudtrail.html"
-      ]
+      ],
+      "runtime_binding_plan": {
+        "plan_version": "1.0.0",
+        "outputs": [
+          {
+            "placeholder": "RUN_OWNED_SECRET_ARN",
+            "source_template_path": "evaluator_setup.command_argv_templates[0]",
+            "json_pointer": "/ARN",
+            "validator_id": "aws_secretsmanager_secret_arn_v1",
+            "run_owned": true,
+            "sensitive": false
+          }
+        ],
+        "raw_setup_stdout_persistence_forbidden": true,
+        "agent_visibility": "none",
+        "post_setup_full_repreflight_required": true
+      }
     },
     {
       "contract_id": "probe-contract-df2740e0d87f835b6939",

@@ -17,6 +17,9 @@ if str(ROOT) not in sys.path:
 from src.oracle_gold.runtime_preflight import (  # noqa: E402
     preflight_probe_contract,
 )
+from src.oracle_gold.staged_runtime import (  # noqa: E402
+    preflight_staged_setup,
+)
 
 
 DEFAULT_CONTRACTS = (
@@ -34,6 +37,15 @@ def main() -> int:
     parser.add_argument("--contracts", type=Path, default=DEFAULT_CONTRACTS)
     parser.add_argument("--policy", type=Path, default=DEFAULT_POLICY)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--stage",
+        choices=("full", "setup"),
+        default="full",
+        help=(
+            "Use setup for contracts whose cloud-generated identifiers "
+            "are deliberately absent before setup."
+        ),
+    )
     args = parser.parse_args()
 
     registry = _read_object(args.contracts)
@@ -51,7 +63,12 @@ def main() -> int:
         raise ValueError("execution policy must be an object")
     runtime = _read_object(args.runtime_context)
     authorization = _read_object(args.authorization_context)
-    result = preflight_probe_contract(
+    preflight = (
+        preflight_staged_setup
+        if args.stage == "setup"
+        else preflight_probe_contract
+    )
+    result = preflight(
         matches[0],
         runtime_values=runtime,
         authorization=authorization,
@@ -69,6 +86,7 @@ def main() -> int:
     )
     print(json.dumps({
         "contract_id": args.contract_id,
+        "stage": args.stage,
         "ready_for_execution": result.audit_report[
             "ready_for_execution"
         ],
