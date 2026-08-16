@@ -1,0 +1,217 @@
+{
+  "summary": {
+    "total_samples": 308,
+    "variant_distribution": {
+      "base": 104,
+      "refuted": 68,
+      "missing": 68,
+      "temporal_conflict": 68
+    },
+    "state_distribution": {
+      "Valid": 83,
+      "Insufficient": 89,
+      "Invalid": 136
+    },
+    "path_complexity": {
+      "avg_path_length": 5.779761904761905,
+      "min_path_length": 4,
+      "max_path_length": 8,
+      "avg_edges_per_sample": 17.714285714285715
+    }
+  },
+  "interesting_cases": {
+    "complex": [],
+    "temporal_conflict": [
+      {
+        "index": 274,
+        "sample_id": "data:verification_set:samples_v2:case_013:temporal_conflict",
+        "variant_type": "temporal_conflict",
+        "expected_state": "Invalid",
+        "temporal_edges": 21,
+        "total_edges": 40,
+        "scenario_name": "[rce_web_app] Web RCE到数据库"
+      },
+      {
+        "index": 283,
+        "sample_id": "data:verification_set:samples_v2:case_016:temporal_conflict",
+        "variant_type": "temporal_conflict",
+        "expected_state": "Invalid",
+        "temporal_edges": 21,
+        "total_edges": 40,
+        "scenario_name": "[rce_web_app] Web RCE到数据库"
+      },
+      {
+        "index": 268,
+        "sample_id": "data:verification_set:samples_v2:case_011:temporal_conflict",
+        "variant_type": "temporal_conflict",
+        "expected_state": "Invalid",
+        "temporal_edges": 20,
+        "total_edges": 39,
+        "scenario_name": "[data_secrets] 用户数据泄露"
+      },
+      {
+        "index": 238,
+        "sample_id": "data:verification_set:samples_v2:case_001:temporal_conflict",
+        "variant_type": "temporal_conflict",
+        "expected_state": "Invalid",
+        "temporal_edges": 19,
+        "total_edges": 37,
+        "scenario_name": "[codebuild_secrets] IAM权限过宽"
+      },
+      {
+        "index": 280,
+        "sample_id": "data:verification_set:samples_v2:case_015:temporal_conflict",
+        "variant_type": "temporal_conflict",
+        "expected_state": "Invalid",
+        "temporal_edges": 18,
+        "total_edges": 36,
+        "scenario_name": "[rce_web_app] Web RCE到数据库"
+      }
+    ],
+    "contradicted_evidence": [
+      {
+        "index": 274,
+        "sample_id": "data:verification_set:samples_v2:case_013:temporal_conflict",
+        "variant_type": "temporal_conflict",
+        "expected_state": "Invalid",
+        "contradicted_edges": 21,
+        "total_edges": 40,
+        "scenario_name": "[rce_web_app] Web RCE到数据库"
+      },
+      {
+        "index": 283,
+        "sample_id": "data:verification_set:samples_v2:case_016:temporal_conflict",
+        "variant_type": "temporal_conflict",
+        "expected_state": "Invalid",
+        "contradicted_edges": 21,
+        "total_edges": 40,
+        "scenario_name": "[rce_web_app] Web RCE到数据库"
+      },
+      {
+        "index": 268,
+        "sample_id": "data:verification_set:samples_v2:case_011:temporal_conflict",
+        "variant_type": "temporal_conflict",
+        "expected_state": "Invalid",
+        "contradicted_edges": 20,
+        "total_edges": 39,
+        "scenario_name": "[data_secrets] 用户数据泄露"
+      },
+      {
+        "index": 238,
+        "sample_id": "data:verification_set:samples_v2:case_001:temporal_conflict",
+        "variant_type": "temporal_conflict",
+        "expected_state": "Invalid",
+        "contradicted_edges": 19,
+        "total_edges": 37,
+        "scenario_name": "[codebuild_secrets] IAM权限过宽"
+      },
+      {
+        "index": 272,
+        "sample_id": "data:verification_set:samples_v2:case_013:refuted",
+        "variant_type": "refuted",
+        "expected_state": "Invalid",
+        "contradicted_edges": 18,
+        "total_edges": 40,
+        "scenario_name": "[rce_web_app] Web RCE到数据库"
+      }
+    ],
+    "insufficient_evidence": [
+      {
+        "index": 71,
+        "sample_id": "data:pathbench_cloudgoat:CG_vpc_peering_overexposed_011",
+        "variant_type": "base",
+        "unknown_edges": 26,
+        "total_edges": 30,
+        "scenario_name": "[CloudGoat] vpc_peering_overexposed"
+      },
+      {
+        "index": 67,
+        "sample_id": "data:pathbench_cloudgoat:CG_rce_web_app_007",
+        "variant_type": "base",
+        "unknown_edges": 24,
+        "total_edges": 32,
+        "scenario_name": "[CloudGoat] rce_web_app"
+      },
+      {
+        "index": 63,
+        "sample_id": "data:pathbench_cloudgoat:CG_rds_snapshot_003",
+        "variant_type": "base",
+        "unknown_edges": 23,
+        "total_edges": 29,
+        "scenario_name": "[CloudGoat] rds_snapshot"
+      },
+      {
+        "index": 273,
+        "sample_id": "data:verification_set:samples_v2:case_013:missing",
+        "variant_type": "missing",
+        "unknown_edges": 18,
+        "total_edges": 40,
+        "scenario_name": "[rce_web_app] Web RCE到数据库"
+      },
+      {
+        "index": 282,
+        "sample_id": "data:verification_set:samples_v2:case_016:missing",
+        "variant_type": "missing",
+        "unknown_edges": 18,
+        "total_edges": 40,
+        "scenario_name": "[rce_web_app] Web RCE到数据库"
+      }
+    ]
+  },
+  "detailed_case_studies": [
+    {
+      "type": "temporal_conflict",
+      "sample_id": "data:verification_set:samples_v2:case_013:temporal_conflict",
+      "analysis": "This case contains 21 temporal conflict edges out of 40 total edges. Temporal conflicts represent situations where evidence timestamps are inconsistent, testing the method's ability to detect and penalize temporally invalid paths.",
+      "graph_stats": {
+        "num_nodes": 54,
+        "num_edges": 40
+      }
+    },
+    {
+      "type": "temporal_conflict",
+      "sample_id": "data:verification_set:samples_v2:case_016:temporal_conflict",
+      "analysis": "This case contains 21 temporal conflict edges out of 40 total edges. Temporal conflicts represent situations where evidence timestamps are inconsistent, testing the method's ability to detect and penalize temporally invalid paths.",
+      "graph_stats": {
+        "num_nodes": 55,
+        "num_edges": 40
+      }
+    },
+    {
+      "type": "contradicted_evidence",
+      "sample_id": "data:verification_set:samples_v2:case_013:temporal_conflict",
+      "analysis": "This case has 21 contradicted evidence edges out of 40 total edges. Contradicted evidence represents situations where evidence explicitly refutes a connection, testing the method's ability to avoid paths with strong negative evidence.",
+      "graph_stats": {
+        "num_nodes": 54,
+        "num_edges": 40
+      }
+    },
+    {
+      "type": "contradicted_evidence",
+      "sample_id": "data:verification_set:samples_v2:case_016:temporal_conflict",
+      "analysis": "This case has 21 contradicted evidence edges out of 40 total edges. Contradicted evidence represents situations where evidence explicitly refutes a connection, testing the method's ability to avoid paths with strong negative evidence.",
+      "graph_stats": {
+        "num_nodes": 55,
+        "num_edges": 40
+      }
+    },
+    {
+      "type": "insufficient_evidence",
+      "sample_id": "data:pathbench_cloudgoat:CG_vpc_peering_overexposed_011",
+      "analysis": "This case has 26 unknown evidence edges out of 30 total edges, with expected state 'Insufficient'. This tests the method's ability to correctly identify paths that lack sufficient evidence to confirm or refute.",
+      "graph_stats": {
+        "num_nodes": 25,
+        "num_edges": 30
+      }
+    },
+    {
+      "type": "insufficient_evidence",
+      "sample_id": "data:pathbench_cloudgoat:CG_rce_web_app_007",
+      "analysis": "This case has 24 unknown evidence edges out of 32 total edges, with expected state 'Insufficient'. This tests the method's ability to correctly identify paths that lack sufficient evidence to confirm or refute.",
+      "graph_stats": {
+        "num_nodes": 30,
+        "num_edges": 32
+      }
+    }
+  ]
+}

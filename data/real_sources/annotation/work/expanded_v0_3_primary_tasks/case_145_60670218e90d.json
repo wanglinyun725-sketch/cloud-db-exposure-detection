@@ -1,0 +1,266 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "relationship--9558b7a7-f58b-4b6f-a1f5-8a7cdab03279",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--9558b7a7-f58b-4b6f-a1f5-8a7cdab03279",
+    "kind": "procedure_relationship",
+    "source_object_id": "campaign--75ea699b-bff5-4541-b9b7-df4996c9db3c",
+    "source_object_type": "campaign",
+    "source_name": "Operation Digital Eye",
+    "technique_object_id": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
+    "technique_id": "T1190",
+    "technique_name": "Exploit Public-Facing Application",
+    "platforms": [
+      "Containers",
+      "ESXi",
+      "IaaS",
+      "Linux",
+      "macOS",
+      "Network Devices",
+      "Windows"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--9558b7a7-f58b-4b6f-a1f5-8a7cdab03279",
+    "review_score": 10,
+    "independence_group": "mitre-source-object:campaign--75ea699b-bff5-4541-b9b7-df4996c9db3c",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1190"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--9558b7a7-f58b-4b6f-a1f5-8a7cdab03279",
+      "object_id": "relationship--9558b7a7-f58b-4b6f-a1f5-8a7cdab03279",
+      "canonical_object_sha256": "bc890a38d59151f052c56d1d763663b09d01dcb17e196063a3b2f469e3daf49e",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--9558b7a7-f58b-4b6f-a1f5-8a7cdab03279",
+        "created": "2026-04-19T18:19:02.565Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "sentinelone operationDigitalEye Dec 2024",
+            "description": "Aleksandar Milenkoski, Luigi Martire. (2024, December 10). Operation Digital Eye | Chinese APT Compromises Critical Digital Infrastructure via Visual Studio Code Tunnels. Retrieved February 27, 2025.",
+            "url": "https://www.sentinelone.com/labs/operation-digital-eye-chinese-apt-compromises-critical-digital-infrastructure-via-visual-studio-code-tunnels/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:06.129Z",
+        "description": "During [Operation Digital Eye](https://attack.mitre.org/campaigns/C0061), threat actors used SQL injection to compromise publicly exposed web and database servers.(Citation: sentinelone operationDigitalEye Dec 2024)",
+        "relationship_type": "uses",
+        "source_ref": "campaign--75ea699b-bff5-4541-b9b7-df4996c9db3c",
+        "target_ref": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=campaign--75ea699b-bff5-4541-b9b7-df4996c9db3c",
+      "object_id": "campaign--75ea699b-bff5-4541-b9b7-df4996c9db3c",
+      "canonical_object_sha256": "b389a6f7bb52c2fb799ddaf91c915f66ef2f3260ed196dc85f1b199822789d10",
+      "structured_object": {
+        "type": "campaign",
+        "spec_version": "2.1",
+        "id": "campaign--75ea699b-bff5-4541-b9b7-df4996c9db3c",
+        "created": "2026-04-19T18:07:20.152Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/campaigns/C0061",
+            "external_id": "C0061"
+          },
+          {
+            "source_name": "sentinelone operationDigitalEye Dec 2024",
+            "description": "Aleksandar Milenkoski, Luigi Martire. (2024, December 10). Operation Digital Eye | Chinese APT Compromises Critical Digital Infrastructure via Visual Studio Code Tunnels. Retrieved February 27, 2025.",
+            "url": "https://www.sentinelone.com/labs/operation-digital-eye-chinese-apt-compromises-critical-digital-infrastructure-via-visual-studio-code-tunnels/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-24T02:28:18.653Z",
+        "name": "Operation Digital Eye",
+        "description": "[Operation Digital Eye](https://attack.mitre.org/campaigns/C0061) was conducted in June and July of 2024 by suspected People's Republic of China (PRC)-nexus threat actors targeting business-to-business IT service providers in Southern Europe. [Operation Digital Eye](https://attack.mitre.org/campaigns/C0061) activity included the use of Visual Studio Code tunnels for command and control (C2) and custom lateral movement capabilities. Overlaps in tooling between Digital Eye and previous China-nexus campaigns, Operation Soft Cell and Operation Tainted Love, indicate the potential use of shared vendors or digital quartermasters.(Citation: sentinelone operationDigitalEye Dec 2024)",
+        "aliases": [
+          "Operation Digital Eye"
+        ],
+        "first_seen": "2024-06-01T04:00:00.000Z",
+        "last_seen": "2024-07-01T04:00:00.000Z",
+        "x_mitre_first_seen_citation": "(Citation: sentinelone operationDigitalEye Dec 2024)",
+        "x_mitre_last_seen_citation": "(Citation: sentinelone operationDigitalEye Dec 2024)",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_version": "1.0",
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ]
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
+      "object_id": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
+      "canonical_object_sha256": "bab7b627297d1cd649f68c9da9546ae0ffec018c575126fa1af084c1118b71e5",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
+        "created": "2018-04-18T17:59:24.739Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1190",
+            "external_id": "T1190"
+          },
+          {
+            "source_name": "CWE top 25",
+            "description": "Christey, S., Brown, M., Kirby, D., Martin, B., Paller, A.. (2011, September 13). 2011 CWE/SANS Top 25 Most Dangerous Software Errors. Retrieved April 10, 2019.",
+            "url": "https://cwe.mitre.org/top25/index.html"
+          },
+          {
+            "source_name": "CIS Multiple SMB Vulnerabilities",
+            "description": "CIS. (2017, May 15). Multiple Vulnerabilities in Microsoft Windows SMB Server Could Allow for Remote Code Execution. Retrieved April 3, 2018.",
+            "url": "https://www.cisecurity.org/advisory/multiple-vulnerabilities-in-microsoft-windows-smb-server-could-allow-for-remote-code-execution/"
+          },
+          {
+            "source_name": "Ars Technica VMWare Code Execution Vulnerability 2021",
+            "description": "Dan Goodin . (2021, February 25). Code-execution flaw in VMware has a severity rating of 9.8 out of 10. Retrieved April 8, 2025.",
+            "url": "https://arstechnica.com/information-technology/2021/02/armed-with-exploits-hackers-on-the-prowl-for-a-critical-vmware-vulnerability/"
+          },
+          {
+            "source_name": "Recorded Future ESXiArgs Ransomware 2023",
+            "description": "German Hoeffner, Aaron Soehnen and Gianni Perez. (2023, February 7). ESXiArgs Ransomware Targets Publicly-Exposed ESXi OpenSLP Servers. Retrieved March 26, 2025.",
+            "url": "https://www.recordedfuture.com/blog/esxiargs-ransomware-targets-vmware-esxi-openslp-servers"
+          },
+          {
+            "source_name": "Wired Russia Cyberwar",
+            "description": "Greenberg, A. (2022, November 10). Russia’s New Cyberwarfare in Ukraine Is Fast, Dirty, and Relentless. Retrieved March 22, 2023.",
+            "url": "https://www.wired.com/story/russia-ukraine-cyberattacks-mandiant/"
+          },
+          {
+            "source_name": "Mandiant Fortinet Zero Day",
+            "description": "Marvi, A. et al.. (2023, March 16). Fortinet Zero-Day and Custom Malware Used by Suspected Chinese Actor in Espionage Operation. Retrieved March 22, 2023.",
+            "url": "https://www.mandiant.com/resources/blog/fortinet-malware-ecosystem"
+          },
+          {
+            "source_name": "NVD CVE-2016-6662",
+            "description": "National Vulnerability Database. (2017, February 2). CVE-2016-6662 Detail. Retrieved April 3, 2018.",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-6662"
+          },
+          {
+            "source_name": "NVD CVE-2014-7169",
+            "description": "National Vulnerability Database. (2017, September 24). CVE-2014-7169 Detail. Retrieved April 3, 2018.",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-7169"
+          },
+          {
+            "source_name": "Cisco Blog Legacy Device Attacks",
+            "description": "Omar Santos. (2020, October 19). Attackers Continue to Target Legacy Devices. Retrieved October 20, 2020.",
+            "url": "https://community.cisco.com/t5/security-blogs/attackers-continue-to-target-legacy-devices/ba-p/4169954"
+          },
+          {
+            "source_name": "OWASP Top 10",
+            "description": "OWASP. (2018, February 23). OWASP Top Ten Project. Retrieved April 3, 2018.",
+            "url": "https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project"
+          },
+          {
+            "source_name": "US-CERT TA18-106A Network Infrastructure Devices 2018",
+            "description": "US-CERT. (2018, April 20). Russian State-Sponsored Cyber Actors Targeting Network Infrastructure Devices. Retrieved October 19, 2020.",
+            "url": "https://us-cert.cisa.gov/ncas/alerts/TA18-106A"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-05-12T15:12:00.628Z",
+        "name": "Exploit Public-Facing Application",
+        "description": "Adversaries may attempt to exploit a weakness in an Internet-facing host or system to initially access a network. The weakness in the system can be a software bug, a temporary glitch, or a misconfiguration.\n\nExploited applications are often websites/web servers, but can also include databases (like SQL), standard services (like SMB or SSH), network device administration and management protocols (like SNMP and Smart Install), and any other system with Internet-accessible open sockets.(Citation: NVD CVE-2016-6662)(Citation: CIS Multiple SMB Vulnerabilities)(Citation: US-CERT TA18-106A Network Infrastructure Devices 2018)(Citation: Cisco Blog Legacy Device Attacks)(Citation: NVD CVE-2014-7169) On ESXi infrastructure, adversaries may exploit exposed OpenSLP services; they may alternatively exploit exposed VMware vCenter servers.(Citation: Recorded Future ESXiArgs Ransomware 2023)(Citation: Ars Technica VMWare Code Execution Vulnerability 2021) Depending on the flaw being exploited, this may also involve [Exploitation for Stealth](https://attack.mitre.org/techniques/T1211) or [Exploitation for Client Execution](https://attack.mitre.org/techniques/T1203).\n\nIf an application is hosted on cloud-based infrastructure and/or is containerized, then exploiting it may lead to compromise of the underlying instance or container. This can allow an adversary a path to access the cloud or container APIs (e.g., via the [Cloud Instance Metadata API](https://attack.mitre.org/techniques/T1552/005)), exploit container host access via [Escape to Host](https://attack.mitre.org/techniques/T1611), or take advantage of weak identity and access management policies.\n\nAdversaries may also exploit edge network infrastructure and related appliances, specifically targeting devices that do not support robust host-based defenses.(Citation: Mandiant Fortinet Zero Day)(Citation: Wired Russia Cyberwar)\n\nFor websites and databases, the OWASP top 10 and CWE top 25 highlight the most common web-based vulnerabilities.(Citation: OWASP Top 10)(Citation: CWE top 25)",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "initial-access"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_contributors": [
+          "Praetorian",
+          "Yossi Weizman, Azure Defender Research Team",
+          "Don Le, Stifel Financial"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": false,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "Containers",
+          "ESXi",
+          "IaaS",
+          "Linux",
+          "macOS",
+          "Network Devices",
+          "Windows"
+        ],
+        "x_mitre_version": "2.8"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "4c4f84f78b3d9fa98f62dae8df5038ef22c54929b79a09717b812e9ac4665133",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

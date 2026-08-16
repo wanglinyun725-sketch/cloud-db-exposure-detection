@@ -1,0 +1,4329 @@
+{
+  "sample_id": "sddp_complex_real_slice",
+  "scenario": "SDDP-COMPLEX-REAL",
+  "scenario_name": "SDDP 真实生产环境复杂证据图谱（非入侵轨迹）",
+  "industry": "real_sddp",
+  "raw_dataset": "sddp_export",
+  "variant_type": "controlled_exposure",
+  "expected_type": "Observed_Risk",
+  "expected_state": "Valid",
+  "sample_label": "Valid",
+  "has_attack_trace": true,
+  "notes": "This slice simulates a complex real-world SDDP production environment with multiple instances, databases, and mixed evidence states. It does not claim a real intrusion trajectory.",
+  "nodes": [
+    {
+      "id": "vpc-0a1b2c3d4e5f6g7h",
+      "type": "Network",
+      "attrs": {
+        "kind": "vpc",
+        "cidr": "10.0.0.0/16",
+        "region": "cn-zhangjiakou",
+        "name": "Prod VPC"
+      }
+    },
+    {
+      "id": "subnet-001",
+      "type": "Network",
+      "attrs": {
+        "kind": "subnet",
+        "cidr": "10.0.164.0/24",
+        "name": "Subnet subnet-001"
+      }
+    },
+    {
+      "id": "subnet-002",
+      "type": "Network",
+      "attrs": {
+        "kind": "subnet",
+        "cidr": "10.0.29.0/24",
+        "name": "Subnet subnet-002"
+      }
+    },
+    {
+      "id": "subnet-003",
+      "type": "Network",
+      "attrs": {
+        "kind": "subnet",
+        "cidr": "10.0.7.0/24",
+        "name": "Subnet subnet-003"
+      }
+    },
+    {
+      "id": "sg-001",
+      "type": "Network",
+      "attrs": {
+        "kind": "security_group",
+        "name": "SG sg-001"
+      }
+    },
+    {
+      "id": "sg-002",
+      "type": "Network",
+      "attrs": {
+        "kind": "security_group",
+        "name": "SG sg-002"
+      }
+    },
+    {
+      "id": "sg-003",
+      "type": "Network",
+      "attrs": {
+        "kind": "security_group",
+        "name": "SG sg-003"
+      }
+    },
+    {
+      "id": "sg-004",
+      "type": "Network",
+      "attrs": {
+        "kind": "security_group",
+        "name": "SG sg-004"
+      }
+    },
+    {
+      "id": "sg-005",
+      "type": "Network",
+      "attrs": {
+        "kind": "security_group",
+        "name": "SG sg-005"
+      }
+    },
+    {
+      "id": "user-001",
+      "type": "Identity",
+      "attrs": {
+        "kind": "user",
+        "is_external": false,
+        "mfa": true,
+        "name": "User user-001"
+      }
+    },
+    {
+      "id": "user-002",
+      "type": "Identity",
+      "attrs": {
+        "kind": "user",
+        "is_external": false,
+        "mfa": true,
+        "name": "User user-002"
+      }
+    },
+    {
+      "id": "user-003",
+      "type": "Identity",
+      "attrs": {
+        "kind": "user",
+        "is_external": false,
+        "mfa": true,
+        "name": "User user-003"
+      }
+    },
+    {
+      "id": "user-004",
+      "type": "Identity",
+      "attrs": {
+        "kind": "user",
+        "is_external": true,
+        "mfa": true,
+        "name": "User user-004"
+      }
+    },
+    {
+      "id": "user-005",
+      "type": "Identity",
+      "attrs": {
+        "kind": "user",
+        "is_external": true,
+        "mfa": true,
+        "name": "User user-005"
+      }
+    },
+    {
+      "id": "user-006",
+      "type": "Identity",
+      "attrs": {
+        "kind": "user",
+        "is_external": false,
+        "mfa": true,
+        "name": "User user-006"
+      }
+    },
+    {
+      "id": "user-007",
+      "type": "Identity",
+      "attrs": {
+        "kind": "user",
+        "is_external": true,
+        "mfa": true,
+        "name": "User user-007"
+      }
+    },
+    {
+      "id": "role-001",
+      "type": "Identity",
+      "attrs": {
+        "kind": "role",
+        "name": "Role role-001"
+      }
+    },
+    {
+      "id": "role-002",
+      "type": "Identity",
+      "attrs": {
+        "kind": "role",
+        "name": "Role role-002"
+      }
+    },
+    {
+      "id": "role-003",
+      "type": "Identity",
+      "attrs": {
+        "kind": "role",
+        "name": "Role role-003"
+      }
+    },
+    {
+      "id": "role-004",
+      "type": "Identity",
+      "attrs": {
+        "kind": "role",
+        "name": "Role role-004"
+      }
+    },
+    {
+      "id": "policy-001",
+      "type": "Identity",
+      "attrs": {
+        "kind": "policy",
+        "name": "Policy policy-001"
+      }
+    },
+    {
+      "id": "policy-002",
+      "type": "Identity",
+      "attrs": {
+        "kind": "policy",
+        "name": "Policy policy-002"
+      }
+    },
+    {
+      "id": "policy-003",
+      "type": "Identity",
+      "attrs": {
+        "kind": "policy",
+        "name": "Policy policy-003"
+      }
+    },
+    {
+      "id": "policy-004",
+      "type": "Identity",
+      "attrs": {
+        "kind": "policy",
+        "name": "Policy policy-004"
+      }
+    },
+    {
+      "id": "policy-005",
+      "type": "Identity",
+      "attrs": {
+        "kind": "policy",
+        "name": "Policy policy-005"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn",
+      "type": "DBInstance",
+      "attrs": {
+        "engine": "LCOLUMN",
+        "region": "cn-zhangjiakou",
+        "name": "Lindorm 1 (LCOLUMN)"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb",
+      "type": "DBInstance",
+      "attrs": {
+        "engine": "TSDB",
+        "region": "cn-zhangjiakou",
+        "name": "Lindorm 2 (TSDB)"
+      }
+    },
+    {
+      "id": "ld-0003-tsdb",
+      "type": "DBInstance",
+      "attrs": {
+        "engine": "TSDB",
+        "region": "cn-zhangjiakou",
+        "name": "Lindorm 3 (TSDB)"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn",
+      "type": "DBInstance",
+      "attrs": {
+        "engine": "LCOLUMN",
+        "region": "cn-zhangjiakou",
+        "name": "Lindorm 4 (LCOLUMN)"
+      }
+    },
+    {
+      "id": "ld-0005-lsearch",
+      "type": "DBInstance",
+      "attrs": {
+        "engine": "LSEARCH",
+        "region": "cn-zhangjiakou",
+        "name": "Lindorm 5 (LSEARCH)"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "db",
+        "name": "database_1"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_1_tbl_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_1"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_1_tbl_1_col_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_1"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_1_tbl_1_id_card",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "id_card"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_1_tbl_1_password",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "password"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_1_tbl_1_password_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "密码",
+        "level": 3,
+        "confidence": 0.9778390573859763
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "db",
+        "name": "database_2"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_1"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_1_email",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "email"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_1_email_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "邮箱",
+        "level": 4,
+        "confidence": 0.8700020226618888
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_1_phone",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "phone"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_1_phone_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "手机号",
+        "level": 4,
+        "confidence": 0.954581933631316
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_1_password",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "password"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_2",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_2"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_2_bank_account",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "bank_account"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_2_bank_account_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "银行卡号",
+        "level": 3,
+        "confidence": 0.921333681114705
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_2_id_card",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "id_card"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_2_col_3",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_3"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_2_id_card_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "身份证号",
+        "level": 3,
+        "confidence": 0.9608911110108149
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_2_password",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "password"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_2_password_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "密码",
+        "level": 4,
+        "confidence": 0.9034267001109151
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_3",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_3"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_3_address",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "address"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_3_address_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "地址",
+        "level": 3,
+        "confidence": 0.9452396774359126
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_3_id_card",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "id_card"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_3_col_4",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_4"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_3_email",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "email"
+      }
+    },
+    {
+      "id": "ld-0001-lcolumn_db_2_tbl_3_email_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "邮箱",
+        "level": 4,
+        "confidence": 0.9108671350936747
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "db",
+        "name": "database_1"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_1_tbl_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_1"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_1_tbl_1_email",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "email"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_1_tbl_1_email_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "邮箱",
+        "level": 3,
+        "confidence": 0.9210754344446055
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_1_tbl_1_id_card",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "id_card"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_1_tbl_1_bank_account",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "bank_account"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_1_tbl_1_address",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "address"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_1_tbl_1_phone",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "phone"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_1_tbl_1_phone_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "手机号",
+        "level": 3,
+        "confidence": 0.9255130642167476
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_1_tbl_1_col_6",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_6"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "db",
+        "name": "database_2"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_1"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_1_id_card",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "id_card"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_1_id_card_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "身份证号",
+        "level": 4,
+        "confidence": 0.9642432554788124
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_1_col_2",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_2"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_1_col_3",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_3"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_1_bank_account",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "bank_account"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_1_bank_account_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "银行卡号",
+        "level": 3,
+        "confidence": 0.9729213438885657
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_2",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_2"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_2_col_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_1"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_2_phone",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "phone"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_2_phone_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "手机号",
+        "level": 4,
+        "confidence": 0.9850108068410437
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_2_address",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "address"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_2_email",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "email"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_2_email_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "邮箱",
+        "level": 4,
+        "confidence": 0.90585892199964
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_3",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_3"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_3_address",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "address"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_3_address_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "地址",
+        "level": 3,
+        "confidence": 0.881457627184418
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_3_bank_account",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "bank_account"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_3_bank_account_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "银行卡号",
+        "level": 3,
+        "confidence": 0.9323816160174492
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_3_id_card",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "id_card"
+      }
+    },
+    {
+      "id": "ld-0002-tsdb_db_2_tbl_3_id_card_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "身份证号",
+        "level": 4,
+        "confidence": 0.9436568889614793
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "db",
+        "name": "database_1"
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_1"
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_1_address",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "address"
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_1_address_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "地址",
+        "level": 3,
+        "confidence": 0.9598467194007054
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_1_col_2",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_2"
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_1_password",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "password"
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_1_password_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "密码",
+        "level": 3,
+        "confidence": 0.9422575849320528
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_1_bank_account",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "bank_account"
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_1_bank_account_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "银行卡号",
+        "level": 4,
+        "confidence": 0.9709371447717444
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_1_id_card",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "id_card"
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_1_email",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "email"
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_1_email_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "邮箱",
+        "level": 4,
+        "confidence": 0.9519499023817656
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_1_col_7",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_7"
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_2",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_2"
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_2_phone",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "phone"
+      }
+    },
+    {
+      "id": "ld-0003-tsdb_db_1_tbl_2_phone_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "手机号",
+        "level": 3,
+        "confidence": 0.9724280335698812
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "db",
+        "name": "database_1"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_1"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_1_id_card",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "id_card"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_1_id_card_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "身份证号",
+        "level": 3,
+        "confidence": 0.9856594760198651
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_1_col_2",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_2"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_1_col_3",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_3"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_1_phone",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "phone"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_1_phone_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "手机号",
+        "level": 4,
+        "confidence": 0.9173901785159455
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_1_col_5",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_5"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_1_password",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "password"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_2",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_2"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_2_password",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "password"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_2_password_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "密码",
+        "level": 4,
+        "confidence": 0.8871284281441012
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_2_col_2",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_2"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_2_col_3",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "col_3"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_3",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_3"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_3_bank_account",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "bank_account"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_3_bank_account_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "银行卡号",
+        "level": 3,
+        "confidence": 0.9310852407142759
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_3_address",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "address"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_3_address_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "地址",
+        "level": 3,
+        "confidence": 0.8595929865785309
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_4",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_4"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_4_email",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "email"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_4_password",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "password"
+      }
+    },
+    {
+      "id": "ld-0004-lcolumn_db_1_tbl_4_password_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "密码",
+        "level": 3,
+        "confidence": 0.9310486680510095
+      }
+    },
+    {
+      "id": "ld-0005-lsearch_db_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "db",
+        "name": "database_1"
+      }
+    },
+    {
+      "id": "ld-0005-lsearch_db_1_tbl_1",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "table_1"
+      }
+    },
+    {
+      "id": "ld-0005-lsearch_db_1_tbl_1_email",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "email"
+      }
+    },
+    {
+      "id": "ld-0005-lsearch_db_1_tbl_1_email_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "邮箱",
+        "level": 4,
+        "confidence": 0.980062566438772
+      }
+    },
+    {
+      "id": "ld-0005-lsearch_db_1_tbl_1_phone",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "phone"
+      }
+    },
+    {
+      "id": "ld-0005-lsearch_db_1_tbl_1_bank_account",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "bank_account"
+      }
+    },
+    {
+      "id": "ld-0005-lsearch_db_1_tbl_1_bank_account_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "银行卡号",
+        "level": 4,
+        "confidence": 0.8683229594978439
+      }
+    },
+    {
+      "id": "ld-0005-lsearch_db_1_tbl_1_id_card",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "column",
+        "name": "id_card"
+      }
+    },
+    {
+      "id": "ld-0005-lsearch_db_1_tbl_1_id_card_tag",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "身份证号",
+        "level": 3,
+        "confidence": 0.8602565009539486
+      }
+    },
+    {
+      "id": "audit_evt_5114",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "access",
+        "success": true,
+        "t": "2026-01-14T08:02:00Z"
+      }
+    },
+    {
+      "id": "audit_evt_3143",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "export",
+        "success": true,
+        "t": "2026-01-15T17:45:00Z"
+      }
+    },
+    {
+      "id": "audit_evt_1158",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "access",
+        "success": true,
+        "t": "2026-01-23T04:34:00Z"
+      }
+    },
+    {
+      "id": "audit_evt_3426",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "modify",
+        "success": true,
+        "t": "2026-01-10T11:57:00Z"
+      }
+    },
+    {
+      "id": "audit_evt_6862",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "query",
+        "success": true,
+        "t": "2026-01-22T03:22:00Z"
+      }
+    },
+    {
+      "id": "audit_evt_7658",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "query",
+        "success": false,
+        "t": "2026-01-08T05:51:00Z"
+      }
+    },
+    {
+      "id": "audit_evt_7755",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "access",
+        "success": true,
+        "t": "2026-01-11T13:51:00Z"
+      }
+    },
+    {
+      "id": "audit_evt_5371",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "query",
+        "success": true,
+        "t": "2026-01-04T12:55:00Z"
+      }
+    },
+    {
+      "id": "audit_evt_4644",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "query",
+        "success": false,
+        "t": "2026-01-15T11:19:00Z"
+      }
+    },
+    {
+      "id": "audit_evt_4652",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "access",
+        "success": true,
+        "t": "2026-01-13T10:17:00Z"
+      }
+    },
+    {
+      "id": "audit_evt_5573",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "export",
+        "success": true,
+        "t": "2026-01-13T21:53:00Z"
+      }
+    },
+    {
+      "id": "audit_evt_1452",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "access",
+        "success": false,
+        "t": "2026-01-09T05:37:00Z"
+      }
+    },
+    {
+      "id": "internet_attacker",
+      "type": "Network",
+      "attrs": {
+        "kind": "eip",
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0",
+        "name": "Public Internet"
+      }
+    },
+    {
+      "id": "identity_controlled_external",
+      "type": "Identity",
+      "attrs": {
+        "kind": "controlled_principal",
+        "is_external": true,
+        "name": "Controlled External Principal"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "vpc-0a1b2c3d4e5f6g7h",
+      "target": "subnet-001",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "vpc_config",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0000"
+    },
+    {
+      "source": "vpc-0a1b2c3d4e5f6g7h",
+      "target": "subnet-002",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "vpc_config",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0001"
+    },
+    {
+      "source": "vpc-0a1b2c3d4e5f6g7h",
+      "target": "subnet-003",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "vpc_config",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0002"
+    },
+    {
+      "source": "subnet-003",
+      "target": "sg-001",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "network_config",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0003"
+    },
+    {
+      "source": "subnet-002",
+      "target": "sg-002",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "network_config",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0004"
+    },
+    {
+      "source": "subnet-001",
+      "target": "sg-003",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "network_config",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0005"
+    },
+    {
+      "source": "subnet-001",
+      "target": "sg-004",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "network_config",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0006"
+    },
+    {
+      "source": "subnet-001",
+      "target": "sg-005",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "network_config",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0007"
+    },
+    {
+      "source": "user-001",
+      "target": "role-002",
+      "type": "can_assume",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_assume:synthetic"
+      },
+      "edge_id": "e0008"
+    },
+    {
+      "source": "user-002",
+      "target": "role-003",
+      "type": "can_assume",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_assume:synthetic"
+      },
+      "edge_id": "e0009"
+    },
+    {
+      "source": "user-002",
+      "target": "role-002",
+      "type": "can_assume",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_assume:synthetic"
+      },
+      "edge_id": "e0010"
+    },
+    {
+      "source": "user-003",
+      "target": "role-002",
+      "type": "can_assume",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_assume:synthetic"
+      },
+      "edge_id": "e0011"
+    },
+    {
+      "source": "user-004",
+      "target": "role-001",
+      "type": "can_assume",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_assume:synthetic"
+      },
+      "edge_id": "e0012"
+    },
+    {
+      "source": "user-004",
+      "target": "role-004",
+      "type": "can_assume",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_assume:synthetic"
+      },
+      "edge_id": "e0013"
+    },
+    {
+      "source": "user-005",
+      "target": "role-001",
+      "type": "can_assume",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_assume:synthetic"
+      },
+      "edge_id": "e0014"
+    },
+    {
+      "source": "user-005",
+      "target": "role-002",
+      "type": "can_assume",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_assume:synthetic"
+      },
+      "edge_id": "e0015"
+    },
+    {
+      "source": "user-006",
+      "target": "role-003",
+      "type": "can_assume",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_assume:synthetic"
+      },
+      "edge_id": "e0016"
+    },
+    {
+      "source": "user-006",
+      "target": "role-001",
+      "type": "can_assume",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_assume:synthetic"
+      },
+      "edge_id": "e0017"
+    },
+    {
+      "source": "user-007",
+      "target": "role-001",
+      "type": "can_assume",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_assume:synthetic"
+      },
+      "edge_id": "e0018"
+    },
+    {
+      "source": "user-007",
+      "target": "role-002",
+      "type": "can_assume",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_assume:synthetic"
+      },
+      "edge_id": "e0019"
+    },
+    {
+      "source": "role-001",
+      "target": "policy-005",
+      "type": "owns",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.98,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "owns:synthetic"
+      },
+      "edge_id": "e0020"
+    },
+    {
+      "source": "role-002",
+      "target": "policy-005",
+      "type": "owns",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.98,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "owns:synthetic"
+      },
+      "edge_id": "e0021"
+    },
+    {
+      "source": "role-002",
+      "target": "policy-003",
+      "type": "owns",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.98,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "owns:synthetic"
+      },
+      "edge_id": "e0022"
+    },
+    {
+      "source": "role-003",
+      "target": "policy-002",
+      "type": "owns",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.98,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "owns:synthetic"
+      },
+      "edge_id": "e0023"
+    },
+    {
+      "source": "role-003",
+      "target": "policy-001",
+      "type": "owns",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.98,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "owns:synthetic"
+      },
+      "edge_id": "e0024"
+    },
+    {
+      "source": "role-003",
+      "target": "policy-004",
+      "type": "owns",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.98,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "owns:synthetic"
+      },
+      "edge_id": "e0025"
+    },
+    {
+      "source": "role-004",
+      "target": "policy-002",
+      "type": "owns",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.98,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "owns:synthetic"
+      },
+      "edge_id": "e0026"
+    },
+    {
+      "source": "role-004",
+      "target": "policy-003",
+      "type": "owns",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.98,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "owns:synthetic"
+      },
+      "edge_id": "e0027"
+    },
+    {
+      "source": "role-004",
+      "target": "policy-001",
+      "type": "owns",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.98,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "owns:synthetic"
+      },
+      "edge_id": "e0028"
+    },
+    {
+      "source": "subnet-001",
+      "target": "ld-0001-lcolumn",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "network_config",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0029"
+    },
+    {
+      "source": "ld-0001-lcolumn",
+      "target": "sg-004",
+      "type": "protected_by",
+      "attrs": {
+        "status": "Supported",
+        "source": "security_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "protected_by:synthetic"
+      },
+      "edge_id": "e0030"
+    },
+    {
+      "source": "subnet-001",
+      "target": "ld-0002-tsdb",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "network_config",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0031"
+    },
+    {
+      "source": "ld-0002-tsdb",
+      "target": "sg-003",
+      "type": "protected_by",
+      "attrs": {
+        "status": "Supported",
+        "source": "security_config",
+        "confidence": 0.9,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "protected_by:synthetic"
+      },
+      "edge_id": "e0032"
+    },
+    {
+      "source": "subnet-003",
+      "target": "ld-0003-tsdb",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "network_config",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0033"
+    },
+    {
+      "source": "ld-0003-tsdb",
+      "target": "sg-001",
+      "type": "protected_by",
+      "attrs": {
+        "status": "Unknown",
+        "source": "security_config",
+        "confidence": 0.0,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "protected_by:synthetic"
+      },
+      "edge_id": "e0034"
+    },
+    {
+      "source": "subnet-003",
+      "target": "ld-0004-lcolumn",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "network_config",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0035"
+    },
+    {
+      "source": "ld-0004-lcolumn",
+      "target": "sg-002",
+      "type": "protected_by",
+      "attrs": {
+        "status": "Supported",
+        "source": "security_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "protected_by:synthetic"
+      },
+      "edge_id": "e0036"
+    },
+    {
+      "source": "subnet-002",
+      "target": "ld-0005-lsearch",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "network_config",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0037"
+    },
+    {
+      "source": "ld-0005-lsearch",
+      "target": "sg-005",
+      "type": "protected_by",
+      "attrs": {
+        "status": "Supported",
+        "source": "security_config",
+        "confidence": 0.0,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "protected_by:synthetic"
+      },
+      "edge_id": "e0038"
+    },
+    {
+      "source": "ld-0001-lcolumn",
+      "target": "ld-0001-lcolumn_db_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0039"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_1",
+      "target": "ld-0001-lcolumn_db_1_tbl_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0040"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_1_tbl_1",
+      "target": "ld-0001-lcolumn_db_1_tbl_1_col_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0041"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_1_tbl_1",
+      "target": "ld-0001-lcolumn_db_1_tbl_1_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0042"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_1_tbl_1",
+      "target": "ld-0001-lcolumn_db_1_tbl_1_password",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0043"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_1_tbl_1_password",
+      "target": "ld-0001-lcolumn_db_1_tbl_1_password_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0044"
+    },
+    {
+      "source": "ld-0001-lcolumn",
+      "target": "ld-0001-lcolumn_db_2",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0045"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2",
+      "target": "ld-0001-lcolumn_db_2_tbl_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0046"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_1",
+      "target": "ld-0001-lcolumn_db_2_tbl_1_email",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0047"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_1_email",
+      "target": "ld-0001-lcolumn_db_2_tbl_1_email_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0048"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_1",
+      "target": "ld-0001-lcolumn_db_2_tbl_1_phone",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0049"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_1_phone",
+      "target": "ld-0001-lcolumn_db_2_tbl_1_phone_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0050"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_1",
+      "target": "ld-0001-lcolumn_db_2_tbl_1_password",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0051"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2",
+      "target": "ld-0001-lcolumn_db_2_tbl_2",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0052"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_2",
+      "target": "ld-0001-lcolumn_db_2_tbl_2_bank_account",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0053"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_2_bank_account",
+      "target": "ld-0001-lcolumn_db_2_tbl_2_bank_account_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0054"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_2",
+      "target": "ld-0001-lcolumn_db_2_tbl_2_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0055"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_2",
+      "target": "ld-0001-lcolumn_db_2_tbl_2_col_3",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0056"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_2",
+      "target": "ld-0001-lcolumn_db_2_tbl_2_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0057"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_2_id_card",
+      "target": "ld-0001-lcolumn_db_2_tbl_2_id_card_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0058"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_2",
+      "target": "ld-0001-lcolumn_db_2_tbl_2_password",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0059"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_2_password",
+      "target": "ld-0001-lcolumn_db_2_tbl_2_password_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0060"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2",
+      "target": "ld-0001-lcolumn_db_2_tbl_3",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0061"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_3",
+      "target": "ld-0001-lcolumn_db_2_tbl_3_address",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0062"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_3_address",
+      "target": "ld-0001-lcolumn_db_2_tbl_3_address_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0063"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_3",
+      "target": "ld-0001-lcolumn_db_2_tbl_3_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0064"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_3",
+      "target": "ld-0001-lcolumn_db_2_tbl_3_address",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0065"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_3",
+      "target": "ld-0001-lcolumn_db_2_tbl_3_col_4",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0066"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_3",
+      "target": "ld-0001-lcolumn_db_2_tbl_3_email",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0067"
+    },
+    {
+      "source": "ld-0001-lcolumn_db_2_tbl_3_email",
+      "target": "ld-0001-lcolumn_db_2_tbl_3_email_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0068"
+    },
+    {
+      "source": "ld-0002-tsdb",
+      "target": "ld-0002-tsdb_db_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0069"
+    },
+    {
+      "source": "ld-0002-tsdb_db_1",
+      "target": "ld-0002-tsdb_db_1_tbl_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0070"
+    },
+    {
+      "source": "ld-0002-tsdb_db_1_tbl_1",
+      "target": "ld-0002-tsdb_db_1_tbl_1_email",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0071"
+    },
+    {
+      "source": "ld-0002-tsdb_db_1_tbl_1_email",
+      "target": "ld-0002-tsdb_db_1_tbl_1_email_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0072"
+    },
+    {
+      "source": "ld-0002-tsdb_db_1_tbl_1",
+      "target": "ld-0002-tsdb_db_1_tbl_1_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0073"
+    },
+    {
+      "source": "ld-0002-tsdb_db_1_tbl_1",
+      "target": "ld-0002-tsdb_db_1_tbl_1_bank_account",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0074"
+    },
+    {
+      "source": "ld-0002-tsdb_db_1_tbl_1",
+      "target": "ld-0002-tsdb_db_1_tbl_1_address",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0075"
+    },
+    {
+      "source": "ld-0002-tsdb_db_1_tbl_1",
+      "target": "ld-0002-tsdb_db_1_tbl_1_phone",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0076"
+    },
+    {
+      "source": "ld-0002-tsdb_db_1_tbl_1_phone",
+      "target": "ld-0002-tsdb_db_1_tbl_1_phone_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0077"
+    },
+    {
+      "source": "ld-0002-tsdb_db_1_tbl_1",
+      "target": "ld-0002-tsdb_db_1_tbl_1_col_6",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0078"
+    },
+    {
+      "source": "ld-0002-tsdb_db_1_tbl_1",
+      "target": "ld-0002-tsdb_db_1_tbl_1_address",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0079"
+    },
+    {
+      "source": "ld-0002-tsdb",
+      "target": "ld-0002-tsdb_db_2",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0080"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2",
+      "target": "ld-0002-tsdb_db_2_tbl_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0081"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_1",
+      "target": "ld-0002-tsdb_db_2_tbl_1_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0082"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_1_id_card",
+      "target": "ld-0002-tsdb_db_2_tbl_1_id_card_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0083"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_1",
+      "target": "ld-0002-tsdb_db_2_tbl_1_col_2",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0084"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_1",
+      "target": "ld-0002-tsdb_db_2_tbl_1_col_3",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0085"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_1",
+      "target": "ld-0002-tsdb_db_2_tbl_1_bank_account",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0086"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_1_bank_account",
+      "target": "ld-0002-tsdb_db_2_tbl_1_bank_account_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0087"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_1",
+      "target": "ld-0002-tsdb_db_2_tbl_1_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0088"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_1_id_card",
+      "target": "ld-0002-tsdb_db_2_tbl_1_id_card_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0089"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2",
+      "target": "ld-0002-tsdb_db_2_tbl_2",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0090"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_2",
+      "target": "ld-0002-tsdb_db_2_tbl_2_col_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0091"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_2",
+      "target": "ld-0002-tsdb_db_2_tbl_2_phone",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0092"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_2_phone",
+      "target": "ld-0002-tsdb_db_2_tbl_2_phone_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0093"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_2",
+      "target": "ld-0002-tsdb_db_2_tbl_2_phone",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0094"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_2_phone",
+      "target": "ld-0002-tsdb_db_2_tbl_2_phone_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0095"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_2",
+      "target": "ld-0002-tsdb_db_2_tbl_2_address",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0096"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_2",
+      "target": "ld-0002-tsdb_db_2_tbl_2_email",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0097"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_2_email",
+      "target": "ld-0002-tsdb_db_2_tbl_2_email_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0098"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_2",
+      "target": "ld-0002-tsdb_db_2_tbl_2_email",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0099"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2",
+      "target": "ld-0002-tsdb_db_2_tbl_3",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0100"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_3",
+      "target": "ld-0002-tsdb_db_2_tbl_3_address",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0101"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_3_address",
+      "target": "ld-0002-tsdb_db_2_tbl_3_address_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0102"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_3",
+      "target": "ld-0002-tsdb_db_2_tbl_3_bank_account",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0103"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_3_bank_account",
+      "target": "ld-0002-tsdb_db_2_tbl_3_bank_account_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0104"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_3",
+      "target": "ld-0002-tsdb_db_2_tbl_3_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0105"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_3_id_card",
+      "target": "ld-0002-tsdb_db_2_tbl_3_id_card_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0106"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_3",
+      "target": "ld-0002-tsdb_db_2_tbl_3_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0107"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_3",
+      "target": "ld-0002-tsdb_db_2_tbl_3_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0108"
+    },
+    {
+      "source": "ld-0002-tsdb_db_2_tbl_3_id_card",
+      "target": "ld-0002-tsdb_db_2_tbl_3_id_card_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0109"
+    },
+    {
+      "source": "ld-0003-tsdb",
+      "target": "ld-0003-tsdb_db_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0110"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1",
+      "target": "ld-0003-tsdb_db_1_tbl_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0111"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_1",
+      "target": "ld-0003-tsdb_db_1_tbl_1_address",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0112"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_1_address",
+      "target": "ld-0003-tsdb_db_1_tbl_1_address_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0113"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_1",
+      "target": "ld-0003-tsdb_db_1_tbl_1_col_2",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0114"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_1",
+      "target": "ld-0003-tsdb_db_1_tbl_1_password",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0115"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_1_password",
+      "target": "ld-0003-tsdb_db_1_tbl_1_password_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0116"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_1",
+      "target": "ld-0003-tsdb_db_1_tbl_1_bank_account",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0117"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_1_bank_account",
+      "target": "ld-0003-tsdb_db_1_tbl_1_bank_account_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0118"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_1",
+      "target": "ld-0003-tsdb_db_1_tbl_1_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0119"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_1",
+      "target": "ld-0003-tsdb_db_1_tbl_1_email",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0120"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_1_email",
+      "target": "ld-0003-tsdb_db_1_tbl_1_email_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0121"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_1",
+      "target": "ld-0003-tsdb_db_1_tbl_1_col_7",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0122"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1",
+      "target": "ld-0003-tsdb_db_1_tbl_2",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0123"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_2",
+      "target": "ld-0003-tsdb_db_1_tbl_2_phone",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0124"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_2_phone",
+      "target": "ld-0003-tsdb_db_1_tbl_2_phone_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0125"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_2",
+      "target": "ld-0003-tsdb_db_1_tbl_2_phone",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0126"
+    },
+    {
+      "source": "ld-0003-tsdb_db_1_tbl_2_phone",
+      "target": "ld-0003-tsdb_db_1_tbl_2_phone_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0127"
+    },
+    {
+      "source": "ld-0004-lcolumn",
+      "target": "ld-0004-lcolumn_db_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0128"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1",
+      "target": "ld-0004-lcolumn_db_1_tbl_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0129"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_1",
+      "target": "ld-0004-lcolumn_db_1_tbl_1_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0130"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_1_id_card",
+      "target": "ld-0004-lcolumn_db_1_tbl_1_id_card_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0131"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_1",
+      "target": "ld-0004-lcolumn_db_1_tbl_1_col_2",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0132"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_1",
+      "target": "ld-0004-lcolumn_db_1_tbl_1_col_3",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0133"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_1",
+      "target": "ld-0004-lcolumn_db_1_tbl_1_phone",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0134"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_1_phone",
+      "target": "ld-0004-lcolumn_db_1_tbl_1_phone_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0135"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_1",
+      "target": "ld-0004-lcolumn_db_1_tbl_1_col_5",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0136"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_1",
+      "target": "ld-0004-lcolumn_db_1_tbl_1_password",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0137"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1",
+      "target": "ld-0004-lcolumn_db_1_tbl_2",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0138"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_2",
+      "target": "ld-0004-lcolumn_db_1_tbl_2_password",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0139"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_2_password",
+      "target": "ld-0004-lcolumn_db_1_tbl_2_password_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0140"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_2",
+      "target": "ld-0004-lcolumn_db_1_tbl_2_col_2",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0141"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_2",
+      "target": "ld-0004-lcolumn_db_1_tbl_2_col_3",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0142"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1",
+      "target": "ld-0004-lcolumn_db_1_tbl_3",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0143"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_3",
+      "target": "ld-0004-lcolumn_db_1_tbl_3_bank_account",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0144"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_3_bank_account",
+      "target": "ld-0004-lcolumn_db_1_tbl_3_bank_account_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0145"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_3",
+      "target": "ld-0004-lcolumn_db_1_tbl_3_bank_account",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0146"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_3_bank_account",
+      "target": "ld-0004-lcolumn_db_1_tbl_3_bank_account_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0147"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_3",
+      "target": "ld-0004-lcolumn_db_1_tbl_3_address",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0148"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_3_address",
+      "target": "ld-0004-lcolumn_db_1_tbl_3_address_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0149"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_3",
+      "target": "ld-0004-lcolumn_db_1_tbl_3_address",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0150"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_3_address",
+      "target": "ld-0004-lcolumn_db_1_tbl_3_address_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0151"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_3",
+      "target": "ld-0004-lcolumn_db_1_tbl_3_address",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0152"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_3_address",
+      "target": "ld-0004-lcolumn_db_1_tbl_3_address_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0153"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1",
+      "target": "ld-0004-lcolumn_db_1_tbl_4",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0154"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_4",
+      "target": "ld-0004-lcolumn_db_1_tbl_4_email",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0155"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_4",
+      "target": "ld-0004-lcolumn_db_1_tbl_4_password",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0156"
+    },
+    {
+      "source": "ld-0004-lcolumn_db_1_tbl_4_password",
+      "target": "ld-0004-lcolumn_db_1_tbl_4_password_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0157"
+    },
+    {
+      "source": "ld-0005-lsearch",
+      "target": "ld-0005-lsearch_db_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0158"
+    },
+    {
+      "source": "ld-0005-lsearch_db_1",
+      "target": "ld-0005-lsearch_db_1_tbl_1",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0159"
+    },
+    {
+      "source": "ld-0005-lsearch_db_1_tbl_1",
+      "target": "ld-0005-lsearch_db_1_tbl_1_email",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0160"
+    },
+    {
+      "source": "ld-0005-lsearch_db_1_tbl_1_email",
+      "target": "ld-0005-lsearch_db_1_tbl_1_email_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0161"
+    },
+    {
+      "source": "ld-0005-lsearch_db_1_tbl_1",
+      "target": "ld-0005-lsearch_db_1_tbl_1_phone",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0162"
+    },
+    {
+      "source": "ld-0005-lsearch_db_1_tbl_1",
+      "target": "ld-0005-lsearch_db_1_tbl_1_bank_account",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0163"
+    },
+    {
+      "source": "ld-0005-lsearch_db_1_tbl_1_bank_account",
+      "target": "ld-0005-lsearch_db_1_tbl_1_bank_account_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0164"
+    },
+    {
+      "source": "ld-0005-lsearch_db_1_tbl_1",
+      "target": "ld-0005-lsearch_db_1_tbl_1_email",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0165"
+    },
+    {
+      "source": "ld-0005-lsearch_db_1_tbl_1_email",
+      "target": "ld-0005-lsearch_db_1_tbl_1_email_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0166"
+    },
+    {
+      "source": "ld-0005-lsearch_db_1_tbl_1",
+      "target": "ld-0005-lsearch_db_1_tbl_1_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "contains:synthetic"
+      },
+      "edge_id": "e0167"
+    },
+    {
+      "source": "ld-0005-lsearch_db_1_tbl_1_id_card",
+      "target": "ld-0005-lsearch_db_1_tbl_1_id_card_tag",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "classified_as:synthetic"
+      },
+      "edge_id": "e0168"
+    },
+    {
+      "source": "policy-001",
+      "target": "ld-0003-tsdb_db_1_tbl_1",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.9,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0169"
+    },
+    {
+      "source": "policy-001",
+      "target": "ld-0005-lsearch_db_1_tbl_1",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.9,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0170"
+    },
+    {
+      "source": "policy-002",
+      "target": "ld-0002-tsdb_db_2_tbl_1",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.9,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0171"
+    },
+    {
+      "source": "policy-002",
+      "target": "ld-0002-tsdb_db_2_tbl_3",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Contradicted",
+        "source": "iam_config",
+        "confidence": 0.0,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0172"
+    },
+    {
+      "source": "policy-003",
+      "target": "ld-0003-tsdb_db_1_tbl_2",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Contradicted",
+        "source": "iam_config",
+        "confidence": 0.0,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0173"
+    },
+    {
+      "source": "policy-003",
+      "target": "ld-0001-lcolumn_db_1_tbl_1",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Contradicted",
+        "source": "iam_config",
+        "confidence": 0.0,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0174"
+    },
+    {
+      "source": "policy-003",
+      "target": "ld-0002-tsdb_db_1_tbl_1",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Contradicted",
+        "source": "iam_config",
+        "confidence": 0.9,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0175"
+    },
+    {
+      "source": "policy-004",
+      "target": "ld-0002-tsdb_db_1_tbl_1",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.9,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0176"
+    },
+    {
+      "source": "policy-004",
+      "target": "ld-0004-lcolumn_db_1_tbl_2",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Contradicted",
+        "source": "iam_config",
+        "confidence": 0.9,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0177"
+    },
+    {
+      "source": "policy-005",
+      "target": "ld-0002-tsdb_db_1_tbl_1",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Contradicted",
+        "source": "iam_config",
+        "confidence": 0.9,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0178"
+    },
+    {
+      "source": "policy-005",
+      "target": "ld-0004-lcolumn_db_1_tbl_2",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Supported",
+        "source": "iam_config",
+        "confidence": 0.9,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0179"
+    },
+    {
+      "source": "policy-005",
+      "target": "ld-0004-lcolumn_db_1_tbl_1",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Contradicted",
+        "source": "iam_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0180"
+    },
+    {
+      "source": "user-001",
+      "target": "ld-0003-tsdb",
+      "type": "accessed",
+      "attrs": {
+        "status": "Supported",
+        "source": "sls_task_detect",
+        "confidence": 0.92,
+        "query_cost": 3,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "accessed:synthetic"
+      },
+      "edge_id": "e0181"
+    },
+    {
+      "source": "user-004",
+      "target": "ld-0005-lsearch",
+      "type": "accessed",
+      "attrs": {
+        "status": "Supported",
+        "source": "sls_task_detect",
+        "confidence": 0.92,
+        "query_cost": 3,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "accessed:synthetic"
+      },
+      "edge_id": "e0182"
+    },
+    {
+      "source": "user-001",
+      "target": "ld-0003-tsdb",
+      "type": "accessed",
+      "attrs": {
+        "status": "Supported",
+        "source": "sls_task_detect",
+        "confidence": 0.92,
+        "query_cost": 3,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "accessed:synthetic"
+      },
+      "edge_id": "e0183"
+    },
+    {
+      "source": "user-007",
+      "target": "ld-0001-lcolumn",
+      "type": "accessed",
+      "attrs": {
+        "status": "Supported",
+        "source": "sls_task_detect",
+        "confidence": 0.92,
+        "query_cost": 3,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "accessed:synthetic"
+      },
+      "edge_id": "e0184"
+    },
+    {
+      "source": "user-007",
+      "target": "ld-0005-lsearch",
+      "type": "accessed",
+      "attrs": {
+        "status": "Supported",
+        "source": "sls_task_detect",
+        "confidence": 0.92,
+        "query_cost": 3,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "accessed:synthetic"
+      },
+      "edge_id": "e0185"
+    },
+    {
+      "source": "user-007",
+      "target": "ld-0002-tsdb",
+      "type": "accessed",
+      "attrs": {
+        "status": "Supported",
+        "source": "sls_task_detect",
+        "confidence": 0.92,
+        "query_cost": 3,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "accessed:synthetic"
+      },
+      "edge_id": "e0186"
+    },
+    {
+      "source": "user-006",
+      "target": "ld-0002-tsdb",
+      "type": "accessed",
+      "attrs": {
+        "status": "Supported",
+        "source": "sls_task_detect",
+        "confidence": 0.92,
+        "query_cost": 3,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "accessed:synthetic"
+      },
+      "edge_id": "e0187"
+    },
+    {
+      "source": "user-001",
+      "target": "ld-0004-lcolumn",
+      "type": "accessed",
+      "attrs": {
+        "status": "Supported",
+        "source": "sls_task_detect",
+        "confidence": 0.92,
+        "query_cost": 3,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "accessed:synthetic"
+      },
+      "edge_id": "e0188"
+    },
+    {
+      "source": "user-007",
+      "target": "ld-0002-tsdb",
+      "type": "accessed",
+      "attrs": {
+        "status": "Supported",
+        "source": "sls_task_detect",
+        "confidence": 0.92,
+        "query_cost": 3,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "accessed:synthetic"
+      },
+      "edge_id": "e0189"
+    },
+    {
+      "source": "user-007",
+      "target": "ld-0001-lcolumn",
+      "type": "accessed",
+      "attrs": {
+        "status": "Supported",
+        "source": "sls_task_detect",
+        "confidence": 0.92,
+        "query_cost": 3,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "accessed:synthetic"
+      },
+      "edge_id": "e0190"
+    },
+    {
+      "source": "user-005",
+      "target": "ld-0003-tsdb",
+      "type": "accessed",
+      "attrs": {
+        "status": "Supported",
+        "source": "sls_task_detect",
+        "confidence": 0.92,
+        "query_cost": 3,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "accessed:synthetic"
+      },
+      "edge_id": "e0191"
+    },
+    {
+      "source": "user-003",
+      "target": "ld-0001-lcolumn",
+      "type": "accessed",
+      "attrs": {
+        "status": "Supported",
+        "source": "sls_task_detect",
+        "confidence": 0.92,
+        "query_cost": 3,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "accessed:synthetic"
+      },
+      "edge_id": "e0192"
+    },
+    {
+      "source": "internet_attacker",
+      "target": "identity_controlled_external",
+      "type": "can_connect",
+      "attrs": {
+        "status": "Supported",
+        "source": "controlled_injection",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_connect:synthetic"
+      },
+      "edge_id": "e0193"
+    },
+    {
+      "source": "identity_controlled_external",
+      "target": "ld-0001-lcolumn",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Supported",
+        "source": "controlled_injection",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0194"
+    },
+    {
+      "source": "identity_controlled_external",
+      "target": "ld-0002-tsdb",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Supported",
+        "source": "controlled_injection",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0195"
+    },
+    {
+      "source": "identity_controlled_external",
+      "target": "ld-0003-tsdb",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Supported",
+        "source": "controlled_injection",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0196"
+    },
+    {
+      "source": "identity_controlled_external",
+      "target": "ld-0004-lcolumn",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Supported",
+        "source": "controlled_injection",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0197"
+    },
+    {
+      "source": "identity_controlled_external",
+      "target": "ld-0005-lsearch",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Supported",
+        "source": "controlled_injection",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "has_permission:synthetic"
+      },
+      "edge_id": "e0198"
+    },
+    {
+      "source": "internet_attacker",
+      "target": "sg-001",
+      "type": "can_connect",
+      "attrs": {
+        "status": "Supported",
+        "source": "controlled_injection",
+        "confidence": 1.0,
+        "query_cost": 1,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_connect:synthetic"
+      },
+      "edge_id": "e0199"
+    },
+    {
+      "source": "sg-001",
+      "target": "ld-0003-tsdb",
+      "type": "can_connect",
+      "attrs": {
+        "status": "Supported",
+        "source": "network_config",
+        "confidence": 0.95,
+        "query_cost": 2,
+        "time": "2026-01-15T00:00:00Z",
+        "raw_evidence": "can_connect:synthetic"
+      },
+      "edge_id": "e0200"
+    }
+  ],
+  "gold_paths": [
+    [
+      "internet_attacker",
+      "identity_controlled_external",
+      "ld-0001-lcolumn",
+      "ld-0001-lcolumn_db_2",
+      "ld-0001-lcolumn_db_2_tbl_1",
+      "ld-0001-lcolumn_db_2_tbl_1_email",
+      "ld-0001-lcolumn_db_2_tbl_1_email_tag"
+    ],
+    [
+      "internet_attacker",
+      "identity_controlled_external",
+      "ld-0001-lcolumn",
+      "ld-0001-lcolumn_db_2",
+      "ld-0001-lcolumn_db_2_tbl_1",
+      "ld-0001-lcolumn_db_2_tbl_1_phone",
+      "ld-0001-lcolumn_db_2_tbl_1_phone_tag"
+    ],
+    [
+      "internet_attacker",
+      "identity_controlled_external",
+      "ld-0001-lcolumn",
+      "ld-0001-lcolumn_db_2",
+      "ld-0001-lcolumn_db_2_tbl_2",
+      "ld-0001-lcolumn_db_2_tbl_2_password",
+      "ld-0001-lcolumn_db_2_tbl_2_password_tag"
+    ],
+    [
+      "internet_attacker",
+      "identity_controlled_external",
+      "ld-0001-lcolumn",
+      "ld-0001-lcolumn_db_2",
+      "ld-0001-lcolumn_db_2_tbl_3",
+      "ld-0001-lcolumn_db_2_tbl_3_email",
+      "ld-0001-lcolumn_db_2_tbl_3_email_tag"
+    ],
+    [
+      "internet_attacker",
+      "identity_controlled_external",
+      "ld-0002-tsdb",
+      "ld-0002-tsdb_db_2",
+      "ld-0002-tsdb_db_2_tbl_1",
+      "ld-0002-tsdb_db_2_tbl_1_id_card",
+      "ld-0002-tsdb_db_2_tbl_1_id_card_tag"
+    ]
+  ],
+  "path_labels": [
+    {
+      "path": [
+        "internet_attacker",
+        "identity_controlled_external",
+        "ld-0001-lcolumn",
+        "ld-0001-lcolumn_db_2",
+        "ld-0001-lcolumn_db_2_tbl_1",
+        "ld-0001-lcolumn_db_2_tbl_1_email",
+        "ld-0001-lcolumn_db_2_tbl_1_email_tag"
+      ],
+      "state": "Valid",
+      "expected_type": "Observed_Risk",
+      "variant_type": "controlled_exposure",
+      "label_scope": "real_evidence_path",
+      "edge_ids": [
+        "e0193",
+        "e0194",
+        "e0045",
+        "e0046",
+        "e0047",
+        "e0048"
+      ],
+      "edge_types": [
+        "can_connect",
+        "has_permission",
+        "contains",
+        "contains",
+        "contains",
+        "classified_as"
+      ]
+    },
+    {
+      "path": [
+        "internet_attacker",
+        "identity_controlled_external",
+        "ld-0001-lcolumn",
+        "ld-0001-lcolumn_db_2",
+        "ld-0001-lcolumn_db_2_tbl_1",
+        "ld-0001-lcolumn_db_2_tbl_1_phone",
+        "ld-0001-lcolumn_db_2_tbl_1_phone_tag"
+      ],
+      "state": "Valid",
+      "expected_type": "Observed_Risk",
+      "variant_type": "controlled_exposure",
+      "label_scope": "real_evidence_path",
+      "edge_ids": [
+        "e0193",
+        "e0194",
+        "e0045",
+        "e0046",
+        "e0049",
+        "e0050"
+      ],
+      "edge_types": [
+        "can_connect",
+        "has_permission",
+        "contains",
+        "contains",
+        "contains",
+        "classified_as"
+      ]
+    },
+    {
+      "path": [
+        "internet_attacker",
+        "identity_controlled_external",
+        "ld-0001-lcolumn",
+        "ld-0001-lcolumn_db_2",
+        "ld-0001-lcolumn_db_2_tbl_2",
+        "ld-0001-lcolumn_db_2_tbl_2_password",
+        "ld-0001-lcolumn_db_2_tbl_2_password_tag"
+      ],
+      "state": "Valid",
+      "expected_type": "Observed_Risk",
+      "variant_type": "controlled_exposure",
+      "label_scope": "real_evidence_path",
+      "edge_ids": [
+        "e0193",
+        "e0194",
+        "e0045",
+        "e0052",
+        "e0059",
+        "e0060"
+      ],
+      "edge_types": [
+        "can_connect",
+        "has_permission",
+        "contains",
+        "contains",
+        "contains",
+        "classified_as"
+      ]
+    },
+    {
+      "path": [
+        "internet_attacker",
+        "identity_controlled_external",
+        "ld-0001-lcolumn",
+        "ld-0001-lcolumn_db_2",
+        "ld-0001-lcolumn_db_2_tbl_3",
+        "ld-0001-lcolumn_db_2_tbl_3_email",
+        "ld-0001-lcolumn_db_2_tbl_3_email_tag"
+      ],
+      "state": "Valid",
+      "expected_type": "Observed_Risk",
+      "variant_type": "controlled_exposure",
+      "label_scope": "real_evidence_path",
+      "edge_ids": [
+        "e0193",
+        "e0194",
+        "e0045",
+        "e0061",
+        "e0067",
+        "e0068"
+      ],
+      "edge_types": [
+        "can_connect",
+        "has_permission",
+        "contains",
+        "contains",
+        "contains",
+        "classified_as"
+      ]
+    },
+    {
+      "path": [
+        "internet_attacker",
+        "identity_controlled_external",
+        "ld-0002-tsdb",
+        "ld-0002-tsdb_db_2",
+        "ld-0002-tsdb_db_2_tbl_1",
+        "ld-0002-tsdb_db_2_tbl_1_id_card",
+        "ld-0002-tsdb_db_2_tbl_1_id_card_tag"
+      ],
+      "state": "Valid",
+      "expected_type": "Observed_Risk",
+      "variant_type": "controlled_exposure",
+      "label_scope": "real_evidence_path",
+      "edge_ids": [
+        "e0193",
+        "e0195",
+        "e0080",
+        "e0081",
+        "e0082",
+        "e0083"
+      ],
+      "edge_types": [
+        "can_connect",
+        "has_permission",
+        "contains",
+        "contains",
+        "contains",
+        "classified_as"
+      ]
+    }
+  ]
+}

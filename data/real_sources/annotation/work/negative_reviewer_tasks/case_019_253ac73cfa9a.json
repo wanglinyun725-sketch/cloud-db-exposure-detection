@@ -1,0 +1,53 @@
+{
+  "candidate_id": "cloud-incident:azure:00113",
+  "independence_group": "reliability-record:92fd4fdb34d780cf9cf833690ae861658b77658314f19d1f02551835242b7ad7",
+  "independence_group_basis": "source_record_sha256",
+  "source": {
+    "source_id": "cloud_incident_reports_2016_2024",
+    "doi": "10.5281/zenodo.14010282",
+    "version": "record-14010282-v1",
+    "license": "CC-BY-4.0"
+  },
+  "vendor": "AZURE",
+  "service_hint": null,
+  "year": null,
+  "data_relevance_facets": [
+    "analytics",
+    "sql"
+  ],
+  "security_term_hits": [],
+  "report_text": "02/28/2020 RCA - Networking Issue in South Central US Tracking ID: DMP0-HT8 Summary of Impact: Between 12:48 and 19:10 UTC on 28 Feb 2020, a subset of customers in South Central US may have encountered failure notifications when performing service management operations on resources hosted in this region. Additionally, some customers using Azure Data Factory V2 may have seen errors when running pipelines and job executions for dataflow activities as well as seeing errors when attempting to provision SQL Server Integration Services (SSIS) and Integration Runtime for Azure Data Factory SSIS packages. Root Cause: During a scale-up operation of the service that manages customer network resources, a new capacity configuration was deployed. This configuration triggered a conflict with an existing backend service configuration and caused an increase in the failure rate of requests to the service used for service discovery. The increased failure rate exceeded the Azure platform’s capability for retry logic to avoid customer impact. Mitigation: Resources deployed during the scale-up operation performed with the incompatible configuration were removed from rotation, allowing the automatic recovery of the backend service. Next Steps: We sincerely apologize for the impact to affected customers. We are continuously taking steps to improve the Microsoft Azure Platform and our processes to help ensure such incidents do not occur in the future. In this case, this included (but was not limited to): Improving deployment testing and detection to avoid configuration conflicts Implementing last known good configuration fall back in the event of resource deployment errors, instead of the requirement to deploy new configuration Provide Feedback: Please help us improve the Azure customer communications experience by taking our survey: https://aka.ms/DMP0-HT8 .",
+  "raw_ref": {
+    "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+    "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+    "member_path": "2_clean_data/azure.csv",
+    "record_index": 113,
+    "record_sha256": "92fd4fdb34d780cf9cf833690ae861658b77658314f19d1f02551835242b7ad7"
+  },
+  "workflow_version": "0.1",
+  "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "source_context_fields": [
+    "candidate_id",
+    "data_relevance_facets",
+    "independence_group",
+    "independence_group_basis",
+    "raw_ref",
+    "report_text",
+    "security_term_hits",
+    "service_hint",
+    "source",
+    "vendor",
+    "year"
+  ],
+  "source_context_sha256": "73e5db3040986ffa808ebb4c890498a161e8606a36e805358346159e35fc7e63",
+  "screening": {
+    "cloud_data_relevant": null,
+    "non_attack_confirmed": null,
+    "usable_as_negative_control": null,
+    "rationale": null
+  }
+}

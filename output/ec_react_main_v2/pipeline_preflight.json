@@ -1,0 +1,141 @@
+{
+  "preflight_version": "0.1",
+  "preflight_mode": "execution",
+  "model_credentials_enforced": true,
+  "experiment_id": "ec_react_main_v2",
+  "config_path": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\configs\\ec_react_main_v2_draft.yaml",
+  "config_sha256": "b4a1a186d5f00949e06246ead9fda10b3ec1bc26c9e04ef99479545dc84de30b",
+  "source_packet_sha256": "fe9eb72d45c848aeb30dbaa37e26a03d1841a92c6637cd8de5809b00212ed743",
+  "source_candidate_cases": 52,
+  "source_independence_groups": 30,
+  "source_runtime_data_quality": {
+    "require_nonempty": true,
+    "runtime_instances": 79,
+    "nonempty_runtime_instances": 79,
+    "empty_runtime_instances": 0,
+    "empty_runtime_instance_ids": [],
+    "shape_error_count": 0,
+    "shape_errors": []
+  },
+  "data": {
+    "gold_protocol": "executable_oracle_v1",
+    "source_packet": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\runtime_confirmatory_30_unlabeled.json",
+    "gold_release": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\oracle\\executable_oracle_registry_v1.json",
+    "split_manifest": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\oracle\\releases\\executable_oracle_gold_v1_splits.json",
+    "negative_source_packet": null,
+    "negative_gold_release": null,
+    "annotation_pilot_packet": null,
+    "annotation_pilot_release": null,
+    "annotation_pilot_gate": null
+  },
+  "release_summary": {
+    "finalized_cases": 0,
+    "included_cases": 0,
+    "included_independence_groups": 0,
+    "runtime_backed_included_cases": 0,
+    "included_runtime_instances": 0,
+    "instance_labels": 0,
+    "reviewed": 0,
+    "adjudicated": 0,
+    "needs_execution": 0,
+    "rejected": 0,
+    "gold_protocol": "executable_oracle_v1",
+    "oracle_verified": 0
+  },
+  "path_ontology": {
+    "configured": true,
+    "path": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\configs\\path_ontology_v1.json",
+    "reference": {
+      "ontology_id": "cloud_data_path_v1",
+      "version": "1.0.0",
+      "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+    },
+    "node_types": 16,
+    "edge_types": 27,
+    "primary_match": "canonical_fine_exact",
+    "coarse_match_reporting": "sensitivity_only"
+  },
+  "external_action_prior": {
+    "configured": true,
+    "path": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\configs\\sigma_cloud_operation_prior_v1.json",
+    "reference": {
+      "prior_id": "sigma_cloud_operation_prior_v1",
+      "version": "1.0.0",
+      "sha256": "065e031df3088876208b00fb9252029a028f19caea18e89f74b2234bb717302b",
+      "source_id": "sigmahq_cloud_rules",
+      "source_archive_sha256": "eea217c0b05ee1571cca2efaf25cb13512520e2f5e6cab87478b4bf5e001bd81"
+    },
+    "rules_total": 211,
+    "rules_with_operation_patterns": 114,
+    "patterns": 278,
+    "label_usage": "none",
+    "weighting": "none"
+  },
+  "negative_release_summary": {
+    "finalized_cases": 0,
+    "usable_negative_controls": 0,
+    "usable_runtime_instances": 0,
+    "reviewed": 0,
+    "adjudicated": 0,
+    "rejected": 0,
+    "embedded_in_oracle_release": true,
+    "oracle_verified": 0
+  },
+  "annotation_pilot_gate": {
+    "configured": false,
+    "passes": null,
+    "failed_checks": []
+  },
+  "split_summary": {
+    "assignments": 0,
+    "independence_groups": 0,
+    "split_counts": {},
+    "runtime_backed_frozen_test_cases": 0,
+    "gold_protocol": "executable_oracle_v1"
+  },
+  "method_count": 11,
+  "schedule_arm_count": 5,
+  "execution_selection": {
+    "method_ids": null,
+    "model_ids": null
+  },
+  "planned_runs_per_runtime_instance": 77,
+  "model_status": [
+    {
+      "model_id": "qwen2_5_7b_local",
+      "api_key_env": "OLLAMA_API_KEY",
+      "api_key_present": false,
+      "api_key_required": false,
+      "credential_enforced": true,
+      "model": "qwen2.5:7b",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "require_runtime_digest": true,
+      "frozen_runtime_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "require_exact_version": false
+    },
+    {
+      "model_id": "gpt_5_4_snapshot",
+      "api_key_env": "OPENAI_API_KEY",
+      "api_key_present": false,
+      "api_key_required": true,
+      "credential_enforced": true,
+      "model": "gpt-5.4-2026-03-05",
+      "base_url": "https://api.openai.com/v1",
+      "require_runtime_digest": false,
+      "frozen_runtime_digest": null,
+      "require_exact_version": true
+    }
+  ],
+  "planned_runs_if_ready": 0,
+  "planned_runs_at_minimum_case_target": 2310,
+  "blockers": [
+    "Oracle frozen test has 0 groups; minimum is 15",
+    "executable Oracle registry has 0 bounded negative or paired controls; minimum is 10",
+    "executable Oracle registry has 0 qualifying independence groups; minimum is 30",
+    "executable Oracle registry has 0 runtime gold groups; minimum is 30",
+    "model gpt_5_4_snapshot is missing OPENAI_API_KEY"
+  ],
+  "warnings": [],
+  "ready": false,
+  "secrets_in_report": false
+}

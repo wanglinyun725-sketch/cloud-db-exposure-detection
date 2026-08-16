@@ -1,0 +1,75 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "stratus:gcp.defense-evasion.delete-logging-sink",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:gcp.defense-evasion.delete-logging-sink",
+    "kind": "executable_attack_technique",
+    "platform": "GCP",
+    "technique": "gcp.defense-evasion.delete-logging-sink",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.defense-evasion.delete-logging-sink.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.defense-evasion.delete-logging-sink.md",
+    "review_score": 9,
+    "independence_group": "stratus-technique:T1562",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1562"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.defense-evasion.delete-logging-sink.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.defense-evasion.delete-logging-sink.md",
+      "member_sha256": "955fac88c2a67c49aca82c867f1aa6c8bd1688928f2f82dbbf4b1898db7d9bc5",
+      "bytes": 1169,
+      "content_kind": "md",
+      "text": "---\ntitle: Delete a GCP Log Sink\n---\n\n# Delete a GCP Log Sink\n\n\n\n\nPlatform: GCP\n\n## Mappings\n\n- MITRE ATT&CK\n    - Defense Evasion\n\n\n\n## Description\n\n\nDeletes a Cloud Logging sink that exports audit logs to a storage destination.\nSimulates an attacker disrupting audit log export to impair forensic investigation and detection.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create a GCS bucket\n- Create a log sink exporting audit logs (<code>cloudaudit.googleapis.com</code>) to the bucket\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Delete the log sink\n\nReferences:\n\n- https://cloud.google.com/logging/docs/export/configure_export_v2\n- https://www.trendmicro.com/cloudoneconformity/knowledge-base/gcp/CloudLogging/logging-sink.html\n- https://attack.mitre.org/techniques/T1562/008/\n- https://redcanary.com/threat-detection-report/trends/cloud-attacks/\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate gcp.defense-evasion.delete-logging-sink\n```\n## Detection\n\n\nIdentify when a log sink is deleted using the GCP Admin Activity audit log event\n<code>google.logging.v2.ConfigServiceV2.DeleteSink</code>.\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "d91d34171abb1b4aa35d6ceec3cfb8750278a963772804f5779d28443b624ca5",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

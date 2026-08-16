@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "stratus:gcp.initial-access.use-compute-sa-outside-gcp",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:gcp.initial-access.use-compute-sa-outside-gcp",
+    "kind": "executable_attack_technique",
+    "platform": "GCP",
+    "technique": "gcp.initial-access.use-compute-sa-outside-gcp",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.initial-access.use-compute-sa-outside-gcp.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.initial-access.use-compute-sa-outside-gcp.md",
+    "review_score": 0,
+    "independence_group": "stratus_red_team:stratus:gcp.initial-access.use-compute-sa-outside-gcp",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.initial-access.use-compute-sa-outside-gcp.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.initial-access.use-compute-sa-outside-gcp.md",
+      "member_sha256": "00668867841a8bcedfbe2992cf113b52e9f1ed2ac3ad3de662cfc928c61e520c",
+      "bytes": 2908,
+      "content_kind": "md",
+      "text": "---\ntitle: Steal and Use the GCE Default Service Account Token from Outside Google Cloud\n---\n\n# Steal and Use the GCE Default Service Account Token from Outside Google Cloud\n\n <span class=\"smallcaps w3-badge w3-orange w3-round w3-text-sand\" title=\"This attack technique might be slow to warm up or detonate\">slow</span> \n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: GCP\n\n## Mappings\n\n- MITRE ATT&CK\n    - Credential Access\n  - Initial Access\n\n\n\n## Description\n\n\nSimulates the theft and use of GCE default service account credentials from outside of Google Cloud.\n\nWhen a GCE instance is created, it is assigned a default service account\n(<code>{project-number}-compute@developer.gserviceaccount.com</code>).\nIf an attacker gains access to the instance (for example through an SSRF vulnerability,\na compromised SSH key, or a command injection), they can extract the OAuth2 access token\nfrom the <a href=\"https://cloud.google.com/compute/docs/metadata/overview\">instance metadata service</a>\nand use it from outside of Google Cloud.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create a GCE instance running with the default compute service account\n- The instance runs a startup script that extracts the service account OAuth2 token from the instance metadata service and writes it to the serial port\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Read the instance's serial port output to extract the stolen OAuth2 token\n- Use the stolen token from outside Google Cloud to set labels on the GCE instance, generating a GCP Admin Activity audit log from a non-Google IP address\n\nReferences:\n\n- https://about.gitlab.com/blog/plundering-gcp-escalating-privileges-in-google-cloud-platform/\n- https://securitylabs.datadoghq.com/articles/google-cloud-default-service-accounts/\n- https://cloud.google.com/compute/docs/access/service-accounts#default_service_account\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate gcp.initial-access.use-compute-sa-outside-gcp\n```\n## Detection\n\n\nIdentify when a GCE default service account (<code>*-compute@developer.gserviceaccount.com</code>) is used from outside of Google Cloud\nby analyzing GCP audit logs.\n\nThe GCE default service account should typically only be used from within Google Cloud (e.g., from a GCE instance).\nUsage from external IP addresses with non-GCE user agents indicates potentially stolen credentials.\n\nDetection criteria:\n\n<ul>\n  <li>Monitor GCP audit logs where the caller identity matches <code>*-compute@developer.gserviceaccount.com</code></li>\n  <li>Filter for calls where the caller IP does not belong to Google's IP ranges</li>\n  <li>Exclude calls with user agents containing <code>GCE</code> or <code>gcloud</code> (which indicate legitimate in-cloud usage)</li>\n</ul>\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "44ddc48cecf89c811d46dbae112a5b139ff0aee6232ea62d7a714a61aea469bf",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

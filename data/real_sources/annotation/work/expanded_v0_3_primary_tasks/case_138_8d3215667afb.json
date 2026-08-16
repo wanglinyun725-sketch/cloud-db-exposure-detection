@@ -1,0 +1,221 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "relationship--529460a7-ddd1-406c-bbef-ae2ec4eb4c02",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--529460a7-ddd1-406c-bbef-ae2ec4eb4c02",
+    "kind": "procedure_relationship",
+    "source_object_id": "intrusion-set--7b404cd0-3ae9-41d4-90c0-023793d35d97",
+    "source_object_type": "intrusion-set",
+    "source_name": "Storm-0501",
+    "technique_object_id": "attack-pattern--bf1b6176-597c-4600-bfcd-ac989670f96b",
+    "technique_id": "T1567.002",
+    "technique_name": "Exfiltration to Cloud Storage",
+    "platforms": [
+      "ESXi",
+      "Linux",
+      "macOS",
+      "Windows"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--529460a7-ddd1-406c-bbef-ae2ec4eb4c02",
+    "review_score": 12,
+    "independence_group": "mitre-source-object:intrusion-set--7b404cd0-3ae9-41d4-90c0-023793d35d97",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1567.002"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--529460a7-ddd1-406c-bbef-ae2ec4eb4c02",
+      "object_id": "relationship--529460a7-ddd1-406c-bbef-ae2ec4eb4c02",
+      "canonical_object_sha256": "caa7aaa0272d9819c406e114756feb92f077bf0f28b6b5e3035a2fd59d2a3070",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--529460a7-ddd1-406c-bbef-ae2ec4eb4c02",
+        "created": "2025-10-19T19:31:51.224Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "Microsoft Storm-501 Sabbath Ransomware Embargo September 2024",
+            "description": "Microsoft Threat Intelligence. (2024, September 26). Storm-0501: Ransomware attacks expanding to hybrid cloud environments. Retrieved October 19, 2025.",
+            "url": "https://www.microsoft.com/en-us/security/blog/2024/09/26/storm-0501-ransomware-attacks-expanding-to-hybrid-cloud-environments/"
+          },
+          {
+            "source_name": "Microsoft Storm-0501 Embargo Ransomware August 2025",
+            "description": "Microsoft Threat Intelligence. (2025, August 27). Storm-0501’s evolving techniques lead to cloud-based ransomware. Retrieved October 19, 2025.",
+            "url": "https://www.microsoft.com/en-us/security/blog/2025/08/27/storm-0501s-evolving-techniques-lead-to-cloud-based-ransomware/"
+          },
+          {
+            "source_name": "Google Mandiant Storm-0501 Sabbath Ransomware November 2021",
+            "description": "Tyler McLellan, Brandan Schondorfer. (2021, November 29). Kitten.gif: Meet the Sabbath Ransomware Affiliate Program, Again. Retrieved October 19, 2025.",
+            "url": "https://cloud.google.com/blog/topics/threat-intelligence/sabbath-ransomware-affiliate/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:06.038Z",
+        "description": "[Storm-0501](https://attack.mitre.org/groups/G1053) has exfiltrated stolen data to the MEGA file sharing site.(Citation: Google Mandiant Storm-0501 Sabbath Ransomware November 2021) [Storm-0501](https://attack.mitre.org/groups/G1053) has also utilized [Rclone](https://attack.mitre.org/software/S1040) to exfiltrate data from victim environments to cloud storage such as MegaSync.(Citation: Microsoft Storm-501 Sabbath Ransomware Embargo September 2024) [Storm-0501](https://attack.mitre.org/groups/G1053) has exfiltrated data to their own infrastructure utilizing AzCopy Command-Line tool (CLI).(Citation: Microsoft Storm-0501 Embargo Ransomware August 2025)",
+        "relationship_type": "uses",
+        "source_ref": "intrusion-set--7b404cd0-3ae9-41d4-90c0-023793d35d97",
+        "target_ref": "attack-pattern--bf1b6176-597c-4600-bfcd-ac989670f96b",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=intrusion-set--7b404cd0-3ae9-41d4-90c0-023793d35d97",
+      "object_id": "intrusion-set--7b404cd0-3ae9-41d4-90c0-023793d35d97",
+      "canonical_object_sha256": "48da7c7de6ad19735a32def36144f694248e8b0bb9cd6e99c5b7a285857f630a",
+      "structured_object": {
+        "type": "intrusion-set",
+        "spec_version": "2.1",
+        "id": "intrusion-set--7b404cd0-3ae9-41d4-90c0-023793d35d97",
+        "created": "2025-10-19T19:08:22.474Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/groups/G1053",
+            "external_id": "G1053"
+          },
+          {
+            "source_name": "Avertium Storm-0501 Sabbath Ransomware Arcane January 2022",
+            "description": "Avertium. (2022, January 11). An In-Depth Look at Ransomware Gang, Sabbath. Retrieved October 19, 2025.",
+            "url": "https://www.avertium.com/resources/threat-reports/in-depth-look-at-sabbath-ransomware-gang"
+          },
+          {
+            "source_name": "Microsoft Storm-501 Sabbath Ransomware Embargo September 2024",
+            "description": "Microsoft Threat Intelligence. (2024, September 26). Storm-0501: Ransomware attacks expanding to hybrid cloud environments. Retrieved October 19, 2025.",
+            "url": "https://www.microsoft.com/en-us/security/blog/2024/09/26/storm-0501-ransomware-attacks-expanding-to-hybrid-cloud-environments/"
+          },
+          {
+            "source_name": "Microsoft Storm-0501 Embargo Ransomware August 2025",
+            "description": "Microsoft Threat Intelligence. (2025, August 27). Storm-0501’s evolving techniques lead to cloud-based ransomware. Retrieved October 19, 2025.",
+            "url": "https://www.microsoft.com/en-us/security/blog/2025/08/27/storm-0501s-evolving-techniques-lead-to-cloud-based-ransomware/"
+          },
+          {
+            "source_name": "Google Mandiant Storm-0501 Sabbath Ransomware November 2021",
+            "description": "Tyler McLellan, Brandan Schondorfer. (2021, November 29). Kitten.gif: Meet the Sabbath Ransomware Affiliate Program, Again. Retrieved October 19, 2025.",
+            "url": "https://cloud.google.com/blog/topics/threat-intelligence/sabbath-ransomware-affiliate/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2025-10-24T02:33:31.401Z",
+        "name": "Storm-0501",
+        "description": "[Storm-0501](https://attack.mitre.org/groups/G1053) is a financially motivated cyber criminal group that uses commodity and open-source tools to conduct ransomware operations. [Storm-0501](https://attack.mitre.org/groups/G1053) has been active since 2021 and has previously been affiliated with Sabbath Ransomware and other Ransomware-as-a-Service (RaaS) variants such as Hive, [BlackCat](https://attack.mitre.org/software/S1068), Hunters International, [LockBit 3.0](https://attack.mitre.org/software/S1202), and [Embargo](https://attack.mitre.org/software/S1247) ransomware.(Citation: Avertium Storm-0501 Sabbath Ransomware Arcane January 2022)(Citation: Microsoft Storm-501 Sabbath Ransomware Embargo September 2024)(Citation: Microsoft Storm-0501 Embargo Ransomware August 2025)(Citation: Google Mandiant Storm-0501 Sabbath Ransomware November 2021)",
+        "aliases": [
+          "Storm-0501"
+        ],
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_version": "1.0",
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ]
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--bf1b6176-597c-4600-bfcd-ac989670f96b",
+      "object_id": "attack-pattern--bf1b6176-597c-4600-bfcd-ac989670f96b",
+      "canonical_object_sha256": "14f364fcc19a7223b529aee83a667f70617b3fec64706035166874895c08b86f",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--bf1b6176-597c-4600-bfcd-ac989670f96b",
+        "created": "2020-03-09T15:04:32.767Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1567/002",
+            "external_id": "T1567.002"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-05-12T15:12:00.713Z",
+        "name": "Exfiltration to Cloud Storage",
+        "description": "Adversaries may exfiltrate data to a cloud storage service rather than over their primary command and control channel. Cloud storage services allow for the storage, edit, and retrieval of data from a remote cloud storage server over the Internet.\n\nExamples of cloud storage services include Dropbox and Google Docs. Exfiltration to these cloud storage services can provide a significant amount of cover to the adversary if hosts within the network are already communicating with the service. ",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "exfiltration"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": true,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "ESXi",
+          "Linux",
+          "macOS",
+          "Windows"
+        ],
+        "x_mitre_version": "1.3"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "deaa1dd009255e6f59d0f87013a21613774db15ea518cb5fbaebfa4d88490b6c",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

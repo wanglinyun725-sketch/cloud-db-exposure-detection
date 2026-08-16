@@ -1,0 +1,104 @@
+{
+  "manifest_version": "1.0.0",
+  "experiment_id": "provider_oracle_llm_pilot_v4",
+  "protocol_version": "7.0-pilot",
+  "research_effectiveness_result": false,
+  "config_path": "configs\\provider_oracle_llm_pilot_v4.json",
+  "config_sha256": "8937120f63bbd4ed5de19531238fd3b6943111f888b31ae245383ebec94bd765",
+  "public_packet_path": "data\\real_sources\\provider_oracle_protocol_v7_public.json",
+  "public_packet_sha256": "536c9970e093f75d31cb84ed9d9a37ba86ef76d9b8300166e67c84d4cf407984",
+  "gold_packet_path": "data\\real_sources\\provider_oracle_protocol_v7_gold.json",
+  "gold_packet_sha256": "188d517b526d6a8a063e3ec441482409ca5eccba0d04b51604ca2e8bd8410236",
+  "agent_loaded_gold": false,
+  "model": {
+    "backend": "ollama_native",
+    "name": "qwen2.5:7b",
+    "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "think": false,
+    "temperature": 0,
+    "num_predict": 1024,
+    "num_ctx": 4096
+  },
+  "filters": {
+    "methods": [
+      "ec_react_full",
+      "vanilla_react"
+    ],
+    "cases": [
+      "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "oracle-v4:stratus:iam-user-secret-read",
+      "oracle-v5:splunk:s3-kms-pending-deletion"
+    ],
+    "limit": null
+  },
+  "scheduled_runs": 6,
+  "schedule": [
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v4",
+      "case_id": "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "schedule_id": "llm-schedule-ade8d8ff3a3fff6d5e4a2d04"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v4",
+      "case_id": "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "schedule_id": "llm-schedule-d40a23102bfbf3ea1e07001b"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v4",
+      "case_id": "oracle-v4:stratus:iam-user-secret-read",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "schedule_id": "llm-schedule-21be5a38508aaebd5b682866"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v4",
+      "case_id": "oracle-v4:stratus:iam-user-secret-read",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "schedule_id": "llm-schedule-2995ea91db9b31f5f6baedfc"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v4",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "schedule_id": "llm-schedule-667cb4ed21a50cab8aba42c2"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v4",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "schedule_id": "llm-schedule-58f7b00de5fbf22f256c47e0"
+    }
+  ],
+  "secrets_in_manifest": false
+}

@@ -1,0 +1,241 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "relationship--d4fa4797-aec0-419b-83d8-8b06ea3ac06d",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--d4fa4797-aec0-419b-83d8-8b06ea3ac06d",
+    "kind": "procedure_relationship",
+    "source_object_id": "tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+    "source_object_type": "tool",
+    "source_name": "Pacu",
+    "technique_object_id": "attack-pattern--3298ce88-1628-43b1-87d9-0b5336b193d7",
+    "technique_id": "T1530",
+    "technique_name": "Data from Cloud Storage",
+    "platforms": [
+      "IaaS",
+      "Office Suite",
+      "SaaS"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--d4fa4797-aec0-419b-83d8-8b06ea3ac06d",
+    "review_score": 11,
+    "independence_group": "mitre-source-object:tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1530"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--d4fa4797-aec0-419b-83d8-8b06ea3ac06d",
+      "object_id": "relationship--d4fa4797-aec0-419b-83d8-8b06ea3ac06d",
+      "canonical_object_sha256": "50ed6976f9104e5564a9d9839aeb0392136af7bac464966149cc891c06090551",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--d4fa4797-aec0-419b-83d8-8b06ea3ac06d",
+        "created": "2023-09-28T13:25:51.731Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "GitHub Pacu",
+            "description": "Rhino Security Labs. (2019, August 22). Pacu. Retrieved October 17, 2019.",
+            "url": "https://github.com/RhinoSecurityLabs/pacu"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:06.216Z",
+        "description": "[Pacu](https://attack.mitre.org/software/S1091) can enumerate and download files stored in AWS storage services, such as S3 buckets.(Citation: GitHub Pacu)",
+        "relationship_type": "uses",
+        "source_ref": "tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+        "target_ref": "attack-pattern--3298ce88-1628-43b1-87d9-0b5336b193d7",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+      "object_id": "tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+      "canonical_object_sha256": "fe640ba38d51f0df68f006e12c140b34d6eb489e08781f4d367d8bd46cdff6e7",
+      "structured_object": {
+        "modified": "2023-10-19T12:18:43.123Z",
+        "name": "Pacu",
+        "description": "Pacu is an open-source AWS exploitation framework. The tool is written in Python and publicly available on GitHub.(Citation: GitHub Pacu)",
+        "x_mitre_platforms": [
+          "IaaS"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_version": "1.0",
+        "x_mitre_contributors": [
+          "Thanabodi Phrakhun, @naikordian"
+        ],
+        "x_mitre_aliases": [
+          "Pacu"
+        ],
+        "type": "tool",
+        "spec_version": "2.1",
+        "id": "tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+        "created": "2023-09-28T13:21:49.652Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/software/S1091",
+            "external_id": "S1091"
+          },
+          {
+            "source_name": "GitHub Pacu",
+            "description": "Rhino Security Labs. (2019, August 22). Pacu. Retrieved October 17, 2019.",
+            "url": "https://github.com/RhinoSecurityLabs/pacu"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "x_mitre_attack_spec_version": "3.2.0",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--3298ce88-1628-43b1-87d9-0b5336b193d7",
+      "object_id": "attack-pattern--3298ce88-1628-43b1-87d9-0b5336b193d7",
+      "canonical_object_sha256": "021b29be80161d67d68af43bc0960037c972035400bafd0ad626b2b810828f73",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--3298ce88-1628-43b1-87d9-0b5336b193d7",
+        "created": "2019-08-30T18:07:27.741Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1530",
+            "external_id": "T1530"
+          },
+          {
+            "source_name": "Amazon S3 Security, 2019",
+            "description": "Amazon. (2019, May 17). How can I secure the files in my Amazon S3 bucket?. Retrieved October 4, 2019.",
+            "url": "https://aws.amazon.com/premiumsupport/knowledge-center/secure-s3-resources/"
+          },
+          {
+            "source_name": "Microsoft Azure Storage Security, 2019",
+            "description": "Amlekar, M., Brooks, C., Claman, L., et. al.. (2019, March 20). Azure Storage security guide. Retrieved October 4, 2019.",
+            "url": "https://docs.microsoft.com/en-us/azure/storage/common/storage-security-guide"
+          },
+          {
+            "source_name": "Wired Magecart S3 Buckets, 2019",
+            "description": "Barrett, B.. (2019, July 11). Hack Brief: A Card-Skimming Hacker Group Hit 17K Domains—and Counting. Retrieved October 4, 2019.",
+            "url": "https://www.wired.com/story/magecart-amazon-cloud-hacks/"
+          },
+          {
+            "source_name": "Google Cloud Storage Best Practices, 2019",
+            "description": "Google. (2019, September 16). Best practices for Cloud Storage. Retrieved October 4, 2019.",
+            "url": "https://cloud.google.com/storage/docs/best-practices"
+          },
+          {
+            "source_name": "HIPAA Journal S3 Breach, 2017",
+            "description": "HIPAA Journal. (2017, October 11). 47GB of Medical Records and Test Results Found in Unsecured Amazon S3 Bucket. Retrieved October 4, 2019.",
+            "url": "https://www.hipaajournal.com/47gb-medical-records-unsecured-amazon-s3-bucket/"
+          },
+          {
+            "source_name": "Rclone-mega-extortion_05_2021",
+            "description": "Justin Schoenfeld, Aaron Didier. (2021, May 4). Transferring leverage in a ransomware attack. Retrieved July 14, 2022.",
+            "url": "https://redcanary.com/blog/rclone-mega-extortion/"
+          },
+          {
+            "source_name": "Trend Micro S3 Exposed PII, 2017",
+            "description": "Trend Micro. (2017, November 6). A Misconfigured Amazon S3 Exposed Almost 50 Thousand PII in Australia. Retrieved October 4, 2019.",
+            "url": "https://www.trendmicro.com/vinfo/us/security/news/virtualization-and-cloud/a-misconfigured-amazon-s3-exposed-almost-50-thousand-pii-in-australia"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-05-12T15:12:00.624Z",
+        "name": "Data from Cloud Storage",
+        "description": "Adversaries may access data from cloud storage.\n\nMany IaaS providers offer solutions for online data object storage such as Amazon S3, Azure Storage, and Google Cloud Storage. Similarly, SaaS enterprise platforms such as Office 365 and Google Workspace provide cloud-based document storage to users through services such as OneDrive and Google Drive, while SaaS application providers such as Slack, Confluence, Salesforce, and Dropbox may provide cloud storage solutions as a peripheral or primary use case of their platform. \n\nIn some cases, as with IaaS-based cloud storage, there exists no overarching application (such as SQL or Elasticsearch) with which to interact with the stored objects: instead, data from these solutions is retrieved directly though the [Cloud API](https://attack.mitre.org/techniques/T1059/009). In SaaS applications, adversaries may be able to collect this data directly from APIs or backend cloud storage objects, rather than through their front-end application or interface (i.e., [Data from Information Repositories](https://attack.mitre.org/techniques/T1213)). \n\nAdversaries may collect sensitive data from these cloud storage solutions. Providers typically offer security guides to help end users configure systems, though misconfigurations are a common problem.(Citation: Amazon S3 Security, 2019)(Citation: Microsoft Azure Storage Security, 2019)(Citation: Google Cloud Storage Best Practices, 2019) There have been numerous incidents where cloud storage has been improperly secured, typically by unintentionally allowing public access to unauthenticated users, overly-broad access by all users, or even access for any anonymous person outside the control of the Identity Access Management system without even needing basic user permissions.\n\nThis open access may expose various types of sensitive data, such as credit cards, personally identifiable information, or medical records.(Citation: Trend Micro S3 Exposed PII, 2017)(Citation: Wired Magecart S3 Buckets, 2019)(Citation: HIPAA Journal S3 Breach, 2017)(Citation: Rclone-mega-extortion_05_2021)\n\nAdversaries may also obtain then abuse leaked credentials from source repositories, logs, or other means as a way to gain access to cloud storage objects.",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_contributors": [
+          "Netskope",
+          "Praetorian",
+          "AppOmni",
+          "Arun Seelagan, CISA"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": false,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "IaaS",
+          "Office Suite",
+          "SaaS"
+        ],
+        "x_mitre_version": "2.2"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "27ab80f71b83d0c916a4eb311f25034e116418cd5323b8cabb538e75912465e8",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

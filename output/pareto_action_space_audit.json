@@ -1,0 +1,5956 @@
+{
+  "audit_version": "0.1",
+  "pareto_action_space_id": "cross_tool_visible_sigma_v0.3",
+  "source_index": "data\\real_sources\\cross_cloud_full_episode_index.json",
+  "episodes": 72,
+  "platforms": [
+    "AWS",
+    "AZURE",
+    "GCP"
+  ],
+  "budgets": [
+    10,
+    20,
+    30
+  ],
+  "external_prior_coverage": {
+    "prior_id": "sigma_cloud_operation_prior_v1",
+    "unique_platform_operations": 105,
+    "supported_unique_platform_operations": 20,
+    "unique_coverage_rate": 0.19047619047619047,
+    "events": 2217,
+    "supported_events": 300,
+    "event_weighted_coverage_rate": 0.13531799729364005,
+    "by_platform": {
+      "AWS": {
+        "unique_platform_operations": 55,
+        "supported_unique_platform_operations": 5,
+        "unique_coverage_rate": 0.09090909090909091,
+        "event_weighted_coverage_rate": 0.06229508196721312
+      },
+      "AZURE": {
+        "unique_platform_operations": 17,
+        "supported_unique_platform_operations": 12,
+        "unique_coverage_rate": 0.7058823529411765,
+        "event_weighted_coverage_rate": 0.47085201793721976
+      },
+      "GCP": {
+        "unique_platform_operations": 33,
+        "supported_unique_platform_operations": 3,
+        "unique_coverage_rate": 0.09090909090909091,
+        "event_weighted_coverage_rate": 0.04478897502153316
+      }
+    },
+    "interpretation": "A zero match means no pinned Sigma rule support, not benign."
+  },
+  "trajectory": "summarize_case -> first frontier search -> first frontier detail",
+  "stages": {
+    "after_summary": {
+      "episodes_reaching_stage": 72,
+      "mean_full_count": 9.48611111111111,
+      "median_full_count": 8.0,
+      "mean_frontier_count": 2.861111111111111,
+      "median_frontier_count": 2.0,
+      "mean_pruning_rate": 0.6188962949008834,
+      "full_action_tool_counts": {
+        "search_events": 683
+      },
+      "frontier_action_tool_counts": {
+        "search_events": 206
+      },
+      "mean_budget_feasible_full": {
+        "10": 9.347222222222221,
+        "20": 9.430555555555555,
+        "30": 9.430555555555555
+      },
+      "mean_budget_feasible_frontier": {
+        "10": 2.7222222222222223,
+        "20": 2.8055555555555554,
+        "30": 2.8055555555555554
+      }
+    },
+    "after_search": {
+      "episodes_reaching_stage": 70,
+      "mean_full_count": 13.885714285714286,
+      "median_full_count": 13.5,
+      "mean_frontier_count": 5.914285714285715,
+      "median_frontier_count": 6.0,
+      "mean_pruning_rate": 0.5303166757071937,
+      "full_action_tool_counts": {
+        "actor_timeline": 71,
+        "get_event_detail": 175,
+        "search_events": 726
+      },
+      "frontier_action_tool_counts": {
+        "actor_timeline": 45,
+        "get_event_detail": 175,
+        "search_events": 194
+      },
+      "mean_budget_feasible_full": {
+        "10": 13.557142857142857,
+        "20": 13.67142857142857,
+        "30": 13.757142857142858
+      },
+      "mean_budget_feasible_frontier": {
+        "10": 5.757142857142857,
+        "20": 5.8428571428571425,
+        "30": 5.8428571428571425
+      }
+    },
+    "after_detail": {
+      "episodes_reaching_stage": 70,
+      "mean_full_count": 14.871428571428572,
+      "median_full_count": 14.5,
+      "mean_frontier_count": 7.071428571428571,
+      "median_frontier_count": 7.0,
+      "mean_pruning_rate": 0.4684431220228523,
+      "full_action_tool_counts": {
+        "actor_timeline": 71,
+        "get_event_detail": 105,
+        "resource_search": 139,
+        "search_events": 726
+      },
+      "frontier_action_tool_counts": {
+        "actor_timeline": 33,
+        "get_event_detail": 105,
+        "resource_search": 139,
+        "search_events": 218
+      },
+      "mean_budget_feasible_full": {
+        "10": 14.385714285714286,
+        "20": 14.528571428571428,
+        "30": 14.7
+      },
+      "mean_budget_feasible_frontier": {
+        "10": 6.771428571428571,
+        "20": 6.885714285714286,
+        "30": 6.9714285714285715
+      }
+    }
+  },
+  "probe_failures": [],
+  "empty_telemetry_episodes": 2,
+  "episode_rows": [
+    {
+      "episode_id": "crosscloud:aws:archive_collected_data:default:run-0:n",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "stages": {
+        "after_summary": {
+          "full_count": 4,
+          "frontier_count": 2,
+          "pruned_count": 2,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "search_events": 4
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 7,
+          "frontier_count": 6,
+          "pruned_count": 1,
+          "pruning_rate": 0.14285714285714285,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 4
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        },
+        "after_detail": {
+          "full_count": 8,
+          "frontier_count": 6,
+          "pruned_count": 2,
+          "pruning_rate": 0.25,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 4
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:archive_collected_data:default:run-0:y",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "stages": {
+        "after_summary": {
+          "full_count": 10,
+          "frontier_count": 2,
+          "pruned_count": 8,
+          "pruning_rate": 0.8,
+          "full_tools": {
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 13,
+          "frontier_count": 7,
+          "pruned_count": 6,
+          "pruning_rate": 0.46153846153846156,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 13,
+            "20": 13,
+            "30": 13
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        },
+        "after_detail": {
+          "full_count": 14,
+          "frontier_count": 7,
+          "pruned_count": 7,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 14,
+            "20": 14,
+            "30": 14
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:automated_collection:default:run-0:n",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:automated_collection",
+      "stages": {
+        "after_summary": {
+          "full_count": 6,
+          "frontier_count": 2,
+          "pruned_count": 4,
+          "pruning_rate": 0.6666666666666666,
+          "full_tools": {
+            "search_events": 6
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 8,
+          "frontier_count": 2,
+          "pruned_count": 6,
+          "pruning_rate": 0.75,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 6
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_detail": {
+          "full_count": 9,
+          "frontier_count": 3,
+          "pruned_count": 6,
+          "pruning_rate": 0.6666666666666666,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 6
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:automated_collection:default:run-0:y",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:automated_collection",
+      "stages": {
+        "after_summary": {
+          "full_count": 6,
+          "frontier_count": 2,
+          "pruned_count": 4,
+          "pruning_rate": 0.6666666666666666,
+          "full_tools": {
+            "search_events": 6
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 9,
+          "frontier_count": 6,
+          "pruned_count": 3,
+          "pruning_rate": 0.3333333333333333,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 6
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        },
+        "after_detail": {
+          "full_count": 10,
+          "frontier_count": 6,
+          "pruned_count": 4,
+          "pruning_rate": 0.4,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 6
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:automated_exfiltration:default:run-0:n",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "stages": {
+        "after_summary": {
+          "full_count": 37,
+          "frontier_count": 10,
+          "pruned_count": 27,
+          "pruning_rate": 0.7297297297297297,
+          "full_tools": {
+            "search_events": 37
+          },
+          "frontier_tools": {
+            "search_events": 10
+          },
+          "budget_feasible_full": {
+            "10": 35,
+            "20": 37,
+            "30": 37
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 10,
+            "30": 10
+          }
+        },
+        "after_search": {
+          "full_count": 39,
+          "frontier_count": 9,
+          "pruned_count": 30,
+          "pruning_rate": 0.7692307692307693,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 37
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 8
+          },
+          "budget_feasible_full": {
+            "10": 35,
+            "20": 37,
+            "30": 39
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 9,
+            "30": 9
+          }
+        },
+        "after_detail": {
+          "full_count": 40,
+          "frontier_count": 11,
+          "pruned_count": 29,
+          "pruning_rate": 0.725,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 37
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 9
+          },
+          "budget_feasible_full": {
+            "10": 34,
+            "20": 36,
+            "30": 40
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 9,
+            "30": 11
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:automated_exfiltration:default:run-0:y",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "stages": {
+        "after_summary": {
+          "full_count": 28,
+          "frontier_count": 9,
+          "pruned_count": 19,
+          "pruning_rate": 0.6785714285714286,
+          "full_tools": {
+            "search_events": 28
+          },
+          "frontier_tools": {
+            "search_events": 9
+          },
+          "budget_feasible_full": {
+            "10": 26,
+            "20": 28,
+            "30": 28
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 9,
+            "30": 9
+          }
+        },
+        "after_search": {
+          "full_count": 30,
+          "frontier_count": 8,
+          "pruned_count": 22,
+          "pruning_rate": 0.7333333333333333,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 28
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 7
+          },
+          "budget_feasible_full": {
+            "10": 26,
+            "20": 28,
+            "30": 30
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 8,
+            "30": 8
+          }
+        },
+        "after_detail": {
+          "full_count": 31,
+          "frontier_count": 10,
+          "pruned_count": 21,
+          "pruning_rate": 0.6774193548387096,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 28
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 8
+          },
+          "budget_feasible_full": {
+            "10": 25,
+            "20": 27,
+            "30": 31
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 8,
+            "30": 10
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:credentials_from_password_stores:default:run-0:n",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "stages": {
+        "after_summary": {
+          "full_count": 0,
+          "frontier_count": 0,
+          "pruned_count": 0,
+          "pruning_rate": 0.0,
+          "full_tools": {},
+          "frontier_tools": {},
+          "budget_feasible_full": {
+            "10": 0,
+            "20": 0,
+            "30": 0
+          },
+          "budget_feasible_frontier": {
+            "10": 0,
+            "20": 0,
+            "30": 0
+          }
+        }
+      },
+      "probe_stop_reason": "empty_telemetry"
+    },
+    {
+      "episode_id": "crosscloud:aws:credentials_from_password_stores:default:run-0:y",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "stages": {
+        "after_summary": {
+          "full_count": 14,
+          "frontier_count": 4,
+          "pruned_count": 10,
+          "pruning_rate": 0.7142857142857143,
+          "full_tools": {
+            "search_events": 14
+          },
+          "frontier_tools": {
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 14,
+            "20": 14,
+            "30": 14
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_search": {
+          "full_count": 16,
+          "frontier_count": 4,
+          "pruned_count": 12,
+          "pruning_rate": 0.75,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 14
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_detail": {
+          "full_count": 17,
+          "frontier_count": 6,
+          "pruned_count": 11,
+          "pruning_rate": 0.6470588235294118,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 14
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 17,
+            "20": 17,
+            "30": 17
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:data_destruction:default:run-0:n",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:data_destruction",
+      "stages": {
+        "after_summary": {
+          "full_count": 6,
+          "frontier_count": 6,
+          "pruned_count": 0,
+          "pruning_rate": 0.0,
+          "full_tools": {
+            "search_events": 6
+          },
+          "frontier_tools": {
+            "search_events": 6
+          },
+          "budget_feasible_full": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        },
+        "after_search": {
+          "full_count": 19,
+          "frontier_count": 14,
+          "pruned_count": 5,
+          "pruning_rate": 0.2631578947368421,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 12,
+            "search_events": 6
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 12,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 19,
+            "20": 19,
+            "30": 19
+          },
+          "budget_feasible_frontier": {
+            "10": 14,
+            "20": 14,
+            "30": 14
+          }
+        },
+        "after_detail": {
+          "full_count": 20,
+          "frontier_count": 15,
+          "pruned_count": 5,
+          "pruning_rate": 0.25,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 11,
+            "resource_search": 2,
+            "search_events": 6
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 11,
+            "resource_search": 2,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 20,
+            "20": 20,
+            "30": 20
+          },
+          "budget_feasible_frontier": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:data_destruction:default:run-0:y",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:data_destruction",
+      "stages": {
+        "after_summary": {
+          "full_count": 5,
+          "frontier_count": 4,
+          "pruned_count": 1,
+          "pruning_rate": 0.2,
+          "full_tools": {
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_search": {
+          "full_count": 7,
+          "frontier_count": 4,
+          "pruned_count": 3,
+          "pruning_rate": 0.42857142857142855,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_detail": {
+          "full_count": 8,
+          "frontier_count": 5,
+          "pruned_count": 3,
+          "pruning_rate": 0.375,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:data_encrypted_for_impact:default:run-0:n",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "stages": {
+        "after_summary": {
+          "full_count": 5,
+          "frontier_count": 2,
+          "pruned_count": 3,
+          "pruning_rate": 0.6,
+          "full_tools": {
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 7,
+          "frontier_count": 2,
+          "pruned_count": 5,
+          "pruning_rate": 0.7142857142857143,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_detail": {
+          "full_count": 8,
+          "frontier_count": 3,
+          "pruned_count": 5,
+          "pruning_rate": 0.625,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:data_encrypted_for_impact:default:run-0:y",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "stages": {
+        "after_summary": {
+          "full_count": 8,
+          "frontier_count": 2,
+          "pruned_count": 6,
+          "pruning_rate": 0.75,
+          "full_tools": {
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 11,
+          "frontier_count": 5,
+          "pruned_count": 6,
+          "pruning_rate": 0.5454545454545454,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 11,
+            "20": 11,
+            "30": 11
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        },
+        "after_detail": {
+          "full_count": 12,
+          "frontier_count": 5,
+          "pruned_count": 7,
+          "pruning_rate": 0.5833333333333334,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 12,
+            "20": 12,
+            "30": 12
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:data_manipulation:default:run-0:n",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:data_manipulation",
+      "stages": {
+        "after_summary": {
+          "full_count": 5,
+          "frontier_count": 2,
+          "pruned_count": 3,
+          "pruning_rate": 0.6,
+          "full_tools": {
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 8,
+          "frontier_count": 4,
+          "pruned_count": 4,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_detail": {
+          "full_count": 9,
+          "frontier_count": 4,
+          "pruned_count": 5,
+          "pruning_rate": 0.5555555555555556,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:data_manipulation:default:run-0:y",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:data_manipulation",
+      "stages": {
+        "after_summary": {
+          "full_count": 3,
+          "frontier_count": 2,
+          "pruned_count": 1,
+          "pruning_rate": 0.3333333333333333,
+          "full_tools": {
+            "search_events": 3
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 7,
+          "frontier_count": 6,
+          "pruned_count": 1,
+          "pruning_rate": 0.14285714285714285,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 3
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        },
+        "after_detail": {
+          "full_count": 8,
+          "frontier_count": 7,
+          "pruned_count": 1,
+          "pruning_rate": 0.125,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:data_staged:default:run-0:n",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:data_staged",
+      "stages": {
+        "after_summary": {
+          "full_count": 5,
+          "frontier_count": 2,
+          "pruned_count": 3,
+          "pruning_rate": 0.6,
+          "full_tools": {
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 8,
+          "frontier_count": 4,
+          "pruned_count": 4,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_detail": {
+          "full_count": 9,
+          "frontier_count": 4,
+          "pruned_count": 5,
+          "pruning_rate": 0.5555555555555556,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:data_staged:default:run-0:y",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:data_staged",
+      "stages": {
+        "after_summary": {
+          "full_count": 5,
+          "frontier_count": 2,
+          "pruned_count": 3,
+          "pruning_rate": 0.6,
+          "full_tools": {
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 7,
+          "frontier_count": 2,
+          "pruned_count": 5,
+          "pruning_rate": 0.7142857142857143,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_detail": {
+          "full_count": 8,
+          "frontier_count": 3,
+          "pruned_count": 5,
+          "pruning_rate": 0.625,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 5
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:inhibit_system_recovery:default:run-0:n",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "stages": {
+        "after_summary": {
+          "full_count": 8,
+          "frontier_count": 6,
+          "pruned_count": 2,
+          "pruning_rate": 0.25,
+          "full_tools": {
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "search_events": 6
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        },
+        "after_search": {
+          "full_count": 10,
+          "frontier_count": 5,
+          "pruned_count": 5,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        },
+        "after_detail": {
+          "full_count": 11,
+          "frontier_count": 7,
+          "pruned_count": 4,
+          "pruning_rate": 0.36363636363636365,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 5
+          },
+          "budget_feasible_full": {
+            "10": 11,
+            "20": 11,
+            "30": 11
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:inhibit_system_recovery:default:run-0:y",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "stages": {
+        "after_summary": {
+          "full_count": 12,
+          "frontier_count": 3,
+          "pruned_count": 9,
+          "pruning_rate": 0.75,
+          "full_tools": {
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 12,
+            "20": 12,
+            "30": 12
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 15,
+          "frontier_count": 5,
+          "pruned_count": 10,
+          "pruning_rate": 0.6666666666666666,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        },
+        "after_detail": {
+          "full_count": 16,
+          "frontier_count": 5,
+          "pruned_count": 11,
+          "pruning_rate": 0.6875,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:scheduled_transfer:default:run-0:n",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "stages": {
+        "after_summary": {
+          "full_count": 29,
+          "frontier_count": 10,
+          "pruned_count": 19,
+          "pruning_rate": 0.6551724137931034,
+          "full_tools": {
+            "search_events": 29
+          },
+          "frontier_tools": {
+            "search_events": 10
+          },
+          "budget_feasible_full": {
+            "10": 27,
+            "20": 29,
+            "30": 29
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 10,
+            "30": 10
+          }
+        },
+        "after_search": {
+          "full_count": 31,
+          "frontier_count": 9,
+          "pruned_count": 22,
+          "pruning_rate": 0.7096774193548387,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 29
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 8
+          },
+          "budget_feasible_full": {
+            "10": 27,
+            "20": 29,
+            "30": 31
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 9,
+            "30": 9
+          }
+        },
+        "after_detail": {
+          "full_count": 32,
+          "frontier_count": 11,
+          "pruned_count": 21,
+          "pruning_rate": 0.65625,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 29
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 9
+          },
+          "budget_feasible_full": {
+            "10": 26,
+            "20": 28,
+            "30": 32
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 9,
+            "30": 11
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:scheduled_transfer:default:run-0:y",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "stages": {
+        "after_summary": {
+          "full_count": 33,
+          "frontier_count": 6,
+          "pruned_count": 27,
+          "pruning_rate": 0.8181818181818182,
+          "full_tools": {
+            "search_events": 33
+          },
+          "frontier_tools": {
+            "search_events": 6
+          },
+          "budget_feasible_full": {
+            "10": 33,
+            "20": 33,
+            "30": 33
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        },
+        "after_search": {
+          "full_count": 35,
+          "frontier_count": 5,
+          "pruned_count": 30,
+          "pruning_rate": 0.8571428571428571,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 33
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 33,
+            "20": 35,
+            "30": 35
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        },
+        "after_detail": {
+          "full_count": 36,
+          "frontier_count": 7,
+          "pruned_count": 29,
+          "pruning_rate": 0.8055555555555556,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 33
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 5
+          },
+          "budget_feasible_full": {
+            "10": 32,
+            "20": 36,
+            "30": 36
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 7,
+            "30": 7
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:steal_application_access_token:default:run-0:n",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "stages": {
+        "after_summary": {
+          "full_count": 12,
+          "frontier_count": 4,
+          "pruned_count": 8,
+          "pruning_rate": 0.6666666666666666,
+          "full_tools": {
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 12,
+            "20": 12,
+            "30": 12
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_search": {
+          "full_count": 14,
+          "frontier_count": 4,
+          "pruned_count": 10,
+          "pruning_rate": 0.7142857142857143,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 14,
+            "20": 14,
+            "30": 14
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_detail": {
+          "full_count": 15,
+          "frontier_count": 7,
+          "pruned_count": 8,
+          "pruning_rate": 0.5333333333333333,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 5
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:steal_application_access_token:default:run-0:y",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "stages": {
+        "after_summary": {
+          "full_count": 15,
+          "frontier_count": 4,
+          "pruned_count": 11,
+          "pruning_rate": 0.7333333333333333,
+          "full_tools": {
+            "search_events": 15
+          },
+          "frontier_tools": {
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_search": {
+          "full_count": 17,
+          "frontier_count": 4,
+          "pruned_count": 13,
+          "pruning_rate": 0.7647058823529411,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 15
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 17,
+            "20": 17,
+            "30": 17
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_detail": {
+          "full_count": 18,
+          "frontier_count": 7,
+          "pruned_count": 11,
+          "pruning_rate": 0.6111111111111112,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 15
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 5
+          },
+          "budget_feasible_full": {
+            "10": 18,
+            "20": 18,
+            "30": 18
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:unsecured_credentials:default:run-0:n",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "stages": {
+        "after_summary": {
+          "full_count": 4,
+          "frontier_count": 2,
+          "pruned_count": 2,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "search_events": 4
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 8,
+          "frontier_count": 6,
+          "pruned_count": 2,
+          "pruning_rate": 0.25,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 4
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        },
+        "after_detail": {
+          "full_count": 9,
+          "frontier_count": 7,
+          "pruned_count": 2,
+          "pruning_rate": 0.2222222222222222,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 4
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:aws:unsecured_credentials:default:run-0:y",
+      "platform": "AWS",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "stages": {
+        "after_summary": {
+          "full_count": 0,
+          "frontier_count": 0,
+          "pruned_count": 0,
+          "pruning_rate": 0.0,
+          "full_tools": {},
+          "frontier_tools": {},
+          "budget_feasible_full": {
+            "10": 0,
+            "20": 0,
+            "30": 0
+          },
+          "budget_feasible_frontier": {
+            "10": 0,
+            "20": 0,
+            "30": 0
+          }
+        }
+      },
+      "probe_stop_reason": "empty_telemetry"
+    },
+    {
+      "episode_id": "crosscloud:azure:archive_collected_data:default:run-0:n",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "stages": {
+        "after_summary": {
+          "full_count": 9,
+          "frontier_count": 3,
+          "pruned_count": 6,
+          "pruning_rate": 0.6666666666666666,
+          "full_tools": {
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 15,
+          "frontier_count": 8,
+          "pruned_count": 7,
+          "pruning_rate": 0.4666666666666667,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        },
+        "after_detail": {
+          "full_count": 16,
+          "frontier_count": 9,
+          "pruned_count": 7,
+          "pruning_rate": 0.4375,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:archive_collected_data:default:run-0:y",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "stages": {
+        "after_summary": {
+          "full_count": 10,
+          "frontier_count": 2,
+          "pruned_count": 8,
+          "pruning_rate": 0.8,
+          "full_tools": {
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 16,
+          "frontier_count": 8,
+          "pruned_count": 8,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        },
+        "after_detail": {
+          "full_count": 17,
+          "frontier_count": 9,
+          "pruned_count": 8,
+          "pruning_rate": 0.47058823529411764,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 17,
+            "20": 17,
+            "30": 17
+          },
+          "budget_feasible_frontier": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:automated_collection:default:run-0:n",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:automated_collection",
+      "stages": {
+        "after_summary": {
+          "full_count": 11,
+          "frontier_count": 2,
+          "pruned_count": 9,
+          "pruning_rate": 0.8181818181818182,
+          "full_tools": {
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 11,
+            "20": 11,
+            "30": 11
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 19,
+          "frontier_count": 9,
+          "pruned_count": 10,
+          "pruning_rate": 0.5263157894736842,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 13
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 19,
+            "20": 19,
+            "30": 19
+          },
+          "budget_feasible_frontier": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          }
+        },
+        "after_detail": {
+          "full_count": 20,
+          "frontier_count": 10,
+          "pruned_count": 10,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 13
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 20,
+            "20": 20,
+            "30": 20
+          },
+          "budget_feasible_frontier": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:automated_collection:default:run-0:y",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:automated_collection",
+      "stages": {
+        "after_summary": {
+          "full_count": 15,
+          "frontier_count": 3,
+          "pruned_count": 12,
+          "pruning_rate": 0.8,
+          "full_tools": {
+            "search_events": 15
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 23,
+          "frontier_count": 12,
+          "pruned_count": 11,
+          "pruning_rate": 0.4782608695652174,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 17
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 6
+          },
+          "budget_feasible_full": {
+            "10": 23,
+            "20": 23,
+            "30": 23
+          },
+          "budget_feasible_frontier": {
+            "10": 12,
+            "20": 12,
+            "30": 12
+          }
+        },
+        "after_detail": {
+          "full_count": 24,
+          "frontier_count": 13,
+          "pruned_count": 11,
+          "pruning_rate": 0.4583333333333333,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 17
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 6
+          },
+          "budget_feasible_full": {
+            "10": 24,
+            "20": 24,
+            "30": 24
+          },
+          "budget_feasible_frontier": {
+            "10": 13,
+            "20": 13,
+            "30": 13
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:automated_exfiltration:default:run-0:n",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "stages": {
+        "after_summary": {
+          "full_count": 9,
+          "frontier_count": 2,
+          "pruned_count": 7,
+          "pruning_rate": 0.7777777777777778,
+          "full_tools": {
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 17,
+          "frontier_count": 9,
+          "pruned_count": 8,
+          "pruning_rate": 0.47058823529411764,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 17,
+            "20": 17,
+            "30": 17
+          },
+          "budget_feasible_frontier": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          }
+        },
+        "after_detail": {
+          "full_count": 18,
+          "frontier_count": 10,
+          "pruned_count": 8,
+          "pruning_rate": 0.4444444444444444,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 18,
+            "20": 18,
+            "30": 18
+          },
+          "budget_feasible_frontier": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:automated_exfiltration:default:run-0:y",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "stages": {
+        "after_summary": {
+          "full_count": 13,
+          "frontier_count": 3,
+          "pruned_count": 10,
+          "pruning_rate": 0.7692307692307693,
+          "full_tools": {
+            "search_events": 13
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 13,
+            "20": 13,
+            "30": 13
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 21,
+          "frontier_count": 11,
+          "pruned_count": 10,
+          "pruning_rate": 0.47619047619047616,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 15
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 5
+          },
+          "budget_feasible_full": {
+            "10": 21,
+            "20": 21,
+            "30": 21
+          },
+          "budget_feasible_frontier": {
+            "10": 11,
+            "20": 11,
+            "30": 11
+          }
+        },
+        "after_detail": {
+          "full_count": 22,
+          "frontier_count": 12,
+          "pruned_count": 10,
+          "pruning_rate": 0.45454545454545453,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 15
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 5
+          },
+          "budget_feasible_full": {
+            "10": 22,
+            "20": 22,
+            "30": 22
+          },
+          "budget_feasible_frontier": {
+            "10": 12,
+            "20": 12,
+            "30": 12
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:credentials_from_password_stores:default:run-0:n",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "stages": {
+        "after_summary": {
+          "full_count": 8,
+          "frontier_count": 3,
+          "pruned_count": 5,
+          "pruning_rate": 0.625,
+          "full_tools": {
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 13,
+          "frontier_count": 8,
+          "pruned_count": 5,
+          "pruning_rate": 0.38461538461538464,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 13,
+            "20": 13,
+            "30": 13
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        },
+        "after_detail": {
+          "full_count": 14,
+          "frontier_count": 9,
+          "pruned_count": 5,
+          "pruning_rate": 0.35714285714285715,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 14,
+            "20": 14,
+            "30": 14
+          },
+          "budget_feasible_frontier": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:credentials_from_password_stores:default:run-0:y",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "stages": {
+        "after_summary": {
+          "full_count": 8,
+          "frontier_count": 3,
+          "pruned_count": 5,
+          "pruning_rate": 0.625,
+          "full_tools": {
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 13,
+          "frontier_count": 8,
+          "pruned_count": 5,
+          "pruning_rate": 0.38461538461538464,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 13,
+            "20": 13,
+            "30": 13
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        },
+        "after_detail": {
+          "full_count": 14,
+          "frontier_count": 9,
+          "pruned_count": 5,
+          "pruning_rate": 0.35714285714285715,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 14,
+            "20": 14,
+            "30": 14
+          },
+          "budget_feasible_frontier": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:data_destruction:default:run-0:n",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:data_destruction",
+      "stages": {
+        "after_summary": {
+          "full_count": 9,
+          "frontier_count": 2,
+          "pruned_count": 7,
+          "pruning_rate": 0.7777777777777778,
+          "full_tools": {
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 15,
+          "frontier_count": 7,
+          "pruned_count": 8,
+          "pruning_rate": 0.5333333333333333,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        },
+        "after_detail": {
+          "full_count": 16,
+          "frontier_count": 8,
+          "pruned_count": 8,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:data_destruction:default:run-0:y",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:data_destruction",
+      "stages": {
+        "after_summary": {
+          "full_count": 9,
+          "frontier_count": 2,
+          "pruned_count": 7,
+          "pruning_rate": 0.7777777777777778,
+          "full_tools": {
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 15,
+          "frontier_count": 7,
+          "pruned_count": 8,
+          "pruning_rate": 0.5333333333333333,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        },
+        "after_detail": {
+          "full_count": 16,
+          "frontier_count": 8,
+          "pruned_count": 8,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:data_encrypted_for_impact:default:run-0:n",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "stages": {
+        "after_summary": {
+          "full_count": 8,
+          "frontier_count": 3,
+          "pruned_count": 5,
+          "pruning_rate": 0.625,
+          "full_tools": {
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 14,
+          "frontier_count": 7,
+          "pruned_count": 7,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 14,
+            "20": 14,
+            "30": 14
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        },
+        "after_detail": {
+          "full_count": 15,
+          "frontier_count": 8,
+          "pruned_count": 7,
+          "pruning_rate": 0.4666666666666667,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:data_encrypted_for_impact:default:run-0:y",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "stages": {
+        "after_summary": {
+          "full_count": 9,
+          "frontier_count": 2,
+          "pruned_count": 7,
+          "pruning_rate": 0.7777777777777778,
+          "full_tools": {
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 15,
+          "frontier_count": 8,
+          "pruned_count": 7,
+          "pruning_rate": 0.4666666666666667,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        },
+        "after_detail": {
+          "full_count": 16,
+          "frontier_count": 9,
+          "pruned_count": 7,
+          "pruning_rate": 0.4375,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:data_manipulation:default:run-0:n",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:data_manipulation",
+      "stages": {
+        "after_summary": {
+          "full_count": 8,
+          "frontier_count": 2,
+          "pruned_count": 6,
+          "pruning_rate": 0.75,
+          "full_tools": {
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 14,
+          "frontier_count": 7,
+          "pruned_count": 7,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 14,
+            "20": 14,
+            "30": 14
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        },
+        "after_detail": {
+          "full_count": 15,
+          "frontier_count": 8,
+          "pruned_count": 7,
+          "pruning_rate": 0.4666666666666667,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:data_manipulation:default:run-0:y",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:data_manipulation",
+      "stages": {
+        "after_summary": {
+          "full_count": 8,
+          "frontier_count": 2,
+          "pruned_count": 6,
+          "pruning_rate": 0.75,
+          "full_tools": {
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 14,
+          "frontier_count": 7,
+          "pruned_count": 7,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 14,
+            "20": 14,
+            "30": 14
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        },
+        "after_detail": {
+          "full_count": 15,
+          "frontier_count": 8,
+          "pruned_count": 7,
+          "pruning_rate": 0.4666666666666667,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:data_staged:default:run-0:n",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:data_staged",
+      "stages": {
+        "after_summary": {
+          "full_count": 9,
+          "frontier_count": 2,
+          "pruned_count": 7,
+          "pruning_rate": 0.7777777777777778,
+          "full_tools": {
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 15,
+          "frontier_count": 7,
+          "pruned_count": 8,
+          "pruning_rate": 0.5333333333333333,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        },
+        "after_detail": {
+          "full_count": 16,
+          "frontier_count": 8,
+          "pruned_count": 8,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:data_staged:default:run-0:y",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:data_staged",
+      "stages": {
+        "after_summary": {
+          "full_count": 9,
+          "frontier_count": 2,
+          "pruned_count": 7,
+          "pruning_rate": 0.7777777777777778,
+          "full_tools": {
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 15,
+          "frontier_count": 7,
+          "pruned_count": 8,
+          "pruning_rate": 0.5333333333333333,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        },
+        "after_detail": {
+          "full_count": 16,
+          "frontier_count": 8,
+          "pruned_count": 8,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:inhibit_system_recovery:default:run-0:n",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "stages": {
+        "after_summary": {
+          "full_count": 9,
+          "frontier_count": 2,
+          "pruned_count": 7,
+          "pruning_rate": 0.7777777777777778,
+          "full_tools": {
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 15,
+          "frontier_count": 8,
+          "pruned_count": 7,
+          "pruning_rate": 0.4666666666666667,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        },
+        "after_detail": {
+          "full_count": 16,
+          "frontier_count": 9,
+          "pruned_count": 7,
+          "pruning_rate": 0.4375,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:inhibit_system_recovery:default:run-0:y",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "stages": {
+        "after_summary": {
+          "full_count": 9,
+          "frontier_count": 2,
+          "pruned_count": 7,
+          "pruning_rate": 0.7777777777777778,
+          "full_tools": {
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 15,
+          "frontier_count": 7,
+          "pruned_count": 8,
+          "pruning_rate": 0.5333333333333333,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        },
+        "after_detail": {
+          "full_count": 16,
+          "frontier_count": 8,
+          "pruned_count": 8,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "resource_search": 2,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:scheduled_transfer:default:run-0:n",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "stages": {
+        "after_summary": {
+          "full_count": 12,
+          "frontier_count": 2,
+          "pruned_count": 10,
+          "pruning_rate": 0.8333333333333334,
+          "full_tools": {
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 12,
+            "20": 12,
+            "30": 12
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 20,
+          "frontier_count": 8,
+          "pruned_count": 12,
+          "pruning_rate": 0.6,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 14
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 20,
+            "20": 20,
+            "30": 20
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        },
+        "after_detail": {
+          "full_count": 21,
+          "frontier_count": 9,
+          "pruned_count": 12,
+          "pruning_rate": 0.5714285714285714,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 14
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 21,
+            "20": 21,
+            "30": 21
+          },
+          "budget_feasible_frontier": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:scheduled_transfer:default:run-0:y",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "stages": {
+        "after_summary": {
+          "full_count": 13,
+          "frontier_count": 2,
+          "pruned_count": 11,
+          "pruning_rate": 0.8461538461538461,
+          "full_tools": {
+            "search_events": 13
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 13,
+            "20": 13,
+            "30": 13
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 21,
+          "frontier_count": 12,
+          "pruned_count": 9,
+          "pruning_rate": 0.42857142857142855,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 15
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 6
+          },
+          "budget_feasible_full": {
+            "10": 21,
+            "20": 21,
+            "30": 21
+          },
+          "budget_feasible_frontier": {
+            "10": 12,
+            "20": 12,
+            "30": 12
+          }
+        },
+        "after_detail": {
+          "full_count": 22,
+          "frontier_count": 13,
+          "pruned_count": 9,
+          "pruning_rate": 0.4090909090909091,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 15
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 6
+          },
+          "budget_feasible_full": {
+            "10": 22,
+            "20": 22,
+            "30": 22
+          },
+          "budget_feasible_frontier": {
+            "10": 13,
+            "20": 13,
+            "30": 13
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:steal_application_access_token:default:run-0:n",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "stages": {
+        "after_summary": {
+          "full_count": 11,
+          "frontier_count": 2,
+          "pruned_count": 9,
+          "pruning_rate": 0.8181818181818182,
+          "full_tools": {
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 11,
+            "20": 11,
+            "30": 11
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 17,
+          "frontier_count": 8,
+          "pruned_count": 9,
+          "pruning_rate": 0.5294117647058824,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 17,
+            "20": 17,
+            "30": 17
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        },
+        "after_detail": {
+          "full_count": 18,
+          "frontier_count": 9,
+          "pruned_count": 9,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "resource_search": 2,
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 18,
+            "20": 18,
+            "30": 18
+          },
+          "budget_feasible_frontier": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:steal_application_access_token:default:run-0:y",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "stages": {
+        "after_summary": {
+          "full_count": 11,
+          "frontier_count": 2,
+          "pruned_count": 9,
+          "pruning_rate": 0.8181818181818182,
+          "full_tools": {
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 11,
+            "20": 11,
+            "30": 11
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 17,
+          "frontier_count": 8,
+          "pruned_count": 9,
+          "pruning_rate": 0.5294117647058824,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 17,
+            "20": 17,
+            "30": 17
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        },
+        "after_detail": {
+          "full_count": 18,
+          "frontier_count": 9,
+          "pruned_count": 9,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "resource_search": 2,
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 18,
+            "20": 18,
+            "30": 18
+          },
+          "budget_feasible_frontier": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:unsecured_credentials:default:run-0:n",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "stages": {
+        "after_summary": {
+          "full_count": 9,
+          "frontier_count": 2,
+          "pruned_count": 7,
+          "pruning_rate": 0.7777777777777778,
+          "full_tools": {
+            "search_events": 9
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 15,
+          "frontier_count": 7,
+          "pruned_count": 8,
+          "pruning_rate": 0.5333333333333333,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        },
+        "after_detail": {
+          "full_count": 16,
+          "frontier_count": 8,
+          "pruned_count": 8,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 11
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:azure:unsecured_credentials:default:run-0:y",
+      "platform": "AZURE",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "stages": {
+        "after_summary": {
+          "full_count": 10,
+          "frontier_count": 3,
+          "pruned_count": 7,
+          "pruning_rate": 0.7,
+          "full_tools": {
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 16,
+          "frontier_count": 7,
+          "pruned_count": 9,
+          "pruning_rate": 0.5625,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        },
+        "after_detail": {
+          "full_count": 17,
+          "frontier_count": 8,
+          "pruned_count": 9,
+          "pruning_rate": 0.5294117647058824,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 12
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 17,
+            "20": 17,
+            "30": 17
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:archive_collected_data:default:run-0:n",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "stages": {
+        "after_summary": {
+          "full_count": 2,
+          "frontier_count": 1,
+          "pruned_count": 1,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          },
+          "budget_feasible_frontier": {
+            "10": 1,
+            "20": 1,
+            "30": 1
+          }
+        },
+        "after_search": {
+          "full_count": 5,
+          "frontier_count": 5,
+          "pruned_count": 0,
+          "pruning_rate": 0.0,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        },
+        "after_detail": {
+          "full_count": 6,
+          "frontier_count": 5,
+          "pruned_count": 1,
+          "pruning_rate": 0.16666666666666666,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:archive_collected_data:default:run-0:y",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "stages": {
+        "after_summary": {
+          "full_count": 7,
+          "frontier_count": 3,
+          "pruned_count": 4,
+          "pruning_rate": 0.5714285714285714,
+          "full_tools": {
+            "search_events": 7
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 10,
+          "frontier_count": 5,
+          "pruned_count": 5,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 7
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        },
+        "after_detail": {
+          "full_count": 11,
+          "frontier_count": 5,
+          "pruned_count": 6,
+          "pruning_rate": 0.5454545454545454,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 7
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 11,
+            "20": 11,
+            "30": 11
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:automated_collection:default:run-0:n",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:automated_collection",
+      "stages": {
+        "after_summary": {
+          "full_count": 8,
+          "frontier_count": 3,
+          "pruned_count": 5,
+          "pruning_rate": 0.625,
+          "full_tools": {
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 11,
+          "frontier_count": 5,
+          "pruned_count": 6,
+          "pruning_rate": 0.5454545454545454,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 11,
+            "20": 11,
+            "30": 11
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        },
+        "after_detail": {
+          "full_count": 12,
+          "frontier_count": 5,
+          "pruned_count": 7,
+          "pruning_rate": 0.5833333333333334,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 12,
+            "20": 12,
+            "30": 12
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:automated_collection:default:run-0:y",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:automated_collection",
+      "stages": {
+        "after_summary": {
+          "full_count": 8,
+          "frontier_count": 3,
+          "pruned_count": 5,
+          "pruning_rate": 0.625,
+          "full_tools": {
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 11,
+          "frontier_count": 5,
+          "pruned_count": 6,
+          "pruning_rate": 0.5454545454545454,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 11,
+            "20": 11,
+            "30": 11
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        },
+        "after_detail": {
+          "full_count": 12,
+          "frontier_count": 5,
+          "pruned_count": 7,
+          "pruning_rate": 0.5833333333333334,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 12,
+            "20": 12,
+            "30": 12
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:automated_exfiltration:default:run-0:n",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "stages": {
+        "after_summary": {
+          "full_count": 10,
+          "frontier_count": 4,
+          "pruned_count": 6,
+          "pruning_rate": 0.6,
+          "full_tools": {
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_search": {
+          "full_count": 12,
+          "frontier_count": 3,
+          "pruned_count": 9,
+          "pruning_rate": 0.75,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 12,
+            "20": 12,
+            "30": 12
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_detail": {
+          "full_count": 13,
+          "frontier_count": 5,
+          "pruned_count": 8,
+          "pruning_rate": 0.6153846153846154,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 13,
+            "20": 13,
+            "30": 13
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:automated_exfiltration:default:run-0:y",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "stages": {
+        "after_summary": {
+          "full_count": 31,
+          "frontier_count": 5,
+          "pruned_count": 26,
+          "pruning_rate": 0.8387096774193549,
+          "full_tools": {
+            "search_events": 31
+          },
+          "frontier_tools": {
+            "search_events": 5
+          },
+          "budget_feasible_full": {
+            "10": 29,
+            "20": 29,
+            "30": 29
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 34,
+          "frontier_count": 7,
+          "pruned_count": 27,
+          "pruning_rate": 0.7941176470588235,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 31
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 30,
+            "20": 30,
+            "30": 30
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_detail": {
+          "full_count": 34,
+          "frontier_count": 6,
+          "pruned_count": 28,
+          "pruning_rate": 0.8235294117647058,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "resource_search": 1,
+            "search_events": 31
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "resource_search": 1,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 29,
+            "20": 29,
+            "30": 29
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:credentials_from_password_stores:default:run-0:n",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "stages": {
+        "after_summary": {
+          "full_count": 10,
+          "frontier_count": 2,
+          "pruned_count": 8,
+          "pruning_rate": 0.8,
+          "full_tools": {
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 14,
+          "frontier_count": 5,
+          "pruned_count": 9,
+          "pruning_rate": 0.6428571428571429,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 14,
+            "20": 14,
+            "30": 14
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        },
+        "after_detail": {
+          "full_count": 15,
+          "frontier_count": 6,
+          "pruned_count": 9,
+          "pruning_rate": 0.6,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 15,
+            "20": 15,
+            "30": 15
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:credentials_from_password_stores:default:run-0:y",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "stages": {
+        "after_summary": {
+          "full_count": 10,
+          "frontier_count": 1,
+          "pruned_count": 9,
+          "pruning_rate": 0.9,
+          "full_tools": {
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 1,
+            "20": 1,
+            "30": 1
+          }
+        },
+        "after_search": {
+          "full_count": 16,
+          "frontier_count": 8,
+          "pruned_count": 8,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 5,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 16,
+            "20": 16,
+            "30": 16
+          },
+          "budget_feasible_frontier": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          }
+        },
+        "after_detail": {
+          "full_count": 17,
+          "frontier_count": 9,
+          "pruned_count": 8,
+          "pruning_rate": 0.47058823529411764,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 4,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 17,
+            "20": 17,
+            "30": 17
+          },
+          "budget_feasible_frontier": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:data_destruction:default:run-0:n",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:data_destruction",
+      "stages": {
+        "after_summary": {
+          "full_count": 2,
+          "frontier_count": 1,
+          "pruned_count": 1,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          },
+          "budget_feasible_frontier": {
+            "10": 1,
+            "20": 1,
+            "30": 1
+          }
+        },
+        "after_search": {
+          "full_count": 4,
+          "frontier_count": 1,
+          "pruned_count": 3,
+          "pruning_rate": 0.75,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "get_event_detail": 1
+          },
+          "budget_feasible_full": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          },
+          "budget_feasible_frontier": {
+            "10": 1,
+            "20": 1,
+            "30": 1
+          }
+        },
+        "after_detail": {
+          "full_count": 5,
+          "frontier_count": 4,
+          "pruned_count": 1,
+          "pruning_rate": 0.2,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:data_destruction:default:run-0:y",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:data_destruction",
+      "stages": {
+        "after_summary": {
+          "full_count": 3,
+          "frontier_count": 3,
+          "pruned_count": 0,
+          "pruning_rate": 0.0,
+          "full_tools": {
+            "search_events": 3
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 5,
+          "frontier_count": 2,
+          "pruned_count": 3,
+          "pruning_rate": 0.6,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 3
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_detail": {
+          "full_count": 6,
+          "frontier_count": 4,
+          "pruned_count": 2,
+          "pruning_rate": 0.3333333333333333,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:data_encrypted_for_impact:default:run-0:n",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "stages": {
+        "after_summary": {
+          "full_count": 6,
+          "frontier_count": 2,
+          "pruned_count": 4,
+          "pruning_rate": 0.6666666666666666,
+          "full_tools": {
+            "search_events": 6
+          },
+          "frontier_tools": {
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_search": {
+          "full_count": 8,
+          "frontier_count": 2,
+          "pruned_count": 6,
+          "pruning_rate": 0.75,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 6
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_detail": {
+          "full_count": 9,
+          "frontier_count": 3,
+          "pruned_count": 6,
+          "pruning_rate": 0.6666666666666666,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 6
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:data_encrypted_for_impact:default:run-0:y",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "stages": {
+        "after_summary": {
+          "full_count": 7,
+          "frontier_count": 3,
+          "pruned_count": 4,
+          "pruning_rate": 0.5714285714285714,
+          "full_tools": {
+            "search_events": 7
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 9,
+          "frontier_count": 2,
+          "pruned_count": 7,
+          "pruning_rate": 0.7777777777777778,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 7
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_detail": {
+          "full_count": 10,
+          "frontier_count": 4,
+          "pruned_count": 6,
+          "pruning_rate": 0.6,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 7
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:data_manipulation:default:run-0:n",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:data_manipulation",
+      "stages": {
+        "after_summary": {
+          "full_count": 2,
+          "frontier_count": 1,
+          "pruned_count": 1,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          },
+          "budget_feasible_frontier": {
+            "10": 1,
+            "20": 1,
+            "30": 1
+          }
+        },
+        "after_search": {
+          "full_count": 6,
+          "frontier_count": 6,
+          "pruned_count": 0,
+          "pruning_rate": 0.0,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        },
+        "after_detail": {
+          "full_count": 7,
+          "frontier_count": 7,
+          "pruned_count": 0,
+          "pruning_rate": 0.0,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:data_manipulation:default:run-0:y",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:data_manipulation",
+      "stages": {
+        "after_summary": {
+          "full_count": 2,
+          "frontier_count": 1,
+          "pruned_count": 1,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          },
+          "budget_feasible_frontier": {
+            "10": 1,
+            "20": 1,
+            "30": 1
+          }
+        },
+        "after_search": {
+          "full_count": 6,
+          "frontier_count": 6,
+          "pruned_count": 0,
+          "pruning_rate": 0.0,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        },
+        "after_detail": {
+          "full_count": 7,
+          "frontier_count": 7,
+          "pruned_count": 0,
+          "pruning_rate": 0.0,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:data_staged:default:run-0:n",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:data_staged",
+      "stages": {
+        "after_summary": {
+          "full_count": 2,
+          "frontier_count": 1,
+          "pruned_count": 1,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          },
+          "budget_feasible_frontier": {
+            "10": 1,
+            "20": 1,
+            "30": 1
+          }
+        },
+        "after_search": {
+          "full_count": 6,
+          "frontier_count": 6,
+          "pruned_count": 0,
+          "pruning_rate": 0.0,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        },
+        "after_detail": {
+          "full_count": 7,
+          "frontier_count": 7,
+          "pruned_count": 0,
+          "pruning_rate": 0.0,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:data_staged:default:run-0:y",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:data_staged",
+      "stages": {
+        "after_summary": {
+          "full_count": 2,
+          "frontier_count": 1,
+          "pruned_count": 1,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          },
+          "budget_feasible_frontier": {
+            "10": 1,
+            "20": 1,
+            "30": 1
+          }
+        },
+        "after_search": {
+          "full_count": 6,
+          "frontier_count": 6,
+          "pruned_count": 0,
+          "pruning_rate": 0.0,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 3,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        },
+        "after_detail": {
+          "full_count": 7,
+          "frontier_count": 7,
+          "pruned_count": 0,
+          "pruning_rate": 0.0,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 2,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:inhibit_system_recovery:default:run-0:n",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "stages": {
+        "after_summary": {
+          "full_count": 2,
+          "frontier_count": 1,
+          "pruned_count": 1,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          },
+          "budget_feasible_frontier": {
+            "10": 1,
+            "20": 1,
+            "30": 1
+          }
+        },
+        "after_search": {
+          "full_count": 4,
+          "frontier_count": 1,
+          "pruned_count": 3,
+          "pruning_rate": 0.75,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "get_event_detail": 1
+          },
+          "budget_feasible_full": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          },
+          "budget_feasible_frontier": {
+            "10": 1,
+            "20": 1,
+            "30": 1
+          }
+        },
+        "after_detail": {
+          "full_count": 5,
+          "frontier_count": 4,
+          "pruned_count": 1,
+          "pruning_rate": 0.2,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:inhibit_system_recovery:default:run-0:y",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "stages": {
+        "after_summary": {
+          "full_count": 2,
+          "frontier_count": 1,
+          "pruned_count": 1,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          },
+          "budget_feasible_frontier": {
+            "10": 1,
+            "20": 1,
+            "30": 1
+          }
+        },
+        "after_search": {
+          "full_count": 4,
+          "frontier_count": 1,
+          "pruned_count": 3,
+          "pruning_rate": 0.75,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "get_event_detail": 1
+          },
+          "budget_feasible_full": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          },
+          "budget_feasible_frontier": {
+            "10": 1,
+            "20": 1,
+            "30": 1
+          }
+        },
+        "after_detail": {
+          "full_count": 5,
+          "frontier_count": 4,
+          "pruned_count": 1,
+          "pruning_rate": 0.2,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:scheduled_transfer:default:run-0:n",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "stages": {
+        "after_summary": {
+          "full_count": 10,
+          "frontier_count": 6,
+          "pruned_count": 4,
+          "pruning_rate": 0.4,
+          "full_tools": {
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "search_events": 6
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 6,
+            "20": 6,
+            "30": 6
+          }
+        },
+        "after_search": {
+          "full_count": 12,
+          "frontier_count": 5,
+          "pruned_count": 7,
+          "pruning_rate": 0.5833333333333334,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 12,
+            "20": 12,
+            "30": 12
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        },
+        "after_detail": {
+          "full_count": 13,
+          "frontier_count": 7,
+          "pruned_count": 6,
+          "pruning_rate": 0.46153846153846156,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 10
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 5
+          },
+          "budget_feasible_full": {
+            "10": 13,
+            "20": 13,
+            "30": 13
+          },
+          "budget_feasible_frontier": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:scheduled_transfer:default:run-0:y",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "stages": {
+        "after_summary": {
+          "full_count": 30,
+          "frontier_count": 5,
+          "pruned_count": 25,
+          "pruning_rate": 0.8333333333333334,
+          "full_tools": {
+            "search_events": 30
+          },
+          "frontier_tools": {
+            "search_events": 5
+          },
+          "budget_feasible_full": {
+            "10": 28,
+            "20": 28,
+            "30": 28
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 34,
+          "frontier_count": 6,
+          "pruned_count": 28,
+          "pruning_rate": 0.8235294117647058,
+          "full_tools": {
+            "actor_timeline": 2,
+            "get_event_detail": 2,
+            "search_events": 30
+          },
+          "frontier_tools": {
+            "get_event_detail": 2,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 29,
+            "20": 29,
+            "30": 29
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_detail": {
+          "full_count": 35,
+          "frontier_count": 7,
+          "pruned_count": 28,
+          "pruning_rate": 0.8,
+          "full_tools": {
+            "actor_timeline": 2,
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 30
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "resource_search": 2,
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 28,
+            "20": 28,
+            "30": 28
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:steal_application_access_token:default:run-0:n",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "stages": {
+        "after_summary": {
+          "full_count": 8,
+          "frontier_count": 4,
+          "pruned_count": 4,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_search": {
+          "full_count": 10,
+          "frontier_count": 3,
+          "pruned_count": 7,
+          "pruning_rate": 0.7,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_detail": {
+          "full_count": 11,
+          "frontier_count": 5,
+          "pruned_count": 6,
+          "pruning_rate": 0.5454545454545454,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 11,
+            "20": 11,
+            "30": 11
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:steal_application_access_token:default:run-0:y",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "stages": {
+        "after_summary": {
+          "full_count": 8,
+          "frontier_count": 4,
+          "pruned_count": 4,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_search": {
+          "full_count": 10,
+          "frontier_count": 3,
+          "pruned_count": 7,
+          "pruning_rate": 0.7,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_detail": {
+          "full_count": 11,
+          "frontier_count": 5,
+          "pruned_count": 6,
+          "pruning_rate": 0.5454545454545454,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 11,
+            "20": 11,
+            "30": 11
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:unsecured_credentials:default:run-0:n",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "stages": {
+        "after_summary": {
+          "full_count": 7,
+          "frontier_count": 3,
+          "pruned_count": 4,
+          "pruning_rate": 0.5714285714285714,
+          "full_tools": {
+            "search_events": 7
+          },
+          "frontier_tools": {
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 7,
+            "20": 7,
+            "30": 7
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_search": {
+          "full_count": 9,
+          "frontier_count": 2,
+          "pruned_count": 7,
+          "pruning_rate": 0.7777777777777778,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 7
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 1
+          },
+          "budget_feasible_full": {
+            "10": 9,
+            "20": 9,
+            "30": 9
+          },
+          "budget_feasible_frontier": {
+            "10": 2,
+            "20": 2,
+            "30": 2
+          }
+        },
+        "after_detail": {
+          "full_count": 10,
+          "frontier_count": 4,
+          "pruned_count": 6,
+          "pruning_rate": 0.6,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 7
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    },
+    {
+      "episode_id": "crosscloud:gcp:unsecured_credentials:default:run-0:y",
+      "platform": "GCP",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "stages": {
+        "after_summary": {
+          "full_count": 8,
+          "frontier_count": 4,
+          "pruned_count": 4,
+          "pruning_rate": 0.5,
+          "full_tools": {
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "search_events": 4
+          },
+          "budget_feasible_full": {
+            "10": 8,
+            "20": 8,
+            "30": 8
+          },
+          "budget_feasible_frontier": {
+            "10": 4,
+            "20": 4,
+            "30": 4
+          }
+        },
+        "after_search": {
+          "full_count": 10,
+          "frontier_count": 3,
+          "pruned_count": 7,
+          "pruning_rate": 0.7,
+          "full_tools": {
+            "actor_timeline": 1,
+            "get_event_detail": 1,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "get_event_detail": 1,
+            "search_events": 2
+          },
+          "budget_feasible_full": {
+            "10": 10,
+            "20": 10,
+            "30": 10
+          },
+          "budget_feasible_frontier": {
+            "10": 3,
+            "20": 3,
+            "30": 3
+          }
+        },
+        "after_detail": {
+          "full_count": 11,
+          "frontier_count": 5,
+          "pruned_count": 6,
+          "pruning_rate": 0.5454545454545454,
+          "full_tools": {
+            "actor_timeline": 1,
+            "resource_search": 2,
+            "search_events": 8
+          },
+          "frontier_tools": {
+            "resource_search": 2,
+            "search_events": 3
+          },
+          "budget_feasible_full": {
+            "10": 11,
+            "20": 11,
+            "30": 11
+          },
+          "budget_feasible_frontier": {
+            "10": 5,
+            "20": 5,
+            "30": 5
+          }
+        }
+      },
+      "probe_stop_reason": "detail_observed"
+    }
+  ],
+  "research_effectiveness_result": false,
+  "interpretation": "Engineering evidence about action-space coverage and pruning only; no human gold or attack-effectiveness claim is used."
+}

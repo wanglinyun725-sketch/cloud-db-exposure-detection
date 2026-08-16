@@ -1,0 +1,641 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "crosscloud:azure:inhibit_system_recovery",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cross_cloud_observability_2026",
+    "upstream_url": "https://doi.org/10.5281/zenodo.19933893",
+    "version_or_commit": "record-19933893-v2",
+    "license": "CC-BY-4.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/README.md",
+        "sha256": "b073b2e97aea4073fec2bf387e2c255d987dd8f3710e84f2df3cc59947e510f8",
+        "upstream_checksum": "md5:10eb94c911d603deb5353a4f9bdfa46e"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/attack_scripts.zip",
+        "sha256": "4599be3e224f3b9b43e76ab4ec1bfa8e3b209ebe529fb218ae4e65dd22417900",
+        "upstream_checksum": "md5:e448f9e9eafb7482b735c76d2d4ef0d0"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/azure_logs_redacted.zip",
+        "sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee",
+        "upstream_checksum": "md5:e4e3359913d45fa86739ab39f21123b4"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/log_analysis.zip",
+        "sha256": "23b41863cc2ece4936277a1ee1fc6f64b4fea9f3c0f698cefbf5626eeca00fcf",
+        "upstream_checksum": "md5:c57994c6e199cbbf8b091ddcd139515a"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "description": "DOI-published paired payload/no-payload AZURE telemetry for inhibit_system_recovery.",
+    "author": "Dhooghe et al.",
+    "published_date": "2026-04-30",
+    "environment": "controlled cloud subscription",
+    "platform": "AZURE",
+    "attack": "inhibit_system_recovery",
+    "independence_group": "crosscloud-family:inhibit_system_recovery",
+    "attack_script_refs": [
+      "attack_scripts.zip#attack_scripts/azure-attacks/223_inhibit_system_recovery_att_script.sh",
+      "attack_scripts.zip#attack_scripts/azure-attacks/all_automated.sh",
+      "attack_scripts.zip#attack_scripts/azure-attacks/automated-logging.sh"
+    ]
+  },
+  "observations": [],
+  "runtime_instances": [
+    {
+      "instance_id": "episode-60ca5386527dbfd1",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "AZURE",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-4ae38f085e7a6bcac8e85533",
+          "timestamp": "2024-10-23T12:49:36.5248253Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 14,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-fb385c3c4ab21ea55382518d",
+          "timestamp": "2024-10-23T12:49:36.6031129Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Authorization/policies/audit/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 13,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-bbf26653806515e17263f9ba",
+          "timestamp": "2024-10-23T12:49:39.5093651Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Authorization/policies/auditIfNotExists/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 12,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-adc672961bf182261822b8ab",
+          "timestamp": "2024-10-23T12:49:39.5249865Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Accepted",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 11,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-9c21e8de3375f8f2fa49e711",
+          "timestamp": "2024-10-23T12:49:56.9795892Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/read",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Running",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 10,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-f5743357c5b6d7f8145b96dc",
+          "timestamp": "2024-10-23T12:50:02.6652768Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/read",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Running",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 9,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-ca78a77a5943829ddc1aff5d",
+          "timestamp": "2024-10-23T12:50:08.0918123Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/read",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Running",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 8,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-0841d9a32670d432af4ce697",
+          "timestamp": "2024-10-23T12:50:13.8706397Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 7,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-4c2345c0a7dcdb699c753641",
+          "timestamp": "2024-10-23T12:50:40.4461125Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/blobServices/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 6,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-c5ef8e732a05eaf33cd4ae59",
+          "timestamp": "2024-10-23T12:50:41.1961035Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/blobServices/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 5,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-ca73bb2cbb78671be61d960d",
+          "timestamp": "2024-10-23T12:50:53.4067415Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/delete",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 4,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-92037103530c86a620dac541",
+          "timestamp": "2024-10-23T12:50:57.2660998Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/delete",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 3,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-bd8a93fb49cc4f9068456db6",
+          "timestamp": "2024-10-23T12:58:24.4018707Z",
+          "service": "Microsoft.OperationalInsights",
+          "operation": "Microsoft.OperationalInsights/workspaces/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 2,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-07ca0c4117ffd2a90e45dfd6",
+          "timestamp": "2024-10-23T12:59:40.3563461Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Authorization/policies/auditIfNotExists/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 0,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-5c3046a4f7e4fc564a27d7ef",
+          "timestamp": "2024-10-23T12:59:40.3563461Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Authorization/policies/audit/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "849cd3a6ced175d3f491be523bbe9ed5733f856bf18df14657032d8c0d452206",
+            "record_index": 1,
+            "upstream_path": "member-849cd3a6ced175d3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        }
+      ],
+      "observation_count": 15,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    },
+    {
+      "instance_id": "episode-c97de4abd671f4c1",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "AZURE",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-c7dda88a7f131b980ffa4d03",
+          "timestamp": "2024-10-23T13:04:05.5312042Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 14,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-f6c8516cfcb1bf89b0227e43",
+          "timestamp": "2024-10-23T13:04:05.6093266Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Authorization/policies/audit/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 13,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-ba783d908c6c10f030a12aca",
+          "timestamp": "2024-10-23T13:04:09.7969005Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Authorization/policies/auditIfNotExists/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 12,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-88cdfb11eb3bc3338c722027",
+          "timestamp": "2024-10-23T13:04:09.8125289Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Accepted",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 11,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-021ad4950557270f24835722",
+          "timestamp": "2024-10-23T13:04:27.7270479Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/read",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Running",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 10,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-ceec4711ce6d795b90e37421",
+          "timestamp": "2024-10-23T13:04:33.2501948Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/read",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Running",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 9,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-4f357471a365af21744396a7",
+          "timestamp": "2024-10-23T13:04:38.4829572Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/read",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Running",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 8,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-e8d9a908c8f282d9694cd9a7",
+          "timestamp": "2024-10-23T13:04:44.1158477Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 7,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-5e4cc12841b08f9b3c0b0f69",
+          "timestamp": "2024-10-23T13:05:16.876162Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/blobServices/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 6,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-3ae63a7c635a5667e3d02386",
+          "timestamp": "2024-10-23T13:05:17.7355876Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/blobServices/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 5,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-1cc569e6f4991c9fe4b2649f",
+          "timestamp": "2024-10-23T13:05:29.1018424Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/blobServices/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 4,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-e398b5b25f9984677bb86b71",
+          "timestamp": "2024-10-23T13:05:29.6955987Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/blobServices/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 3,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-deadefca39ed881b0af9bd2d",
+          "timestamp": "2024-10-23T13:05:42.6580007Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/delete",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 2,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-714d0b43b51187acfe087151",
+          "timestamp": "2024-10-23T13:05:46.829894Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/delete",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 1,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-86022d3ef1979f3704174e36",
+          "timestamp": "2024-10-23T13:12:53.1251798Z",
+          "service": "Microsoft.OperationalInsights",
+          "operation": "Microsoft.OperationalInsights/workspaces/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "42616ec6c5abcbb3483c36c9d4d522df376c285f6a4e1291da2643386edf0908",
+            "record_index": 0,
+            "upstream_path": "member-42616ec6c5abcbb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        }
+      ],
+      "observation_count": 15,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "f81348b04eb38865f8187d233d815abd8b5f6231d991889fe48292742441cc37",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

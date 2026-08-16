@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "stratus:gcp.impact.gcs-ransomware-client-side-encryption",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:gcp.impact.gcs-ransomware-client-side-encryption",
+    "kind": "executable_attack_technique",
+    "platform": "GCP",
+    "technique": "gcp.impact.gcs-ransomware-client-side-encryption",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.impact.gcs-ransomware-client-side-encryption.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.impact.gcs-ransomware-client-side-encryption.md",
+    "review_score": 34,
+    "independence_group": "stratus_red_team:stratus:gcp.impact.gcs-ransomware-client-side-encryption",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.impact.gcs-ransomware-client-side-encryption.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.impact.gcs-ransomware-client-side-encryption.md",
+      "member_sha256": "7e05e3f6f411d23e39e7aefec0409f5e773c107711f1a5a17badd4c65f9278f7",
+      "bytes": 3125,
+      "content_kind": "md",
+      "text": "---\ntitle: GCS Ransomware through client-side encryption\n---\n\n# GCS Ransomware through client-side encryption\n\n\n\n\nPlatform: GCP\n\n## Mappings\n\n- MITRE ATT&CK\n    - Impact\n\n\n\n## Description\n\n\nSimulates GCS ransomware activity that encrypts files in a Cloud Storage bucket with a static key, through GCS [Customer-Supplied Encryption Keys](https://cloud.google.com/storage/docs/encryption/customer-supplied-keys) (CSEK).\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create a Cloud Storage bucket\n- Create a number of objects in the bucket, with random content and extensions\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- List all objects in the bucket\n- Rewrite every object in place with a customer-supplied AES-256 encryption key, using [objects.rewrite](https://cloud.google.com/storage/docs/json_api/v1/objects/rewrite). Once encrypted, the object can no longer be read without supplying the same key\n- Upload a ransom note to the bucket\n\nReferences:\n\n- [Detecting and Hunting for Cloud Ransomware Part 2: GCP GCS (Panther)](https://panther.com/blog/detecting-and-hunting-for-cloud-ransomware-part-2-gcp-gcs)\n- [Mitigate ransomware attacks using Google Cloud (Google Cloud Architecture Center)](https://cloud.google.com/architecture/security/mitigating-ransomware-attacks)\n- [Customer-supplied encryption keys (GCS documentation)](https://cloud.google.com/storage/docs/encryption/customer-supplied-keys)\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate gcp.impact.gcs-ransomware-client-side-encryption\n```\n## Detection\n\n\nYou can detect ransomware activity by identifying abnormal patterns of objects being rewritten in place.\nThe GCS rewrite API (used to encrypt an object with a customer-supplied key without changing its name) is recorded in [Data Access audit logs](https://cloud.google.com/storage/docs/audit-logging) with <code>methodName: storage.objects.create</code>\n\nA rewrite-in-place can be distinguished from a regular upload by inspecting <code>authorizationInfo</code>: a rewrite checks <strong>both</strong> <code>storage.objects.delete</code> and <code>storage.objects.create</code> permissions on the same object, whereas a plain upload only checks <code>storage.objects.create</code>.\n\nNote that GCS Data Access logs are not enabled by default and must be [explicitly enabled](https://cloud.google.com/storage/docs/audit-logging#enabling) at the project or organization level.\n\nSample audit log event for a rewrite-in-place, shortened for readability:\n\n```json hl_lines=\"4 7 9 13\"\n{\n  \"protoPayload\": {\n    \"serviceName\": \"storage.googleapis.com\",\n    \"methodName\": \"storage.objects.create\",\n    \"resourceName\": \"projects/_/buckets/target-bucket/objects/target-object-key\",\n    \"authorizationInfo\": [\n      { \"permission\": \"storage.objects.delete\", \"granted\": true },\n      { \"permission\": \"storage.objects.create\", \"granted\": true }\n    ],\n    \"authenticationInfo\": {\n      \"principalEmail\": \"attacker@example.com\"\n    }\n  },\n  \"resource\": {\n    \"type\": \"gcs_bucket\",\n    \"labels\": {\n      \"bucket_name\": \"target-bucket\"\n    }\n  }\n}\n```\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "07837ecfc13a1f298c6293a14c17feebd878964d42b719d6473eae0dbc35ee12",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

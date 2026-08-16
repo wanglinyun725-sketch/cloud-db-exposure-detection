@@ -1,0 +1,713 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "39b8571b5c30b7bd92c77e72e02ecf523a249929f18b677f3dec20db5b46a181",
+  "case_id": "crosscloud:aws:data_destruction",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cross_cloud_observability_2026",
+    "upstream_url": "https://doi.org/10.5281/zenodo.19933893",
+    "version_or_commit": "record-19933893-v2",
+    "license": "CC-BY-4.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/README.md",
+        "sha256": "b073b2e97aea4073fec2bf387e2c255d987dd8f3710e84f2df3cc59947e510f8",
+        "upstream_checksum": "md5:10eb94c911d603deb5353a4f9bdfa46e"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/attack_scripts.zip",
+        "sha256": "4599be3e224f3b9b43e76ab4ec1bfa8e3b209ebe529fb218ae4e65dd22417900",
+        "upstream_checksum": "md5:e448f9e9eafb7482b735c76d2d4ef0d0"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+        "sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+        "upstream_checksum": "md5:f83ebd4892dcf4d349f51c1c477408dc"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/log_analysis.zip",
+        "sha256": "23b41863cc2ece4936277a1ee1fc6f64b4fea9f3c0f698cefbf5626eeca00fcf",
+        "upstream_checksum": "md5:c57994c6e199cbbf8b091ddcd139515a"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "description": "DOI-published paired payload/no-payload AWS telemetry for data_destruction.",
+    "author": "Dhooghe et al.",
+    "published_date": "2026-04-30",
+    "environment": "controlled cloud subscription",
+    "platform": "AWS",
+    "attack": "data_destruction",
+    "independence_group": "crosscloud-family:data_destruction",
+    "attack_script_refs": [
+      "attack_scripts.zip#attack_scripts/aws-attacks/attack_scripts/all_automated.sh",
+      "attack_scripts.zip#attack_scripts/aws-attacks/attack_scripts/automated-logging.sh",
+      "attack_scripts.zip#attack_scripts/aws-attacks/attack_scripts/storage_attacks.sh"
+    ]
+  },
+  "observations": [],
+  "runtime_instances": [
+    {
+      "instance_id": "episode-350e721ec4452bc6",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "AWS",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-e3569fbcb5615356f75c1b93",
+          "timestamp": "2025-01-11T19:48:39Z",
+          "service": "logs.amazonaws.com",
+          "operation": "FilterLogEvents",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 19,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-e2dc17aabe0439d14551d9fc",
+          "timestamp": "2025-01-11T19:48:43Z",
+          "service": "s3.amazonaws.com",
+          "operation": "CreateBucket",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 18,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-b4a1e83dbd33a1fb2a408434",
+          "timestamp": "2025-01-11T19:49:53Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 16,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-e921ea887755cb7f06135fab",
+          "timestamp": "2025-01-11T19:49:53Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 17,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-5f60d752e83c861e106ddb09",
+          "timestamp": "2025-01-11T19:50:50Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 15,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-f439be1ddc38a0accd42d4f1",
+          "timestamp": "2025-01-11T19:50:50Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 14,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-e41621f461745de4213601b8",
+          "timestamp": "2025-01-11T19:51:13Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 13,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-fe3d20a5a17967ed058a8f80",
+          "timestamp": "2025-01-11T19:51:13Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 12,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-758d36635d5f2812cde44e50",
+          "timestamp": "2025-01-11T19:51:14Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 11,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-d5f32b59b7064d066cd6677f",
+          "timestamp": "2025-01-11T19:51:14Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 10,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-129ee61c7c2d3b34748fb794",
+          "timestamp": "2025-01-11T19:51:53Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 9,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-a3ec132cce46e2440b5542f1",
+          "timestamp": "2025-01-11T19:54:02Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 8,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-471254c50b0c71131241276a",
+          "timestamp": "2025-01-11T19:54:14Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 7,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-1e6a45872592b7e134272995",
+          "timestamp": "2025-01-11T19:54:49Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 5,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-afe93f58333c809bc34d2477",
+          "timestamp": "2025-01-11T19:54:49Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 6,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-5087b77c556e532c3d6b42e8",
+          "timestamp": "2025-01-11T19:56:05Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 4,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-cc25fac36b0f775251c20a11",
+          "timestamp": "2025-01-11T19:56:05Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 3,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-1df77df182f19caf771a07ab",
+          "timestamp": "2025-01-11T19:56:09Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 2,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-cb11a3ef26ef94655c0e3355",
+          "timestamp": "2025-01-11T19:56:09Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 1,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-0ea838014b78511f434d9c51",
+          "timestamp": "2025-01-11T19:56:11Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e96d3b93af039b519d4de65f651a6be9d3b4a8bf982a01d084e8c3e72e80ed3c",
+            "record_index": 0,
+            "upstream_path": "member-e96d3b93af039b51",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        }
+      ],
+      "observation_count": 20,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    },
+    {
+      "instance_id": "episode-4f7a2a0d1dcad563",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "AWS",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-84d616aa3f1dad84c4ebba7e",
+          "timestamp": "2025-01-11T19:39:50Z",
+          "service": "s3.amazonaws.com",
+          "operation": "CreateBucket",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 13,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-aa8541d3bb6f039d8231283a",
+          "timestamp": "2025-01-11T19:40:43Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 11,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-e7d453c3af52b03fccb8053d",
+          "timestamp": "2025-01-11T19:40:43Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 12,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-3ffdda74a511c478379c1204",
+          "timestamp": "2025-01-11T19:41:32Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 10,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-4aa562b90eb944cb170981ed",
+          "timestamp": "2025-01-11T19:41:32Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 9,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-dd31e7021fda8c9616a93b50",
+          "timestamp": "2025-01-11T19:42:01Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 8,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-28bdcc3d3b74fa9f6235bbbf",
+          "timestamp": "2025-01-11T19:43:26Z",
+          "service": "s3.amazonaws.com",
+          "operation": "DeleteBucket",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 7,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-c301b4fd3ff2fa29603e1ea8",
+          "timestamp": "2025-01-11T19:45:01Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 6,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-cf810713b3c3194ef315819f",
+          "timestamp": "2025-01-11T19:45:05Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 5,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-14f929fb4329438cae7a6d38",
+          "timestamp": "2025-01-11T19:45:38Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 4,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-4a9ce9c0a6d278c34bfc85e1",
+          "timestamp": "2025-01-11T19:45:38Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 3,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-80444c32baed9920b6d7502d",
+          "timestamp": "2025-01-11T19:45:57Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 2,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-5440b33e7e09d8487bb4280d",
+          "timestamp": "2025-01-11T19:46:23Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 1,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-03a203a759d3af4b2656acbb",
+          "timestamp": "2025-01-11T19:46:52Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "61937d6e05c0bf37ae90d84d6fc7c1ff8f4265b48294b362808224f4af6fa2d5",
+            "record_index": 0,
+            "upstream_path": "member-61937d6e05c0bf37",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        }
+      ],
+      "observation_count": 14,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "ec7b0acba4057b607aecac28d0fab0e08d8cefc07db83501a05e117f465596ac",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

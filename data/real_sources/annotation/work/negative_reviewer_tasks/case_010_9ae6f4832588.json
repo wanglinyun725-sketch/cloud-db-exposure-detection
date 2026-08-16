@@ -1,0 +1,52 @@
+{
+  "candidate_id": "cloud-incident:aws:00659",
+  "independence_group": "reliability-record:7c2091e1a47a3900adc614521a6167d3f47757422ecd595e147195701d3c4341",
+  "independence_group_basis": "source_record_sha256",
+  "source": {
+    "source_id": "cloud_incident_reports_2016_2024",
+    "doi": "10.5281/zenodo.14010282",
+    "version": "record-14010282-v1",
+    "license": "CC-BY-4.0"
+  },
+  "vendor": "AWS",
+  "service_hint": "AWS Secrets Manager (N. Virginia)",
+  "year": "2022",
+  "data_relevance_facets": [
+    "secret"
+  ],
+  "security_term_hits": [],
+  "report_text": "12:04 PM PDT We are investigating increased API connection timeout errors and latencies in the US-EAST-1 Region. 12:33 PM PDT We can confirm increased error rates and latencies for Secrets Manager APIs in the US-EAST-1 Region. We are working to identify root cause and resolve the issue. Customers using Secrets Manager to store secrets may experience errors when using the Secrets Manager APIs, including customers invoking Secrets Manager from Lambda functions. Lambda functions that are not calling Secrets Manager APIs are not affected by this event. We continue to work to understand the issue and will continue to provide updates. 12:57 PM PDT We have resolved the issue causing increased error rates and latencies for the Secrets Manager APIs in the US-EAST-1 Region. Customers using Secrets Manager to store secrets may have experienced errors when using the Secrets Manager APIs, including customers invoking Secrets Manager from Lambda functions. Lambda functions that are not using Secrets Manager were not affected by this event. The issue was resolved at 12:30 PM PDT, when error rates and latencies returned to normal levels. The issue has been resolved and the service is operating normally.",
+  "raw_ref": {
+    "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+    "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+    "member_path": "2_clean_data/aws.csv",
+    "record_index": 659,
+    "record_sha256": "7c2091e1a47a3900adc614521a6167d3f47757422ecd595e147195701d3c4341"
+  },
+  "workflow_version": "0.1",
+  "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "source_context_fields": [
+    "candidate_id",
+    "data_relevance_facets",
+    "independence_group",
+    "independence_group_basis",
+    "raw_ref",
+    "report_text",
+    "security_term_hits",
+    "service_hint",
+    "source",
+    "vendor",
+    "year"
+  ],
+  "source_context_sha256": "042d749eb209a935c7862d79e15251fc2ff8f5ae7d13b81e7b091b492c1666f4",
+  "screening": {
+    "cloud_data_relevant": null,
+    "non_attack_confirmed": null,
+    "usable_as_negative_control": null,
+    "rationale": null
+  }
+}

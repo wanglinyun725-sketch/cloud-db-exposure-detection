@@ -1,0 +1,298 @@
+{
+  "sample_id": "sddp_lindorm_controlled_refuted",
+  "scenario": "SDDP-REAL-SLICE",
+  "scenario_name": "SDDP真实资产与敏感识别证据切片（controlled_refuted）",
+  "industry": "real_sddp",
+  "raw_dataset": "sddp_export",
+  "variant_type": "controlled_refuted",
+  "expected_type": "Refuted",
+  "expected_state": "Invalid",
+  "sample_label": "Invalid",
+  "has_attack_trace": false,
+  "notes": "This slice uses real SDDP/DSC evidence semantics with controlled threat injection. It does not claim a real intrusion trajectory.",
+  "nodes": [
+    {
+      "id": "identity_sddp_scanner",
+      "type": "Identity",
+      "attrs": {
+        "kind": "scanner",
+        "is_external": true,
+        "name": "SDDP Scanner / Connector"
+      }
+    },
+    {
+      "id": "dbinst_ld-demo-001_LCOLUMN",
+      "type": "DBInstance",
+      "attrs": {
+        "name": "ld-demo-001",
+        "engine": "LCOLUMN",
+        "region": "cn-zhangjiakou",
+        "resource_name": "demo_lindorm",
+        "auth_status": "authorized",
+        "parent_id": "ld-demo-001.LCOLUMN.default"
+      }
+    },
+    {
+      "id": "audit_task_741610",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "identify_task_bound",
+        "success": true,
+        "t": "2026-01-01T00:00:00Z"
+      }
+    },
+    {
+      "id": "db_dbinst_ld-demo-001_LCOLUMN_default",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "db",
+        "name": "default"
+      }
+    },
+    {
+      "id": "tbl_dbinst_ld-demo-001_LCOLUMN_default_customer_profile",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "table",
+        "name": "customer_profile",
+        "parent": "db_dbinst_ld-demo-001_LCOLUMN_default"
+      }
+    },
+    {
+      "id": "col_dbinst_ld-demo-001_LCOLUMN_default_customer_profile_id_card",
+      "type": "DBObject",
+      "attrs": {
+        "kind": "field",
+        "name": "id_card",
+        "parent": "tbl_dbinst_ld-demo-001_LCOLUMN_default_customer_profile"
+      }
+    },
+    {
+      "id": "tag_身份证号_id_card",
+      "type": "SensitiveTag",
+      "attrs": {
+        "category": "身份证号",
+        "level": 4,
+        "confidence": 0.95
+      }
+    },
+    {
+      "id": "audit_sls_0_2026-01-01T00_10_00Z",
+      "type": "AuditEvent",
+      "attrs": {
+        "action": "sensitive_detect",
+        "success": true,
+        "t": "2026-01-01T00:10:00Z"
+      }
+    },
+    {
+      "id": "internet_attacker",
+      "type": "Network",
+      "attrs": {
+        "kind": "eip",
+        "public_exposed": true,
+        "cidr": "0.0.0.0/0",
+        "name": "Controlled Public Internet"
+      }
+    },
+    {
+      "id": "identity_controlled_external",
+      "type": "Identity",
+      "attrs": {
+        "kind": "controlled_principal",
+        "is_external": true,
+        "name": "Controlled External Principal"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "internet_attacker",
+      "target": "identity_controlled_external",
+      "type": "can_connect",
+      "attrs": {
+        "status": "Contradicted",
+        "source": "controlled_injection",
+        "strength": 0.0,
+        "confidence": 1.0,
+        "query_cost": 1,
+        "evidence_ref": "controlled:refuted_connectivity",
+        "raw_evidence": "controlled:public_connectivity",
+        "time": "2026-01-01T00:00:00Z"
+      },
+      "edge_id": "e0000"
+    },
+    {
+      "source": "identity_controlled_external",
+      "target": "dbinst_ld-demo-001_LCOLUMN",
+      "type": "has_permission",
+      "attrs": {
+        "status": "Supported",
+        "source": "controlled_injection",
+        "strength": 1.0,
+        "confidence": 1.0,
+        "query_cost": 1,
+        "evidence_ref": "controlled:temporary_db_permission",
+        "raw_evidence": "controlled:temporary_db_permission",
+        "time": "2026-01-01T00:00:00Z"
+      },
+      "edge_id": "e0001"
+    },
+    {
+      "source": "identity_sddp_scanner",
+      "target": "dbinst_ld-demo-001_LCOLUMN",
+      "type": "owns",
+      "attrs": {
+        "status": "Supported",
+        "source": "data_instance_source",
+        "strength": 1.0,
+        "confidence": 1.0,
+        "query_cost": 1,
+        "evidence_ref": "data_instance_source:ld-demo-001",
+        "raw_evidence": "data_instance_source:ld-demo-001",
+        "time": null
+      },
+      "edge_id": "e0002"
+    },
+    {
+      "source": "identity_sddp_scanner",
+      "target": "dbinst_ld-demo-001_LCOLUMN",
+      "type": "can_connect",
+      "attrs": {
+        "status": "Supported",
+        "source": "sys_data_limit",
+        "strength": 1.0,
+        "confidence": 1.0,
+        "query_cost": 1,
+        "evidence_ref": "sys_data_limit:1001",
+        "raw_evidence": "sys_data_limit:1001",
+        "time": null
+      },
+      "edge_id": "e0003"
+    },
+    {
+      "source": "audit_task_741610",
+      "target": "dbinst_ld-demo-001_LCOLUMN",
+      "type": "triggered",
+      "attrs": {
+        "status": "Supported",
+        "source": "dsc_identify_task_asset",
+        "strength": 0.8,
+        "confidence": 0.8,
+        "query_cost": 2,
+        "evidence_ref": "task:741610:limit:1001",
+        "raw_evidence": "task:741610:limit:1001",
+        "time": null
+      },
+      "edge_id": "e0004"
+    },
+    {
+      "source": "dbinst_ld-demo-001_LCOLUMN",
+      "target": "db_dbinst_ld-demo-001_LCOLUMN_default",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "strength": 1.0,
+        "confidence": 1.0,
+        "query_cost": 1,
+        "evidence_ref": "db:default",
+        "raw_evidence": "db:default",
+        "time": "2026-01-01T00:10:00Z"
+      },
+      "edge_id": "e0005"
+    },
+    {
+      "source": "db_dbinst_ld-demo-001_LCOLUMN_default",
+      "target": "tbl_dbinst_ld-demo-001_LCOLUMN_default_customer_profile",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "strength": 1.0,
+        "confidence": 1.0,
+        "query_cost": 1,
+        "evidence_ref": "table:customer_profile",
+        "raw_evidence": "table:customer_profile",
+        "time": "2026-01-01T00:10:00Z"
+      },
+      "edge_id": "e0006"
+    },
+    {
+      "source": "tbl_dbinst_ld-demo-001_LCOLUMN_default_customer_profile",
+      "target": "col_dbinst_ld-demo-001_LCOLUMN_default_customer_profile_id_card",
+      "type": "contains",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "strength": 1.0,
+        "confidence": 1.0,
+        "query_cost": 1,
+        "evidence_ref": "column:id_card",
+        "raw_evidence": "column:id_card",
+        "time": "2026-01-01T00:10:00Z"
+      },
+      "edge_id": "e0007"
+    },
+    {
+      "source": "col_dbinst_ld-demo-001_LCOLUMN_default_customer_profile_id_card",
+      "target": "tag_身份证号_id_card",
+      "type": "classified_as",
+      "attrs": {
+        "status": "Supported",
+        "source": "DescribeDataObjects",
+        "strength": 0.95,
+        "confidence": 0.95,
+        "query_cost": 1,
+        "evidence_ref": "rule:身份证号",
+        "raw_evidence": "rule:身份证号",
+        "time": "2026-01-01T00:10:00Z"
+      },
+      "edge_id": "e0008"
+    }
+  ],
+  "gold_paths": [
+    [
+      "internet_attacker",
+      "identity_controlled_external",
+      "dbinst_ld-demo-001_LCOLUMN",
+      "db_dbinst_ld-demo-001_LCOLUMN_default",
+      "tbl_dbinst_ld-demo-001_LCOLUMN_default_customer_profile",
+      "col_dbinst_ld-demo-001_LCOLUMN_default_customer_profile_id_card",
+      "tag_身份证号_id_card"
+    ]
+  ],
+  "path_labels": [
+    {
+      "path": [
+        "internet_attacker",
+        "identity_controlled_external",
+        "dbinst_ld-demo-001_LCOLUMN",
+        "db_dbinst_ld-demo-001_LCOLUMN_default",
+        "tbl_dbinst_ld-demo-001_LCOLUMN_default_customer_profile",
+        "col_dbinst_ld-demo-001_LCOLUMN_default_customer_profile_id_card",
+        "tag_身份证号_id_card"
+      ],
+      "state": "Invalid",
+      "expected_type": "Refuted",
+      "variant_type": "controlled_refuted",
+      "label_scope": "controlled_evidence_path",
+      "edge_ids": [
+        "e0000",
+        "e0001",
+        "e0005",
+        "e0006",
+        "e0007",
+        "e0008"
+      ],
+      "edge_types": [
+        "can_connect",
+        "has_permission",
+        "contains",
+        "contains",
+        "contains",
+        "classified_as"
+      ]
+    }
+  ]
+}

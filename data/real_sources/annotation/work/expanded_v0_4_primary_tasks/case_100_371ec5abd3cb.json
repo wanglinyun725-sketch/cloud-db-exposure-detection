@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:azure.exfiltration.storage-sas-export",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:azure.exfiltration.storage-sas-export",
+    "kind": "executable_attack_technique",
+    "platform": "azure",
+    "technique": "azure.exfiltration.storage-sas-export",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.exfiltration.storage-sas-export.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.exfiltration.storage-sas-export.md",
+    "review_score": 18,
+    "independence_group": "stratus_red_team:stratus:azure.exfiltration.storage-sas-export",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.exfiltration.storage-sas-export.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.exfiltration.storage-sas-export.md",
+      "member_sha256": "324e089dba725ce640a9daffb4452574508a53ca8746afd7ed566084348d285a",
+      "bytes": 1993,
+      "content_kind": "md",
+      "text": "---\ntitle: Exfiltrate Azure Storage through SAS URL\n---\n\n# Exfiltrate Azure Storage through SAS URL\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: Azure\n\n## Mappings\n\n- MITRE ATT&CK\n    - Exfiltration\n\n\n\n## Description\n\n\nGenerate a Shared Access Signature (SAS) to download content in an Azure storage account.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create a storage account with anonymous blob access disabled\n- Create a storage container with an empty test file\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Generate a shared access signature (SAS) URL for the storage container\n- Download test file from the container using SAS URL\n\nReferences:\n\n- https://www.microsoft.com/en-us/security/blog/2025/08/27/storm-0501s-evolving-techniques-lead-to-cloud-based-ransomware/\n- https://microsoft.github.io/Azure-Threat-Research-Matrix/Impact/AZT701/AZT701-2/\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate azure.exfiltration.storage-sas-export\n```\n## Detection\n\n\nMonitor Azure Activity Logs for storage account property changes, specifically <code>Microsoft.Storage/storageAccounts/listKeys/action</code> operations. Once an attacker has accessed storage keys, they are able to generate a SAS URL for any storage the key has access to.\n\nSample Azure Activity Log event to monitor:\n\n```json hl_lines=\"1 5\"\n    \"operationName\": {\n        \"value\": \"Microsoft.Storage/storageAccounts/listKeys/action\",\n        \"localizedValue\": \"List Storage Account Keys\"\n    },\n    \"properties\": {\n        \"eventCategory\": \"Administrative\",\n        \"entity\": \"/subscriptions/[SUBSCRIPTION-ID]/resourceGroups/stratus-red-team-storage-storage-27n4/providers/Microsoft.Storage/storageAccounts/stratusredteamexport\",\n        \"message\": \"Microsoft.Storage/storageAccounts/listKeys/action\",\n        \"hierarchy\": \"[REMOVED]\"\n    }\n```\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "3881ca50505d7083336337a0becb7ad7276be95af6ffc6cb018a5e47455c46c0",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

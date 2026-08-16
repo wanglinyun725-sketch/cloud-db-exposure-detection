@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:entra-id.persistence.new-application",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:entra-id.persistence.new-application",
+    "kind": "executable_attack_technique",
+    "platform": "entra-id",
+    "technique": "entra-id.persistence.new-application",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/entra-id/entra-id.persistence.new-application.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/entra-id/entra-id.persistence.new-application.md",
+    "review_score": 4,
+    "independence_group": "stratus_red_team:stratus:entra-id.persistence.new-application",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/entra-id/entra-id.persistence.new-application.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/entra-id/entra-id.persistence.new-application.md",
+      "member_sha256": "aa6d167ddae533fe01fe600da64188c54f8802291129a94ba19683d8b3123d8a",
+      "bytes": 1267,
+      "content_kind": "md",
+      "text": "---\ntitle: Create Application\n---\n\n# Create Application\n\n\n\n\nPlatform: Entra ID\n\n## Mappings\n\n- MITRE ATT&CK\n    - Persistence\n  - Privilege Escalation\n\n\n\n## Description\n\n\nCreates a new Entra ID application to backdoor the tenant.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>: None\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Create a new Entra ID application\n- Create a password credential for the application\n- Create a service principal for the application\n- Assign the Global Administrator role to the application\n- Print the command to retrieve a Graph API access token\n\nReferences:\n\n- https://www.microsoft.com/en-us/security/blog/2023/12/12/threat-actors-misuse-oauth-applications-to-automate-financially-driven-attacks/\n- https://www.inversecos.com/2021/10/how-to-backdoor-azure-applications-and.html\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate entra-id.persistence.new-application\n```\n## Detection\n\n\nUsing [Entra ID audit logs](https://learn.microsoft.com/en-us/entra/identity/monitoring-health/concept-audit-logs) with the specific activity types:\n\n- <code>Add application</code>\n- <code>Update application – Certificates and secrets management</code>\n- <code>Add member to role</code>\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "74fbf51197838e7771f9593957adeb9a4942a0e263a0dff03ebeb43984788ada",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

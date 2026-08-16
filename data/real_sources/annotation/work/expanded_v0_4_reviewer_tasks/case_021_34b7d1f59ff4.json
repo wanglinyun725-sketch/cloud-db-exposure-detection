@@ -1,0 +1,163 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "crosscloud:aws:unsecured_credentials",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cross_cloud_observability_2026",
+    "upstream_url": "https://doi.org/10.5281/zenodo.19933893",
+    "version_or_commit": "record-19933893-v2",
+    "license": "CC-BY-4.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/README.md",
+        "sha256": "b073b2e97aea4073fec2bf387e2c255d987dd8f3710e84f2df3cc59947e510f8",
+        "upstream_checksum": "md5:10eb94c911d603deb5353a4f9bdfa46e"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/attack_scripts.zip",
+        "sha256": "4599be3e224f3b9b43e76ab4ec1bfa8e3b209ebe529fb218ae4e65dd22417900",
+        "upstream_checksum": "md5:e448f9e9eafb7482b735c76d2d4ef0d0"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+        "sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+        "upstream_checksum": "md5:f83ebd4892dcf4d349f51c1c477408dc"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/log_analysis.zip",
+        "sha256": "23b41863cc2ece4936277a1ee1fc6f64b4fea9f3c0f698cefbf5626eeca00fcf",
+        "upstream_checksum": "md5:c57994c6e199cbbf8b091ddcd139515a"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "description": "DOI-published paired payload/no-payload AWS telemetry for unsecured_credentials.",
+    "author": "Dhooghe et al.",
+    "published_date": "2026-04-30",
+    "environment": "controlled cloud subscription",
+    "platform": "AWS",
+    "attack": "unsecured_credentials",
+    "independence_group": "crosscloud-family:unsecured_credentials",
+    "attack_script_refs": [
+      "attack_scripts.zip#attack_scripts/aws-attacks/attack_scripts/account_attacks.sh",
+      "attack_scripts.zip#attack_scripts/aws-attacks/attack_scripts/all_automated.sh",
+      "attack_scripts.zip#attack_scripts/aws-attacks/attack_scripts/automated-logging.sh"
+    ]
+  },
+  "observations": [],
+  "runtime_instances": [
+    {
+      "instance_id": "episode-c8153a6b020a315b",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "AWS",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-6b37253a396656d4064e57f6",
+          "timestamp": "2024-12-14T04:20:17Z",
+          "service": "cloudtrail.amazonaws.com",
+          "operation": "LookupEvents",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "0a5b0e326e2932878eec25fb87d2872659ec80cb956fd4874a331ee444e9e729",
+            "record_index": 3,
+            "upstream_path": "member-0a5b0e326e293287",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-3cb8734ffa6c05f630c17d7e",
+          "timestamp": "2024-12-14T04:22:56Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "0a5b0e326e2932878eec25fb87d2872659ec80cb956fd4874a331ee444e9e729",
+            "record_index": 2,
+            "upstream_path": "member-0a5b0e326e293287",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-d83c47e0d0fdb538f4ba6083",
+          "timestamp": "2024-12-14T04:23:01Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "0a5b0e326e2932878eec25fb87d2872659ec80cb956fd4874a331ee444e9e729",
+            "record_index": 1,
+            "upstream_path": "member-0a5b0e326e293287",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-d7992c64df16f7b09405f05f",
+          "timestamp": "2024-12-14T04:24:38Z",
+          "service": "kms.amazonaws.com",
+          "operation": "GenerateDataKey",
+          "actor_type": "AWSService",
+          "actor_id": "cloudtrail.amazonaws.com",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "0a5b0e326e2932878eec25fb87d2872659ec80cb956fd4874a331ee444e9e729",
+            "record_index": 0,
+            "upstream_path": "member-0a5b0e326e293287",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        }
+      ],
+      "observation_count": 4,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "c7cf936a28771629b2246c0366f1ba3a3e749f04b66c9e4b5e40b531256185d1",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

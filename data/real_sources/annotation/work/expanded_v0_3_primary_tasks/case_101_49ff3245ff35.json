@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "stratus:azure.impact.blob-ransomware-client-encryption-scope",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:azure.impact.blob-ransomware-client-encryption-scope",
+    "kind": "executable_attack_technique",
+    "platform": "azure",
+    "technique": "azure.impact.blob-ransomware-client-encryption-scope",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.impact.blob-ransomware-client-encryption-scope.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.impact.blob-ransomware-client-encryption-scope.md",
+    "review_score": 32,
+    "independence_group": "stratus_red_team:stratus:azure.impact.blob-ransomware-client-encryption-scope",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.impact.blob-ransomware-client-encryption-scope.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.impact.blob-ransomware-client-encryption-scope.md",
+      "member_sha256": "a7ce1964ea037c71776eed0885a3da50664559a6f61d96753cfedc9f40d38780",
+      "bytes": 3348,
+      "content_kind": "md",
+      "text": "---\ntitle: Azure Blob Storage ransomware through Encryption Scope using client-managed Key Vault key\n---\n\n# Azure Blob Storage ransomware through Encryption Scope using client-managed Key Vault key\n\n\n\n\nPlatform: Azure\n\n## Mappings\n\n- MITRE ATT&CK\n    - Impact\n\n\n\n## Description\n\n\nSimulates Azure Blob Storage ransomware activity that encrypts files using an encryption scope backed by a customer-managed Key Vault key, then deletes the key to render the data inaccessible.\nNote that due to Azure's purge protection feature, it is impossible to hard-delete the key and the blobs remain recoverable.\n\nYou will need to have the <code>Key Vault Administrator</code> role on your Azure subscription to correctly warmup the technique.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create an Azure Storage Account with a system-assigned managed identity\n- Create an Azure Key Vault without purge protection\n- Grant the storage account the \"Key Vault Crypto Service Encryption User\" role on the Key Vault\n- Create multiple storage containers in the account\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Create a number of blobs in the containers with random content and file extensions\n- Enable purge protection on the Key Vault (to generate MICROSOFT.KEYVAULT/VAULTS/WRITE activity log event)\n- Create an RSA 2048 key in the Key Vault\n- Create an encryption scope on the storage account using the Key Vault key\n- Download all blobs and re-upload them using the new encryption scope\n- Soft-delete the Key Vault key\n- Attempt to purge the key (fails due to purge protection, but logged)\n\nReferences:\n\n- [Storm-0501’s evolving techniques lead to cloud-based ransomware](https://www.microsoft.com/en-us/security/blog/2025/08/27/storm-0501s-evolving-techniques-lead-to-cloud-based-ransomware/)\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate azure.impact.blob-ransomware-client-encryption-scope\n```\n## Detection\n\n\nYou can detect this ransomware activity by monitoring for:\n\n1. Encryption scope creation  (<code>MICROSOFT.STORAGE/STORAGEACCOUNTS/ENCRYPTIONSCOPES/WRITE</code>) followed by the deletion of the key (<code>KeyDelete</code>) used for encryption.\n2. High volumes of <code>GetBlob</code> followed by <code>PutBlob</code> operations.\n\nSample Azure Activity log event for Key Vault creation:\n\n```json\n{\n  \"operationName\": \"MICROSOFT.KEYVAULT/VAULTS/WRITE\",\n  \"category\": \"Administrative\",\n  \"resultType\": \"Success\",\n  \"properties\": {\n    \"entity\": \"/subscriptions/<subscription-id>/resourceGroups/<rg>/providers/Microsoft.KeyVault/vaults/<vault-name>\"\n  }\n}\n```\n\nSample Azure Activity log event for Key Vault key deletion:\n\n```json\n{\n  \"operationName\": \"KeyDelete\",\n  \"category\": \"AuditEvent\",\n  \"resultType\": \"Success\",\n  \"properties\": {\n    \"entity\": \"/subscriptions/<subscription-id>/resourceGroups/<rg>/providers/Microsoft.KeyVault/vaults/<vault-name>/keys/<key-name>\"\n  }\n}\n```\n\nSample event for encryption scope creation:\n\n```json\n{\n  \"operationName\": \"MICROSOFT.STORAGE/STORAGEACCOUNTS/ENCRYPTIONSCOPES/WRITE\",\n  \"category\": \"Administrative\",\n  \"resultType\": \"Success\",\n  \"properties\": {\n    \"entity\": \"/subscriptions/<subscription-id>/resourceGroups/<rg>/providers/Microsoft.Storage/storageAccounts/<storage-account-name>/encryptionScopes/<encryption-scope-name>\"\n  }\n}\n```\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "e281194b7b2b7ea624ab80f1123e32c794dbe58d27cf7d1a90c7b0e9dd4b2b64",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

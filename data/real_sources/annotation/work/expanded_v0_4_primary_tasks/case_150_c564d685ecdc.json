@@ -1,0 +1,268 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "relationship--dc10559e-6a98-4a5f-abcd-adff67bfb1cd",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--dc10559e-6a98-4a5f-abcd-adff67bfb1cd",
+    "kind": "procedure_relationship",
+    "source_object_id": "intrusion-set--44d37b89-a739-4810-9111-0d2617a8939b",
+    "source_object_type": "intrusion-set",
+    "source_name": "Scattered Spider",
+    "technique_object_id": "attack-pattern--7dd95ff6-712e-4056-9626-312ea4ab4c5e",
+    "technique_id": "T1074",
+    "technique_name": "Data Staged",
+    "platforms": [
+      "ESXi",
+      "IaaS",
+      "Linux",
+      "macOS",
+      "Windows"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--dc10559e-6a98-4a5f-abcd-adff67bfb1cd",
+    "review_score": 9,
+    "independence_group": "mitre-source-object:intrusion-set--44d37b89-a739-4810-9111-0d2617a8939b",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1074"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--dc10559e-6a98-4a5f-abcd-adff67bfb1cd",
+      "object_id": "relationship--dc10559e-6a98-4a5f-abcd-adff67bfb1cd",
+      "canonical_object_sha256": "ce692947116112f9a6b4b814502b8de84920c9b4fdb91f297b871e7e9e05da87",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--dc10559e-6a98-4a5f-abcd-adff67bfb1cd",
+        "created": "2024-03-25T20:55:21.239Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "CISA Scattered Spider Advisory November 2023",
+            "description": "CISA. (2023, November 16). Cybersecurity Advisory: Scattered Spider (AA23-320A). Retrieved March 18, 2024.",
+            "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-320a"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:06.226Z",
+        "description": "[Scattered Spider](https://attack.mitre.org/groups/G1015) stages data in a centralized database prior to exfiltration.(Citation: CISA Scattered Spider Advisory November 2023)",
+        "relationship_type": "uses",
+        "source_ref": "intrusion-set--44d37b89-a739-4810-9111-0d2617a8939b",
+        "target_ref": "attack-pattern--7dd95ff6-712e-4056-9626-312ea4ab4c5e",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=intrusion-set--44d37b89-a739-4810-9111-0d2617a8939b",
+      "object_id": "intrusion-set--44d37b89-a739-4810-9111-0d2617a8939b",
+      "canonical_object_sha256": "cd2413f1c03f9293ff43129bdd12e49a38a31d03ffa76e695f2a0705be57ea62",
+      "structured_object": {
+        "type": "intrusion-set",
+        "spec_version": "2.1",
+        "id": "intrusion-set--44d37b89-a739-4810-9111-0d2617a8939b",
+        "created": "2023-07-05T17:54:54.789Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/groups/G1015",
+            "external_id": "G1015"
+          },
+          {
+            "source_name": "Roasted 0ktapus",
+            "description": "(Citation: CrowdStrike Scattered Spider BYOVD January 2023)"
+          },
+          {
+            "source_name": "UNC3944",
+            "description": "(Citation: Mandiant UNC3944 May 2025)(Citation: Mandiant VMware vSphere JUL 2025)"
+          },
+          {
+            "source_name": "Octo Tempest",
+            "description": "(Citation: Microsoft Threat Actor Naming July 2023)"
+          },
+          {
+            "source_name": "Storm-0875",
+            "description": "(Citation: Microsoft Threat Actor Naming July 2023)"
+          },
+          {
+            "source_name": "CISA Scattered Spider Advisory November 2023",
+            "description": "CISA. (2023, November 16). Cybersecurity Advisory: Scattered Spider (AA23-320A). Retrieved March 18, 2024.",
+            "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-320a"
+          },
+          {
+            "source_name": "CrowdStrike Scattered Spider BYOVD January 2023",
+            "description": "CrowdStrike. (2023, January 10). SCATTERED SPIDER Exploits Windows Security Deficiencies with Bring-Your-Own-Vulnerable-Driver Tactic in Attempt to Bypass Endpoint Security. Retrieved July 5, 2023.",
+            "url": "https://www.crowdstrike.com/blog/scattered-spider-attempts-to-avoid-detection-with-bring-your-own-vulnerable-driver-tactic/"
+          },
+          {
+            "source_name": "CrowdStrike Scattered Spider Profile",
+            "description": "CrowdStrike. (n.d.). Scattered Spider. Retrieved July 5, 2023.",
+            "url": "https://www.crowdstrike.com/adversaries/scattered-spider/"
+          },
+          {
+            "source_name": "Mandiant VMware vSphere JUL 2025",
+            "description": "Mandiant Incident Response. (2025, July 23). From Help Desk to Hypervisor: Defending Your VMware vSphere Estate from UNC3944. Retrieved October 13, 2025.",
+            "url": "https://cloud.google.com/blog/topics/threat-intelligence/defending-vsphere-from-unc3944"
+          },
+          {
+            "source_name": "Mandiant UNC3944 May 2025",
+            "description": "Mandiant Incident Response. (2025, May 6). Defending Against UNC3944: Cybercrime Hardening Guidance from the Frontlines. Retrieved October 13, 2025.",
+            "url": "https://cloud.google.com/blog/topics/threat-intelligence/unc3944-proactive-hardening-recommendations"
+          },
+          {
+            "source_name": "Microsoft Threat Actor Naming July 2023",
+            "description": "Microsoft . (2023, July 12). How Microsoft names threat actors. Retrieved November 17, 2023.",
+            "url": "https://learn.microsoft.com/en-us/microsoft-365/security/intelligence/microsoft-threat-actor-naming?view=o365-worldwide"
+          },
+          {
+            "source_name": "MSTIC Octo Tempest Operations October 2023",
+            "description": "Microsoft. (2023, October 25). Octo Tempest crosses boundaries to facilitate extortion, encryption, and destruction. Retrieved March 18, 2024.",
+            "url": "https://www.microsoft.com/en-us/security/blog/2023/10/25/octo-tempest-crosses-boundaries-to-facilitate-extortion-encryption-and-destruction/"
+          },
+          {
+            "source_name": "Crowdstrike TELCO BPO Campaign December 2022",
+            "description": "Parisi, T. (2022, December 2). Not a SIMulation: CrowdStrike Investigations Reveal Intrusion Campaign Targeting Telco and BPO Companies. Retrieved June 30, 2023.",
+            "url": "https://www.crowdstrike.com/blog/analysis-of-intrusion-campaign-targeting-telecom-and-bpo-companies/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2025-10-24T02:30:51.936Z",
+        "name": "Scattered Spider",
+        "description": "[Scattered Spider](https://attack.mitre.org/groups/G1015) is a native English-speaking cybercriminal group active since at least 2022. (Citation: CrowdStrike Scattered Spider Profile) (Citation: MSTIC Octo Tempest Operations October 2023) The group initially targeted customer relationship management (CRM) providers, business process outsourcing (BPO) firms, and telecommunications and technology companies before expanding in 2023 to gaming, hospitality, retail, managed service provider (MSP), manufacturing, and financial sectors. (Citation: MSTIC Octo Tempest Operations October 2023)\n[Scattered Spider](https://attack.mitre.org/groups/G1015) relies heavily on social engineering, including impersonating IT and help-desk staff, to gain initial access, bypass multi-factor authentication (MFA), and compromise enterprise networks. The group has adapted its tooling to evade endpoint detection and response (EDR) defenses and used ransomware for financial gain. (Citation: CISA Scattered Spider Advisory November 2023) (Citation: CrowdStrike Scattered Spider BYOVD January 2023) (Citation: Crowdstrike TELCO BPO Campaign December 2022)\n[Scattered Spider](https://attack.mitre.org/groups/G1015) had expanded into hybrid cloud and identity environments, using help-desk impersonation and MFA bypass to obtain administrator access in Okta, AWS, and Office 365. (Citation: Mandiant UNC3944 May 2025)",
+        "aliases": [
+          "Scattered Spider",
+          "Roasted 0ktapus",
+          "Octo Tempest",
+          "Storm-0875",
+          "UNC3944"
+        ],
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_version": "3.0",
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_domains": [
+          "enterprise-attack",
+          "mobile-attack"
+        ]
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--7dd95ff6-712e-4056-9626-312ea4ab4c5e",
+      "object_id": "attack-pattern--7dd95ff6-712e-4056-9626-312ea4ab4c5e",
+      "canonical_object_sha256": "60af76142d08d69b0db9450713c72fa9ab526f34173e3a7c9e5f9ee2010fd57e",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--7dd95ff6-712e-4056-9626-312ea4ab4c5e",
+        "created": "2017-05-31T21:30:58.938Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1074",
+            "external_id": "T1074"
+          },
+          {
+            "source_name": "Mandiant M-Trends 2020",
+            "description": "Mandiant. (2020, February). M-Trends 2020. Retrieved November 17, 2024.",
+            "url": "https://www.mandiant.com/sites/default/files/2021-09/mtrends-2020.pdf"
+          },
+          {
+            "source_name": "PWC Cloud Hopper April 2017",
+            "description": "PwC and BAE Systems. (2017, April). Operation Cloud Hopper. Retrieved April 5, 2017.",
+            "url": "https://web.archive.org/web/20220224041316/https:/www.pwc.co.uk/cyber-security/pdf/cloud-hopper-report-final-v4.pdf"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-05-12T15:12:00.645Z",
+        "name": "Data Staged",
+        "description": "Adversaries may stage collected data in a central location or directory prior to Exfiltration. Data may be kept in separate files or combined into one file through techniques such as [Archive Collected Data](https://attack.mitre.org/techniques/T1560). Interactive command shells may be used, and common functionality within [cmd](https://attack.mitre.org/software/S0106) and bash may be used to copy data into a staging location.(Citation: PWC Cloud Hopper April 2017)\n\nIn cloud environments, adversaries may stage data within a particular instance or virtual machine before exfiltration. An adversary may [Create Cloud Instance](https://attack.mitre.org/techniques/T1578/002) and stage data in that instance.(Citation: Mandiant M-Trends 2020)\n\nAdversaries may choose to stage data from a victim network in a centralized location prior to Exfiltration to minimize the number of connections made to their C2 server and better evade detection.",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_contributors": [
+          "Praetorian",
+          "Shane Tully, @securitygypsy"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": false,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "ESXi",
+          "IaaS",
+          "Linux",
+          "macOS",
+          "Windows"
+        ],
+        "x_mitre_version": "1.5"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "cb77607f44f47866e703c92550638be27d6b6605ed86c807518ef082d4d730c6",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

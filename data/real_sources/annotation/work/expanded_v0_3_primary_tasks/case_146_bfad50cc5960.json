@@ -1,0 +1,278 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "relationship--b1c49faa-0b6f-4a0e-85da-5ab8ddeab2ce",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--b1c49faa-0b6f-4a0e-85da-5ab8ddeab2ce",
+    "kind": "procedure_relationship",
+    "source_object_id": "intrusion-set--2a7914cf-dff3-428d-ab0f-1014d1c28aeb",
+    "source_object_type": "intrusion-set",
+    "source_name": "FIN6",
+    "technique_object_id": "attack-pattern--e3a12395-188d-4051-9a16-ea8e14d07b88",
+    "technique_id": "T1046",
+    "technique_name": "Network Service Discovery",
+    "platforms": [
+      "Containers",
+      "IaaS",
+      "Linux",
+      "macOS",
+      "Network Devices",
+      "Windows"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--b1c49faa-0b6f-4a0e-85da-5ab8ddeab2ce",
+    "review_score": 10,
+    "independence_group": "mitre-source-object:intrusion-set--2a7914cf-dff3-428d-ab0f-1014d1c28aeb",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1046"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--b1c49faa-0b6f-4a0e-85da-5ab8ddeab2ce",
+      "object_id": "relationship--b1c49faa-0b6f-4a0e-85da-5ab8ddeab2ce",
+      "canonical_object_sha256": "153d838cafc1a83cc3ae48e213ca964ce466459d260fe22174e5834a97d96e94",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--b1c49faa-0b6f-4a0e-85da-5ab8ddeab2ce",
+        "created": "2017-05-31T21:33:27.071Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "FireEye FIN6 April 2016",
+            "description": "FireEye Threat Intelligence. (2016, April). Follow the Money: Dissecting the Operations of the Cyber Crime Group FIN6. Retrieved November 17, 2024.",
+            "url": "https://web.archive.org/web/20190807112824/https://www2.fireeye.com/rs/848-DID-242/images/rpt-fin6.pdf"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:06.168Z",
+        "description": "[FIN6](https://attack.mitre.org/groups/G0037) used publicly available tools (including Microsoft's built-in SQL querying tool, osql.exe) to map the internal network and conduct reconnaissance against Active Directory, Structured Query Language (SQL) servers, and NetBIOS.(Citation: FireEye FIN6 April 2016)",
+        "relationship_type": "uses",
+        "source_ref": "intrusion-set--2a7914cf-dff3-428d-ab0f-1014d1c28aeb",
+        "target_ref": "attack-pattern--e3a12395-188d-4051-9a16-ea8e14d07b88",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=intrusion-set--2a7914cf-dff3-428d-ab0f-1014d1c28aeb",
+      "object_id": "intrusion-set--2a7914cf-dff3-428d-ab0f-1014d1c28aeb",
+      "canonical_object_sha256": "20c9887a440de8b5a58c71d00c35f6811b8d3d4c53d18c41e30c80f08347e58c",
+      "structured_object": {
+        "modified": "2024-11-17T14:59:25.749Z",
+        "name": "FIN6",
+        "description": "[FIN6](https://attack.mitre.org/groups/G0037) is a cyber crime group that has stolen payment card data and sold it for profit on underground marketplaces. This group has aggressively targeted and compromised point of sale (PoS) systems in the hospitality and retail sectors.(Citation: FireEye FIN6 April 2016)(Citation: FireEye FIN6 Apr 2019)",
+        "aliases": [
+          "FIN6",
+          "Magecart Group 6",
+          "ITG08",
+          "Skeleton Spider",
+          "TAAL",
+          "Camouflage Tempest"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_version": "4.0",
+        "x_mitre_contributors": [
+          "Center for Threat-Informed Defense (CTID)",
+          "Drew Church, Splunk"
+        ],
+        "type": "intrusion-set",
+        "spec_version": "2.1",
+        "id": "intrusion-set--2a7914cf-dff3-428d-ab0f-1014d1c28aeb",
+        "created": "2017-05-31T21:32:06.015Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/groups/G0037",
+            "external_id": "G0037"
+          },
+          {
+            "source_name": "Skeleton Spider",
+            "description": "(Citation: Crowdstrike Global Threat Report Feb 2018)"
+          },
+          {
+            "source_name": "FIN6",
+            "description": "(Citation: FireEye FIN6 April 2016)"
+          },
+          {
+            "source_name": "TAAL",
+            "description": "(Citation: Microsoft Threat Actor Naming July 2023)"
+          },
+          {
+            "source_name": "Camouflage Tempest",
+            "description": "(Citation: Microsoft Threat Actor Naming July 2023)"
+          },
+          {
+            "source_name": "Magecart Group 6",
+            "description": "(Citation: Security Intelligence ITG08 April 2020)"
+          },
+          {
+            "source_name": "ITG08",
+            "description": "(Citation: Security Intelligence More Eggs Aug 2019)"
+          },
+          {
+            "source_name": "Crowdstrike Global Threat Report Feb 2018",
+            "description": "CrowdStrike. (2018, February 26). CrowdStrike 2018 Global Threat Report. Retrieved October 10, 2018.",
+            "url": "https://crowdstrike.lookbookhq.com/global-threat-report-2018-web/cs-2018-global-threat-report"
+          },
+          {
+            "source_name": "FireEye FIN6 April 2016",
+            "description": "FireEye Threat Intelligence. (2016, April). Follow the Money: Dissecting the Operations of the Cyber Crime Group FIN6. Retrieved November 17, 2024.",
+            "url": "https://web.archive.org/web/20190807112824/https://www2.fireeye.com/rs/848-DID-242/images/rpt-fin6.pdf"
+          },
+          {
+            "source_name": "FireEye FIN6 Apr 2019",
+            "description": "McKeague, B. et al. (2019, April 5). Pick-Six: Intercepting a FIN6 Intrusion, an Actor Recently Tied to Ryuk and LockerGoga Ransomware. Retrieved April 17, 2019.",
+            "url": "https://www.fireeye.com/blog/threat-research/2019/04/pick-six-intercepting-a-fin6-intrusion.html"
+          },
+          {
+            "source_name": "Microsoft Threat Actor Naming July 2023",
+            "description": "Microsoft . (2023, July 12). How Microsoft names threat actors. Retrieved November 17, 2023.",
+            "url": "https://learn.microsoft.com/en-us/microsoft-365/security/intelligence/microsoft-threat-actor-naming?view=o365-worldwide"
+          },
+          {
+            "source_name": "Security Intelligence ITG08 April 2020",
+            "description": "Villadsen, O. (2020, April 7). ITG08 (aka FIN6) Partners With TrickBot Gang, Uses Anchor Framework. Retrieved October 8, 2020.",
+            "url": "https://securityintelligence.com/posts/itg08-aka-fin6-partners-with-trickbot-gang-uses-anchor-framework/"
+          },
+          {
+            "source_name": "Security Intelligence More Eggs Aug 2019",
+            "description": "Villadsen, O.. (2019, August 29). More_eggs, Anyone? Threat Actor ITG08 Strikes Again. Retrieved September 16, 2019.",
+            "url": "https://securityintelligence.com/posts/more_eggs-anyone-threat-actor-itg08-strikes-again/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "x_mitre_attack_spec_version": "3.2.0",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_domains": [
+          "enterprise-attack",
+          "ics-attack"
+        ]
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--e3a12395-188d-4051-9a16-ea8e14d07b88",
+      "object_id": "attack-pattern--e3a12395-188d-4051-9a16-ea8e14d07b88",
+      "canonical_object_sha256": "c6467d2baa4f52d5209872cfcfd8f3e698518a1c8d33e3ad9ed37b792b146459",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--e3a12395-188d-4051-9a16-ea8e14d07b88",
+        "created": "2017-05-31T21:30:43.915Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1046",
+            "external_id": "T1046"
+          },
+          {
+            "source_name": "apple doco bonjour description",
+            "description": "Apple Inc. (2013, April 23). Bonjour Overview. Retrieved October 11, 2021.",
+            "url": "https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/NetServices/Introduction.html"
+          },
+          {
+            "source_name": "CISA AR21-126A FIVEHANDS May 2021",
+            "description": "CISA. (2021, May 6). Analysis Report (AR21-126A) FiveHands Ransomware. Retrieved June 7, 2021.",
+            "url": "https://us-cert.cisa.gov/ncas/analysis-reports/ar21-126a"
+          },
+          {
+            "source_name": "macOS APT Activity Bradley",
+            "description": "Jaron Bradley. (2021, November 14). What does APT Activity Look Like on macOS?. Retrieved January 19, 2022.",
+            "url": "https://themittenmac.com/what-does-apt-activity-look-like-on-macos/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-05-12T15:12:00.723Z",
+        "name": "Network Service Discovery",
+        "description": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation. Common methods to acquire this information include port, vulnerability, and/or wordlist scans using tools that are brought onto a system.(Citation: CISA AR21-126A FIVEHANDS May 2021)   \n\nWithin cloud environments, adversaries may attempt to discover services running on other cloud hosts. Additionally, if the cloud environment is connected to a on-premises environment, adversaries may be able to identify services running on non-cloud systems as well.\n\nWithin macOS environments, adversaries may use the native Bonjour application to discover services running on other macOS hosts within a network. The Bonjour mDNSResponder daemon automatically registers and advertises a host’s registered services on the network. For example, adversaries can use a mDNS query (such as <code>dns-sd -B _ssh._tcp .</code>) to find other systems broadcasting the ssh service.(Citation: apple doco bonjour description)(Citation: macOS APT Activity Bradley)",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "discovery"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_contributors": [
+          "Praetorian",
+          "Aaron Sullivan aka ZerkerEOD"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": false,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "Containers",
+          "IaaS",
+          "Linux",
+          "macOS",
+          "Network Devices",
+          "Windows"
+        ],
+        "x_mitre_version": "3.2"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "1f3d9db3a6f462ed9625c51c6141258f00b9356ecef0c75aa3d7b645a0af48c6",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

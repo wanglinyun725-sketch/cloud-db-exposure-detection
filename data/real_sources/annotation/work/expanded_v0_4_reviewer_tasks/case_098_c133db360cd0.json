@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:azure.exfiltration.disk-export",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:azure.exfiltration.disk-export",
+    "kind": "executable_attack_technique",
+    "platform": "azure",
+    "technique": "azure.exfiltration.disk-export",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.exfiltration.disk-export.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.exfiltration.disk-export.md",
+    "review_score": 8,
+    "independence_group": "stratus_red_team:stratus:azure.exfiltration.disk-export",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.exfiltration.disk-export.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.exfiltration.disk-export.md",
+      "member_sha256": "9b47aa2946765e318e648240cd2ef04794303c8a02dad7d46e31d20a1a949cfc",
+      "bytes": 1787,
+      "content_kind": "md",
+      "text": "---\ntitle: Export Disk Through SAS URL\n---\n\n# Export Disk Through SAS URL\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: Azure\n\n## Mappings\n\n- MITRE ATT&CK\n    - Exfiltration\n\n\n\n## Description\n\n\nGenerate a public [Shared Access Signature (SAS)](https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview) URL to download an Azure disk.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create an Azure-managed disk\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Generated a Shared Access Signature (SAS) URL for the disk\n\nReferences:\n\n- https://powerzure.readthedocs.io/en/latest/Functions/operational.html#get-azurevmdisk\n- https://zigmax.net/azure-disk-data-exfiltration/\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate azure.exfiltration.disk-export\n```\n## Detection\n\n\nIdentify <code>Microsoft.Compute/disks/beginGetAccess/action</code> events in Azure Activity logs.\n\nSample event (redacted for clarity):\n\n```json hl_lines=\"6\"\n{\n  \"resourceId\": \"/SUBSCRIPTIONS/<your-subscription-id>/RESOURCEGROUPS/RG-IKFFQ01Z/PROVIDERS/MICROSOFT.COMPUTE/DISKS/STRATUS-RED-TEAM-DISK\",\n  \"evt\": {\n    \"category\": \"Administrative\",\n    \"outcome\": \"Success\",\n    \"name\": \"MICROSOFT.COMPUTE/DISKS/BEGINGETACCESS/ACTION\"\n  },\n  \"level\": \"Information\",\n  \"properties\": {\n    \"hierarchy\": \"ecc2b97b-844b-414e-8123-b925dddf87ed/2fd72d85-b49f-4e19-b567-4a8cb7301e8b\",\n    \"message\": \"Microsoft.Compute/disks/beginGetAccess/action\",\n    \"eventCategory\": \"Administrative\",\n    \"entity\": \"/subscriptions/<your-subscription-id/resourceGroups/rg-ikffq01z/providers/Microsoft.Compute/disks/stratus-red-team-disk\"\n  }\n}\n```\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "9738905ce2bef191e8760a9e37722edf67a9e06e365acf07113c5c071e97a204",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

@@ -35,3 +35,6 @@ Thumbs.db
 
 # ─── 运行时结果（如需保留可删掉此段）───
 experiments/results/*.jsonl
+
+# ─── 本地审稿交接私有回执（公开仓库不得包含）───
+output/handoffs/*_private_receipt_*.json

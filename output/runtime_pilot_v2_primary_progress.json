@@ -1,0 +1,154 @@
+{
+  "progress_version": "0.1",
+  "assignment_id": "primary-4950acb6f37df15f",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "case_count": 23,
+  "counts": {
+    "blank": 23,
+    "in_progress": 0,
+    "valid_complete": 0,
+    "invalid": 0
+  },
+  "ready_for_agreement": false,
+  "cases": [
+    {
+      "case_id": "crosscloud:aws:automated_collection",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:credentials_from_password_stores",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:data_destruction",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:data_manipulation",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:automated_collection",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:credentials_from_password_stores",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:data_destruction",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:data_manipulation",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:automated_collection",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:credentials_from_password_stores",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:data_destruction",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:data_manipulation",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1486/s3_file_encryption",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1537/aws_snapshot_exfil",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.credential-access.ec2-steal-instance-credentials",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.exfiltration.rds-share-snapshot",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    }
+  ]
+}

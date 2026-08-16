@@ -1,0 +1,386 @@
+{
+  "analysis_version": "local-llm-v8-scope-replication-v1",
+  "protocol_version": "8.0-pilot",
+  "research_effectiveness_result": false,
+  "diagnostic_replication": true,
+  "statistical_unit": "independence_group",
+  "pseudo_replication_guard": true,
+  "same_run_grid": true,
+  "same_model_digest": true,
+  "before_raw_records": 49,
+  "before_unique_runs": 36,
+  "before_duplicates_ignored": 13,
+  "after_raw_records": 36,
+  "after_unique_runs": 36,
+  "after_duplicates_ignored": 0,
+  "independence_groups": 3,
+  "method_summaries": [
+    {
+      "method_id": "ec_react_full_langgraph",
+      "independence_groups": 3,
+      "before_correct_group_rate": 0.6666666666666666,
+      "after_correct_group_rate": 1.0,
+      "before_false_reachable_group_rate": 0.3333333333333333,
+      "after_false_reachable_group_rate": 0.0,
+      "before_mean_latency_seconds": 38.61294952500126,
+      "after_mean_latency_seconds": 15.71929615001136
+    },
+    {
+      "method_id": "ec_react_full_linear",
+      "independence_groups": 3,
+      "before_correct_group_rate": 0.6666666666666666,
+      "after_correct_group_rate": 1.0,
+      "before_false_reachable_group_rate": 0.3333333333333333,
+      "after_false_reachable_group_rate": 0.0,
+      "before_mean_latency_seconds": 34.400370200004545,
+      "after_mean_latency_seconds": 15.838805825003268
+    },
+    {
+      "method_id": "vanilla_react_linear",
+      "independence_groups": 3,
+      "before_correct_group_rate": 0.3333333333333333,
+      "after_correct_group_rate": 0.6666666666666666,
+      "before_false_reachable_group_rate": 0.6666666666666666,
+      "after_false_reachable_group_rate": 0.0,
+      "before_mean_latency_seconds": 39.717891733331875,
+      "after_mean_latency_seconds": 27.64403141666359
+    }
+  ],
+  "pre_post_group_comparisons": [
+    {
+      "paired_independence_groups": 3,
+      "primary_wins": 1,
+      "comparator_wins": 0,
+      "ties": 2,
+      "p_exact_mcnemar": 1.0,
+      "method_id": "ec_react_full_langgraph"
+    },
+    {
+      "paired_independence_groups": 3,
+      "primary_wins": 1,
+      "comparator_wins": 0,
+      "ties": 2,
+      "p_exact_mcnemar": 1.0,
+      "method_id": "ec_react_full_linear"
+    },
+    {
+      "paired_independence_groups": 3,
+      "primary_wins": 2,
+      "comparator_wins": 1,
+      "ties": 0,
+      "p_exact_mcnemar": 1.0,
+      "method_id": "vanilla_react_linear"
+    }
+  ],
+  "case_diagnostics": [
+    {
+      "phase": "after",
+      "method_id": "ec_react_full_langgraph",
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 3,
+      "prediction_counts": {
+        "Unknown": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "after",
+      "method_id": "ec_react_full_langgraph",
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 3,
+      "prediction_counts": {
+        "Unknown": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "after",
+      "method_id": "ec_react_full_langgraph",
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 3,
+      "prediction_counts": {
+        "Reachable": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "after",
+      "method_id": "ec_react_full_langgraph",
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 3,
+      "prediction_counts": {
+        "NotReachable": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "after",
+      "method_id": "ec_react_full_linear",
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 3,
+      "prediction_counts": {
+        "Unknown": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "after",
+      "method_id": "ec_react_full_linear",
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 3,
+      "prediction_counts": {
+        "Unknown": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "after",
+      "method_id": "ec_react_full_linear",
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 3,
+      "prediction_counts": {
+        "Reachable": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "after",
+      "method_id": "ec_react_full_linear",
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 3,
+      "prediction_counts": {
+        "NotReachable": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "after",
+      "method_id": "vanilla_react_linear",
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 3,
+      "prediction_counts": {
+        "Unknown": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "after",
+      "method_id": "vanilla_react_linear",
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 3,
+      "prediction_counts": {
+        "Unknown": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "after",
+      "method_id": "vanilla_react_linear",
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 3,
+      "prediction_counts": {
+        "Reachable": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "after",
+      "method_id": "vanilla_react_linear",
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 3,
+      "prediction_counts": {
+        "NotReachable": 1,
+        "Unknown": 2
+      },
+      "protocol_correct_runs": 1,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "before",
+      "method_id": "ec_react_full_langgraph",
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 3,
+      "prediction_counts": {
+        "Reachable": 3
+      },
+      "protocol_correct_runs": 0,
+      "false_reachable_runs": 3,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "before",
+      "method_id": "ec_react_full_langgraph",
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 3,
+      "prediction_counts": {
+        "Unknown": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 9
+    },
+    {
+      "phase": "before",
+      "method_id": "ec_react_full_langgraph",
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 3,
+      "prediction_counts": {
+        "Reachable": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "before",
+      "method_id": "ec_react_full_langgraph",
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 3,
+      "prediction_counts": {
+        "NotReachable": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "before",
+      "method_id": "ec_react_full_linear",
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 3,
+      "prediction_counts": {
+        "Reachable": 3
+      },
+      "protocol_correct_runs": 0,
+      "false_reachable_runs": 3,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "before",
+      "method_id": "ec_react_full_linear",
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 3,
+      "prediction_counts": {
+        "Unknown": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 9
+    },
+    {
+      "phase": "before",
+      "method_id": "ec_react_full_linear",
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 3,
+      "prediction_counts": {
+        "Reachable": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "before",
+      "method_id": "ec_react_full_linear",
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 3,
+      "prediction_counts": {
+        "NotReachable": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "before",
+      "method_id": "vanilla_react_linear",
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 3,
+      "prediction_counts": {
+        "Reachable": 3
+      },
+      "protocol_correct_runs": 0,
+      "false_reachable_runs": 3,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "before",
+      "method_id": "vanilla_react_linear",
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 3,
+      "prediction_counts": {
+        "Reachable": 3
+      },
+      "protocol_correct_runs": 0,
+      "false_reachable_runs": 3,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "before",
+      "method_id": "vanilla_react_linear",
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 3,
+      "prediction_counts": {
+        "Reachable": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    },
+    {
+      "phase": "before",
+      "method_id": "vanilla_react_linear",
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 3,
+      "prediction_counts": {
+        "NotReachable": 3
+      },
+      "protocol_correct_runs": 3,
+      "false_reachable_runs": 0,
+      "invalid_actions": 0
+    }
+  ],
+  "backend_equivalence": {
+    "paired_runs": 12,
+    "predicted_state_mismatches": 0,
+    "semantic_score_mismatches": 0,
+    "decision_mismatches": 0
+  },
+  "full_vs_vanilla_group_comparison": {
+    "paired_independence_groups": 3,
+    "primary_wins": 1,
+    "comparator_wins": 0,
+    "ties": 2,
+    "p_exact_mcnemar": 1.0
+  },
+  "limitations": [
+    "post-hoc diagnostic replication, not a preregistered main result",
+    "only three independent lineages in this four-case subset",
+    "three seeds test stability but are not independent samples",
+    "provider-oracle labels and epistemic controls are not human gold",
+    "the local seven-billion-parameter model is a reproducible systems probe, not evidence about all LLMs"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "total_edges": 590,
+  "field_coverage": {
+    "status": 1.0,
+    "source": 1.0,
+    "time": 0.0,
+    "confidence": 1.0,
+    "query_cost": 1.0,
+    "raw_evidence": 1.0
+  },
+  "status_counts": {
+    "Contradicted": 0,
+    "Supported": 590,
+    "Unknown": 0
+  },
+  "source_counts": {
+    "audit": 30,
+    "db_schema": 180,
+    "dlp": 60,
+    "iam": 80,
+    "network": 120,
+    "policy": 60,
+    "terraform": 60
+  }
+}

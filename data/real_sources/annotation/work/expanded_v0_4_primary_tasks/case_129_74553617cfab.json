@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:k8s.persistence.create-client-certificate",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:k8s.persistence.create-client-certificate",
+    "kind": "executable_attack_technique",
+    "platform": "kubernetes",
+    "technique": "k8s.persistence.create-client-certificate",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.persistence.create-client-certificate.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.persistence.create-client-certificate.md",
+    "review_score": 4,
+    "independence_group": "stratus_red_team:stratus:k8s.persistence.create-client-certificate",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.persistence.create-client-certificate.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.persistence.create-client-certificate.md",
+      "member_sha256": "3fe65ccf426967713f10cb886f11c2be79d7c335da8f5382b125311e54b52ca1",
+      "bytes": 1737,
+      "content_kind": "md",
+      "text": "---\ntitle: Create Client Certificate Credential\n---\n\n# Create Client Certificate Credential\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: Kubernetes\n\n## Mappings\n\n- MITRE ATT&CK\n    - Persistence\n\n\n\n## Description\n\n\nCreates a client certificate for a privileged user. This client certificate can be used to authenticate to the cluster.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>: None\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Create a certificate signing request (CSR)\n- Wait for the CSR to be picked up and return a certificate\n- Print the client-side certificate and private key\n\nNote: This attack technique does not succeed on AWS EKS. Due to apparent [undocumented behavior](https://github.com/aws/containers-roadmap/issues/1604),\nthe managed EKS control plane does not issue a certificate for the certificate signing request (CSR), even when approved. However, it is still relevant\nto simulate attacker behavior.\n\nNote: The certificate is issued to <code>system:kube-controller-manager</code> because it exists in most clusters, and already has a ClusterRoleBinding to <code>ClusterRole/system:kube-controller-manager</code>\nwhich includes privileged permissions, such as access all secrets of the cluster and create tokens for any service account.\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate k8s.persistence.create-client-certificate\n```\n## Detection\n\n\nUsing Kubernetes API server audit logs. In particular, look for creation and approval of CSR objects, which do\nnot relate to standard cluster operation (e.g. Kubelet certificate issuance).\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "63af98b0af03a8ccb70eb04c026f5973be71cb750924a2f459ad0ea271d975d0",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

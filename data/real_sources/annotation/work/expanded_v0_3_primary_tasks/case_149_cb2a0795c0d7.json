@@ -1,0 +1,240 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "relationship--804f7690-6bf2-41dc-a6d2-59c3d4394ce5",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--804f7690-6bf2-41dc-a6d2-59c3d4394ce5",
+    "kind": "procedure_relationship",
+    "source_object_id": "tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+    "source_object_type": "tool",
+    "source_name": "Pacu",
+    "technique_object_id": "attack-pattern--b6301b64-ef57-4cce-bb0b-77026f14a8db",
+    "technique_id": "T1546",
+    "technique_name": "Event Triggered Execution",
+    "platforms": [
+      "Linux",
+      "macOS",
+      "Windows",
+      "SaaS",
+      "IaaS",
+      "Office Suite"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--804f7690-6bf2-41dc-a6d2-59c3d4394ce5",
+    "review_score": 9,
+    "independence_group": "mitre-source-object:tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1546"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--804f7690-6bf2-41dc-a6d2-59c3d4394ce5",
+      "object_id": "relationship--804f7690-6bf2-41dc-a6d2-59c3d4394ce5",
+      "canonical_object_sha256": "4f2490fe7cdb1e18b07be301f3236629c4e438d3ed65baf3fc3511d2fe6ea296",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--804f7690-6bf2-41dc-a6d2-59c3d4394ce5",
+        "created": "2023-09-28T13:26:54.930Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "GitHub Pacu",
+            "description": "Rhino Security Labs. (2019, August 22). Pacu. Retrieved October 17, 2019.",
+            "url": "https://github.com/RhinoSecurityLabs/pacu"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:06.101Z",
+        "description": "[Pacu](https://attack.mitre.org/software/S1091) can set up S3 bucket notifications to trigger a malicious Lambda function when a CloudFormation template is uploaded to the bucket. It can also create Lambda functions that trigger upon the creation of users, roles, and groups.(Citation: GitHub Pacu)",
+        "relationship_type": "uses",
+        "source_ref": "tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+        "target_ref": "attack-pattern--b6301b64-ef57-4cce-bb0b-77026f14a8db",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+      "object_id": "tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+      "canonical_object_sha256": "fe640ba38d51f0df68f006e12c140b34d6eb489e08781f4d367d8bd46cdff6e7",
+      "structured_object": {
+        "modified": "2023-10-19T12:18:43.123Z",
+        "name": "Pacu",
+        "description": "Pacu is an open-source AWS exploitation framework. The tool is written in Python and publicly available on GitHub.(Citation: GitHub Pacu)",
+        "x_mitre_platforms": [
+          "IaaS"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_version": "1.0",
+        "x_mitre_contributors": [
+          "Thanabodi Phrakhun, @naikordian"
+        ],
+        "x_mitre_aliases": [
+          "Pacu"
+        ],
+        "type": "tool",
+        "spec_version": "2.1",
+        "id": "tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+        "created": "2023-09-28T13:21:49.652Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/software/S1091",
+            "external_id": "S1091"
+          },
+          {
+            "source_name": "GitHub Pacu",
+            "description": "Rhino Security Labs. (2019, August 22). Pacu. Retrieved October 17, 2019.",
+            "url": "https://github.com/RhinoSecurityLabs/pacu"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "x_mitre_attack_spec_version": "3.2.0",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--b6301b64-ef57-4cce-bb0b-77026f14a8db",
+      "object_id": "attack-pattern--b6301b64-ef57-4cce-bb0b-77026f14a8db",
+      "canonical_object_sha256": "7c8dc08698ca856e0e10b14122c0288e10ec9d2d0a07024f5055701e9ac2b7b6",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--b6301b64-ef57-4cce-bb0b-77026f14a8db",
+        "created": "2020-01-22T21:04:23.285Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1546",
+            "external_id": "T1546"
+          },
+          {
+            "source_name": "FireEye WMI 2015",
+            "description": "Ballenthin, W., et al. (2015). Windows Management Instrumentation (WMI) Offense, Defense, and Forensics. Retrieved March 30, 2016.",
+            "url": "https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/wp-windows-management-instrumentation.pdf"
+          },
+          {
+            "source_name": "Microsoft DART Case Report 001",
+            "description": "Berk Veral. (2020, March 9). Real-life cybercrime stories from DART, the Microsoft Detection and Response Team. Retrieved May 27, 2022.",
+            "url": "https://www.microsoft.com/security/blog/2020/03/09/real-life-cybercrime-stories-dart-microsoft-detection-and-response-team"
+          },
+          {
+            "source_name": "amnesia malware",
+            "description": "Claud Xiao, Cong Zheng, Yanhui Jia. (2017, April 6). New IoT/Linux Malware Targets DVRs, Forms Botnet. Retrieved February 19, 2018.",
+            "url": "https://researchcenter.paloaltonetworks.com/2017/04/unit42-new-iotlinux-malware-targets-dvrs-forms-botnet/"
+          },
+          {
+            "source_name": "Backdooring an AWS account",
+            "description": "Daniel Grzelak. (2016, July 9). Backdooring an AWS account. Retrieved May 27, 2022.",
+            "url": "https://medium.com/daniel-grzelak/backdooring-an-aws-account-da007d36f8f9"
+          },
+          {
+            "source_name": "Varonis Power Automate Data Exfiltration",
+            "description": "Eric Saraga. (2022, February 2). Using Power Automate for Covert Data Exfiltration in Microsoft 365. Retrieved May 27, 2022.",
+            "url": "https://www.varonis.com/blog/power-automate-data-exfiltration"
+          },
+          {
+            "source_name": "Malware Persistence on OS X",
+            "description": "Patrick Wardle. (2015). Malware Persistence on OS X Yosemite. Retrieved July 10, 2017.",
+            "url": "https://www.virusbulletin.com/uploads/pdf/conference/vb2014/VB2014-Wardle.pdf"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2025-10-24T17:49:15.866Z",
+        "name": "Event Triggered Execution",
+        "description": "Adversaries may establish persistence and/or elevate privileges using system mechanisms that trigger execution based on specific events. Various operating systems have means to monitor and subscribe to events such as logons or other user activity such as running specific applications/binaries. Cloud environments may also support various functions and services that monitor and can be invoked in response to specific cloud events.(Citation: Backdooring an AWS account)(Citation: Varonis Power Automate Data Exfiltration)(Citation: Microsoft DART Case Report 001)\n\nAdversaries may abuse these mechanisms as a means of maintaining persistent access to a victim via repeatedly executing malicious code. After gaining access to a victim system, adversaries may create/modify event triggers to point to malicious content that will be executed whenever the event trigger is invoked.(Citation: FireEye WMI 2015)(Citation: Malware Persistence on OS X)(Citation: amnesia malware)\n\nSince the execution can be proxied by an account with higher permissions, such as SYSTEM or service accounts, an adversary may be able to abuse these triggered execution mechanisms to escalate their privileges. ",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "privilege-escalation"
+          },
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "persistence"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.2.0",
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": false,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "Linux",
+          "macOS",
+          "Windows",
+          "SaaS",
+          "IaaS",
+          "Office Suite"
+        ],
+        "x_mitre_version": "1.4"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "e2463f883566e24332fe9adb6160017f2003970131066763effd3bd9f04c2e99",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

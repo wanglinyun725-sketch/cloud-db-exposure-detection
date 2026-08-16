@@ -1,0 +1,45 @@
+policy_version: "1.0.0"
+target_independent_lineages: 500
+scope: cloud data attack, privilege escalation, exposure, or deterministic blocking
+candidate_is_gold: false
+
+allowed_tiers:
+  - published_runtime_telemetry
+  - executable_lab
+  - deterministic_configuration
+  - cti_procedure
+  - real_incident_report
+  - controlled_repair_counterfactual
+
+required_source_evidence:
+  - real upstream publisher
+  - stable HTTPS URL or DOI
+  - immutable version, commit, release, or DOI record
+  - explicit license or use condition
+  - SHA-256 of the acquired raw artifact
+  - exact file, archive member, event, or structured-object locator
+  - SHA-256 of the exact located content
+
+independence_units:
+  cti_procedure: upstream relationship object (actor/tool/malware/campaign x technique)
+  atomic_test: upstream stable atomic GUID
+  executable_lab: official scenario or challenge identifier
+  published_runtime_telemetry: upstream attack scenario, never an individual log or repeated run
+  deterministic_configuration: vulnerability mechanism plus resource-topology fingerprint
+  controlled_repair_counterfactual: same topology paired by one documented security control
+
+hard_exclusions:
+  - LLM-generated or script-fabricated events
+  - generated benchmark labels
+  - renamed-resource copies or repeated seeds
+  - same scenario split by platform replica or log file
+  - availability-only outage reports without a security path
+  - detection rules or tool adapters presented as attack ground truth
+  - unpinned pages or sources with unknown license
+
+separate_counts:
+  - provenance-qualified candidate lineage
+  - runtime-backed lineage
+  - executable Oracle contract
+  - non-Unknown Oracle Gold
+  - human Gold

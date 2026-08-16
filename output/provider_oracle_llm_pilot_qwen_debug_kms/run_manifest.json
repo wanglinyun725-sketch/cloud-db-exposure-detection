@@ -1,0 +1,46 @@
+{
+  "manifest_version": "1.0.0",
+  "experiment_id": "provider_oracle_llm_pilot_v2",
+  "protocol_version": "7.0-pilot",
+  "research_effectiveness_result": false,
+  "config_path": "configs\\provider_oracle_llm_pilot_v2.json",
+  "config_sha256": "648b01818eb4ba65c5d4125957376fbf24a24e81dc8c7984ceaf362176d53ea8",
+  "public_packet_path": "data\\real_sources\\provider_oracle_protocol_v7_public.json",
+  "public_packet_sha256": "536c9970e093f75d31cb84ed9d9a37ba86ef76d9b8300166e67c84d4cf407984",
+  "gold_packet_path": "data\\real_sources\\provider_oracle_protocol_v7_gold.json",
+  "gold_packet_sha256": "188d517b526d6a8a063e3ec441482409ca5eccba0d04b51604ca2e8bd8410236",
+  "agent_loaded_gold": false,
+  "model": {
+    "backend": "ollama_native",
+    "name": "qwen2.5:7b",
+    "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "think": false,
+    "temperature": 0,
+    "num_predict": 512,
+    "num_ctx": 4096
+  },
+  "filters": {
+    "methods": [
+      "ec_react_full"
+    ],
+    "cases": [
+      "oracle-v5:splunk:s3-kms-pending-deletion"
+    ],
+    "limit": 1
+  },
+  "scheduled_runs": 1,
+  "schedule": [
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v2",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "schedule_id": "llm-schedule-dca8e4a52e9f4182b0acd1e6"
+    }
+  ],
+  "secrets_in_manifest": false
+}

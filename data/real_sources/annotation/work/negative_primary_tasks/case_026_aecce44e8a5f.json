@@ -1,0 +1,52 @@
+{
+  "candidate_id": "cloud-incident:gcp:00056",
+  "independence_group": "reliability-record:a2380512c91fbf2cb356eaebe95cee5203adfa81926a6b1c961fd891a0e43094",
+  "independence_group_basis": "source_record_sha256",
+  "source": {
+    "source_id": "cloud_incident_reports_2016_2024",
+    "doi": "10.5281/zenodo.14010282",
+    "version": "record-14010282-v1",
+    "license": "CC-BY-4.0"
+  },
+  "vendor": "GCP",
+  "service_hint": "Google Compute Engine",
+  "year": null,
+  "data_relevance_facets": [
+    "sql"
+  ],
+  "security_term_hits": [],
+  "report_text": "[{'affected_locations': None, 'created': '2019-09-05T23:41:07Z', 'modified': '2019-09-05T23:41:07Z', 'status': None, 'text': 'The issue with Google Compute Engine instance creation failures has been resolved for all affected projects as of Thursday, 2019-09-05 16:18 US/Pacific. We will conduct an internal investigation of this issue and make appropriate improvements to our systems to help prevent or minimize future recurrence.', 'when': '2019-09-05T23:41:07Z'} {'affected_locations': None, 'created': '2019-09-05T20:40:56Z', 'modified': '2019-09-05T20:40:56Z', 'status': None, 'text': 'Description: We are rolling back a potential fix to mitigate this issue. We will provide another status update by Thursday, 2019-09-05 17:00 US/Pacific with current details.\\n\\nDiagnosis: Failed instance creation and app deployment within asia-east2\\n\\nWorkaround: Projects in asia-east2 can create instances larger than or equal to n1-standard-2. Other regions are unaffected.', 'when': '2019-09-05T20:40:56Z'} {'affected_locations': None, 'created': '2019-09-05T17:58:05Z', 'modified': '2019-09-05T17:58:05Z', 'status': None, 'text': 'Description: We are investigating issues creating instances in asia-east2 region. This affects Google Compute Engine, Google App Engine and Cloud SQL in these regions. Our Engineering Team is investigating possible causes. We will provide another status update by Thursday, 2019-09-05 17:00 US/Pacific with current details. Affected projects can utilize machines larger than (or equal to) n1-standard-2 instances in order to avoid failed instance creation.\\n\\nDiagnosis: Failed instance creation within asia-east2\\n\\nWorkaround: Projects in asia-east2 can create instances larger than or equal to n1-standard-2. Other regions are unaffected.', 'when': '2019-09-05T17:58:05Z'} {'affected_locations': None, 'created': '2019-09-05T14:39:11Z', 'modified': '2019-09-05T14:39:11Z', 'status': None, 'text': 'Description: We are investigating issues creating instances in asia-east2 region. This affects Google Compute Engine, Google App Engine and Cloud SQL in these regions. Our Engineering Team is investigating possible causes. We will provide another status update by Thursday, 2019-09-05 11:00 US/Pacific with current details.\\n\\nDiagnosis: Failed instance creation within asia-east2\\n\\nWorkaround: Projects in asia-east2 can create instances larger than or equal to n1-standard-2. Other regions are unaffected.', 'when': '2019-09-05T14:39:11Z'} {'affected_locations': None, 'created': '2019-09-05T13:04:07Z', 'modified': '2019-09-05T13:04:07Z', 'status': None, 'text': 'Description: We are investigating issues creating instances in asia-east2 region. This affects Google Compute Engine, Google App Engine and Cloud SQL in these regions. Our Engineering Team is investigating possible causes. We will provide another status update by Thursday, 2019-09-05 09:00 US/Pacific with current details.\\n\\nWorkaround: Other regions are unaffected.', 'when': '2019-09-05T13:04:07Z'}]",
+  "raw_ref": {
+    "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+    "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+    "member_path": "2_clean_data/gcp.csv",
+    "record_index": 56,
+    "record_sha256": "a2380512c91fbf2cb356eaebe95cee5203adfa81926a6b1c961fd891a0e43094"
+  },
+  "workflow_version": "0.1",
+  "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "source_context_fields": [
+    "candidate_id",
+    "data_relevance_facets",
+    "independence_group",
+    "independence_group_basis",
+    "raw_ref",
+    "report_text",
+    "security_term_hits",
+    "service_hint",
+    "source",
+    "vendor",
+    "year"
+  ],
+  "source_context_sha256": "ff25fb45c0460b0e0880d542f5f83ab64d26b597f2153805c0b0199923952137",
+  "screening": {
+    "cloud_data_relevant": null,
+    "non_attack_confirmed": null,
+    "usable_as_negative_control": null,
+    "rationale": null
+  }
+}

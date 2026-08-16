@@ -1,0 +1,197 @@
+{
+  "audit_version": "0.2",
+  "assessment_scope": "current repository evidence; no school-specific grade guarantee",
+  "dataset": {
+    "candidate_cases": 150,
+    "source_counts": {
+      "cloudfoxable": 8,
+      "cloudgoat": 26,
+      "cross_cloud_observability_2026": 36,
+      "mitre_attack_stix": 20,
+      "splunk_attack_data": 9,
+      "stratus_red_team": 51
+    },
+    "source_count": 6,
+    "independence_groups": 113,
+    "runtime_backed_cases": 57,
+    "runtime_instances": 91,
+    "runtime_source_case_counts": {
+      "cross_cloud_observability_2026": 36,
+      "otrf_security_datasets": 1,
+      "splunk_attack_data": 9,
+      "stratus_red_team": 11
+    },
+    "runtime_platform_instances": {
+      "AWS": 42,
+      "AZURE": 25,
+      "GCP": 24
+    },
+    "human_finalized_gold_cases": 0,
+    "negative_candidates": 30,
+    "human_finalized_negative_cases": 0,
+    "expanded_packet_sha256": "0ded37c204a39346a8a8bdc3f5ccc67d0ac5e4da90bf9775f3aee8bbd182cec9"
+  },
+  "runtime_pilot": {
+    "case_count": 23,
+    "runtime_instance_count": 35,
+    "independence_group_count": 14,
+    "observation_count": 389,
+    "source_case_counts": {
+      "cross_cloud_observability_2026": 12,
+      "splunk_attack_data": 7,
+      "stratus_red_team": 4
+    },
+    "platform_instance_counts": {
+      "AWS": 18,
+      "AZURE": 9,
+      "GCP": 8
+    },
+    "human_gold_cases": 0,
+    "human_gold_runtime_instances": 0,
+    "packet_sha256": "40edd6a3f0f0924a5a0b7434b5aa5d95a54bc4ae2234b0829688c1c201403114",
+    "gate_configured": true,
+    "gate_passes": false
+  },
+  "method": {
+    "methods": 10,
+    "method_family_counts": {
+      "deterministic": 2,
+      "llm": 7,
+      "randomized": 1
+    },
+    "orchestration_backend": "langgraph",
+    "required_reporting_slices": [
+      "scenario_source_id",
+      "runtime_evidence_source_id",
+      "platform",
+      "split"
+    ],
+    "source_heterogeneity": {
+      "dimensions": [
+        "scenario_source_id",
+        "runtime_evidence_source_id"
+      ],
+      "baseline_method_id": "vanilla_react",
+      "minimum_independence_groups_per_source": 5,
+      "permutation_resamples": 10000
+    },
+    "linear_langgraph_backend_mismatch_count": 0,
+    "policy_leakage_failure_count": 0,
+    "protocol_valid": true,
+    "protocol_research_effectiveness_result": false,
+    "all_source_runtime_contract_valid": true,
+    "all_source_runtime_instances_audited": 91,
+    "all_source_tool_contract_failure_count": 0,
+    "all_source_backend_mismatch_count": 0,
+    "all_source_policy_leakage_failure_count": 0,
+    "all_source_runtime_research_effectiveness_result": false,
+    "unlabeled_main_dry_run_valid": true,
+    "unlabeled_main_runtime_instances": 91,
+    "unlabeled_main_scheduled_runs": 1911,
+    "unlabeled_main_completed_runs": 1911,
+    "unlabeled_main_method_runs": {
+      "fixed_order": 273,
+      "full_query": 273,
+      "random_tool": 1365
+    },
+    "unlabeled_main_backend_mismatch_count": 0,
+    "unlabeled_main_budget_violation_count": 0,
+    "unlabeled_main_execution_failure_count": 0,
+    "unlabeled_main_research_effectiveness_result": false,
+    "runtime_payload_capable_instances": 91,
+    "runtime_payload_limited_instances": 0,
+    "pareto_research_effectiveness_result": false,
+    "pareto_after_detail_mean_pruning_rate": 0.4684431220228523,
+    "sigma_unique_operation_coverage_rate": 0.19047619047619047,
+    "sigma_event_weighted_coverage_rate": 0.13531799729364005
+  },
+  "innovation_status": [
+    {
+      "innovation": "RealPathBench-CD",
+      "implementation": "implemented",
+      "empirical_status": "provisional_until_human_gold"
+    },
+    {
+      "innovation": "EC-ReAct progressive tool-use discovery",
+      "implementation": "implemented_and_protocol_validated",
+      "empirical_status": "no_human_gold_effectiveness_result"
+    },
+    {
+      "innovation": "CP-Cert four-valued minimal certificate",
+      "implementation": "implemented_and_oracle_tested",
+      "empirical_status": "no_real_human_gold_main_result"
+    }
+  ],
+  "preflight": {
+    "ready": false,
+    "blocker_count": 7,
+    "blockers": [
+      "human annotation pilot release is missing: C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\runtime_pilot_round2_reviewed.json",
+      "human gold release is missing: C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\expanded_full_pool_v0_5_reviewed.json",
+      "human-screened negative-control release is missing: C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\negative_control_round1_reviewed.json",
+      "model openai_external has no frozen model name",
+      "model openai_external is missing OPENAI_API_KEY",
+      "model qwen_primary is missing DASHSCOPE_API_KEY",
+      "split manifest is missing: C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\expanded_full_pool_v0_5_splits.json"
+    ],
+    "planned_runs_at_minimum_case_target": 11550
+  },
+  "rubric": [
+    {
+      "dimension": "research_problem_value",
+      "weight": 0.1,
+      "score": 8.5,
+      "basis": "云数据攻击/暴露路径的可验证主动发现具有明确研究价值"
+    },
+    {
+      "dimension": "engineering_reliability",
+      "weight": 0.15,
+      "score": 9.0,
+      "basis": "线性/LangGraph 双后端、硬预算、引用守卫和完整自动测试"
+    },
+    {
+      "dimension": "real_data_and_provenance",
+      "weight": 0.2,
+      "score": 7.0,
+      "basis": "真实固定来源丰富，但当前人工 gold 与负对照 release 均为 0"
+    },
+    {
+      "dimension": "method_contribution",
+      "weight": 0.2,
+      "score": 7.5,
+      "basis": "三项代码贡献已形成，但尚无主实验支持独立效果"
+    },
+    {
+      "dimension": "experiment_design",
+      "weight": 0.15,
+      "score": 8.0,
+      "basis": "盲法、预注册门槛、group-safe split、消融与统计协议已冻结"
+    },
+    {
+      "dimension": "completed_empirical_evidence",
+      "weight": 0.15,
+      "score": 1.5,
+      "basis": "当前只有工程审计；research_effectiveness_result 仍为 false"
+    },
+    {
+      "dimension": "reproducibility",
+      "weight": 0.05,
+      "score": 9.0,
+      "basis": "来源哈希、配置、协议输出和 preflight 可机器复核"
+    }
+  ],
+  "weighted_current_score_out_of_10": 6.97,
+  "excellent_hard_gates": {
+    "pilot_human_release_and_gate": false,
+    "minimum_80_accepted_independence_groups": false,
+    "minimum_30_runtime_backed_accepted_cases": false,
+    "minimum_20_reviewed_external_negatives": false,
+    "frozen_group_safe_split": false,
+    "main_experiment_preflight_ready": false,
+    "all_source_runtime_contract_valid": true,
+    "non_llm_main_execution_contract_valid": true,
+    "human_gold_effectiveness_results_exist": false
+  },
+  "excellent_now": false,
+  "verdict": "当前不能客观认定为优秀研究生毕业设计；研究设计与工程具有优秀潜力，但人工 gold、真实负对照和主实验效果证据尚未完成。"
+}

@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "stratus:azure.persistence.backdoor-managed-identity-fic",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:azure.persistence.backdoor-managed-identity-fic",
+    "kind": "executable_attack_technique",
+    "platform": "azure",
+    "technique": "azure.persistence.backdoor-managed-identity-fic",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.persistence.backdoor-managed-identity-fic.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.persistence.backdoor-managed-identity-fic.md",
+    "review_score": 6,
+    "independence_group": "stratus_red_team:stratus:azure.persistence.backdoor-managed-identity-fic",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.persistence.backdoor-managed-identity-fic.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.persistence.backdoor-managed-identity-fic.md",
+      "member_sha256": "fea9b78968cc70db8baa2811739bb43fd6b6858cc64ccfe462948579d2fab288",
+      "bytes": 2799,
+      "content_kind": "md",
+      "text": "---\ntitle: Backdoor Azure Managed Identity with Federated Identity Credential (FIC)\n---\n\n# Backdoor Azure Managed Identity with Federated Identity Credential (FIC)\n\n\n\n\nPlatform: Azure\n\n## Mappings\n\n- MITRE ATT&CK\n    - Persistence\n  - Privilege Escalation\n\n\n\n## Description\n\n\nBackdoors an existing Azure Managed Identity by creating a new Federated Identity Credential (FIC) that trusts an attacker-controlled OIDC provider.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create a resource group and victim Azure Managed Identity\n- Assign it the <code>Directory Readers</code> role at the tenant level (for illustration purposes)\n- Create an Azure Storage account to host the attacker-controlled OIDC provider metadata\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Generate a keypair to use for OIDC\n- Upload OIDC discovery document and JWKS to the storage account\n- Add a Federated Identity Credential (FIC) to the victim Managed Identity that trusts tokens issued by the malicious OIDC provider\n- Create a token signed by the attacker's OIDC private key to exchange for a token as the victim Managed Identity\n- Exchange the attacker's token for a Microsoft Graph token as the victim Managed Identity using the FIC\n- Display the victim Managed Identity's access token to the user\n\nReferences:\n\n- https://dirkjanm.io/persisting-with-federated-credentials-entra-apps-managed-identities/\n- https://github.com/azurekid/blackcat/pull/84/changes\n- https://learn.microsoft.com/en-us/graph/api/resources/federatedidentitycredentials-overview\n- https://hackingthe.cloud/aws/post_exploitation/iam_rogue_oidc_identity_provider/\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate azure.persistence.backdoor-managed-identity-fic\n```\n## Detection\n\n\nUsing [Azure Activity Logs](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/activity-log) with the operation name <code>Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials/write</code>.\n\nSample Azure Activity Log event to monitor:\n\n```json hl_lines=\"2 10\"\n{\n    \"operationName\": {\n        \"value\": \"Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials/write\",\n        \"localizedValue\": \"Add or update Federated Identity Credential\"\n    },\n    \"properties\": {\n        \"statusCode\": \"Created\",\n        \"serviceRequestId\": null,\n        \"eventCategory\": \"Administrative\",\n        \"entity\": \"/subscriptions/[SUBSCRIPTION-ID]/stratus-fic-mi-3qbu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/stratus-victim-mi-3qbu/federatedIdentityCredentials/stratus-red-team-oidc-fic\",\n        \"message\": \"Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials/write\",\n        \"hierarchy\": \"[REMOVED]\"\n    }\n}\n```\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "58c74e6c911175a9c9ab28d7974e1fb284f6d844dd074241573668b2b9338ae2",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

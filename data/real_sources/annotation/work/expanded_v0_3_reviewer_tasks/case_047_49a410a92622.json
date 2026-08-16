@@ -1,0 +1,177 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "cloudgoat:aws:beanstalk_secrets",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:beanstalk_secrets",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "beanstalk_secrets",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/ATTACK-MATRIX.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/cheat_sheet.md"
+    ],
+    "terraform_file_count": 7,
+    "has_cheat_sheet": true,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/",
+    "review_score": 44,
+    "independence_group": "cloudgoat-scenario:beanstalk_secrets",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1078.004",
+      "T1087.004",
+      "T1098.001",
+      "T1526",
+      "T1552.001",
+      "T1555"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/ATTACK-MATRIX.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/ATTACK-MATRIX.md",
+      "member_sha256": "fac68d84beb7acde01863349321d5d21ba6a6ff7f372c487d6e0e1db409b25d2",
+      "bytes": 1881,
+      "content_kind": "md",
+      "text": "### Scenario: `beanstalk_secrets`\n\n**Description:**  \nAn attacker with low-privileged AWS credentials enumerates Elastic Beanstalk environments, extracts IAM credentials from misconfigured environment variables, escalates privileges by creating access keys for an admin user, and finally retrieves sensitive data from AWS Secrets Manager.\n\n| Tactic              | Technique ID | Technique Name                                         | Justification                                                                                 |\n|---------------------|--------------|--------------------------------------------------------|-----------------------------------------------------------------------------------------------|\n| Initial Access       | T1078.004    | Valid Accounts: Cloud Accounts                         | The scenario starts with pre-existing IAM credentials for a low-privileged user.              |\n| Discovery            | T1526        | Cloud Service Discovery                                | Elastic Beanstalk environments are enumerated via `elasticbeanstalk__enum`.                  |\n| Credential Access    | T1552.001    | Unsecured Credentials: Environment Variables           | IAM credentials are exposed via Elastic Beanstalk environment variables.                      |\n| Discovery            | T1087.004    | Account Discovery: Cloud Account                       | IAM users and roles are enumerated using secondary credentials to identify admin.             |\n| Privilege Escalation | T1098.001    | Account Manipulation: Create Account Access Key        | `iam:CreateAccessKey` is used to generate credentials for an administrator user.              |\n| Collection           | T1555        | Credentials from Password Stores                       | Secrets are retrieved from AWS Secrets Manager using admin-level credentials.                 |\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/README.md",
+      "member_sha256": "2ff6ef09fda2dd427f63b0c6445b1378bafae01f84e8d3b7f70e7e5d11b0e796",
+      "bytes": 1940,
+      "content_kind": "md",
+      "text": "# Scenario: beanstalk_secrets\n\n**Size:** Medium\n\n**Difficulty:** Moderate\n\n**Command:** `./cloudgoat.py create beanstalk_secrets`\n\n## Scenario Resources\n\n- 1 VPC\n- 1 Elastic Beanstalk Environment\n- 1 IAM Low-Privilege User\n- 1 IAM Secondary User\n- 1 AWS Secrets Manager Secret\n\n## Scenario Start(s)\n\n1. AWS Access Key and Secret Key for the low-privileged user.\n\n## Scenario Goal(s)\n\nRetrieve the final flag from AWS Secrets Manager by escalating privileges from a low-privileged user to an administrator account.\n\n## Summary\n\nIn this scenario, you are provided with low-privileged AWS credentials that grant limited access to Elastic Beanstalk. Your task is to enumerate the Elastic Beanstalk environment and discover misconfigured environment variables containing secondary credentials. Using these secondary credentials, you can enumerate IAM permissions to eventually create an access key for an administrator user. With these admin privileges, you retrieve the final flag stored in AWS Secrets Manager.\n\n## Exploitation Route\n\n\n![Flowcharts](https://github.com/user-attachments/assets/cf16f767-d8b3-436f-9812-c2d06ea0876b)\n\n\n\n## Walkthrough - Elastic Beanstalk Secrets\n\n1. Start by using the provided low-privileged AWS credentials.\n2. Verify access with `aws sts get-caller-identity`.\n3. Enumerate Elastic Beanstalk applications and environments using Pacu’s `elasticbeanstalk__enum` module.\n4. Identify the EB environment with misconfigured environment variables that store secondary credentials.\n5. Use the secondary credentials to enumerate IAM resources and permissions.\n6. Discover that you can create an access key for an administrator user using the `iam:CreateAccessKey` permission.\n7. Generate an admin access key and take over the account.\n8. Finally, use the admin privileges to retrieve the final flag from AWS Secrets Manager.\n\nA detailed cheat sheet & walkthrough for this route is available [here](./cheat_sheet.md).\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/cheat_sheet.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/cheat_sheet.md",
+      "member_sha256": "c5693d578d549a44b9aa70989cb62be47cb845954cea0a87f594ecea759cc1b9",
+      "bytes": 3858,
+      "content_kind": "md",
+      "text": "# Beanstalk Secrets Walkthrough\n\n## Summary\n\nIn this scenario, you are provided with low-privileged AWS credentials. Your task is to enumerate Elastic Beanstalk applications and environments, discover misconfigured environment variables that leak secondary credentials, and then use these credentials to enumerate IAM permissions. By exploiting the ability to create an access key for an administrator user, you will escalate your privileges and ultimately retrieve the final flag stored in AWS Secrets Manager.\n\n## Detailed Walkthrough\n\n### Configuring the AWS Keys\n\nAfter launching the scenario, you will be provided with an AWS Access Key ID and Secret Access Key for the low-privileged user. Configure your AWS CLI profile with these credentials:\n\n```bash\naws configure --profile beanstalk\n```\n\nYou will be prompted for the Access Key, Secret Key, Region, and output format. For example:\n\n```bash\nAWS Access Key ID: AKIA2HV********\nAWS Secret Access Key: v+xInRa11dSj**************\nDefault region name: us-east-1\nDefault output format: json\n```\n\nVerify your access:\n\n```bash\naws sts get-caller-identity --profile beanstalk\n```\n\n### Enumerating Elastic Beanstalk\n\nUse Pacu to enumerate Elastic Beanstalk applications and environments:\n\n```bash\nPacu (beanstalk:imported-beanstalk) > run elasticbeanstalk__enum --region us-east-1\n```\n\nThe module will list available applications and environments. Notice the misconfigured environment where environment variables reveal secondary credentials.\n\n### Checking Permissions with Pacu\n\nNext, assess the permissions of the low-privileged user by enumerating available IAM actions:\n\n```bash\nPacu (beanstalk:imported-beanstalk) > run iam__bruteforce_permissions --region us-east-1\n```\n\nReview the output to understand the limited permissions available on Elastic Beanstalk and IAM.\n\n### Switching to the Secondary User\n\nThe Elastic Beanstalk environment stores secondary credentials in its environment variables. Use these credentials to configure a new AWS CLI profile:\n\n```bash\naws configure --profile beanstalk2\n```\n\nVerify the secondary user’s access:\n\n```bash\naws sts get-caller-identity --profile beanstalk2\n```\n\n### Enumerating IAM with the Secondary User\n\nWith the secondary credentials, enumerate IAM permissions:\n\n```bash\nPacu (beanstalk2:imported-beanstalk2) > run iam__enum_permissions\n```\n\nThis will display additional IAM permissions, including the ability to create an access key for other users.\n\n### Privilege Escalation with CreateAccessKey\n\nRun the privilege escalation scan in Pacu to identify exploitable methods:\n\n```bash\nPacu (beanstalk2:imported-beanstalk2) > run iam__privesc_scan --scan-only\n```\n\nNotice that the `CreateAccessKey` method is confirmed as a viable escalation vector. Now execute the method to target the administrator user:\n\n```bash\nPacu (beanstalk2:imported-beanstalk2) > run iam__privesc_scan --user-methods CreateAccessKey\n```\n\nFollow the prompts to select the admin user. Pacu will then generate a new access key for the admin user and display the credentials.\n\n### Configuring the Admin Profile\n\nUsing the new admin credentials, set up an AWS CLI profile:\n\n```bash\naws configure --profile admin\n```\n\nEnter the provided admin Access Key ID and Secret Access Key. Confirm access:\n\n```bash\naws sts get-caller-identity --profile admin\n```\n\n### Retrieving the Final Flag\n\nFinally, with admin privileges, run the secrets enumeration module to retrieve the final flag:\n\n```bash\nPacu (beanstalk3:imported-admin) > run secrets__enum --region us-east-1\n```\n\nCheck the downloaded secrets in the Pacu output directory (typically under `~/.local/share/pacu/<session>/downloads/secrets/`). For example:\n\n```bash\ncat ~/.local/share/pacu/beanstalk3/downloads/secrets/secrets_manager/secrets.txt\n```\n\nThe file should contain the final flag, for example:  \n`FLAG{*********************}`\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/manifest.yml",
+      "member_sha256": "c6bceb8c9b2cfa88fa7f6f63a962cf7623bf9535285f7ea0ca071bf312b1d48d",
+      "bytes": 1003,
+      "content_kind": "yml",
+      "text": "---\n  # The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: beanstalk_secrets\n  # The name of the author(s), comma separated\n- author: Tyler Ramsbey\n  # The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 1.0\n  # Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n        In this scenario, you are provided with low-privileged AWS credentials that grant limited access to Elastic Beanstalk. Your task is to enumerate the Elastic Beanstalk environment and discover misconfigured environment variables containing secondary credentials. Using these secondary credentials, you can enumerate IAM permissions to eventually create an access key for an administrator user. With these admin privileges, you retrieve the final flag stored in AWS Secrets Manager.\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: {{ date_last_updated }}\n...\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/ec2.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/ec2.tf",
+      "member_sha256": "9dd4d39307927a865a7a134f0a9fb671bcc7874009e58b1b3f123f77686538d1",
+      "bytes": 1771,
+      "content_kind": "tf",
+      "text": "####################################\n# Data Source for Solution Stack\n####################################\n\ndata \"aws_elastic_beanstalk_solution_stack\" \"python_stack\" {\n  most_recent = true # Get the latest version matching the regex\n  name_regex  = \"^64bit Amazon Linux 2023.*running Python 3.11$\"\n}\n\n\n#############################\n# Elastic Beanstalk Application\n#############################\n\nresource \"aws_elastic_beanstalk_application\" \"eb_app\" {\n  name        = \"${var.cgid}-app\"\n  description = \"Elastic Beanstalk application for insecure secrets scenario\"\n}\n\n#############################\n# Elastic Beanstalk Environment\n#############################\n\nresource \"aws_elastic_beanstalk_environment\" \"eb_env\" {\n  name                = replace(\"${var.cgid}-env\", \"_\", \"-\")\n  application         = aws_elastic_beanstalk_application.eb_app.name\n  # Dynamically use the latest Python solution stack found by the data source\n  solution_stack_name = data.aws_elastic_beanstalk_solution_stack.python_stack.name\n\n  setting {\n    namespace = \"aws:elasticbeanstalk:application:environment\"\n    name      = \"SECONDARY_ACCESS_KEY\"\n    value     = aws_iam_access_key.secondary_key.id\n  }\n\n  setting {\n    namespace = \"aws:elasticbeanstalk:application:environment\"\n    name      = \"SECONDARY_SECRET_KEY\"\n    value     = aws_iam_access_key.secondary_key.secret\n  }\n\n  setting {\n    namespace = \"aws:autoscaling:launchconfiguration\"\n    name      = \"IamInstanceProfile\"\n    value     = aws_iam_instance_profile.eb_instance_profile.name\n  }\n  # Launch this in the CG VPC\n  setting {\n    namespace = \"aws:ec2:vpc\"\n    name      = \"VPCId\"\n    value     = aws_vpc.vpc.id\n  }\n\n  setting {\n    namespace = \"aws:ec2:vpc\"\n    name      = \"Subnets\"\n    value     = aws_subnet.subnet.id\n  }\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/iam.tf",
+      "member_sha256": "5108e4a279aef22452958c0038ec85cb4d6372f0d8a286ef8149dd214e794203",
+      "bytes": 4320,
+      "content_kind": "tf",
+      "text": "#############################\n# Administrator Privilege User\n#############################\n\nresource \"aws_iam_user\" \"admin_user\" {\n  name = \"${var.cgid}_admin_user\"\n  force_destroy = true\n}\n\nresource \"aws_iam_policy\" \"admin_user_policy\" {\n  name = \"${var.cgid}_admin_user_policy\"\n  policy = jsonencode({\n    Version = \"2012-10-17\",\n    Statement = [\n      {\n        Action   = \"*\",\n        Effect   = \"Allow\",\n        Resource = \"*\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_user_policy_attachment\" \"admin_user_policy_attach\" {\n  user       = aws_iam_user.admin_user.name\n  policy_arn = aws_iam_policy.admin_user_policy.arn\n}\n\n#############################\n# Low-Privileged User (Initial Credentials)\n#############################\n\nresource \"aws_iam_user\" \"low_priv_user\" {\n  name = \"${var.cgid}_low_priv_user\"\n}\n\nresource \"aws_iam_access_key\" \"low_priv_key\" {\n  user = aws_iam_user.low_priv_user.name\n}\n\nresource \"aws_iam_policy\" \"low_priv_policy\" {\n  name = \"${var.cgid}_low_priv_policy\"\n  policy = jsonencode({\n    Version = \"2012-10-17\",\n    Statement = [\n      {\n        Effect: \"Allow\",\n        Action: [\n          \"elasticbeanstalk:DescribeApplications\",\n          \"elasticbeanstalk:DescribeApplicationVersions\",\n          \"elasticbeanstalk:DescribeConfigurationSettings\",\n          \"elasticbeanstalk:DescribeEnvironmentHealth\",\n          \"elasticbeanstalk:DescribeEnvironmentResources\",\n          \"elasticbeanstalk:DescribeEnvironments\",\n          \"elasticbeanstalk:DescribeEvents\",\n          \"elasticbeanstalk:ListAvailableSolutionStacks\",\n          \"elasticbeanstalk:ListTagsForResource\",\n          \"ec2:DescribeSubnets\"\n        ],\n        Resource: \"*\"\n      },\n      {\n        Effect: \"Allow\",\n        Action: [\n          \"s3:*\"\n        ],\n        Resource: [\n          \"arn:aws:s3:::elasticbeanstalk*\", \n          \"arn:aws:s3:::elasticbeanstalk*/*\"\n        ] \n      }\n    ]\n  })\n}\n\nresource \"aws_iam_user_policy_attachment\" \"low_priv_policy_attach\" {\n  user       = aws_iam_user.low_priv_user.name\n  policy_arn = aws_iam_policy.low_priv_policy.arn\n}\n\n#############################\n# Secondary Credentials (Discovered in EB Config)\n#############################\n\nresource \"aws_iam_user\" \"secondary_user\" {\n  name = \"${var.cgid}_secondary_user\"\n}\n\nresource \"aws_iam_access_key\" \"secondary_key\" {\n  user = aws_iam_user.secondary_user.name\n}\n\nresource \"aws_iam_policy\" \"secondary_policy\" {\n  name = \"${var.cgid}_secondary_policy\"\n  policy = jsonencode({\n    Version = \"2012-10-17\",\n    Statement = [\n      {\n        Effect   = \"Allow\",\n        Action   = [\n          \"iam:CreateAccessKey\"\n        ],\n        Resource = \"*\"\n      },\n      {\n        Effect = \"Allow\",\n        Action = [\n          \"iam:ListRoles\",\n          \"iam:GetRole\",\n          \"iam:ListPolicies\",\n          \"iam:GetPolicy\",\n          \"iam:ListPolicyVersions\",\n          \"iam:GetPolicyVersion\",\n          \"iam:ListUsers\",\n          \"iam:GetUser\",\n          \"iam:ListGroups\",\n          \"iam:GetGroup\",\n          \"iam:ListAttachedUserPolicies\",\n          \"iam:ListAttachedRolePolicies\",\n          \"iam:GetRolePolicy\"\n        ],\n        Resource = \"*\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_user_policy_attachment\" \"secondary_policy_attach\" {\n  user       = aws_iam_user.secondary_user.name\n  policy_arn = aws_iam_policy.secondary_policy.arn\n}\n\n#############################\n# Elastic Beanstalk IAM Roles and Instance Profile\n#############################\n\n# Role for EB EC2 Instances\nresource \"aws_iam_role\" \"eb_instance_role\" {\n  name = \"${var.cgid}_eb_instance_role\"\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\",\n    Statement = [\n      {\n        Action = \"sts:AssumeRole\",\n        Effect = \"Allow\",\n        Principal = {\n          Service = \"ec2.amazonaws.com\"\n        }\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_instance_profile\" \"eb_instance_profile\" {\n  name = \"${var.cgid}_eb_instance_profile\"\n  role = aws_iam_role.eb_instance_role.name\n}\n\n# Role for the Elastic Beanstalk service\nresource \"aws_iam_role\" \"eb_service_role\" {\n  name = \"${var.cgid}_eb_service_role\"\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\",\n    Statement = [\n      {\n        Action = \"sts:AssumeRole\",\n        Effect = \"Allow\",\n        Principal = {\n          Service = \"elasticbeanstalk.amazonaws.com\"\n        }\n      }\n    ]\n  })\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/output.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/output.tf",
+      "member_sha256": "29fcbf721d894ed67a77458c49e7cb86ef55604127ad79ea1b93884a0811e02f",
+      "bytes": 262,
+      "content_kind": "tf",
+      "text": "output \"initial_low_priv_credentials\" {\n  description = \"Initial low-privileged credentials provided to the scenario\"\n  value = <<EOF\nAccess Key: ${aws_iam_access_key.low_priv_key.id}\nSecret Key: ${aws_iam_access_key.low_priv_key.secret}\nEOF\n  sensitive = true\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/provider.tf",
+      "member_sha256": "c549c82b6c9b446893d1386915b916adad4d303378b933617dd529b7dd79603b",
+      "bytes": 532,
+      "content_kind": "tf",
+      "text": "## This is used for the CloudGoat scenario to pull the AWS profile from the CloudGoat configuration.\n## Configure required Terraform and provider versions.\n\nterraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.0.0\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n\n  # This configures default tags for all resources\n  default_tags {\n    tags = {\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/secrets.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/secrets.tf",
+      "member_sha256": "034b319f2a277e0dc8ec400ac5d077134f2687a79765b532bd5fe0b8bf06c84f",
+      "bytes": 241,
+      "content_kind": "tf",
+      "text": "resource \"aws_secretsmanager_secret\" \"final_flag\" {\n  name = \"${var.cgid}_final_flag\"\n}\n\nresource \"aws_secretsmanager_secret_version\" \"final_flag\" {\n  secret_id     = aws_secretsmanager_secret.final_flag.id\n  secret_string = var.final_flag\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/variables.tf",
+      "member_sha256": "16778df5631eabb7b09bc1e5400513f9ee91e56e1c0f35d83e9fd9155b86b17d",
+      "bytes": 1191,
+      "content_kind": "tf",
+      "text": "variable \"profile\" {\n  description = \"The AWS profile to use\"\n  type        = string\n}\n\nvariable \"cgid\" {\n  description = \"CGID variable for unique naming\"\n  type        = string\n}\n\nvariable \"cg_whitelist\" {\n  description = \"User's public IP address(es)\"\n  type        = list(string)\n}\n\nvariable \"region\" {\n  description = \"The AWS region to deploy to\"\n  default     = \"us-east-1\"\n  type        = string\n}\n\nvariable \"stack-name\" {\n  description = \"Name of the CloudGoat stack\"\n  default     = \"CloudGoat\"\n  type        = string\n}\n\nvariable \"scenario-name\" {\n  description = \"Name of the scenario\"\n  default     = \"beanstalk_secrets\"\n  type        = string\n}\n\n# Additional scenario-specific variables\n\nvariable \"ami_id\" {\n  description = \"AMI ID for the EC2 instance (Amazon Linux 2 recommended)\"\n  type        = string\n  default     = \"ami-0c94855ba95c71c99\"\n}\n\nvariable \"instance_type\" {\n  description = \"EC2 instance type for the simulated Elastic Beanstalk environment\"\n  type        = string\n  default     = \"t3.micro\"\n}\n\nvariable \"final_flag\" {\n  description = \"The final flag stored in Secrets Manager\"\n  type        = string\n  default     = \"FLAG{D0nt_st0r3_s3cr3ts_in_b3@nsta1k!}\"\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/vpc.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/beanstalk_secrets/terraform/vpc.tf",
+      "member_sha256": "5cb448d322ac03f3ff2f391e0b7c74370ba1fa199de6522bf557906baee82d02",
+      "bytes": 940,
+      "content_kind": "tf",
+      "text": "resource \"aws_vpc\" \"vpc\" {\n  cidr_block = \"10.0.0.0/16\"\n  tags = {\n    Name = \"cg-vpc-${var.cgid}\"\n  }\n}\n\nresource \"aws_internet_gateway\" \"igw\" {\n  vpc_id = aws_vpc.vpc.id\n  tags = {\n    Name = \"cg-igw-${var.cgid}\"\n  }\n}\n\nresource \"aws_subnet\" \"subnet\" {\n  vpc_id                  = aws_vpc.vpc.id\n  cidr_block              = \"10.0.1.0/24\"\n  availability_zone       = \"us-east-1a\"\n  map_public_ip_on_launch = true\n\n  tags = {\n    Name = \"cg-subnet-${var.cgid}\"\n  }\n}\n\nresource \"aws_route_table\" \"route_table\" {\n  vpc_id = aws_vpc.vpc.id\n  tags = {\n    Name = \"cg-route-table-${var.cgid}\"\n  }\n}\n\nresource \"aws_route\" \"route\" {\n  route_table_id         = aws_route_table.route_table.id\n  destination_cidr_block = \"0.0.0.0/0\"\n  gateway_id             = aws_internet_gateway.igw.id\n}\n\nresource \"aws_route_table_association\" \"route_table_association\" {\n  subnet_id      = aws_subnet.subnet.id\n  route_table_id = aws_route_table.route_table.id\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "719de375958ced2461a76005ecc000b339098a58d4740b1e81b86a8ab44a1b89",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

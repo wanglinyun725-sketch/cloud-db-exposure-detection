@@ -1,0 +1,58 @@
+{
+  "preflight_version": "1.0.0",
+  "generated_at": "2026-07-27T13:19:53.877642+00:00",
+  "safety": {
+    "read_only": true,
+    "cloud_resources_created": 0,
+    "identities_redacted": true
+  },
+  "tools": {
+    "terraform": {
+      "installed": true,
+      "usable": true,
+      "path": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\.tools\\terraform\\1.15.8\\terraform.exe",
+      "version_summary": "{"
+    },
+    "aws": {
+      "installed": true,
+      "usable": false,
+      "path": "E:\\venv\\PycharmProjects\\Scripts\\aws.CMD",
+      "version_summary": "Traceback (most recent call last):"
+    },
+    "azure": {
+      "installed": false,
+      "usable": false,
+      "path": null,
+      "version_summary": null
+    },
+    "gcloud": {
+      "installed": true,
+      "usable": true,
+      "path": "D:\\Program Files (x86)\\Google\\Cloud SDK\\google-cloud-sdk\\bin\\gcloud.CMD",
+      "version_summary": "Google Cloud SDK 565.0.0"
+    }
+  },
+  "authentication": {
+    "aws": {
+      "authenticated": false,
+      "check": "not_run"
+    },
+    "azure": {
+      "authenticated": false,
+      "subscription_selected": false,
+      "check": "not_run"
+    },
+    "gcp": {
+      "authenticated": true,
+      "active_identity_count": 1,
+      "project_selected": false,
+      "check": "gcloud_auth_list_and_config_project"
+    }
+  },
+  "ready": false,
+  "blockers": [
+    "AWS CLI is unavailable or broken",
+    "Azure CLI is unavailable",
+    "Google Cloud CLI has no selected lab project"
+  ]
+}

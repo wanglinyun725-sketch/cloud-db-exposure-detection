@@ -1,0 +1,716 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "crosscloud:azure:credentials_from_password_stores",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cross_cloud_observability_2026",
+    "upstream_url": "https://doi.org/10.5281/zenodo.19933893",
+    "version_or_commit": "record-19933893-v2",
+    "license": "CC-BY-4.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/README.md",
+        "sha256": "b073b2e97aea4073fec2bf387e2c255d987dd8f3710e84f2df3cc59947e510f8",
+        "upstream_checksum": "md5:10eb94c911d603deb5353a4f9bdfa46e"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/attack_scripts.zip",
+        "sha256": "4599be3e224f3b9b43e76ab4ec1bfa8e3b209ebe529fb218ae4e65dd22417900",
+        "upstream_checksum": "md5:e448f9e9eafb7482b735c76d2d4ef0d0"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/azure_logs_redacted.zip",
+        "sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee",
+        "upstream_checksum": "md5:e4e3359913d45fa86739ab39f21123b4"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/log_analysis.zip",
+        "sha256": "23b41863cc2ece4936277a1ee1fc6f64b4fea9f3c0f698cefbf5626eeca00fcf",
+        "upstream_checksum": "md5:c57994c6e199cbbf8b091ddcd139515a"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "description": "DOI-published paired payload/no-payload AZURE telemetry for credentials_from_password_stores.",
+    "author": "Dhooghe et al.",
+    "published_date": "2026-04-30",
+    "environment": "controlled cloud subscription",
+    "platform": "AZURE",
+    "attack": "credentials_from_password_stores",
+    "independence_group": "crosscloud-family:credentials_from_password_stores",
+    "attack_script_refs": [
+      "attack_scripts.zip#attack_scripts/azure-attacks/all_automated.sh",
+      "attack_scripts.zip#attack_scripts/azure-attacks/automated-logging.sh"
+    ]
+  },
+  "observations": [],
+  "runtime_instances": [
+    {
+      "instance_id": "episode-2aca8fc9867b9274",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "AZURE",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-3c882e35ff001c9013c3a2b6",
+          "timestamp": "2024-10-26T17:19:46.7035294Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.KeyVault/vaults/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.KeyVault/vaults/write\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 13,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-6ae0566b0df54efd4c8c9271",
+          "timestamp": "2024-10-26T17:19:46.7816566Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.Authorization/policies/audit/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"ancestors\": \"REDACTED_GUID\", \"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"isComplianceCheck\": \"False\", \"message\": \"Microsoft.Authorization/policies/audit/action\", \"policies\": \"[{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"keyVaultsShouldHavePurgeProtectionEnabledMonitoringEffect\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Key vaults should have deletion protection enabled\\\",\\\"policyDefinitionEffect\\\":\\\"Audit\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]},{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"firewallShouldBeEnabledOnKeyVaultMonitoringEffect\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Azure Key Vault should have firewall enabled\\\",\\\"policyDefinitionEffect\\\":\\\"Audit\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]},{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"privateEndpointShouldBeConfiguredForKeyVaultMonitoringEffect\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Azure Key Vaults should use private link\\\",\\\"policyDefinitionEffect\\\":\\\"Audit\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]}]\", \"resourceLocation\": \"westus\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 12,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-932667bc9b54bfcf8ede7737",
+          "timestamp": "2024-10-26T17:19:49.8441721Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.Authorization/policies/auditIfNotExists/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"message\": \"Microsoft.Authorization/policies/auditIfNotExists/action\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 11,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-1199ab0866099ba1d9cd20e3",
+          "timestamp": "2024-10-26T17:19:49.8597969Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.KeyVault/vaults/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.KeyVault/vaults/write\", \"statusCode\": \"OK\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"OK (HTTP Status Code: 200)\", \"value\": \"OK\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 10,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-c2b921e56b23a60c1c2bb76b",
+          "timestamp": "2024-10-26T17:20:09.9058648Z",
+          "service": "Microsoft.Authorization",
+          "operation": "Microsoft.Authorization/roleAssignments/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Authorization/roleAssignments/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.Authorization/roleAssignments/write\", \"requestbody\": \"{\\\"properties\\\":{\\\"roleDefinitionId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/roleDefinitions/REDACTED_GUID\\\",\\\"principalId\\\":\\\"REDACTED_GUID\\\",\\\"principalType\\\":\\\"ServicePrincipal\\\"}}\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 9,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-bfa701e4f7876c2d0f009f1c",
+          "timestamp": "2024-10-26T17:20:12.6871727Z",
+          "service": "Microsoft.Authorization",
+          "operation": "Microsoft.Authorization/roleAssignments/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Authorization/roleAssignments/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.Authorization/roleAssignments/write\", \"statusCode\": \"Created\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"Created (HTTP Status Code: 201)\", \"value\": \"Created\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 8,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-a47ae2c3bada87fe91093c28",
+          "timestamp": "2024-10-26T17:20:47.9082782Z",
+          "service": "Microsoft.Authorization",
+          "operation": "Microsoft.Authorization/roleAssignments/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Authorization/roleAssignments/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.Authorization/roleAssignments/write\", \"requestbody\": \"{\\\"properties\\\":{\\\"roleDefinitionId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/roleDefinitions/REDACTED_GUID\\\",\\\"principalId\\\":\\\"REDACTED_GUID\\\",\\\"principalType\\\":\\\"ServicePrincipal\\\"}}\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 7,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-30768c43b1546af690f16e5e",
+          "timestamp": "2024-10-26T17:20:49.3145531Z",
+          "service": "Microsoft.Authorization",
+          "operation": "Microsoft.Authorization/roleAssignments/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Authorization/roleAssignments/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.Authorization/roleAssignments/write\", \"statusCode\": \"Created\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"Created (HTTP Status Code: 201)\", \"value\": \"Created\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 6,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-9fe98c3060d3e5c5ef60eb69",
+          "timestamp": "2024-10-26T17:20:56.329562Z",
+          "service": "Microsoft.Authorization",
+          "operation": "Microsoft.Authorization/roleAssignments/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Authorization/roleAssignments/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.Authorization/roleAssignments/write\", \"requestbody\": \"{\\\"properties\\\":{\\\"roleDefinitionId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/roleDefinitions/REDACTED_GUID\\\",\\\"principalId\\\":\\\"REDACTED_GUID\\\",\\\"principalType\\\":\\\"ServicePrincipal\\\"}}\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 5,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-680e95a017ce4969affe4d7f",
+          "timestamp": "2024-10-26T17:21:00.0327345Z",
+          "service": "Microsoft.Authorization",
+          "operation": "Microsoft.Authorization/roleAssignments/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Authorization/roleAssignments/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.Authorization/roleAssignments/write\", \"statusCode\": \"Created\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"Created (HTTP Status Code: 201)\", \"value\": \"Created\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 4,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-96a382c5cd6825201c368e7a",
+          "timestamp": "2024-10-26T17:28:31.1743028Z",
+          "service": "Microsoft.OperationalInsights",
+          "operation": "Microsoft.OperationalInsights/workspaces/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.OperationalInsights/workspaces/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.OperationalInsights/workspaces/myworkspace\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.OperationalInsights/workspaces/myworkspace\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.OperationalInsights/workspaces/write\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.OperationalInsights/workspaces/myworkspace",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 3,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-4001e799252940db030d9e43",
+          "timestamp": "2024-10-26T17:29:48.369972Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.KeyVault/vaults/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.KeyVault/vaults/write\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 2,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-5ad05edd13d630ae544ba88b",
+          "timestamp": "2024-10-26T17:29:51.0908289Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.Authorization/policies/audit/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"ancestors\": \"REDACTED_GUID\", \"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"isComplianceCheck\": \"False\", \"message\": \"Microsoft.Authorization/policies/audit/action\", \"policies\": \"[{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"diagnosticsLogsInKeyVaultMonitoring\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Resource logs in Key Vault should be enabled\\\",\\\"policyDefinitionEffect\\\":\\\"AuditIfNotExists\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]}]\", \"resourceLocation\": \"westus\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 0,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-a0977665f01b5e977a63e6b0",
+          "timestamp": "2024-10-26T17:29:51.0908289Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.Authorization/policies/auditIfNotExists/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"ancestors\": \"REDACTED_GUID\", \"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"isComplianceCheck\": \"False\", \"message\": \"Microsoft.Authorization/policies/auditIfNotExists/action\", \"policies\": \"[{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"diagnosticsLogsInKeyVaultMonitoring\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Resource logs in Key Vault should be enabled\\\",\\\"policyDefinitionEffect\\\":\\\"AuditIfNotExists\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]}]\", \"resourceLocation\": \"westus\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "e82a33a25af91e24e2e631af6b5e9e7d9a9bc4d7d87d38067751289cd7882c39",
+            "record_index": 1,
+            "upstream_path": "member-e82a33a25af91e24",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        }
+      ],
+      "observation_count": 14,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    },
+    {
+      "instance_id": "episode-dab6aba177d3c8b2",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "AZURE",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-a530b8e71731479981e219d8",
+          "timestamp": "2024-10-26T17:36:02.6275222Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.KeyVault/vaults/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.KeyVault/vaults/write\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 13,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-cd8ed928e54f7859b97d994b",
+          "timestamp": "2024-10-26T17:36:02.7056486Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.Authorization/policies/audit/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"ancestors\": \"REDACTED_GUID\", \"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"isComplianceCheck\": \"False\", \"message\": \"Microsoft.Authorization/policies/audit/action\", \"policies\": \"[{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"keyVaultsShouldHavePurgeProtectionEnabledMonitoringEffect\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Key vaults should have deletion protection enabled\\\",\\\"policyDefinitionEffect\\\":\\\"Audit\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]},{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"firewallShouldBeEnabledOnKeyVaultMonitoringEffect\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Azure Key Vault should have firewall enabled\\\",\\\"policyDefinitionEffect\\\":\\\"Audit\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]},{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"privateEndpointShouldBeConfiguredForKeyVaultMonitoringEffect\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Azure Key Vaults should use private link\\\",\\\"policyDefinitionEffect\\\":\\\"Audit\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]}]\", \"resourceLocation\": \"westus\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 12,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-9a2dd76b20d98ebf688febeb",
+          "timestamp": "2024-10-26T17:36:05.7056988Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.Authorization/policies/auditIfNotExists/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"message\": \"Microsoft.Authorization/policies/auditIfNotExists/action\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 11,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-873c1b2b43988c6dcadb3bdd",
+          "timestamp": "2024-10-26T17:36:05.7213237Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.KeyVault/vaults/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.KeyVault/vaults/write\", \"statusCode\": \"OK\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"OK (HTTP Status Code: 200)\", \"value\": \"OK\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 10,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-397cfb75e7f8221afa82fff8",
+          "timestamp": "2024-10-26T17:36:25.7260367Z",
+          "service": "Microsoft.Authorization",
+          "operation": "Microsoft.Authorization/roleAssignments/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Authorization/roleAssignments/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.Authorization/roleAssignments/write\", \"requestbody\": \"{\\\"properties\\\":{\\\"roleDefinitionId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/roleDefinitions/REDACTED_GUID\\\",\\\"principalId\\\":\\\"REDACTED_GUID\\\",\\\"principalType\\\":\\\"ServicePrincipal\\\"}}\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 9,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-61269140d9843ae4b0d29099",
+          "timestamp": "2024-10-26T17:36:28.2416835Z",
+          "service": "Microsoft.Authorization",
+          "operation": "Microsoft.Authorization/roleAssignments/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Authorization/roleAssignments/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.Authorization/roleAssignments/write\", \"statusCode\": \"Created\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"Created (HTTP Status Code: 201)\", \"value\": \"Created\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 8,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-3c5cbec0c44c33f7c4afc002",
+          "timestamp": "2024-10-26T17:37:07.2596312Z",
+          "service": "Microsoft.Authorization",
+          "operation": "Microsoft.Authorization/roleAssignments/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Authorization/roleAssignments/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.Authorization/roleAssignments/write\", \"requestbody\": \"{\\\"properties\\\":{\\\"roleDefinitionId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/roleDefinitions/REDACTED_GUID\\\",\\\"principalId\\\":\\\"REDACTED_GUID\\\",\\\"principalType\\\":\\\"ServicePrincipal\\\"}}\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 7,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-e651f22945ed3f931372ddc9",
+          "timestamp": "2024-10-26T17:37:10.1815296Z",
+          "service": "Microsoft.Authorization",
+          "operation": "Microsoft.Authorization/roleAssignments/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Authorization/roleAssignments/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.Authorization/roleAssignments/write\", \"statusCode\": \"Created\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"Created (HTTP Status Code: 201)\", \"value\": \"Created\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 6,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-a2f26b8434ba17a36f0c8dad",
+          "timestamp": "2024-10-26T17:37:16.965405Z",
+          "service": "Microsoft.Authorization",
+          "operation": "Microsoft.Authorization/roleAssignments/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Authorization/roleAssignments/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.Authorization/roleAssignments/write\", \"requestbody\": \"{\\\"properties\\\":{\\\"roleDefinitionId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/roleDefinitions/REDACTED_GUID\\\",\\\"principalId\\\":\\\"REDACTED_GUID\\\",\\\"principalType\\\":\\\"ServicePrincipal\\\"}}\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 5,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-fe347253c026fafd2ab42032",
+          "timestamp": "2024-10-26T17:37:20.1218653Z",
+          "service": "Microsoft.Authorization",
+          "operation": "Microsoft.Authorization/roleAssignments/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Authorization/roleAssignments/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.Authorization/roleAssignments/write\", \"statusCode\": \"Created\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Authorization/roleAssignments/REDACTED_GUID",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"Created (HTTP Status Code: 201)\", \"value\": \"Created\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 4,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-95417b6858d365408e25307d",
+          "timestamp": "2024-10-26T17:44:46.2894558Z",
+          "service": "Microsoft.OperationalInsights",
+          "operation": "Microsoft.OperationalInsights/workspaces/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.OperationalInsights/workspaces/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.OperationalInsights/workspaces/myworkspace\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.OperationalInsights/workspaces/myworkspace\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.OperationalInsights/workspaces/write\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.OperationalInsights/workspaces/myworkspace",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 3,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-0f86119b4ff2ce8699942e47",
+          "timestamp": "2024-10-26T17:46:04.8125977Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.KeyVault/vaults/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID/REDACTED_GUID\", \"message\": \"Microsoft.KeyVault/vaults/write\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 2,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-2e03de37ed9572c03b818929",
+          "timestamp": "2024-10-26T17:46:06.9992023Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.Authorization/policies/audit/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"ancestors\": \"REDACTED_GUID\", \"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"isComplianceCheck\": \"False\", \"message\": \"Microsoft.Authorization/policies/audit/action\", \"policies\": \"[{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"diagnosticsLogsInKeyVaultMonitoring\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Resource logs in Key Vault should be enabled\\\",\\\"policyDefinitionEffect\\\":\\\"AuditIfNotExists\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]}]\", \"resourceLocation\": \"westus\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 1,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-ea741c58c659771fcc7874dc",
+          "timestamp": "2024-10-26T17:46:06.9992023Z",
+          "service": "Microsoft.KeyVault",
+          "operation": "Microsoft.Authorization/policies/auditIfNotExists/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.KeyVault/vaults/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\"}, \"properties\": {\"ancestors\": \"REDACTED_GUID\", \"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"isComplianceCheck\": \"False\", \"message\": \"Microsoft.Authorization/policies/auditIfNotExists/action\", \"policies\": \"[{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"diagnosticsLogsInKeyVaultMonitoring\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Resource logs in Key Vault should be enabled\\\",\\\"policyDefinitionEffect\\\":\\\"AuditIfNotExists\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]}]\", \"resourceLocation\": \"westus\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.KeyVault/vaults/keyvault",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "b839a44d6d9e75f89c47ac1866a9869734a79f49d1041e5736fca5e73c3935a8",
+            "record_index": 0,
+            "upstream_path": "member-b839a44d6d9e75f8",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        }
+      ],
+      "observation_count": 14,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "a3efdc0db2c744bf4d2cc1014c0f175f87be3fac9cfddb0cbedcf69383fcfee6",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

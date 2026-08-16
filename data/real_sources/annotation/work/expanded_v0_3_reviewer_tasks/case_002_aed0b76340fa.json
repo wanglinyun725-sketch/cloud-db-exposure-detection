@@ -1,0 +1,455 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "splunk_attack_data",
+    "upstream_url": "https://github.com/splunk/attack_data",
+    "version_or_commit": "3821bdb77c66c95b4e529f62a9d00b168446d1a8",
+    "license": "Apache-2.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1110.002/aws_rds_password_reset/aws_rds_password_reset.yml",
+        "sha256": "237786d5ce75d76fda7e6b476f5247732745a6493e058078dfa06cf82c148016",
+        "upstream_path": "datasets/attack_techniques/T1110.002/aws_rds_password_reset/aws_rds_password_reset.yml",
+        "git_blob_sha": "fd16fdd07569d772c1c1ce9fe0d07a375b3391ff",
+        "lfs_oid_sha256": null
+      },
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1110.002/aws_rds_password_reset/asl_ocsf_cloudtrail.json",
+        "sha256": "c7f16b51efd6a80ebb9beeeab3a2f64f94aed6a2a852706f9063e03e6653e38a",
+        "upstream_path": "datasets/attack_techniques/T1110.002/aws_rds_password_reset/asl_ocsf_cloudtrail.json",
+        "git_blob_sha": "a98597760627010a40b2612ac660110e4af0502f",
+        "lfs_oid_sha256": "c7f16b51efd6a80ebb9beeeab3a2f64f94aed6a2a852706f9063e03e6653e38a"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1110.002/aws_rds_password_reset/aws_cloudtrail_events.json",
+        "sha256": "7015688e41e2afca485d25fcf1fc2e655402fc036e372ca0ad6d2fefc9430c1f",
+        "upstream_path": "datasets/attack_techniques/T1110.002/aws_rds_password_reset/aws_cloudtrail_events.json",
+        "git_blob_sha": "0a67bd5d5e1fb923212d5e3111d03bbf8f1a65a6",
+        "lfs_oid_sha256": "7015688e41e2afca485d25fcf1fc2e655402fc036e372ca0ad6d2fefc9430c1f"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+    "source_id": "splunk_attack_data",
+    "upstream_dataset_id": "baa24d41-2a93-43c6-af77-ff9e97f75191",
+    "author": "Gowthamaraj Rajendran, Splunk",
+    "published_date": "2022-08-08",
+    "description": "Dataset which contains cloudtrail events with AWS RDS Database master password reset.",
+    "environment": "attack_range",
+    "mitre_techniques": [
+      "T1110.002"
+    ],
+    "observation_count": 5,
+    "operations": {
+      "ModifyDBCluster": 3,
+      "ModifyDBInstance": 2
+    },
+    "services": {
+      "rds.amazonaws.com": 5
+    },
+    "independence_group": "splunk-technique:T1110.002"
+  },
+  "observations": [
+    {
+      "observation_id": "obs-a8b3b31538c973092b26ba89",
+      "candidate_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+      "schema": "ocsf_api_activity",
+      "timestamp": 1734016508000,
+      "service": "rds.amazonaws.com",
+      "operation": "ModifyDBCluster",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::222222222222:assumed-role/7d40dd7e11854f8/test@test.com",
+      "source_ip": "1.1.1.1",
+      "account_id": "222222222222",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "request": "{\"dBClusterIdentifier\":\"database-1\",\"applyImmediately\":false,\"allowMajorVersionUpgrade\":false,\"deletionProtection\":false,\"allowEngineModeChange\":false}",
+      "response": "{\"allocatedStorage\":1,\"availabilityZones\":[\"us-east-1c\",\"us-east-1a\",\"us-east-1b\"],\"backupRetentionPeriod\":7,\"dBClusterIdentifier\":\"database-1\",\"dBClusterParameterGroup\":\"default.aurora-postgresql15\",\"dBSubnetGroup\":\"default-vpc-01324c032258e436d\",\"status\":\"available\",\"earliestRestorableTime\":\"Dec 12, 2024, 1:33:36 PM\",\"endpoint\":\"database-1.cluster-cpeakm8iirdd.us-east-1.rds.amazonaws.com\",\"readerEndpoint\":\"database-1.cluster-ro-cpeakm8iirdd.us-east-1.rds.amazonaws.com\",\"multiAZ\":true,\"engine\":\"aurora-postgresql\",\"engineVersion\":\"15.4\",\"latestRestorableTime\":\"Dec 12, 2024, 3:11:17 PM\",\"port\":5432,\"masterUsername\":\"postgres\",\"preferredBackupWindow\":\"07:32-08:02\",\"preferredMaintenanceWindow\":\"mon:10:24-mon:10:54\",\"readReplicaIdentifiers\":[],\"dBClusterMembers\":[{\"dBInstanceIdentifier\":\"database-1-instance-1\",\"isClusterWriter\":true,\"dBClusterParameterGroupStatus\":\"in-sync\",\"promotionTier\":1},{\"dBInstanceIdentifier\":\"database-1-instance-1-us-east-1a\",\"isClusterWriter\":false,\"dBClusterParameterGroupStatus\":\"in-sync\",\"promotionTier\":1}],\"vpcSecurityGroups\":[{\"vpcSecurityGroupId\":\"sg-2222222222222222\",\"status\":\"active\"}],\"hostedZoneId\":\"Z2R2ITUGPM61AM\",\"storageEncrypted\":true,\"kmsKeyId\":\"arn:aws:kms:us-east-1:222222222222:key/d43d2711-f226-4037-898d-e64f827e95fb\",\"dbClusterResourceId\":\"cluster-PZY3NOPYVGWUAUTOVMXEC4BMWY\",\"dBClusterArn\":\"arn:aws:rds:us-east-1:222222222222:cluster:database-1\",\"associatedRoles\":[],\"iAMDatabaseAuthenticationEnabled\":false,\"clusterCreateTime\":\"Dec 12, 2024, 1:32:44 PM\",\"pendingModifiedValues\":{\"dBClusterIdentifier\":\"database-12\"},\"engineMode\":\"provisioned\",\"autoMinorVersionUpgrade\":true,\"deletionProtection\":false,\"httpEndpointEnabled\":false,\"copyTagsToSnapshot\":true,\"crossAccountClone\":false,\"domainMemberships\":[],\"tagList\":[],\"networkType\":\"IPV4\",\"monitoringInterval\":0,\"databaseInsightsMode\":\"advanced\",\"performanceInsightsEnabled\":true,\"performanceInsightsKMSKeyId\":\"arn:aws:kms:us-east-1:222222222222:key/d43d2711-f226-4037-898d-e64f827e95fb\",\"performanceInsightsRetentionPeriod\":465,\"engineLifecycleSupport\":\"open-source-rds-extended-support-disabled\"}",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1110.002/aws_rds_password_reset/asl_ocsf_cloudtrail.json",
+        "sha256": "c7f16b51efd6a80ebb9beeeab3a2f64f94aed6a2a852706f9063e03e6653e38a",
+        "record_index": 0,
+        "upstream_path": "datasets/attack_techniques/T1110.002/aws_rds_password_reset/asl_ocsf_cloudtrail.json",
+        "git_blob_sha": "a98597760627010a40b2612ac660110e4af0502f",
+        "lfs_oid_sha256": "c7f16b51efd6a80ebb9beeeab3a2f64f94aed6a2a852706f9063e03e6653e38a"
+      }
+    },
+    {
+      "observation_id": "obs-260de826d0c6490fde27dad4",
+      "candidate_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+      "schema": "ocsf_api_activity",
+      "timestamp": 1734012183000,
+      "service": "rds.amazonaws.com",
+      "operation": "ModifyDBCluster",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::222222222222:assumed-role/7d40dd7e11854f8/test@test.com",
+      "source_ip": "1.1.1.1",
+      "account_id": "222222222222",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "request": "{\"dBClusterIdentifier\":\"database-1\",\"newDBClusterIdentifier\":\"database-12\",\"allowEngineModeChange\":false,\"allowMajorVersionUpgrade\":false,\"applyImmediately\":false}",
+      "response": "{\"masterUsername\":\"postgres\",\"autoMinorVersionUpgrade\":true,\"readReplicaIdentifiers\":[],\"port\":5432,\"engine\":\"aurora-postgresql\",\"hostedZoneId\":\"Z2R2ITUGPM61AM\",\"latestRestorableTime\":\"Dec 12, 2024, 2:00:52 PM\",\"dBSubnetGroup\":\"default-vpc-01324c032258e436d\",\"readerEndpoint\":\"database-1.cluster-ro-cpeakm8iirdd.us-east-1.rds.amazonaws.com\",\"multiAZ\":true,\"crossAccountClone\":false,\"clusterCreateTime\":\"Dec 12, 2024, 1:32:44 PM\",\"deletionProtection\":true,\"tagList\":[],\"availabilityZones\":[\"us-east-1c\",\"us-east-1a\",\"us-east-1b\"],\"kmsKeyId\":\"arn:aws:kms:us-east-1:222222222222:key/d43d2711-f226-4037-898d-e64f827e95fb\",\"dBClusterArn\":\"arn:aws:rds:us-east-1:222222222222:cluster:database-1\",\"status\":\"available\",\"vpcSecurityGroups\":[{\"status\":\"active\",\"vpcSecurityGroupId\":\"sg-2222222222222222\"}],\"preferredBackupWindow\":\"07:32-08:02\",\"iAMDatabaseAuthenticationEnabled\":false,\"httpEndpointEnabled\":false,\"networkType\":\"IPV4\",\"domainMemberships\":[],\"engineVersion\":\"15.4\",\"storageEncrypted\":true,\"dBClusterIdentifier\":\"database-1\",\"databaseInsightsMode\":\"advanced\",\"backupRetentionPeriod\":7,\"monitoringInterval\":0,\"performanceInsightsEnabled\":true,\"dbClusterResourceId\":\"cluster-PZY3NOPYVGWUAUTOVMXEC4BMWY\",\"performanceInsightsKMSKeyId\":\"arn:aws:kms:us-east-1:222222222222:key/d43d2711-f226-4037-898d-e64f827e95fb\",\"pendingModifiedValues\":{\"dBClusterIdentifier\":\"database-12\"},\"engineMode\":\"provisioned\",\"dBClusterParameterGroup\":\"default.aurora-postgresql15\",\"copyTagsToSnapshot\":true,\"dBClusterMembers\":[{\"dBInstanceIdentifier\":\"database-1-instance-1\",\"promotionTier\":1,\"dBClusterParameterGroupStatus\":\"in-sync\",\"isClusterWriter\":true},{\"dBInstanceIdentifier\":\"database-1-instance-1-us-east-1a\",\"promotionTier\":1,\"dBClusterParameterGroupStatus\":\"in-sync\",\"isClusterWriter\":false}],\"engineLifecycleSupport\":\"open-source-rds-extended-support-disabled\",\"associatedRoles\":[],\"earliestRestorableTime\":\"Dec 12, 2024, 1:33:36 PM\",\"endpoint\":\"database-1.cluster-cpeakm8iirdd.us-east-1.rds.amazonaws.com\",\"performanceInsightsRetentionPeriod\":465,\"preferredMaintenanceWindow\":\"mon:10:24-mon:10:54\",\"allocatedStorage\":1}",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1110.002/aws_rds_password_reset/asl_ocsf_cloudtrail.json",
+        "sha256": "c7f16b51efd6a80ebb9beeeab3a2f64f94aed6a2a852706f9063e03e6653e38a",
+        "record_index": 1,
+        "upstream_path": "datasets/attack_techniques/T1110.002/aws_rds_password_reset/asl_ocsf_cloudtrail.json",
+        "git_blob_sha": "a98597760627010a40b2612ac660110e4af0502f",
+        "lfs_oid_sha256": "c7f16b51efd6a80ebb9beeeab3a2f64f94aed6a2a852706f9063e03e6653e38a"
+      }
+    },
+    {
+      "observation_id": "obs-a958f683985819391ecd1635",
+      "candidate_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+      "schema": "ocsf_api_activity",
+      "timestamp": 1734010450000,
+      "service": "rds.amazonaws.com",
+      "operation": "ModifyDBCluster",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::222222222222:assumed-role/7d40dd7e11854f8/test@test.com",
+      "source_ip": "1.1.1.1",
+      "account_id": "222222222222",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "request": "{\"dBClusterIdentifier\":\"database-1\",\"applyImmediately\":true,\"masterUserPassword\":\"HIDDEN_DUE_TO_SECURITY_REASONS\",\"allowMajorVersionUpgrade\":false,\"allowEngineModeChange\":false}",
+      "response": "{\"allocatedStorage\":1,\"availabilityZones\":[\"us-east-1c\",\"us-east-1a\",\"us-east-1b\"],\"backupRetentionPeriod\":7,\"dBClusterIdentifier\":\"database-1\",\"dBClusterParameterGroup\":\"default.aurora-postgresql15\",\"dBSubnetGroup\":\"default-vpc-01324c032258e436d\",\"status\":\"available\",\"earliestRestorableTime\":\"Dec 12, 2024, 1:33:36 PM\",\"endpoint\":\"database-1.cluster-cpeakm8iirdd.us-east-1.rds.amazonaws.com\",\"readerEndpoint\":\"database-1.cluster-ro-cpeakm8iirdd.us-east-1.rds.amazonaws.com\",\"multiAZ\":true,\"engine\":\"aurora-postgresql\",\"engineVersion\":\"15.4\",\"latestRestorableTime\":\"Dec 12, 2024, 1:33:36 PM\",\"port\":5432,\"masterUsername\":\"postgres\",\"preferredBackupWindow\":\"07:32-08:02\",\"preferredMaintenanceWindow\":\"mon:10:24-mon:10:54\",\"readReplicaIdentifiers\":[],\"dBClusterMembers\":[{\"dBInstanceIdentifier\":\"database-1-instance-1\",\"isClusterWriter\":true,\"dBClusterParameterGroupStatus\":\"in-sync\",\"promotionTier\":1},{\"dBInstanceIdentifier\":\"database-1-instance-1-us-east-1a\",\"isClusterWriter\":false,\"dBClusterParameterGroupStatus\":\"in-sync\",\"promotionTier\":1}],\"vpcSecurityGroups\":[{\"vpcSecurityGroupId\":\"sg-2222222222222222\",\"status\":\"active\"}],\"hostedZoneId\":\"Z2R2ITUGPM61AM\",\"storageEncrypted\":true,\"kmsKeyId\":\"arn:aws:kms:us-east-1:222222222222:key/d43d2711-f226-4037-898d-e64f827e95fb\",\"dbClusterResourceId\":\"cluster-PZY3NOPYVGWUAUTOVMXEC4BMWY\",\"dBClusterArn\":\"arn:aws:rds:us-east-1:222222222222:cluster:database-1\",\"associatedRoles\":[],\"iAMDatabaseAuthenticationEnabled\":false,\"clusterCreateTime\":\"Dec 12, 2024, 1:32:44 PM\",\"pendingModifiedValues\":{\"masterUserPassword\":\"HIDDEN_DUE_TO_SECURITY_REASONS\"},\"engineMode\":\"provisioned\",\"autoMinorVersionUpgrade\":true,\"deletionProtection\":true,\"httpEndpointEnabled\":false,\"copyTagsToSnapshot\":true,\"crossAccountClone\":false,\"domainMemberships\":[],\"tagList\":[],\"networkType\":\"IPV4\",\"monitoringInterval\":0,\"databaseInsightsMode\":\"advanced\",\"performanceInsightsEnabled\":true,\"performanceInsightsKMSKeyId\":\"arn:aws:kms:us-east-1:222222222222:key/d43d2711-f226-4037-898d-e64f827e95fb\",\"performanceInsightsRetentionPeriod\":465,\"engineLifecycleSupport\":\"open-source-rds-extended-support-disabled\"}",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1110.002/aws_rds_password_reset/asl_ocsf_cloudtrail.json",
+        "sha256": "c7f16b51efd6a80ebb9beeeab3a2f64f94aed6a2a852706f9063e03e6653e38a",
+        "record_index": 2,
+        "upstream_path": "datasets/attack_techniques/T1110.002/aws_rds_password_reset/asl_ocsf_cloudtrail.json",
+        "git_blob_sha": "a98597760627010a40b2612ac660110e4af0502f",
+        "lfs_oid_sha256": "c7f16b51efd6a80ebb9beeeab3a2f64f94aed6a2a852706f9063e03e6653e38a"
+      }
+    },
+    {
+      "observation_id": "obs-4d5be49f9305895447a76aaa",
+      "candidate_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2022-08-05T09:19:15Z",
+      "service": "rds.amazonaws.com",
+      "operation": "ModifyDBInstance",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/gowthamarajr@splunk.com",
+      "source_ip": "AWS Internal",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "dBInstanceIdentifier": "database-1",
+        "applyImmediately": true,
+        "masterUserPassword": "****",
+        "allowMajorVersionUpgrade": false,
+        "deletionProtection": true
+      },
+      "response": {
+        "dBInstanceIdentifier": "database-1",
+        "dBInstanceClass": "db.m6g.large",
+        "engine": "postgres",
+        "dBInstanceStatus": "available",
+        "masterUsername": "postgres",
+        "endpoint": {
+          "address": "database-1.ce6wk5bvtc0t.us-west-2.rds.amazonaws.com",
+          "port": 5432,
+          "hostedZoneId": "Z1PVIF0B656C1W"
+        },
+        "allocatedStorage": 5,
+        "instanceCreateTime": "Aug 5, 2022 9:02:51 AM",
+        "preferredBackupWindow": "06:35-07:05",
+        "backupRetentionPeriod": 7,
+        "dBSecurityGroups": [],
+        "vpcSecurityGroups": [
+          {
+            "vpcSecurityGroupId": "sg-46cfd020",
+            "status": "active"
+          }
+        ],
+        "dBParameterGroups": [
+          {
+            "dBParameterGroupName": "default.postgres14",
+            "parameterApplyStatus": "in-sync"
+          }
+        ],
+        "availabilityZone": "us-west-2a",
+        "dBSubnetGroup": {
+          "dBSubnetGroupName": "default",
+          "dBSubnetGroupDescription": "default",
+          "vpcId": "vpc-5f02343b",
+          "subnetGroupStatus": "Complete",
+          "subnets": [
+            {
+              "subnetIdentifier": "subnet-43225f35",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2b"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            },
+            {
+              "subnetIdentifier": "subnet-e55d7881",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2a"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            },
+            {
+              "subnetIdentifier": "subnet-0beddb972f034bdaa",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2c"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            },
+            {
+              "subnetIdentifier": "subnet-2d70cd75",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2c"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            }
+          ]
+        },
+        "preferredMaintenanceWindow": "sat:11:44-sat:12:14",
+        "pendingModifiedValues": {
+          "masterUserPassword": "****"
+        },
+        "latestRestorableTime": "Aug 5, 2022 9:12:31 AM",
+        "multiAZ": false,
+        "engineVersion": "14.2",
+        "autoMinorVersionUpgrade": true,
+        "readReplicaDBInstanceIdentifiers": [],
+        "licenseModel": "postgresql-license",
+        "storageThroughput": 0,
+        "optionGroupMemberships": [
+          {
+            "optionGroupName": "default:postgres-14",
+            "status": "in-sync"
+          }
+        ],
+        "publiclyAccessible": false,
+        "storageType": "standard",
+        "dbInstancePort": 0,
+        "storageEncrypted": true,
+        "kmsKeyId": "arn:aws:kms:us-west-2:111111111111:key/318bcd5d-c453-489d-b63a-07753eab0623",
+        "dbiResourceId": "db-IX2K4LYFLBVZDHBYNPEAVFHFQM",
+        "cACertificateIdentifier": "rds-ca-2019",
+        "domainMemberships": [],
+        "copyTagsToSnapshot": true,
+        "monitoringInterval": 60,
+        "enhancedMonitoringResourceArn": "arn:aws:logs:us-west-2:111111111111:log-group:RDSOSMetrics:log-stream:db-IX2K4LYFLBVZDHBYNPEAVFHFQM",
+        "monitoringRoleArn": "arn:aws:iam::111111111111:role/rds-monitoring-role",
+        "dBInstanceArn": "arn:aws:rds:us-west-2:111111111111:db:database-1",
+        "iAMDatabaseAuthenticationEnabled": false,
+        "performanceInsightsEnabled": true,
+        "performanceInsightsKMSKeyId": "arn:aws:kms:us-west-2:111111111111:key/318bcd5d-c453-489d-b63a-07753eab0623",
+        "performanceInsightsRetentionPeriod": 7,
+        "deletionProtection": true,
+        "associatedRoles": [],
+        "httpEndpointEnabled": false,
+        "tagList": [],
+        "customerOwnedIpEnabled": false,
+        "networkType": "IPV4",
+        "backupTarget": "region"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1110.002/aws_rds_password_reset/aws_cloudtrail_events.json",
+        "sha256": "7015688e41e2afca485d25fcf1fc2e655402fc036e372ca0ad6d2fefc9430c1f",
+        "record_index": 0,
+        "upstream_path": "datasets/attack_techniques/T1110.002/aws_rds_password_reset/aws_cloudtrail_events.json",
+        "git_blob_sha": "0a67bd5d5e1fb923212d5e3111d03bbf8f1a65a6",
+        "lfs_oid_sha256": "7015688e41e2afca485d25fcf1fc2e655402fc036e372ca0ad6d2fefc9430c1f"
+      }
+    },
+    {
+      "observation_id": "obs-7238985c9d8fd8747f66c77e",
+      "candidate_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2022-08-05T09:08:03Z",
+      "service": "rds.amazonaws.com",
+      "operation": "ModifyDBInstance",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/gowthamarajr@splunk.com",
+      "source_ip": "AWS Internal",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "dBInstanceIdentifier": "database-1",
+        "applyImmediately": true,
+        "masterUserPassword": "****",
+        "allowMajorVersionUpgrade": false
+      },
+      "response": {
+        "dBInstanceIdentifier": "database-1",
+        "dBInstanceClass": "db.m6g.large",
+        "engine": "postgres",
+        "dBInstanceStatus": "available",
+        "masterUsername": "postgres",
+        "endpoint": {
+          "address": "database-1.ce6wk5bvtc0t.us-west-2.rds.amazonaws.com",
+          "port": 5432,
+          "hostedZoneId": "Z1PVIF0B656C1W"
+        },
+        "allocatedStorage": 5,
+        "instanceCreateTime": "Aug 5, 2022 9:02:51 AM",
+        "preferredBackupWindow": "06:35-07:05",
+        "backupRetentionPeriod": 7,
+        "dBSecurityGroups": [],
+        "vpcSecurityGroups": [
+          {
+            "vpcSecurityGroupId": "sg-46cfd020",
+            "status": "active"
+          }
+        ],
+        "dBParameterGroups": [
+          {
+            "dBParameterGroupName": "default.postgres14",
+            "parameterApplyStatus": "in-sync"
+          }
+        ],
+        "availabilityZone": "us-west-2a",
+        "dBSubnetGroup": {
+          "dBSubnetGroupName": "default",
+          "dBSubnetGroupDescription": "default",
+          "vpcId": "vpc-5f02343b",
+          "subnetGroupStatus": "Complete",
+          "subnets": [
+            {
+              "subnetIdentifier": "subnet-43225f35",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2b"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            },
+            {
+              "subnetIdentifier": "subnet-e55d7881",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2a"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            },
+            {
+              "subnetIdentifier": "subnet-0beddb972f034bdaa",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2c"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            },
+            {
+              "subnetIdentifier": "subnet-2d70cd75",
+              "subnetAvailabilityZone": {
+                "name": "us-west-2c"
+              },
+              "subnetOutpost": {},
+              "subnetStatus": "Active"
+            }
+          ]
+        },
+        "preferredMaintenanceWindow": "sat:11:44-sat:12:14",
+        "pendingModifiedValues": {
+          "masterUserPassword": "****"
+        },
+        "latestRestorableTime": "Aug 5, 2022 9:04:41 AM",
+        "multiAZ": false,
+        "engineVersion": "14.2",
+        "autoMinorVersionUpgrade": true,
+        "readReplicaDBInstanceIdentifiers": [],
+        "licenseModel": "postgresql-license",
+        "storageThroughput": 0,
+        "optionGroupMemberships": [
+          {
+            "optionGroupName": "default:postgres-14",
+            "status": "in-sync"
+          }
+        ],
+        "publiclyAccessible": false,
+        "storageType": "standard",
+        "dbInstancePort": 0,
+        "storageEncrypted": true,
+        "kmsKeyId": "arn:aws:kms:us-west-2:111111111111:key/318bcd5d-c453-489d-b63a-07753eab0623",
+        "dbiResourceId": "db-IX2K4LYFLBVZDHBYNPEAVFHFQM",
+        "cACertificateIdentifier": "rds-ca-2019",
+        "domainMemberships": [],
+        "copyTagsToSnapshot": true,
+        "monitoringInterval": 60,
+        "enhancedMonitoringResourceArn": "arn:aws:logs:us-west-2:111111111111:log-group:RDSOSMetrics:log-stream:db-IX2K4LYFLBVZDHBYNPEAVFHFQM",
+        "monitoringRoleArn": "arn:aws:iam::111111111111:role/rds-monitoring-role",
+        "dBInstanceArn": "arn:aws:rds:us-west-2:111111111111:db:database-1",
+        "iAMDatabaseAuthenticationEnabled": false,
+        "performanceInsightsEnabled": true,
+        "performanceInsightsKMSKeyId": "arn:aws:kms:us-west-2:111111111111:key/318bcd5d-c453-489d-b63a-07753eab0623",
+        "performanceInsightsRetentionPeriod": 7,
+        "deletionProtection": false,
+        "associatedRoles": [],
+        "httpEndpointEnabled": false,
+        "tagList": [],
+        "customerOwnedIpEnabled": false,
+        "networkType": "IPV4",
+        "backupTarget": "region"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1110.002/aws_rds_password_reset/aws_cloudtrail_events.json",
+        "sha256": "7015688e41e2afca485d25fcf1fc2e655402fc036e372ca0ad6d2fefc9430c1f",
+        "record_index": 1,
+        "upstream_path": "datasets/attack_techniques/T1110.002/aws_rds_password_reset/aws_cloudtrail_events.json",
+        "git_blob_sha": "0a67bd5d5e1fb923212d5e3111d03bbf8f1a65a6",
+        "lfs_oid_sha256": "7015688e41e2afca485d25fcf1fc2e655402fc036e372ca0ad6d2fefc9430c1f"
+      }
+    }
+  ],
+  "runtime_instances": [
+    {
+      "instance_id": "instance-5f351c3f035d3c08971f",
+      "environment_kind": "published_telemetry",
+      "platform": "AWS",
+      "observation_ids": [
+        "obs-a8b3b31538c973092b26ba89",
+        "obs-260de826d0c6490fde27dad4",
+        "obs-a958f683985819391ecd1635",
+        "obs-4d5be49f9305895447a76aaa",
+        "obs-7238985c9d8fd8747f66c77e"
+      ],
+      "observation_count": 5,
+      "selection_origin": "all normalized observations copied from the pinned published telemetry case"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "394fbb3864bd28233db4a96e6b1bdf2772aa7e97a155142995fb90846fce8991",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

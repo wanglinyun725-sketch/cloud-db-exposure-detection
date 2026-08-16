@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "stratus:gcp.credential-access.secretmanager-retrieve-secrets",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:gcp.credential-access.secretmanager-retrieve-secrets",
+    "kind": "executable_attack_technique",
+    "platform": "GCP",
+    "technique": "gcp.credential-access.secretmanager-retrieve-secrets",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.credential-access.secretmanager-retrieve-secrets.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.credential-access.secretmanager-retrieve-secrets.md",
+    "review_score": 44,
+    "independence_group": "stratus_red_team:stratus:gcp.credential-access.secretmanager-retrieve-secrets",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.credential-access.secretmanager-retrieve-secrets.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.credential-access.secretmanager-retrieve-secrets.md",
+      "member_sha256": "3475f66ef9f328dab241dff14b9b727007de663f81bac88e823159567f0b9549",
+      "bytes": 2902,
+      "content_kind": "md",
+      "text": "---\ntitle: Retrieve a High Number of Secret Manager secrets\n---\n\n# Retrieve a High Number of Secret Manager secrets\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: GCP\n\n## Mappings\n\n- MITRE ATT&CK\n    - Credential Access\n\n\n\n## Description\n\n\nRetrieves a high number of Secret Manager secrets in a short timeframe, through the AccessSecretVersion API.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create multiple secrets in Secret Manager\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Enumerate the secrets through the ListSecrets API\n- Retrieve each secret value, one by one through the AccessSecretVersion API\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate gcp.credential-access.secretmanager-retrieve-secrets\n```\n## Detection\n\nCloud Audit Logs event corresponding to accessing a secret's value is <code>AccessSecretVersion</code>.\nIt is considered [data access event](https://cloud.google.com/secret-manager/docs/audit-logging), and needs to be explicitly enabled for the Secret Manager API.\n\nSample event:\n\n```json hl_lines=\"18 20 25\"\n{\n  \"protoPayload\": {\n    \"@type\": \"type.googleapis.com/google.cloud.audit.AuditLog\",\n    \"requestMetadata\": {\n      \"callerIp\": \"7.7.7.7\",\n      \"callerSuppliedUserAgent\": \"stratus-red-team_4fbc5d44-9c4f-469f-a15b-0c85e6ad3241 grpc-go/1.70.0,gzip(gfe)\",\n      \"requestAttributes\": {\n        \"time\": \"2025-02-02T22:56:34.343726445Z\",\n        \"auth\": {}\n      },\n      \"destinationAttributes\": {}\n    },\n    \"serviceName\": \"secretmanager.googleapis.com\",\n    \"methodName\": \"google.cloud.secretmanager.v1.SecretManagerService.AccessSecretVersion\",\n    \"authorizationInfo\": [\n      {\n        \"permission\": \"secretmanager.versions.access\",\n        \"granted\": true,\n        \"resourceAttributes\": {\n          \"service\": \"secretmanager.googleapis.com\",\n          \"name\": \"projects/victim-project/secrets/stratus-red-team-retrieve-secret-8/versions/latest\",\n          \"type\": \"secretmanager.googleapis.com/SecretVersion\"\n        },\n        \"permissionType\": \"DATA_READ\"\n      }\n    ],\n    \"resourceName\": \"projects/victim-project/secrets/stratus-red-team-retrieve-secret-8/versions/latest\",\n    \"request\": {\n      \"name\": \"projects/victim-project/secrets/stratus-red-team-retrieve-secret-8/versions/latest\",\n      \"@type\": \"type.googleapis.com/google.cloud.secretmanager.v1.AccessSecretVersionRequest\"\n    }\n  },\n  \"resource\": {\n    \"type\": \"audited_resource\",\n    \"labels\": {\n      \"method\": \"google.cloud.secretmanager.v1.SecretManagerService.AccessSecretVersion\",\n      \"project_id\": \"victim-project\",\n      \"service\": \"secretmanager.googleapis.com\"\n    }\n  }\n}\n```\n\nReferences:\n\n- https://cloud.hacktricks.wiki/en/pentesting-cloud/gcp-security/gcp-services/gcp-secrets-manager-enum.html\n\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "71fb53642651e33aff2e46df889318fc3255e435ee575161ad0f3753ddd68ece",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

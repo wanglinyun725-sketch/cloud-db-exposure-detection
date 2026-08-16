@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "stratus:k8s.persistence.create-admin-clusterrole",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:k8s.persistence.create-admin-clusterrole",
+    "kind": "executable_attack_technique",
+    "platform": "kubernetes",
+    "technique": "k8s.persistence.create-admin-clusterrole",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.persistence.create-admin-clusterrole.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.persistence.create-admin-clusterrole.md",
+    "review_score": 4,
+    "independence_group": "stratus_red_team:stratus:k8s.persistence.create-admin-clusterrole",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.persistence.create-admin-clusterrole.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.persistence.create-admin-clusterrole.md",
+      "member_sha256": "4ebde15e5440940495d72fa1deb0448012b9b2e218f838f62ad1b1f95ef34bc6",
+      "bytes": 722,
+      "content_kind": "md",
+      "text": "---\ntitle: Create Admin ClusterRole\n---\n\n# Create Admin ClusterRole\n\n\n\n\nPlatform: Kubernetes\n\n## Mappings\n\n- MITRE ATT&CK\n    - Persistence\n  - Privilege Escalation\n\n\n\n## Description\n\n\nCreates a Service Account bound to a cluster administrator role.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>: None\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Create a Cluster Role with administrative permissions\n- Create a Service Account (in the kube-system namespace)\n- Create a Cluster Role Binding\n- Retrieve the long-lived service account token, stored by K8s in a secret\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate k8s.persistence.create-admin-clusterrole\n```\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "6269f49771abf98082ed916ace92da0fe96db093478be83c81ef3db3b39c3520",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

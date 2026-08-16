@@ -1,0 +1,629 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "crosscloud:azure:data_manipulation",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cross_cloud_observability_2026",
+    "upstream_url": "https://doi.org/10.5281/zenodo.19933893",
+    "version_or_commit": "record-19933893-v2",
+    "license": "CC-BY-4.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/README.md",
+        "sha256": "b073b2e97aea4073fec2bf387e2c255d987dd8f3710e84f2df3cc59947e510f8",
+        "upstream_checksum": "md5:10eb94c911d603deb5353a4f9bdfa46e"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/attack_scripts.zip",
+        "sha256": "4599be3e224f3b9b43e76ab4ec1bfa8e3b209ebe529fb218ae4e65dd22417900",
+        "upstream_checksum": "md5:e448f9e9eafb7482b735c76d2d4ef0d0"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/azure_logs_redacted.zip",
+        "sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee",
+        "upstream_checksum": "md5:e4e3359913d45fa86739ab39f21123b4"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/log_analysis.zip",
+        "sha256": "23b41863cc2ece4936277a1ee1fc6f64b4fea9f3c0f698cefbf5626eeca00fcf",
+        "upstream_checksum": "md5:c57994c6e199cbbf8b091ddcd139515a"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "description": "DOI-published paired payload/no-payload AZURE telemetry for data_manipulation.",
+    "author": "Dhooghe et al.",
+    "published_date": "2026-04-30",
+    "environment": "controlled cloud subscription",
+    "platform": "AZURE",
+    "attack": "data_manipulation",
+    "independence_group": "crosscloud-family:data_manipulation",
+    "attack_script_refs": [
+      "attack_scripts.zip#attack_scripts/azure-attacks/218_data_manipulation_att_script.sh",
+      "attack_scripts.zip#attack_scripts/azure-attacks/all_automated.sh",
+      "attack_scripts.zip#attack_scripts/azure-attacks/automated-logging.sh"
+    ]
+  },
+  "observations": [],
+  "runtime_instances": [
+    {
+      "instance_id": "episode-199d168c32bb9ebe",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "AZURE",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-39d2bf74615fd64d3ef17808",
+          "timestamp": "2024-10-23T02:04:31.1070027Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/write\", \"requestbody\": \"{\\\"sku\\\":{\\\"name\\\":\\\"Standard_RAGRS\\\"},\\\"kind\\\":\\\"StorageV2\\\",\\\"location\\\":\\\"westus\\\",\\\"properties\\\":{\\\"encryption\\\":{\\\"services\\\":{\\\"blob\\\":{}},\\\"keySource\\\":\\\"Microsoft.Storage\\\"},\\\"allowBlobPublicAccess\\\":false}}\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7a3f3103b4dd1eb3e161594a72c55545a5ea577e0b75fc1ed6381dc248eebc21",
+            "record_index": 12,
+            "upstream_path": "member-7a3f3103b4dd1eb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-391f285671967edcf79986e9",
+          "timestamp": "2024-10-23T02:04:31.1851329Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Authorization/policies/audit/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"ancestors\": \"REDACTED_GUID\", \"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"isComplianceCheck\": \"False\", \"message\": \"Microsoft.Authorization/policies/audit/action\", \"policies\": \"[{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"storageAccountsShouldRestrictNetworkAccessUsingVirtualNetworkRulesMonitoringEffect\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Storage accounts should restrict network access using virtual network rules\\\",\\\"policyDefinitionEffect\\\":\\\"Audit\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]},{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"storageAccountsShouldPreventSharedKeyAccess\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Storage accounts should prevent shared key access\\\",\\\"policyDefinitionEffect\\\":\\\"Audit\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]}]\", \"resourceLocation\": \"westus\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7a3f3103b4dd1eb3e161594a72c55545a5ea577e0b75fc1ed6381dc248eebc21",
+            "record_index": 11,
+            "upstream_path": "member-7a3f3103b4dd1eb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-8f89d29d82216b359ad14687",
+          "timestamp": "2024-10-23T02:04:35.4042312Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Authorization/policies/auditIfNotExists/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"message\": \"Microsoft.Authorization/policies/auditIfNotExists/action\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7a3f3103b4dd1eb3e161594a72c55545a5ea577e0b75fc1ed6381dc248eebc21",
+            "record_index": 10,
+            "upstream_path": "member-7a3f3103b4dd1eb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-46d914536205c01ca1c05de9",
+          "timestamp": "2024-10-23T02:04:35.4198579Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Accepted",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/write\", \"statusCode\": \"Accepted\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"Accepted (HTTP Status Code: 202)\", \"value\": \"Accepted\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7a3f3103b4dd1eb3e161594a72c55545a5ea577e0b75fc1ed6381dc248eebc21",
+            "record_index": 9,
+            "upstream_path": "member-7a3f3103b4dd1eb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-47e7678d84a9d61ed8d79b69",
+          "timestamp": "2024-10-23T02:04:52.7005519Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/read",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Running",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/read\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7a3f3103b4dd1eb3e161594a72c55545a5ea577e0b75fc1ed6381dc248eebc21",
+            "record_index": 8,
+            "upstream_path": "member-7a3f3103b4dd1eb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-59e8d67ac7ed5b8fa7f0eddf",
+          "timestamp": "2024-10-23T02:04:58.0053169Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/read",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Running",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/read\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7a3f3103b4dd1eb3e161594a72c55545a5ea577e0b75fc1ed6381dc248eebc21",
+            "record_index": 7,
+            "upstream_path": "member-7a3f3103b4dd1eb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-1f11bd3b2816bf4b666efb38",
+          "timestamp": "2024-10-23T02:05:03.3829291Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/read",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Running",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/read\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7a3f3103b4dd1eb3e161594a72c55545a5ea577e0b75fc1ed6381dc248eebc21",
+            "record_index": 6,
+            "upstream_path": "member-7a3f3103b4dd1eb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-cdfe5933c52cd6cfd0fd2370",
+          "timestamp": "2024-10-23T02:05:09.4414119Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/write\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7a3f3103b4dd1eb3e161594a72c55545a5ea577e0b75fc1ed6381dc248eebc21",
+            "record_index": 5,
+            "upstream_path": "member-7a3f3103b4dd1eb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-e05e3f99ac86e42a884e26d9",
+          "timestamp": "2024-10-23T02:06:26.0355565Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/delete",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/delete\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/delete\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7a3f3103b4dd1eb3e161594a72c55545a5ea577e0b75fc1ed6381dc248eebc21",
+            "record_index": 4,
+            "upstream_path": "member-7a3f3103b4dd1eb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-78e2b7bbb5f5874541539ab8",
+          "timestamp": "2024-10-23T02:06:29.785571Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/delete",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/delete\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/delete\", \"statusCode\": \"OK\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"OK (HTTP Status Code: 200)\", \"value\": \"OK\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7a3f3103b4dd1eb3e161594a72c55545a5ea577e0b75fc1ed6381dc248eebc21",
+            "record_index": 3,
+            "upstream_path": "member-7a3f3103b4dd1eb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-7f3a30c7deff38b69d13fabf",
+          "timestamp": "2024-10-23T02:13:12.6625738Z",
+          "service": "Microsoft.OperationalInsights",
+          "operation": "Microsoft.OperationalInsights/workspaces/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.OperationalInsights/workspaces/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.OperationalInsights/workspaces/myworkspace\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.OperationalInsights/workspaces/myworkspace\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.OperationalInsights/workspaces/write\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.OperationalInsights/workspaces/myworkspace",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7a3f3103b4dd1eb3e161594a72c55545a5ea577e0b75fc1ed6381dc248eebc21",
+            "record_index": 2,
+            "upstream_path": "member-7a3f3103b4dd1eb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-85f840ac1ceb2b2362e242a0",
+          "timestamp": "2024-10-23T02:14:35.9510082Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Authorization/policies/auditIfNotExists/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"ancestors\": \"\", \"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"isComplianceCheck\": \"False\", \"message\": \"Microsoft.Authorization/policies/auditIfNotExists/action\", \"policies\": \"[{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"storageAccountShouldUseAPrivateLinkConnectionMonitoringEffect\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Storage accounts should use private link\\\",\\\"policyDefinitionEffect\\\":\\\"AuditIfNotExists\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]}]\", \"resourceLocation\": \"westus\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7a3f3103b4dd1eb3e161594a72c55545a5ea577e0b75fc1ed6381dc248eebc21",
+            "record_index": 0,
+            "upstream_path": "member-7a3f3103b4dd1eb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-9588792f87d3397b46768ef2",
+          "timestamp": "2024-10-23T02:14:35.9510082Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Authorization/policies/audit/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"ancestors\": \"REDACTED_GUID\", \"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"isComplianceCheck\": \"False\", \"message\": \"Microsoft.Authorization/policies/audit/action\", \"policies\": \"[{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"storageAccountShouldUseAPrivateLinkConnectionMonitoringEffect\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Storage accounts should use private link\\\",\\\"policyDefinitionEffect\\\":\\\"AuditIfNotExists\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]}]\", \"resourceLocation\": \"westus\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7a3f3103b4dd1eb3e161594a72c55545a5ea577e0b75fc1ed6381dc248eebc21",
+            "record_index": 1,
+            "upstream_path": "member-7a3f3103b4dd1eb3",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        }
+      ],
+      "observation_count": 13,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    },
+    {
+      "instance_id": "episode-cb9f6924aa94be48",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "AZURE",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-2b457bb66c3d179a9b530dad",
+          "timestamp": "2024-10-23T01:49:40.504725Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/write\", \"requestbody\": \"{\\\"sku\\\":{\\\"name\\\":\\\"Standard_RAGRS\\\"},\\\"kind\\\":\\\"StorageV2\\\",\\\"location\\\":\\\"westus\\\",\\\"properties\\\":{\\\"encryption\\\":{\\\"services\\\":{\\\"blob\\\":{}},\\\"keySource\\\":\\\"Microsoft.Storage\\\"},\\\"allowBlobPublicAccess\\\":false}}\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7326150e67711dfd69a1a16b79e4cf96c008aca50b5ced8456ec29feb475f213",
+            "record_index": 10,
+            "upstream_path": "member-7326150e67711dfd",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-04b77ed0628389c45826bda9",
+          "timestamp": "2024-10-23T01:49:40.6142783Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Authorization/policies/audit/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": "westus",
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"ancestors\": \"REDACTED_GUID\", \"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"isComplianceCheck\": \"False\", \"message\": \"Microsoft.Authorization/policies/audit/action\", \"policies\": \"[{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"storageAccountsShouldRestrictNetworkAccessUsingVirtualNetworkRulesMonitoringEffect\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Storage accounts should restrict network access using virtual network rules\\\",\\\"policyDefinitionEffect\\\":\\\"Audit\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]},{\\\"policyDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policyDefinitions/REDACTED_GUID\\\",\\\"policySetDefinitionId\\\":\\\"/providers/Microsoft.Authorization/policySetDefinitions/REDACTED_GUID\\\",\\\"policyDefinitionReferenceId\\\":\\\"storageAccountsShouldPreventSharedKeyAccess\\\",\\\"policySetDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policySetDefinitionDisplayName\\\":\\\"Microsoft cloud security benchmark\\\",\\\"policyDefinitionName\\\":\\\"REDACTED_GUID\\\",\\\"policyDefinitionDisplayName\\\":\\\"Storage accounts should prevent shared key access\\\",\\\"policyDefinitionEffect\\\":\\\"Audit\\\",\\\"policyAssignmentId\\\":\\\"/subscriptions/REDACTED_GUID/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn\\\",\\\"policyAssignmentName\\\":\\\"SecurityCenterBuiltIn\\\",\\\"policyAssignmentDisplayName\\\":\\\"ASC Default (subscription: REDACTED_GUID)\\\",\\\"policyAssignmentScope\\\":\\\"/subscriptions/REDACTED_GUID\\\",\\\"policyExemptionIds\\\":[]}]\", \"resourceLocation\": \"westus\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7326150e67711dfd69a1a16b79e4cf96c008aca50b5ced8456ec29feb475f213",
+            "record_index": 9,
+            "upstream_path": "member-7326150e67711dfd",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-bb455cd9e7e20b2f4dccfe20",
+          "timestamp": "2024-10-23T01:49:43.6609637Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Authorization/policies/auditIfNotExists/action",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Policy\", \"hierarchy\": \"\", \"message\": \"Microsoft.Authorization/policies/auditIfNotExists/action\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7326150e67711dfd69a1a16b79e4cf96c008aca50b5ced8456ec29feb475f213",
+            "record_index": 8,
+            "upstream_path": "member-7326150e67711dfd",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-6bc9e5959d07e485a9454af1",
+          "timestamp": "2024-10-23T01:49:43.6922128Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Accepted",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/write\", \"statusCode\": \"Accepted\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"Accepted (HTTP Status Code: 202)\", \"value\": \"Accepted\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7326150e67711dfd69a1a16b79e4cf96c008aca50b5ced8456ec29feb475f213",
+            "record_index": 7,
+            "upstream_path": "member-7326150e67711dfd",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-4b26d53a5f247de4c68a1593",
+          "timestamp": "2024-10-23T01:50:00.9137395Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/read",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Running",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/read\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7326150e67711dfd69a1a16b79e4cf96c008aca50b5ced8456ec29feb475f213",
+            "record_index": 6,
+            "upstream_path": "member-7326150e67711dfd",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-69e70bee9e6a9c333416a66b",
+          "timestamp": "2024-10-23T01:50:06.4451511Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/read",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Running",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/read\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7326150e67711dfd69a1a16b79e4cf96c008aca50b5ced8456ec29feb475f213",
+            "record_index": 5,
+            "upstream_path": "member-7326150e67711dfd",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-1558270155af70a557946fc9",
+          "timestamp": "2024-10-23T01:50:11.9983032Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/read",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Running",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/read\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7326150e67711dfd69a1a16b79e4cf96c008aca50b5ced8456ec29feb475f213",
+            "record_index": 4,
+            "upstream_path": "member-7326150e67711dfd",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-9e557dd1001b1499eff88cb2",
+          "timestamp": "2024-10-23T01:50:17.9209303Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/write\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7326150e67711dfd69a1a16b79e4cf96c008aca50b5ced8456ec29feb475f213",
+            "record_index": 3,
+            "upstream_path": "member-7326150e67711dfd",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-bd009a59484a763c71b0d8f2",
+          "timestamp": "2024-10-23T01:51:10.209872Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/delete",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Started",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/delete\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/delete\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7326150e67711dfd69a1a16b79e4cf96c008aca50b5ced8456ec29feb475f213",
+            "record_index": 2,
+            "upstream_path": "member-7326150e67711dfd",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-e2ba992854258acdcca91382",
+          "timestamp": "2024-10-23T01:51:14.1943251Z",
+          "service": "Microsoft.Storage",
+          "operation": "Microsoft.Storage/storageAccounts/delete",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.Storage/storageAccounts/delete\", \"scope\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.Storage/storageAccounts/delete\", \"statusCode\": \"OK\"}}\nresource=/subscriptions/REDACTED_GUID/resourceGroups/resource_group/providers/Microsoft.Storage/storageAccounts/storage01me",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"OK (HTTP Status Code: 200)\", \"value\": \"OK\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7326150e67711dfd69a1a16b79e4cf96c008aca50b5ced8456ec29feb475f213",
+            "record_index": 1,
+            "upstream_path": "member-7326150e67711dfd",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        },
+        {
+          "observation_id": "obs-2fe3a6587b13ac30412f732c",
+          "timestamp": "2024-10-23T01:58:29.0326123Z",
+          "service": "Microsoft.OperationalInsights",
+          "operation": "Microsoft.OperationalInsights/workspaces/write",
+          "actor_type": "app",
+          "actor_id": "REDACTED_GUID",
+          "account_id": "REDACTED_GUID",
+          "region": null,
+          "event_status": "Succeeded",
+          "schema": "azure_activity",
+          "source_ip": null,
+          "request": "{\"authorization\": {\"action\": \"Microsoft.OperationalInsights/workspaces/write\", \"scope\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.OperationalInsights/workspaces/myworkspace\"}, \"properties\": {\"entity\": \"/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.OperationalInsights/workspaces/myworkspace\", \"eventCategory\": \"Administrative\", \"hierarchy\": \"REDACTED_GUID\", \"message\": \"Microsoft.OperationalInsights/workspaces/write\"}}\nresource=/subscriptions/REDACTED_GUID/resourcegroups/resource_group/providers/Microsoft.OperationalInsights/workspaces/myworkspace",
+          "response": "{\"description\": \"\", \"subStatus\": {\"localizedValue\": \"\", \"value\": \"\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "7326150e67711dfd69a1a16b79e4cf96c008aca50b5ced8456ec29feb475f213",
+            "record_index": 0,
+            "upstream_path": "member-7326150e67711dfd",
+            "archive_sha256": "5a94d05e4877593bad1602a68a6f4e775f72323e9e408ae0d0480d7126789dee"
+          }
+        }
+      ],
+      "observation_count": 11,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "bf3a912cb8d6496a59726e4510b524e99e5c13675a3c8068c4ea52dac4b46769",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

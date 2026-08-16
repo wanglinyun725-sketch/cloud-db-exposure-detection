@@ -1,0 +1,277 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "crosscloud:aws:data_encrypted_for_impact",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cross_cloud_observability_2026",
+    "upstream_url": "https://doi.org/10.5281/zenodo.19933893",
+    "version_or_commit": "record-19933893-v2",
+    "license": "CC-BY-4.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/README.md",
+        "sha256": "b073b2e97aea4073fec2bf387e2c255d987dd8f3710e84f2df3cc59947e510f8",
+        "upstream_checksum": "md5:10eb94c911d603deb5353a4f9bdfa46e"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/attack_scripts.zip",
+        "sha256": "4599be3e224f3b9b43e76ab4ec1bfa8e3b209ebe529fb218ae4e65dd22417900",
+        "upstream_checksum": "md5:e448f9e9eafb7482b735c76d2d4ef0d0"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+        "sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+        "upstream_checksum": "md5:f83ebd4892dcf4d349f51c1c477408dc"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/log_analysis.zip",
+        "sha256": "23b41863cc2ece4936277a1ee1fc6f64b4fea9f3c0f698cefbf5626eeca00fcf",
+        "upstream_checksum": "md5:c57994c6e199cbbf8b091ddcd139515a"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "description": "DOI-published paired payload/no-payload AWS telemetry for data_encrypted_for_impact.",
+    "author": "Dhooghe et al.",
+    "published_date": "2026-04-30",
+    "environment": "controlled cloud subscription",
+    "platform": "AWS",
+    "attack": "data_encrypted_for_impact",
+    "independence_group": "crosscloud-family:data_encrypted_for_impact",
+    "attack_script_refs": [
+      "attack_scripts.zip#attack_scripts/aws-attacks/attack_scripts/all_automated.sh",
+      "attack_scripts.zip#attack_scripts/aws-attacks/attack_scripts/automated-logging.sh",
+      "attack_scripts.zip#attack_scripts/aws-attacks/attack_scripts/storage_attacks.sh"
+    ]
+  },
+  "observations": [],
+  "runtime_instances": [
+    {
+      "instance_id": "episode-db2e9c0cad816264",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "AWS",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-c8834719d0ae6873f5340b35",
+          "timestamp": "2024-10-03T07:29:02Z",
+          "service": "cloudtrail.amazonaws.com",
+          "operation": "LookupEvents",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"endTime\": \"Oct 3, 2024, 7:28:58 AM\", \"startTime\": \"Oct 3, 2024, 7:25:52 AM\"}\nresource=[]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "287d1c7a9334a73944642436b3af1bf93ac23add7c0ef9016c22a405a565de91",
+            "record_index": 4,
+            "upstream_path": "member-287d1c7a9334a739",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-c231c992b669205e33a360fa",
+          "timestamp": "2024-10-03T07:29:07Z",
+          "service": "s3.amazonaws.com",
+          "operation": "CreateBucket",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"storage-attacks-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"storage-attacks-bucket\"}\nresource=[]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "287d1c7a9334a73944642436b3af1bf93ac23add7c0ef9016c22a405a565de91",
+            "record_index": 3,
+            "upstream_path": "member-287d1c7a9334a739",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-759433bcf40e181db328840f",
+          "timestamp": "2024-10-03T07:29:55Z",
+          "service": "kms.amazonaws.com",
+          "operation": "CreateKey",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"bypassPolicyLockoutSafetyCheck\": false, \"customerMasterKeySpec\": \"SYMMETRIC_DEFAULT\", \"description\": \"KMS new\", \"keySpec\": \"SYMMETRIC_DEFAULT\", \"keyUsage\": \"ENCRYPT_DECRYPT\", \"origin\": \"AWS_KMS\"}\nresource=[{\"ARN\": \"arn:aws:kms:us-east-1:ACCOUNT_ID:key/REDACTED_KEY_ID\", \"accountId\": \"ACCOUNT_ID\", \"type\": \"AWS::KMS::Key\"}]",
+          "response": "{\"keyMetadata\": {\"aWSAccountId\": \"ACCOUNT_ID\", \"arn\": \"arn:aws:kms:us-east-1:ACCOUNT_ID:key/REDACTED_KEY_ID\", \"creationDate\": \"Oct 3, 2024, 7:29:55 AM\", \"customerMasterKeySpec\": \"SYMMETRIC_DEFAULT\", \"description\": \"KMS new\", \"enabled\": true, \"encryptionAlgorithms\": [\"SYMMETRIC_DEFAULT\"], \"keyId\": \"REDACTED_GUID\", \"keyManager\": \"CUSTOMER\", \"keySpec\": \"SYMMETRIC_DEFAULT\", \"keyState\": \"Enabled\", \"keyUsage\": \"ENCRYPT_DECRYPT\", \"multiRegion\": false, \"origin\": \"AWS_KMS\"}}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "287d1c7a9334a73944642436b3af1bf93ac23add7c0ef9016c22a405a565de91",
+            "record_index": 2,
+            "upstream_path": "member-287d1c7a9334a739",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-f550b0119b90c548772e02a9",
+          "timestamp": "2024-10-03T07:30:00Z",
+          "service": "s3.amazonaws.com",
+          "operation": "PutBucketEncryption",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"storage-attacks-bucket.s3.us-east-1.amazonaws.com\", \"ServerSideEncryptionConfiguration\": {\"Rule\": {\"ApplyServerSideEncryptionByDefault\": {\"KMSMasterKeyID\": \"$KEY_ID\", \"SSEAlgorithm\": \"aws:kms\"}}, \"xmlns\": \"http://s3.amazonaws.com/doc/2006-03-01/\"}, \"bucketName\": \"storage-attacks-bucket\", \"encryption\": \"\"}\nresource=[{\"ARN\": \"arn:aws:s3:::storage-attacks-bucket\", \"accountId\": \"ACCOUNT_ID\", \"type\": \"AWS::S3::Bucket\"}]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "287d1c7a9334a73944642436b3af1bf93ac23add7c0ef9016c22a405a565de91",
+            "record_index": 1,
+            "upstream_path": "member-287d1c7a9334a739",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-3a950bc41a1325074d3040fc",
+          "timestamp": "2024-10-03T07:30:09Z",
+          "service": "kms.amazonaws.com",
+          "operation": "ScheduleKeyDeletion",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"keyId\": \"REDACTED_GUID\", \"pendingWindowInDays\": 7}\nresource=[{\"ARN\": \"arn:aws:kms:us-east-1:ACCOUNT_ID:key/REDACTED_KEY_ID\", \"accountId\": \"ACCOUNT_ID\", \"type\": \"AWS::KMS::Key\"}]",
+          "response": "{\"deletionDate\": \"Oct 10, 2024, 7:30:09 AM\", \"keyId\": \"arn:aws:kms:us-east-1:ACCOUNT_ID:key/REDACTED_KEY_ID\", \"keyState\": \"PendingDeletion\", \"pendingWindowInDays\": 7}",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "287d1c7a9334a73944642436b3af1bf93ac23add7c0ef9016c22a405a565de91",
+            "record_index": 0,
+            "upstream_path": "member-287d1c7a9334a739",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        }
+      ],
+      "observation_count": 5,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    },
+    {
+      "instance_id": "episode-e8001e45102e8faf",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "AWS",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-625f9624bb687ae59a2c9ddb",
+          "timestamp": "2024-10-03T07:32:31Z",
+          "service": "cloudtrail.amazonaws.com",
+          "operation": "LookupEvents",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"endTime\": \"Oct 3, 2024, 7:32:27 AM\", \"startTime\": \"Oct 3, 2024, 7:29:02 AM\"}\nresource=[]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "75c060b440c4f1eb4aa10922f2b595d060f9866b328dce077d6b4bc5270692e2",
+            "record_index": 2,
+            "upstream_path": "member-75c060b440c4f1eb",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-ef8b8fd8397f97b8efe231a0",
+          "timestamp": "2024-10-03T07:32:35Z",
+          "service": "s3.amazonaws.com",
+          "operation": "CreateBucket",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"storage-attacks-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"storage-attacks-bucket\"}\nresource=[]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "75c060b440c4f1eb4aa10922f2b595d060f9866b328dce077d6b4bc5270692e2",
+            "record_index": 1,
+            "upstream_path": "member-75c060b440c4f1eb",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-eacf87f0a1d8a35a85a2fb7f",
+          "timestamp": "2024-10-03T07:33:36Z",
+          "service": "s3.amazonaws.com",
+          "operation": "DeleteBucket",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"storage-attacks-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"storage-attacks-bucket\"}\nresource=[{\"ARN\": \"arn:aws:s3:::storage-attacks-bucket\", \"accountId\": \"ACCOUNT_ID\", \"type\": \"AWS::S3::Bucket\"}]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "75c060b440c4f1eb4aa10922f2b595d060f9866b328dce077d6b4bc5270692e2",
+            "record_index": 0,
+            "upstream_path": "member-75c060b440c4f1eb",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        }
+      ],
+      "observation_count": 3,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "5ddedefae700dd9375f7337aa057f1bd95ee9da7004f41fc3d7ecd82e416c431",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

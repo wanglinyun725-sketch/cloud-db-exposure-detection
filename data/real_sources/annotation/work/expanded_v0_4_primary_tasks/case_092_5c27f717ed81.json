@@ -1,0 +1,134 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:aws.exfiltration.rds-share-snapshot",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.exfiltration.rds-share-snapshot.json",
+        "sha256": "4412c2d3a09fc78f0cfed0a3640b7ce4ef6159c8694c80b0771067b2c6dfee2a"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:aws.exfiltration.rds-share-snapshot",
+    "kind": "executable_attack_technique",
+    "platform": "AWS",
+    "technique": "aws.exfiltration.rds-share-snapshot",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.rds-share-snapshot.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.rds-share-snapshot.md",
+    "review_score": 53,
+    "independence_group": "stratus-technique:T1496.A007",
+    "runtime_observations_in_packet": 1,
+    "mapped_technique_ids": [
+      "T1496.A007"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label",
+    "runtime_evidence_origin": "upstream Stratus documentation: real detonation in a test AWS environment using Grimoire, anonymized with LogLicker",
+    "runtime_environment": "real_isolated_test_cloud_detonation"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.rds-share-snapshot.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.rds-share-snapshot.md",
+      "member_sha256": "bdcb9ed763e4df87f0d37163f6e3dc04b85e731986f7e35a821e0f5b410ef070",
+      "bytes": 3949,
+      "content_kind": "md",
+      "text": "---\ntitle: Exfiltrate RDS Snapshot by Sharing\n---\n\n# Exfiltrate RDS Snapshot by Sharing\n\n <span class=\"smallcaps w3-badge w3-orange w3-round w3-text-sand\" title=\"This attack technique might be slow to warm up or detonate\">slow</span> \n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: AWS\n\n## Mappings\n\n- MITRE ATT&CK\n    - Exfiltration\n\n\n- Threat Technique Catalog for AWS:\n  \n    - [Resource Hijacking: Cloud Service Hijacking - Bedrock LLM Abuse](https://aws-samples.github.io/threat-technique-catalog-for-aws/Techniques/T1496.A007.html) (T1496.A007)\n  \n\n\n## Description\n\n\nShares an RDS Snapshot with an external AWS account to simulate an attacker exfiltrating a database.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create an RDS Instance (slow, around 10 minutes)\n- Create an RDS Snapshot\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Call rds:ModifyDBSnapshotAttribute to share the snapshot with an external AWS account\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate aws.exfiltration.rds-share-snapshot\n```\n## Detection\n\n\nThrough CloudTrail's <code>ModifyDBSnapshotAttribute</code> event, when both:\n\n- <code>requestParameters.attributeName</code> is <code>restore</code>\n- and, <code>requestParameters.launchPermission</code> shows that the RDS snapshot was shared with a new or unknown AWS account, such as:\n\n<pre><code>\"requestParameters\": {\n  \"dBSnapshotIdentifier\": \"my-db-snapshot\",\n  \"attributeName\": \"restore\"\n  \"valuesToAdd\": [\"193672423079\"],\n}</code></pre>\n\nAn attacker can also make an RDS snapshot completely public. In this case, the value of <code>valuesToAdd</code> is <code>[\"all\"]</code>.\n\n\n\n## Detonation logs <span class=\"smallcaps w3-badge w3-light-green w3-round w3-text-sand\">new!</span>\n\nThe following CloudTrail events are generated when this technique is detonated[^1]:\n\n\n- `rds:ModifyDBSnapshotAttribute`\n\n\n??? \"View raw detonation logs\"\n\n    ```json hl_lines=\"6\"\n\n    [\n\t   {\n\t      \"awsRegion\": \"meiso-eastwest-2r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"fef2bf02-bbea-4d0f-a91c-e6ccfe3fba46\",\n\t      \"eventName\": \"ModifyDBSnapshotAttribute\",\n\t      \"eventSource\": \"rds.amazonaws.com\",\n\t      \"eventTime\": \"2024-08-01T12:38:06Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.08\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": false,\n\t      \"recipientAccountId\": \"171471557522\",\n\t      \"requestID\": \"3fd13676-52a0-4680-8491-71a8e28ea7f5\",\n\t      \"requestParameters\": {\n\t         \"attributeName\": \"restore\",\n\t         \"dBSnapshotIdentifier\": \"exfiltration\",\n\t         \"valuesToAdd\": [\n\t            \"503161813013\"\n\t         ]\n\t      },\n\t      \"responseElements\": {\n\t         \"dBSnapshotAttributes\": [\n\t            {\n\t               \"attributeName\": \"restore\",\n\t               \"attributeValues\": [\n\t                  \"503161813013\"\n\t               ]\n\t            }\n\t         ],\n\t         \"dBSnapshotIdentifier\": \"exfiltration\"\n\t      },\n\t      \"sourceIPAddress\": \"204.10.215.184\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"rds.meiso-eastwest-2r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_5ca5319a-2127-4f13-a878-495bc59244b3\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIAIYTVC64GTXUFCS2X\",\n\t         \"accountId\": \"171471557522\",\n\t         \"arn\": \"arn:aws:iam::171471557522:user/christophe\",\n\t         \"principalId\": \"AIDA3MGXB5NR71XRJU40\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   }\n\t]\n    ```\n\n[^1]: These logs have been gathered from a real detonation of this technique in a test environment using [Grimoire](https://github.com/DataDog/grimoire), and anonymized using [LogLicker](https://github.com/Permiso-io-tools/LogLicker).\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [
+    {
+      "instance_id": "instance-9a2d1fad976e3b436158",
+      "environment_kind": "stratus_grimoire_detonation",
+      "platform": "AWS",
+      "log_profile": "cloudtrail_detonation",
+      "observations": [
+        {
+          "observation_id": "obs-7bbf98f3c403895b15b2c737",
+          "candidate_id": "stratus:aws.exfiltration.rds-share-snapshot",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-08-01T12:38:06Z",
+          "service": "rds.amazonaws.com",
+          "operation": "ModifyDBSnapshotAttribute",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::171471557522:user/christophe",
+          "source_ip": "204.10.215.184",
+          "account_id": "171471557522",
+          "region": "meiso-eastwest-2r",
+          "event_status": "Success",
+          "request": {
+            "attributeName": "restore",
+            "dBSnapshotIdentifier": "exfiltration",
+            "valuesToAdd": [
+              "503161813013"
+            ]
+          },
+          "response": {
+            "dBSnapshotAttributes": [
+              {
+                "attributeName": "restore",
+                "attributeValues": [
+                  "503161813013"
+                ]
+              }
+            ],
+            "dBSnapshotIdentifier": "exfiltration"
+          },
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.exfiltration.rds-share-snapshot.json",
+            "member_sha256": "4412c2d3a09fc78f0cfed0a3640b7ce4ef6159c8694c80b0771067b2c6dfee2a",
+            "record_index": 0,
+            "event_id": "fef2bf02-bbea-4d0f-a91c-e6ccfe3fba46"
+          },
+          "path_label": null,
+          "evidence_state": null
+        }
+      ],
+      "observation_count": 1,
+      "selection_origin": "all events copied from the matching pinned upstream detonation-log member; no event or label generated"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "3ed714d33a6dd6263342ecb981534b2d91b62b6faf2a339f779d4919c9c151c3",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

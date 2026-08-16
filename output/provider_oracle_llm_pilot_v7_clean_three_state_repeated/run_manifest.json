@@ -1,0 +1,300 @@
+{
+  "manifest_version": "1.1.0",
+  "experiment_id": "provider_oracle_llm_pilot_v7",
+  "protocol_version": "7.0-pilot",
+  "research_effectiveness_result": false,
+  "config_path": "configs\\provider_oracle_llm_pilot_v7.json",
+  "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+  "implementation": [
+    {
+      "path": "scripts/experiments/run_provider_oracle_llm_pilot_v1.py",
+      "sha256": "179b8435c3846cdf03516ff7ffadfc38e0edd524d991b04c6c82f95a8915fec4"
+    },
+    {
+      "path": "src/agent/ec_react.py",
+      "sha256": "25c6c7050f2b4e79a6ea6f85f55c1b6dfef782ce3f2b538899d0cb0119f3d268"
+    },
+    {
+      "path": "src/agent/path_proposal.py",
+      "sha256": "2b2e1c3724fdc2af91b1db4392d4061d097ac8724e5eb8ee3e08e420e0397de5"
+    },
+    {
+      "path": "src/agent/published_telemetry_environment.py",
+      "sha256": "2d25c51291110a55cbd981f20099c6f4f24104dbd419bea43c9888097d6183c2"
+    },
+    {
+      "path": "src/agent/frozen_provider_oracle_environment.py",
+      "sha256": "9e4426201331719753fefdf915ed00277aba26d0f4c16e30d9d84893eadfcb75"
+    },
+    {
+      "path": "src/experiments/provider_oracle_scoring.py",
+      "sha256": "f051c89dcc5d79871a5087721827219114ed0ceb61fd5400a4778b28f7efe519"
+    },
+    {
+      "path": "src/verification/cp_cert.py",
+      "sha256": "8a676285e7e85cb4cb05cb58f1c252bc9d833b5836d276b4fa7443ff85e6f51b"
+    }
+  ],
+  "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+  "public_packet_path": "data\\real_sources\\provider_oracle_protocol_v7_public.json",
+  "public_packet_sha256": "536c9970e093f75d31cb84ed9d9a37ba86ef76d9b8300166e67c84d4cf407984",
+  "gold_packet_path": "data\\real_sources\\provider_oracle_protocol_v7_gold.json",
+  "gold_packet_sha256": "188d517b526d6a8a063e3ec441482409ca5eccba0d04b51604ca2e8bd8410236",
+  "agent_loaded_gold": false,
+  "model": {
+    "backend": "ollama_native",
+    "name": "qwen2.5:7b",
+    "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "think": false,
+    "temperature": 0,
+    "num_predict": 1024,
+    "num_ctx": 4096
+  },
+  "filters": {
+    "methods": null,
+    "cases": [
+      "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "oracle-v4:stratus:iam-user-secret-read",
+      "oracle-v5:splunk:s3-kms-pending-deletion"
+    ],
+    "limit": null
+  },
+  "scheduled_runs": 18,
+  "schedule": [
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-047b6e0942173562d4d51382"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 1,
+      "seed": 1730,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-a9c54354f83447b5367078a7"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 2,
+      "seed": 1731,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-0182a4163364a280c8072733"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-2e8038f3ca6106eddad7b9a5"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 1,
+      "seed": 1730,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-37f13a1c2af8a68889691a02"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v4:config-only:azuregoat_prod_dev_blob_control_pair",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 2,
+      "seed": 1731,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-2cb581adcd7fd5fce8426e6e"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v4:stratus:iam-user-secret-read",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-5324aabedf978fff3a716e1f"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v4:stratus:iam-user-secret-read",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 1,
+      "seed": 1730,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-77a870115431d8886b601ee4"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v4:stratus:iam-user-secret-read",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 2,
+      "seed": 1731,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-02763c2a212fb5a61c8f4c00"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v4:stratus:iam-user-secret-read",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-2f3b64998e575e2566852270"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v4:stratus:iam-user-secret-read",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 1,
+      "seed": 1730,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-bd5dc60bf5ef936d74c9cc98"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v4:stratus:iam-user-secret-read",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 2,
+      "seed": 1731,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-41fc23a5c6d9170cb10e7cc7"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-b51bb6e47c05b7b6c5b2b0aa"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 1,
+      "seed": 1730,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-c45a8bc9211e3ce19139f1cb"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 2,
+      "seed": 1731,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-4cd7c9b74f8593037f5a7e48"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-07fdd7c11555821065e6fb6f"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 1,
+      "seed": 1730,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-cd4e3a02dc1cf288cec45cbf"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v7",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 2,
+      "seed": 1731,
+      "config_sha256": "08ee8386c0df4c4381060454f9877800bf649e430b7b8349868f697b253f3cad",
+      "implementation_bundle_sha256": "494e5b4c809faf3ec855f112f8f0bd647e15e190ff55a628e2d8f4d2eb4acf00",
+      "schedule_id": "llm-schedule-bf54c63576f7ea37899befc2"
+    }
+  ],
+  "secrets_in_manifest": false
+}

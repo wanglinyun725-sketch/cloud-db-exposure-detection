@@ -1,0 +1,245 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "relationship--7e7151b1-8407-4cac-a843-f2605fb25377",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--7e7151b1-8407-4cac-a843-f2605fb25377",
+    "kind": "procedure_relationship",
+    "source_object_id": "tool--76f8a686-3157-481f-9af6-e8558883a8d6",
+    "source_object_type": "tool",
+    "source_name": "TruffleHog",
+    "technique_object_id": "attack-pattern--cfb525cc-5494-401d-a82b-2539ca46a561",
+    "technique_id": "T1555.006",
+    "technique_name": "Cloud Secrets Management Stores",
+    "platforms": [
+      "IaaS"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--7e7151b1-8407-4cac-a843-f2605fb25377",
+    "review_score": 20,
+    "independence_group": "mitre-source-object:tool--76f8a686-3157-481f-9af6-e8558883a8d6",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1555.006"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--7e7151b1-8407-4cac-a843-f2605fb25377",
+      "object_id": "relationship--7e7151b1-8407-4cac-a843-f2605fb25377",
+      "canonical_object_sha256": "b05d94c5762f7998b8ea0ad18c9a7ab8cb51bfa040bd41192ff8b70a3901844a",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--7e7151b1-8407-4cac-a843-f2605fb25377",
+        "created": "2026-04-15T18:33:23.759Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "Black Hills Information Security TruffleHog January 2024",
+            "description": "Chris Traynor. (2024, January 18). Rooting For Secrets with TruffleHog. Retrieved April 15, 2026.",
+            "url": "https://www.blackhillsinfosec.com/rooting-for-secrets-with-trufflehog/"
+          },
+          {
+            "source_name": "Netskope Shai-Hulud November 2025",
+            "description": "Gianpietro Cutolo. (2025, November 26). Shai-Hulud 2.0: Aggressive, Automated, and Fast Spreading. Retrieved April 9, 2026.",
+            "url": "https://www.netskope.com/blog/shai-hulud-2-0-aggressive-automated-one-of-fastest-spreading-npm-supply-chain-attacks-ever-observed"
+          },
+          {
+            "source_name": "Github TruffleSecurity Trufflehog April 2025",
+            "description": "Trufflesecurity. (2026, April 8). TruffleHog Enterprise. Retrieved April 15, 2026.",
+            "url": "https://github.com/trufflesecurity/trufflehog"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:06.098Z",
+        "description": "[TruffleHog](https://attack.mitre.org/software/S9009) can obtain secrets from AWS Secrets and GCP Secret Manager.(Citation: Black Hills Information Security TruffleHog January 2024)(Citation: Github TruffleSecurity Trufflehog April 2025) [TruffleHog](https://attack.mitre.org/software/S9009) has also gathered passwords, secrets and API keys from source repositories, .env files, and git history.(Citation: Netskope Shai-Hulud November 2025)",
+        "relationship_type": "uses",
+        "source_ref": "tool--76f8a686-3157-481f-9af6-e8558883a8d6",
+        "target_ref": "attack-pattern--cfb525cc-5494-401d-a82b-2539ca46a561",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=tool--76f8a686-3157-481f-9af6-e8558883a8d6",
+      "object_id": "tool--76f8a686-3157-481f-9af6-e8558883a8d6",
+      "canonical_object_sha256": "1f86be611798bf62d42b08f6396c1a13d300bf2ce490ab3bd60d019a56c3c0b0",
+      "structured_object": {
+        "type": "tool",
+        "spec_version": "2.1",
+        "id": "tool--76f8a686-3157-481f-9af6-e8558883a8d6",
+        "created": "2026-04-09T19:12:38.917Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/software/S9009",
+            "external_id": "S9009"
+          },
+          {
+            "source_name": "Black Hills Information Security TruffleHog January 2024",
+            "description": "Chris Traynor. (2024, January 18). Rooting For Secrets with TruffleHog. Retrieved April 15, 2026.",
+            "url": "https://www.blackhillsinfosec.com/rooting-for-secrets-with-trufflehog/"
+          },
+          {
+            "source_name": "Netskope Shai-Hulud November 2025",
+            "description": "Gianpietro Cutolo. (2025, November 26). Shai-Hulud 2.0: Aggressive, Automated, and Fast Spreading. Retrieved April 9, 2026.",
+            "url": "https://www.netskope.com/blog/shai-hulud-2-0-aggressive-automated-one-of-fastest-spreading-npm-supply-chain-attacks-ever-observed"
+          },
+          {
+            "source_name": "Github TruffleSecurity Trufflehog April 2025",
+            "description": "Trufflesecurity. (2026, April 8). TruffleHog Enterprise. Retrieved April 15, 2026.",
+            "url": "https://github.com/trufflesecurity/trufflehog"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-23T02:27:35.330Z",
+        "name": "TruffleHog",
+        "description": "[TruffleHog](https://attack.mitre.org/software/S9009) is an open-source secrets-discovery tool that is used to search for credentials, API keys, and encryption keys across a variety of data sources and environments.(Citation: Black Hills Information Security TruffleHog January 2024)(Citation: Github TruffleSecurity Trufflehog April 2025) [TruffleHog](https://attack.mitre.org/software/S9009) has the ability to discover credentials and secrets stored in code repositories, git history, CI/CD pipelines, among other common storage locations to include filesystems and cloud storage buckets.(Citation: Black Hills Information Security TruffleHog January 2024)(Citation: Netskope Shai-Hulud November 2025)(Citation: Github TruffleSecurity Trufflehog April 2025) [TruffleHog](https://attack.mitre.org/software/S9009) was first released by its author in 2016.(Citation: Github TruffleSecurity Trufflehog April 2025)",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "IaaS",
+          "Linux",
+          "SaaS",
+          "Windows"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_version": "1.0",
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_aliases": [
+          "TruffleHog",
+          "Trufflehog"
+        ]
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--cfb525cc-5494-401d-a82b-2539ca46a561",
+      "object_id": "attack-pattern--cfb525cc-5494-401d-a82b-2539ca46a561",
+      "canonical_object_sha256": "b01044b01f7065fdd0786a9afe36b98582267fc341ceb826ee18a92b4fcaa05b",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--cfb525cc-5494-401d-a82b-2539ca46a561",
+        "created": "2023-09-25T12:41:26.501Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1555/006",
+            "external_id": "T1555.006"
+          },
+          {
+            "source_name": "Sysdig ScarletEel 2.0 2023",
+            "description": "Alessandro Brucato. (2023, July 11). SCARLETEEL 2.0: Fargate, Kubernetes, and Crypto. Retrieved September 25, 2023.",
+            "url": "https://sysdig.com/blog/scarleteel-2-0/"
+          },
+          {
+            "source_name": "AWS Secrets Manager",
+            "description": "AWS. (n.d.). Retrieve secrets from AWS Secrets Manager. Retrieved September 25, 2023.",
+            "url": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieving-secrets.html"
+          },
+          {
+            "source_name": "Google Cloud Secrets",
+            "description": "Google Cloud. (n.d.). List secrets and view secret details. Retrieved September 25, 2023.",
+            "url": "https://cloud.google.com/secret-manager/docs/view-secret-details"
+          },
+          {
+            "source_name": "Permiso Scattered Spider 2023",
+            "description": "Ian Ahl. (2023, September 20). LUCR-3: SCATTERED SPIDER GETTING SAAS-Y IN THE CLOUD. Retrieved September 25, 2023.",
+            "url": "https://permiso.io/blog/lucr-3-scattered-spider-getting-saas-y-in-the-cloud"
+          },
+          {
+            "source_name": "Microsoft Azure Key Vault",
+            "description": "Microsoft. (2023, January 13). Quickstart: Set and retrieve a secret from Azure Key Vault using Azure CLI. Retrieved September 25, 2023.",
+            "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/quick-create-cli"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-05-12T15:12:00.717Z",
+        "name": "Cloud Secrets Management Stores",
+        "description": "Adversaries may acquire credentials from cloud-native secret management solutions such as AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, and Terraform Vault.  \n\nSecrets managers support the secure centralized management of passwords, API keys, and other credential material. Where secrets managers are in use, cloud services can dynamically acquire credentials via API requests rather than accessing secrets insecurely stored in plain text files or environment variables.  \n\nIf an adversary is able to gain sufficient privileges in a cloud environment – for example, by obtaining the credentials of high-privileged [Cloud Accounts](https://attack.mitre.org/techniques/T1078/004) or compromising a service that has permission to retrieve secrets – they may be able to request secrets from the secrets manager. This can be accomplished via commands such as `get-secret-value` in AWS, `gcloud secrets describe` in GCP, and `az key vault secret show` in Azure.(Citation: Permiso Scattered Spider 2023)(Citation: Sysdig ScarletEel 2.0 2023)(Citation: AWS Secrets Manager)(Citation: Google Cloud Secrets)(Citation: Microsoft Azure Key Vault)\n\n**Note:** this technique is distinct from [Cloud Instance Metadata API](https://attack.mitre.org/techniques/T1552/005) in that the credentials are being directly requested from the cloud secrets manager, rather than through the medium of the instance metadata API.",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_contributors": [
+          "Martin McCloskey, Datadog"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": true,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "IaaS"
+        ],
+        "x_mitre_version": "1.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "b91dc8fc1b6786c0f705f7d7b2ff128391a159c6192bcd2b644453de3964f87f",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

@@ -1,0 +1,268 @@
+{
+  "dataset_composition": {
+    "samples": 308,
+    "groups": 104,
+    "base_samples": 104,
+    "derived_variants": 204,
+    "derived_variant_fraction": 0.6623376623376623,
+    "path_labels": 672,
+    "sources": {
+      "data:pathbench_60": {
+        "samples": 192,
+        "groups": 60,
+        "base_samples": 60,
+        "derived_variants": 132,
+        "samples_with_gold_paths": 192,
+        "valid_retrieval_samples": 44,
+        "split_counts": {
+          "validation": 31,
+          "hard_test": 24,
+          "dev": 103,
+          "test": 34
+        }
+      },
+      "data:pathbench_cloudgoat": {
+        "samples": 20,
+        "groups": 20,
+        "base_samples": 20,
+        "derived_variants": 0,
+        "samples_with_gold_paths": 0,
+        "valid_retrieval_samples": 0,
+        "split_counts": {
+          "dev": 13,
+          "validation": 3,
+          "test": 4
+        }
+      },
+      "data:verification_set:samples_v2": {
+        "samples": 96,
+        "groups": 24,
+        "base_samples": 24,
+        "derived_variants": 72,
+        "samples_with_gold_paths": 96,
+        "valid_retrieval_samples": 24,
+        "split_counts": {
+          "dev": 48,
+          "hard_test": 16,
+          "test": 20,
+          "validation": 12
+        }
+      }
+    }
+  },
+  "heldout_source_metrics": {
+    "data:pathbench_60": {
+      "plain_dfs_gatescore": {
+        "n": 14,
+        "recall@1": 0.14285714285714285,
+        "recall@3": 0.14285714285714285,
+        "recall@5": 0.14285714285714285,
+        "mrr": 0.23727857142857142,
+        "precision@3": 0.04761428571428571
+      },
+      "type_dfs_gatescore": {
+        "n": 14,
+        "recall@1": 0.14285714285714285,
+        "recall@3": 0.14285714285714285,
+        "recall@5": 0.14285714285714285,
+        "mrr": 0.24702142857142856,
+        "precision@3": 0.04761428571428571
+      },
+      "full_constrained_gatescore": {
+        "n": 14,
+        "recall@1": 0.14285714285714285,
+        "recall@3": 0.14285714285714285,
+        "recall@5": 0.35714285714285715,
+        "mrr": 0.19642857142857142,
+        "precision@3": 0.07142857142857142
+      },
+      "refute_aware_beam": {
+        "n": 14,
+        "recall@1": 0.35714285714285715,
+        "recall@3": 1.0,
+        "recall@5": 1.0,
+        "mrr": 0.6785714285714286,
+        "precision@3": 0.3333
+      }
+    },
+    "data:verification_set:samples_v2": {
+      "plain_dfs_gatescore": {
+        "n": 9,
+        "recall@1": 0.0,
+        "recall@3": 0.17777777777777778,
+        "recall@5": 0.35555555555555557,
+        "mrr": 0.42500000000000004,
+        "precision@3": 0.2962777777777778
+      },
+      "type_dfs_gatescore": {
+        "n": 9,
+        "recall@1": 0.13333333333333336,
+        "recall@3": 0.3111111111111111,
+        "recall@5": 0.37777777777777777,
+        "mrr": 0.7658777777777778,
+        "precision@3": 0.5185444444444445
+      },
+      "full_constrained_gatescore": {
+        "n": 9,
+        "recall@1": 0.13333333333333336,
+        "recall@3": 0.3111111111111111,
+        "recall@5": 0.37777777777777777,
+        "mrr": 0.7658777777777778,
+        "precision@3": 0.5185444444444445
+      },
+      "refute_aware_beam": {
+        "n": 9,
+        "recall@1": 0.0,
+        "recall@3": 0.17777777777777778,
+        "recall@5": 0.2888888888888889,
+        "mrr": 0.3075333333333333,
+        "precision@3": 0.2962888888888889
+      }
+    }
+  },
+  "sanity_baselines": {
+    "candidate_universe": "plain DFS paths with the production depth bounds",
+    "n_samples": 23,
+    "shortest_path": {
+      "recall@1": 0.06956521739130435,
+      "recall@3": 0.1391304347826087,
+      "recall@5": 0.2956521739130435,
+      "mrr": 0.44700434782608695,
+      "precision@3": 0.3623173913043478
+    },
+    "random_ranking": {
+      "repeats": 1000,
+      "recall@1": {
+        "mean": 0.1117391304347826,
+        "ci_lower": 0.026086956521739136,
+        "ci_upper": 0.21739130434782608
+      },
+      "recall@3": {
+        "mean": 0.33154782608695654,
+        "ci_lower": 0.19130434782608696,
+        "ci_upper": 0.4782608695652174
+      },
+      "recall@5": {
+        "mean": 0.5192260869565217,
+        "ci_lower": 0.3739130434782609,
+        "ci_upper": 0.6695652173913044
+      },
+      "mrr": {
+        "mean": 0.4629899826086956,
+        "ci_lower": 0.35804163043478254,
+        "ci_upper": 0.5710738043478262
+      },
+      "precision@3": {
+        "mean": 0.25554218260869566,
+        "ci_lower": 0.17390434782608694,
+        "ci_upper": 0.3333260869565217
+      }
+    }
+  },
+  "sddp_compatibility": {
+    "cases": [
+      {
+        "file": "sddp_complex_real_slice.json",
+        "expected_state": "Valid",
+        "gold_paths": 5,
+        "candidate_paths": 29,
+        "gold_states_from_current_verifier": [
+          "Valid",
+          "Valid",
+          "Valid",
+          "Valid",
+          "Valid"
+        ],
+        "gold_paths_retrieved": 5
+      },
+      {
+        "file": "sddp_lindorm_base.json",
+        "expected_state": "Insufficient",
+        "gold_paths": 0,
+        "candidate_paths": 0,
+        "gold_states_from_current_verifier": [],
+        "gold_paths_retrieved": 0
+      },
+      {
+        "file": "sddp_lindorm_controlled_exposure.json",
+        "expected_state": "Valid",
+        "gold_paths": 1,
+        "candidate_paths": 2,
+        "gold_states_from_current_verifier": [
+          "Valid"
+        ],
+        "gold_paths_retrieved": 1
+      },
+      {
+        "file": "sddp_lindorm_controlled_missing.json",
+        "expected_state": "Insufficient",
+        "gold_paths": 1,
+        "candidate_paths": 2,
+        "gold_states_from_current_verifier": [
+          "Insufficient"
+        ],
+        "gold_paths_retrieved": 1
+      },
+      {
+        "file": "sddp_lindorm_controlled_refuted.json",
+        "expected_state": "Invalid",
+        "gold_paths": 1,
+        "candidate_paths": 2,
+        "gold_states_from_current_verifier": [
+          "Invalid"
+        ],
+        "gold_paths_retrieved": 1
+      },
+      {
+        "file": "sddp_lindorm_example_slice.json",
+        "expected_state": "Insufficient",
+        "gold_paths": 0,
+        "candidate_paths": 0,
+        "gold_states_from_current_verifier": [],
+        "gold_paths_retrieved": 0
+      }
+    ],
+    "total_gold_paths": 8,
+    "gold_state_agreement": 1.0,
+    "gold_retrieval_rate": 1.0
+  },
+  "parallel_edge_ambiguity": {
+    "base_samples": 104,
+    "node_pairs_with_edges": 1815,
+    "parallel_type_pairs": 38,
+    "parallel_type_pair_fraction": 0.0209366391184573,
+    "labeled_paths": 180,
+    "labeled_paths_touching_ambiguous_pair": 72,
+    "labeled_paths_with_edge_refs": 180,
+    "ambiguous_labeled_paths_without_edge_refs": 0,
+    "by_source": {
+      "data:pathbench_60": {
+        "pairs": 570,
+        "ambiguous_pairs": 20
+      },
+      "data:pathbench_cloudgoat": {
+        "pairs": 512,
+        "ambiguous_pairs": 0
+      },
+      "data:verification_set:samples_v2": {
+        "pairs": 733,
+        "ambiguous_pairs": 18
+      }
+    },
+    "risk": "Parallel edges require edge-aware paths. Regenerated labels and search results carry edge_ids/edge_types; any remaining node-only affected labels are reported by ambiguous_labeled_paths_without_edge_refs."
+  },
+  "claim_boundaries": {
+    "heldout_splits": [
+      "test",
+      "hard_test"
+    ],
+    "heldout_retrieval_samples": 23,
+    "cloudgoat_retrieval_gold_paths": 0,
+    "notes": [
+      "dataset_v1 is derived from three in-repository sources, not an external benchmark",
+      "missing/refuted/temporal_conflict samples are controlled variants of base graphs",
+      "CloudGoat samples currently have no retrieval gold paths",
+      "SDDP slices are compatibility/case-study inputs, not validated attack ground truth"
+    ]
+  }
+}

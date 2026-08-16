@@ -1,0 +1,185 @@
+{
+  "manifest_version": "1.1.0",
+  "experiment_id": "provider_oracle_llm_pilot_v6",
+  "protocol_version": "7.0-pilot",
+  "research_effectiveness_result": false,
+  "config_path": "configs\\provider_oracle_llm_pilot_v6.json",
+  "config_sha256": "b954354576986138ad3a29732f2ee03bf2642c163ac8247603e163162d9af607",
+  "implementation": [
+    {
+      "path": "scripts/experiments/run_provider_oracle_llm_pilot_v1.py",
+      "sha256": "179b8435c3846cdf03516ff7ffadfc38e0edd524d991b04c6c82f95a8915fec4"
+    },
+    {
+      "path": "src/agent/ec_react.py",
+      "sha256": "812989468bd867ae5cb83626485661957c25d7a046bc480120a9eb8bf39c6e27"
+    },
+    {
+      "path": "src/agent/path_proposal.py",
+      "sha256": "2b2e1c3724fdc2af91b1db4392d4061d097ac8724e5eb8ee3e08e420e0397de5"
+    },
+    {
+      "path": "src/agent/published_telemetry_environment.py",
+      "sha256": "2d25c51291110a55cbd981f20099c6f4f24104dbd419bea43c9888097d6183c2"
+    },
+    {
+      "path": "src/agent/frozen_provider_oracle_environment.py",
+      "sha256": "9e4426201331719753fefdf915ed00277aba26d0f4c16e30d9d84893eadfcb75"
+    },
+    {
+      "path": "src/experiments/provider_oracle_scoring.py",
+      "sha256": "f051c89dcc5d79871a5087721827219114ed0ceb61fd5400a4778b28f7efe519"
+    },
+    {
+      "path": "src/verification/cp_cert.py",
+      "sha256": "8a676285e7e85cb4cb05cb58f1c252bc9d833b5836d276b4fa7443ff85e6f51b"
+    }
+  ],
+  "implementation_bundle_sha256": "5f97a8cd35ac117d70abc18f0c3108c2c30cd6555968bb1f751d2a55eab93dcf",
+  "public_packet_path": "data\\real_sources\\provider_oracle_protocol_v7_public.json",
+  "public_packet_sha256": "536c9970e093f75d31cb84ed9d9a37ba86ef76d9b8300166e67c84d4cf407984",
+  "gold_packet_path": "data\\real_sources\\provider_oracle_protocol_v7_gold.json",
+  "gold_packet_sha256": "188d517b526d6a8a063e3ec441482409ca5eccba0d04b51604ca2e8bd8410236",
+  "agent_loaded_gold": false,
+  "model": {
+    "backend": "ollama_native",
+    "name": "qwen2.5:7b",
+    "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "think": false,
+    "temperature": 0,
+    "num_predict": 1024,
+    "num_ctx": 4096
+  },
+  "filters": {
+    "methods": [
+      "ablate_external_rule_prior",
+      "ec_react_full",
+      "vanilla_react"
+    ],
+    "cases": [
+      "oracle-v5:splunk:s3-kms-pending-deletion"
+    ],
+    "limit": null
+  },
+  "scheduled_runs": 9,
+  "schedule": [
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v6",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "config_sha256": "b954354576986138ad3a29732f2ee03bf2642c163ac8247603e163162d9af607",
+      "implementation_bundle_sha256": "5f97a8cd35ac117d70abc18f0c3108c2c30cd6555968bb1f751d2a55eab93dcf",
+      "schedule_id": "llm-schedule-51f5047fb9ae8d06dcd685e2"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v6",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 1,
+      "seed": 1730,
+      "config_sha256": "b954354576986138ad3a29732f2ee03bf2642c163ac8247603e163162d9af607",
+      "implementation_bundle_sha256": "5f97a8cd35ac117d70abc18f0c3108c2c30cd6555968bb1f751d2a55eab93dcf",
+      "schedule_id": "llm-schedule-3912099cd1ba6f2fce92b5de"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v6",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 2,
+      "seed": 1731,
+      "config_sha256": "b954354576986138ad3a29732f2ee03bf2642c163ac8247603e163162d9af607",
+      "implementation_bundle_sha256": "5f97a8cd35ac117d70abc18f0c3108c2c30cd6555968bb1f751d2a55eab93dcf",
+      "schedule_id": "llm-schedule-641b5dc89870015751ca71d8"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v6",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "config_sha256": "b954354576986138ad3a29732f2ee03bf2642c163ac8247603e163162d9af607",
+      "implementation_bundle_sha256": "5f97a8cd35ac117d70abc18f0c3108c2c30cd6555968bb1f751d2a55eab93dcf",
+      "schedule_id": "llm-schedule-f307afa0b9146e70d0ee848d"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v6",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 1,
+      "seed": 1730,
+      "config_sha256": "b954354576986138ad3a29732f2ee03bf2642c163ac8247603e163162d9af607",
+      "implementation_bundle_sha256": "5f97a8cd35ac117d70abc18f0c3108c2c30cd6555968bb1f751d2a55eab93dcf",
+      "schedule_id": "llm-schedule-8803b459b78c50e37ef68d36"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v6",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "vanilla_react",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 2,
+      "seed": 1731,
+      "config_sha256": "b954354576986138ad3a29732f2ee03bf2642c163ac8247603e163162d9af607",
+      "implementation_bundle_sha256": "5f97a8cd35ac117d70abc18f0c3108c2c30cd6555968bb1f751d2a55eab93dcf",
+      "schedule_id": "llm-schedule-985278a2dbc3fbec12a076ea"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v6",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ablate_external_rule_prior",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "config_sha256": "b954354576986138ad3a29732f2ee03bf2642c163ac8247603e163162d9af607",
+      "implementation_bundle_sha256": "5f97a8cd35ac117d70abc18f0c3108c2c30cd6555968bb1f751d2a55eab93dcf",
+      "schedule_id": "llm-schedule-56f894006a9e3b220a04945e"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v6",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ablate_external_rule_prior",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 1,
+      "seed": 1730,
+      "config_sha256": "b954354576986138ad3a29732f2ee03bf2642c163ac8247603e163162d9af607",
+      "implementation_bundle_sha256": "5f97a8cd35ac117d70abc18f0c3108c2c30cd6555968bb1f751d2a55eab93dcf",
+      "schedule_id": "llm-schedule-4ab5e46cf1c7400371d2cbc1"
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v6",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ablate_external_rule_prior",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 2,
+      "seed": 1731,
+      "config_sha256": "b954354576986138ad3a29732f2ee03bf2642c163ac8247603e163162d9af607",
+      "implementation_bundle_sha256": "5f97a8cd35ac117d70abc18f0c3108c2c30cd6555968bb1f751d2a55eab93dcf",
+      "schedule_id": "llm-schedule-ac25352daccb44915d395061"
+    }
+  ],
+  "secrets_in_manifest": false
+}

@@ -1,0 +1,155 @@
+{
+  "validation_version": "1.0.0",
+  "generated_at": "2026-07-27T13:19:37.637039+00:00",
+  "safety": {
+    "read_only_terraform_commands": [
+      "fmt -check -recursive",
+      "validate -json"
+    ],
+    "cloud_resources_created": 0,
+    "cloud_api_calls_required": false
+  },
+  "terraform": {
+    "path": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\.tools\\terraform\\1.15.8\\terraform.exe",
+    "sha256": "6eb0a1cb89344c97ccf2928ddc2d7a6cb71a1837b7ecccfd5991466b6d751e03"
+  },
+  "summary": {
+    "targets": 4,
+    "format_valid": 2,
+    "semantic_valid": 4,
+    "semantic_invalid": 0
+  },
+  "targets": [
+    {
+      "target_id": "awsgoat_module_1",
+      "source_id": "awsgoat",
+      "revision": "b24869ad455ed8d1393d00ecdc15ee638d1c1332",
+      "relative_root": "awsgoat/AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-1",
+      "main_tf_sha256": "f2e98b5e148d66d7ac3b44349ce71e4114e1343ed7861312a7e343f423541e73",
+      "provider_lock_present": true,
+      "format_check": {
+        "passed": false,
+        "returncode": 3,
+        "unformatted_files": [
+          "main.tf"
+        ],
+        "stderr": ""
+      },
+      "semantic_validation": {
+        "valid": true,
+        "error_count": 0,
+        "warning_count": 0,
+        "diagnostics": [],
+        "returncode": 0
+      }
+    },
+    {
+      "target_id": "awsgoat_module_2",
+      "source_id": "awsgoat",
+      "revision": "b24869ad455ed8d1393d00ecdc15ee638d1c1332",
+      "relative_root": "awsgoat/AWSGoat-b24869ad455ed8d1393d00ecdc15ee638d1c1332/modules/module-2",
+      "main_tf_sha256": "fc2729d44332cca399cdaa2474dbcbfe09425f25bdc9d50975fbbf9c4d698f7f",
+      "provider_lock_present": true,
+      "format_check": {
+        "passed": true,
+        "returncode": 0,
+        "unformatted_files": [],
+        "stderr": ""
+      },
+      "semantic_validation": {
+        "valid": true,
+        "error_count": 0,
+        "warning_count": 0,
+        "diagnostics": [],
+        "returncode": 0
+      }
+    },
+    {
+      "target_id": "azuregoat",
+      "source_id": "azuregoat",
+      "revision": "b97045952e6df00de735a7f27fd7c4994dcfe8c0",
+      "relative_root": "azuregoat/AzureGoat-b97045952e6df00de735a7f27fd7c4994dcfe8c0",
+      "main_tf_sha256": "2fa47c4d48b423b208b1b3e114fc679374d84b2dcae37f2c9edb42503f755e53",
+      "provider_lock_present": true,
+      "format_check": {
+        "passed": false,
+        "returncode": 3,
+        "unformatted_files": [
+          "main.tf"
+        ],
+        "stderr": ""
+      },
+      "semantic_validation": {
+        "valid": true,
+        "error_count": 0,
+        "warning_count": 7,
+        "diagnostics": [
+          {
+            "severity": "warning",
+            "summary": "Deprecated value used",
+            "detail": "Deprecated resource used as value. Refer to the provider documentation for details.",
+            "address": "azurerm_function_app.function_app_front"
+          },
+          {
+            "severity": "warning",
+            "summary": "Deprecated Resource",
+            "detail": "The `azurerm_function_app` resource has been superseded by the `azurerm_linux_function_app` and `azurerm_windows_function_app` resources. Whilst this resource will continue to be available in the 2.x and 3.x releases it is feature-frozen for compatibility purposes, will no longer receive any updates and will be removed in a future major release of the Azure Provider.",
+            "address": "azurerm_function_app.function_app_front"
+          },
+          {
+            "severity": "warning",
+            "summary": "Deprecated Resource",
+            "detail": "The `azurerm_app_service_plan` resource has been superseded by the `azurerm_service_plan` resource. Whilst this resource will continue to be available in the 2.x and 3.x releases it is feature-frozen for compatibility purposes, will no longer receive any updates and will be removed in a future major release of the Azure Provider.",
+            "address": "azurerm_app_service_plan.app_service_plan"
+          },
+          {
+            "severity": "warning",
+            "summary": "Deprecated value used",
+            "detail": "Deprecated resource used as value. Refer to the provider documentation for details.",
+            "address": "azurerm_function_app.function_app"
+          },
+          {
+            "severity": "warning",
+            "summary": "Deprecated Resource",
+            "detail": "The `azurerm_function_app` resource has been superseded by the `azurerm_linux_function_app` and `azurerm_windows_function_app` resources. Whilst this resource will continue to be available in the 2.x and 3.x releases it is feature-frozen for compatibility purposes, will no longer receive any updates and will be removed in a future major release of the Azure Provider.",
+            "address": "azurerm_function_app.function_app"
+          },
+          {
+            "severity": "warning",
+            "summary": "Deprecated value used",
+            "detail": "Deprecated resource used as value. Refer to the provider documentation for details.",
+            "address": "null_resource.file_replacement_upload"
+          },
+          {
+            "severity": "warning",
+            "summary": "Deprecated value used",
+            "detail": "Deprecated resource used as value. Refer to the provider documentation for details.",
+            "address": null
+          }
+        ],
+        "returncode": 0
+      }
+    },
+    {
+      "target_id": "gcpgoat",
+      "source_id": "gcpgoat",
+      "revision": "44605c4bff4b2da7611dfce78696bb53db6d8c54",
+      "relative_root": "gcpgoat/GCPGoat-44605c4bff4b2da7611dfce78696bb53db6d8c54",
+      "main_tf_sha256": "73f61b6b52e1874e5e674a502de7310848aec3d61a521ca7c872c8c864ff8ac8",
+      "provider_lock_present": true,
+      "format_check": {
+        "passed": true,
+        "returncode": 0,
+        "unformatted_files": [],
+        "stderr": ""
+      },
+      "semantic_validation": {
+        "valid": true,
+        "error_count": 0,
+        "warning_count": 0,
+        "diagnostics": [],
+        "returncode": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "splunk:datasets/attack_techniques/T1486/s3_file_encryption",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "splunk_attack_data",
+    "upstream_url": "https://github.com/splunk/attack_data",
+    "version_or_commit": "3821bdb77c66c95b4e529f62a9d00b168446d1a8",
+    "license": "Apache-2.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/s3_file_encryption.yml",
+        "sha256": "ffe639a34b94d1240a1047b4c235d53e85ef1006914000c1293d628c1cabb358",
+        "upstream_path": "datasets/attack_techniques/T1486/s3_file_encryption/s3_file_encryption.yml",
+        "git_blob_sha": "df9e6d1d2cd071eee036028bdcc728114cc3dc3f",
+        "lfs_oid_sha256": null
+      },
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json",
+        "sha256": "29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647",
+        "upstream_path": "datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json",
+        "git_blob_sha": "da23e4ac23e1dc585e5fe3cd3ff2627fc9f06064",
+        "lfs_oid_sha256": "29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "splunk:datasets/attack_techniques/T1486/s3_file_encryption",
+    "source_id": "splunk_attack_data",
+    "upstream_dataset_id": "cc9b2610-efc9-11eb-926b-550bf0943fbb",
+    "author": "Patrick Bareiss",
+    "published_date": "2021-01-11",
+    "description": "Cloudtrail dataset with an s3 copy and encrypt operation. This is often used in S3 ransomware attacks.",
+    "environment": "attack_range",
+    "mitre_techniques": [
+      "T1486"
+    ],
+    "observation_count": 2,
+    "operations": {
+      "CopyObject": 2
+    },
+    "services": {
+      "s3.amazonaws.com": 2
+    },
+    "independence_group": "splunk-technique:T1486"
+  },
+  "observations": [
+    {
+      "observation_id": "obs-acc97c3a1f4929120197c440",
+      "candidate_id": "splunk:datasets/attack_techniques/T1486/s3_file_encryption",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:40:47Z",
+      "service": "s3.amazonaws.com",
+      "operation": "CopyObject",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+      "source_ip": "95.90.199.65",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "bucketName": "patricktestbucketencrypt",
+        "x-amz-server-side-encryption-aws-kms-key-id": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "Host": "patricktestbucketencrypt.s3.us-west-2.amazonaws.com",
+        "x-amz-server-side-encryption": "aws:kms",
+        "x-amz-copy-source": "patricktestbucketencrypt/kms_aws_events.json",
+        "key": "kms_aws_events_encrypted.json"
+      },
+      "response": {
+        "x-amz-server-side-encryption": "aws:kms",
+        "x-amz-server-side-encryption-aws-kms-key-id": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json",
+        "sha256": "29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647",
+        "record_index": 0,
+        "upstream_path": "datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json",
+        "git_blob_sha": "da23e4ac23e1dc585e5fe3cd3ff2627fc9f06064",
+        "lfs_oid_sha256": "29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647"
+      }
+    },
+    {
+      "observation_id": "obs-1bab005e3dee7b4f90c21d90",
+      "candidate_id": "splunk:datasets/attack_techniques/T1486/s3_file_encryption",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2021-01-11T12:40:10Z",
+      "service": "s3.amazonaws.com",
+      "operation": "CopyObject",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+      "source_ip": "95.90.199.65",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Error",
+      "request": {
+        "bucketName": "patricktestbucketencrypt",
+        "x-amz-server-side-encryption-aws-kms-key-id": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+        "Host": "patricktestbucketencrypt.s3.us-west-2.amazonaws.com",
+        "x-amz-server-side-encryption": "aws:kms",
+        "x-amz-copy-source": "patricktestbucketencrypt/kms_aws_events.json",
+        "key": "kms_aws_events_encrypted.json"
+      },
+      "response": null,
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json",
+        "sha256": "29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647",
+        "record_index": 1,
+        "upstream_path": "datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json",
+        "git_blob_sha": "da23e4ac23e1dc585e5fe3cd3ff2627fc9f06064",
+        "lfs_oid_sha256": "29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647"
+      }
+    }
+  ],
+  "runtime_instances": [
+    {
+      "instance_id": "instance-aaa5f752a12d6fd66be7",
+      "environment_kind": "published_telemetry",
+      "platform": "AWS",
+      "observation_ids": [
+        "obs-acc97c3a1f4929120197c440",
+        "obs-1bab005e3dee7b4f90c21d90"
+      ],
+      "observation_count": 2,
+      "selection_origin": "all normalized observations copied from the pinned published telemetry case"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "1149100877e272fd2f639cabcbab15762207948a1ef3a516e7349b61f551c769",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

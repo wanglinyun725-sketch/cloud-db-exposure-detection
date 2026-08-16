@@ -1,0 +1,269 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "splunk_attack_data",
+    "upstream_url": "https://github.com/splunk/attack_data",
+    "version_or_commit": "3821bdb77c66c95b4e529f62a9d00b168446d1a8",
+    "license": "Apache-2.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1119/aws_exfil_datasync/aws_exfil_datasync_old.yml",
+        "sha256": "98e142aeb9ff9881a686375230f8d619a506622c0a946dafb0fde0f512835f1d",
+        "upstream_path": "datasets/attack_techniques/T1119/aws_exfil_datasync/aws_exfil_datasync_old.yml",
+        "git_blob_sha": "3240d506c651d2620a3bdbf6ee8c684ce0ecf2ed",
+        "lfs_oid_sha256": null
+      },
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json",
+        "sha256": "3e61b4eba628eaf58e86401d834e2fa277a01e5fa65e30c34f8c60138332707c",
+        "upstream_path": "datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json",
+        "git_blob_sha": "6a380db27053c7616a05cc5cf7675a02a4e938da",
+        "lfs_oid_sha256": "3e61b4eba628eaf58e86401d834e2fa277a01e5fa65e30c34f8c60138332707c"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+    "source_id": "splunk_attack_data",
+    "upstream_dataset_id": "cc9b264f-efc9-11eb-926b-550bf0943fbb",
+    "author": "Bhavin Patel",
+    "published_date": "2023-04-10",
+    "description": "Dataset which contains cloudtrail logs for creating a datasync job, batch job creation and bucket replication for AWS exfiltration",
+    "environment": "attack_range",
+    "mitre_techniques": [],
+    "observation_count": 5,
+    "operations": {
+      "CreateTask": 2,
+      "JobCreated": 2,
+      "PutBucketReplication": 1
+    },
+    "services": {
+      "s3.amazonaws.com": 3,
+      "datasync.amazonaws.com": 2
+    },
+    "independence_group": "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync"
+  },
+  "observations": [
+    {
+      "observation_id": "obs-a21a31359d1a3a402b485d5e",
+      "candidate_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2023-03-14T22:05:36Z",
+      "service": "datasync.amazonaws.com",
+      "operation": "CreateTask",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/abc@acme.com",
+      "source_ip": "1.1.1.1",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "sourceLocationArn": "arn:aws:datasync:us-west-2:111111111111:location/loc-0921d426f7955d416",
+        "destinationLocationArn": "arn:aws:datasync:us-west-1:111111111111:location/loc-0b94cf657c358ef06",
+        "cloudWatchLogGroupArn": "arn:aws:logs:us-west-2:111111111111:log-group:/aws/datasync",
+        "options": {
+          "verifyMode": "ONLY_FILES_TRANSFERRED",
+          "logLevel": "BASIC"
+        },
+        "excludes": [],
+        "schedule": {
+          "scheduleExpression": "cron(6 * * * ? *)"
+        },
+        "tags": [],
+        "includes": []
+      },
+      "response": {
+        "taskArn": "arn:aws:datasync:us-west-2:111111111111:task/task-0c77dc0d4b0792ce6"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json",
+        "sha256": "3e61b4eba628eaf58e86401d834e2fa277a01e5fa65e30c34f8c60138332707c",
+        "record_index": 0,
+        "upstream_path": "datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json",
+        "git_blob_sha": "6a380db27053c7616a05cc5cf7675a02a4e938da",
+        "lfs_oid_sha256": "3e61b4eba628eaf58e86401d834e2fa277a01e5fa65e30c34f8c60138332707c"
+      }
+    },
+    {
+      "observation_id": "obs-072d9550f27fa709179ad6be",
+      "candidate_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2023-03-14T22:05:36Z",
+      "service": "datasync.amazonaws.com",
+      "operation": "CreateTask",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/abc@acme.com",
+      "source_ip": "1.1.1.1",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "sourceLocationArn": "arn:aws:datasync:us-west-2:111111111111:location/loc-0921d426f7955d416",
+        "destinationLocationArn": "arn:aws:datasync:us-west-1:111111111111:location/loc-0b94cf657c358ef06",
+        "cloudWatchLogGroupArn": "arn:aws:logs:us-west-2:111111111111:log-group:/aws/datasync",
+        "options": {
+          "verifyMode": "ONLY_FILES_TRANSFERRED",
+          "logLevel": "BASIC"
+        },
+        "excludes": [],
+        "schedule": {
+          "scheduleExpression": "cron(6 * * * ? *)"
+        },
+        "tags": [],
+        "includes": []
+      },
+      "response": {
+        "taskArn": "arn:aws:datasync:us-west-2:111111111111:task/task-0c77dc0d4b0792ce6"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json",
+        "sha256": "3e61b4eba628eaf58e86401d834e2fa277a01e5fa65e30c34f8c60138332707c",
+        "record_index": 1,
+        "upstream_path": "datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json",
+        "git_blob_sha": "6a380db27053c7616a05cc5cf7675a02a4e938da",
+        "lfs_oid_sha256": "3e61b4eba628eaf58e86401d834e2fa277a01e5fa65e30c34f8c60138332707c"
+      }
+    },
+    {
+      "observation_id": "obs-feadde0a30b2b9112c6078e7",
+      "candidate_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2023-04-24T23:51:17Z",
+      "service": "s3.amazonaws.com",
+      "operation": "JobCreated",
+      "actor_type": null,
+      "actor_id": "111111111111",
+      "source_ip": "s3.amazonaws.com",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": null,
+      "response": null,
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json",
+        "sha256": "3e61b4eba628eaf58e86401d834e2fa277a01e5fa65e30c34f8c60138332707c",
+        "record_index": 2,
+        "upstream_path": "datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json",
+        "git_blob_sha": "6a380db27053c7616a05cc5cf7675a02a4e938da",
+        "lfs_oid_sha256": "3e61b4eba628eaf58e86401d834e2fa277a01e5fa65e30c34f8c60138332707c"
+      }
+    },
+    {
+      "observation_id": "obs-2b0f45a3b2afae0056d5c8bb",
+      "candidate_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2023-04-24T23:45:02Z",
+      "service": "s3.amazonaws.com",
+      "operation": "JobCreated",
+      "actor_type": null,
+      "actor_id": "111111111111",
+      "source_ip": "s3.amazonaws.com",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": null,
+      "response": null,
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json",
+        "sha256": "3e61b4eba628eaf58e86401d834e2fa277a01e5fa65e30c34f8c60138332707c",
+        "record_index": 3,
+        "upstream_path": "datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json",
+        "git_blob_sha": "6a380db27053c7616a05cc5cf7675a02a4e938da",
+        "lfs_oid_sha256": "3e61b4eba628eaf58e86401d834e2fa277a01e5fa65e30c34f8c60138332707c"
+      }
+    },
+    {
+      "observation_id": "obs-3472ac55773227d610bdd0ae",
+      "candidate_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2023-04-24T23:49:33Z",
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketReplication",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/bpatel@splunk.com",
+      "source_ip": "23.93.193.6",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "replication": "",
+        "bucketName": "git-wild-hunt-results",
+        "Host": "s3.us-west-2.amazonaws.com",
+        "ReplicationConfiguration": {
+          "Role": "arn:aws:iam::111111111111:role/attack_range_bpatel",
+          "xmlns": "http://s3.amazonaws.com/doc/2006-03-01/",
+          "Rule": {
+            "Status": "Enabled",
+            "Destination": {
+              "Bucket": "arn:aws:s3:::badpublicbuckettest"
+            },
+            "Filter": "",
+            "Priority": 0,
+            "ID": "replication_x_test",
+            "DeleteMarkerReplication": {
+              "Status": "Disabled"
+            }
+          }
+        }
+      },
+      "response": null,
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json",
+        "sha256": "3e61b4eba628eaf58e86401d834e2fa277a01e5fa65e30c34f8c60138332707c",
+        "record_index": 4,
+        "upstream_path": "datasets/attack_techniques/T1119/aws_exfil_datasync/cloudtrail.json",
+        "git_blob_sha": "6a380db27053c7616a05cc5cf7675a02a4e938da",
+        "lfs_oid_sha256": "3e61b4eba628eaf58e86401d834e2fa277a01e5fa65e30c34f8c60138332707c"
+      }
+    }
+  ],
+  "runtime_instances": [
+    {
+      "instance_id": "instance-d5a1ecf002946f732e37",
+      "environment_kind": "published_telemetry",
+      "platform": "AWS",
+      "observation_ids": [
+        "obs-a21a31359d1a3a402b485d5e",
+        "obs-072d9550f27fa709179ad6be",
+        "obs-feadde0a30b2b9112c6078e7",
+        "obs-2b0f45a3b2afae0056d5c8bb",
+        "obs-3472ac55773227d610bdd0ae"
+      ],
+      "observation_count": 5,
+      "selection_origin": "all normalized observations copied from the pinned published telemetry case"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "df467d0c8a26e625179d1e34fb778559fc96455e479b125680866bccfa84449f",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

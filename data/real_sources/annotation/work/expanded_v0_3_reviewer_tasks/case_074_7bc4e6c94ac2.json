@@ -1,0 +1,101 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "cloudfoxable:aws:It's a secret",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudfoxable",
+    "upstream_url": "https://github.com/BishopFox/cloudfoxable",
+    "version_or_commit": "fc49b7f637268031515ced9fee4b643d3e68db67",
+    "license": "MIT",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudfoxable/fc49b7f637268031515ced9fee4b643d3e68db67/snapshot.zip",
+        "sha256": "bec9436f0e8759601dd7669c108c0921db5b10bc2d941223f0467efb5227fe6d"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudfoxable:aws:It's a secret",
+    "kind": "executable_challenge",
+    "platform": "AWS",
+    "challenge": "It's a secret",
+    "manifest_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's a secret/challenge.yml",
+    "terraform_file_count": 2,
+    "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's a secret/",
+    "review_score": 30,
+    "independence_group": "cloudfoxable-challenge:It's a secret",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's a secret/README.md",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's a secret/README.md",
+      "member_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "content_kind": "md",
+      "text": "",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's a secret/challenge.yml",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's a secret/challenge.yml",
+      "member_sha256": "f34bc888b60bafa6a655f81a1868b8bfac5eca3a70c6a94c26c4d7d507be9151",
+      "bytes": 1525,
+      "content_kind": "yml",
+      "text": "name: It's a secret\ncategory: 'Assumed Breach: Principal'\ndescription: |-\n  **Overview**\n\n  - **Default state:** Enabled\n  - **Estimated Cost:** $0.10/month\n  - **Starting Point:** `arn:aws:iam::ACCOUNT_ID:user/ctf-starting-user`\n\n  **CloudFoxable Setup**\n\n  None required.\n\n  **Challenge Details**\n\n  For this CTF, your starting CTF user has the following policies:\n  - SecurityAudit (AWS Managed)\n  - CloudFox (Customer Managed)\n  - its-a-secret (Customer Managed)\n\n  The first two policies allow you to run CloudFox. The third policy allows this starting user to get the flag for this challenge. If you followed the setup steps in the Terraform output, you'll have a profile called `cloudfoxable` which is tied to the `user/ctf-starting-user`.\n\n  To confirm this, run `aws --profile cloudfoxable sts get-caller-identity`.\n\n  Now run `cloudfox` using the `cloudfoxable` profile and see if you can access the secret named `its-a-secret`.\n\n  **Cleanup Tasks**\n\n  None required.\nvalue: 50\n\nflags:\n- content: FLAG{ItsASecret::IsASecretASecretIfTooManyPeopleHaveAccessToIt?}\n  type: static\n  data: case_insensitive\n\nhints:\n- |-\n  You'll probably want to run the `secrets` command in cloudfox:\n\n  ```\n  cloudfox aws -p cloudfoxable secrets -v2\n  ```\n\n  Make sure to check the loot file :)\n- |-\n  Before you leave this challenge, if you havent already, run the following command, which will show you exactly why you can access this secret:\n\n  ```\n  cloudfox aws -p cloudfoxable permissions --principal ctf-starting-user -v2\n  ```\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's a secret/its-a-secret.tf",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's a secret/its-a-secret.tf",
+      "member_sha256": "feaf34f0afa2654ccc2eb8d1bb6ca11456e1d6d75bde3c57e5e93db330a0a07d",
+      "bytes": 1421,
+      "content_kind": "tf",
+      "text": "resource \"aws_ssm_parameter\" \"secret1\" {\n  name  = \"/production/database/username\"\n  type  = \"String\"\n  value = \"admin\"\n}\n\nresource \"aws_ssm_parameter\" \"secret2\" {\n  name  = \"/production/database/password\"\n  type  = \"SecureString\"\n  value = \"USMNT2023\"\n}\n\n\nresource \"aws_ssm_parameter\" \"secret3\" {\n  name  = \"/staging/database/user\"\n  type  = \"String\"\n  value = \"admin\"\n}\n\n\nresource \"aws_ssm_parameter\" \"secret4\" {\n  name  = \"/staging/database/password\"\n  type  = \"String\"\n  value = \"USMNT2023\"\n}\n\nresource \"aws_ssm_parameter\" \"flag\" {\n    name  = \"/cloudfoxable/flag/its-a-secret\"\n    type  = \"SecureString\"\n    value = \"FLAG{ItsASecret::IsASecretASecretIfTooManyPeopleHaveAccessToIt?}\"\n}\n\n// create an iam policy that only allows access to this flag\nresource \"aws_iam_policy\" \"its-a-secret-policy\" {\n  name        = \"its-a-secret-policy\"\n  path        = \"/\"\n  description = \"policy that only allows access to the its-a-secret flag\"\n\n  policy = jsonencode({\n    \"Version\" : \"2012-10-17\",\n    \"Statement\" : [\n      {\n        \"Effect\" : \"Allow\",\n        \"Action\" : [\n          \"ssm:GetParameter\"\n        ],\n        \"Resource\" : [\n          aws_ssm_parameter.flag.arn\n        ]\n      }\n    ]\n  })\n}\n\n// attach this policy to the CTF starting user\nresource \"aws_iam_user_policy_attachment\" \"its-a-secret-policy-attachment\" {\n  user       = var.ctf_starting_user_name\n  policy_arn = aws_iam_policy.its-a-secret-policy.arn\n}\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's a secret/variables.tf",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's a secret/variables.tf",
+      "member_sha256": "05ccf7f10a93c454447030de6f35710adce9a2742aadeb6869af98ee3dffa9ea",
+      "bytes": 1970,
+      "content_kind": "tf",
+      "text": "variable \"aws_local_profile\" {\r\n  description = \"What local profile should terraform use to interact with your AWS account(s)\"\r\n  type        = string\r\n  default     = \"default\"\r\n}\r\n\r\nvariable \"aws_local_creds_file\" {\r\n  description = \"Location of your local credentials file\"\r\n  type        = string\r\n  default     = \"~/.aws/credentials\"\r\n}\r\n\r\nvariable \"aws_assume_role_arn\" {\r\n  description = \"This is the arn of an already existing principal that can assume into any roles that are created\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"account_id\" {\r\n  description = \"This is the ID of the caller account\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\n\r\nvariable \"shared_high_priv_servicerole\" {\r\n  description = \"This is the arn of high priv service role that is attached to lambda's ec2's, etc. to facilitate privesc\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"AWS_REGION\" {\r\n  type    = string\r\n  default = \"us-west-2\"\r\n}\r\n\r\n# Resources\r\nresource \"random_password\" \"database-secret\" {\r\n  length           = 31\r\n  special          = true\r\n  min_special      = 5\r\n  override_special = \"!#$%^&*()-_=+[]{}<>:?\"\r\n  keepers = {\r\n    pass_version = 1\r\n  }\r\n}\r\n\r\nresource \"random_password\" \"app-secret\" {\r\n  length           = 31\r\n  special          = true\r\n  min_special      = 5\r\n  override_special = \"!#$%^&*()-_=+[]{}<>:?\"\r\n  keepers = {\r\n    pass_version = 1\r\n  }\r\n}\r\n\r\nresource \"random_string\" \"resource-suffix\" {\r\n  length           = 5 \r\n  upper = false \r\n  special = false\r\n}\r\n\r\nvariable \"user_ip\" {\r\n  description = \"The current user's IP address\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"ctf_starting_user_arn\" {\r\n  description = \"The arn of the user that is created at the start of the CTF\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"ctf_starting_user_name\" {\r\n  description = \"The name of the user that is created at the start of the CTF\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "cb3829f5fb17a50f2bd6b02746e40f6ab7b5c0f501681a2d34bd73d2e082d3fe",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

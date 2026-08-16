@@ -1,0 +1,3453 @@
+{
+  "audit_version": "0.1",
+  "purpose": "label-free all-source tool-contract, data-shape, leakage and linear/LangGraph equivalence validation",
+  "research_effectiveness_result": false,
+  "warning": "Pending cases have no human path gold. Passing this audit proves engineering compatibility only, not attack-path accuracy.",
+  "source_packet": "data\\real_sources\\annotation\\expanded_full_pool_v0_5_unlabeled.json",
+  "source_packet_sha256": "b71129268f4053e23ed3bd2c67abe8dad48750d1238fc9bfad8949b71ffe642b",
+  "packet_version": "0.5",
+  "budget_per_backend_run": 30,
+  "runtime_instances": 91,
+  "runtime_cases": 57,
+  "independence_groups": 32,
+  "runtime_evidence_sources": {
+    "cross_cloud_observability_2026": 70,
+    "otrf_security_datasets": 1,
+    "splunk_attack_data": 9,
+    "stratus_red_team": 11
+  },
+  "runtime_evidence_source_case_counts": {
+    "cross_cloud_observability_2026": 36,
+    "otrf_security_datasets": 1,
+    "splunk_attack_data": 9,
+    "stratus_red_team": 11
+  },
+  "scenario_sources": {
+    "cloudgoat": 1,
+    "cross_cloud_observability_2026": 70,
+    "splunk_attack_data": 9,
+    "stratus_red_team": 11
+  },
+  "platforms": {
+    "AWS": 42,
+    "AZURE": 25,
+    "GCP": 24
+  },
+  "environment_kinds": {
+    "cross_cloud_opaque_episode": 70,
+    "otrf_cloudgoat_attack_emulation": 1,
+    "published_telemetry": 9,
+    "stratus_grimoire_detonation": 11
+  },
+  "schemas": {
+    "aws_cloudtrail": 41,
+    "azure_activity": 24,
+    "azure_ad_audit": 1,
+    "gcp_audit_log": 24,
+    "ocsf_api_activity": 3,
+    "splunk_key_value_event": 1
+  },
+  "data_shape": {
+    "nonempty_instances": 91,
+    "empty_telemetry_instances": 0,
+    "empty_telemetry_instance_ids": [],
+    "payload_capable_instances": 91,
+    "payload_absent_from_normalized_view_instances": 0,
+    "resource_search_positive_instances": 91,
+    "interpretation": "The compact Cross-Cloud packet instances preserve actor, operation and raw provenance but omit request/response payloads; this limits resource_search coverage without invalidating the common tool contract. Empty upstream telemetry is handled as an auditable abstention input but is not eligible for the frozen main runtime release."
+  },
+  "tool_calls_exercised": 455,
+  "instances_exercising_tool": {
+    "actor_timeline": 91,
+    "get_event_detail": 91,
+    "resource_search": 91,
+    "search_events": 91,
+    "summarize_case": 91
+  },
+  "tool_contract_failure_count": 0,
+  "tool_contract_failure_instance_ids": [],
+  "backend_mismatch_count": 0,
+  "backend_mismatch_instance_ids": [],
+  "policy_leakage_failure_count": 0,
+  "policy_leakage_failure_instance_ids": [],
+  "audit_valid": true,
+  "descriptive_diagnostics": {
+    "decision_counts": {
+      "candidate_evidence_found": 91
+    },
+    "mean_valid_tool_calls": 3.0,
+    "mean_query_cost": 5.417582417582418
+  },
+  "rows": [
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential",
+      "candidate_id": "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential",
+      "instance_id": "instance-821cc2827e0ce8e42251",
+      "independence_group": "splunk-technique:T1098.001",
+      "scenario_source_id": "splunk_attack_data",
+      "runtime_evidence_source_id": "splunk_attack_data",
+      "platform": "AZURE",
+      "environment_kind": "published_telemetry",
+      "log_profile": "unspecified",
+      "observation_count": 2,
+      "schemas": [
+        "azure_ad_audit"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "e142b6fb8932dd1bc27b07d3beaf86a89aa43c436cabebf3e6102e2947c332f9",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+      "candidate_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+      "instance_id": "instance-5f351c3f035d3c08971f",
+      "independence_group": "splunk-technique:T1110.002",
+      "scenario_source_id": "splunk_attack_data",
+      "runtime_evidence_source_id": "splunk_attack_data",
+      "platform": "AWS",
+      "environment_kind": "published_telemetry",
+      "log_profile": "unspecified",
+      "observation_count": 5,
+      "schemas": [
+        "aws_cloudtrail",
+        "ocsf_api_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "59f444a6d8bb8d2cce4c8f9da19f3e69b1064329be8b3bcffcca243cce8b2b47",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "candidate_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "instance_id": "instance-d5a1ecf002946f732e37",
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "scenario_source_id": "splunk_attack_data",
+      "runtime_evidence_source_id": "splunk_attack_data",
+      "platform": "AWS",
+      "environment_kind": "published_telemetry",
+      "log_profile": "unspecified",
+      "observation_count": 5,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "e05b3a2232dd49fc75a3d04a1a5353843ef3d6e3648ebd8f6425f295657ceefe",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1486/s3_file_encryption",
+      "candidate_id": "splunk:datasets/attack_techniques/T1486/s3_file_encryption",
+      "instance_id": "instance-aaa5f752a12d6fd66be7",
+      "independence_group": "splunk-technique:T1486",
+      "scenario_source_id": "splunk_attack_data",
+      "runtime_evidence_source_id": "splunk_attack_data",
+      "platform": "AWS",
+      "environment_kind": "published_telemetry",
+      "log_profile": "unspecified",
+      "observation_count": 2,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "ed689614a8c6dcc8d715839684155233114f117b3f063c3f074bb840a430e68b",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+      "candidate_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+      "instance_id": "instance-85acc58c8feb9d4c8f1a",
+      "independence_group": "splunk-technique:T1490",
+      "scenario_source_id": "splunk_attack_data",
+      "runtime_evidence_source_id": "splunk_attack_data",
+      "platform": "AWS",
+      "environment_kind": "published_telemetry",
+      "log_profile": "unspecified",
+      "observation_count": 4,
+      "schemas": [
+        "aws_cloudtrail",
+        "ocsf_api_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "7ea922d1a4d099e88913f47492b9550350b75d0091f03ae74009c0a241ed5a2b",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+      "candidate_id": "splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+      "instance_id": "instance-638879d57461dab165a1",
+      "independence_group": "source-case:splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+      "scenario_source_id": "splunk_attack_data",
+      "runtime_evidence_source_id": "splunk_attack_data",
+      "platform": "AWS",
+      "environment_kind": "published_telemetry",
+      "log_profile": "unspecified",
+      "observation_count": 100,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "8d146d20bcde7b1467fb38db190b80678729b9b7288325a1c88f714dc31a8fa1",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 24
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1530/aws_s3_public_bucket",
+      "candidate_id": "splunk:datasets/attack_techniques/T1530/aws_s3_public_bucket",
+      "instance_id": "instance-c0bb67803ca05fb0f0d5",
+      "independence_group": "splunk-technique:T1530",
+      "scenario_source_id": "splunk_attack_data",
+      "runtime_evidence_source_id": "splunk_attack_data",
+      "platform": "AWS",
+      "environment_kind": "published_telemetry",
+      "log_profile": "unspecified",
+      "observation_count": 9,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "fbb60e812b12300e305eaae132fd5a617aa5ff68f46a9454e518761cad3a8308",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 6
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "instance_id": "instance-67f3d25541725954cb24",
+      "independence_group": "splunk-technique:T1537",
+      "scenario_source_id": "splunk_attack_data",
+      "runtime_evidence_source_id": "splunk_attack_data",
+      "platform": "AWS",
+      "environment_kind": "published_telemetry",
+      "log_profile": "unspecified",
+      "observation_count": 38,
+      "schemas": [
+        "splunk_key_value_event"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "16f4025c46266e841f13149621fcbebb66390416b8b413b48eeb16d924f5b599",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 8
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1537/aws_snapshot_exfil",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_snapshot_exfil",
+      "instance_id": "instance-0bd4f0fd510350492126",
+      "independence_group": "splunk-technique:T1537",
+      "scenario_source_id": "splunk_attack_data",
+      "runtime_evidence_source_id": "splunk_attack_data",
+      "platform": "AWS",
+      "environment_kind": "published_telemetry",
+      "log_profile": "unspecified",
+      "observation_count": 11,
+      "schemas": [
+        "aws_cloudtrail",
+        "ocsf_api_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "dcc49e8d27c4c5cdc9d12773b301593c872f33cb2d73bc036f9c6c537dca57ab",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 6
+    },
+    {
+      "case_id": "crosscloud:aws:archive_collected_data",
+      "candidate_id": null,
+      "instance_id": "episode-596288c607c2e9b5",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 6,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "b0691fc363aa80dac37dad75f3277a8b3b4d0873e81121d6789a20782949b52a",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:archive_collected_data",
+      "candidate_id": null,
+      "instance_id": "episode-baa182ced5f9f89b",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 10,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "17f7bd777332188a977202e85a80a4016b8cb56b806694f1007bfa76a62f64f2",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:automated_collection",
+      "candidate_id": null,
+      "instance_id": "episode-37b30a2c157e3248",
+      "independence_group": "crosscloud-family:automated_collection",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 7,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "8e2c3961647088c4807916fe2072c9365dc0b01f7b0336ba7ad211f2081923a9",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:automated_collection",
+      "candidate_id": null,
+      "instance_id": "episode-bc00079dd2938921",
+      "independence_group": "crosscloud-family:automated_collection",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 6,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "1c29e64eb038062d178c4f3a1569b72b930f4fe87f32d3017536e3b52dca8aaf",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:automated_exfiltration",
+      "candidate_id": null,
+      "instance_id": "episode-a9d7c939c6c45573",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 117,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "2eebaaa0a16fced0f79803d0989d42942f5b896d03059e03cb42169c9c4f3c3f",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:automated_exfiltration",
+      "candidate_id": null,
+      "instance_id": "episode-b273f1e2fff2299d",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 110,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "20bf4c6fb4d0b66664de153a4a6433f680dbc0018927cc69e202559c8073e905",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:credentials_from_password_stores",
+      "candidate_id": null,
+      "instance_id": "episode-8bb4bc556cc245b4",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 18,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "5e75c8bff2119da94216382834acc1164302c0044ae1685895387ca70b976ea6",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:data_destruction",
+      "candidate_id": null,
+      "instance_id": "episode-350e721ec4452bc6",
+      "independence_group": "crosscloud-family:data_destruction",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 20,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "c58a42c7dd46113f1355ab85f5b6a8a4fce7575a6a1f95c46f0d4e4d8a53ffc6",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 8
+    },
+    {
+      "case_id": "crosscloud:aws:data_destruction",
+      "candidate_id": null,
+      "instance_id": "episode-4f7a2a0d1dcad563",
+      "independence_group": "crosscloud-family:data_destruction",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 14,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "759ac56231a02bdcb228ee29b1d7ff0f96f2e5239a2a48dc53945ff6b865fa10",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:data_encrypted_for_impact",
+      "candidate_id": null,
+      "instance_id": "episode-db2e9c0cad816264",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 5,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "9d447b61d016ad82bccd1eadaf030dc769e27bbdd4556dba537bb822869b4f3a",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:data_encrypted_for_impact",
+      "candidate_id": null,
+      "instance_id": "episode-e8001e45102e8faf",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 3,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "4fc8460e504b02ea29b57a45c914cf8e85b440d1f7087266d839316dcacabe9f",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:data_manipulation",
+      "candidate_id": null,
+      "instance_id": "episode-9c1d60a0953d4709",
+      "independence_group": "crosscloud-family:data_manipulation",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 6,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "162ae8cd32b7f9cfde9071a84e219c9714e7dcb1a8027cd076629bd095e63a9f",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:data_manipulation",
+      "candidate_id": null,
+      "instance_id": "episode-dc6d3df329e8c7c4",
+      "independence_group": "crosscloud-family:data_manipulation",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 6,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "21dde9bb5fa445f968576d94df86a3790f0c5fc193a62ee896e0ab3d40fde68a",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:data_staged",
+      "candidate_id": null,
+      "instance_id": "episode-157375638f3c3cff",
+      "independence_group": "crosscloud-family:data_staged",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 6,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "60ba4c12179d4ff40a2880768573ef3be890bd068105d8f6662863cffb65ba6c",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:data_staged",
+      "candidate_id": null,
+      "instance_id": "episode-9d3e123a008bdb4f",
+      "independence_group": "crosscloud-family:data_staged",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 5,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "53e0738206919aae65eadfda6c10c97daa71ae308ff04914e88e678672f55b65",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:inhibit_system_recovery",
+      "candidate_id": null,
+      "instance_id": "episode-8f7bd29a918d70d6",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 35,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "8e9517ee68bd9475af2408ebafb78ab59a3b6d860d574ef60bf7273936cd8f92",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:inhibit_system_recovery",
+      "candidate_id": null,
+      "instance_id": "episode-95ffa829dcbc665b",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 28,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "b542c6d45316ac29a9dc62aac2297b7d182beea75528761d9de4333aea7f6005",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:scheduled_transfer",
+      "candidate_id": null,
+      "instance_id": "episode-554e90ab5ebf85dc",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 63,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "d53d02b5f89b5def41c6426a582fc370c5f441b90b7c1498313cb8c389e42ccf",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:scheduled_transfer",
+      "candidate_id": null,
+      "instance_id": "episode-d249cde787a8c669",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 117,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "1e14aa9cb37b6669ca45c0f4751aa9bcab239b41ccfaab4f8ae01b3a67c30cf0",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:steal_application_access_token",
+      "candidate_id": null,
+      "instance_id": "episode-49e736e648b6913e",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 13,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "8236c9f3f5c20011653b89252b18bfd534d4aafc570962714a61670bb9d8d686",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:steal_application_access_token",
+      "candidate_id": null,
+      "instance_id": "episode-5b7fc215f443d230",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 11,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "738664c06691dd5bb63fcf424b4d15b1072d9a5b1c0e71ed2446892583af3230",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:aws:unsecured_credentials",
+      "candidate_id": null,
+      "instance_id": "episode-c8153a6b020a315b",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AWS",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 4,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "192ffb8c157d0bbc6b9db95ef91891a77d13b53485f7a80625a6eb407c9f2768",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:archive_collected_data",
+      "candidate_id": null,
+      "instance_id": "episode-32f3ea27441f563b",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 25,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "83f24c9c6399616ebe8f982cd15c4291c3cc3b83277c901c7bef3f1021886a21",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:archive_collected_data",
+      "candidate_id": null,
+      "instance_id": "episode-cbe930563b31608c",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 39,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "5fc697c1288099d49b65cc871a6aaec8e6e9d33584a0e89e58a181065f16a646",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:automated_collection",
+      "candidate_id": null,
+      "instance_id": "episode-5650e76b6728a3ff",
+      "independence_group": "crosscloud-family:automated_collection",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 21,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "0adbfbc7faf88ce6491ea56e3ae2fd7cf7a6747113597b5ee1fa9267b94c9bbd",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:automated_collection",
+      "candidate_id": null,
+      "instance_id": "episode-ab723139ea0c3b1e",
+      "independence_group": "crosscloud-family:automated_collection",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 32,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "8d9462057d8e220ab890643cf92944c18b847025104c158c2aa85793eb18468c",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:automated_exfiltration",
+      "candidate_id": null,
+      "instance_id": "episode-e47939caf0f73889",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 31,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "080898da37712bc3a693f9968c133c3292cd583a3801b294d5b472793a742665",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:automated_exfiltration",
+      "candidate_id": null,
+      "instance_id": "episode-edb8b63830435b59",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 18,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "916bc2b2fc1677d99b20b3b2f42391eef525db8132cdc209d2fb9e2e97d5a105",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:credentials_from_password_stores",
+      "candidate_id": null,
+      "instance_id": "episode-2aca8fc9867b9274",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 14,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "508d8ca40d185d691efb510cb3fe7e17c0e49954ce17c68582e1170c91bd60f5",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:credentials_from_password_stores",
+      "candidate_id": null,
+      "instance_id": "episode-dab6aba177d3c8b2",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 14,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "8a795fbb03c2282d9e0624a3f572939910d9dcd34511b95939c422f9676c9e38",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:data_destruction",
+      "candidate_id": null,
+      "instance_id": "episode-556ea8863a3f6a7b",
+      "independence_group": "crosscloud-family:data_destruction",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 15,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "a9174227b0942250cd8942543122f81714046b21782726056c4b880830864e9f",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:data_destruction",
+      "candidate_id": null,
+      "instance_id": "episode-d0eca5d8f39d7ec7",
+      "independence_group": "crosscloud-family:data_destruction",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 13,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "3a4a4aaefd4f6c84b9d88f975a823c18a3aaadae932b355d87dc8a884e87e135",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:data_encrypted_for_impact",
+      "candidate_id": null,
+      "instance_id": "episode-d0bf47dd54a85f27",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 21,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "e297c9778fc86430ec79daa7f199fe40d2e181975e6b36c2b6f2bbb8fdb08e77",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:data_encrypted_for_impact",
+      "candidate_id": null,
+      "instance_id": "episode-e16943431999da97",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 13,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "956991cc2390845948b47962f1e6536ad09c88379a97a3d3a0d67172a43c086d",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:data_manipulation",
+      "candidate_id": null,
+      "instance_id": "episode-199d168c32bb9ebe",
+      "independence_group": "crosscloud-family:data_manipulation",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 13,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "b019444928778a232f0719058b7e980ae7a3e776517a917ebf043852e11a89b9",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:data_manipulation",
+      "candidate_id": null,
+      "instance_id": "episode-cb9f6924aa94be48",
+      "independence_group": "crosscloud-family:data_manipulation",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 11,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "50f11e3ebb07386a3ef52c2a5dc0e837e911e1bd2927ddbb5adb255c268c66ab",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:data_staged",
+      "candidate_id": null,
+      "instance_id": "episode-3c4542e865bb47b4",
+      "independence_group": "crosscloud-family:data_staged",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 15,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "45e4dc43df04a2405bce4bebcaa1f4c7b16cb4a795f065fa24f4b453292ee9bc",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:data_staged",
+      "candidate_id": null,
+      "instance_id": "episode-50d3438cf9b35eab",
+      "independence_group": "crosscloud-family:data_staged",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 13,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "d542a3600490973224a0b928bb02cb441d0a9078e992e378f505a7b7c86e98d0",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:inhibit_system_recovery",
+      "candidate_id": null,
+      "instance_id": "episode-60ca5386527dbfd1",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 15,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "76999ae0dc1b4ffd17837bf09041454f30bc854d040cf5dceab2838b357251c2",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:inhibit_system_recovery",
+      "candidate_id": null,
+      "instance_id": "episode-c97de4abd671f4c1",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 15,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "ba5d9d3fae3936b0ad9122a17e7ccc28a4f3c61442deef1f8d4abad43e6b90f4",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:scheduled_transfer",
+      "candidate_id": null,
+      "instance_id": "episode-69763ac2af71202a",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 23,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "fcdcda21e1996e766811148a97198f7bda290e5c7a480f33d9fd77e6268bb435",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:scheduled_transfer",
+      "candidate_id": null,
+      "instance_id": "episode-ab89e5bebf54d2b8",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 24,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "9dd343ed5071dd31738e8fc0e335a59458df26c94842bc4bb4bbe858bcd32218",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:steal_application_access_token",
+      "candidate_id": null,
+      "instance_id": "episode-747c8aac138288bf",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 17,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "5cc0b2e6218c8717071fd96f74f7501715a74b2ba096be9dbe61a4fa5735ca9b",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:steal_application_access_token",
+      "candidate_id": null,
+      "instance_id": "episode-9baf12899538e6e8",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 19,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "217177e9db369e0b3945d94814dc11776782917b6a862bc8123c81915a85f818",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:unsecured_credentials",
+      "candidate_id": null,
+      "instance_id": "episode-2f13529bdce728b1",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 14,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "6dc40096493457bff6da42e835b611d12a5d00c588cdb487dddbd74a76b6ea90",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:azure:unsecured_credentials",
+      "candidate_id": null,
+      "instance_id": "episode-e29c057d8cb5d55a",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "AZURE",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 11,
+      "schemas": [
+        "azure_activity"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "5e779f45d4319bd7651d1bd1cb505d3dea7136163071992ae58090fcbeb32c86",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:archive_collected_data",
+      "candidate_id": null,
+      "instance_id": "episode-4d87767d5bc8c617",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 6,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "30a57f8be7592f91e2e0627adeb5e9fd5fcee357bb131428ee30eeb7bbb6f0c1",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:archive_collected_data",
+      "candidate_id": null,
+      "instance_id": "episode-82d5db52d6415679",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 2,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "4978d3e4fab57a4784d302d47094c78551d83740e25df677b723f52ef0797b21",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:automated_collection",
+      "candidate_id": null,
+      "instance_id": "episode-af66459843f7888b",
+      "independence_group": "crosscloud-family:automated_collection",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 7,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "215d67435d835aa453a7dbefaaa0f660ebe2deb58e3ce0d313510e06d9c4e581",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:automated_collection",
+      "candidate_id": null,
+      "instance_id": "episode-dfe52f871fc13c36",
+      "independence_group": "crosscloud-family:automated_collection",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 7,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "351355c5caca43aa10a0181892c8df8039703795f5473cb8e2c484d13e92e943",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:automated_exfiltration",
+      "candidate_id": null,
+      "instance_id": "episode-c20b8d1e4409e9fc",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 10,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "57686a247f7d2d08ac7dec1a321a83d2b9ac38e72e425ce746babb36e760332b",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:automated_exfiltration",
+      "candidate_id": null,
+      "instance_id": "episode-da68760f352eec5c",
+      "independence_group": "crosscloud-family:automated_exfiltration",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 543,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "8e1d19022a5339133a0642de93362a7d6a94498cfeeb1f35454c7e2f94e00621",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:credentials_from_password_stores",
+      "candidate_id": null,
+      "instance_id": "episode-6f3206dde24332e4",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 10,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "c6403e9012d58ef02c69c3341219d6152e723c2c556e3201d2d2b35e0b6c5dd1",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:credentials_from_password_stores",
+      "candidate_id": null,
+      "instance_id": "episode-6f9b9349aa3bfef5",
+      "independence_group": "crosscloud-family:credentials_from_password_stores",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 7,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "e2da89482e4d6265d8788884c452f2007091dca1108be975b9b5369fb38ec221",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:data_destruction",
+      "candidate_id": null,
+      "instance_id": "episode-6887b70bcb7ee2f1",
+      "independence_group": "crosscloud-family:data_destruction",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 1,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "bbe15b29bd771cce7bd19293f3013fb8f22e98577af8322cac293b6f7070a377",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:data_destruction",
+      "candidate_id": null,
+      "instance_id": "episode-8b0614c6debe4880",
+      "independence_group": "crosscloud-family:data_destruction",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 2,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "53f8b5e74975601b576580807207516084e9e58ee2eb5566c34ca6c49595742a",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:data_encrypted_for_impact",
+      "candidate_id": null,
+      "instance_id": "episode-21269834a06778f3",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 5,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "1b6ea979c2705c2cd9395e61b72dd8b342797badb354ef59322a0c0df3753c94",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:data_encrypted_for_impact",
+      "candidate_id": null,
+      "instance_id": "episode-e48c3f1c4606a813",
+      "independence_group": "crosscloud-family:data_encrypted_for_impact",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 4,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "a3b2e3fdd3528463891aac728c2e5c22d875b6ac997bcbc7a6e2072def5c6371",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:data_manipulation",
+      "candidate_id": null,
+      "instance_id": "episode-a0e0290b657e7854",
+      "independence_group": "crosscloud-family:data_manipulation",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 3,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "5b8193c8bcf7fa4146ffd49bc3b992b48ef38a3e44fae4eedf79dea23ffdf88d",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:data_manipulation",
+      "candidate_id": null,
+      "instance_id": "episode-f4556244300fb576",
+      "independence_group": "crosscloud-family:data_manipulation",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 3,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "3594735e1d62e3c567b077f7338ea0e0819b8330e37e295ddd2e41b81442be56",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:data_staged",
+      "candidate_id": null,
+      "instance_id": "episode-825fb132133700d3",
+      "independence_group": "crosscloud-family:data_staged",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 3,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "c8f7c6c49572f55442b83dc5c403b090ee3296a1f7e085779ab3e91bb8b784b9",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:data_staged",
+      "candidate_id": null,
+      "instance_id": "episode-c4ef8bd725ce2dff",
+      "independence_group": "crosscloud-family:data_staged",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 3,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "65f0432d08bfbd0f5f2f90d91d23b475e56a4cae9f0f72644c98f9594b0cc0fd",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:inhibit_system_recovery",
+      "candidate_id": null,
+      "instance_id": "episode-1d68bed6d797bfe4",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 1,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "e877d7e95457a603fc5dc6e060c88c28c1dab7ee4a07e58581804d075c901bea",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:inhibit_system_recovery",
+      "candidate_id": null,
+      "instance_id": "episode-511b40fcae1985bd",
+      "independence_group": "crosscloud-family:inhibit_system_recovery",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 1,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "0ebd5528ae8126f89c9ae2230b58b03ec19f9f7f7dd8023960e4d5028a399cb6",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:scheduled_transfer",
+      "candidate_id": null,
+      "instance_id": "episode-2dd3728f7cb7a51a",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 507,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "c122d9c360672318f00422d6395d6d790fdb397bae402380758b3d3ffa240cc3",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:scheduled_transfer",
+      "candidate_id": null,
+      "instance_id": "episode-e249bca8a8daaa27",
+      "independence_group": "crosscloud-family:scheduled_transfer",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 7,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "dbfaa998161b9bed53531975b9e891488c8d980bd88087466df3b06f69828857",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:steal_application_access_token",
+      "candidate_id": null,
+      "instance_id": "episode-94ee3739d708fe1d",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 9,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "2311e50d1680b084411ec87901e4841002c3b51d31be45fd8b88789fb0c4941d",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:steal_application_access_token",
+      "candidate_id": null,
+      "instance_id": "episode-a8649b25d4b9db46",
+      "independence_group": "crosscloud-family:steal_application_access_token",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 9,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "f10c6c298d79232723c77dae535cc3f4882233de26efacdf473066be40c27e1e",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:unsecured_credentials",
+      "candidate_id": null,
+      "instance_id": "episode-1fbd2c299b1efb97",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 5,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "da70632052cb37648ba4cfe83ad2a315345340462fc5b908cd3d59445c9e088e",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "crosscloud:gcp:unsecured_credentials",
+      "candidate_id": null,
+      "instance_id": "episode-529ce4850a94b334",
+      "independence_group": "crosscloud-family:unsecured_credentials",
+      "scenario_source_id": "cross_cloud_observability_2026",
+      "runtime_evidence_source_id": "cross_cloud_observability_2026",
+      "platform": "GCP",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "log_profile": "default",
+      "observation_count": 6,
+      "schemas": [
+        "gcp_audit_log"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "66e09a2bab10050515aab7ee1f21e2bd7b3f9a5d4aca270341a3393918adc6eb",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "cloudgoat:aws:cloud_breach_s3",
+      "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+      "instance_id": "instance-fb087c5e71c13441aa22",
+      "independence_group": "cloudgoat-scenario:cloud_breach_s3",
+      "scenario_source_id": "cloudgoat",
+      "runtime_evidence_source_id": "otrf_security_datasets",
+      "platform": "AWS",
+      "environment_kind": "otrf_cloudgoat_attack_emulation",
+      "log_profile": "aws_cloudtrail_jsonl",
+      "observation_count": 103,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "55027e86394f058a79f9da387d8a64c5c0810119f163158d6cde6ed9649635f8",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "stratus:aws.credential-access.ec2-get-password-data",
+      "candidate_id": "stratus:aws.credential-access.ec2-get-password-data",
+      "instance_id": "instance-5c9b95ef863a591b7d52",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ec2-get-password-data",
+      "scenario_source_id": "stratus_red_team",
+      "runtime_evidence_source_id": "stratus_red_team",
+      "platform": "AWS",
+      "environment_kind": "stratus_grimoire_detonation",
+      "log_profile": "cloudtrail_detonation",
+      "observation_count": 34,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "b6d49e33d17d09510911fc44c92db1aa56833e509bbffff3f0a93afc89bbe8df",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 10
+    },
+    {
+      "case_id": "stratus:aws.credential-access.ec2-steal-instance-credentials",
+      "candidate_id": "stratus:aws.credential-access.ec2-steal-instance-credentials",
+      "instance_id": "instance-7f76fcbacfea6ab1d476",
+      "independence_group": "stratus-technique:T1552.005",
+      "scenario_source_id": "stratus_red_team",
+      "runtime_evidence_source_id": "stratus_red_team",
+      "platform": "AWS",
+      "environment_kind": "stratus_grimoire_detonation",
+      "log_profile": "cloudtrail_detonation",
+      "observation_count": 45,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "873875950dad555a55ae8e56b054090972ba53b6cd1d42feb88e2fe8945f7d03",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "candidate_id": "stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "instance_id": "instance-5266491fa3c3dc815793",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "scenario_source_id": "stratus_red_team",
+      "runtime_evidence_source_id": "stratus_red_team",
+      "platform": "AWS",
+      "environment_kind": "stratus_grimoire_detonation",
+      "log_profile": "cloudtrail_detonation",
+      "observation_count": 5,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "455e29d49f0199c0312bb68f1c8b03941477c19b8c1f0dab99781805887ccf95",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "instance_id": "instance-8111a8c6907ac5c47d1b",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "scenario_source_id": "stratus_red_team",
+      "runtime_evidence_source_id": "stratus_red_team",
+      "platform": "AWS",
+      "environment_kind": "stratus_grimoire_detonation",
+      "log_profile": "cloudtrail_detonation",
+      "observation_count": 21,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "20ec841cb3b24f011adb9dc0a0a8d2a7a0d05c6253898b1c033f1e319f5e620c",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 8
+    },
+    {
+      "case_id": "stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+      "candidate_id": "stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+      "instance_id": "instance-056fe5fce11fa8d20b76",
+      "independence_group": "stratus_red_team:stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+      "scenario_source_id": "stratus_red_team",
+      "runtime_evidence_source_id": "stratus_red_team",
+      "platform": "AWS",
+      "environment_kind": "stratus_grimoire_detonation",
+      "log_profile": "cloudtrail_detonation",
+      "observation_count": 10,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "9ed5f0d9d1529bf46954597fc3ae3aebec38be8ac644fa71b20a5c1e2c98535b",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 6
+    },
+    {
+      "case_id": "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+      "candidate_id": "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+      "instance_id": "instance-e9e6c76389abad6f9f98",
+      "independence_group": "stratus-technique:T1562.008",
+      "scenario_source_id": "stratus_red_team",
+      "runtime_evidence_source_id": "stratus_red_team",
+      "platform": "AWS",
+      "environment_kind": "stratus_grimoire_detonation",
+      "log_profile": "cloudtrail_detonation",
+      "observation_count": 1,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "8c270c50e03cc4a6503334b25d31540d0baa2accaf1baf3f1d5d42e25d991882",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "stratus:aws.defense-evasion.dns-delete-logs",
+      "candidate_id": "stratus:aws.defense-evasion.dns-delete-logs",
+      "instance_id": "instance-a354c1eca42299ff1bd7",
+      "independence_group": "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs",
+      "scenario_source_id": "stratus_red_team",
+      "runtime_evidence_source_id": "stratus_red_team",
+      "platform": "AWS",
+      "environment_kind": "stratus_grimoire_detonation",
+      "log_profile": "cloudtrail_detonation",
+      "observation_count": 1,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "76716cbec8d1e1e67699f81211c389867f8624acbe0667ad05eb34b11948e0b2",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "stratus:aws.discovery.ec2-download-user-data",
+      "candidate_id": "stratus:aws.discovery.ec2-download-user-data",
+      "instance_id": "instance-d5d3e3288e05ad5cd89c",
+      "independence_group": "stratus_red_team:stratus:aws.discovery.ec2-download-user-data",
+      "scenario_source_id": "stratus_red_team",
+      "runtime_evidence_source_id": "stratus_red_team",
+      "platform": "AWS",
+      "environment_kind": "stratus_grimoire_detonation",
+      "log_profile": "cloudtrail_detonation",
+      "observation_count": 19,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "f965bb32948618c4509f969847d1b878dd50f0b6b22b8c442b5cb5e3f79923d1",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 7
+    },
+    {
+      "case_id": "stratus:aws.exfiltration.ec2-share-ami",
+      "candidate_id": "stratus:aws.exfiltration.ec2-share-ami",
+      "instance_id": "instance-b36c72e16fa470622f78",
+      "independence_group": "stratus_red_team:stratus:aws.exfiltration.ec2-share-ami",
+      "scenario_source_id": "stratus_red_team",
+      "runtime_evidence_source_id": "stratus_red_team",
+      "platform": "AWS",
+      "environment_kind": "stratus_grimoire_detonation",
+      "log_profile": "cloudtrail_detonation",
+      "observation_count": 1,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "36f955d623f34eb2ca30447cf2ac4e036f952dbe267fc222bc35dfb17b345f7c",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "stratus:aws.exfiltration.ec2-share-ebs-snapshot",
+      "candidate_id": "stratus:aws.exfiltration.ec2-share-ebs-snapshot",
+      "instance_id": "instance-c2ef6ed8736fdc5b055e",
+      "independence_group": "stratus-technique:T1578.001",
+      "scenario_source_id": "stratus_red_team",
+      "runtime_evidence_source_id": "stratus_red_team",
+      "platform": "AWS",
+      "environment_kind": "stratus_grimoire_detonation",
+      "log_profile": "cloudtrail_detonation",
+      "observation_count": 1,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "9623fee3987d173f86f5f29be290657501996b00f39030fd203f6c368ee00320",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    },
+    {
+      "case_id": "stratus:aws.exfiltration.rds-share-snapshot",
+      "candidate_id": "stratus:aws.exfiltration.rds-share-snapshot",
+      "instance_id": "instance-9a2d1fad976e3b436158",
+      "independence_group": "stratus-technique:T1496.A007",
+      "scenario_source_id": "stratus_red_team",
+      "runtime_evidence_source_id": "stratus_red_team",
+      "platform": "AWS",
+      "environment_kind": "stratus_grimoire_detonation",
+      "log_profile": "cloudtrail_detonation",
+      "observation_count": 1,
+      "schemas": [
+        "aws_cloudtrail"
+      ],
+      "has_request_or_response_payload": true,
+      "tool_contract_valid": true,
+      "tool_contract_failures": [],
+      "tool_calls_exercised": 5,
+      "tools_exercised": [
+        "actor_timeline",
+        "get_event_detail",
+        "resource_search",
+        "search_events",
+        "summarize_case"
+      ],
+      "resource_search_positive": true,
+      "backend_equivalent": true,
+      "policy_leakage": {
+        "fields": [],
+        "terms": [],
+        "identifiers": []
+      },
+      "linear_result_sha256": "aa5bf4fb0d6a9f95cf36af2499d90cf62c4834e806e2872ff45c70bf0db80c9c",
+      "decision": "candidate_evidence_found",
+      "valid_tool_calls": 3,
+      "query_cost": 5
+    }
+  ]
+}

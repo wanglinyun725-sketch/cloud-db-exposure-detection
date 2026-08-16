@@ -1,0 +1,101 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "cloudfoxable:aws:It's another secret",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudfoxable",
+    "upstream_url": "https://github.com/BishopFox/cloudfoxable",
+    "version_or_commit": "fc49b7f637268031515ced9fee4b643d3e68db67",
+    "license": "MIT",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudfoxable/fc49b7f637268031515ced9fee4b643d3e68db67/snapshot.zip",
+        "sha256": "bec9436f0e8759601dd7669c108c0921db5b10bc2d941223f0467efb5227fe6d"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudfoxable:aws:It's another secret",
+    "kind": "executable_challenge",
+    "platform": "AWS",
+    "challenge": "It's another secret",
+    "manifest_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's another secret/challenge.yml",
+    "terraform_file_count": 2,
+    "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's another secret/",
+    "review_score": 22,
+    "independence_group": "cloudfoxable-challenge:It's another secret",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's another secret/README.md",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's another secret/README.md",
+      "member_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "content_kind": "md",
+      "text": "",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's another secret/challenge.yml",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's another secret/challenge.yml",
+      "member_sha256": "68c1aea8f1a076dcb1ef5425cc12b9d87f7484bc67ca300f4f03780e34efe89a",
+      "bytes": 2254,
+      "content_kind": "yml",
+      "text": "name: It's another secret\ncategory: 'Assumed Breach: Principal'\ndescription: |-\n  **Overview**\n\n  - **Default state:** Enabled\n  - **Estimated Cost:** $0.05/month\n  - **Starting Point:** `arn:aws:iam::ACCOUNT_ID:role/Ertz`\n\n  **CloudFoxable Setup**\n\n  None required\n\n  **Challenge Details**\n\n  TL;DR: You've just gained access to the role `Ertz`. Can you find and access the `its-another-secret` flag?\n\n  A lot of the challenges in the category **Assumed Breach: Principal** will have you assume into a role to simulate a new starting point. You'll technically start as `ctf-starting-user`, but your first action will be to assume the role `Ertz` listed above. This is to simulate a scenario where you've just gained access to the role `Ertz`.\n\n  You can do this the \"hard way\" by running `aws --profile cloudfoxable sts assume-role --role-arn arn:aws:iam::ACCOUNT_ID:role/Ertz --role-session-name Ertz` and then using that output to set up a new profile or environment variables.\n\n  Or, you can do it the easy way and create a new profile that does the role assumption for you!\n\n  Edit `~/.aws/config` and add the following profile:\n\n  ```\n  [profile ertz]\n  region = us-west-2\n  role_arn = arn:aws:iam::ACCOUNT_ID:role/Ertz\n  source_profile = cloudfoxable\n  ```\n\n  Now verify it!\n  ```\n  ❯ aws --profile ertz sts get-caller-identity\n  {\n      \"UserId\": \"AROAQXHJKLZKFYSRACOES:botocore-session-1684201365\",\n      \"Account\": \"ACCOUNT_ID\",\n      \"Arn\": \"arn:aws:sts::ACCOUNT_ID:assumed-role/Ertz/botocore-session-1684201365\"\n  }\n  ```\n\n  For each of these challenges, and on a cloud penetration test, the next thing you'll want to do is see what permissions the assumed breach user has, and see if any of them are \"interesting\".\n\n  If you've completed `It's a secret`, the rest of this challenge will look the same. The main goal here is to make sure you are comfortable assuming new roles. Good luck!\n\n  **Cleanup Tasks**\n\n  None required\nvalue: 50\n\nflags:\n- content: FLAG{ItsAnotherSecret::ThereWillBeALotOfAssumingRolesInThisCTF}\n  type: static\n  data: case_insensitive\n\nhints:\n- |-\n  Once you have confirmed you have access to the Ertz role, you'll want to do two things:\n  * Check what permisisons Ertz has\n  * Find the `its-another-secret` secret\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's another secret/its-another-secret.tf",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's another secret/its-another-secret.tf",
+      "member_sha256": "4278ebc96fe5c205bc872fef45877db4488fd830d000ad8f1d3b213030836bf0",
+      "bytes": 1467,
+      "content_kind": "tf",
+      "text": "resource \"aws_ssm_parameter\" \"flag2\" {\n    name  = \"/cloudfoxable/flag/its-another-secret\"\n    type  = \"SecureString\"\n    value = \"FLAG{ItsAnotherSecret::ThereWillBeALotOfAssumingRolesInThisCTF}\"\n}\n\n// create an iam policy that only allows access to this flag\nresource \"aws_iam_policy\" \"its-another-secret-policy\" {\n  name        = \"its-another-secret-policy\"\n  path        = \"/\"\n  description = \"policy that only allows access to the its-another-secret flag\"\n\n  policy = jsonencode({\n    \"Version\" : \"2012-10-17\",\n    \"Statement\" : [\n      {\n        \"Effect\" : \"Allow\",\n        \"Action\" : [\n          \"ssm:GetParameter\"\n        ],\n        \"Resource\" : [\n          aws_ssm_parameter.flag2.arn\n        ]\n      }\n    ]\n  })\n}\n\n// create iam role that trusts the ctf starting user and attach the policy to it\nresource \"aws_iam_role\" \"its-another-secret-role\" {\n  name               = \"Ertz\"\n  assume_role_policy = jsonencode({\n    \"Version\" : \"2012-10-17\",\n    \"Statement\" : [\n      {\n        \"Effect\" : \"Allow\",\n        \"Principal\" : {\n          \"AWS\" : [\n            \"arn:aws:iam::${var.account_id}:user/${var.ctf_starting_user_name}\"\n          ]\n        },\n        \"Action\" : [\n          \"sts:AssumeRole\"\n        ]\n      }\n    ]\n  })\n}\n\n// attach the policy to the role\nresource \"aws_iam_role_policy_attachment\" \"its-a-secret-policy-attachment\" {\n  role       = aws_iam_role.its-another-secret-role.name\n  policy_arn = aws_iam_policy.its-another-secret-policy.arn\n}\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's another secret/variables.tf",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/It's another secret/variables.tf",
+      "member_sha256": "05ccf7f10a93c454447030de6f35710adce9a2742aadeb6869af98ee3dffa9ea",
+      "bytes": 1970,
+      "content_kind": "tf",
+      "text": "variable \"aws_local_profile\" {\r\n  description = \"What local profile should terraform use to interact with your AWS account(s)\"\r\n  type        = string\r\n  default     = \"default\"\r\n}\r\n\r\nvariable \"aws_local_creds_file\" {\r\n  description = \"Location of your local credentials file\"\r\n  type        = string\r\n  default     = \"~/.aws/credentials\"\r\n}\r\n\r\nvariable \"aws_assume_role_arn\" {\r\n  description = \"This is the arn of an already existing principal that can assume into any roles that are created\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"account_id\" {\r\n  description = \"This is the ID of the caller account\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\n\r\nvariable \"shared_high_priv_servicerole\" {\r\n  description = \"This is the arn of high priv service role that is attached to lambda's ec2's, etc. to facilitate privesc\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"AWS_REGION\" {\r\n  type    = string\r\n  default = \"us-west-2\"\r\n}\r\n\r\n# Resources\r\nresource \"random_password\" \"database-secret\" {\r\n  length           = 31\r\n  special          = true\r\n  min_special      = 5\r\n  override_special = \"!#$%^&*()-_=+[]{}<>:?\"\r\n  keepers = {\r\n    pass_version = 1\r\n  }\r\n}\r\n\r\nresource \"random_password\" \"app-secret\" {\r\n  length           = 31\r\n  special          = true\r\n  min_special      = 5\r\n  override_special = \"!#$%^&*()-_=+[]{}<>:?\"\r\n  keepers = {\r\n    pass_version = 1\r\n  }\r\n}\r\n\r\nresource \"random_string\" \"resource-suffix\" {\r\n  length           = 5 \r\n  upper = false \r\n  special = false\r\n}\r\n\r\nvariable \"user_ip\" {\r\n  description = \"The current user's IP address\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"ctf_starting_user_arn\" {\r\n  description = \"The arn of the user that is created at the start of the CTF\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"ctf_starting_user_name\" {\r\n  description = \"The name of the user that is created at the start of the CTF\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "dd323aea54cb431668750bdb0a9ec2a6eebc1f375a6c421323cc9eaebca5ce25",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

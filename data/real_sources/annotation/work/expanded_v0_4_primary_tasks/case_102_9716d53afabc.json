@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:azure.impact.blob-ransomware-cpek",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:azure.impact.blob-ransomware-cpek",
+    "kind": "executable_attack_technique",
+    "platform": "azure",
+    "technique": "azure.impact.blob-ransomware-cpek",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.impact.blob-ransomware-cpek.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.impact.blob-ransomware-cpek.md",
+    "review_score": 30,
+    "independence_group": "stratus_red_team:stratus:azure.impact.blob-ransomware-cpek",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.impact.blob-ransomware-cpek.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.impact.blob-ransomware-cpek.md",
+      "member_sha256": "d44f81d6e756a31e665933c2ef36af8338a591ba994dec778f8cba40fa72c8b1",
+      "bytes": 2229,
+      "content_kind": "md",
+      "text": "---\ntitle: Azure Blob Storage ransomware through Customer-Provided Encryption Keys\n---\n\n# Azure Blob Storage ransomware through Customer-Provided Encryption Keys\n\n\n\n\nPlatform: Azure\n\n## Mappings\n\n- MITRE ATT&CK\n    - Impact\n\n\n\n## Description\n\n\nSimulates Azure Blob Storage ransomware activity that encrypts files using Customer-Provided Encryption Keys (CPK).\nThis is the Azure equivalent of the AWS SSE-C ransomware technique.\nThe attacker downloads existing blobs and re-uploads them encrypted with a customer-provided AES-256 key that only they possess.\nWithout the key, the blobs cannot be read.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create an Azure Storage Account\n- Create multiple storage containers in the account\n- Create a number of blobs in the containers with random content and file extensions\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Download all blobs\n- Re-upload each blob encrypted with a customer-provided AES-256 key\n- Upload a ransom note\n\nReferences:\n\n- https://learn.microsoft.com/en-us/azure/storage/blobs/encryption-customer-provided-keys\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate azure.impact.blob-ransomware-cpek\n```\n## Detection\n\n\nYou can detect this ransomware activity by monitoring for high volumes of <code>GetBlob</code> followed by <code>PutBlob</code> operations, especially when <code>PutBlob</code> requests include customer-provided encryption key headers (<code>x-ms-encryption-algorithm: AES256</code>).\n\nIn Azure Storage diagnostic logs, look for:\n\n1. Unusual volume of read (<code>GetBlob</code>) followed by write (<code>PutBlob</code>) operations on the same blobs.\n2. <code>PutBlob</code> operations with the <code>x-ms-encryption-algorithm</code> request header set to <code>AES256</code>, indicating customer-provided key usage.\n\nSample Azure Storage diagnostic log event for a PutBlob with customer-provided key:\n\n```json\n{\n  \"time\": \"2024-01-01T00:00:00.0000000Z\",\n  \"operationName\": \"PutBlob\",\n  \"category\": \"StorageWrite\",\n  \"statusCode\": 201,\n  \"properties\": {\n    \"accountName\": \"<storage-account-name>\",\n    \"userAgentHeader\": \"azsdk-go-azblob/v1.6.3\",\n    \"serviceType\": \"blob\"\n  }\n}\n```\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "104a474b02e61257733a1af895d3a80c1c06bae9da5b0f49805fa27181996a91",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

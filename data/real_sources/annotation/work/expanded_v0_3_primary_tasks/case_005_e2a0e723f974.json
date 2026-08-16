@@ -1,0 +1,214 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "splunk_attack_data",
+    "upstream_url": "https://github.com/splunk/attack_data",
+    "version_or_commit": "3821bdb77c66c95b4e529f62a9d00b168446d1a8",
+    "license": "Apache-2.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1490/aws_bucket_version/aws_bucket_version.yml",
+        "sha256": "0cd364667524a7de3d2daa484e5f6f2840b9824a209e739547114f81cfc5fec4",
+        "upstream_path": "datasets/attack_techniques/T1490/aws_bucket_version/aws_bucket_version.yml",
+        "git_blob_sha": "9167faf6a199487f35e1fcafc2fcf9bcaf23343b",
+        "lfs_oid_sha256": null
+      },
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1490/aws_bucket_version/asl_ocsf_cloudtrail.json",
+        "sha256": "7152b9a992acfd3da25af37fee7c16caf211d6c51a4037177f79df6d94b88515",
+        "upstream_path": "datasets/attack_techniques/T1490/aws_bucket_version/asl_ocsf_cloudtrail.json",
+        "git_blob_sha": "3d20e102608db1d4677bab2636c8270f905d7ede",
+        "lfs_oid_sha256": "7152b9a992acfd3da25af37fee7c16caf211d6c51a4037177f79df6d94b88515"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1490/aws_bucket_version/cloudtrail.json",
+        "sha256": "1abe5a2bb8f10e54253ada63d4a6ecee62faf4969bb6df93181e5f1fa19ff8b6",
+        "upstream_path": "datasets/attack_techniques/T1490/aws_bucket_version/cloudtrail.json",
+        "git_blob_sha": "07c2d50e2e92a9cdd0789a7e9afa9a076571d8df",
+        "lfs_oid_sha256": "1abe5a2bb8f10e54253ada63d4a6ecee62faf4969bb6df93181e5f1fa19ff8b6"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+    "source_id": "splunk_attack_data",
+    "upstream_dataset_id": "cc9125e3-efc9-1111-916b-550bf0943fbb",
+    "author": "Bhavin Patel",
+    "published_date": "2023-04-12",
+    "description": "Dataset which contains an event for suspension of AWS bucket versioning.",
+    "environment": "attack_range",
+    "mitre_techniques": [
+      "T1490"
+    ],
+    "observation_count": 4,
+    "operations": {
+      "PutBucketVersioning": 4
+    },
+    "services": {
+      "s3.amazonaws.com": 4
+    },
+    "independence_group": "splunk-technique:T1490"
+  },
+  "observations": [
+    {
+      "observation_id": "obs-9276557294535dd63e9a76c6",
+      "candidate_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+      "schema": "ocsf_api_activity",
+      "timestamp": 1734422984000,
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketVersioning",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::222222222222:assumed-role/7d40dd7e11854f8/test@test.com",
+      "source_ip": "1.1.1.1",
+      "account_id": "222222222222",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "request": "{\"bucketName\":\"testagasfasfa\",\"Host\":\"s3.us-east-1.amazonaws.com\",\"versioning\":\"\",\"VersioningConfiguration\":{\"Status\":\"Suspended\",\"xmlns\":\"http://s3.amazonaws.com/doc/2006-03-01/\"}}",
+      "response": "",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1490/aws_bucket_version/asl_ocsf_cloudtrail.json",
+        "sha256": "7152b9a992acfd3da25af37fee7c16caf211d6c51a4037177f79df6d94b88515",
+        "record_index": 0,
+        "upstream_path": "datasets/attack_techniques/T1490/aws_bucket_version/asl_ocsf_cloudtrail.json",
+        "git_blob_sha": "3d20e102608db1d4677bab2636c8270f905d7ede",
+        "lfs_oid_sha256": "7152b9a992acfd3da25af37fee7c16caf211d6c51a4037177f79df6d94b88515"
+      }
+    },
+    {
+      "observation_id": "obs-6db6bbd8db2e618be9dd82b1",
+      "candidate_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+      "schema": "ocsf_api_activity",
+      "timestamp": 1734422975000,
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketVersioning",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::222222222222:assumed-role/7d40dd7e11854f8/test@test.com",
+      "source_ip": "1.1.1.1",
+      "account_id": "222222222222",
+      "region": "us-east-1",
+      "event_status": "Success",
+      "request": "{\"bucketName\":\"testagasfasfa\",\"Host\":\"s3.us-east-1.amazonaws.com\",\"versioning\":\"\",\"VersioningConfiguration\":{\"Status\":\"Enabled\",\"xmlns\":\"http://s3.amazonaws.com/doc/2006-03-01/\"}}",
+      "response": "",
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1490/aws_bucket_version/asl_ocsf_cloudtrail.json",
+        "sha256": "7152b9a992acfd3da25af37fee7c16caf211d6c51a4037177f79df6d94b88515",
+        "record_index": 1,
+        "upstream_path": "datasets/attack_techniques/T1490/aws_bucket_version/asl_ocsf_cloudtrail.json",
+        "git_blob_sha": "3d20e102608db1d4677bab2636c8270f905d7ede",
+        "lfs_oid_sha256": "7152b9a992acfd3da25af37fee7c16caf211d6c51a4037177f79df6d94b88515"
+      }
+    },
+    {
+      "observation_id": "obs-138c152ebc29029752b46ace",
+      "candidate_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2022-08-04T15:19:25Z",
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketVersioning",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/daftpunk@splunk.com",
+      "source_ip": "73.57.168.38",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "bucketName": "git-wild-hunt-results",
+        "Host": "s3.us-west-2.amazonaws.com",
+        "versioning": "",
+        "VersioningConfiguration": {
+          "Status": "Suspended",
+          "xmlns": "http://s3.amazonaws.com/doc/2006-03-01/"
+        }
+      },
+      "response": null,
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1490/aws_bucket_version/cloudtrail.json",
+        "sha256": "1abe5a2bb8f10e54253ada63d4a6ecee62faf4969bb6df93181e5f1fa19ff8b6",
+        "record_index": 0,
+        "upstream_path": "datasets/attack_techniques/T1490/aws_bucket_version/cloudtrail.json",
+        "git_blob_sha": "07c2d50e2e92a9cdd0789a7e9afa9a076571d8df",
+        "lfs_oid_sha256": "1abe5a2bb8f10e54253ada63d4a6ecee62faf4969bb6df93181e5f1fa19ff8b6"
+      }
+    },
+    {
+      "observation_id": "obs-c97600b6d701133630b206d1",
+      "candidate_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+      "schema": "aws_cloudtrail",
+      "timestamp": "2022-08-04T15:19:25Z",
+      "service": "s3.amazonaws.com",
+      "operation": "PutBucketVersioning",
+      "actor_type": "AssumedRole",
+      "actor_id": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/daftpunk@splunk.com",
+      "source_ip": "73.57.168.38",
+      "account_id": "111111111111",
+      "region": "us-west-2",
+      "event_status": "Success",
+      "request": {
+        "bucketName": "git-wild-hunt-results",
+        "Host": "s3.us-west-2.amazonaws.com",
+        "versioning": "",
+        "VersioningConfiguration": {
+          "Status": "Suspended",
+          "xmlns": "http://s3.amazonaws.com/doc/2006-03-01/"
+        }
+      },
+      "response": null,
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1490/aws_bucket_version/cloudtrail.json",
+        "sha256": "1abe5a2bb8f10e54253ada63d4a6ecee62faf4969bb6df93181e5f1fa19ff8b6",
+        "record_index": 1,
+        "upstream_path": "datasets/attack_techniques/T1490/aws_bucket_version/cloudtrail.json",
+        "git_blob_sha": "07c2d50e2e92a9cdd0789a7e9afa9a076571d8df",
+        "lfs_oid_sha256": "1abe5a2bb8f10e54253ada63d4a6ecee62faf4969bb6df93181e5f1fa19ff8b6"
+      }
+    }
+  ],
+  "runtime_instances": [
+    {
+      "instance_id": "instance-85acc58c8feb9d4c8f1a",
+      "environment_kind": "published_telemetry",
+      "platform": "AWS",
+      "observation_ids": [
+        "obs-9276557294535dd63e9a76c6",
+        "obs-6db6bbd8db2e618be9dd82b1",
+        "obs-138c152ebc29029752b46ace",
+        "obs-c97600b6d701133630b206d1"
+      ],
+      "observation_count": 4,
+      "selection_origin": "all normalized observations copied from the pinned published telemetry case"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "c0f9e3d1e102bf5db21b4bfd59b82f3fa01febc8e304cf39f33470d972b4315b",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

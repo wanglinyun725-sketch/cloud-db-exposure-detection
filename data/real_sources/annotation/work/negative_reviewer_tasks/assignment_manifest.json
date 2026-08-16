@@ -1,0 +1,233 @@
+{
+  "bundle_version": "0.1",
+  "assignment_id": "negative-reviewer-199ccb8d89c9d456",
+  "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "assignment_header": {
+    "assignment_version": "0.1",
+    "assignment_id": "negative-reviewer-199ccb8d89c9d456",
+    "role": "reviewer",
+    "annotator_id": "annotator_02",
+    "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+    "policy": {
+      "source_labels_copied": 0,
+      "other_annotator_labels_visible": 0,
+      "human_attestation_required": true
+    }
+  },
+  "assignment_header_sha256": "2e46b92ee92c95bbbdea912f399f0b7a78fc3394f1c5ecd0b755dfccc6e6f4ed",
+  "case_count": 30,
+  "entries": [
+    {
+      "ordinal": 1,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:aws:00004",
+      "file": "case_001_ac3e51bbe8e0.json",
+      "source_context_sha256": "621a780e33b7d72c4cc82f9075e6f3ea297120a127c9b7c5cc833dbdcb5d6f22"
+    },
+    {
+      "ordinal": 2,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:aws:00015",
+      "file": "case_002_70657d2a1b35.json",
+      "source_context_sha256": "0a3e39826c736ae1e99a11520c9ee7dfc4295cdfde61eb5ef25aac450fffb9bd"
+    },
+    {
+      "ordinal": 3,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:aws:00017",
+      "file": "case_003_8c741dd57240.json",
+      "source_context_sha256": "c9ac61a95d19e26a5a647d383ca328bcc87880a30c43f7a9a3be7d2243e63042"
+    },
+    {
+      "ordinal": 4,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:aws:00064",
+      "file": "case_004_05a02be8e407.json",
+      "source_context_sha256": "d95be5646673f12cfba605e741b0bc87afe7f2e4e6887d8cd6ea652288341a5f"
+    },
+    {
+      "ordinal": 5,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:aws:00080",
+      "file": "case_005_3139d52d61b3.json",
+      "source_context_sha256": "2cd88777e46dddf76ded663bfb2f74ac33be6cd6b69f82125d18b6a06fa43a4c"
+    },
+    {
+      "ordinal": 6,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:aws:00126",
+      "file": "case_006_169101c79a10.json",
+      "source_context_sha256": "2e788184f952f6e3140cb4717a8b44bf9dafb80c8eb52405dec677816852ba5b"
+    },
+    {
+      "ordinal": 7,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:aws:00182",
+      "file": "case_007_1cd5c92ba405.json",
+      "source_context_sha256": "6ca8bbeb293657b6c1abac35bbb3cb61e05e95343b714ea043b46b203e0c316d"
+    },
+    {
+      "ordinal": 8,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:aws:00442",
+      "file": "case_008_60ca1acd5eb5.json",
+      "source_context_sha256": "d16df5263f8a70ec4e99ff26bb91c72e6a718c265f71537f072c90ea723ae784"
+    },
+    {
+      "ordinal": 9,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:aws:00591",
+      "file": "case_009_c28f9cd0c5dc.json",
+      "source_context_sha256": "a173a3ddba4264083d3ec5c7166001e92aa194ecdf4ef54711998a04dcf97b34"
+    },
+    {
+      "ordinal": 10,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:aws:00659",
+      "file": "case_010_9ae6f4832588.json",
+      "source_context_sha256": "042d749eb209a935c7862d79e15251fc2ff8f5ae7d13b81e7b091b492c1666f4"
+    },
+    {
+      "ordinal": 11,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:azure:00000",
+      "file": "case_011_7900e9e37905.json",
+      "source_context_sha256": "4f374cff3c392cce93c3e6599dd15bdeaa9d187188db735bf6ecf0f65ef9d45b"
+    },
+    {
+      "ordinal": 12,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:azure:00006",
+      "file": "case_012_1cdcc5ba71b4.json",
+      "source_context_sha256": "9101c831b1797c15796070e17c10be99bce007da42fc06d86340e9e2aeef6f7b"
+    },
+    {
+      "ordinal": 13,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:azure:00011",
+      "file": "case_013_eb6d0f9883c4.json",
+      "source_context_sha256": "74da5d3e1e8e4996d044c18de68d7eb6cb197f5d6ac4d4800d6a25297c0da52a"
+    },
+    {
+      "ordinal": 14,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:azure:00014",
+      "file": "case_014_7808def9ec31.json",
+      "source_context_sha256": "7b8d25adf6acdcc6b0ed11d1c4000fe3f480b229ba8d77a388a4d733a833d7a8"
+    },
+    {
+      "ordinal": 15,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:azure:00018",
+      "file": "case_015_d86da4970b7a.json",
+      "source_context_sha256": "73a19346da136a958a9062ae178e1f4420f082b87a2cc53e74048a7724ddb26d"
+    },
+    {
+      "ordinal": 16,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:azure:00030",
+      "file": "case_016_9400acdd20a6.json",
+      "source_context_sha256": "51e98d53d0b0d8c3dd3d09192b057948d6b0cdd77f86dc7b8e29317f71ceca64"
+    },
+    {
+      "ordinal": 17,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:azure:00037",
+      "file": "case_017_32587c2a5b16.json",
+      "source_context_sha256": "8d00ee4dab9529a367b23914c9de447ac9f807527990bc63d46745e04b129e70"
+    },
+    {
+      "ordinal": 18,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:azure:00043",
+      "file": "case_018_9fc08165ea81.json",
+      "source_context_sha256": "36b2ed545542aa9f601b786694dec92971563af274e7d06fbd8783e3c3513361"
+    },
+    {
+      "ordinal": 19,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:azure:00113",
+      "file": "case_019_253ac73cfa9a.json",
+      "source_context_sha256": "73e5db3040986ffa808ebb4c890498a161e8606a36e805358346159e35fc7e63"
+    },
+    {
+      "ordinal": 20,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:azure:00114",
+      "file": "case_020_4055e1ec0458.json",
+      "source_context_sha256": "35bd584e20af4e2d22a81098a292728694eb804fc9d3d2a4a3af187c01af0480"
+    },
+    {
+      "ordinal": 21,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:gcp:00000",
+      "file": "case_021_eef9615e78af.json",
+      "source_context_sha256": "7b39704c02124eed8ee747912328f80958379f46ec0d1466f2dfdc773300c03f"
+    },
+    {
+      "ordinal": 22,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:gcp:00010",
+      "file": "case_022_2c469510098d.json",
+      "source_context_sha256": "d9b584fc12eb8ba576408c2366315ce059e1354ae85d467d0be77b7d7f072123"
+    },
+    {
+      "ordinal": 23,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:gcp:00011",
+      "file": "case_023_ed56cb1e563b.json",
+      "source_context_sha256": "259c8d061a61280d8cea5a720b3a6fec2385855c8aa0bbf0c3db23f9b789350f"
+    },
+    {
+      "ordinal": 24,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:gcp:00035",
+      "file": "case_024_2413cc5095ee.json",
+      "source_context_sha256": "c6058e1ff8bd38a11a4e8283dc8b8e5629c924e837928390172fb00d63d5755c"
+    },
+    {
+      "ordinal": 25,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:gcp:00038",
+      "file": "case_025_d6fd4353fb09.json",
+      "source_context_sha256": "3d6b826f3a33045a215e08659a558c91c062913a42c1e7c2bf991596a78998f0"
+    },
+    {
+      "ordinal": 26,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:gcp:00056",
+      "file": "case_026_aecce44e8a5f.json",
+      "source_context_sha256": "ff25fb45c0460b0e0880d542f5f83ab64d26b597f2153805c0b0199923952137"
+    },
+    {
+      "ordinal": 27,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:gcp:00074",
+      "file": "case_027_c83332c3cdee.json",
+      "source_context_sha256": "16b81c142fb550ebd30baab1f5c257ba710308c63a97bb46bef6804ddff874f3"
+    },
+    {
+      "ordinal": 28,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:gcp:00193",
+      "file": "case_028_abbf8404dd3e.json",
+      "source_context_sha256": "5f3d84ba897f4beaac987ef7b6255a2ca7607cb19520fb8dbf3bd4b9a2c468e8"
+    },
+    {
+      "ordinal": 29,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:gcp:00309",
+      "file": "case_029_56d681636451.json",
+      "source_context_sha256": "69b27042cadb9974f1e1357f7b84652c8109ee60616a675e8bbc84ded42aaff8"
+    },
+    {
+      "ordinal": 30,
+      "identity_field": "candidate_id",
+      "item_id": "cloud-incident:gcp:01085",
+      "file": "case_030_1c3857bdf670.json",
+      "source_context_sha256": "8230de761954127879ead8d38b448acb86fc3377a990596f892455404862dc25"
+    }
+  ]
+}

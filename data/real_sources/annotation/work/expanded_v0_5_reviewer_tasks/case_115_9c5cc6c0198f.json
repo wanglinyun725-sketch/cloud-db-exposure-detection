@@ -1,0 +1,75 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "stratus:gcp.defense-evasion.reduce-sink-log-retention",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:gcp.defense-evasion.reduce-sink-log-retention",
+    "kind": "executable_attack_technique",
+    "platform": "GCP",
+    "technique": "gcp.defense-evasion.reduce-sink-log-retention",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.defense-evasion.reduce-sink-log-retention.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.defense-evasion.reduce-sink-log-retention.md",
+    "review_score": 26,
+    "independence_group": "stratus-technique:T1562",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1562"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.defense-evasion.reduce-sink-log-retention.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.defense-evasion.reduce-sink-log-retention.md",
+      "member_sha256": "0107a1e273dcb9450f941b2b7fe55a14fd61b072cbde6e4d91f33b7db199d29a",
+      "bytes": 1840,
+      "content_kind": "md",
+      "text": "---\ntitle: Reduce Log Retention Period on a Cloud Logging Sink Bucket\n---\n\n# Reduce Log Retention Period on a Cloud Logging Sink Bucket\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: GCP\n\n## Mappings\n\n- MITRE ATT&CK\n    - Defense Evasion\n\n\n\n## Description\n\n\nSets a 1-day object lifecycle rule on the GCS bucket used by a Cloud Logging sink,\ncausing exported audit logs to be automatically deleted after one day.\n\nThis is the GCP equivalent of the AWS CloudTrail lifecycle rule technique: rather than\ndeleting the sink or disabling it (which raises an immediate alert), the attacker\nquietly shortens the retention window of the underlying storage bucket to minimize\nthe forensic footprint of their activity.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create a GCS bucket\n- Create a log sink exporting audit logs (<code>cloudaudit.googleapis.com</code>) to the bucket\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Apply a GCS lifecycle rule on the log sink bucket that deletes all objects after 1 day\n\nRevert:\n\n- Remove the lifecycle rule from the bucket\n\nReferences:\n\n- https://cloud.google.com/storage/docs/lifecycle\n- https://www.justice.gov/usao-sdny/press-release/file/1452706/download\n- https://attack.mitre.org/techniques/T1562/008/\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate gcp.defense-evasion.reduce-sink-log-retention\n```\n## Detection\n\n\nIdentify when a lifecycle rule with a short expiration is applied to a GCS bucket used\nfor Cloud Logging export. Monitor for <code>storage.buckets.update</code> events in\nGCP Data Access audit logs where the request sets a lifecycle rule with a short\nexpiration on a bucket associated with a logging sink.\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "c1aa98bf5ca87f796fefa0a7557e6130463d27530420f01fcfb117ccf668918e",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

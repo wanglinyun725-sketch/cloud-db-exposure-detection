@@ -66,8 +66,8 @@ def get_llm_client():
     """获取 LLM 客户端（DeepSeek）"""
     if os.environ.get("EIC_DISABLE_LLM", "").strip().lower() in {"1", "true", "yes"}:
         return None
-    api_key = os.environ.get("DEEPSEEK_API_KEY", "[REDACTED_API_KEY]")
-    if not HAS_OPENAI:
+    api_key = os.environ.get("DEEPSEEK_API_KEY", "").strip()
+    if not HAS_OPENAI or not api_key:
         return None
     try:
         client = OpenAI(

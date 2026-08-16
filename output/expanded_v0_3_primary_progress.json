@@ -1,0 +1,916 @@
+{
+  "progress_version": "0.1",
+  "assignment_id": "primary-986da4886b50e784",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "case_count": 150,
+  "counts": {
+    "blank": 150,
+    "in_progress": 0,
+    "valid_complete": 0,
+    "invalid": 0
+  },
+  "ready_for_agreement": false,
+  "cases": [
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1486/s3_file_encryption",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1530/aws_s3_public_bucket",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "splunk:datasets/attack_techniques/T1537/aws_snapshot_exfil",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:archive_collected_data",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:automated_collection",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:automated_exfiltration",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:credentials_from_password_stores",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:data_destruction",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:data_encrypted_for_impact",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:data_manipulation",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:data_staged",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:inhibit_system_recovery",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:scheduled_transfer",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:steal_application_access_token",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:aws:unsecured_credentials",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:archive_collected_data",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:automated_collection",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:automated_exfiltration",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:credentials_from_password_stores",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:data_destruction",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:data_encrypted_for_impact",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:data_manipulation",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:data_staged",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:inhibit_system_recovery",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:scheduled_transfer",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:steal_application_access_token",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:azure:unsecured_credentials",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:archive_collected_data",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:automated_collection",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:automated_exfiltration",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:credentials_from_password_stores",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:data_destruction",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:data_encrypted_for_impact",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:data_manipulation",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:data_staged",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:inhibit_system_recovery",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:scheduled_transfer",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:steal_application_access_token",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "crosscloud:gcp:unsecured_credentials",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:agentcore_identity_confusion",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:beanstalk_secrets",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:bedrock_agent_hijacking",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:cloud_breach_s3",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:codebuild_secrets",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:data_secrets",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:detection_evasion",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:ec2_ssrf",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:ecs_efs_attack",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:ecs_privesc_evade_protection",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:federated_console_takeover",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:glue_privesc",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:iam_enum_basics",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:iam_privesc_by_key_rotation",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:iam_privesc_by_rollback",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:lambda_privesc",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:rce_web_app",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:rds_snapshot",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:s3_version_rollback_via_cfn",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:secrets_in_the_cloud",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:sns_secrets",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:sqs_flag_shop",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:vpc_peering_overexposed",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:vulnerable_cognito",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:aws:vulnerable_lambda",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudgoat:azure:datafactory_secret_theft",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudfoxable:aws:Backwards",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudfoxable:aws:Double Tap",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudfoxable:aws:It's a secret",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudfoxable:aws:It's another secret",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudfoxable:aws:Needles",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudfoxable:aws:Pain",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudfoxable:aws:Search 1",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "cloudfoxable:aws:Trust me",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.credential-access.ec2-get-password-data",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.credential-access.ec2-steal-instance-credentials",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.defense-evasion.cloudtrail-lifecycle-rule",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.defense-evasion.dns-delete-logs",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.discovery.ec2-download-user-data",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.discovery.ec2-enumerate-from-instance",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.exfiltration.ec2-share-ami",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.exfiltration.ec2-share-ebs-snapshot",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.exfiltration.rds-share-snapshot",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.exfiltration.s3-backdoor-bucket-policy",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.impact.s3-ransomware-batch-deletion",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.impact.s3-ransomware-client-side-encryption",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:aws.impact.s3-ransomware-individual-deletion",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:azure.credential-access.app-service-publishing-credentials",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:azure.exfiltration.disk-export",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:azure.exfiltration.storage-public-access",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:azure.exfiltration.storage-sas-export",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:azure.impact.blob-ransomware-client-encryption-scope",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:azure.impact.blob-ransomware-cpek",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:azure.impact.blob-ransomware-individual-file-deletion",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:azure.impact.blob-ransomware-service-storage-cmk",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:azure.impact.resource-lock",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:azure.persistence.backdoor-managed-identity-fic",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:entra-id.persistence.backdoor-application",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:entra-id.persistence.backdoor-application-fic",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:entra-id.persistence.backdoor-application-sp",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:entra-id.persistence.new-application",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.credential-access.secretmanager-retrieve-secrets",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.defense-evasion.delete-logging-sink",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.defense-evasion.disable-audit-logs",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.defense-evasion.disable-logging-sink",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.defense-evasion.reduce-sink-log-retention",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.defense-evasion.remove-vpc-flow-logs",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.discovery.download-instance-metadata",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.discovery.enumerate-permissions",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.execution.modify-vertex-notebook-startup",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.exfiltration.share-compute-disk",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.exfiltration.share-compute-image",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.exfiltration.share-compute-snapshot",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.impact.gcs-ransomware-client-side-encryption",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.impact.gcs-ransomware-individual-deletion",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:gcp.initial-access.use-compute-sa-outside-gcp",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:k8s.credential-access.dump-secrets",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:k8s.credential-access.steal-serviceaccount-token",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:k8s.persistence.create-admin-clusterrole",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:k8s.persistence.create-client-certificate",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "stratus:k8s.privilege-escalation.nodes-proxy",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--7e7151b1-8407-4cac-a843-f2605fb25377",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--68929916-ab9f-4078-b959-e500f8cab3b8",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--bb3c2843-b51f-4cfd-8189-0312337b8eb3",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--2cf91706-674a-4ae0-8a4c-0d8d43eb6e1a",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--ee1effa5-b256-4a6a-b7da-2d9066d7dccd",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--35589283-3028-444b-94d1-9b64ae6d8487",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--2286eded-7606-46df-a469-c5240f21ed75",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--529460a7-ddd1-406c-bbef-ae2ec4eb4c02",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--abbf5417-5112-424d-85f4-e4622675b319",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--1ae24ad1-8730-4a38-8d68-dd57b335b9b4",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--d4fa4797-aec0-419b-83d8-8b06ea3ac06d",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--1cfc5611-b428-4fce-8b8d-f591523c9d9c",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--3d4490e3-d3fe-4c2e-8c41-69ebbf8d060e",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--6c83315d-c8b5-4ab8-b345-3c79b11d690a",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--9558b7a7-f58b-4b6f-a1f5-8a7cdab03279",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--b1c49faa-0b6f-4a0e-85da-5ab8ddeab2ce",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--dcd5b361-b86b-47c7-8ce8-85918e00a224",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--64d9fee3-d0c8-40e5-b295-d43ec719bb81",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--804f7690-6bf2-41dc-a6d2-59c3d4394ce5",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    },
+    {
+      "case_id": "relationship--dc10559e-6a98-4a5f-abcd-adff67bfb1cd",
+      "state": "blank",
+      "decision": null,
+      "validation_error": null
+    }
+  ]
+}

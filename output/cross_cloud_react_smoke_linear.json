@@ -1,0 +1,182 @@
+{
+  "protocol": "EC-ReAct offline smoke",
+  "orchestration_backend": "linear",
+  "policy_is_llm": false,
+  "result": {
+    "decision": "candidate_evidence_found",
+    "hypothesis": "Observed AddPermission20150331v2; human/path verification is still required.",
+    "stop_reason": "policy_finish_guard_passed",
+    "steps": 4,
+    "valid_tool_calls": 3,
+    "invalid_actions": 0,
+    "spent": 5,
+    "evidence_observation_ids": [
+      "obs-846f6f83d5e49895f00bdec4"
+    ],
+    "evidence_raw_refs": [
+      {
+        "relative_path": "doi:10.5281/zenodo.19933893",
+        "sha256": "b5e7fa7e360b5d5436a9efceaa7b739560b690d601d6e282a59ccd7b3cb82cfd",
+        "record_index": 105,
+        "upstream_path": "member-b5e7fa7e360b5d54",
+        "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+      }
+    ],
+    "trace": [
+      {
+        "step": 1,
+        "thought": "First reveal aggregate telemetry facets.",
+        "proposal": {
+          "kind": "tool",
+          "thought": "First reveal aggregate telemetry facets.",
+          "tool_name": "summarize_case",
+          "arguments": {}
+        },
+        "status": "tool_executed",
+        "observation": {
+          "tool": "summarize_case",
+          "cost": 1,
+          "result_count": 0,
+          "operation_counts": {
+            "GenerateDataKey": 92,
+            "ListTopicRules": 1,
+            "AssumeRole": 2,
+            "GetCrawlers": 1,
+            "GetBucketAcl": 2,
+            "DeleteQueue": 1,
+            "DeleteBucket": 1,
+            "DeleteRole": 1,
+            "DetachRolePolicy": 3,
+            "PutBucketNotification": 2,
+            "DeleteFunction20150331": 1,
+            "CreateLogStream": 1,
+            "AddPermission20150331v2": 1,
+            "CreateFunction20150331": 1,
+            "CreateQueue": 1,
+            "GetCallerIdentity": 1,
+            "AttachRolePolicy": 3,
+            "CreateRole": 1,
+            "CreateBucket": 1
+          },
+          "service_counts": {
+            "kms.amazonaws.com": 92,
+            "iot.amazonaws.com": 1,
+            "sts.amazonaws.com": 3,
+            "glue.amazonaws.com": 1,
+            "s3.amazonaws.com": 6,
+            "sqs.amazonaws.com": 2,
+            "iam.amazonaws.com": 8,
+            "lambda.amazonaws.com": 3,
+            "logs.amazonaws.com": 1
+          },
+          "events": [],
+          "results_truncated_in_policy_view": false,
+          "remaining_budget": 29
+        },
+        "error": null,
+        "cumulative_cost": 1
+      },
+      {
+        "step": 2,
+        "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+        "proposal": {
+          "kind": "tool",
+          "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+          "tool_name": "search_events",
+          "arguments": {
+            "operation": "AddPermission20150331v2"
+          }
+        },
+        "status": "tool_executed",
+        "observation": {
+          "tool": "search_events",
+          "cost": 2,
+          "result_count": 1,
+          "operation_counts": null,
+          "service_counts": null,
+          "events": [
+            {
+              "observation_id": "obs-846f6f83d5e49895f00bdec4",
+              "timestamp": "2025-09-24T04:17:06Z",
+              "service": "lambda.amazonaws.com",
+              "operation": "AddPermission20150331v2",
+              "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+              "event_status": "SuccessOrUnspecified"
+            }
+          ],
+          "results_truncated_in_policy_view": false,
+          "remaining_budget": 27
+        },
+        "error": null,
+        "cumulative_cost": 3
+      },
+      {
+        "step": 3,
+        "thought": "Inspect the most recent compact event in detail.",
+        "proposal": {
+          "kind": "tool",
+          "thought": "Inspect the most recent compact event in detail.",
+          "tool_name": "get_event_detail",
+          "arguments": {
+            "observation_id": "obs-846f6f83d5e49895f00bdec4"
+          }
+        },
+        "status": "tool_executed",
+        "observation": {
+          "tool": "get_event_detail",
+          "cost": 2,
+          "result_count": 1,
+          "operation_counts": null,
+          "service_counts": null,
+          "events": [
+            {
+              "observation_id": "obs-846f6f83d5e49895f00bdec4",
+              "timestamp": "2025-09-24T04:17:06Z",
+              "service": "lambda.amazonaws.com",
+              "operation": "AddPermission20150331v2",
+              "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+              "event_status": "SuccessOrUnspecified"
+            }
+          ],
+          "results_truncated_in_policy_view": false,
+          "remaining_budget": 25
+        },
+        "error": null,
+        "cumulative_cost": 5
+      },
+      {
+        "step": 4,
+        "thought": "Return an evidence candidate without overstating path validity.",
+        "proposal": {
+          "kind": "finish",
+          "thought": "Return an evidence candidate without overstating path validity.",
+          "decision": "candidate_evidence_found",
+          "hypothesis": "Observed AddPermission20150331v2; human/path verification is still required.",
+          "evidence_observation_ids": [
+            "obs-846f6f83d5e49895f00bdec4"
+          ]
+        },
+        "status": "finished",
+        "observation": null,
+        "error": null,
+        "cumulative_cost": 5
+      }
+    ]
+  },
+  "hidden_evaluation_metadata": {
+    "episode_id": "crosscloud:aws:automated_exfiltration:additional:run-0:y",
+    "candidate_id": "crosscloud:aws:automated_exfiltration",
+    "independence_group": "crosscloud-family:automated_exfiltration",
+    "attack": "automated_exfiltration",
+    "source_condition": "payload_present",
+    "run_id": 0,
+    "raw_ref": {
+      "archive_relative_path": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+      "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+      "member_path": "aws_logs/additional-logs/aws-automated_exfiltration-0-y-logs.json",
+      "member_sha256": "b5e7fa7e360b5d5436a9efceaa7b739560b690d601d6e282a59ccd7b3cb82cfd",
+      "member_crc32": "3e8e6d07",
+      "member_uncompressed_bytes": 174353
+    }
+  }
+}

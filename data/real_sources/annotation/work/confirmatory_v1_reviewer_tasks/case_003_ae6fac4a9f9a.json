@@ -1,0 +1,387 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "fe9eb72d45c848aeb30dbaa37e26a03d1841a92c6637cd8de5809b00212ed743",
+  "case_id": "crosscloud:aws:automated_collection",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cross_cloud_observability_2026",
+    "upstream_url": "https://doi.org/10.5281/zenodo.19933893",
+    "version_or_commit": "record-19933893-v2",
+    "license": "CC-BY-4.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/README.md",
+        "sha256": "b073b2e97aea4073fec2bf387e2c255d987dd8f3710e84f2df3cc59947e510f8",
+        "upstream_checksum": "md5:10eb94c911d603deb5353a4f9bdfa46e"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/attack_scripts.zip",
+        "sha256": "4599be3e224f3b9b43e76ab4ec1bfa8e3b209ebe529fb218ae4e65dd22417900",
+        "upstream_checksum": "md5:e448f9e9eafb7482b735c76d2d4ef0d0"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/aws_logs_redacted.zip",
+        "sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b",
+        "upstream_checksum": "md5:f83ebd4892dcf4d349f51c1c477408dc"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/log_analysis.zip",
+        "sha256": "23b41863cc2ece4936277a1ee1fc6f64b4fea9f3c0f698cefbf5626eeca00fcf",
+        "upstream_checksum": "md5:c57994c6e199cbbf8b091ddcd139515a"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "description": "DOI-published paired payload/no-payload AWS telemetry for automated_collection.",
+    "author": "Dhooghe et al.",
+    "published_date": "2026-04-30",
+    "environment": "controlled cloud subscription",
+    "platform": "AWS",
+    "attack": "automated_collection",
+    "independence_group": "crosscloud-family:automated_collection",
+    "attack_script_refs": [
+      "attack_scripts.zip#attack_scripts/aws-attacks/attack_scripts/all_automated.sh",
+      "attack_scripts.zip#attack_scripts/aws-attacks/attack_scripts/automated-logging.sh",
+      "attack_scripts.zip#attack_scripts/aws-attacks/attack_scripts/storage_attacks.sh"
+    ]
+  },
+  "observations": [],
+  "runtime_instances": [
+    {
+      "instance_id": "episode-37b30a2c157e3248",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "AWS",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-3739c284c51ecffb660a5352",
+          "timestamp": "2024-10-03T02:53:47Z",
+          "service": "cloudtrail.amazonaws.com",
+          "operation": "LookupEvents",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"endTime\": \"Oct 3, 2024, 2:53:43 AM\", \"startTime\": \"Oct 3, 2024, 2:51:09 AM\"}\nresource=[]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "ad05123ddcf3295db91e52578020436d6222f289daf295f1e704dc651898be43",
+            "record_index": 6,
+            "upstream_path": "member-ad05123ddcf3295d",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-34f270fed72a6912d0fb99fd",
+          "timestamp": "2024-10-03T02:53:52Z",
+          "service": "s3.amazonaws.com",
+          "operation": "CreateBucket",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"archive-source-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"archive-source-bucket\"}\nresource=[]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "ad05123ddcf3295db91e52578020436d6222f289daf295f1e704dc651898be43",
+            "record_index": 5,
+            "upstream_path": "member-ad05123ddcf3295d",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-e6c8e887b726263420c3ec98",
+          "timestamp": "2024-10-03T02:53:56Z",
+          "service": "s3.amazonaws.com",
+          "operation": "CreateBucket",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"archive-destination-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"archive-destination-bucket\"}\nresource=[]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "ad05123ddcf3295db91e52578020436d6222f289daf295f1e704dc651898be43",
+            "record_index": 4,
+            "upstream_path": "member-ad05123ddcf3295d",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-f15727932a6922d1737edf31",
+          "timestamp": "2024-10-03T02:54:00Z",
+          "service": "s3.amazonaws.com",
+          "operation": "PutBucketPolicy",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"archive-source-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"archive-source-bucket\", \"bucketPolicy\": {\"Statement\": [{\"Action\": \"s3:PutObject\", \"Condition\": {\"StringEquals\": {\"s3:x-amz-acl\": \"bucket-owner-full-control\"}}, \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Resource\": \"arn:aws:s3:::archive-source-bucket/AWSLogs/*\", \"Sid\": \"AWSCloudTrailWrite\"}, {\"Action\": [\"s3:GetBucketAcl\", \"s3:GetObject\", \"s3:ListBucket\"], \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Resource\": [\"arn:aws:s3:::archive-source-bucket\", \"arn:aws:s3:::archive-source-bucket/*\"], \"Sid\": \"AWSCloudTrailRead\"}], \"Version\": \"2012-10-17\"}, \"policy\": \"\"}\nresource=[{\"ARN\": \"arn:aws:s3:::archive-source-bucket\", \"accountId\": \"ACCOUNT_ID\", \"type\": \"AWS::S3::Bucket\"}]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "ad05123ddcf3295db91e52578020436d6222f289daf295f1e704dc651898be43",
+            "record_index": 3,
+            "upstream_path": "member-ad05123ddcf3295d",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-b15e378975bda757105f8946",
+          "timestamp": "2024-10-03T02:54:05Z",
+          "service": "s3.amazonaws.com",
+          "operation": "PutBucketPolicy",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"archive-destination-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"archive-destination-bucket\", \"bucketPolicy\": {\"Statement\": [{\"Action\": \"s3:PutObject\", \"Condition\": {\"StringEquals\": {\"s3:x-amz-acl\": \"bucket-owner-full-control\"}}, \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Resource\": \"arn:aws:s3:::archive-destination-bucket/AWSLogs/*\", \"Sid\": \"AWSCloudTrailWrite\"}, {\"Action\": [\"s3:GetBucketAcl\", \"s3:GetObject\", \"s3:ListBucket\"], \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Resource\": [\"arn:aws:s3:::archive-destination-bucket\", \"arn:aws:s3:::archive-destination-bucket/*\"], \"Sid\": \"AWSCloudTrailRead\"}], \"Version\": \"2012-10-17\"}, \"policy\": \"\"}\nresource=[{\"ARN\": \"arn:aws:s3:::archive-destination-bucket\", \"accountId\": \"ACCOUNT_ID\", \"type\": \"AWS::S3::Bucket\"}]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "ad05123ddcf3295db91e52578020436d6222f289daf295f1e704dc651898be43",
+            "record_index": 2,
+            "upstream_path": "member-ad05123ddcf3295d",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-380d24db228c4949a6f4b85f",
+          "timestamp": "2024-10-03T02:55:33Z",
+          "service": "s3.amazonaws.com",
+          "operation": "DeleteBucket",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"archive-source-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"archive-source-bucket\"}\nresource=[{\"ARN\": \"arn:aws:s3:::archive-source-bucket\", \"accountId\": \"ACCOUNT_ID\", \"type\": \"AWS::S3::Bucket\"}]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "ad05123ddcf3295db91e52578020436d6222f289daf295f1e704dc651898be43",
+            "record_index": 1,
+            "upstream_path": "member-ad05123ddcf3295d",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-e575c327dd9c022ad73f660d",
+          "timestamp": "2024-10-03T02:55:37Z",
+          "service": "s3.amazonaws.com",
+          "operation": "DeleteBucket",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"archive-destination-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"archive-destination-bucket\"}\nresource=[{\"ARN\": \"arn:aws:s3:::archive-destination-bucket\", \"accountId\": \"ACCOUNT_ID\", \"type\": \"AWS::S3::Bucket\"}]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "ad05123ddcf3295db91e52578020436d6222f289daf295f1e704dc651898be43",
+            "record_index": 0,
+            "upstream_path": "member-ad05123ddcf3295d",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        }
+      ],
+      "observation_count": 7,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    },
+    {
+      "instance_id": "episode-bc00079dd2938921",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "AWS",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-75cf3df4378264e6fd180d13",
+          "timestamp": "2024-10-03T02:57:41Z",
+          "service": "cloudtrail.amazonaws.com",
+          "operation": "LookupEvents",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"endTime\": \"Oct 3, 2024, 2:57:37 AM\", \"startTime\": \"Oct 3, 2024, 2:53:47 AM\"}\nresource=[]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "3e03689b1161a99a84c59848a11641462a6a50707d35a4a39a20903a4e503031",
+            "record_index": 5,
+            "upstream_path": "member-3e03689b1161a99a",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-0495d109285c6ccb8456c6a7",
+          "timestamp": "2024-10-03T02:57:45Z",
+          "service": "s3.amazonaws.com",
+          "operation": "CreateBucket",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"archive-source-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"archive-source-bucket\"}\nresource=[]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "3e03689b1161a99a84c59848a11641462a6a50707d35a4a39a20903a4e503031",
+            "record_index": 4,
+            "upstream_path": "member-3e03689b1161a99a",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-380a95ff5c0c3625100d92f3",
+          "timestamp": "2024-10-03T02:57:50Z",
+          "service": "s3.amazonaws.com",
+          "operation": "CreateBucket",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"archive-destination-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"archive-destination-bucket\"}\nresource=[]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "3e03689b1161a99a84c59848a11641462a6a50707d35a4a39a20903a4e503031",
+            "record_index": 3,
+            "upstream_path": "member-3e03689b1161a99a",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-876527d1c8637f77440d22f5",
+          "timestamp": "2024-10-03T02:57:54Z",
+          "service": "s3.amazonaws.com",
+          "operation": "PutBucketPolicy",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"archive-source-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"archive-source-bucket\", \"bucketPolicy\": {\"Statement\": [{\"Action\": \"s3:PutObject\", \"Condition\": {\"StringEquals\": {\"s3:x-amz-acl\": \"bucket-owner-full-control\"}}, \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Resource\": \"arn:aws:s3:::archive-source-bucket/AWSLogs/*\", \"Sid\": \"AWSCloudTrailWrite\"}, {\"Action\": [\"s3:GetBucketAcl\", \"s3:GetObject\", \"s3:ListBucket\"], \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Resource\": [\"arn:aws:s3:::archive-source-bucket\", \"arn:aws:s3:::archive-source-bucket/*\"], \"Sid\": \"AWSCloudTrailRead\"}], \"Version\": \"2012-10-17\"}, \"policy\": \"\"}\nresource=[{\"ARN\": \"arn:aws:s3:::archive-source-bucket\", \"accountId\": \"ACCOUNT_ID\", \"type\": \"AWS::S3::Bucket\"}]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "3e03689b1161a99a84c59848a11641462a6a50707d35a4a39a20903a4e503031",
+            "record_index": 2,
+            "upstream_path": "member-3e03689b1161a99a",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-56d5ef187dfb78b7867a7dd1",
+          "timestamp": "2024-10-03T02:57:58Z",
+          "service": "s3.amazonaws.com",
+          "operation": "PutBucketPolicy",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"archive-destination-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"archive-destination-bucket\", \"bucketPolicy\": {\"Statement\": [{\"Action\": \"s3:PutObject\", \"Condition\": {\"StringEquals\": {\"s3:x-amz-acl\": \"bucket-owner-full-control\"}}, \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Resource\": \"arn:aws:s3:::archive-destination-bucket/AWSLogs/*\", \"Sid\": \"AWSCloudTrailWrite\"}, {\"Action\": [\"s3:GetBucketAcl\", \"s3:GetObject\", \"s3:ListBucket\"], \"Effect\": \"Allow\", \"Principal\": {\"Service\": \"cloudtrail.amazonaws.com\"}, \"Resource\": [\"arn:aws:s3:::archive-destination-bucket\", \"arn:aws:s3:::archive-destination-bucket/*\"], \"Sid\": \"AWSCloudTrailRead\"}], \"Version\": \"2012-10-17\"}, \"policy\": \"\"}\nresource=[{\"ARN\": \"arn:aws:s3:::archive-destination-bucket\", \"accountId\": \"ACCOUNT_ID\", \"type\": \"AWS::S3::Bucket\"}]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "3e03689b1161a99a84c59848a11641462a6a50707d35a4a39a20903a4e503031",
+            "record_index": 1,
+            "upstream_path": "member-3e03689b1161a99a",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        },
+        {
+          "observation_id": "obs-ce1367bc1e81a50e3acab9f1",
+          "timestamp": "2024-10-03T02:58:16Z",
+          "service": "s3.amazonaws.com",
+          "operation": "DeleteBucket",
+          "actor_type": "Root",
+          "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+          "account_id": "ACCOUNT_ID",
+          "region": "us-east-1",
+          "event_status": "SuccessOrUnspecified",
+          "schema": "aws_cloudtrail",
+          "source_ip": "IP",
+          "request": "{\"Host\": \"archive-destination-bucket.s3.us-east-1.amazonaws.com\", \"bucketName\": \"archive-destination-bucket\"}\nresource=[{\"ARN\": \"arn:aws:s3:::archive-destination-bucket\", \"accountId\": \"ACCOUNT_ID\", \"type\": \"AWS::S3::Bucket\"}]",
+          "response": "null",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "3e03689b1161a99a84c59848a11641462a6a50707d35a4a39a20903a4e503031",
+            "record_index": 0,
+            "upstream_path": "member-3e03689b1161a99a",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        }
+      ],
+      "observation_count": 6,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "43730593ea1a14e0a7ace069fb7d242baf2cb5ce2f3fdc96b2da65afe4a75780",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

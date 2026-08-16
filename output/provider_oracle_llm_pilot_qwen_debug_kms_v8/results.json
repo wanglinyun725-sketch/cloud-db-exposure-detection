@@ -1,0 +1,1048 @@
+{
+  "experiment_id": "provider_oracle_llm_pilot_v2",
+  "protocol_version": "7.0-pilot",
+  "research_effectiveness_result": false,
+  "warning": "Local 7B model behavior pilot on provider-oracle protocol v7. This validates execution and estimates model behavior but is not the frozen thesis main experiment.",
+  "scheduled_runs": 1,
+  "completed_runs": 1,
+  "executed_this_call": 1,
+  "resumed_skips": 0,
+  "model": {
+    "backend": "ollama_native",
+    "name": "qwen2.5:7b",
+    "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "think": false,
+    "temperature": 0,
+    "num_predict": 1024,
+    "num_ctx": 4096
+  },
+  "independence_groups": 1,
+  "summary": [
+    {
+      "method_id": "ec_react_full",
+      "budget": 4,
+      "runs": 1,
+      "case_count": 1,
+      "independence_groups": 1,
+      "effective_provider_gold_groups": 1,
+      "effective_negative_groups": 1,
+      "effective_unknown_control_groups": 0,
+      "aggregation": "strict_independence_group; all cases and repeats in a lineage must pass for binary success",
+      "provider_gold_state_accuracy": 0.0,
+      "provider_gold_state_accuracy_ci95": [
+        0.0,
+        0.7934506856227626
+      ],
+      "provider_gold_semantically_grounded_accuracy": 0.0,
+      "provider_gold_semantically_grounded_accuracy_ci95": [
+        0.0,
+        0.7934506856227626
+      ],
+      "correct_rejection_rate": 0.0,
+      "correct_rejection_rate_ci95": [
+        0.0,
+        0.7934506856227626
+      ],
+      "unknown_control_abstention_rate": null,
+      "unknown_control_abstention_rate_ci95": null,
+      "false_reachable_rate": 1.0,
+      "false_reachable_rate_ci95": [
+        0.20654931437723745,
+        1.0
+      ],
+      "mean_query_cost": 3.0,
+      "mean_gold_path_edge_f1": 0.0,
+      "diagnostic_case_run_metrics": {
+        "provider_gold_state_accuracy": 0.0,
+        "provider_gold_semantically_grounded_accuracy": 0.0,
+        "correct_rejection_rate": 0.0,
+        "unknown_control_abstention_rate": null,
+        "false_reachable_rate": 1.0
+      }
+    }
+  ],
+  "rows": [
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v2",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "schedule_id": "llm-schedule-dca8e4a52e9f4182b0acd1e6",
+      "split": "source_held_out_test",
+      "independence_group": "splunk-dataset:T1486/s3_file_encryption",
+      "platform": "AWS",
+      "label_origin": "provider_native_runtime",
+      "method_components": {
+        "pareto_guard": true,
+        "external_rule_prior": true,
+        "four_value_memory": true,
+        "budget_stop": true,
+        "finish_guard_mode": "strict"
+      },
+      "latency_seconds": 82.72154850000516,
+      "result": {
+        "decision": "abstain",
+        "hypothesis": "The guarded investigation did not reach a valid finish.",
+        "stop_reason": "max_steps",
+        "steps": 6,
+        "valid_tool_calls": 2,
+        "invalid_actions": 2,
+        "spent": 3,
+        "evidence_observation_ids": [],
+        "evidence_raw_refs": [],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "Summarize case to understand context.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Summarize case to understand context.",
+              "tool_name": "summarize_case",
+              "arguments": {}
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "summarize_case",
+              "call_id": 1,
+              "cost": 1,
+              "result_count": 0,
+              "operation_counts": {
+                "CopyObject": 2
+              },
+              "service_counts": {
+                "s3.amazonaws.com": 2
+              },
+              "events": [],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 3
+            },
+            "error": null,
+            "cumulative_cost": 1
+          },
+          {
+            "step": 2,
+            "thought": "Search for CopyObject events to find relevant permissions.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Search for CopyObject events to find relevant permissions.",
+              "tool_name": "search_events",
+              "arguments": {
+                "operation": "CopyObject"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "search_events",
+              "call_id": 2,
+              "cost": 2,
+              "result_count": 2,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-v3-65307689f866a00cea0ebc7f",
+                  "timestamp": "2021-01-11T12:40:10Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "CopyObject",
+                  "actor_type": "IAMUser",
+                  "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "account_id": "111111111111",
+                  "region": "us-west-2",
+                  "event_status": "KMS.KMSInvalidStateException"
+                },
+                {
+                  "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                  "timestamp": "2021-01-11T12:40:47Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "CopyObject",
+                  "actor_type": "IAMUser",
+                  "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "account_id": "111111111111",
+                  "region": "us-west-2",
+                  "event_status": "Success"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 1
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 3,
+            "thought": "Submit a path based on the available evidence.",
+            "proposal": {
+              "kind": "submit_path",
+              "thought": "Submit a path based on the available evidence.",
+              "hypothesis": "The IAM user could complete the exact KMS-encrypted S3 CopyObject request.",
+              "path_candidate": {
+                "path_id": "path-v1-001",
+                "claimed_state": "Reachable",
+                "nodes": [
+                  {
+                    "node_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                    "type": "identity",
+                    "label": "patrick_cli"
+                  },
+                  {
+                    "node_id": "arn:aws:s3:::example-bucket",
+                    "type": "object_storage",
+                    "label": "example-bucket"
+                  }
+                ],
+                "edges": [
+                  {
+                    "edge_id": "e1",
+                    "source": "arn:aws:iam::111111111111:user/patrick_cli",
+                    "target": "arn:aws:s3:::example-bucket",
+                    "type": "use_credential"
+                  }
+                ],
+                "evidence_assignments": [
+                  {
+                    "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                    "call_id": 2,
+                    "polarity": "support",
+                    "edge_ids": [
+                      "e1"
+                    ],
+                    "test": {
+                      "field": "operation",
+                      "operator": "eq",
+                      "value": "CopyObject"
+                    }
+                  }
+                ]
+              }
+            },
+            "status": "path_candidate_accepted",
+            "observation": {
+              "path_id": "path-v1-001",
+              "verified": true,
+              "verdict": {
+                "path_id": "path-v1-001",
+                "state": "Valid",
+                "claim_states": {
+                  "e1": "Supported"
+                },
+                "unknown_claims": [],
+                "refuted_claims": [],
+                "conflict_claims": []
+              },
+              "errors": [],
+              "certificate_id": "cp-c1233a49a5273875156e",
+              "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release."
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 4,
+            "thought": "Submit the path based on the available evidence.",
+            "proposal": {
+              "kind": "submit_path",
+              "thought": "Submit the path based on the available evidence.",
+              "hypothesis": "The IAM user could complete the exact KMS-encrypted S3 CopyObject request.",
+              "path_candidate": {
+                "path_id": "path-v1-001",
+                "claimed_state": "Reachable",
+                "nodes": [
+                  {
+                    "node_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                    "type": "identity",
+                    "label": "patrick_cli"
+                  },
+                  {
+                    "node_id": "arn:aws:s3:::example-bucket",
+                    "type": "object_storage",
+                    "label": "example-bucket"
+                  }
+                ],
+                "edges": [
+                  {
+                    "edge_id": "e1",
+                    "source": "arn:aws:iam::111111111111:user/patrick_cli",
+                    "target": "arn:aws:s3:::example-bucket",
+                    "type": "use_credential"
+                  }
+                ],
+                "evidence_assignments": [
+                  {
+                    "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                    "call_id": 2,
+                    "polarity": "support",
+                    "edge_ids": [
+                      "e1"
+                    ],
+                    "test": {
+                      "field": "operation",
+                      "operator": "eq",
+                      "value": "CopyObject"
+                    }
+                  }
+                ]
+              }
+            },
+            "status": "action_rejected",
+            "observation": null,
+            "error": "ToolActionError: duplicate already-certified path candidate",
+            "cumulative_cost": 3
+          },
+          {
+            "step": 5,
+            "thought": "Submit a minimal path based on the available evidence.",
+            "proposal": {
+              "kind": "submit_path",
+              "thought": "Submit a minimal path based on the available evidence.",
+              "hypothesis": "The IAM user could complete the exact KMS-encrypted S3 CopyObject request.",
+              "path_candidate": {
+                "path_id": "path-v1-002",
+                "claimed_state": "Reachable",
+                "nodes": [
+                  {
+                    "node_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                    "type": "identity",
+                    "label": "patrick_cli"
+                  },
+                  {
+                    "node_id": "arn:aws:s3:::example-bucket",
+                    "type": "object_storage",
+                    "label": "example-bucket"
+                  }
+                ],
+                "edges": [
+                  {
+                    "edge_id": "e1",
+                    "source": "arn:aws:iam::111111111111:user/patrick_cli",
+                    "target": "arn:aws:s3:::example-bucket",
+                    "type": "use_credential"
+                  }
+                ],
+                "evidence_assignments": [
+                  {
+                    "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                    "call_id": 2,
+                    "polarity": "support",
+                    "edge_ids": [
+                      "e1"
+                    ],
+                    "test": {
+                      "field": "operation",
+                      "operator": "eq",
+                      "value": "CopyObject"
+                    }
+                  }
+                ]
+              }
+            },
+            "status": "path_candidate_accepted",
+            "observation": {
+              "path_id": "path-v1-002",
+              "verified": true,
+              "verdict": {
+                "path_id": "path-v1-002",
+                "state": "Valid",
+                "claim_states": {
+                  "e1": "Supported"
+                },
+                "unknown_claims": [],
+                "refuted_claims": [],
+                "conflict_claims": []
+              },
+              "errors": [],
+              "certificate_id": "cp-c1233a49a5273875156e",
+              "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release."
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 6,
+            "thought": "Submit the minimal path based on available evidence.",
+            "proposal": {
+              "kind": "submit_path",
+              "thought": "Submit the minimal path based on available evidence.",
+              "hypothesis": "The IAM user could complete the exact KMS-encrypted S3 CopyObject request.",
+              "path_candidate": {
+                "path_id": "path-v1-002",
+                "claimed_state": "Reachable",
+                "nodes": [
+                  {
+                    "node_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                    "type": "identity",
+                    "label": "patrick_cli"
+                  },
+                  {
+                    "node_id": "arn:aws:s3:::example-bucket",
+                    "type": "object_storage",
+                    "label": "example-bucket"
+                  }
+                ],
+                "edges": [
+                  {
+                    "edge_id": "e1",
+                    "source": "arn:aws:iam::111111111111:user/patrick_cli",
+                    "target": "arn:aws:s3:::example-bucket",
+                    "type": "use_credential"
+                  }
+                ],
+                "evidence_assignments": [
+                  {
+                    "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                    "call_id": 2,
+                    "polarity": "support",
+                    "edge_ids": [
+                      "e1"
+                    ],
+                    "test": {
+                      "field": "operation",
+                      "operator": "eq",
+                      "value": "CopyObject"
+                    }
+                  }
+                ]
+              }
+            },
+            "status": "action_rejected",
+            "observation": null,
+            "error": "ToolActionError: duplicate already-certified path candidate",
+            "cumulative_cost": 3
+          }
+        ],
+        "path_candidates": [
+          {
+            "path_candidate": {
+              "path_id": "path-v1-001",
+              "claimed_state": "Reachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "type": "identity",
+                  "label": "patrick_cli"
+                },
+                {
+                  "node_id": "arn:aws:s3:::example-bucket",
+                  "type": "object_storage",
+                  "label": "example-bucket"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e1",
+                  "source": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "target": "arn:aws:s3:::example-bucket",
+                  "type": "use_credential"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                  "call_id": 2,
+                  "polarity": "support",
+                  "edge_ids": [
+                    "e1"
+                  ],
+                  "test": {
+                    "field": "operation",
+                    "operator": "eq",
+                    "value": "CopyObject"
+                  }
+                }
+              ]
+            },
+            "normalized_path": {
+              "path_id": "path-v1-001",
+              "claimed_state": "Reachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "type": "identity",
+                  "label": "patrick_cli"
+                },
+                {
+                  "node_id": "arn:aws:s3:::example-bucket",
+                  "type": "object_storage",
+                  "label": "example-bucket"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e1",
+                  "source": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "target": "arn:aws:s3:::example-bucket",
+                  "type": "use_credential"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                  "call_id": 2,
+                  "polarity": "support",
+                  "edge_ids": [
+                    "e1"
+                  ],
+                  "test": {
+                    "field": "operation",
+                    "operator": "eq",
+                    "value": "CopyObject"
+                  }
+                }
+              ]
+            },
+            "structurally_valid": true,
+            "evidence_items": [
+              {
+                "evidence_id": "tool-call-2-support",
+                "polarity": "support",
+                "claim_ids": [
+                  "e1"
+                ],
+                "raw_ref": "{\"call_id\":2,\"executable_tests\":[{\"field\":\"operation\",\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"operator\":\"eq\",\"result\":true,\"value\":\"CopyObject\"}],\"observations\":[{\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"raw_ref\":{\"git_blob_sha\":\"da23e4ac23e1dc585e5fe3cd3ff2627fc9f06064\",\"lfs_oid_sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"record_index\":0,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\",\"sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"upstream_path\":\"datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\"}}],\"tool_name\":\"search_events\"}",
+                "cost": 2.0,
+                "source": "tool:search_events"
+              }
+            ],
+            "verdict": {
+              "path_id": "path-v1-001",
+              "state": "Valid",
+              "claim_states": {
+                "e1": "Supported"
+              },
+              "unknown_claims": [],
+              "refuted_claims": [],
+              "conflict_claims": []
+            },
+            "certificate": {
+              "certificate_id": "cp-c1233a49a5273875156e",
+              "kind": "positive",
+              "method": "exact",
+              "evidence_ids": [
+                "tool-call-2-support"
+              ],
+              "raw_refs": [
+                "{\"call_id\":2,\"executable_tests\":[{\"field\":\"operation\",\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"operator\":\"eq\",\"result\":true,\"value\":\"CopyObject\"}],\"observations\":[{\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"raw_ref\":{\"git_blob_sha\":\"da23e4ac23e1dc585e5fe3cd3ff2627fc9f06064\",\"lfs_oid_sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"record_index\":0,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\",\"sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"upstream_path\":\"datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\"}}],\"tool_name\":\"search_events\"}"
+              ],
+              "total_cost": 2.0,
+              "covered_requirements": [
+                "e1"
+              ],
+              "required_requirements": [
+                "e1"
+              ],
+              "sufficient": true,
+              "irreducible": true,
+              "optimal": true,
+              "approximation_bound": null,
+              "semantics": "selected support evidence covers every hard premise of path path-v1-001"
+            },
+            "certificate_audit": {
+              "sufficient": true,
+              "irreducible": true,
+              "raw_refs_complete": true,
+              "unknown_evidence_ids": [],
+              "redundant_evidence_ids": [],
+              "covered_requirements": [
+                "e1"
+              ],
+              "missing_requirements": [],
+              "recomputed_cost": 2.0,
+              "cost_matches": true
+            },
+            "path_ontology": {
+              "ontology_id": "cloud_data_path_v1",
+              "version": "1.0.0",
+              "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+            },
+            "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release.",
+            "verified": true,
+            "errors": []
+          },
+          {
+            "path_candidate": {
+              "path_id": "path-v1-002",
+              "claimed_state": "Reachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "type": "identity",
+                  "label": "patrick_cli"
+                },
+                {
+                  "node_id": "arn:aws:s3:::example-bucket",
+                  "type": "object_storage",
+                  "label": "example-bucket"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e1",
+                  "source": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "target": "arn:aws:s3:::example-bucket",
+                  "type": "use_credential"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                  "call_id": 2,
+                  "polarity": "support",
+                  "edge_ids": [
+                    "e1"
+                  ],
+                  "test": {
+                    "field": "operation",
+                    "operator": "eq",
+                    "value": "CopyObject"
+                  }
+                }
+              ]
+            },
+            "normalized_path": {
+              "path_id": "path-v1-002",
+              "claimed_state": "Reachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "type": "identity",
+                  "label": "patrick_cli"
+                },
+                {
+                  "node_id": "arn:aws:s3:::example-bucket",
+                  "type": "object_storage",
+                  "label": "example-bucket"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e1",
+                  "source": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "target": "arn:aws:s3:::example-bucket",
+                  "type": "use_credential"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                  "call_id": 2,
+                  "polarity": "support",
+                  "edge_ids": [
+                    "e1"
+                  ],
+                  "test": {
+                    "field": "operation",
+                    "operator": "eq",
+                    "value": "CopyObject"
+                  }
+                }
+              ]
+            },
+            "structurally_valid": true,
+            "evidence_items": [
+              {
+                "evidence_id": "tool-call-2-support",
+                "polarity": "support",
+                "claim_ids": [
+                  "e1"
+                ],
+                "raw_ref": "{\"call_id\":2,\"executable_tests\":[{\"field\":\"operation\",\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"operator\":\"eq\",\"result\":true,\"value\":\"CopyObject\"}],\"observations\":[{\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"raw_ref\":{\"git_blob_sha\":\"da23e4ac23e1dc585e5fe3cd3ff2627fc9f06064\",\"lfs_oid_sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"record_index\":0,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\",\"sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"upstream_path\":\"datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\"}}],\"tool_name\":\"search_events\"}",
+                "cost": 2.0,
+                "source": "tool:search_events"
+              }
+            ],
+            "verdict": {
+              "path_id": "path-v1-002",
+              "state": "Valid",
+              "claim_states": {
+                "e1": "Supported"
+              },
+              "unknown_claims": [],
+              "refuted_claims": [],
+              "conflict_claims": []
+            },
+            "certificate": {
+              "certificate_id": "cp-c1233a49a5273875156e",
+              "kind": "positive",
+              "method": "exact",
+              "evidence_ids": [
+                "tool-call-2-support"
+              ],
+              "raw_refs": [
+                "{\"call_id\":2,\"executable_tests\":[{\"field\":\"operation\",\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"operator\":\"eq\",\"result\":true,\"value\":\"CopyObject\"}],\"observations\":[{\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"raw_ref\":{\"git_blob_sha\":\"da23e4ac23e1dc585e5fe3cd3ff2627fc9f06064\",\"lfs_oid_sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"record_index\":0,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\",\"sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"upstream_path\":\"datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\"}}],\"tool_name\":\"search_events\"}"
+              ],
+              "total_cost": 2.0,
+              "covered_requirements": [
+                "e1"
+              ],
+              "required_requirements": [
+                "e1"
+              ],
+              "sufficient": true,
+              "irreducible": true,
+              "optimal": true,
+              "approximation_bound": null,
+              "semantics": "selected support evidence covers every hard premise of path path-v1-002"
+            },
+            "certificate_audit": {
+              "sufficient": true,
+              "irreducible": true,
+              "raw_refs_complete": true,
+              "unknown_evidence_ids": [],
+              "redundant_evidence_ids": [],
+              "covered_requirements": [
+                "e1"
+              ],
+              "missing_requirements": [],
+              "recomputed_cost": 2.0,
+              "cost_matches": true
+            },
+            "path_ontology": {
+              "ontology_id": "cloud_data_path_v1",
+              "version": "1.0.0",
+              "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+            },
+            "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release.",
+            "verified": true,
+            "errors": []
+          }
+        ],
+        "verified_path_candidates": [
+          {
+            "path_candidate": {
+              "path_id": "path-v1-001",
+              "claimed_state": "Reachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "type": "identity",
+                  "label": "patrick_cli"
+                },
+                {
+                  "node_id": "arn:aws:s3:::example-bucket",
+                  "type": "object_storage",
+                  "label": "example-bucket"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e1",
+                  "source": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "target": "arn:aws:s3:::example-bucket",
+                  "type": "use_credential"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                  "call_id": 2,
+                  "polarity": "support",
+                  "edge_ids": [
+                    "e1"
+                  ],
+                  "test": {
+                    "field": "operation",
+                    "operator": "eq",
+                    "value": "CopyObject"
+                  }
+                }
+              ]
+            },
+            "normalized_path": {
+              "path_id": "path-v1-001",
+              "claimed_state": "Reachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "type": "identity",
+                  "label": "patrick_cli"
+                },
+                {
+                  "node_id": "arn:aws:s3:::example-bucket",
+                  "type": "object_storage",
+                  "label": "example-bucket"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e1",
+                  "source": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "target": "arn:aws:s3:::example-bucket",
+                  "type": "use_credential"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                  "call_id": 2,
+                  "polarity": "support",
+                  "edge_ids": [
+                    "e1"
+                  ],
+                  "test": {
+                    "field": "operation",
+                    "operator": "eq",
+                    "value": "CopyObject"
+                  }
+                }
+              ]
+            },
+            "structurally_valid": true,
+            "evidence_items": [
+              {
+                "evidence_id": "tool-call-2-support",
+                "polarity": "support",
+                "claim_ids": [
+                  "e1"
+                ],
+                "raw_ref": "{\"call_id\":2,\"executable_tests\":[{\"field\":\"operation\",\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"operator\":\"eq\",\"result\":true,\"value\":\"CopyObject\"}],\"observations\":[{\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"raw_ref\":{\"git_blob_sha\":\"da23e4ac23e1dc585e5fe3cd3ff2627fc9f06064\",\"lfs_oid_sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"record_index\":0,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\",\"sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"upstream_path\":\"datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\"}}],\"tool_name\":\"search_events\"}",
+                "cost": 2.0,
+                "source": "tool:search_events"
+              }
+            ],
+            "verdict": {
+              "path_id": "path-v1-001",
+              "state": "Valid",
+              "claim_states": {
+                "e1": "Supported"
+              },
+              "unknown_claims": [],
+              "refuted_claims": [],
+              "conflict_claims": []
+            },
+            "certificate": {
+              "certificate_id": "cp-c1233a49a5273875156e",
+              "kind": "positive",
+              "method": "exact",
+              "evidence_ids": [
+                "tool-call-2-support"
+              ],
+              "raw_refs": [
+                "{\"call_id\":2,\"executable_tests\":[{\"field\":\"operation\",\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"operator\":\"eq\",\"result\":true,\"value\":\"CopyObject\"}],\"observations\":[{\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"raw_ref\":{\"git_blob_sha\":\"da23e4ac23e1dc585e5fe3cd3ff2627fc9f06064\",\"lfs_oid_sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"record_index\":0,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\",\"sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"upstream_path\":\"datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\"}}],\"tool_name\":\"search_events\"}"
+              ],
+              "total_cost": 2.0,
+              "covered_requirements": [
+                "e1"
+              ],
+              "required_requirements": [
+                "e1"
+              ],
+              "sufficient": true,
+              "irreducible": true,
+              "optimal": true,
+              "approximation_bound": null,
+              "semantics": "selected support evidence covers every hard premise of path path-v1-001"
+            },
+            "certificate_audit": {
+              "sufficient": true,
+              "irreducible": true,
+              "raw_refs_complete": true,
+              "unknown_evidence_ids": [],
+              "redundant_evidence_ids": [],
+              "covered_requirements": [
+                "e1"
+              ],
+              "missing_requirements": [],
+              "recomputed_cost": 2.0,
+              "cost_matches": true
+            },
+            "path_ontology": {
+              "ontology_id": "cloud_data_path_v1",
+              "version": "1.0.0",
+              "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+            },
+            "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release.",
+            "verified": true,
+            "errors": []
+          },
+          {
+            "path_candidate": {
+              "path_id": "path-v1-002",
+              "claimed_state": "Reachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "type": "identity",
+                  "label": "patrick_cli"
+                },
+                {
+                  "node_id": "arn:aws:s3:::example-bucket",
+                  "type": "object_storage",
+                  "label": "example-bucket"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e1",
+                  "source": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "target": "arn:aws:s3:::example-bucket",
+                  "type": "use_credential"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                  "call_id": 2,
+                  "polarity": "support",
+                  "edge_ids": [
+                    "e1"
+                  ],
+                  "test": {
+                    "field": "operation",
+                    "operator": "eq",
+                    "value": "CopyObject"
+                  }
+                }
+              ]
+            },
+            "normalized_path": {
+              "path_id": "path-v1-002",
+              "claimed_state": "Reachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "type": "identity",
+                  "label": "patrick_cli"
+                },
+                {
+                  "node_id": "arn:aws:s3:::example-bucket",
+                  "type": "object_storage",
+                  "label": "example-bucket"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e1",
+                  "source": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "target": "arn:aws:s3:::example-bucket",
+                  "type": "use_credential"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                  "call_id": 2,
+                  "polarity": "support",
+                  "edge_ids": [
+                    "e1"
+                  ],
+                  "test": {
+                    "field": "operation",
+                    "operator": "eq",
+                    "value": "CopyObject"
+                  }
+                }
+              ]
+            },
+            "structurally_valid": true,
+            "evidence_items": [
+              {
+                "evidence_id": "tool-call-2-support",
+                "polarity": "support",
+                "claim_ids": [
+                  "e1"
+                ],
+                "raw_ref": "{\"call_id\":2,\"executable_tests\":[{\"field\":\"operation\",\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"operator\":\"eq\",\"result\":true,\"value\":\"CopyObject\"}],\"observations\":[{\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"raw_ref\":{\"git_blob_sha\":\"da23e4ac23e1dc585e5fe3cd3ff2627fc9f06064\",\"lfs_oid_sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"record_index\":0,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\",\"sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"upstream_path\":\"datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\"}}],\"tool_name\":\"search_events\"}",
+                "cost": 2.0,
+                "source": "tool:search_events"
+              }
+            ],
+            "verdict": {
+              "path_id": "path-v1-002",
+              "state": "Valid",
+              "claim_states": {
+                "e1": "Supported"
+              },
+              "unknown_claims": [],
+              "refuted_claims": [],
+              "conflict_claims": []
+            },
+            "certificate": {
+              "certificate_id": "cp-c1233a49a5273875156e",
+              "kind": "positive",
+              "method": "exact",
+              "evidence_ids": [
+                "tool-call-2-support"
+              ],
+              "raw_refs": [
+                "{\"call_id\":2,\"executable_tests\":[{\"field\":\"operation\",\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"operator\":\"eq\",\"result\":true,\"value\":\"CopyObject\"}],\"observations\":[{\"observation_id\":\"obs-v3-fdbbdb0b165e7190feb4a949\",\"raw_ref\":{\"git_blob_sha\":\"da23e4ac23e1dc585e5fe3cd3ff2627fc9f06064\",\"lfs_oid_sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"record_index\":0,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\",\"sha256\":\"29c65aedfdb0a8b8ef56cb77af24842ec7ac5a9ad0497a186a3bda8acc411647\",\"upstream_path\":\"datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json\"}}],\"tool_name\":\"search_events\"}"
+              ],
+              "total_cost": 2.0,
+              "covered_requirements": [
+                "e1"
+              ],
+              "required_requirements": [
+                "e1"
+              ],
+              "sufficient": true,
+              "irreducible": true,
+              "optimal": true,
+              "approximation_bound": null,
+              "semantics": "selected support evidence covers every hard premise of path path-v1-002"
+            },
+            "certificate_audit": {
+              "sufficient": true,
+              "irreducible": true,
+              "raw_refs_complete": true,
+              "unknown_evidence_ids": [],
+              "redundant_evidence_ids": [],
+              "covered_requirements": [
+                "e1"
+              ],
+              "missing_requirements": [],
+              "recomputed_cost": 2.0,
+              "cost_matches": true
+            },
+            "path_ontology": {
+              "ontology_id": "cloud_data_path_v1",
+              "version": "1.0.0",
+              "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+            },
+            "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release.",
+            "verified": true,
+            "errors": []
+          }
+        ],
+        "path_verdict": null,
+        "certificate": null,
+        "certificate_audit": null,
+        "certificate_scope": null,
+        "verification_errors": []
+      },
+      "score": {
+        "scoring_version": "provider-oracle-state-v1",
+        "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+        "independence_group": "splunk-dataset:T1486/s3_file_encryption",
+        "platform": "AWS",
+        "gold_state": "NotReachable",
+        "predicted_state": "Reachable",
+        "state_correct": false,
+        "provider_oracle_gold": true,
+        "epistemic_control": false,
+        "label_origin": "provider_native_runtime",
+        "gold_tier": "runtime_gold",
+        "decisive_evidence_correct": false,
+        "semantically_correct_state": false,
+        "correct_rejection": false,
+        "correct_abstention": false,
+        "false_reachable": true,
+        "support_evidence_coverage": null,
+        "refute_evidence_coverage": 0.0,
+        "control_evidence_coverage": 1.0,
+        "gold_path_edge_precision": 0.0,
+        "gold_path_edge_recall": 0.0,
+        "gold_path_edge_f1": 0.0,
+        "verified_candidate_count": 2,
+        "proposed_candidate_count": 2,
+        "query_cost": 3,
+        "valid_tool_calls": 2,
+        "invalid_actions": 2,
+        "runner_decision": "abstain",
+        "scope": "State scoring is evaluator-side. Provider gold and the configuration-only Unknown controls are reported separately; protocol pilots are not population-effectiveness results."
+      },
+      "secrets_in_record": false
+    }
+  ]
+}

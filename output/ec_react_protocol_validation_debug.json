@@ -1,0 +1,1245 @@
+{
+  "validation_version": "0.1",
+  "purpose": "orchestration equivalence, guard and hidden-label leakage validation on real published telemetry",
+  "research_effectiveness_result": false,
+  "warning": "Source payload conditions are not human attack-path gold. These rows must not be reported as main-method accuracy.",
+  "source_index": "data\\real_sources\\cross_cloud_full_episode_index.json",
+  "source_index_sha256": "595e86202ab0f4fe8fb2a93f84737b22a1d36cc695e2ae0eaddbced2063a58a0",
+  "selection_policy": "one complete source-published pair per platform×attack; prefer default profile and smallest run ID",
+  "budget_per_run": 30,
+  "episodes": 4,
+  "platform_attack_groups": 2,
+  "independence_groups": 2,
+  "source_conditions": [
+    "payload_absent",
+    "payload_present"
+  ],
+  "descriptive_diagnostics": {
+    "decision_by_source_condition": {
+      "payload_absent": {
+        "candidate_evidence_found": 2
+      },
+      "payload_present": {
+        "candidate_evidence_found": 2
+      }
+    },
+    "mean_valid_tool_calls": 3.0,
+    "mean_query_cost": 5.0,
+    "interpretation": "Descriptive engineering diagnostics only. In particular, a candidate_evidence_found decision is not a verified attack path and must not be scored as a true positive."
+  },
+  "backend_mismatch_count": 0,
+  "backend_mismatch_episode_ids": [],
+  "policy_leakage_failure_count": 0,
+  "policy_leakage_failures": [],
+  "protocol_valid": true,
+  "rows": [
+    {
+      "episode_id": "crosscloud:aws:archive_collected_data:default:run-0:n",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "platform": "AWS",
+      "attack": "archive_collected_data",
+      "log_profile": "default",
+      "run_id": 0,
+      "source_condition": "payload_absent",
+      "backend_equivalent": true,
+      "hidden_terms_visible_to_policy": [],
+      "linear": {
+        "decision": "candidate_evidence_found",
+        "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+        "stop_reason": "policy_finish_guard_passed",
+        "steps": 4,
+        "valid_tool_calls": 3,
+        "invalid_actions": 0,
+        "spent": 5,
+        "evidence_observation_ids": [
+          "obs-38f079937a58cd5317a42dc0"
+        ],
+        "evidence_raw_refs": [
+          {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "f58a445b4cd5bc8e423dbf96ff58174a33ba40ca3f93570e20436e28f70d8462",
+            "record_index": 1,
+            "upstream_path": "member-f58a445b4cd5bc8e",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "First reveal aggregate telemetry facets.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "First reveal aggregate telemetry facets.",
+              "tool_name": "summarize_case",
+              "arguments": {}
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "summarize_case",
+              "cost": 1,
+              "result_count": 0,
+              "operation_counts": {
+                "DeleteBucket": 2,
+                "PutBucketPolicy": 2,
+                "CreateBucket": 2
+              },
+              "service_counts": {
+                "s3.amazonaws.com": 6
+              },
+              "events": [],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 29
+            },
+            "error": null,
+            "cumulative_cost": 1
+          },
+          {
+            "step": 2,
+            "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+              "tool_name": "search_events",
+              "arguments": {
+                "operation": "DeleteBucket"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "search_events",
+              "cost": 2,
+              "result_count": 2,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-38f079937a58cd5317a42dc0",
+                  "timestamp": "2024-10-03T01:51:10Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                },
+                {
+                  "observation_id": "obs-8b291818da7f2f586baec0d2",
+                  "timestamp": "2024-10-03T01:51:14Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 27
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 3,
+            "thought": "Inspect the most recent compact event in detail.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect the most recent compact event in detail.",
+              "tool_name": "get_event_detail",
+              "arguments": {
+                "observation_id": "obs-38f079937a58cd5317a42dc0"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "get_event_detail",
+              "cost": 2,
+              "result_count": 1,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-38f079937a58cd5317a42dc0",
+                  "timestamp": "2024-10-03T01:51:10Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 25
+            },
+            "error": null,
+            "cumulative_cost": 5
+          },
+          {
+            "step": 4,
+            "thought": "Return an evidence candidate without overstating path validity.",
+            "proposal": {
+              "kind": "finish",
+              "thought": "Return an evidence candidate without overstating path validity.",
+              "decision": "candidate_evidence_found",
+              "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+              "evidence_observation_ids": [
+                "obs-38f079937a58cd5317a42dc0"
+              ]
+            },
+            "status": "finished",
+            "observation": null,
+            "error": null,
+            "cumulative_cost": 5
+          }
+        ]
+      },
+      "langgraph": {
+        "decision": "candidate_evidence_found",
+        "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+        "stop_reason": "policy_finish_guard_passed",
+        "steps": 4,
+        "valid_tool_calls": 3,
+        "invalid_actions": 0,
+        "spent": 5,
+        "evidence_observation_ids": [
+          "obs-38f079937a58cd5317a42dc0"
+        ],
+        "evidence_raw_refs": [
+          {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "f58a445b4cd5bc8e423dbf96ff58174a33ba40ca3f93570e20436e28f70d8462",
+            "record_index": 1,
+            "upstream_path": "member-f58a445b4cd5bc8e",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "First reveal aggregate telemetry facets.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "First reveal aggregate telemetry facets.",
+              "tool_name": "summarize_case",
+              "arguments": {}
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "summarize_case",
+              "cost": 1,
+              "result_count": 0,
+              "operation_counts": {
+                "DeleteBucket": 2,
+                "PutBucketPolicy": 2,
+                "CreateBucket": 2
+              },
+              "service_counts": {
+                "s3.amazonaws.com": 6
+              },
+              "events": [],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 29
+            },
+            "error": null,
+            "cumulative_cost": 1
+          },
+          {
+            "step": 2,
+            "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+              "tool_name": "search_events",
+              "arguments": {
+                "operation": "DeleteBucket"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "search_events",
+              "cost": 2,
+              "result_count": 2,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-38f079937a58cd5317a42dc0",
+                  "timestamp": "2024-10-03T01:51:10Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                },
+                {
+                  "observation_id": "obs-8b291818da7f2f586baec0d2",
+                  "timestamp": "2024-10-03T01:51:14Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 27
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 3,
+            "thought": "Inspect the most recent compact event in detail.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect the most recent compact event in detail.",
+              "tool_name": "get_event_detail",
+              "arguments": {
+                "observation_id": "obs-38f079937a58cd5317a42dc0"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "get_event_detail",
+              "cost": 2,
+              "result_count": 1,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-38f079937a58cd5317a42dc0",
+                  "timestamp": "2024-10-03T01:51:10Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 25
+            },
+            "error": null,
+            "cumulative_cost": 5
+          },
+          {
+            "step": 4,
+            "thought": "Return an evidence candidate without overstating path validity.",
+            "proposal": {
+              "kind": "finish",
+              "thought": "Return an evidence candidate without overstating path validity.",
+              "decision": "candidate_evidence_found",
+              "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+              "evidence_observation_ids": [
+                "obs-38f079937a58cd5317a42dc0"
+              ]
+            },
+            "status": "finished",
+            "observation": null,
+            "error": null,
+            "cumulative_cost": 5
+          }
+        ]
+      }
+    },
+    {
+      "episode_id": "crosscloud:aws:archive_collected_data:default:run-0:y",
+      "independence_group": "crosscloud-family:archive_collected_data",
+      "platform": "AWS",
+      "attack": "archive_collected_data",
+      "log_profile": "default",
+      "run_id": 0,
+      "source_condition": "payload_present",
+      "backend_equivalent": true,
+      "hidden_terms_visible_to_policy": [],
+      "linear": {
+        "decision": "candidate_evidence_found",
+        "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+        "stop_reason": "policy_finish_guard_passed",
+        "steps": 4,
+        "valid_tool_calls": 3,
+        "invalid_actions": 0,
+        "spent": 5,
+        "evidence_observation_ids": [
+          "obs-7c05fce5a3c91be8580d9afd"
+        ],
+        "evidence_raw_refs": [
+          {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "10684f0a93e6f425abe4a3d4a48251818be7992517234383eeb072ea8a5de7a8",
+            "record_index": 0,
+            "upstream_path": "member-10684f0a93e6f425",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "First reveal aggregate telemetry facets.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "First reveal aggregate telemetry facets.",
+              "tool_name": "summarize_case",
+              "arguments": {}
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "summarize_case",
+              "cost": 1,
+              "result_count": 0,
+              "operation_counts": {
+                "DeleteBucket": 2,
+                "ScheduleKeyDeletion": 1,
+                "PutBucketEncryption": 1,
+                "CreateKey": 1,
+                "PutBucketPolicy": 2,
+                "CreateBucket": 2,
+                "LookupEvents": 1
+              },
+              "service_counts": {
+                "s3.amazonaws.com": 7,
+                "kms.amazonaws.com": 2,
+                "cloudtrail.amazonaws.com": 1
+              },
+              "events": [],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 29
+            },
+            "error": null,
+            "cumulative_cost": 1
+          },
+          {
+            "step": 2,
+            "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+              "tool_name": "search_events",
+              "arguments": {
+                "operation": "DeleteBucket"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "search_events",
+              "cost": 2,
+              "result_count": 2,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-cfb22986c7b85ec703399b7b",
+                  "timestamp": "2024-10-03T01:48:26Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                },
+                {
+                  "observation_id": "obs-7c05fce5a3c91be8580d9afd",
+                  "timestamp": "2024-10-03T01:48:30Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 27
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 3,
+            "thought": "Inspect the most recent compact event in detail.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect the most recent compact event in detail.",
+              "tool_name": "get_event_detail",
+              "arguments": {
+                "observation_id": "obs-cfb22986c7b85ec703399b7b"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "get_event_detail",
+              "cost": 2,
+              "result_count": 1,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-cfb22986c7b85ec703399b7b",
+                  "timestamp": "2024-10-03T01:48:26Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 25
+            },
+            "error": null,
+            "cumulative_cost": 5
+          },
+          {
+            "step": 4,
+            "thought": "Return an evidence candidate without overstating path validity.",
+            "proposal": {
+              "kind": "finish",
+              "thought": "Return an evidence candidate without overstating path validity.",
+              "decision": "candidate_evidence_found",
+              "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+              "evidence_observation_ids": [
+                "obs-7c05fce5a3c91be8580d9afd"
+              ]
+            },
+            "status": "finished",
+            "observation": null,
+            "error": null,
+            "cumulative_cost": 5
+          }
+        ]
+      },
+      "langgraph": {
+        "decision": "candidate_evidence_found",
+        "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+        "stop_reason": "policy_finish_guard_passed",
+        "steps": 4,
+        "valid_tool_calls": 3,
+        "invalid_actions": 0,
+        "spent": 5,
+        "evidence_observation_ids": [
+          "obs-7c05fce5a3c91be8580d9afd"
+        ],
+        "evidence_raw_refs": [
+          {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "10684f0a93e6f425abe4a3d4a48251818be7992517234383eeb072ea8a5de7a8",
+            "record_index": 0,
+            "upstream_path": "member-10684f0a93e6f425",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "First reveal aggregate telemetry facets.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "First reveal aggregate telemetry facets.",
+              "tool_name": "summarize_case",
+              "arguments": {}
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "summarize_case",
+              "cost": 1,
+              "result_count": 0,
+              "operation_counts": {
+                "DeleteBucket": 2,
+                "ScheduleKeyDeletion": 1,
+                "PutBucketEncryption": 1,
+                "CreateKey": 1,
+                "PutBucketPolicy": 2,
+                "CreateBucket": 2,
+                "LookupEvents": 1
+              },
+              "service_counts": {
+                "s3.amazonaws.com": 7,
+                "kms.amazonaws.com": 2,
+                "cloudtrail.amazonaws.com": 1
+              },
+              "events": [],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 29
+            },
+            "error": null,
+            "cumulative_cost": 1
+          },
+          {
+            "step": 2,
+            "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+              "tool_name": "search_events",
+              "arguments": {
+                "operation": "DeleteBucket"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "search_events",
+              "cost": 2,
+              "result_count": 2,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-cfb22986c7b85ec703399b7b",
+                  "timestamp": "2024-10-03T01:48:26Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                },
+                {
+                  "observation_id": "obs-7c05fce5a3c91be8580d9afd",
+                  "timestamp": "2024-10-03T01:48:30Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 27
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 3,
+            "thought": "Inspect the most recent compact event in detail.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect the most recent compact event in detail.",
+              "tool_name": "get_event_detail",
+              "arguments": {
+                "observation_id": "obs-cfb22986c7b85ec703399b7b"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "get_event_detail",
+              "cost": 2,
+              "result_count": 1,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-cfb22986c7b85ec703399b7b",
+                  "timestamp": "2024-10-03T01:48:26Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 25
+            },
+            "error": null,
+            "cumulative_cost": 5
+          },
+          {
+            "step": 4,
+            "thought": "Return an evidence candidate without overstating path validity.",
+            "proposal": {
+              "kind": "finish",
+              "thought": "Return an evidence candidate without overstating path validity.",
+              "decision": "candidate_evidence_found",
+              "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+              "evidence_observation_ids": [
+                "obs-7c05fce5a3c91be8580d9afd"
+              ]
+            },
+            "status": "finished",
+            "observation": null,
+            "error": null,
+            "cumulative_cost": 5
+          }
+        ]
+      }
+    },
+    {
+      "episode_id": "crosscloud:aws:automated_collection:default:run-0:n",
+      "independence_group": "crosscloud-family:automated_collection",
+      "platform": "AWS",
+      "attack": "automated_collection",
+      "log_profile": "default",
+      "run_id": 0,
+      "source_condition": "payload_absent",
+      "backend_equivalent": true,
+      "hidden_terms_visible_to_policy": [],
+      "linear": {
+        "decision": "candidate_evidence_found",
+        "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+        "stop_reason": "policy_finish_guard_passed",
+        "steps": 4,
+        "valid_tool_calls": 3,
+        "invalid_actions": 0,
+        "spent": 5,
+        "evidence_observation_ids": [
+          "obs-ce1367bc1e81a50e3acab9f1"
+        ],
+        "evidence_raw_refs": [
+          {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "3e03689b1161a99a84c59848a11641462a6a50707d35a4a39a20903a4e503031",
+            "record_index": 0,
+            "upstream_path": "member-3e03689b1161a99a",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "First reveal aggregate telemetry facets.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "First reveal aggregate telemetry facets.",
+              "tool_name": "summarize_case",
+              "arguments": {}
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "summarize_case",
+              "cost": 1,
+              "result_count": 0,
+              "operation_counts": {
+                "DeleteBucket": 1,
+                "PutBucketPolicy": 2,
+                "CreateBucket": 2,
+                "LookupEvents": 1
+              },
+              "service_counts": {
+                "s3.amazonaws.com": 5,
+                "cloudtrail.amazonaws.com": 1
+              },
+              "events": [],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 29
+            },
+            "error": null,
+            "cumulative_cost": 1
+          },
+          {
+            "step": 2,
+            "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+              "tool_name": "search_events",
+              "arguments": {
+                "operation": "DeleteBucket"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "search_events",
+              "cost": 2,
+              "result_count": 1,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-ce1367bc1e81a50e3acab9f1",
+                  "timestamp": "2024-10-03T02:58:16Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 27
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 3,
+            "thought": "Inspect the most recent compact event in detail.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect the most recent compact event in detail.",
+              "tool_name": "get_event_detail",
+              "arguments": {
+                "observation_id": "obs-ce1367bc1e81a50e3acab9f1"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "get_event_detail",
+              "cost": 2,
+              "result_count": 1,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-ce1367bc1e81a50e3acab9f1",
+                  "timestamp": "2024-10-03T02:58:16Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 25
+            },
+            "error": null,
+            "cumulative_cost": 5
+          },
+          {
+            "step": 4,
+            "thought": "Return an evidence candidate without overstating path validity.",
+            "proposal": {
+              "kind": "finish",
+              "thought": "Return an evidence candidate without overstating path validity.",
+              "decision": "candidate_evidence_found",
+              "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+              "evidence_observation_ids": [
+                "obs-ce1367bc1e81a50e3acab9f1"
+              ]
+            },
+            "status": "finished",
+            "observation": null,
+            "error": null,
+            "cumulative_cost": 5
+          }
+        ]
+      },
+      "langgraph": {
+        "decision": "candidate_evidence_found",
+        "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+        "stop_reason": "policy_finish_guard_passed",
+        "steps": 4,
+        "valid_tool_calls": 3,
+        "invalid_actions": 0,
+        "spent": 5,
+        "evidence_observation_ids": [
+          "obs-ce1367bc1e81a50e3acab9f1"
+        ],
+        "evidence_raw_refs": [
+          {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "3e03689b1161a99a84c59848a11641462a6a50707d35a4a39a20903a4e503031",
+            "record_index": 0,
+            "upstream_path": "member-3e03689b1161a99a",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "First reveal aggregate telemetry facets.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "First reveal aggregate telemetry facets.",
+              "tool_name": "summarize_case",
+              "arguments": {}
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "summarize_case",
+              "cost": 1,
+              "result_count": 0,
+              "operation_counts": {
+                "DeleteBucket": 1,
+                "PutBucketPolicy": 2,
+                "CreateBucket": 2,
+                "LookupEvents": 1
+              },
+              "service_counts": {
+                "s3.amazonaws.com": 5,
+                "cloudtrail.amazonaws.com": 1
+              },
+              "events": [],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 29
+            },
+            "error": null,
+            "cumulative_cost": 1
+          },
+          {
+            "step": 2,
+            "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+              "tool_name": "search_events",
+              "arguments": {
+                "operation": "DeleteBucket"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "search_events",
+              "cost": 2,
+              "result_count": 1,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-ce1367bc1e81a50e3acab9f1",
+                  "timestamp": "2024-10-03T02:58:16Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 27
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 3,
+            "thought": "Inspect the most recent compact event in detail.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect the most recent compact event in detail.",
+              "tool_name": "get_event_detail",
+              "arguments": {
+                "observation_id": "obs-ce1367bc1e81a50e3acab9f1"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "get_event_detail",
+              "cost": 2,
+              "result_count": 1,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-ce1367bc1e81a50e3acab9f1",
+                  "timestamp": "2024-10-03T02:58:16Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 25
+            },
+            "error": null,
+            "cumulative_cost": 5
+          },
+          {
+            "step": 4,
+            "thought": "Return an evidence candidate without overstating path validity.",
+            "proposal": {
+              "kind": "finish",
+              "thought": "Return an evidence candidate without overstating path validity.",
+              "decision": "candidate_evidence_found",
+              "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+              "evidence_observation_ids": [
+                "obs-ce1367bc1e81a50e3acab9f1"
+              ]
+            },
+            "status": "finished",
+            "observation": null,
+            "error": null,
+            "cumulative_cost": 5
+          }
+        ]
+      }
+    },
+    {
+      "episode_id": "crosscloud:aws:automated_collection:default:run-0:y",
+      "independence_group": "crosscloud-family:automated_collection",
+      "platform": "AWS",
+      "attack": "automated_collection",
+      "log_profile": "default",
+      "run_id": 0,
+      "source_condition": "payload_present",
+      "backend_equivalent": true,
+      "hidden_terms_visible_to_policy": [],
+      "linear": {
+        "decision": "candidate_evidence_found",
+        "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+        "stop_reason": "policy_finish_guard_passed",
+        "steps": 4,
+        "valid_tool_calls": 3,
+        "invalid_actions": 0,
+        "spent": 5,
+        "evidence_observation_ids": [
+          "obs-380d24db228c4949a6f4b85f"
+        ],
+        "evidence_raw_refs": [
+          {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "ad05123ddcf3295db91e52578020436d6222f289daf295f1e704dc651898be43",
+            "record_index": 1,
+            "upstream_path": "member-ad05123ddcf3295d",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "First reveal aggregate telemetry facets.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "First reveal aggregate telemetry facets.",
+              "tool_name": "summarize_case",
+              "arguments": {}
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "summarize_case",
+              "cost": 1,
+              "result_count": 0,
+              "operation_counts": {
+                "DeleteBucket": 2,
+                "PutBucketPolicy": 2,
+                "CreateBucket": 2,
+                "LookupEvents": 1
+              },
+              "service_counts": {
+                "s3.amazonaws.com": 6,
+                "cloudtrail.amazonaws.com": 1
+              },
+              "events": [],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 29
+            },
+            "error": null,
+            "cumulative_cost": 1
+          },
+          {
+            "step": 2,
+            "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+              "tool_name": "search_events",
+              "arguments": {
+                "operation": "DeleteBucket"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "search_events",
+              "cost": 2,
+              "result_count": 2,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-380d24db228c4949a6f4b85f",
+                  "timestamp": "2024-10-03T02:55:33Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                },
+                {
+                  "observation_id": "obs-e575c327dd9c022ad73f660d",
+                  "timestamp": "2024-10-03T02:55:37Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 27
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 3,
+            "thought": "Inspect the most recent compact event in detail.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect the most recent compact event in detail.",
+              "tool_name": "get_event_detail",
+              "arguments": {
+                "observation_id": "obs-380d24db228c4949a6f4b85f"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "get_event_detail",
+              "cost": 2,
+              "result_count": 1,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-380d24db228c4949a6f4b85f",
+                  "timestamp": "2024-10-03T02:55:33Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 25
+            },
+            "error": null,
+            "cumulative_cost": 5
+          },
+          {
+            "step": 4,
+            "thought": "Return an evidence candidate without overstating path validity.",
+            "proposal": {
+              "kind": "finish",
+              "thought": "Return an evidence candidate without overstating path validity.",
+              "decision": "candidate_evidence_found",
+              "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+              "evidence_observation_ids": [
+                "obs-380d24db228c4949a6f4b85f"
+              ]
+            },
+            "status": "finished",
+            "observation": null,
+            "error": null,
+            "cumulative_cost": 5
+          }
+        ]
+      },
+      "langgraph": {
+        "decision": "candidate_evidence_found",
+        "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+        "stop_reason": "policy_finish_guard_passed",
+        "steps": 4,
+        "valid_tool_calls": 3,
+        "invalid_actions": 0,
+        "spent": 5,
+        "evidence_observation_ids": [
+          "obs-380d24db228c4949a6f4b85f"
+        ],
+        "evidence_raw_refs": [
+          {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "ad05123ddcf3295db91e52578020436d6222f289daf295f1e704dc651898be43",
+            "record_index": 1,
+            "upstream_path": "member-ad05123ddcf3295d",
+            "archive_sha256": "f75046f8660e648981040d5180950867a7e82cb8b799708ff572a927d2d35f5b"
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "First reveal aggregate telemetry facets.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "First reveal aggregate telemetry facets.",
+              "tool_name": "summarize_case",
+              "arguments": {}
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "summarize_case",
+              "cost": 1,
+              "result_count": 0,
+              "operation_counts": {
+                "DeleteBucket": 2,
+                "PutBucketPolicy": 2,
+                "CreateBucket": 2,
+                "LookupEvents": 1
+              },
+              "service_counts": {
+                "s3.amazonaws.com": 6,
+                "cloudtrail.amazonaws.com": 1
+              },
+              "events": [],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 29
+            },
+            "error": null,
+            "cumulative_cost": 1
+          },
+          {
+            "step": 2,
+            "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect a non-dominated operation with high evidence gain relative to query cost.",
+              "tool_name": "search_events",
+              "arguments": {
+                "operation": "DeleteBucket"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "search_events",
+              "cost": 2,
+              "result_count": 2,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-380d24db228c4949a6f4b85f",
+                  "timestamp": "2024-10-03T02:55:33Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                },
+                {
+                  "observation_id": "obs-e575c327dd9c022ad73f660d",
+                  "timestamp": "2024-10-03T02:55:37Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 27
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 3,
+            "thought": "Inspect the most recent compact event in detail.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Inspect the most recent compact event in detail.",
+              "tool_name": "get_event_detail",
+              "arguments": {
+                "observation_id": "obs-380d24db228c4949a6f4b85f"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "get_event_detail",
+              "cost": 2,
+              "result_count": 1,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-380d24db228c4949a6f4b85f",
+                  "timestamp": "2024-10-03T02:55:33Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "DeleteBucket",
+                  "actor_id": "arn:aws:iam::ACCOUNT_ID:root",
+                  "event_status": "SuccessOrUnspecified"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 25
+            },
+            "error": null,
+            "cumulative_cost": 5
+          },
+          {
+            "step": 4,
+            "thought": "Return an evidence candidate without overstating path validity.",
+            "proposal": {
+              "kind": "finish",
+              "thought": "Return an evidence candidate without overstating path validity.",
+              "decision": "candidate_evidence_found",
+              "hypothesis": "Observed DeleteBucket; human/path verification is still required.",
+              "evidence_observation_ids": [
+                "obs-380d24db228c4949a6f4b85f"
+              ]
+            },
+            "status": "finished",
+            "observation": null,
+            "error": null,
+            "cumulative_cost": 5
+          }
+        ]
+      }
+    }
+  ]
+}

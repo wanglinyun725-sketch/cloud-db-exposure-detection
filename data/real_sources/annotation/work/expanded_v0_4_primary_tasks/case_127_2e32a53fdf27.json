@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:k8s.credential-access.steal-serviceaccount-token",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:k8s.credential-access.steal-serviceaccount-token",
+    "kind": "executable_attack_technique",
+    "platform": "kubernetes",
+    "technique": "k8s.credential-access.steal-serviceaccount-token",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.credential-access.steal-serviceaccount-token.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.credential-access.steal-serviceaccount-token.md",
+    "review_score": 8,
+    "independence_group": "stratus_red_team:stratus:k8s.credential-access.steal-serviceaccount-token",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.credential-access.steal-serviceaccount-token.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.credential-access.steal-serviceaccount-token.md",
+      "member_sha256": "55b3be757bd778b0f833ac602695e7d2ce1715f710aa6761e87a540eb56a1b9c",
+      "bytes": 1794,
+      "content_kind": "md",
+      "text": "---\ntitle: Steal Pod Service Account Token\n---\n\n# Steal Pod Service Account Token\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: Kubernetes\n\n## Mappings\n\n- MITRE ATT&CK\n    - Credential Access\n\n\n\n## Description\n\n\nSteals a service account token from a running pod, by executing a command in the pod and reading /var/run/secrets/kubernetes.io/serviceaccount/token\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create the Stratus Red Team namespace\n- Create a Service Account\n- Create a Pod running under this service account\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Execute <code>cat /var/run/secrets/kubernetes.io/serviceaccount/token</code> into the pod to steal its service account token\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate k8s.credential-access.steal-serviceaccount-token\n```\n## Detection\n\n\nUsing Kubernetes API server audit logs, looking for execution events.\n\nSample event (shortened):\n\n```json hl_lines=\"3 4 11 12 15\"\n{\n\t\"objectRef\": {\n\t\t\"resource\": \"pods\",\n\t\t\"subresource\": \"exec\",\n\t\t\"name\": \"stratus-red-team-sample-pod\",\n\t},\n\t\"http\": {\n\t\t\"url_details\": {\n\t\t\t\"path\": \"/api/v1/namespaces/stratus-red-team-ubdaslyp/pods/stratus-red-team-sample-pod/exec\",\n\t\t\t\"queryString\": {\n\t\t\t\t\"command\": \"%2Fvar%2Frun%2Fsecrets%2Fkubernetes.io%2Fserviceaccount%2Ftoken\",\n\t\t\t\t\"stdout\": \"true\"\n\t\t\t}\n\t\t},\n\t\t\"method\": \"create\"\n\t},\n\t\"stage\": \"ResponseStarted\",\n\t\"kind\": \"Event\",\n\t\"level\": \"RequestResponse\",\n\t\"requestURI\": \"/api/v1/namespaces/stratus-red-team-ubdaslyp/pods/stratus-red-team-sample-pod/exec?command=cat&command=%2Fvar%2Frun%2Fsecrets%2Fkubernetes.io%2Fserviceaccount%2Ftoken&stdout=true\",\n}\n```\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "8510312798f66af582bbcbf3bef57437aa4514a4c876a23edfabe463dfc92a1c",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

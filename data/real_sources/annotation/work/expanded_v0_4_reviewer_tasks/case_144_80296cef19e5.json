@@ -1,0 +1,252 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "relationship--6c83315d-c8b5-4ab8-b345-3c79b11d690a",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--6c83315d-c8b5-4ab8-b345-3c79b11d690a",
+    "kind": "procedure_relationship",
+    "source_object_id": "intrusion-set--b8137919-38cb-4db0-90f3-437be885faba",
+    "source_object_type": "intrusion-set",
+    "source_name": "Agrius",
+    "technique_object_id": "attack-pattern--30208d3e-0d6b-43c8-883e-44462a514619",
+    "technique_id": "T1119",
+    "technique_name": "Automated Collection",
+    "platforms": [
+      "IaaS",
+      "Linux",
+      "macOS",
+      "Office Suite",
+      "SaaS",
+      "Windows"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--6c83315d-c8b5-4ab8-b345-3c79b11d690a",
+    "review_score": 10,
+    "independence_group": "mitre-source-object:intrusion-set--b8137919-38cb-4db0-90f3-437be885faba",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1119"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--6c83315d-c8b5-4ab8-b345-3c79b11d690a",
+      "object_id": "relationship--6c83315d-c8b5-4ab8-b345-3c79b11d690a",
+      "canonical_object_sha256": "1a1054c919a235c4d476904b7ed26268d29c72ff35256bc9904e801915462f84",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--6c83315d-c8b5-4ab8-b345-3c79b11d690a",
+        "created": "2024-05-22T22:26:09.543Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "Unit42 Agrius 2023",
+            "description": "Or Chechik, Tom Fakterman, Daniel Frank & Assaf Dahan. (2023, November 6). Agonizing Serpens (Aka Agrius) Targeting the Israeli Higher Education and Tech Sectors. Retrieved May 22, 2024.",
+            "url": "https://unit42.paloaltonetworks.com/agonizing-serpens-targets-israeli-tech-higher-ed-sectors/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:06.073Z",
+        "description": "[Agrius](https://attack.mitre.org/groups/G1030) used a custom tool, <code>sql.net4.exe</code>, to query SQL databases and then identify and extract personally identifiable information.(Citation: Unit42 Agrius 2023)",
+        "relationship_type": "uses",
+        "source_ref": "intrusion-set--b8137919-38cb-4db0-90f3-437be885faba",
+        "target_ref": "attack-pattern--30208d3e-0d6b-43c8-883e-44462a514619",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=intrusion-set--b8137919-38cb-4db0-90f3-437be885faba",
+      "object_id": "intrusion-set--b8137919-38cb-4db0-90f3-437be885faba",
+      "canonical_object_sha256": "b90ec92e71a4a82dcdab6a488b812a583344859f97771459aec35912f35ec647",
+      "structured_object": {
+        "modified": "2024-08-29T15:18:44.308Z",
+        "name": "Agrius",
+        "description": "[Agrius](https://attack.mitre.org/groups/G1030) is an Iranian threat actor active since 2020 notable for a series of ransomware and wiper operations in the Middle East, with an emphasis on Israeli targets.(Citation: SentinelOne Agrius 2021)(Citation: CheckPoint Agrius 2023) Public reporting has linked [Agrius](https://attack.mitre.org/groups/G1030) to Iran's Ministry of Intelligence and Security (MOIS).(Citation: Microsoft Iran Cyber 2023)",
+        "aliases": [
+          "Agrius",
+          "Pink Sandstorm",
+          "AMERICIUM",
+          "Agonizing Serpens",
+          "BlackShadow"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_version": "1.0",
+        "x_mitre_contributors": [
+          "Asritha Narina"
+        ],
+        "type": "intrusion-set",
+        "spec_version": "2.1",
+        "id": "intrusion-set--b8137919-38cb-4db0-90f3-437be885faba",
+        "created": "2024-05-21T19:13:23.526Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/groups/G1030",
+            "external_id": "G1030"
+          },
+          {
+            "source_name": "BlackShadow",
+            "description": "(Citation: CheckPoint Agrius 2023)"
+          },
+          {
+            "source_name": "Pink Sandstorm",
+            "description": "(Citation: Microsoft Threat Actor Naming July 2023)"
+          },
+          {
+            "source_name": "AMERICIUM",
+            "description": "(Citation: Microsoft Threat Actor Naming July 2023)"
+          },
+          {
+            "source_name": "Agonizing Serpens",
+            "description": "(Citation: Unit42 Agrius 2023)"
+          },
+          {
+            "source_name": "SentinelOne Agrius 2021",
+            "description": "Amitai Ben & Shushan Ehrlich. (2021, May). From Wiper to Ransomware: The Evolution of Agrius. Retrieved May 21, 2024.",
+            "url": "https://assets.sentinelone.com/sentinellabs/evol-agrius"
+          },
+          {
+            "source_name": "CheckPoint Agrius 2023",
+            "description": "Marc  Salinas Fernandez & Jiri  Vinopal. (2023, May 23). AGRIUS DEPLOYS MONEYBIRD IN TARGETED ATTACKS AGAINST ISRAELI ORGANIZATIONS. Retrieved May 21, 2024.",
+            "url": "https://research.checkpoint.com/2023/agrius-deploys-moneybird-in-targeted-attacks-against-israeli-organizations/"
+          },
+          {
+            "source_name": "Microsoft Threat Actor Naming July 2023",
+            "description": "Microsoft . (2023, July 12). How Microsoft names threat actors. Retrieved November 17, 2023.",
+            "url": "https://learn.microsoft.com/en-us/microsoft-365/security/intelligence/microsoft-threat-actor-naming?view=o365-worldwide"
+          },
+          {
+            "source_name": "Microsoft Iran Cyber 2023",
+            "description": "Microsoft Threat Intelligence. (2023, May 2). Iran turning to cyber-enabled influence operations for greater effect. Retrieved May 21, 2024.",
+            "url": "https://www.microsoft.com/en-us/security/business/security-insider/wp-content/uploads/2023/05/Iran-turning-to-cyber-enabled-influence-operations-for-greater-effect-05022023.pdf"
+          },
+          {
+            "source_name": "Unit42 Agrius 2023",
+            "description": "Or Chechik, Tom Fakterman, Daniel Frank & Assaf Dahan. (2023, November 6). Agonizing Serpens (Aka Agrius) Targeting the Israeli Higher Education and Tech Sectors. Retrieved May 22, 2024.",
+            "url": "https://unit42.paloaltonetworks.com/agonizing-serpens-targets-israeli-tech-higher-ed-sectors/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "x_mitre_attack_spec_version": "3.2.0",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ]
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--30208d3e-0d6b-43c8-883e-44462a514619",
+      "object_id": "attack-pattern--30208d3e-0d6b-43c8-883e-44462a514619",
+      "canonical_object_sha256": "e4de129cdd53b5bad237d185fd3fd2b036836aa5d660bbf44d34e8eae58c2d26",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--30208d3e-0d6b-43c8-883e-44462a514619",
+        "created": "2017-05-31T21:31:27.985Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1119",
+            "external_id": "T1119"
+          },
+          {
+            "source_name": "Mandiant UNC3944 SMS Phishing 2023",
+            "description": "Mandiant Intelligence. (2023, September 14). Why Are You Texting Me? UNC3944 Leverages SMS Phishing Campaigns for SIM Swapping, Ransomware, Extortion, and Notoriety. Retrieved January 2, 2024.",
+            "url": "https://www.mandiant.com/resources/blog/unc3944-sms-phishing-sim-swapping-ransomware"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-05-12T15:12:00.624Z",
+        "name": "Automated Collection",
+        "description": "Once established within a system or network, an adversary may use automated techniques for collecting internal data. Methods for performing this technique could include use of a [Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059) to search for and copy information fitting set criteria such as file type, location, or name at specific time intervals. \n\nIn cloud-based environments, adversaries may also use cloud APIs, data pipelines, command line interfaces, or extract, transform, and load (ETL) services to automatically collect data.(Citation: Mandiant UNC3944 SMS Phishing 2023) \n\nThis functionality could also be built into remote access tools. \n\nThis technique may incorporate use of other techniques such as [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) and [Lateral Tool Transfer](https://attack.mitre.org/techniques/T1570) to identify and move files, as well as [Cloud Service Dashboard](https://attack.mitre.org/techniques/T1538) and [Cloud Storage Object Discovery](https://attack.mitre.org/techniques/T1619) to identify resources in cloud environments.",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "collection"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_contributors": [
+          "Praetorian",
+          "Arun Seelagan, CISA"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": false,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "IaaS",
+          "Linux",
+          "macOS",
+          "Office Suite",
+          "SaaS",
+          "Windows"
+        ],
+        "x_mitre_version": "1.4"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "2f793ac22de95d76baa8b8a9fb1f1fd2ab9eb05f511bdb65cda6cd7ad13639da",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

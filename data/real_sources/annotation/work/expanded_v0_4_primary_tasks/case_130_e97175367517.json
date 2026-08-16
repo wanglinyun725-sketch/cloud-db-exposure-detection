@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:k8s.privilege-escalation.nodes-proxy",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:k8s.privilege-escalation.nodes-proxy",
+    "kind": "executable_attack_technique",
+    "platform": "kubernetes",
+    "technique": "k8s.privilege-escalation.nodes-proxy",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.privilege-escalation.nodes-proxy.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.privilege-escalation.nodes-proxy.md",
+    "review_score": 3,
+    "independence_group": "stratus_red_team:stratus:k8s.privilege-escalation.nodes-proxy",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.privilege-escalation.nodes-proxy.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.privilege-escalation.nodes-proxy.md",
+      "member_sha256": "0c32a8f1d95bb08f94df5252252794ab6c57016ddf5e62eb663f7e4a2e34e615",
+      "bytes": 2640,
+      "content_kind": "md",
+      "text": "---\ntitle: Privilege escalation through node/proxy permissions\n---\n\n# Privilege escalation through node/proxy permissions\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: Kubernetes\n\n## Mappings\n\n- MITRE ATT&CK\n    - Privilege Escalation\n\n\n\n## Description\n\n\nUses the node proxy API to proxy a Kubelet request through a worker node. This is a vector of privilege escalation, allowing\nany principal with the `nodes/proxy` permission to escalate their privilege to cluster administrator,\nbypassing at the same time admission control checks and logging of the API server.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create a namespace\n- Create a service account in this namespace\n- Create a cluster role with `nodes/proxy` permissions\n- Bind the cluster role to the service account\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Retrieve a token for the service account with `nodes/proxy` permissions creating during warm-up\n- Use the node proxy API to proxy a benign request to the Kubelet through the worker node\n\nReferences:\n\n- https://blog.aquasec.com/privilege-escalation-kubernetes-rbac\n- https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#-strong-proxy-operations-node-v1-core-strong-\n\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate k8s.privilege-escalation.nodes-proxy\n```\n## Detection\n\n\nUsing Kubernetes API server audit logs, you can identify when the nodes proxy API is used.\n\nSample event (shortened):\n\n```json hl_lines=\"3 4\"\n{\n  \"objectRef\": {\n    \"resource\": \"nodes\",\n    \"subresource\": \"proxy\",\n    \"name\": \"ip-192-168-34-255.eu-west-1.compute.internal\",\n    \"apiVersion\": \"v1\"\n  },\n  \"http\": {\n    \"url_details\": {\n      \"path\": \"/api/v1/nodes/ip-192-168-34-255.eu-west-1.compute.internal/proxy/runningpods/\"\n    },\n    \"method\": \"get\",\n    \"status_code\": 200,\n    \"status_category\": \"OK\"\n  },\n  \"kind\": \"Event\",\n  \"level\": \"Request\",\n  \"requestURI\": \"/api/v1/nodes/ip-192-168-34-255.eu-west-1.compute.internal/proxy/runningpods/\",\n}\n```\n\nUnder normal operating conditions, it's not expected that this API is used frequently.\nConsequently, alerting on `objectRef.resource == \"nodes\" && objectRef.subresource == \"proxy\"` should yield minimal false positives.\n\nAdditionally, looking at the Kubelet API path that was proxied can help identify malicious activity (/runningpods in this example).\nSee [kubeletctl](https://github.com/cyberark/kubeletctl/blob/master/pkg/api/constants.go) for an unofficial list of Kubelet API endpoints.\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "d1dadf55b2ffeea5395cfd33c57aed12c920671037db9d79dddedf45712742a5",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

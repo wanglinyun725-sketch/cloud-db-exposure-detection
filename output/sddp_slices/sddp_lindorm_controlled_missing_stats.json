@@ -1,0 +1,23 @@
+{
+  "total_edges": 9,
+  "field_coverage": {
+    "status": 1.0,
+    "source": 1.0,
+    "time": 0.6667,
+    "confidence": 1.0,
+    "query_cost": 1.0,
+    "raw_evidence": 1.0
+  },
+  "status_counts": {
+    "Contradicted": 0,
+    "Supported": 8,
+    "Unknown": 1
+  },
+  "source_counts": {
+    "DescribeDataObjects": 4,
+    "controlled_injection": 2,
+    "data_instance_source": 1,
+    "dsc_identify_task_asset": 1,
+    "sys_data_limit": 1
+  }
+}

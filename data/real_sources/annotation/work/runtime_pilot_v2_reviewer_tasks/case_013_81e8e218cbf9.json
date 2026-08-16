@@ -1,0 +1,188 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "527b72d6faca38652a2f26a17105605d536782029f05e7118ecf1837a87739c9",
+  "case_id": "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "splunk_attack_data",
+    "upstream_url": "https://github.com/splunk/attack_data",
+    "version_or_commit": "3821bdb77c66c95b4e529f62a9d00b168446d1a8",
+    "license": "Apache-2.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential/azure_ad_federated_identity_credential.yml",
+        "sha256": "8e7019fd99b044ca683f26edca1be4b4ae33f54a477a7074fb6b2fbad97e0330",
+        "upstream_path": "datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential/azure_ad_federated_identity_credential.yml",
+        "git_blob_sha": "8d8740ef0fb88e3ff2609df8999d2ee2d1022645",
+        "lfs_oid_sha256": null
+      },
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential/azure-audit.log",
+        "sha256": "68a71da7b6ee2370fd29439c2590620061973f11f2938261b98e489017653425",
+        "upstream_path": "datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential/azure-audit.log",
+        "git_blob_sha": "d94b5f27c8d8f7d252dc8701abaa0eb2ecb7a183",
+        "lfs_oid_sha256": "68a71da7b6ee2370fd29439c2590620061973f11f2938261b98e489017653425"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential",
+    "source_id": "splunk_attack_data",
+    "upstream_dataset_id": "e3a7f1c2-9b4d-4e6a-8c1f-2d5a9b7e4c31",
+    "author": "descambiado",
+    "published_date": "2026-06-10",
+    "description": "Added a federated identity credential to an Entra ID service principal, pointing the trust to an external GitHub Actions OIDC issuer/repo not controlled by the tenant. Includes one benign Update service principal event (DisplayName change) with no FederatedIdentityCredentials property, to validate filter specificity. Tenant specific details have been replaced in the dataset including tenant id, user names, ips, etc.",
+    "environment": "attack_range",
+    "mitre_techniques": [
+      "T1098.001"
+    ],
+    "observation_count": 2,
+    "operations": {
+      "Update service principal": 2
+    },
+    "services": {
+      "Microsoft.aadiam": 2
+    },
+    "independence_group": "splunk-technique:T1098.001"
+  },
+  "observations": [
+    {
+      "observation_id": "obs-fd0c75c26aff8811d9c0e493",
+      "candidate_id": "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential",
+      "schema": "azure_ad_audit",
+      "timestamp": "2026-06-10T09:14:22.1032456Z",
+      "service": "Microsoft.aadiam",
+      "operation": "Update service principal",
+      "actor_type": "user",
+      "actor_id": "svc-deploy-admin@splunkresearch.com",
+      "source_ip": "185.220.101.47",
+      "account_id": "8f3b2a91-6e4d-4b7a-9c1e-2d5f8a3b6c47",
+      "region": null,
+      "event_status": "success",
+      "request": {
+        "category": "ApplicationManagement",
+        "targetResources": [
+          {
+            "id": "3e8f1a24-6b5c-4d7e-9a2f-1c4d8e6b3a97",
+            "displayName": "prod-deployment-sp",
+            "type": "ServicePrincipal",
+            "modifiedProperties": [
+              {
+                "displayName": "FederatedIdentityCredentials",
+                "oldValue": "[]",
+                "newValue": "[{\"name\":\"gh-actions-federated\",\"issuer\":\"https://token.actions.githubusercontent.com\",\"subject\":\"repo:external-contractor/infra-automation:ref:refs/heads/main\",\"audiences\":[\"api://AzureADTokenExchange\"]}]"
+              }
+            ],
+            "administrativeUnits": []
+          }
+        ],
+        "additionalDetails": [
+          {
+            "key": "OnPremisesAgent",
+            "value": "None"
+          }
+        ]
+      },
+      "response": {
+        "result": "success",
+        "resultReason": ""
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential/azure-audit.log",
+        "sha256": "68a71da7b6ee2370fd29439c2590620061973f11f2938261b98e489017653425",
+        "record_index": 0,
+        "upstream_path": "datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential/azure-audit.log",
+        "git_blob_sha": "d94b5f27c8d8f7d252dc8701abaa0eb2ecb7a183",
+        "lfs_oid_sha256": "68a71da7b6ee2370fd29439c2590620061973f11f2938261b98e489017653425"
+      }
+    },
+    {
+      "observation_id": "obs-b8baf8cc86fdbf4c03f17682",
+      "candidate_id": "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential",
+      "schema": "azure_ad_audit",
+      "timestamp": "2026-06-10T09:11:07.7719321Z",
+      "service": "Microsoft.aadiam",
+      "operation": "Update service principal",
+      "actor_type": "user",
+      "actor_id": "platform-eng@splunkresearch.com",
+      "source_ip": "10.42.6.18",
+      "account_id": "8f3b2a91-6e4d-4b7a-9c1e-2d5f8a3b6c47",
+      "region": null,
+      "event_status": "success",
+      "request": {
+        "category": "ApplicationManagement",
+        "targetResources": [
+          {
+            "id": "3e8f1a24-6b5c-4d7e-9a2f-1c4d8e6b3a97",
+            "displayName": "prod-deployment-sp",
+            "type": "ServicePrincipal",
+            "modifiedProperties": [
+              {
+                "displayName": "DisplayName",
+                "oldValue": "\"deployment-sp\"",
+                "newValue": "\"prod-deployment-sp\""
+              }
+            ],
+            "administrativeUnits": []
+          }
+        ],
+        "additionalDetails": []
+      },
+      "response": {
+        "result": "success",
+        "resultReason": ""
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential/azure-audit.log",
+        "sha256": "68a71da7b6ee2370fd29439c2590620061973f11f2938261b98e489017653425",
+        "record_index": 1,
+        "upstream_path": "datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential/azure-audit.log",
+        "git_blob_sha": "d94b5f27c8d8f7d252dc8701abaa0eb2ecb7a183",
+        "lfs_oid_sha256": "68a71da7b6ee2370fd29439c2590620061973f11f2938261b98e489017653425"
+      }
+    }
+  ],
+  "runtime_instances": [
+    {
+      "instance_id": "instance-821cc2827e0ce8e42251",
+      "environment_kind": "published_telemetry",
+      "platform": "AZURE",
+      "observation_ids": [
+        "obs-fd0c75c26aff8811d9c0e493",
+        "obs-b8baf8cc86fdbf4c03f17682"
+      ],
+      "observation_count": 2,
+      "selection_origin": "all normalized observations copied from the pinned published telemetry case"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "c7e673c40a8173e50f4778a50d8e9698a5fd4d9e694cb5d01b208559ce4a534c",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

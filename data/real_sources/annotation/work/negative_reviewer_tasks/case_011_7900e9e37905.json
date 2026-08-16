@@ -1,0 +1,52 @@
+{
+  "candidate_id": "cloud-incident:azure:00000",
+  "independence_group": "reliability-incident:azure:psm0-bq8",
+  "independence_group_basis": "upstream_tracking_id",
+  "source": {
+    "source_id": "cloud_incident_reports_2016_2024",
+    "doi": "10.5281/zenodo.14010282",
+    "version": "record-14010282-v1",
+    "license": "CC-BY-4.0"
+  },
+  "vendor": "AZURE",
+  "service_hint": null,
+  "year": null,
+  "data_relevance_facets": [
+    "storage"
+  ],
+  "security_term_hits": [],
+  "report_text": "Azure Storage connectivity issues (Tracking ID PSM0-BQ8) What happened? Between 01:13 UTC and 13:25 UTC on 13 November 2024, a platform issue resulted in an impact to the following service(s) for a subset of customers: Azure Storage: DNS resolution failures when connecting to an Azure Storage account. Azure Databricks: failures with launching clusters and serverless compute resources due to DNS resolution failures for Azure Storage accounts. How did we respond? We engaged additional teams to help troubleshoot the issue. We determined an issue with DNS resolution for Azure Storage accounts was causing this impact. We rolled out a mitigation for this issue, and customers would have seen recovery as we progressed. What happens next? Our team will be completing an internal retrospective to understand the incident in more detail. We will publish a Preliminary Post Incident Review (PIR) within approximately 72 hours, to share more details on what happened and how we responded. After our internal retrospective is completed, generally within 14 days, we will publish a Final Post Incident Review with any additional details and learnings. To get notified when that happens, and/or to stay informed about future Azure service issues, make sure that you configure and maintain Azure Service Health alerts – these can trigger emails, SMS, push notifications, webhooks, and more: https://aka.ms/ash-alerts . For more information on Post Incident Reviews, refer to https://aka.ms/AzurePIRs . The impact times above represent the full incident duration, so are not specific to any individual customer. Actual impact to service availability may vary between customers and resources – for guidance on implementing monitoring to understand granular impact: https://aka.ms/AzPIR/Monitoring . Finally, for broader guidance on preparing for cloud incidents, refer to https://aka.ms/incidentreadiness .",
+  "raw_ref": {
+    "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+    "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+    "member_path": "2_clean_data/azure.csv",
+    "record_index": 0,
+    "record_sha256": "23abf0ce4756d1c148c8d356d53a1d4de3cbdb6b9da54f3898c2130a9d919b0c"
+  },
+  "workflow_version": "0.1",
+  "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "source_context_fields": [
+    "candidate_id",
+    "data_relevance_facets",
+    "independence_group",
+    "independence_group_basis",
+    "raw_ref",
+    "report_text",
+    "security_term_hits",
+    "service_hint",
+    "source",
+    "vendor",
+    "year"
+  ],
+  "source_context_sha256": "4f374cff3c392cce93c3e6599dd15bdeaa9d187188db735bf6ecf0f65ef9d45b",
+  "screening": {
+    "cloud_data_relevant": null,
+    "non_attack_confirmed": null,
+    "usable_as_negative_control": null,
+    "rationale": null
+  }
+}

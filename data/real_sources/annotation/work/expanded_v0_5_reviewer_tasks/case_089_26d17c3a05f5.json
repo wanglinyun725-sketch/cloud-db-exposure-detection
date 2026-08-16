@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "stratus:aws.discovery.ec2-enumerate-from-instance",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:aws.discovery.ec2-enumerate-from-instance",
+    "kind": "executable_attack_technique",
+    "platform": "AWS",
+    "technique": "aws.discovery.ec2-enumerate-from-instance",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.discovery.ec2-enumerate-from-instance.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.discovery.ec2-enumerate-from-instance.md",
+    "review_score": 3,
+    "independence_group": "stratus_red_team:stratus:aws.discovery.ec2-enumerate-from-instance",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.discovery.ec2-enumerate-from-instance.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.discovery.ec2-enumerate-from-instance.md",
+      "member_sha256": "e6bbf0acb1faf96ab66759e89e968da72d5dc4d6e9f1976afb94e3c28a94f085",
+      "bytes": 1724,
+      "content_kind": "md",
+      "text": "---\ntitle: Execute Discovery Commands on an EC2 Instance\n---\n\n# Execute Discovery Commands on an EC2 Instance\n\n <span class=\"smallcaps w3-badge w3-orange w3-round w3-text-sand\" title=\"This attack technique might be slow to warm up or detonate\">slow</span> \n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: AWS\n\n## Mappings\n\n- MITRE ATT&CK\n    - Discovery\n\n\n\n## Description\n\n\nRuns several discovery commands on an EC2 instance:\n\n- sts:GetCallerIdentity\n- s3:ListBuckets\n- iam:GetAccountSummary\n- iam:ListRoles\n- iam:ListUsers\n- iam:GetAccountAuthorizationDetails\n- ec2:DescribeSnapshots\n- cloudtrail:DescribeTrails\n- guardduty:ListDetectors\n\nThe commands will be run under the identity of the EC2 instance role, simulating an attacker having compromised an EC2 instance and running discovery commands on it.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create the prerequisite EC2 instance and VPC (takes a few minutes)\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Run the discovery commands, over SSM. The commands will be run under the identity of the EC2 instance role\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate aws.discovery.ec2-enumerate-from-instance\n```\n## Detection\n\n\nIdentify when an EC2 instance performs unusual enumeration calls.\n\nAn action can be determined to have been performed by an EC2 instance under its instance role when the attribute\n<code>userIdentity.arn</code> of a CloudTrail event ends with <code>i-*</code>, for instance:\n\n<code>\narn:aws:sts::012345678901:assumed-role/my-instance-role/i-0adc17a5acb70d9ae\n</code>\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "5ba245277daced4601ab7e202d57a2e729366177f78cfdf4ff747ea6c9847520",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

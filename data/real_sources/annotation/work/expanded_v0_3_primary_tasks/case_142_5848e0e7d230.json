@@ -1,0 +1,245 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "relationship--1cfc5611-b428-4fce-8b8d-f591523c9d9c",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--1cfc5611-b428-4fce-8b8d-f591523c9d9c",
+    "kind": "procedure_relationship",
+    "source_object_id": "malware--8fc6c9e7-a162-4ca4-a488-f1819e9a7b06",
+    "source_object_type": "malware",
+    "source_name": "SQLRat",
+    "technique_object_id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+    "technique_id": "T1105",
+    "technique_name": "Ingress Tool Transfer",
+    "platforms": [
+      "ESXi",
+      "Linux",
+      "macOS",
+      "Network Devices",
+      "Windows"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--1cfc5611-b428-4fce-8b8d-f591523c9d9c",
+    "review_score": 10,
+    "independence_group": "mitre-source-object:malware--8fc6c9e7-a162-4ca4-a488-f1819e9a7b06",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1105"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--1cfc5611-b428-4fce-8b8d-f591523c9d9c",
+      "object_id": "relationship--1cfc5611-b428-4fce-8b8d-f591523c9d9c",
+      "canonical_object_sha256": "408dddee6d6e53d42169c95fd8898f24cee047eabf168ce40cd0456585595097",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--1cfc5611-b428-4fce-8b8d-f591523c9d9c",
+        "created": "2019-06-18T18:40:33.783Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "Flashpoint FIN 7 March 2019",
+            "description": "Platt, J. and Reeves, J.. (2019, March). FIN7 Revisited: Inside Astra Panel and SQLRat Malware. Retrieved June 18, 2019.",
+            "url": "https://www.flashpoint-intel.com/blog/fin7-revisited-inside-astra-panel-and-sqlrat-malware/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:05.944Z",
+        "description": "[SQLRat](https://attack.mitre.org/software/S0390) can make a direct SQL connection to a Microsoft database controlled by the attackers, retrieve an item from the bindata table, then write and execute the file on disk.(Citation: Flashpoint FIN 7 March 2019)\t",
+        "relationship_type": "uses",
+        "source_ref": "malware--8fc6c9e7-a162-4ca4-a488-f1819e9a7b06",
+        "target_ref": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=malware--8fc6c9e7-a162-4ca4-a488-f1819e9a7b06",
+      "object_id": "malware--8fc6c9e7-a162-4ca4-a488-f1819e9a7b06",
+      "canonical_object_sha256": "84c41921d66329f3623a15b99f3841312c4c332a8dcfc38eee3359bc7bdbf4bd",
+      "structured_object": {
+        "type": "malware",
+        "spec_version": "2.1",
+        "id": "malware--8fc6c9e7-a162-4ca4-a488-f1819e9a7b06",
+        "created": "2019-06-18T18:40:33.671Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/software/S0390",
+            "external_id": "S0390"
+          },
+          {
+            "source_name": "SQLRat",
+            "description": "(Citation: Flashpoint FIN 7 March 2019)"
+          },
+          {
+            "source_name": "Flashpoint FIN 7 March 2019",
+            "description": "Platt, J. and Reeves, J.. (2019, March). FIN7 Revisited: Inside Astra Panel and SQLRat Malware. Retrieved June 18, 2019.",
+            "url": "https://www.flashpoint-intel.com/blog/fin7-revisited-inside-astra-panel-and-sqlrat-malware/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2025-04-16T20:38:22.655Z",
+        "name": "SQLRat",
+        "description": "[SQLRat](https://attack.mitre.org/software/S0390) is malware that executes SQL scripts to avoid leaving traditional host artifacts. [FIN7](https://attack.mitre.org/groups/G0046) has been observed using it.(Citation: Flashpoint FIN 7 March 2019)",
+        "is_family": true,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_version": "1.2",
+        "x_mitre_attack_spec_version": "3.2.0",
+        "x_mitre_aliases": [
+          "SQLRat"
+        ]
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+      "object_id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+      "canonical_object_sha256": "59da775ba232203a62198d09bd01e23ff0d6eb4aa03915e0f6523ab8c024b27e",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add",
+        "created": "2017-05-31T21:31:16.408Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1105",
+            "external_id": "T1105"
+          },
+          {
+            "source_name": "T1105: Trellix_search-ms",
+            "description": " Mathanraj Thangaraju, Sijo Jacob. (2023, July 26). Beyond File Search: A Novel Method for Exploiting the \"search-ms\" URI Protocol Handler. Retrieved March 15, 2024.",
+            "url": "https://www.trellix.com/blogs/research/beyond-file-search-a-novel-method/"
+          },
+          {
+            "source_name": "Google Cloud Threat Intelligence COSCMICENERGY 2023",
+            "description": "COSMICENERGY: New OT Malware Possibly Related To Russian Emergency Response Exercises. (2023, May 25). Ken Proska, Daniel Kapellmann Zafra, Keith Lunden, Corey Hildebrandt, Rushikesh Nandedkar, Nathan Brubaker. Retrieved March 18, 2025.",
+            "url": "https://cloud.google.com/blog/topics/threat-intelligence/cosmicenergy-ot-malware-russian-response/"
+          },
+          {
+            "source_name": "Dropbox Malware Sync",
+            "description": "David Talbot. (2013, August 21). Dropbox and Similar Services Can Sync Malware. Retrieved May 31, 2023.",
+            "url": "https://www.technologyreview.com/2013/08/21/83143/dropbox-and-similar-services-can-sync-malware/"
+          },
+          {
+            "source_name": "University of Birmingham C2",
+            "description": "Gardiner, J.,  Cova, M., Nagaraja, S. (2014, February). Command & Control Understanding, Denying and Detecting. Retrieved April 20, 2016.",
+            "url": "https://arxiv.org/ftp/arxiv/papers/1408/1408.1136.pdf"
+          },
+          {
+            "source_name": "t1105_lolbas",
+            "description": "LOLBAS. (n.d.). LOLBAS Mapped to T1105. Retrieved March 11, 2022.",
+            "url": "https://lolbas-project.github.io/#t1105"
+          },
+          {
+            "source_name": "PTSecurity Cobalt Dec 2016",
+            "description": "Positive Technologies. (2016, December 16). Cobalt Snatch. Retrieved October 9, 2018.",
+            "url": "https://www.ptsecurity.com/upload/corporate/ww-en/analytics/Cobalt-Snatch-eng.pdf"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-05-12T15:12:00.723Z",
+        "name": "Ingress Tool Transfer",
+        "description": "Adversaries may transfer tools or other files from an external system into a compromised environment. Tools or files may be copied from an external adversary-controlled system to the victim network through the command and control channel or through alternate protocols such as [ftp](https://attack.mitre.org/software/S0095). Once present, adversaries may also transfer/spread tools between victim devices within a compromised environment (i.e. [Lateral Tool Transfer](https://attack.mitre.org/techniques/T1570)). \n\nOn Windows, adversaries may use various utilities to download tools, such as `copy`, `finger`, [certutil](https://attack.mitre.org/software/S0160), and [PowerShell](https://attack.mitre.org/techniques/T1059/001) commands such as <code>IEX(New-Object Net.WebClient).downloadString()</code> and <code>Invoke-WebRequest</code>. On Linux and macOS systems, a variety of utilities also exist, such as `curl`, `scp`, `sftp`, `tftp`, `rsync`, `finger`, and `wget`.(Citation: t1105_lolbas)  A number of these tools, such as `wget`, `curl`, and `scp`, also exist on ESXi. After downloading a file, a threat actor may attempt to verify its integrity by checking its hash value (e.g., via `certutil -hashfile`).(Citation: Google Cloud Threat Intelligence COSCMICENERGY 2023)\n\nAdversaries may also abuse installers and package managers, such as `yum` or `winget`, to download tools to victim hosts. Adversaries have also abused file application features, such as the Windows `search-ms` protocol handler, to deliver malicious files to victims through remote file searches invoked by [User Execution](https://attack.mitre.org/techniques/T1204) (typically after interacting with [Phishing](https://attack.mitre.org/techniques/T1566) lures).(Citation: T1105: Trellix_search-ms)\n\nFiles can also be transferred using various [Web Service](https://attack.mitre.org/techniques/T1102)s as well as native or otherwise present tools on the victim system.(Citation: PTSecurity Cobalt Dec 2016) In some cases, adversaries may be able to leverage services that sync between a web-based and an on-premises client, such as Dropbox or OneDrive, to transfer files onto victim systems. For example, by compromising a cloud account and logging into the service's web portal, an adversary may be able to trigger an automatic syncing process that transfers the file onto the victim's machine.(Citation: Dropbox Malware Sync)",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "command-and-control"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_contributors": [
+          "Alain Homewood",
+          "Jeremy Hedges",
+          "Joe Wise",
+          "John Page (aka hyp3rlinx), ApparitionSec",
+          "Mark Wee",
+          "Peter Oakes",
+          "Selena Larson, @selenalarson",
+          "Shailesh Tiwary (Indian Army)",
+          "The DFIR Report",
+          "Don Le, Stifel Financial"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": false,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "ESXi",
+          "Linux",
+          "macOS",
+          "Network Devices",
+          "Windows"
+        ],
+        "x_mitre_version": "2.6"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "306fa8eb9f6109a658b72611742b9e93a574ede8b2a7d7cecf1ad5f87a864dbd",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

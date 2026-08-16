@@ -1,0 +1,110 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "cloudfoxable:aws:Trust me",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudfoxable",
+    "upstream_url": "https://github.com/BishopFox/cloudfoxable",
+    "version_or_commit": "fc49b7f637268031515ced9fee4b643d3e68db67",
+    "license": "MIT",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudfoxable/fc49b7f637268031515ced9fee4b643d3e68db67/snapshot.zip",
+        "sha256": "bec9436f0e8759601dd7669c108c0921db5b10bc2d941223f0467efb5227fe6d"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudfoxable:aws:Trust me",
+    "kind": "executable_challenge",
+    "platform": "AWS",
+    "challenge": "Trust me",
+    "manifest_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Trust me/challenge.yml",
+    "terraform_file_count": 2,
+    "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Trust me/",
+    "review_score": 22,
+    "independence_group": "cloudfoxable-challenge:Trust me",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Trust me/README.md",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Trust me/README.md",
+      "member_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "content_kind": "md",
+      "text": "",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Trust me/challenge.yml",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Trust me/challenge.yml",
+      "member_sha256": "e67283e229a200b1f7d3ad21f654991d1c62e257a424f7b994513bc757d6fd1c",
+      "bytes": 2159,
+      "content_kind": "yml",
+      "text": "name: Trust me\ncategory: Exploit Blurred Lines\ndescription: |-\n  **Overview**\n\n  - **Default state:** Disabled\n  - **Estimated Cost:** $0/month\n  - **Starting Point:** Your GitHub repo\n\n  **GitHub Setup**\n  1. Create a new GitHub repository for this challenge\n\n  **CloudFoxable Setup**\n\n  Enable Challenge:\n\n  1. Edit `terraform.tfvars`\n  2. Set `trust_me_enabled = true`\n  3. Uncomment/populate the line: `# github_repo = \"\"` <br> so it looks something like `github_repo = \"github_handle/repoName\"`\n  4. Run `terraform apply`\n\n  **Challenge Details**\n\n  There's a role that trusts the repo you just created. Find the role and exploit the trust to access the flag.\n\n  **Disable Challenge:**\n\n  1. Edit `terraform.tfvars`\n  2. Set `trust_me_enabled = false`\n  3. Run `terraform apply`\nvalue: 200\n\nflags:\n- content: FLAG{trustMe::the_lines_have_been_blurred}\n  type: static\n  data: case_insensitive\n\nhints:\n- |-\n  To find the role, use the `role-trusts` command:\n\n  ```cloudfox aws -p cloudfoxable role-trusts -v2```\n\n  Take a close look at the table that contains roles with federated trusts.\n\n  What permissions does that role have?\n- |\n  Once you find the role, see what `permissions` it has.\n\n  ```cloudfox aws -p cloudfoxable permissions -v2 --principal role_name```\n\n  For an extra bonus, run the secrets command and check out the loot file for the command you'll need to retrieve the secret you want:\n\n  ```cloudfox aws -p cloudfoxable secrets -v2```\n\n  ```cat ~/.cloudfox/cloudfox-output/aws/cloudfoxable/loot/pull-secrets-commands.txt | grep <secret>```\n- |-\n  Alright, so now that you have found where the flag is, let's get it!\n\n  What you know: Anyone with write acces to this GitHub repository can access this role via a malicious github action. Scary, right?\n\n  To exploit this, you'll need to create a malicious GitHub action. To learn about GitHub Actions, check this out: https://docs.github.com/en/actions/guides\n\n  You can use packaged modules in your github actionsto do common things. To exploit this, you'll probably want to use https://github.com/aws-actions/configure-aws-credentials and modify the example to fit your needs. Good luck!\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Trust me/cheatsheet.md",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Trust me/cheatsheet.md",
+      "member_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "content_kind": "md",
+      "text": "",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Trust me/trust-me.tf",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Trust me/trust-me.tf",
+      "member_sha256": "260b2c756c93319335e1b6daf861d80c1a92f860672a478f153ec773c3f4c2b7",
+      "bytes": 2257,
+      "content_kind": "tf",
+      "text": "// iam role that trusts a github repo to assume it as part of an OIDC flow\nresource \"aws_iam_role\" \"trust-me\" {\n  name = \"t_rodman\"\n  assume_role_policy = <<EOF\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRoleWithWebIdentity\",\n      \"Principal\": {\n        \"Federated\": \"arn:aws:iam::${var.account_id}:oidc-provider/token.actions.githubusercontent.com\"\n      },\n      \"Condition\": {\n        \"StringLike\": {\n                    \"token.actions.githubusercontent.com:aud\": \"sts.amazonaws.com\",\n                    \"token.actions.githubusercontent.com:sub\": \"repo:${var.github_repo}:*\"\n                }\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}\nEOF\n}\n\n\n// create an identity provider for the github OIDC flow\nresource \"aws_iam_openid_connect_provider\" \"github\" {\n  client_id_list = [\"sts.amazonaws.com\"]\n  thumbprint_list = [\"6938fd4d98bab03faadb97b34396831e3780aea1\", \"1c58a3a8518e8759bf075b76b750d4f2df264fcd\"]\n  url = \"https://token.actions.githubusercontent.com\"\n}\n\n// create a ssm parameter to store the flag for this challenge \nresource \"aws_ssm_parameter\" \"trust-me-flag\" {\n  name = \"trust-me\"\n  type = \"SecureString\"\n  value = \"FLAG{trustMe::the_lines_have_been_blurred}\"\n  overwrite = true\n}\n\n// create a policy to allow the github OIDC role to read the flag\nresource \"aws_iam_policy\" \"trust-me\" {\n  name = \"trust-me\"\n  policy = <<EOF\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"AllowReadFlag\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"ssm:GetParameter\"\n      ],\n      \"Resource\": [\n        \"arn:aws:ssm:${var.AWS_REGION}:${var.account_id}:parameter/trust-*\"\n      ]\n    }   \n  ]\n}\nEOF\n}\n\n// attach the policy to the github OIDC role\nresource \"aws_iam_role_policy_attachment\" \"trust-me\" {\n  role = aws_iam_role.trust-me.name\n  policy_arn = aws_iam_policy.trust-me.arn\n}\n\nresource \"aws_ssm_parameter\" \"trust-him\" {\n  name = \"trust-him\"\n  type = \"String\"\n  value = \"not_the_flag\"\n  overwrite = true\n}\n\nresource \"aws_ssm_parameter\" \"trust-her\" {\n  name = \"trust-her\"\n  type = \"SecureString\"\n  value = \"not_the_flag\"\n  overwrite = true\n}\n\nresource \"aws_ssm_parameter\" \"trust-them\" {\n  name = \"trust-them\"\n  type = \"String\"\n  value = \"not_the_flag\"\n  overwrite = true\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Trust me/variables.tf",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Trust me/variables.tf",
+      "member_sha256": "8db226bdc13461f93447073ecdd0f490799052e6fd719553946a72cd27459c40",
+      "bytes": 1782,
+      "content_kind": "tf",
+      "text": "variable \"aws_local_profile\" {\r\n  description = \"What local profile should terraform use to interact with your AWS account(s)\"\r\n  type        = string\r\n  default     = \"default\"\r\n}\r\n\r\nvariable \"aws_local_creds_file\" {\r\n  description = \"Location of your local credentials file\"\r\n  type        = string\r\n  default     = \"~/.aws/credentials\"\r\n}\r\n\r\nvariable \"aws_assume_role_arn\" {\r\n  description = \"This is the arn of an already existing principal that can assume into any roles that are created\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"account_id\" {\r\n  description = \"This is the ID of the caller account\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\n\r\nvariable \"shared_high_priv_servicerole\" {\r\n  description = \"This is the arn of high priv service role that is attached to lambda's ec2's, etc. to facilitate privesc\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"AWS_REGION\" {\r\n  type    = string\r\n  default = \"us-west-2\"\r\n}\r\n\r\n# Resources\r\nresource \"random_password\" \"database-secret\" {\r\n  length           = 31\r\n  special          = true\r\n  min_special      = 5\r\n  override_special = \"!#$%^&*()-_=+[]{}<>:?\"\r\n  keepers = {\r\n    pass_version = 1\r\n  }\r\n}\r\n\r\nresource \"random_password\" \"app-secret\" {\r\n  length           = 31\r\n  special          = true\r\n  min_special      = 5\r\n  override_special = \"!#$%^&*()-_=+[]{}<>:?\"\r\n  keepers = {\r\n    pass_version = 1\r\n  }\r\n}\r\n\r\nresource \"random_string\" \"resource-suffix\" {\r\n  length           = 5 \r\n  upper = false \r\n  special = false\r\n}\r\n\r\nvariable \"user_ip\" {\r\n  description = \"The current user's IP address\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"github_repo\" {\r\n  description = \"The github repo for the OIDC-GitHub challenge\"\r\n  type        = string\r\n  default     = null\r\n}\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "f277b94166a3425f1d8b1c66be6c2d701021cadae246fd7f8ffc490baabc7f21",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

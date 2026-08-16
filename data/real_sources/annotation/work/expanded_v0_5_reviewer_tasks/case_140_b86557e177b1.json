@@ -1,0 +1,230 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "relationship--1ae24ad1-8730-4a38-8d68-dd57b335b9b4",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--1ae24ad1-8730-4a38-8d68-dd57b335b9b4",
+    "kind": "procedure_relationship",
+    "source_object_id": "tool--59096109-a1dd-463b-87e7-a8d110fe3a79",
+    "source_object_type": "tool",
+    "source_name": "Rclone",
+    "technique_object_id": "attack-pattern--bf1b6176-597c-4600-bfcd-ac989670f96b",
+    "technique_id": "T1567.002",
+    "technique_name": "Exfiltration to Cloud Storage",
+    "platforms": [
+      "ESXi",
+      "Linux",
+      "macOS",
+      "Windows"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--1ae24ad1-8730-4a38-8d68-dd57b335b9b4",
+    "review_score": 11,
+    "independence_group": "mitre-source-object:tool--59096109-a1dd-463b-87e7-a8d110fe3a79",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1567.002"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--1ae24ad1-8730-4a38-8d68-dd57b335b9b4",
+      "object_id": "relationship--1ae24ad1-8730-4a38-8d68-dd57b335b9b4",
+      "canonical_object_sha256": "09ed1d98ee5818cfe2c95e216b61659b47f7c2fede2a907911d6793d4ead0bdd",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--1ae24ad1-8730-4a38-8d68-dd57b335b9b4",
+        "created": "2022-08-30T13:03:18.580Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "DFIR Conti Bazar Nov 2021",
+            "description": "DFIR Report. (2021, November 29). CONTInuing the Bazar Ransomware Story. Retrieved September 29, 2022.",
+            "url": "https://thedfirreport.com/2021/11/29/continuing-the-bazar-ransomware-story/"
+          },
+          {
+            "source_name": "Rclone",
+            "description": "Nick Craig-Wood. (n.d.). Rclone syncs your files to cloud storage. Retrieved August 30, 2022.",
+            "url": "https://rclone.org"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:05.941Z",
+        "description": "[Rclone](https://attack.mitre.org/software/S1040) can exfiltrate data to cloud storage services such as Dropbox, Google Drive, Amazon S3, and MEGA.(Citation: Rclone)(Citation: DFIR Conti Bazar Nov 2021)",
+        "relationship_type": "uses",
+        "source_ref": "tool--59096109-a1dd-463b-87e7-a8d110fe3a79",
+        "target_ref": "attack-pattern--bf1b6176-597c-4600-bfcd-ac989670f96b",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=tool--59096109-a1dd-463b-87e7-a8d110fe3a79",
+      "object_id": "tool--59096109-a1dd-463b-87e7-a8d110fe3a79",
+      "canonical_object_sha256": "62cafabb058c294af8a37b875b57c6bdc4b1795d948c353c322746d52ebeb95b",
+      "structured_object": {
+        "type": "tool",
+        "spec_version": "2.1",
+        "id": "tool--59096109-a1dd-463b-87e7-a8d110fe3a79",
+        "created": "2022-08-30T13:02:36.422Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/software/S1040",
+            "external_id": "S1040"
+          },
+          {
+            "source_name": "Detecting Rclone",
+            "description": " Aaron Greetham. (2021, May 27). Detecting Rclone – An Effective Tool for Exfiltration. Retrieved August 30, 2022.",
+            "url": "https://research.nccgroup.com/2021/05/27/detecting-rclone-an-effective-tool-for-exfiltration/"
+          },
+          {
+            "source_name": "DFIR Conti Bazar Nov 2021",
+            "description": "DFIR Report. (2021, November 29). CONTInuing the Bazar Ransomware Story. Retrieved September 29, 2022.",
+            "url": "https://thedfirreport.com/2021/11/29/continuing-the-bazar-ransomware-story/"
+          },
+          {
+            "source_name": "Rclone Wars",
+            "description": "Justin Schoenfeld and Aaron Didier. (2021, May 4). Rclone Wars: Transferring leverage in a ransomware attack. Retrieved August 30, 2022.",
+            "url": "https://redcanary.com/blog/rclone-mega-extortion/"
+          },
+          {
+            "source_name": "Rclone",
+            "description": "Nick Craig-Wood. (n.d.). Rclone syncs your files to cloud storage. Retrieved August 30, 2022.",
+            "url": "https://rclone.org"
+          },
+          {
+            "source_name": "DarkSide Ransomware Gang",
+            "description": "Ramarcus Baylor. (2021, May 12). DarkSide Ransomware Gang: An Overview. Retrieved August 30, 2022.",
+            "url": "https://unit42.paloaltonetworks.com/darkside-ransomware/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-05-12T15:12:00.740Z",
+        "name": "Rclone",
+        "description": "[Rclone](https://attack.mitre.org/software/S1040) is a command line program for syncing files with cloud storage services such as Dropbox, Google Drive, Amazon S3, and MEGA. [Rclone](https://attack.mitre.org/software/S1040) has been used in a number of ransomware campaigns, including those associated with the [Conti](https://attack.mitre.org/software/S0575) and DarkSide Ransomware-as-a-Service operations.(Citation: Rclone)(Citation: Rclone Wars)(Citation: Detecting Rclone)(Citation: DarkSide Ransomware Gang)(Citation: DFIR Conti Bazar Nov 2021)",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "Linux",
+          "Windows",
+          "macOS"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_version": "1.3",
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_contributors": [
+          "Edward Millington",
+          "Ian McKay"
+        ],
+        "x_mitre_aliases": [
+          "Rclone"
+        ]
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--bf1b6176-597c-4600-bfcd-ac989670f96b",
+      "object_id": "attack-pattern--bf1b6176-597c-4600-bfcd-ac989670f96b",
+      "canonical_object_sha256": "14f364fcc19a7223b529aee83a667f70617b3fec64706035166874895c08b86f",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--bf1b6176-597c-4600-bfcd-ac989670f96b",
+        "created": "2020-03-09T15:04:32.767Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1567/002",
+            "external_id": "T1567.002"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-05-12T15:12:00.713Z",
+        "name": "Exfiltration to Cloud Storage",
+        "description": "Adversaries may exfiltrate data to a cloud storage service rather than over their primary command and control channel. Cloud storage services allow for the storage, edit, and retrieval of data from a remote cloud storage server over the Internet.\n\nExamples of cloud storage services include Dropbox and Google Docs. Exfiltration to these cloud storage services can provide a significant amount of cover to the adversary if hosts within the network are already communicating with the service. ",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "exfiltration"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": true,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "ESXi",
+          "Linux",
+          "macOS",
+          "Windows"
+        ],
+        "x_mitre_version": "1.3"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "34ef72d280274eb2ec11de79097815e6f401059a7283d3ac84e461e981fc0690",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

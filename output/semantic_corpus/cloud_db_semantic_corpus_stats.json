@@ -1,0 +1,78 @@
+{
+  "total_edges": 5456,
+  "field_coverage": {
+    "status": 1.0,
+    "source": 1.0,
+    "time": 1.0,
+    "confidence": 1.0,
+    "query_cost": 1.0,
+    "raw_evidence": 1.0
+  },
+  "status_counts": {
+    "Contradicted": 968,
+    "Supported": 3897,
+    "Unknown": 591
+  },
+  "source_counts": {
+    "audit": 90,
+    "audit_log": 192,
+    "build_log_leak": 48,
+    "catalog": 336,
+    "cloudgoat_cred_lateral": 12,
+    "cloudgoat_ec2_to_lambda": 8,
+    "cloudgoat_env_cred_leak": 4,
+    "cloudgoat_iam_policy": 28,
+    "cloudgoat_ref": 360,
+    "control_inventory": 168,
+    "data_classification": 144,
+    "db_grant": 168,
+    "db_schema": 636,
+    "dlp": 212,
+    "iam": 260,
+    "iam_policy": 24,
+    "iam_transduced": 20,
+    "iam_trust": 120,
+    "imds_leak": 96,
+    "network": 384,
+    "noise_benign": 524,
+    "noise_decoy": 816,
+    "policy": 222,
+    "route_table": 48,
+    "rule_engine": 96,
+    "sg_rule": 144,
+    "snapshot_leak": 24,
+    "terraform": 192,
+    "variant_net": 40,
+    "variant_perm": 40
+  },
+  "samples_total": 308,
+  "samples_base": 104,
+  "samples_variants": 204,
+  "path_labels_total": 672,
+  "by_variant": {
+    "base": 104,
+    "missing": 68,
+    "refuted": 68,
+    "temporal_conflict": 68
+  },
+  "by_expected_state": {
+    "Insufficient": 89,
+    "Invalid": 136,
+    "Valid": 83
+  },
+  "by_sample_label": {
+    "Insufficient": 89,
+    "Invalid": 136,
+    "Valid": 83
+  },
+  "by_path_label": {
+    "Insufficient": 180,
+    "Invalid": 328,
+    "Valid": 164
+  },
+  "by_raw_dataset": {
+    "data:pathbench_60": 192,
+    "data:pathbench_cloudgoat": 20,
+    "data:verification_set:samples_v2": 96
+  }
+}

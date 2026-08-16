@@ -1,0 +1,52 @@
+{
+  "candidate_id": "cloud-incident:aws:00442",
+  "independence_group": "reliability-record:d87d30efa022101059a4169014f1668112247b2ca2a986cbef3f7d489dc7ffa3",
+  "independence_group_basis": "source_record_sha256",
+  "source": {
+    "source_id": "cloud_incident_reports_2016_2024",
+    "doi": "10.5281/zenodo.14010282",
+    "version": "record-14010282-v1",
+    "license": "CC-BY-4.0"
+  },
+  "vendor": "AWS",
+  "service_hint": "Amazon Athena (N. Virginia)",
+  "year": "2017",
+  "data_relevance_facets": [
+    "sql"
+  ],
+  "security_term_hits": [],
+  "report_text": "11:49 AM PST We can confirm increased query failure rates when running queries and executing DDL statements in the in US-EAST-1 Region. 1:59 PM PST We are starting to see recovery when running SQL queries in the US-EAST-1 region. We continue to see elevated error rates when executing DDL statements in the US-EAST-1 region. 2:12 PM PST We continue to see recovery when running SQL queries in the US-EAST-1 region. We are also starting to see recovery when executing DDL statements in the US-EAST-1 region. 3:25 PM PST We are able to execute SQL queries normally in the US-EAST-1 region. We continue to see increasing recovery when executing DDL statements in the US-EAST-1 Region. 3:44 PM PST Between 9:37 AM and 3:23 PM PST we experienced increased error rates when running SQL queries and executing DDL statements in the US-EAST-1 Region. The issue has been resolved and the service is operating normally.",
+  "raw_ref": {
+    "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+    "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+    "member_path": "2_clean_data/aws.csv",
+    "record_index": 442,
+    "record_sha256": "d87d30efa022101059a4169014f1668112247b2ca2a986cbef3f7d489dc7ffa3"
+  },
+  "workflow_version": "0.1",
+  "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "source_context_fields": [
+    "candidate_id",
+    "data_relevance_facets",
+    "independence_group",
+    "independence_group_basis",
+    "raw_ref",
+    "report_text",
+    "security_term_hits",
+    "service_hint",
+    "source",
+    "vendor",
+    "year"
+  ],
+  "source_context_sha256": "d16df5263f8a70ec4e99ff26bb91c72e6a718c265f71537f072c90ea723ae784",
+  "screening": {
+    "cloud_data_relevant": null,
+    "non_attack_confirmed": null,
+    "usable_as_negative_control": null,
+    "rationale": null
+  }
+}

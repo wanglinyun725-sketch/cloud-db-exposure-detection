@@ -1,0 +1,52 @@
+{
+  "candidate_id": "cloud-incident:azure:00037",
+  "independence_group": "reliability-record:570286be5e83ab6559226c82a6e38b47a403548eca4abb08a4dc48d1c6f50195",
+  "independence_group_basis": "source_record_sha256",
+  "source": {
+    "source_id": "cloud_incident_reports_2016_2024",
+    "doi": "10.5281/zenodo.14010282",
+    "version": "record-14010282-v1",
+    "license": "CC-BY-4.0"
+  },
+  "vendor": "AZURE",
+  "service_hint": null,
+  "year": null,
+  "data_relevance_facets": [
+    "backup"
+  ],
+  "security_term_hits": [],
+  "report_text": "07/29/2022 Post Incident Review (PIR) – Network Connectivity Issues Tracking ID: 7SHM-P88 What happened? Between 08:00 UTC and until 13:20 UTC on 29 July 2022, customers may have experienced connectivity issues such as network drops, latency, and/or degradation when attempting to access or manage Azure resources in multiple regions. The most significant impact would have been experienced in the following regions – Brazil South, Canada Central, East Asia, East US, East US 2, France Central, Japan East, Korea Central, North Central US, South Africa North, South Central US, Southeast Asia, West Europe, and West US. Customers in other regions may have seen an intermittent impact when accessing resources across the Microsoft wide area network (WAN). What went wrong, and why? Starting at 08:00 UTC on 29 July, the Azure WAN began to experience a sudden and significant increase of traffic, upwards of 60 Tbps in additional traffic compared to the normal levels of traffic carried on the network. While the event was detected immediately and automated remediation was triggered, the substantial increased bursts of traffic occurring throughout the event affected the ability of automated mitigations to continue providing the necessary relief to the network. WAN routers then became overloaded and dropped network packets, which resulted in network connectivity issues experienced by some customers. This event included impact to both intra-region and cross-region traffic over various network paths, which included ExpressRoute. How did we respond? We have several detection and mitigation algorithms that were triggered automatically around 08:00 UTC when an increased burst of traffic occurred. The volume of traffic surges continued to substantially increase, reaching 10-15 times greater than any traffic volume experienced on the network prior. While the mitigation mechanisms were successfully triggered to load balance and throttle the traffic bursts to help prevent impact, the significance of traffic on the WAN routers resulted in these mechanisms to take longer to alleviate the traffic surges and restore traffic back to normal levels. By 13:20 UTC, traffic levels returned to normal as network telemetry confirmed packet drops had reduced to standard levels, which is when customers would have seen resource and service network health restored. How are we making incidents like this less likely or less impactful? We are implementing service repairs because of this incident, including but not limited to: Already completed: Additional alerting for specific packet drops signature caused by significant traffic bursts. Improvements to network device capabilities to help reduce packet drops when handling significant traffic bursts. Changes to the network design for traffic spike detection to help reduce the time to mitigate for similar events. Improve network incident response playbook to better streamline preventative actions performed for similar events. Apply additional layers of network throttling to help protect the network reliability when increased traffic surges occur. How did we communicate with impacted customers? Starting around 11:00 UTC, we began to receive some reports of a potential emerging issue. As signals continued to gradually increase, we posted an initial statement to the Azure status page at 11:52 UTC. Delays in communications via Service Health in the portal were primarily due to challenges gauging the extent of impact and affected regions as limited telemetry of the networking event developing did not clearly indicate a viable scope of impact. Though other signals via internal and external reports indicated a likely platform event ongoing, the disparity of signals deterred targeted notifications until a broad networking issue was determined. Communications were sent via Azure Service Health for Azure services that started to report impact, where were later determined to be affected by the networking event. With further analysis and evidence of regional impact confirmed, broad targeted communication was sent to customers region-wide for the identified affected regions by 13:28 UTC. Between 13:28 and 15:32 UTC, communications were sent to the customers of additional impacted regions identified. By 15:32 UTC, we began reporting recovery via the status page and Service Health, but monitoring and preventative workstreams persisted, which we continued to report until the necessary preventative workstreams were completed by 19:52 UTC. How can we make our incident communications more useful? We are piloting this \"PIR\" format as a potential replacement for our \"RCA\" (Root Cause Analysis) format. You can rate this PIR and provide any feedback using our quick 3-question survey: https://aka.ms/AzPIR/7SHM-P88",
+  "raw_ref": {
+    "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+    "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+    "member_path": "2_clean_data/azure.csv",
+    "record_index": 37,
+    "record_sha256": "570286be5e83ab6559226c82a6e38b47a403548eca4abb08a4dc48d1c6f50195"
+  },
+  "workflow_version": "0.1",
+  "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "source_context_fields": [
+    "candidate_id",
+    "data_relevance_facets",
+    "independence_group",
+    "independence_group_basis",
+    "raw_ref",
+    "report_text",
+    "security_term_hits",
+    "service_hint",
+    "source",
+    "vendor",
+    "year"
+  ],
+  "source_context_sha256": "8d00ee4dab9529a367b23914c9de447ac9f807527990bc63d46745e04b129e70",
+  "screening": {
+    "cloud_data_relevant": null,
+    "non_attack_confirmed": null,
+    "usable_as_negative_control": null,
+    "rationale": null
+  }
+}

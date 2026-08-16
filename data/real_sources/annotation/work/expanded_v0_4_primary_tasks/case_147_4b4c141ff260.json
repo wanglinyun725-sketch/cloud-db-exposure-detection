@@ -1,0 +1,251 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "relationship--dcd5b361-b86b-47c7-8ce8-85918e00a224",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--dcd5b361-b86b-47c7-8ce8-85918e00a224",
+    "kind": "procedure_relationship",
+    "source_object_id": "malware--d9f7383c-95ec-4080-bbce-121c9384457b",
+    "source_object_type": "malware",
+    "source_name": "Maze",
+    "technique_object_id": "attack-pattern--20fb2507-d71c-455d-9b6d-6104461cf26b",
+    "technique_id": "T1489",
+    "technique_name": "Service Stop",
+    "platforms": [
+      "ESXi",
+      "IaaS",
+      "Linux",
+      "macOS",
+      "Windows"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--dcd5b361-b86b-47c7-8ce8-85918e00a224",
+    "review_score": 10,
+    "independence_group": "mitre-source-object:malware--d9f7383c-95ec-4080-bbce-121c9384457b",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1489"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--dcd5b361-b86b-47c7-8ce8-85918e00a224",
+      "object_id": "relationship--dcd5b361-b86b-47c7-8ce8-85918e00a224",
+      "canonical_object_sha256": "a06e1f5ac38e9c208045cb2471dca7e83b049aba7efaeaae24f4131bc0509870",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--dcd5b361-b86b-47c7-8ce8-85918e00a224",
+        "created": "2020-10-09T16:24:39.921Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "Sophos Maze VM September 2020",
+            "description": "Brandt, A., Mackenzie, P.. (2020, September 17). Maze Attackers Adopt Ragnar Locker Virtual Machine Technique. Retrieved October 9, 2020.",
+            "url": "https://news.sophos.com/en-us/2020/09/17/maze-attackers-adopt-ragnar-locker-virtual-machine-technique/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:06.227Z",
+        "description": "[Maze](https://attack.mitre.org/software/S0449) has stopped SQL services to ensure it can encrypt any database.(Citation: Sophos Maze VM September 2020) ",
+        "relationship_type": "uses",
+        "source_ref": "malware--d9f7383c-95ec-4080-bbce-121c9384457b",
+        "target_ref": "attack-pattern--20fb2507-d71c-455d-9b6d-6104461cf26b",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=malware--d9f7383c-95ec-4080-bbce-121c9384457b",
+      "object_id": "malware--d9f7383c-95ec-4080-bbce-121c9384457b",
+      "canonical_object_sha256": "37c3914a3b874c43c78c07351136843ab5d41207fe416328ab26772168d741d5",
+      "structured_object": {
+        "type": "malware",
+        "spec_version": "2.1",
+        "id": "malware--d9f7383c-95ec-4080-bbce-121c9384457b",
+        "created": "2020-05-18T16:17:59.464Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/software/S0449",
+            "external_id": "S0449"
+          },
+          {
+            "source_name": "FireEye Maze May 2020",
+            "description": "Kennelly, J., Goody, K., Shilko, J. (2020, May 7). Navigating the MAZE: Tactics, Techniques and Procedures Associated With MAZE Ransomware Incidents. Retrieved May 18, 2020.",
+            "url": "https://www.fireeye.com/blog/threat-research/2020/05/tactics-techniques-procedures-associated-with-maze-ransomware-incidents.html"
+          },
+          {
+            "source_name": "McAfee Maze March 2020",
+            "description": "Mundo, A. (2020, March 26). Ransomware Maze. Retrieved May 18, 2020.",
+            "url": "https://www.mcafee.com/blogs/other-blogs/mcafee-labs/ransomware-maze/"
+          },
+          {
+            "source_name": "Sophos Maze VM September 2020",
+            "description": "Brandt, A., Mackenzie, P.. (2020, September 17). Maze Attackers Adopt Ragnar Locker Virtual Machine Technique. Retrieved October 9, 2020.",
+            "url": "https://news.sophos.com/en-us/2020/09/17/maze-attackers-adopt-ragnar-locker-virtual-machine-technique/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2025-04-25T14:44:49.604Z",
+        "name": "Maze",
+        "description": "[Maze](https://attack.mitre.org/software/S0449) ransomware, previously known as \"ChaCha\", was discovered in May 2019. In addition to encrypting files on victim machines for impact, [Maze](https://attack.mitre.org/software/S0449) operators conduct information stealing campaigns prior to encryption and post the information online to extort affected companies.(Citation: FireEye Maze May 2020)(Citation: McAfee Maze March 2020)(Citation: Sophos Maze VM September 2020)",
+        "is_family": true,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "Windows"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_version": "1.2",
+        "x_mitre_attack_spec_version": "3.2.0",
+        "x_mitre_contributors": [
+          "Center for Threat-Informed Defense (CTID)",
+          "SarathKumar Rajendran, Trimble Inc"
+        ],
+        "x_mitre_aliases": [
+          "Maze"
+        ]
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--20fb2507-d71c-455d-9b6d-6104461cf26b",
+      "object_id": "attack-pattern--20fb2507-d71c-455d-9b6d-6104461cf26b",
+      "canonical_object_sha256": "cdc13b8471b5feb856ba25058d6bf7a216c9f32fb407a447f4bc3f60b6c2da30",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--20fb2507-d71c-455d-9b6d-6104461cf26b",
+        "created": "2019-03-29T19:00:55.901Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1489",
+            "external_id": "T1489"
+          },
+          {
+            "source_name": "AWS DisableAWSServiceAccess",
+            "description": "AWS. (n.d.). DisableAWSServiceAccess. Retrieved May 22, 2025.",
+            "url": "https://docs.aws.amazon.com/organizations/latest/APIReference/API_DisableAWSServiceAccess.html"
+          },
+          {
+            "source_name": "SecureWorks WannaCry Analysis",
+            "description": "Counter Threat Unit Research Team. (2017, May 18). WCry Ransomware Analysis. Retrieved March 26, 2019.",
+            "url": "https://www.secureworks.com/research/wcry-ransomware-analysis"
+          },
+          {
+            "source_name": "Datadog Security Labs Cloud Persistence 2025",
+            "description": "Martin McCloskey. (2025, May 13). Tales from the cloud trenches: The Attacker doth persist too much, methinks. Retrieved May 22, 2025.",
+            "url": "https://securitylabs.datadoghq.com/articles/tales-from-the-cloud-trenches-the-attacker-doth-persist-too-much/"
+          },
+          {
+            "source_name": "Talos Olympic Destroyer 2018",
+            "description": "Mercer, W. and Rascagneres, P. (2018, February 12). Olympic Destroyer Takes Aim At Winter Olympics. Retrieved March 14, 2019.",
+            "url": "https://blog.talosintelligence.com/2018/02/olympic-destroyer.html"
+          },
+          {
+            "source_name": "Crowdstrike Hypervisor Jackpotting Pt 2 2021",
+            "description": "Michael Dawson. (2021, August 30). Hypervisor Jackpotting, Part 2: eCrime Actors Increase Targeting of ESXi Servers with Ransomware. Retrieved March 26, 2025.",
+            "url": "https://www.crowdstrike.com/en-us/blog/hypervisor-jackpotting-ecrime-actors-increase-targeting-of-esxi-servers/"
+          },
+          {
+            "source_name": "Novetta Blockbuster",
+            "description": "Novetta Threat Research Group. (2016, February 24). Operation Blockbuster: Unraveling the Long Thread of the Sony Attack. Retrieved February 25, 2016.",
+            "url": "https://web.archive.org/web/20160226161828/https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Report.pdf"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-05-12T15:12:00.622Z",
+        "name": "Service Stop",
+        "description": "Adversaries may stop or disable services on a system to render those services unavailable to legitimate users. Stopping critical services or processes can inhibit or stop response to an incident or aid in the adversary's overall objectives to cause damage to the environment.(Citation: Talos Olympic Destroyer 2018)(Citation: Novetta Blockbuster) \n\nAdversaries may accomplish this by disabling individual services of high importance to an organization, such as <code>MSExchangeIS</code>, which will make Exchange content inaccessible.(Citation: Novetta Blockbuster) In some cases, adversaries may stop or disable many or all services to render systems unusable.(Citation: Talos Olympic Destroyer 2018) Services or processes may not allow for modification of their data stores while running. Adversaries may stop services or processes in order to conduct [Data Destruction](https://attack.mitre.org/techniques/T1485) or [Data Encrypted for Impact](https://attack.mitre.org/techniques/T1486) on the data stores of services like Exchange and SQL Server, or on virtual machines hosted on ESXi infrastructure.(Citation: SecureWorks WannaCry Analysis)(Citation: Crowdstrike Hypervisor Jackpotting Pt 2 2021)\n\nThreat actors may also disable or stop service in cloud environments. For example, by leveraging the `DisableAPIServiceAccess` API in AWS, a threat actor may prevent the service from creating service-linked roles on new accounts in the AWS Organization.(Citation: Datadog Security Labs Cloud Persistence 2025)(Citation: AWS DisableAWSServiceAccess)",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "impact"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_contributors": [
+          "Liran Ravich, CardinalOps"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": false,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "ESXi",
+          "IaaS",
+          "Linux",
+          "macOS",
+          "Windows"
+        ],
+        "x_mitre_version": "1.4",
+        "x_mitre_impact_type": [
+          "Availability"
+        ]
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "01ea6235aedd86a3cab32982afd004e061dac45da86241187a12df570049e0cd",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

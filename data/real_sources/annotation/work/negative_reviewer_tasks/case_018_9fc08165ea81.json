@@ -1,0 +1,53 @@
+{
+  "candidate_id": "cloud-incident:azure:00043",
+  "independence_group": "reliability-record:b7afdf2caa93d8124157991be89aa0fdd66db5687154fef9164a6d9180ee3fe1",
+  "independence_group_basis": "source_record_sha256",
+  "source": {
+    "source_id": "cloud_incident_reports_2016_2024",
+    "doi": "10.5281/zenodo.14010282",
+    "version": "record-14010282-v1",
+    "license": "CC-BY-4.0"
+  },
+  "vendor": "AZURE",
+  "service_hint": null,
+  "year": null,
+  "data_relevance_facets": [
+    "analytics",
+    "backup"
+  ],
+  "security_term_hits": [],
+  "report_text": "04/08/2022 RCA - Service Management Operation Errors Across Azure Services in East US 2 Tracking ID: Y__5-9C0 Summary of Impact: Between 12:25 UTC on 08 Apr 2022 and 14:40 UTC on 09 Apr 2022, customers running services in the East US 2 region may have experienced service management errors, delays, and/or timeouts. Customers may have experienced issues that caused GET and PUT errors impacting the Azure portal itself, as well as services including Azure Virtual Machines (VMs), Virtual Machine Scale Sets (VMSS), Azure Data Factory (ADF), Azure Databricks, Azure Synapse, Azure Backup, Azure Site Recovery (ASR), and Azure Virtual Desktop (AVD) Customers may have seen errors including “The network connectivity issue encountered for Microsoft.Compute cannot fulfill the request. For some downstream services that have auto-scale enabled, this service management issue may have caused data plane impact. Root Cause: We determined that the Compute Resource Provider (CRP) Gateway service experienced an issue which severely reduced its throughput. The underlying issue was a retry storm triggered by the zonal failure of a related Allocator service. While we were able to recover the Allocator service by restarting the instances in the failed zone, the backlog of work exposed a potential issue with .Net CLR and Garbage Collector. This resulted in a large percentage of incoming calls to the CRP Gateway to fail. The retries triggered by the upstream services only made the load situation worse. Under normal circumstances, the Gateway instances are overprovisioned for such retry storms but the combination of the reduced throughput across all instances and continuous retries (some services which normally make 25K calls in 1 minutes were making 150K calls in the same period due to retries) resulted in a prolonged impact. Deeper investigation into process profile data exposed that the process was experience a high rate of timeout exceptions for ongoing operations and .Net Garbage Collector was overworked due to high heap churn under above mentioned spike in load. A high rate of exceptions and the simultaneous pressure on the .Net GC exposed an unfavorable interaction in the .Net runtime's process wide lock. Mitigation: To mitigate the situation, the below steps were taken: Two large services were temporarily throttled more aggressively to ensure they do not continue to overload gateway. Once the underlying issue of the throughput reduction was partially understood, the gateway services were restarted multiple times until they got out of the wedged state. Next Steps: We apologize for the impact to affected customers. We are continuously taking steps to improve the Microsoft Azure Platform and our processes to help ensure such incidents do not occur in the future. In this case, this includes (but is not limited to): As a long-term fix, we initiated a CRP gateway hotfix that will prevent the gateway from entering into the wedged state. The hotfix roll-out is progressing as per our Safe Deployment Practices. We are flighting a configuration change to make the .Net GC work less hard and avoid interaction with the process wide lock which is surfaced with exception handling. Repair items have been identified to optimize areas of code which were causing heap churn Provide Feedback: Please help us improve the Azure customer communications experience by taking our survey: https://aka.ms/AzurePIRSurvey",
+  "raw_ref": {
+    "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+    "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+    "member_path": "2_clean_data/azure.csv",
+    "record_index": 43,
+    "record_sha256": "b7afdf2caa93d8124157991be89aa0fdd66db5687154fef9164a6d9180ee3fe1"
+  },
+  "workflow_version": "0.1",
+  "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "source_context_fields": [
+    "candidate_id",
+    "data_relevance_facets",
+    "independence_group",
+    "independence_group_basis",
+    "raw_ref",
+    "report_text",
+    "security_term_hits",
+    "service_hint",
+    "source",
+    "vendor",
+    "year"
+  ],
+  "source_context_sha256": "36b2ed545542aa9f601b786694dec92971563af274e7d06fbd8783e3c3513361",
+  "screening": {
+    "cloud_data_relevant": null,
+    "non_attack_confirmed": null,
+    "usable_as_negative_control": null,
+    "rationale": null
+  }
+}

@@ -1,0 +1,1306 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "splunk_attack_data",
+    "upstream_url": "https://github.com/splunk/attack_data",
+    "version_or_commit": "3821bdb77c66c95b4e529f62a9d00b168446d1a8",
+    "license": "Apache-2.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_exfil_risk_events.yml",
+        "sha256": "24d8d9115c70d1f88f77612a95f53c2fd8f59631dcb76cf286c15f918f4a7bf4",
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_exfil_risk_events.yml",
+        "git_blob_sha": "e399d495138fcf27fd50d21083bebd131dee176d",
+        "lfs_oid_sha256": null
+      },
+      {
+        "raw_ref": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+    "source_id": "splunk_attack_data",
+    "upstream_dataset_id": "cc9b2602-efc9-1111-926b-5511f09431bb",
+    "author": "Bhavin Patel",
+    "published_date": "2023-03-31",
+    "description": "This dataset contains Risk events created by the detection analytics related Collection and Exfiltration techniques in Enterprise Security",
+    "environment": "attack_range",
+    "mitre_techniques": [
+      "T1537"
+    ],
+    "observation_count": 38,
+    "operations": {
+      "ESCU - AWS EC2 Snapshot Shared Externally - Rule": 20,
+      "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule": 18
+    },
+    "services": {
+      "splunk_enterprise_security": 38
+    },
+    "independence_group": "splunk-technique:T1537"
+  },
+  "observations": [
+    {
+      "observation_id": "obs-fdb5cd9692acb024694ee52d",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681175400",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.38",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "1816",
+        "risk_object": "111111111111",
+        "risk_object_type": "other"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.38",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 0,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-08b1a85189c56ec24c8ed01a",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681175400",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.38",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "1816",
+        "risk_object": "12.26.0.38",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.38",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 1,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-668aec922c573d190dcf68d2",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681175400",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.38",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "1816",
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.38",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 2,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-f88a92a25a273ed5ff0665f2",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681175400",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.34",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "2000",
+        "risk_object": "111111111111",
+        "risk_object_type": "other"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.34",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 3,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-3710647722757fc63df40226",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681175400",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.34",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "2000",
+        "risk_object": "12.26.0.34",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.34",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 4,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-89be19f69079163ff655d443",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681175400",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.34",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "2000",
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.34",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 5,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-1b29b1ab21a08bf3dcd8deee",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681174800",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.34",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "3670",
+        "risk_object": "111111111111",
+        "risk_object_type": "other"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.34",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 6,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-6254dc1a1cb53e6bcd0c671b",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681174800",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.34",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "3670",
+        "risk_object": "12.26.0.34",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.34",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 7,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-61123fe7216cc550e242fa39",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681174800",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.34",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "3670",
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.34",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 8,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-4aed671d20125a10eb8ba876",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1679351496",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "72.135.245.10",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 9,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-5ad806fb801f57deafda5283",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1679351496",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 10,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-a7d107512b1eb4e824dd1b94",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680633876",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "72.135.245.10",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 11,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-8e1fd9dc27518ff8b36c14ee",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680633876",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 12,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-fa2dd27c9237580f3a2b5454",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680633113",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "72.135.245.10",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 13,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-73d3308e59cd76fdc5639fba",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680633113",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 14,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-a2f17a6d96a0b906aa35cc21",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680632969",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "72.135.245.10",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 15,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-6270d4b536c35336f94fd404",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680632969",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 16,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-fce619db50c9d6eba9e4a59c",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680632364",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "72.135.245.10",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 17,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-37ec28b5d592683b450acc70",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680632364",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 18,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-8784040a6af2c61d885e13c8",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681175400",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.38",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "1816",
+        "risk_object": "111111111111",
+        "risk_object_type": "other"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.38",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 19,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-a8f0b0475ca0c4f47090e820",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681175400",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.38",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "1816",
+        "risk_object": "12.26.0.38",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.38",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 20,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-f4d45f3960c73d0728516d76",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681175400",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.38",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "1816",
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.38",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 21,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-eb27325813cd3d69f7165d71",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681175400",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.34",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "2000",
+        "risk_object": "111111111111",
+        "risk_object_type": "other"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.34",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 22,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-f10519d68a5447e78a023b18",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681175400",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.34",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "2000",
+        "risk_object": "12.26.0.34",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.34",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 23,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-83c621c4bcd03892e351966a",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681175400",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.34",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "2000",
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.34",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 24,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-3004802d6b368b8dffe7ebbd",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681174800",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.34",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "3670",
+        "risk_object": "111111111111",
+        "risk_object_type": "other"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.34",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 25,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-4128d073b6eaaad1c8e69905",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681174800",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.34",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "3670",
+        "risk_object": "12.26.0.34",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.34",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 26,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-12f7307de21ec8a0c90f218f",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1681174800",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS Exfiltration via Anomalous GetObject API Activity - Rule",
+      "actor_type": "IAMUser",
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "12.26.0.34",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "bucketName": "security-content",
+        "count": "3670",
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "Anomalous S3 activities detected by user arn:aws:iam::111111111111:user/console from 12.26.0.34",
+        "risk_score": "64.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 27,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-0d10faa50c7280bebd50a598",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1679351496",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "72.135.245.10",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 28,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-337e6eda1c1a0788904f6297",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1679351496",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 29,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-4e9bd5274fd599bd59233b57",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680633876",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "72.135.245.10",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 30,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-f23b92ca4913a0ed8ef8499b",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680633876",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 31,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-9ef377dc0550efc5815b0bfb",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680633113",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "72.135.245.10",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 32,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-b05ecb83339773aa56e1c9c1",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680633113",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 33,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-d02717dbdaaedfb071c0fd98",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680632969",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "72.135.245.10",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 34,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-6eaa8d145f24d44a21fa4197",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680632969",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 35,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-11ca6c9898227f07868cdc79",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680632364",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "72.135.245.10",
+        "risk_object_type": "system"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 36,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    },
+    {
+      "observation_id": "obs-fe774ac50d8781a164ba701c",
+      "candidate_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "schema": "splunk_key_value_event",
+      "timestamp": "1680632364",
+      "service": "splunk_enterprise_security",
+      "operation": "ESCU - AWS EC2 Snapshot Shared Externally - Rule",
+      "actor_type": null,
+      "actor_id": "arn:aws:iam::111111111111:user/console",
+      "source_ip": "72.135.245.10",
+      "account_id": "111111111111",
+      "region": null,
+      "event_status": "DerivedRiskEvent",
+      "request": {
+        "risk_object": "arn:aws:iam::111111111111:user/console",
+        "risk_object_type": "user"
+      },
+      "response": {
+        "risk_message": "AWS EC2 snapshot from account 111111111111 is shared with 012345678912 by user arn:aws:iam::111111111111:user/console from 72.135.245.10",
+        "risk_score": "48.0"
+      },
+      "raw_ref": {
+        "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/selected/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2",
+        "record_index": 37,
+        "upstream_path": "datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log",
+        "git_blob_sha": "680acf62a19631b0284b7dc8bd214644a5da1e0e",
+        "lfs_oid_sha256": "44d5e85a9b293178fa05301414cbd4ae84b5d7228ee08e3ad87ecaa346ea31d2"
+      }
+    }
+  ],
+  "runtime_instances": [
+    {
+      "instance_id": "instance-67f3d25541725954cb24",
+      "environment_kind": "published_telemetry",
+      "platform": "AWS",
+      "observation_ids": [
+        "obs-fdb5cd9692acb024694ee52d",
+        "obs-08b1a85189c56ec24c8ed01a",
+        "obs-668aec922c573d190dcf68d2",
+        "obs-f88a92a25a273ed5ff0665f2",
+        "obs-3710647722757fc63df40226",
+        "obs-89be19f69079163ff655d443",
+        "obs-1b29b1ab21a08bf3dcd8deee",
+        "obs-6254dc1a1cb53e6bcd0c671b",
+        "obs-61123fe7216cc550e242fa39",
+        "obs-4aed671d20125a10eb8ba876",
+        "obs-5ad806fb801f57deafda5283",
+        "obs-a7d107512b1eb4e824dd1b94",
+        "obs-8e1fd9dc27518ff8b36c14ee",
+        "obs-fa2dd27c9237580f3a2b5454",
+        "obs-73d3308e59cd76fdc5639fba",
+        "obs-a2f17a6d96a0b906aa35cc21",
+        "obs-6270d4b536c35336f94fd404",
+        "obs-fce619db50c9d6eba9e4a59c",
+        "obs-37ec28b5d592683b450acc70",
+        "obs-8784040a6af2c61d885e13c8",
+        "obs-a8f0b0475ca0c4f47090e820",
+        "obs-f4d45f3960c73d0728516d76",
+        "obs-eb27325813cd3d69f7165d71",
+        "obs-f10519d68a5447e78a023b18",
+        "obs-83c621c4bcd03892e351966a",
+        "obs-3004802d6b368b8dffe7ebbd",
+        "obs-4128d073b6eaaad1c8e69905",
+        "obs-12f7307de21ec8a0c90f218f",
+        "obs-0d10faa50c7280bebd50a598",
+        "obs-337e6eda1c1a0788904f6297",
+        "obs-4e9bd5274fd599bd59233b57",
+        "obs-f23b92ca4913a0ed8ef8499b",
+        "obs-9ef377dc0550efc5815b0bfb",
+        "obs-b05ecb83339773aa56e1c9c1",
+        "obs-d02717dbdaaedfb071c0fd98",
+        "obs-6eaa8d145f24d44a21fa4197",
+        "obs-11ca6c9898227f07868cdc79",
+        "obs-fe774ac50d8781a164ba701c"
+      ],
+      "observation_count": 38,
+      "selection_origin": "all normalized observations copied from the pinned published telemetry case"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "1c1f5ed1dd8dabeea9eb526ee3e250afcc09c33386b010694070449a1763ea27",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

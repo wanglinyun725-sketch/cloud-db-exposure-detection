@@ -1,0 +1,270 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "relationship--68929916-ab9f-4078-b959-e500f8cab3b8",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--68929916-ab9f-4078-b959-e500f8cab3b8",
+    "kind": "procedure_relationship",
+    "source_object_id": "malware--de376fb9-1093-4f59-8d13-aed61042701d",
+    "source_object_type": "malware",
+    "source_name": "Shai-Hulud",
+    "technique_object_id": "attack-pattern--cfb525cc-5494-401d-a82b-2539ca46a561",
+    "technique_id": "T1555.006",
+    "technique_name": "Cloud Secrets Management Stores",
+    "platforms": [
+      "IaaS"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--68929916-ab9f-4078-b959-e500f8cab3b8",
+    "review_score": 18,
+    "independence_group": "mitre-source-object:malware--de376fb9-1093-4f59-8d13-aed61042701d",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1555.006"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--68929916-ab9f-4078-b959-e500f8cab3b8",
+      "object_id": "relationship--68929916-ab9f-4078-b959-e500f8cab3b8",
+      "canonical_object_sha256": "30cbcb4a84cf6706d64332d1f9c25eae77a11b4dd370da9a46220096e4859a9d",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--68929916-ab9f-4078-b959-e500f8cab3b8",
+        "created": "2026-04-09T19:23:50.186Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "Aikido Shai-Hulud September 2025",
+            "description": "Charlie Eriksen. (2025, September 16). S1ngularity/nx attackers strike again. Retrieved April 9, 2026.",
+            "url": "https://www.aikido.dev/blog/s1ngularity-nx-attackers-strike-again"
+          },
+          {
+            "source_name": "Netskope Shai-Hulud November 2025",
+            "description": "Gianpietro Cutolo. (2025, November 26). Shai-Hulud 2.0: Aggressive, Automated, and Fast Spreading. Retrieved April 9, 2026.",
+            "url": "https://www.netskope.com/blog/shai-hulud-2-0-aggressive-automated-one-of-fastest-spreading-npm-supply-chain-attacks-ever-observed"
+          },
+          {
+            "source_name": "Socket Shai-Hulud November 2025",
+            "description": "Socket Research Team. (2025, November 24). Shai Hulud Strikes Again (v2). Retrieved April 9, 2026.",
+            "url": "https://socket.dev/blog/shai-hulud-strikes-again-v2"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:06.067Z",
+        "description": "[Shai-Hulud](https://attack.mitre.org/software/S9008) has gathered secrets from AWS Secrets and GCP Secret Manager.(Citation: Aikido Shai-Hulud September 2025)(Citation: Netskope Shai-Hulud November 2025)(Citation: Socket Shai-Hulud November 2025) [Shai-Hulud](https://attack.mitre.org/software/S9008) has also gathered data from Azure Key Vault.(Citation: Netskope Shai-Hulud November 2025)(Citation: Socket Shai-Hulud November 2025)",
+        "relationship_type": "uses",
+        "source_ref": "malware--de376fb9-1093-4f59-8d13-aed61042701d",
+        "target_ref": "attack-pattern--cfb525cc-5494-401d-a82b-2539ca46a561",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=malware--de376fb9-1093-4f59-8d13-aed61042701d",
+      "object_id": "malware--de376fb9-1093-4f59-8d13-aed61042701d",
+      "canonical_object_sha256": "db1813829b946b14d620007a141f5fc883ff643b20a0b1a8c5ecd9dd4a1d86e7",
+      "structured_object": {
+        "type": "malware",
+        "spec_version": "2.1",
+        "id": "malware--de376fb9-1093-4f59-8d13-aed61042701d",
+        "created": "2026-04-09T18:24:26.568Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/software/S9008",
+            "external_id": "S9008"
+          },
+          {
+            "source_name": "Aikido Shai-Hulud September 2025",
+            "description": "Charlie Eriksen. (2025, September 16). S1ngularity/nx attackers strike again. Retrieved April 9, 2026.",
+            "url": "https://www.aikido.dev/blog/s1ngularity-nx-attackers-strike-again"
+          },
+          {
+            "source_name": "Netskope Shai-Hulud November 2025",
+            "description": "Gianpietro Cutolo. (2025, November 26). Shai-Hulud 2.0: Aggressive, Automated, and Fast Spreading. Retrieved April 9, 2026.",
+            "url": "https://www.netskope.com/blog/shai-hulud-2-0-aggressive-automated-one-of-fastest-spreading-npm-supply-chain-attacks-ever-observed"
+          },
+          {
+            "source_name": "Palo Alto Unit 42 Shai-Hulud November 2025",
+            "description": "Justin Moore. (2025, November 25). \"Shai-Hulud\" Worm Compromises npm Ecosystem in Supply Chain Attack (Updated November 26). Retrieved April 9, 2026.",
+            "url": "https://unit42.paloaltonetworks.com/npm-supply-chain-attack/"
+          },
+          {
+            "source_name": "Wiz Shai-Hulud September 2025",
+            "description": "Merav Bar, Rami McCarthy, Barak Sharoni. (2025, September 16). Shai-Hulud: Ongoing Package Supply Chain Worm Delivering Data-Stealing Malware. Retrieved April 9, 2026.",
+            "url": "https://www.wiz.io/blog/shai-hulud-npm-supply-chain-attack"
+          },
+          {
+            "source_name": "Microsoft Shai-Hulud December 2025",
+            "description": "Microsoft Defender Security Team. (n.d.). Shai-Hulud 2.0: Guidance for detecting, investigating, and defending against the supply chain attack. Retrieved April 9, 2026.",
+            "url": "https://www.microsoft.com/en-us/security/blog/2025/12/09/shai-hulud-2-0-guidance-for-detecting-investigating-and-defending-against-the-supply-chain-attack/"
+          },
+          {
+            "source_name": "Socket Shai-Hulud November 2025",
+            "description": "Socket Research Team. (2025, November 24). Shai Hulud Strikes Again (v2). Retrieved April 9, 2026.",
+            "url": "https://socket.dev/blog/shai-hulud-strikes-again-v2"
+          },
+          {
+            "source_name": "Socket Shai-Hulud Trufflehog September 2025",
+            "description": "Socket Research Team. (2025, September 15). Popular Tinycolor npm Package Compromised in Supply Chain Attack Affecting 40+ Packages. Retrieved April 9, 2026.",
+            "url": "https://socket.dev/blog/tinycolor-supply-chain-attack-affects-40-packages"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-24T00:04:27.563Z",
+        "name": "Shai-Hulud",
+        "description": "[Shai-Hulud](https://attack.mitre.org/software/S9008) is a supply chain worm, first reported in September 2025, that spreads through code repositories, including GitHub and NPM packages. It exploits CI/CD pipeline dependencies to propagate to victims and poisons the supply chain by publishing malicious packages. Once inside a victim environment, [Shai-Hulud](https://attack.mitre.org/software/S9008) steals credentials and access tokens from compromised repository accounts and exfiltrates them to attacker-controlled servers via encoded GitHub Actions workflows.(Citation: Palo Alto Unit 42 Shai-Hulud November 2025)(Citation: Microsoft Shai-Hulud December 2025)(Citation: Socket Shai-Hulud November 2025)(Citation: Socket Shai-Hulud Trufflehog September 2025)(Citation: Aikido Shai-Hulud September 2025)(Citation: Netskope Shai-Hulud November 2025)(Citation: Wiz Shai-Hulud September 2025)\n",
+        "is_family": true,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "Linux",
+          "SaaS",
+          "Windows"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_version": "1.0",
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_contributors": [
+          "Caio Silva",
+          "Alberto Garcia",
+          "Pedro Rodriguez",
+          "Víctor Alba"
+        ],
+        "x_mitre_aliases": [
+          "Shai-Hulud"
+        ]
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--cfb525cc-5494-401d-a82b-2539ca46a561",
+      "object_id": "attack-pattern--cfb525cc-5494-401d-a82b-2539ca46a561",
+      "canonical_object_sha256": "b01044b01f7065fdd0786a9afe36b98582267fc341ceb826ee18a92b4fcaa05b",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--cfb525cc-5494-401d-a82b-2539ca46a561",
+        "created": "2023-09-25T12:41:26.501Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1555/006",
+            "external_id": "T1555.006"
+          },
+          {
+            "source_name": "Sysdig ScarletEel 2.0 2023",
+            "description": "Alessandro Brucato. (2023, July 11). SCARLETEEL 2.0: Fargate, Kubernetes, and Crypto. Retrieved September 25, 2023.",
+            "url": "https://sysdig.com/blog/scarleteel-2-0/"
+          },
+          {
+            "source_name": "AWS Secrets Manager",
+            "description": "AWS. (n.d.). Retrieve secrets from AWS Secrets Manager. Retrieved September 25, 2023.",
+            "url": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieving-secrets.html"
+          },
+          {
+            "source_name": "Google Cloud Secrets",
+            "description": "Google Cloud. (n.d.). List secrets and view secret details. Retrieved September 25, 2023.",
+            "url": "https://cloud.google.com/secret-manager/docs/view-secret-details"
+          },
+          {
+            "source_name": "Permiso Scattered Spider 2023",
+            "description": "Ian Ahl. (2023, September 20). LUCR-3: SCATTERED SPIDER GETTING SAAS-Y IN THE CLOUD. Retrieved September 25, 2023.",
+            "url": "https://permiso.io/blog/lucr-3-scattered-spider-getting-saas-y-in-the-cloud"
+          },
+          {
+            "source_name": "Microsoft Azure Key Vault",
+            "description": "Microsoft. (2023, January 13). Quickstart: Set and retrieve a secret from Azure Key Vault using Azure CLI. Retrieved September 25, 2023.",
+            "url": "https://learn.microsoft.com/en-us/azure/key-vault/secrets/quick-create-cli"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-05-12T15:12:00.717Z",
+        "name": "Cloud Secrets Management Stores",
+        "description": "Adversaries may acquire credentials from cloud-native secret management solutions such as AWS Secrets Manager, GCP Secret Manager, Azure Key Vault, and Terraform Vault.  \n\nSecrets managers support the secure centralized management of passwords, API keys, and other credential material. Where secrets managers are in use, cloud services can dynamically acquire credentials via API requests rather than accessing secrets insecurely stored in plain text files or environment variables.  \n\nIf an adversary is able to gain sufficient privileges in a cloud environment – for example, by obtaining the credentials of high-privileged [Cloud Accounts](https://attack.mitre.org/techniques/T1078/004) or compromising a service that has permission to retrieve secrets – they may be able to request secrets from the secrets manager. This can be accomplished via commands such as `get-secret-value` in AWS, `gcloud secrets describe` in GCP, and `az key vault secret show` in Azure.(Citation: Permiso Scattered Spider 2023)(Citation: Sysdig ScarletEel 2.0 2023)(Citation: AWS Secrets Manager)(Citation: Google Cloud Secrets)(Citation: Microsoft Azure Key Vault)\n\n**Note:** this technique is distinct from [Cloud Instance Metadata API](https://attack.mitre.org/techniques/T1552/005) in that the credentials are being directly requested from the cloud secrets manager, rather than through the medium of the instance metadata API.",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "credential-access"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_contributors": [
+          "Martin McCloskey, Datadog"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": true,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "IaaS"
+        ],
+        "x_mitre_version": "1.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "2323b25a07a74d56a628d96a0e1776a7c1c30f48172be68f9aa382ed840fe1b4",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

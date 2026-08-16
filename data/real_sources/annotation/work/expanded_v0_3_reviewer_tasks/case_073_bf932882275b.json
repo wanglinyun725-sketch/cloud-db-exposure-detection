@@ -1,0 +1,101 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "cloudfoxable:aws:Double Tap",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudfoxable",
+    "upstream_url": "https://github.com/BishopFox/cloudfoxable",
+    "version_or_commit": "fc49b7f637268031515ced9fee4b643d3e68db67",
+    "license": "MIT",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudfoxable/fc49b7f637268031515ced9fee4b643d3e68db67/snapshot.zip",
+        "sha256": "bec9436f0e8759601dd7669c108c0921db5b10bc2d941223f0467efb5227fe6d"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudfoxable:aws:Double Tap",
+    "kind": "executable_challenge",
+    "platform": "AWS",
+    "challenge": "Double Tap",
+    "manifest_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/challenge.yml",
+    "terraform_file_count": 2,
+    "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/",
+    "review_score": 8,
+    "independence_group": "cloudfoxable-challenge:Double Tap",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/README.md",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/README.md",
+      "member_sha256": "f2be9587c2255ed7f594da999b4efaf3c09f4626e7b8261f5fed2223b178ec40",
+      "bytes": 193,
+      "content_kind": "md",
+      "text": "\n**WARNING:** This vulnerability requires you to create AWS resources to exploit the permissions. These resources created by **YOU** are **NOT** destroyed with the ``terraform destroy`` command",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/challenge.yml",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/challenge.yml",
+      "member_sha256": "dcc0c57fe072d2c816082da6cde0c33b5b6473a3e500ffdaca90fca16d1b44b1",
+      "bytes": 877,
+      "content_kind": "yml",
+      "text": "name: Double Tap\ncategory: 'Assumed Breach: Principal'\ndescription: |-\n  **Overview**\n\n  - **Author:** Joe Barcia (Bishop Fox)\n  - **Default state:** Disabled\n  - **Estimated Cost:** $9/month\n  - **Starting Point:** ```arn:aws:iam::ID:role/user/ctf-starting-user```\n\n  **CloudFoxable Setup**\n\n  - Edit `cloudfoxable/aws/terraform.tfvars`\n  - Switch the challenge flag to true: `double_tap_enabled = true`\n  - `terraform apply`\n\n  **Challenge Details**\n\n  You've just gained access to the user `ctf-starting-user`. Your objective is to access the critical data stored in  the `DT_flag` secret in secretsmanager.\n\n  **Cleanup Tasks**\n\n  - Edit `cloudfoxable/aws/terraform.tfvars`\n  - Switch the challenge flag to false: `double_tap_enabled = false`\n  - `terraform apply`\nvalue: 300\n\nflags:\n- content: FLAG{double_tap::ExploitChainsAreFun}\n  type: static\n  data: case_insensitive\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/double_tap.tf",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/double_tap.tf",
+      "member_sha256": "acdb54b74580ac4132817c407318c3e479561efd182fefa5ef1b2d9e0cb71e60",
+      "bytes": 9145,
+      "content_kind": "tf",
+      "text": "# Configure EC2\nresource \"aws_security_group\" \"instance_sg\" {\n  name        = \"instance_sg\"\n  description = \"Security group for EC2 instance\"\n\n  ingress {\n    from_port   = 22\n    to_port     = 22\n    protocol    = \"tcp\"\n    cidr_blocks = [\"0.0.0.0/0\"]\n  }\n\n  egress {\n    from_port   = 0\n    to_port     = 0\n    protocol    = \"-1\"\n    cidr_blocks = [\"0.0.0.0/0\"]\n  }\n}\n\ndata \"aws_ami\" \"ami\" {\n  most_recent = true\n  filter {\n    name   = \"name\"\n    values = [\"amzn2-ami-hvm-*-x86_64-ebs\"]\n  }\n  owners = [\"amazon\"] \n}\n\n# Create flag\nresource \"aws_secretsmanager_secret\" \"double_tap_flag_secret\" {\n  name = \"DT_flag\"\n  recovery_window_in_days = 0\n}\n\n# Configure flag secret\nresource \"aws_secretsmanager_secret_version\" \"double_tap_flag_secret_version\" {\n  secret_id     = aws_secretsmanager_secret.double_tap_flag_secret.id\n  secret_string = \"FLAG{double_tap::ExploitChainsAreFun}\"\n}\n\nresource \"aws_iam_policy\" \"double_tap_secret_policy\" {\n  name        = \"double_tap_secret_policy\"\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action = [\n          \"secretsmanager:GetSecretValue\",\n          \"secretsmanager:DescribeSecret\",\n          \"secretsmanager:ListSecretVersionIds\",\n          \"secretsmanager:ListSecrets\"\n        ]\n        Effect   = \"Allow\"\n        Resource = [\n          aws_secretsmanager_secret.double_tap_flag_secret.arn\n        ]\n      }\n    ]\n  })\n}\n// role that gets applied to second instance - the one that can get the flag\nresource \"aws_iam_role\" \"double_tap_secret\" {\n  name = \"double_tap_secret\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect    = \"Allow\"\n        Principal = { Service = \"ec2.amazonaws.com\" }\n        Action    = \"sts:AssumeRole\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_role_policy_attachment\" \"double_tap_secret_policy\" {\n  policy_arn = aws_iam_policy.double_tap_secret_policy.arn\n  role       = aws_iam_role.double_tap_secret.name\n}\n\nresource \"aws_iam_role_policy_attachment\" \"ssm_ec2_secret_policy_attachment\" {\n  policy_arn = \"arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore\"\n  role       = aws_iam_role.double_tap_secret.name\n}\n\nresource \"aws_iam_policy\" \"double_tap_deny_ssm_parameter_access\" {\n  name        = \"double_tap_deny_ssm_parameter_access-bastion\"\n  path        = \"/\"\n  description = \"IAM policy to deny access to certain SSM permissions\"\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect   = \"Deny\"\n        Action   = [\n          \"ssm:GetParameter\",\n          \"ssm:GetParameters\",\n        ]\n        Resource = \"*\"\n      },\n    ]\n  })\n}\n\nresource \"aws_iam_role_policy_attachment\" \"double-tap-deny\" {\n  role       = aws_iam_role.double_tap_secret.name\n  policy_arn = aws_iam_policy.double_tap_deny_ssm_parameter_access.arn\n\n}  \n\n\n\n\n\n\nresource \"aws_instance\" \"flag\" {\n  ami           = data.aws_ami.ami.id\n  instance_type = \"t3a.nano\"\n  iam_instance_profile = \"${aws_iam_instance_profile.double_tap_secret_profile.name}\"  \n  security_groups = [\"instance_sg\"]\n  tags = {\n    double_tap2  = \"true\",\n    Name = \"double_tap\"\n  }\n\n  # user_data = <<-EOF\n  #             #!/bin/bash\n  #             echo 'Starting SSM agent installation...'\n  #             sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm\n  #             echo 'SSM agent installation complete.'\n  #             echo 'Starting SSM agent...'\n  #             sudo systemctl start amazon-ssm-agent\n  #             echo 'SSM agent started.'\n  #             EOF\n}\n\nresource \"aws_iam_instance_profile\" \"double_tap_secret_profile\" {\n  name = \"double_tap_secret_profile\"\n  role = aws_iam_role.double_tap_secret.name\n}\n\n# Create first hop\nresource \"aws_iam_policy\" \"ec2_privileged_policy\" {\n  name        = \"ec2_privileged_policy\"\n  policy      = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\"ssm:StartSession\"],\n            \"Resource\": \"*\",\n            \"Condition\": {\"StringEquals\": {\"aws:ResourceTag/double_tap2\" = \"true\"}}\n        },\n        {\n            \"Effect\": \"Deny\",\n            \"Action\": [\"ec2:DeleteTags\", \"ec2:CreateTags\"],\n            \"Resource\": \"*\"\n        },\n        {\n         \"Effect\": \"Allow\",\n         \"Action\": \"ssm:*\",\n         \"Resource\": \"arn:aws:ssm:*:*:*\"\n        },\n        {\n         \"Effect\":\"Allow\",\n         \"Action\":[\"ssm:SendCommand\"],\n         \"Resource\":[\"arn:aws:ec2:*:*:instance/*\"],\n         \"Condition\": {\"StringEquals\": {\"aws:ResourceTag/double_tap2\" = \"true\"}}\n        }\n    ]\n  })\n}\n\n// the role that gets applied to the first instance\nresource \"aws_iam_role\" \"ec2_privileged\" {\n  name = \"ec2_privileged\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect    = \"Allow\"\n        Principal = { Service = \"ec2.amazonaws.com\" }\n        Action    = \"sts:AssumeRole\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_role_policy_attachment\" \"ec2_privileged_policy\" {\n  policy_arn = aws_iam_policy.ec2_privileged_policy.arn\n  role       = aws_iam_role.ec2_privileged.name\n}\n\n# resource \"aws_iam_role_policy_attachment\" \"ssm_ec2_priv_policy_attachment\" {\n#   role       = aws_iam_role.ec2_privileged.name\n#   policy_arn = \"arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore\"\n# }\n\nresource \"aws_instance\" \"ec2\" {\n\n  ami           = data.aws_ami.ami.id\n  instance_type = \"t3a.nano\"\n  iam_instance_profile = \"${aws_iam_instance_profile.ec2_privileged_profile.name}\"\n  security_groups = [\"instance_sg\"]\n\n  tags = {\n    double_tap1  = \"true\",\n    Name = \"double_tap\"\n  }\n}\n\nresource \"aws_iam_instance_profile\" \"ec2_privileged_profile\" {\n  name = \"ec2_privileged_profile\"\n  role = aws_iam_role.ec2_privileged.name\n}\n\n\n\n\n\n\n# Create Starting Role and Permissions\n\nresource \"aws_iam_role\" \"double_tap_xsdf\" {\n  name = \"double_tap_xsdf\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect    = \"Allow\"\n        Principal = {\n          \"AWS\": \"${var.ctf_starting_user_arn}\"\n        }\n        Action    = \"sts:AssumeRole\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_policy\" \"double_tap_iam_policy\" {\n  name        = \"double_tap_iam_policy\"\n  policy      = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [{\n      Effect   = \"Allow\"\n      Action   = [\"lambda:CreateFunction\", \"lambda:InvokeFunction\"]\n      Resource = \"*\"\n    },\n    {\n      Effect   = \"Allow\"\n      Action   = [\"iam:PassRole\"]\n      Resource = \"arn:aws:iam::${var.account_id}:role/lambda_*\"\n    }\n    ],\n    \n  })\n}\n\nresource \"aws_iam_role_policy_attachment\" \"double_tap_iam_policy_attachment\" {\n  policy_arn = aws_iam_policy.double_tap_iam_policy.arn\n  role       = aws_iam_role.double_tap_xsdf.name\n}\n\nresource \"aws_iam_policy\" \"lambda_ec2_policy\" {\n  name        = \"lambda_ec2_policy\"\n  policy      = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect   = \"Allow\"\n        Action   = \"ec2:*\"\n        Resource = \"*\"\n        Condition = {\n          StringEquals = {\n            \"aws:ResourceTag/double_tap1\" = \"true\"\n          }\n        }\n      }\n    ]\n  })\n}\n\n\nresource \"aws_iam_role\" \"lambda_ec2\" {\n  name = \"lambda_ec2\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect    = \"Allow\"\n        Principal = { Service = \"lambda.amazonaws.com\" }\n        Action    = \"sts:AssumeRole\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_role_policy_attachment\" \"lambda_ec2_policy\" {\n  policy_arn = aws_iam_policy.lambda_ec2_policy.arn\n  role       = aws_iam_role.lambda_ec2.name\n}\n\nresource \"aws_iam_role_policy_attachment\" \"lambda_ec2_read_policy\" {\n  policy_arn = \"arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess\"\n  role       = aws_iam_role.lambda_ec2.name\n}\n\n\n## dead end roles\n\nresource \"aws_iam_role\" \"double_tap_asdf\" {\n  name = \"double_tap_asdf\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect    = \"Allow\"\n        Principal = {\n          \"AWS\": \"${var.ctf_starting_user_arn}\"\n        }\n        Action    = \"sts:AssumeRole\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_role\" \"double_tap_esdf\" {\n  name = \"double_tap_esdf\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect    = \"Allow\"\n        Principal = {\n          \"AWS\": \"${var.ctf_starting_user_arn}\"\n        }\n        Action    = \"sts:AssumeRole\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_role\" \"double_tap_qsdf\" {\n  name = \"double_tap_qsdf\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect    = \"Allow\"\n        Principal = {\n          \"AWS\": \"${var.ctf_starting_user_arn}\"\n        }\n        Action    = \"sts:AssumeRole\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_role\" \"double_tap_zsdf\" {\n  name = \"double_tap_zsdf\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect    = \"Allow\"\n        Principal = {\n          \"AWS\": \"${var.ctf_starting_user_arn}\"\n        }\n        Action    = \"sts:AssumeRole\"\n      }\n    ]\n  })\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/variables.tf",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Double Tap/variables.tf",
+      "member_sha256": "77d3075895d6a43d69ab384149176d10a54112e409ae7c12dea9066569c01fe6",
+      "bytes": 2032,
+      "content_kind": "tf",
+      "text": "variable \"aws_local_profile\" {\r\n  description = \"What local profile should terraform use to interact with your AWS account(s)\"\r\n  type        = string\r\n  default     = \"default\"\r\n}\r\n\r\nvariable \"aws_local_creds_file\" {\r\n  description = \"Location of your local credentials file\"\r\n  type        = string\r\n  default     = \"~/.aws/credentials\"\r\n}\r\n\r\nvariable \"aws_assume_role_arn\" {\r\n  description = \"This is the arn of an already existing principal that can assume into any roles that are created\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"account_id\" {\r\n  description = \"This is the ID of the caller account\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\n\r\nvariable \"shared_high_priv_servicerole\" {\r\n  description = \"This is the arn of high priv service role that is attached to lambda's ec2's, etc. to facilitate privesc\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"AWS_REGION\" {\r\n  type    = string\r\n  default = \"us-west-2\"\r\n}\r\n\r\nvariable \"vpc_id\" {\r\n  type    = string\r\n  default = \"\"\r\n}\r\n\r\n# Resources\r\nresource \"random_password\" \"database-secret\" {\r\n  length           = 31\r\n  special          = true\r\n  min_special      = 5\r\n  override_special = \"!#$%^&*()-_=+[]{}<>:?\"\r\n  keepers = {\r\n    pass_version = 1\r\n  }\r\n}\r\n\r\nresource \"random_password\" \"app-secret\" {\r\n  length           = 31\r\n  special          = true\r\n  min_special      = 5\r\n  override_special = \"!#$%^&*()-_=+[]{}<>:?\"\r\n  keepers = {\r\n    pass_version = 1\r\n  }\r\n}\r\n\r\nresource \"random_string\" \"resource-suffix\" {\r\n  length           = 5 \r\n  upper = false \r\n  special = false\r\n}\r\n\r\nvariable \"user_ip\" {\r\n  description = \"The current user's IP address\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"ctf_starting_user_arn\" {\r\n  description = \"The arn of the user that is created at the start of the CTF\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"ctf_starting_user_name\" {\r\n  description = \"The name of the user that is created at the start of the CTF\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "3b2e8d689534048f4570c480816703d766cc8cdd8376a1c121db68c7f9588b61",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

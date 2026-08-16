@@ -1,0 +1,52 @@
+{
+  "candidate_id": "cloud-incident:gcp:00010",
+  "independence_group": "reliability-incident:gcp:cloud-datastore:19006",
+  "independence_group_basis": "upstream_incident_url",
+  "source": {
+    "source_id": "cloud_incident_reports_2016_2024",
+    "doi": "10.5281/zenodo.14010282",
+    "version": "record-14010282-v1",
+    "license": "CC-BY-4.0"
+  },
+  "vendor": "GCP",
+  "service_hint": "Google Stackdriver",
+  "year": null,
+  "data_relevance_facets": [
+    "nosql"
+  ],
+  "security_term_hits": [],
+  "report_text": "[{'affected_locations': None, 'created': '2019-11-11T12:49:07Z', 'modified': '2019-11-11T12:49:07Z', 'status': None, 'text': \"The issue has been resolved for all affected projects as of Monday, 2019-11-11 04:48 US/Pacific.\\n\\nWe will publish an analysis of this incident once we have completed our internal investigation.\\n\\nWe thank you for your patience while we've worked on resolving the issue.\", 'when': '2019-11-11T12:49:07Z'} {'affected_locations': None, 'created': '2019-11-11T12:15:11Z', 'modified': '2019-11-11T12:15:11Z', 'status': None, 'text': 'Description: We are experiencing an issue with multiple products.\\n\\nOur engineering team continues to investigate the issue.\\n\\nFor regular status updates, please follow: https://status.cloud.google.com/incident/cloud-datastore/19006 where we will provide the next update by Monday, 2019-11-11 05:00 US/Pacific.', 'when': '2019-11-11T12:15:11Z'}]",
+  "raw_ref": {
+    "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+    "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+    "member_path": "2_clean_data/gcp.csv",
+    "record_index": 10,
+    "record_sha256": "9493c5f52b0b9cdc68c1ba6db22fb1de5c4b235aa29225b01a2486be2de6f642"
+  },
+  "workflow_version": "0.1",
+  "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "source_context_fields": [
+    "candidate_id",
+    "data_relevance_facets",
+    "independence_group",
+    "independence_group_basis",
+    "raw_ref",
+    "report_text",
+    "security_term_hits",
+    "service_hint",
+    "source",
+    "vendor",
+    "year"
+  ],
+  "source_context_sha256": "d9b584fc12eb8ba576408c2366315ce059e1354ae85d467d0be77b7d7f072123",
+  "screening": {
+    "cloud_data_relevant": null,
+    "non_attack_confirmed": null,
+    "usable_as_negative_control": null,
+    "rationale": null
+  }
+}

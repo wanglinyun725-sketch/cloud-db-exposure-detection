@@ -1,0 +1,209 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "crosscloud:gcp:data_manipulation",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cross_cloud_observability_2026",
+    "upstream_url": "https://doi.org/10.5281/zenodo.19933893",
+    "version_or_commit": "record-19933893-v2",
+    "license": "CC-BY-4.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/README.md",
+        "sha256": "b073b2e97aea4073fec2bf387e2c255d987dd8f3710e84f2df3cc59947e510f8",
+        "upstream_checksum": "md5:10eb94c911d603deb5353a4f9bdfa46e"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/attack_scripts.zip",
+        "sha256": "4599be3e224f3b9b43e76ab4ec1bfa8e3b209ebe529fb218ae4e65dd22417900",
+        "upstream_checksum": "md5:e448f9e9eafb7482b735c76d2d4ef0d0"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/gcp_logs_redacted.zip",
+        "sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4",
+        "upstream_checksum": "md5:1bd7f6a204359e995e5b140eea9e9d12"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/cross_cloud_observability_2026/record-19933893-v2/log_analysis.zip",
+        "sha256": "23b41863cc2ece4936277a1ee1fc6f64b4fea9f3c0f698cefbf5626eeca00fcf",
+        "upstream_checksum": "md5:c57994c6e199cbbf8b091ddcd139515a"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "description": "DOI-published paired payload/no-payload GCP telemetry for data_manipulation.",
+    "author": "Dhooghe et al.",
+    "published_date": "2026-04-30",
+    "environment": "controlled cloud subscription",
+    "platform": "GCP",
+    "attack": "data_manipulation",
+    "independence_group": "crosscloud-family:data_manipulation",
+    "attack_script_refs": [
+      "attack_scripts.zip#attack_scripts/gcp-attacks/attack-scripts/all_automated.sh",
+      "attack_scripts.zip#attack_scripts/gcp-attacks/attack-scripts/automated-logging.sh",
+      "attack_scripts.zip#attack_scripts/gcp-attacks/attack-scripts/storage-attacks.py"
+    ]
+  },
+  "observations": [],
+  "runtime_instances": [
+    {
+      "instance_id": "episode-a0e0290b657e7854",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "GCP",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-73eba30ed00060f71271a7ba",
+          "timestamp": "2024-03-22T22:11:46.491631552Z",
+          "service": "storage.googleapis.com",
+          "operation": "storage.buckets.create",
+          "actor_type": "unknown",
+          "actor_id": "cloud-attacks@PROJECT_ID.iam.gserviceaccount.com",
+          "account_id": "PROJECT_ID",
+          "region": "us",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "aea120928b257ba4e5e64d4310b68de4f4e28a400f23912e69c72ceec73a2497",
+            "record_index": 2,
+            "upstream_path": "member-aea120928b257ba4",
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+          }
+        },
+        {
+          "observation_id": "obs-02cb67ad1c0e6cd313007303",
+          "timestamp": "2024-03-22T22:11:47.268589693Z",
+          "service": "storage.googleapis.com",
+          "operation": "storage.buckets.create",
+          "actor_type": "unknown",
+          "actor_id": "cloud-attacks@PROJECT_ID.iam.gserviceaccount.com",
+          "account_id": "PROJECT_ID",
+          "region": "us",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "aea120928b257ba4e5e64d4310b68de4f4e28a400f23912e69c72ceec73a2497",
+            "record_index": 1,
+            "upstream_path": "member-aea120928b257ba4",
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+          }
+        },
+        {
+          "observation_id": "obs-a450d7af08c6ec8a04b1f1ac",
+          "timestamp": "2024-03-22T22:12:58.348427898Z",
+          "service": "storage.googleapis.com",
+          "operation": "storage.buckets.create",
+          "actor_type": "unknown",
+          "actor_id": "cloud-attacks@PROJECT_ID.iam.gserviceaccount.com",
+          "account_id": "PROJECT_ID",
+          "region": "us",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "aea120928b257ba4e5e64d4310b68de4f4e28a400f23912e69c72ceec73a2497",
+            "record_index": 0,
+            "upstream_path": "member-aea120928b257ba4",
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+          }
+        }
+      ],
+      "observation_count": 3,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    },
+    {
+      "instance_id": "episode-f4556244300fb576",
+      "environment_kind": "cross_cloud_opaque_episode",
+      "platform": "GCP",
+      "log_profile": "default",
+      "observations": [
+        {
+          "observation_id": "obs-92e0783e13d389418b123137",
+          "timestamp": "2024-03-22T22:08:00.971560979Z",
+          "service": "storage.googleapis.com",
+          "operation": "storage.buckets.create",
+          "actor_type": "unknown",
+          "actor_id": "cloud-attacks@PROJECT_ID.iam.gserviceaccount.com",
+          "account_id": "PROJECT_ID",
+          "region": "us",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "f1fe8f51b05fd29b653653dd21a69c86bbc983c01fffffd78ca2a3860557fefa",
+            "record_index": 2,
+            "upstream_path": "member-f1fe8f51b05fd29b",
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+          }
+        },
+        {
+          "observation_id": "obs-08ee49015320f8993a6fe3a0",
+          "timestamp": "2024-03-22T22:08:01.600082085Z",
+          "service": "storage.googleapis.com",
+          "operation": "storage.buckets.create",
+          "actor_type": "unknown",
+          "actor_id": "cloud-attacks@PROJECT_ID.iam.gserviceaccount.com",
+          "account_id": "PROJECT_ID",
+          "region": "us",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "f1fe8f51b05fd29b653653dd21a69c86bbc983c01fffffd78ca2a3860557fefa",
+            "record_index": 1,
+            "upstream_path": "member-f1fe8f51b05fd29b",
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+          }
+        },
+        {
+          "observation_id": "obs-9de808ef543cab431c191d6c",
+          "timestamp": "2024-03-22T22:09:09.675675631Z",
+          "service": "storage.googleapis.com",
+          "operation": "storage.buckets.create",
+          "actor_type": "unknown",
+          "actor_id": "cloud-attacks@PROJECT_ID.iam.gserviceaccount.com",
+          "account_id": "PROJECT_ID",
+          "region": "us",
+          "event_status": "SuccessOrUnspecified",
+          "raw_ref": {
+            "relative_path": "doi:10.5281/zenodo.19933893",
+            "sha256": "f1fe8f51b05fd29b653653dd21a69c86bbc983c01fffffd78ca2a3860557fefa",
+            "record_index": 0,
+            "upstream_path": "member-f1fe8f51b05fd29b",
+            "archive_sha256": "2765fedd91ce6a03c9a8d156a3d83e34dd493e7a366d0b38abd88a00ad10c5a4"
+          }
+        }
+      ],
+      "observation_count": 3,
+      "selection_origin": "one member of a complete paired upstream run selected deterministically; source condition withheld"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "observations",
+    "runtime_instances",
+    "source"
+  ],
+  "source_context_sha256": "8617d39a3a24ee56910df556ba146edfcf38c348e1061661028653aef88d74f1",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

@@ -1,0 +1,132 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "stratus:aws.defense-evasion.dns-delete-logs",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.defense-evasion.dns-delete-logs.json",
+        "sha256": "808abd8ca17fcd66c8b3ebfc21ff3c4b45ad56df4e2db3c5820074c8c757a423"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:aws.defense-evasion.dns-delete-logs",
+    "kind": "executable_attack_technique",
+    "platform": "AWS",
+    "technique": "aws.defense-evasion.dns-delete-logs",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.defense-evasion.dns-delete-logs.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.defense-evasion.dns-delete-logs.md",
+    "review_score": 6,
+    "independence_group": "stratus_red_team:stratus:aws.defense-evasion.dns-delete-logs",
+    "runtime_observations_in_packet": 1,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label",
+    "runtime_evidence_origin": "upstream Stratus documentation: real detonation in a test AWS environment using Grimoire, anonymized with LogLicker",
+    "runtime_environment": "real_isolated_test_cloud_detonation"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.defense-evasion.dns-delete-logs.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.defense-evasion.dns-delete-logs.md",
+      "member_sha256": "cace377ed774f830035f30fdb59d65e5d1dfe02e56fcd94dbddaaf5270cc15fa",
+      "bytes": 3334,
+      "content_kind": "md",
+      "text": "---\ntitle: Delete DNS query logs\n---\n\n# Delete DNS query logs\n\n\n\n\nPlatform: AWS\n\n## Mappings\n\n- MITRE ATT&CK\n    - Defense Evasion\n\n\n\n## Description\n\n\nDeletes a Route53 DNS Resolver query logging configuration. Simulates an attacker disrupting DNS logging.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create a DNS logging configuration\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Delete the DNS logging configuration using <code>route53:DeleteResolverQueryLogConfig</code>.\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate aws.defense-evasion.dns-delete-logs\n```\n## Detection\n\n\nIdentify when a DNS logging configuration is deleted, through CloudTrail's <code>DeleteResolverQueryLogConfig</code> event.\n\n\n\n## Detonation logs <span class=\"smallcaps w3-badge w3-light-green w3-round w3-text-sand\">new!</span>\n\nThe following CloudTrail events are generated when this technique is detonated[^1]:\n\n\n- `route53resolver:DeleteResolverQueryLogConfig`\n\n\n??? \"View raw detonation logs\"\n\n    ```json hl_lines=\"6\"\n\n    [\n\t   {\n\t      \"awsRegion\": \"sa-central-3r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"ba4609ca-b420-4cb6-bdff-307729b3b7db\",\n\t      \"eventName\": \"DeleteResolverQueryLogConfig\",\n\t      \"eventSource\": \"route53resolver.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T14:23:46Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.08\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": false,\n\t      \"recipientAccountId\": \"206821776919\",\n\t      \"requestID\": \"6dbefe3c-b575-499a-a94d-a3bda0e4009a\",\n\t      \"requestParameters\": {\n\t         \"originSequenceNumber\": 0,\n\t         \"resolverQueryLogConfigId\": \"rqlc-4473f20ca554c07\"\n\t      },\n\t      \"responseElements\": {\n\t         \"resolverQueryLogConfig\": {\n\t            \"arn\": \"arn:aws:route53resolver:sa-central-3r:206821776919:resolver-query-log-config/rqlc-4473f20ca554c07\",\n\t            \"associationCount\": 0,\n\t            \"creationTime\": \"2024-07-31T14:23:44.841442289Z\",\n\t            \"creatorRequestId\": \"tf-r53-resolver-query-log-config-20240731142344425800000001\",\n\t            \"destinationArn\": \"arn:aws:s3:::stratus-red-team-dns-delete-bucket-bxxclslsdp\",\n\t            \"id\": \"rqlc-4473f20ca554c07\",\n\t            \"name\": \"stratus-red-team-dns-delete-config-bxxclslsdp\",\n\t            \"ownerId\": \"206821776919\",\n\t            \"shareStatus\": \"NOT_SHARED\",\n\t            \"status\": \"DELETING\"\n\t         }\n\t      },\n\t      \"sourceIPAddress\": \"251.234.045.249\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"route53resolver.sa-central-3r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_bdd216cd-7fb9-4b18-971a-cb585947fd95\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIADT99GZBZR7NVDT0D\",\n\t         \"accountId\": \"206821776919\",\n\t         \"arn\": \"arn:aws:iam::206821776919:user/christophe\",\n\t         \"principalId\": \"AIDAKUK081EB3L71EAZV\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   }\n\t]\n    ```\n\n[^1]: These logs have been gathered from a real detonation of this technique in a test environment using [Grimoire](https://github.com/DataDog/grimoire), and anonymized using [LogLicker](https://github.com/Permiso-io-tools/LogLicker).\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [
+    {
+      "instance_id": "instance-a354c1eca42299ff1bd7",
+      "environment_kind": "stratus_grimoire_detonation",
+      "platform": "AWS",
+      "log_profile": "cloudtrail_detonation",
+      "observations": [
+        {
+          "observation_id": "obs-7867f0bf57e1d8368eccf05d",
+          "candidate_id": "stratus:aws.defense-evasion.dns-delete-logs",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T14:23:46Z",
+          "service": "route53resolver.amazonaws.com",
+          "operation": "DeleteResolverQueryLogConfig",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::206821776919:user/christophe",
+          "source_ip": "251.234.045.249",
+          "account_id": "206821776919",
+          "region": "sa-central-3r",
+          "event_status": "Success",
+          "request": {
+            "originSequenceNumber": 0,
+            "resolverQueryLogConfigId": "rqlc-4473f20ca554c07"
+          },
+          "response": {
+            "resolverQueryLogConfig": {
+              "arn": "arn:aws:route53resolver:sa-central-3r:206821776919:resolver-query-log-config/rqlc-4473f20ca554c07",
+              "associationCount": 0,
+              "creationTime": "2024-07-31T14:23:44.841442289Z",
+              "creatorRequestId": "tf-r53-resolver-query-log-config-20240731142344425800000001",
+              "destinationArn": "arn:aws:s3:::stratus-red-team-dns-delete-bucket-bxxclslsdp",
+              "id": "rqlc-4473f20ca554c07",
+              "name": "stratus-red-team-dns-delete-config-bxxclslsdp",
+              "ownerId": "206821776919",
+              "shareStatus": "NOT_SHARED",
+              "status": "DELETING"
+            }
+          },
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.defense-evasion.dns-delete-logs.json",
+            "member_sha256": "808abd8ca17fcd66c8b3ebfc21ff3c4b45ad56df4e2db3c5820074c8c757a423",
+            "record_index": 0,
+            "event_id": "ba4609ca-b420-4cb6-bdff-307729b3b7db"
+          },
+          "path_label": null,
+          "evidence_state": null
+        }
+      ],
+      "observation_count": 1,
+      "selection_origin": "all events copied from the matching pinned upstream detonation-log member; no event or label generated"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "10757ba8295faa70b976fc525a4ce29b9a9e24fe3072de953f78e28b80d091ff",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

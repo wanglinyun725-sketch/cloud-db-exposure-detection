@@ -1,0 +1,52 @@
+{
+  "candidate_id": "cloud-incident:azure:00114",
+  "independence_group": "reliability-record:b390558adad18bb74a18f09a883fe83d589d11cd9bc3a21eddad14df386b00e1",
+  "independence_group_basis": "source_record_sha256",
+  "source": {
+    "source_id": "cloud_incident_reports_2016_2024",
+    "doi": "10.5281/zenodo.14010282",
+    "version": "record-14010282-v1",
+    "license": "CC-BY-4.0"
+  },
+  "vendor": "AZURE",
+  "service_hint": null,
+  "year": null,
+  "data_relevance_facets": [
+    "database"
+  ],
+  "security_term_hits": [],
+  "report_text": "02/24/2020 503 errors accessing the Azure Portal - Mitigated Tracking ID: 8_K4-TD0 Summary of impact: Between approximately 19:45 and 22:15 UTC on 24 Feb 2020, a limited subset of customers may have encountered HTTP 503 error codes when attempting to access the Azure Portal. The availability of individual resources (Virtual Machines, Web Apps, databases, etc.) was not impacted. Preliminary root cause: After a preliminary investigation, engineers determined that an internal automation workflow was generating a high volume of requests to a backend CosmosDB partition on which the Azure Portal relies. As the volume of incoming requests grew, an automated throttling process began on the impacted partition, preventing requests from completing. Mitigation: Engineers manually stopped the internal automation workflow, allowing the volume of requests to return below normal thresholds and the partition throttling to stop. Next steps: We apologize for the impact to affected customers. Engineers will continue to investigate the underlying cause and take steps to prevent future occurrences.",
+  "raw_ref": {
+    "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+    "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+    "member_path": "2_clean_data/azure.csv",
+    "record_index": 114,
+    "record_sha256": "b390558adad18bb74a18f09a883fe83d589d11cd9bc3a21eddad14df386b00e1"
+  },
+  "workflow_version": "0.1",
+  "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "source_context_fields": [
+    "candidate_id",
+    "data_relevance_facets",
+    "independence_group",
+    "independence_group_basis",
+    "raw_ref",
+    "report_text",
+    "security_term_hits",
+    "service_hint",
+    "source",
+    "vendor",
+    "year"
+  ],
+  "source_context_sha256": "35bd584e20af4e2d22a81098a292728694eb804fc9d3d2a4a3af187c01af0480",
+  "screening": {
+    "cloud_data_relevant": null,
+    "non_attack_confirmed": null,
+    "usable_as_negative_control": null,
+    "rationale": null
+  }
+}

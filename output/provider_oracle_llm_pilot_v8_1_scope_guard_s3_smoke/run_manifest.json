@@ -1,0 +1,84 @@
+{
+  "manifest_version": "1.1.0",
+  "experiment_id": "provider_oracle_llm_pilot_v8_1_scope_guard",
+  "protocol_version": "8.0-pilot",
+  "research_effectiveness_result": false,
+  "config_path": "configs\\provider_oracle_llm_pilot_v8_1.json",
+  "config_sha256": "765e38e9188379f66c04b35eaddb6e7b7bb1a82a773ce6f99be3c5500e77156b",
+  "implementation": [
+    {
+      "path": "scripts/experiments/run_provider_oracle_llm_pilot_v1.py",
+      "sha256": "0786953991dd4b4107a9c7c6faae22f0541ea82e49344be975eca27849581d4a"
+    },
+    {
+      "path": "src/agent/ec_react.py",
+      "sha256": "c40449d8d6290476591ceea525119c349485fdd941608310376c602e52bf43e5"
+    },
+    {
+      "path": "src/agent/ec_react_langgraph.py",
+      "sha256": "09447133ec2aac32625973a8915adcebfd8423fbb0329e785673478a79fdd0cc"
+    },
+    {
+      "path": "src/agent/path_proposal.py",
+      "sha256": "5da2840f0a356b5cb6c4b51c7a73d3a84da74a5602c5505c6154bb681db4d77b"
+    },
+    {
+      "path": "src/agent/published_telemetry_environment.py",
+      "sha256": "39adff657e446f02b52353c6e14d9a46864bf01293d605f7e746edf3316cf58d"
+    },
+    {
+      "path": "src/agent/frozen_provider_oracle_environment.py",
+      "sha256": "9e4426201331719753fefdf915ed00277aba26d0f4c16e30d9d84893eadfcb75"
+    },
+    {
+      "path": "src/experiments/provider_oracle_scoring.py",
+      "sha256": "f051c89dcc5d79871a5087721827219114ed0ceb61fd5400a4778b28f7efe519"
+    },
+    {
+      "path": "src/verification/cp_cert.py",
+      "sha256": "8a676285e7e85cb4cb05cb58f1c252bc9d833b5836d276b4fa7443ff85e6f51b"
+    }
+  ],
+  "implementation_bundle_sha256": "98efce2d4b3962b571f57d3706e8460fc4190b16aab01a3dddad8fee9e2ea400",
+  "public_packet_path": "data\\real_sources\\provider_oracle_protocol_v8_public.json",
+  "public_packet_sha256": "c629f50e1fe5aeee04061f82efc019c6fcfaec8b725e7264c52635bf71927f05",
+  "gold_packet_path": "data\\real_sources\\provider_oracle_protocol_v8_gold.json",
+  "gold_packet_sha256": "295399ebdbe63d47b89f3a5f50f597746dc18d8b90c58d9da408974a3a00dfc6",
+  "agent_loaded_gold": false,
+  "model": {
+    "backend": "ollama_native",
+    "name": "qwen2.5:7b",
+    "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "think": false,
+    "temperature": 0,
+    "num_predict": 1024,
+    "num_ctx": 4096
+  },
+  "filters": {
+    "methods": [
+      "ec_react_full_linear"
+    ],
+    "cases": [
+      "oracle-v8:splunk:s3-acl-without-effective-access-control"
+    ],
+    "limit": 1
+  },
+  "scheduled_runs": 1,
+  "schedule": [
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v8_1_scope_guard",
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "method_id": "ec_react_full_linear",
+      "orchestration_backend": "linear",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "config_sha256": "765e38e9188379f66c04b35eaddb6e7b7bb1a82a773ce6f99be3c5500e77156b",
+      "implementation_bundle_sha256": "98efce2d4b3962b571f57d3706e8460fc4190b16aab01a3dddad8fee9e2ea400",
+      "schedule_id": "llm-schedule-d77829da19efd46481b06e11"
+    }
+  ],
+  "secrets_in_manifest": false
+}

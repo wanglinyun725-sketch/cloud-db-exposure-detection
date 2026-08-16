@@ -1,0 +1,101 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "cloudfoxable:aws:Pain",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudfoxable",
+    "upstream_url": "https://github.com/BishopFox/cloudfoxable",
+    "version_or_commit": "fc49b7f637268031515ced9fee4b643d3e68db67",
+    "license": "MIT",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudfoxable/fc49b7f637268031515ced9fee4b643d3e68db67/snapshot.zip",
+        "sha256": "bec9436f0e8759601dd7669c108c0921db5b10bc2d941223f0467efb5227fe6d"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudfoxable:aws:Pain",
+    "kind": "executable_challenge",
+    "platform": "AWS",
+    "challenge": "Pain",
+    "manifest_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Pain/challenge.yml",
+    "terraform_file_count": 2,
+    "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Pain/",
+    "review_score": 11,
+    "independence_group": "cloudfoxable-challenge:Pain",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Pain/README.md",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Pain/README.md",
+      "member_sha256": "78d61d52c29dad545e3b1d51f400e4f52334e6fae0cfb757d399ffed79f922b5",
+      "bytes": 53,
+      "content_kind": "md",
+      "text": "# Challenge Name\n\nPain\n\n# Contributed by: \n\nBishopFox",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Pain/challenge.yml",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Pain/challenge.yml",
+      "member_sha256": "ae5c8ce0eae3a92ada64ade13b3c8dee84e03eca7efa209efbb72f126dc4c1d1",
+      "bytes": 1744,
+      "content_kind": "yml",
+      "text": "name: Pain\ncategory: 'Assumed Breach: Principal'\ndescription: |-\n  **Overview**\n\n  * **Default state:** Enabled\n  * **Estimated Cost:** No cost until you create resources (required)\n  * **Starting Point:** `arn:aws:iam::ACCOUNT_ID:role/christian_pulisic`\n\n  **CloudFoxable Setup**\n\n  Create profile for `pulisic`\n\n  ```\n  [profile pulisic]\n  region = us-west-2\n  role_arn = arn:aws:iam::ACCOUNTID:role/christian_pulisic\n  source_profile = cloudfoxable\n  ```\n\n  **Challange Details**\n\n  In the 2022 FIFA World Cup, Christian Pulisic put his body on the line to net a crucial goal for the USA, ensuring their progression beyond the group stage: https://www.youtube.com/watch?v=Y7VA30UYlQo. He did what he had to do, even though he knew it was going to hurt.\n\n  Similarly, during a penetration test, whether in a cloud environment or otherwise, you might identify a exploit path that won't be pleasant to exploit, but you know the end result will be worth it.\n\n  For this challenge, you have just gained access to the role `christian_pulisic`. The trophy target for this challenge is in an s3 bucket named pain-s3-\\[randon-chars] in your account.\n\n  Start with christian_pulisic and follow the permissions until you see the path. That's the easy part :). Executing the exploit chain... not so easy.\n\n  [Pulisic in the hospital](/files/c167bb4c9acea175c2fa993787580e66/pulisic-1-1.webp)\n\n  **Cleanup Tasks**\n\n  Don't forgot to remove any resources you created to solve this challenge. This is good practice, because we must also keep track of things we create on a penetration test and remove them when we are finished with the attack chain.\nvalue: 400\n\nflags:\n- content: FLAG{pain::pulisic_is_proud_of_you}\n  type: static\n  data: case_insensitive\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Pain/pain.tf",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Pain/pain.tf",
+      "member_sha256": "bf163003afd04d4c7658eddd4b1ea091c3f7691c470a64e42fbaa6b6244a26d3",
+      "bytes": 9075,
+      "content_kind": "tf",
+      "text": "// create a role that can be assumed by the ctf starting user\nresource \"aws_iam_role\" \"pain\" {\n    name = \"christian_pulisic\"\n    assume_role_policy = jsonencode({\n        \"Version\" : \"2012-10-17\",\n        \"Statement\" : [\n            {\n                \"Effect\" : \"Allow\",\n                \"Principal\" : {\n                    \"AWS\" : [\n                        \"arn:aws:iam::${var.account_id}:user/${var.ctf_starting_user_name}\"\n                    ]\n                },\n                \"Action\" : [\n                    \"sts:AssumeRole\"\n                ]\n            }\n        ]\n    })\n}\n\n\n// create a policy that allows the ctf starting user to create cloudformation stacks and to pass roles to them, but only roles that trust the cloudformation service\nresource \"aws_iam_policy\" \"pain-policy\" {\n    name = \"pain-policy\"\n    policy = jsonencode({\n        \"Version\" : \"2012-10-17\",\n        \"Statement\" : [\n            {\n                \"Effect\" : \"Allow\",\n                \"Action\" : [\n                    \"cloudformation:CreateStack\",\n                    \"cloudformation:DescribeStacks\",\n                    \"cloudformation:DeleteStack\",\n                    \"cloudformation:DescribeStackEvents\",\n                    \"cloudformation:DescribeStackResource\",\n                    \"cloudformation:DescribeStackResources\",\n                    \"cloudformation:DescribeStacks\"                   \n                ],\n                \"Resource\" : \"*\"\n            },\n            {\n                \"Effect\" : \"Allow\",\n                \"Action\" : [\n                    \"iam:PassRole\"\n                ],\n                \"Resource\" : [\n                    \"*\"\n                ]\n            }\n        ]\n    })\n}\n\n// attach the policy to the role\nresource \"aws_iam_role_policy_attachment\" \"pain-policy-attachment\" {\n    role = aws_iam_role.pain.name\n    policy_arn = aws_iam_policy.pain-policy.arn\n}\n\n// attach a managed policy to pulisic that allows pulisic read only to ec2 things\nresource \"aws_iam_role_policy_attachment\" \"pulisic-ec2-policy-attachment\" {\n    role = aws_iam_role.pain.name\n    policy_arn = \"arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess\"\n}\n\n\n// attach a managed policy to pulisic that allows pulisic read only to cloudformation things\nresource \"aws_iam_role_policy_attachment\" \"pulisic-cloudformation-policy-attachment\" {\n    role = aws_iam_role.pain.name\n    policy_arn = \"arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess\"\n}\n\n// attach a managed policy to pulisic that allows pulisic read only to opsworks things\n//resource \"aws_iam_role_policy_attachment\" \"pulisic-opsworks-policy-attachment\" {\n//    role = aws_iam_role.pain.name\n//    policy_arn = \"arn:aws:iam::aws:policy/AWSOpsWorksCMInstanceProfileRole\"\n//}\n\n\n\n\n// create a role that trusts the cloudformation service\nresource \"aws_iam_role\" \"pain2\" {\n    name = \"tab_ramos\"\n    assume_role_policy = jsonencode({\n        \"Version\" : \"2012-10-17\",\n        \"Statement\" : [\n            {\n                \"Effect\" : \"Allow\",\n                \"Principal\" : {\n                    \"Service\" : [\n                        \"cloudformation.amazonaws.com\"\n                    ]\n                },\n                \"Action\" : [\n                    \"sts:AssumeRole\"\n                ]\n            }\n        ]\n    })\n}\n\n // attach the lambda full access policy to the role\nresource \"aws_iam_role_policy_attachment\" \"pain2-policy-attachment\" {\n    role = aws_iam_role.pain2.name\n    policy_arn = \"arn:aws:iam::aws:policy/AWSLambda_FullAccess\"\n}\n\n// create a policy that will deny iam passrole to specific iam role arns\nresource \"aws_iam_policy\" \"pain2-deny-policy\" {\n    name = \"pain2-policy\"\n    policy = jsonencode({\n        \"Version\" : \"2012-10-17\",\n        \"Statement\" : [\n            {\n                \"Effect\" : \"Deny\",\n                \"Action\" : [\n                    \"iam:PassRole\"\n                ],\n                \"Resource\" : [\n                    \"arn:aws:iam::*:role/aaronson\",\n                    \"arn:aws:iam::*:role/my-app-role\",\n                    \"arn:aws:iam::*:role/producer\",\n                    \"arn:aws:iam::*:role/ream\",\n                    \"arn:aws:iam::*:role/sauerbrunn\",\n                    \"arn:aws:iam::*:role/swanson\",\n                    \"arn:aws:iam::*:role/lambda_*\"\n                ]\n            }\n        ]\n    })\n}\n\n//attach pain2-deny-policy to tab ramos\nresource \"aws_iam_role_policy_attachment\" \"pain2-deny-policy-attachment\" {\n    role = aws_iam_role.pain2.name\n    policy_arn = aws_iam_policy.pain2-deny-policy.arn\n}\n\n\n\n// create a role that trusts the lambda service\n\nresource \"aws_iam_role\" \"pain3\" {\n    name = \"brian_mcbride\"\n    assume_role_policy = jsonencode({\n        \"Version\" : \"2012-10-17\",\n        \"Statement\" : [\n            {\n                \"Effect\" : \"Allow\",\n                \"Principal\" : {\n                    \"Service\" : [\n                        \"lambda.amazonaws.com\"\n                    ]\n                },\n                \"Action\" : [\n                    \"sts:AssumeRole\"\n                ]\n            }\n        ]\n    })\n}\n\n// create a policy that allows the lambda function to create create an ec2 instance and pass a role to it\nresource \"aws_iam_policy\" \"pain3-ec2-policy\" {\n    name = \"pain3-ec2-policy\"\n    policy = jsonencode({\n        \"Version\" : \"2012-10-17\",\n        \"Statement\" : [\n            {\n                \"Effect\" : \"Allow\",\n                \"Action\" : [\n                    \"ec2:RunInstances\",\n                    \"ec2:DescribeInstances\",\n                    \"ec2:TerminateInstances\",\n                    \"ec2:Describe*\",\n                ],\n                \"Resource\" : \"*\"\n            },\n            {\n                \"Effect\" : \"Allow\",\n                \"Action\" : [\n                    \"iam:PassRole\"\n                ],\n                \"Resource\" : \"*\"\n            },\n            {\n                \"Effect\" : \"Deny\",\n                \"Action\" : [\n                    \"iam:PassRole\"\n                ],\n                \"Resource\" : [\n                    \"arn:aws:iam::*:role/double_*\",\n                    \"arn:aws:iam::*:role/ec2_privileged\",\n                    \"arn:aws:iam::*:role/fox\",\n                    \"arn:aws:iam::*:role/wyatt\",\n                    \"arn:aws:iam::*:role/reyna\"\n                ]\n            }\n        ]\n    })\n}\n\n// attach the policy to the role\nresource \"aws_iam_role_policy_attachment\" \"pain3-policy-attachment\" {\n    role = aws_iam_role.pain3.name\n    policy_arn = aws_iam_policy.pain3-ec2-policy.arn\n}\n\n// attach AWSLambdaBasicExecutionRole to brian_mcbride\nresource \"aws_iam_role_policy_attachment\" \"pain3-lambda-policy-attachment\" {\n    role = aws_iam_role.pain3.name\n    policy_arn = \"arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole\"\n}\n\n\n// create a role that trusts the ec2 service\nresource \"aws_iam_role\" \"pain4\" {\n    name = \"landon_donovan\"\n    assume_role_policy = jsonencode({\n        \"Version\" : \"2012-10-17\",\n        \"Statement\" : [\n            {\n                \"Effect\" : \"Allow\",\n                \"Principal\" : {\n                    \"Service\" : [\n                        \"ec2.amazonaws.com\"\n                    ]\n                },\n                \"Action\" : [\n                    \"sts:AssumeRole\"\n                ]\n            }\n        ]\n    })\n}\n\n// create an instance profile for the role\nresource \"aws_iam_instance_profile\" \"pain4-instance-profile\" {\n    name = \"landon_donovan\"\n    role = aws_iam_role.pain4.name\n}\n\n// create an s3 bucket that will hold the flag\nresource \"aws_s3_bucket\" \"pain-s3\" {\n    bucket = \"pain-s3-${random_string.resource-suffix.result}\"\n}\n\n// create a policy that allows the ec2 instance to read the flag from the s3 bucket and also allows the ec2 instance to list all files in the bucket\nresource \"aws_iam_policy\" \"pain4-policy\" {\n    name = \"pain4-policy\"\n    policy = jsonencode({\n        \"Version\" : \"2012-10-17\",\n        \"Statement\" : [\n            {\n                \"Effect\" : \"Allow\",\n                \"Action\" : [\n                    \"s3:GetObject\",\n                    \"s3:ListBucket\"\n                ],\n                \"Resource\" : [\n                    \"${aws_s3_bucket.pain-s3.arn}\",\n                    \"${aws_s3_bucket.pain-s3.arn}/*\"\n                ]\n            },\n            {\n                \"Effect\" : \"Allow\",\n                \"Action\" : [\n                    \"s3:ListAllMyBuckets\"\n                ],\n                \"Resource\" : [\n                    \"*\"\n                ]\n            }\n        ]        \n    })\n}\n\n// attach the policy to the role\nresource \"aws_iam_role_policy_attachment\" \"pain4-policy-attachment\" {\n    role = aws_iam_role.pain4.name\n    policy_arn = aws_iam_policy.pain4-policy.arn\n}\n\n// attach administrator access policy to landon donovan\n# resource \"aws_iam_role_policy_attachment\" \"pain4-admin-policy-attachment\" {\n#     role = aws_iam_role.pain4.name\n#     policy_arn = \"arn:aws:iam::aws:policy/AdministratorAccess\"\n# }\n\n\n\n// upload the flag to the s3 bucket\nresource \"aws_s3_object\" \"pain-s3-object\" {\n    bucket = aws_s3_bucket.pain-s3.id\n    key = \"flag.txt\"\n    source = \"challenges/Pain/data/flag.txt\"\n}\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Pain/variables.tf",
+      "member_path": "cloudfoxable-fc49b7f637268031515ced9fee4b643d3e68db67/aws/challenges/Pain/variables.tf",
+      "member_sha256": "77d3075895d6a43d69ab384149176d10a54112e409ae7c12dea9066569c01fe6",
+      "bytes": 2032,
+      "content_kind": "tf",
+      "text": "variable \"aws_local_profile\" {\r\n  description = \"What local profile should terraform use to interact with your AWS account(s)\"\r\n  type        = string\r\n  default     = \"default\"\r\n}\r\n\r\nvariable \"aws_local_creds_file\" {\r\n  description = \"Location of your local credentials file\"\r\n  type        = string\r\n  default     = \"~/.aws/credentials\"\r\n}\r\n\r\nvariable \"aws_assume_role_arn\" {\r\n  description = \"This is the arn of an already existing principal that can assume into any roles that are created\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"account_id\" {\r\n  description = \"This is the ID of the caller account\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\n\r\nvariable \"shared_high_priv_servicerole\" {\r\n  description = \"This is the arn of high priv service role that is attached to lambda's ec2's, etc. to facilitate privesc\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"AWS_REGION\" {\r\n  type    = string\r\n  default = \"us-west-2\"\r\n}\r\n\r\nvariable \"vpc_id\" {\r\n  type    = string\r\n  default = \"\"\r\n}\r\n\r\n# Resources\r\nresource \"random_password\" \"database-secret\" {\r\n  length           = 31\r\n  special          = true\r\n  min_special      = 5\r\n  override_special = \"!#$%^&*()-_=+[]{}<>:?\"\r\n  keepers = {\r\n    pass_version = 1\r\n  }\r\n}\r\n\r\nresource \"random_password\" \"app-secret\" {\r\n  length           = 31\r\n  special          = true\r\n  min_special      = 5\r\n  override_special = \"!#$%^&*()-_=+[]{}<>:?\"\r\n  keepers = {\r\n    pass_version = 1\r\n  }\r\n}\r\n\r\nresource \"random_string\" \"resource-suffix\" {\r\n  length           = 5 \r\n  upper = false \r\n  special = false\r\n}\r\n\r\nvariable \"user_ip\" {\r\n  description = \"The current user's IP address\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"ctf_starting_user_arn\" {\r\n  description = \"The arn of the user that is created at the start of the CTF\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n\r\nvariable \"ctf_starting_user_name\" {\r\n  description = \"The name of the user that is created at the start of the CTF\"\r\n  type        = string\r\n  default     = \"\"\r\n}\r\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "55625f62085801332910b998fb9187a6df2b9ca180da26c85729acdd9d38b27e",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

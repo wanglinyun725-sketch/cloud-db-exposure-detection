@@ -1,0 +1,160 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "cloudgoat:azure:datafactory_secret_theft",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:azure:datafactory_secret_theft",
+    "kind": "executable_scenario",
+    "platform": "AZURE",
+    "scenario": "datafactory_secret_theft",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/cheat_sheet.md"
+    ],
+    "terraform_file_count": 7,
+    "has_cheat_sheet": true,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/",
+    "review_score": 38,
+    "independence_group": "cloudgoat-scenario:datafactory_secret_theft",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/README.md",
+      "member_sha256": "ae99d2ef65a04a85285971aba57066774d913faec15da730e1affcbcc6d62d32",
+      "bytes": 828,
+      "content_kind": "md",
+      "text": "# Scenario: datafactory_secret_theft\n**Size:** Small  \n**Dificulty:** Easy  \n**Command:** `cloudgoat create datafactory_secret_theft`  \n\n## Scenario Resources\n- 1 Data Factory (ADF)\n- 1 Key Vault\n\n## Scenario Start(s)\n1. Azure user: `cloudgoat-user[ID]@rhinosecuritylabs.onmicrosoft.com`\n2. Data Factory URL\n\n## Scenario Goal(s)\nObtain the flag from Key Vault.\n\n## Summary\nStarting as the CloudGoat created user, access the Data Factory and figure out how to exfiltrate secrets from the linked service Key Vault.\n\n## Route Walkthrough\n1. Using the provided credentials and Data Factory URL, log into Data Factory.\n2. Identify the linked service Key Vault and its name.\n3. Use a Data Factory Pipeline web request to exfiltrate the secret name and secret value.\n\nA cheat sheet for this route is available [here](./cheat_sheet.md).",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/cheat_sheet.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/cheat_sheet.md",
+      "member_sha256": "6d16587e899b2e21b9f6a0332fba5826103adcc36d9e71e5c857e19432443e2c",
+      "bytes": 1011,
+      "content_kind": "md",
+      "text": "\n### Enumerate Linke Services\n1. Open the Data Factory URL and log in as the starting CloudGoat user.\n2. Click \"Manage\" > \"Linked services\". Then click on the linked Key Vault.\n3. Note the linked Key Vault's Base URL.\n\n### Exfiltrate the secret using Data Factory Pipeline's \"Web\" feature\n1. Click \"Author\" > \"Pipelines Actions\" (three dots) > \"New Pipeline\".\n2. Drop down \"General\".\n3. Drag \"Web\" to the Pipeline designer.\n4. Click \"Settings\".\n5. Set the URL to https://{vault-baseurl}/secrets?api-version=7.3\n6. Set Method to \"GET\".\n7. Set \"Authentication\" to \"system-assigned managed identity\". (This will use the privileges assigned to the Data Factory).\n8. Set the \"Resource\" to https://vault.azure.net/.\n9. Click \"Debug\".\n10. Wait for the request to complete and click output to view the response of the request containing the secret name.\n11. Repeat this but use the URL:  https://{vault-baseurl}/{secret_name_from_step_10}?api-version=7.3\n12. This response will give you the flag contained in Key Vault.",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/manifest.yml",
+      "member_sha256": "d2ddc6306dd3e3e0190c67d85da80fb4300559b7391f2a23b8cd093a8b1cf4fd",
+      "bytes": 725,
+      "content_kind": "yml",
+      "text": "---\n# The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: datafactory_secret_theft\n# The name of the author(s), comma separated\n- author: Dave yesland - Rhino Security Labs\n# The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 1.0\n# Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n        With access to Data Factory, enumerate the linked services and connections to discover\n        the Key Vault linked service. Use the Key Vault linked service to access the secret via Data Factory.\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: 03-20-2025\n...",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/keyvault.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/keyvault.tf",
+      "member_sha256": "f8acc0133c36c198ad5420f581fc8caa5b61952c0f70e458261dc1715f8a29ef",
+      "bytes": 1275,
+      "content_kind": "tf",
+      "text": "resource \"azurerm_key_vault\" \"main\" {\n  name                = \"cgkv${var.cgid}\"\n  resource_group_name = azurerm_resource_group.main.name\n  location            = azurerm_resource_group.main.location\n  sku_name            = \"standard\"\n  tenant_id           = data.azuread_client_config.current.tenant_id\n}\n\nresource \"azurerm_key_vault_access_policy\" \"main\" {\n  key_vault_id = azurerm_key_vault.main.id\n  tenant_id    = data.azuread_client_config.current.tenant_id\n  object_id    = data.azuread_client_config.current.object_id\n  secret_permissions = [\n    \"Get\",\n    \"List\",\n    \"Set\",\n    \"Delete\",\n    \"Recover\",\n    \"Backup\",\n    \"Restore\",\n    \"Purge\"\n  ]\n}\n\nresource \"azurerm_key_vault_secret\" \"storage_key\" {\n  name         = \"cg-flag-${var.cgid}\"\n  value        = \"cg-flag-33bf9df3-ccad-4887-be22-9c36f26bb32d\"\n  key_vault_id = azurerm_key_vault.main.id\n\n  depends_on = [azurerm_key_vault_access_policy.main, azurerm_key_vault.main]\n}\n\nresource \"azurerm_key_vault_access_policy\" \"datafactory\" {\n  key_vault_id = azurerm_key_vault.main.id\n  tenant_id    = data.azuread_client_config.current.tenant_id\n  object_id    = data.azurerm_data_factory.main.identity[0].principal_id\n\n  secret_permissions = [\n    \"Get\",\n    \"List\"\n  ]\n\n  depends_on = [azurerm_data_factory.main]\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/main.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/main.tf",
+      "member_sha256": "6e56ea7f78cebe2649812aa1e11bf2f62e97efeab2e7de7faec807c671004680",
+      "bytes": 939,
+      "content_kind": "tf",
+      "text": "resource \"azurerm_resource_group\" \"main\" {\n  name     = \"cg_rg_${var.cgid}\"\n  location = var.location\n}\n\n# Enable Managed Identity for Data Factory\nresource \"azurerm_data_factory\" \"main\" {\n  name                = \"cg-datafactory-${var.cgid}\"\n  resource_group_name = azurerm_resource_group.main.name\n  location            = azurerm_resource_group.main.location\n\n  identity {\n    type = \"SystemAssigned\"\n  }\n}\n\n# Create Data Factory Linked Service for Key Vault\nresource \"azurerm_data_factory_linked_service_key_vault\" \"main\" {\n  name            = \"cg-adf-${var.cgid}-keyvault\"\n  data_factory_id = azurerm_data_factory.main.id\n  key_vault_id    = azurerm_key_vault.main.id\n}\n\n# ✅ Fetch the correct Managed Identity Object ID (ONLY ONE INSTANCE)\ndata \"azurerm_data_factory\" \"main\" {\n  name                = azurerm_data_factory.main.name\n  resource_group_name = azurerm_resource_group.main.name\n}\n\ndata \"azuread_client_config\" \"current\" {}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/outputs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/outputs.tf",
+      "member_sha256": "d622656a27145a1bf6c760ae7bbb2afa337a40d8f25fe1b5dab566e6461d47db",
+      "bytes": 460,
+      "content_kind": "tf",
+      "text": "output \"cloudgoat_username\" {\n  value = azuread_user.cloudgoat_user.user_principal_name\n}\n\noutput \"cloudgoat_password\" {\n  value     = random_password.cloudgoat_password.result\n  sensitive = true\n}\n\noutput \"data_factory_url\" {\n  value = \"https://adf.azure.com/en/home?factory=%2Fsubscriptions%2F${var.subscription_id}%2FresourceGroups%2F${azurerm_resource_group.main.name}%2Fproviders%2FMicrosoft.DataFactory%2Ffactories%2F${azurerm_data_factory.main.name}\"\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/provider.tf",
+      "member_sha256": "d78e002fcf66374cad2f0afcd178e175f9983f418fb69d14b4a51cb26d85b1b6",
+      "bytes": 409,
+      "content_kind": "tf",
+      "text": "terraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    azurerm = {\n      source  = \"hashicorp/azurerm\"\n      version = \">= 3.0.0\"\n    }\n    azuread = {\n      source  = \"hashicorp/azuread\"\n      version = \">= 2.0.0\"\n    }\n  }\n}\n\nprovider \"azurerm\" {\n  features {\n    key_vault {\n\t    purge_soft_delete_on_destroy = false\n\t  }\n  }\n  subscription_id = var.subscription_id\n}\n\nprovider \"azuread\" {}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/roles.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/roles.tf",
+      "member_sha256": "6f61856f988ec7395d2b044eb51254e7f76383098c7655eed1cad88f6a85c3e1",
+      "bytes": 269,
+      "content_kind": "tf",
+      "text": "resource \"azurerm_role_assignment\" \"cloudgoat_adf_role\" {\n  scope                = azurerm_data_factory.main.id\n  role_definition_name = \"Data Factory Contributor\"\n  principal_id         = azuread_user.cloudgoat_user.object_id\n  depends_on = [azurerm_key_vault.main]\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/users.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/users.tf",
+      "member_sha256": "df3ab4d9580a978e5d93111b290dec8709dfc9ef1cec2762294ea9cc5aea34c8",
+      "bytes": 446,
+      "content_kind": "tf",
+      "text": "data \"azuread_domains\" \"tenant\" {}\n\nresource \"azuread_user\" \"cloudgoat_user\" {\n  user_principal_name = \"cloudgoat-user${var.cgid}@${data.azuread_domains.tenant.domains[0].domain_name}\"\n  display_name        = \"CloudGoat User${var.cgid}\"\n  mail_nickname       = \"cloudgoatuser${var.cgid}\"\n  password           = \"${random_password.cloudgoat_password.result}\"\n}\n\nresource \"random_password\" \"cloudgoat_password\" {\n  length   = 16\n  special  = true\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/azure/datafactory_secret_theft/terraform/variables.tf",
+      "member_sha256": "f21e371b9f3a880ac3a0869f2e1c48c29341667f24051d4689b6ac2c857aca4e",
+      "bytes": 375,
+      "content_kind": "tf",
+      "text": "variable \"cgid\" {\n  description = \"CGID variable for unique naming between scenarios\"\n  type        = string\n  default     = \"\"\n}\n\nvariable \"location\" {\n  description = \"Azure region to deploy resources in\"\n  type        = string\n  default     = \"East US\"\n}\n\nvariable \"subscription_id\" {\n  description = \"The Azure subscription ID\"\n  type        = string\n  default     = \"\"\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "15c7a11f995f2c04985ee7702c4c6df499e6ca7c9a5c9dd5b17879fa75cfca1b",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

@@ -1,0 +1,243 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "relationship--abbf5417-5112-424d-85f4-e4622675b319",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--abbf5417-5112-424d-85f4-e4622675b319",
+    "kind": "procedure_relationship",
+    "source_object_id": "intrusion-set--82323c70-4186-4b61-94f5-b227c3b28e89",
+    "source_object_type": "intrusion-set",
+    "source_name": "RedCurl",
+    "technique_object_id": "attack-pattern--d4bdbdea-eaec-4071-b4f9-5105e12ea4b6",
+    "technique_id": "T1537",
+    "technique_name": "Transfer Data to Cloud Account",
+    "platforms": [
+      "IaaS",
+      "Office Suite",
+      "SaaS"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--abbf5417-5112-424d-85f4-e4622675b319",
+    "review_score": 12,
+    "independence_group": "mitre-source-object:intrusion-set--82323c70-4186-4b61-94f5-b227c3b28e89",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1537"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--abbf5417-5112-424d-85f4-e4622675b319",
+      "object_id": "relationship--abbf5417-5112-424d-85f4-e4622675b319",
+      "canonical_object_sha256": "c0e97756924ec97721e2f87ef8dab27e9370475c3299099a8979c6c4508fac1d",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--abbf5417-5112-424d-85f4-e4622675b319",
+        "created": "2024-09-23T23:09:23.691Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "group-ib_redcurl1",
+            "description": "Group-IB. (2020, August). RedCurl: The Pentest You Didn’t Know About. Retrieved August 9, 2024.",
+            "url": "https://www.group-ib.com/resources/research-hub/red-curl/"
+          },
+          {
+            "source_name": "group-ib_redcurl2",
+            "description": "Group-IB. (2021, November). RedCurl: The Awakening. Retrieved August 14, 2024.",
+            "url": "https://www.group-ib.com/resources/research-hub/red-curl-2/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:06.159Z",
+        "description": "[RedCurl](https://attack.mitre.org/groups/G1039) has used cloud storage to exfiltrate data, in particular the megatools utilities were used to exfiltrate data to Mega, a file storage service.(Citation: group-ib_redcurl1)(Citation: group-ib_redcurl2)",
+        "relationship_type": "uses",
+        "source_ref": "intrusion-set--82323c70-4186-4b61-94f5-b227c3b28e89",
+        "target_ref": "attack-pattern--d4bdbdea-eaec-4071-b4f9-5105e12ea4b6",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=intrusion-set--82323c70-4186-4b61-94f5-b227c3b28e89",
+      "object_id": "intrusion-set--82323c70-4186-4b61-94f5-b227c3b28e89",
+      "canonical_object_sha256": "d436c15b73f23560b0eea728645db3e5274c08840e4ea46578c913b9e711524c",
+      "structured_object": {
+        "modified": "2024-09-23T23:11:00.562Z",
+        "name": "RedCurl",
+        "description": "[RedCurl](https://attack.mitre.org/groups/G1039) is a threat actor active since 2018 notable for corporate espionage targeting a variety of locations, including Ukraine, Canada and the United Kingdom, and a variety of industries, including but not limited to travel agencies, insurance companies, and banks.(Citation: group-ib_redcurl1) [RedCurl](https://attack.mitre.org/groups/G1039) is allegedly a Russian-speaking threat actor.(Citation: group-ib_redcurl1)(Citation: group-ib_redcurl2) The group’s operations typically start with spearphishing emails to gain initial access, then the group executes discovery and collection commands and scripts to find corporate data. The group concludes operations by exfiltrating files to the C2 servers. ",
+        "aliases": [
+          "RedCurl"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_version": "1.0",
+        "x_mitre_contributors": [
+          "Joe Gumke, U.S. Bank"
+        ],
+        "type": "intrusion-set",
+        "spec_version": "2.1",
+        "id": "intrusion-set--82323c70-4186-4b61-94f5-b227c3b28e89",
+        "created": "2024-09-23T21:32:19.337Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/groups/G1039",
+            "external_id": "G1039"
+          },
+          {
+            "source_name": "group-ib_redcurl1",
+            "description": "Group-IB. (2020, August). RedCurl: The Pentest You Didn’t Know About. Retrieved August 9, 2024.",
+            "url": "https://www.group-ib.com/resources/research-hub/red-curl/"
+          },
+          {
+            "source_name": "group-ib_redcurl2",
+            "description": "Group-IB. (2021, November). RedCurl: The Awakening. Retrieved August 14, 2024.",
+            "url": "https://www.group-ib.com/resources/research-hub/red-curl-2/"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "x_mitre_attack_spec_version": "3.2.0",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ]
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--d4bdbdea-eaec-4071-b4f9-5105e12ea4b6",
+      "object_id": "attack-pattern--d4bdbdea-eaec-4071-b4f9-5105e12ea4b6",
+      "canonical_object_sha256": "82bda58fbc2c410e16182420c0a825b74a0ca416336fd88083fe696a08633894",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--d4bdbdea-eaec-4071-b4f9-5105e12ea4b6",
+        "created": "2019-08-30T13:03:04.038Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1537",
+            "external_id": "T1537"
+          },
+          {
+            "source_name": "AWS EBS Snapshot Sharing",
+            "description": "Amazon Web Services. (n.d.). Share an Amazon EBS snapshot. Retrieved March 2, 2022.",
+            "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html"
+          },
+          {
+            "source_name": "TLDRSec AWS Attacks",
+            "description": "Clint Gibler and Scott Piper. (2021, January 4). Lesser Known Techniques for Attacking AWS Environments. Retrieved March 4, 2024.",
+            "url": "https://tldrsec.com/p/blog-lesser-known-aws-attacks"
+          },
+          {
+            "source_name": "Azure Shared Access Signature",
+            "description": "Delegate access with a shared access signature. (2019, December 18). Delegate access with a shared access signature. Retrieved March 2, 2022.",
+            "url": "https://docs.microsoft.com/en-us/rest/api/storageservices/delegate-access-with-shared-access-signature"
+          },
+          {
+            "source_name": "Azure Blob Snapshots",
+            "description": "Microsoft Azure. (2021, December 29). Blob snapshots. Retrieved March 2, 2022.",
+            "url": "https://docs.microsoft.com/en-us/azure/storage/blobs/snapshots-overview"
+          },
+          {
+            "source_name": "Microsoft Azure Storage Shared Access Signature",
+            "description": "Microsoft. (2023, June 7). Grant limited access to Azure Storage resources using shared access signatures (SAS). Retrieved March 4, 2024.",
+            "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview"
+          },
+          {
+            "source_name": "DOJ GRU Indictment Jul 2018",
+            "description": "Mueller, R. (2018, July 13). Indictment - United States of America vs. VIKTOR BORISOVICH NETYKSHO, et al. Retrieved November 17, 2024.",
+            "url": "https://cdn.cnn.com/cnn/2018/images/07/13/gru.indictment.pdf"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2025-10-24T17:49:27.409Z",
+        "name": "Transfer Data to Cloud Account",
+        "description": "Adversaries may exfiltrate data by transferring the data, including through sharing/syncing and creating backups of cloud environments, to another cloud account they control on the same service.\n\nA defender who is monitoring for large transfers to outside the cloud environment through normal file transfers or over command and control channels may not be watching for data transfers to another account within the same cloud provider. Such transfers may utilize existing cloud provider APIs and the internal address space of the cloud provider to blend into normal traffic or avoid data transfers over external network interfaces.(Citation: TLDRSec AWS Attacks)\n\nAdversaries may also use cloud-native mechanisms to share victim data with adversary-controlled cloud accounts, such as creating anonymous file sharing links or, in Azure, a shared access signature (SAS) URI.(Citation: Microsoft Azure Storage Shared Access Signature)\n\nIncidents have been observed where adversaries have created backups of cloud instances and transferred them to separate accounts.(Citation: DOJ GRU Indictment Jul 2018) ",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "exfiltration"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.2.0",
+        "x_mitre_contributors": [
+          "Praetorian",
+          "Darin Smith, Cisco",
+          "ExtraHop",
+          "Gabriel Currie"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": false,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "IaaS",
+          "Office Suite",
+          "SaaS"
+        ],
+        "x_mitre_version": "1.5"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "054030a71c5bdc590430f1b2785763026088eb4a8a8c628b00b3a925a7cb7c48",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

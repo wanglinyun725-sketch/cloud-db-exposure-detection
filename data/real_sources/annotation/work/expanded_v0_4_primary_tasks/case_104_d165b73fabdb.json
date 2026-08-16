@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:azure.impact.blob-ransomware-service-storage-cmk",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:azure.impact.blob-ransomware-service-storage-cmk",
+    "kind": "executable_attack_technique",
+    "platform": "azure",
+    "technique": "azure.impact.blob-ransomware-service-storage-cmk",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.impact.blob-ransomware-service-storage-cmk.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.impact.blob-ransomware-service-storage-cmk.md",
+    "review_score": 32,
+    "independence_group": "stratus_red_team:stratus:azure.impact.blob-ransomware-service-storage-cmk",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.impact.blob-ransomware-service-storage-cmk.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.impact.blob-ransomware-service-storage-cmk.md",
+      "member_sha256": "4935b5d1b14424820170857c418aafcdb04cc81067ca6179887ca34197280e48",
+      "bytes": 4355,
+      "content_kind": "md",
+      "text": "---\ntitle: Azure Blob Storage ransomware through Customer-Managed Key Vault key and vault deletion\n---\n\n# Azure Blob Storage ransomware through Customer-Managed Key Vault key and vault deletion\n\n\n\n\nPlatform: Azure\n\n## Mappings\n\n- MITRE ATT&CK\n    - Impact\n\n\n\n## Description\n\n\nSimulates Azure Blob Storage ransomware activity that changes the storage account's server-side encryption to use a Customer-Managed Key (CMK) from a Key Vault that the attacker controls, then deletes the Key Vault to render all data in the storage account inaccessible.\n\nUnlike encryption scope-based ransomware, this technique operates at the storage account level — the attacker does not need to re-upload individual blobs. By rotating the storage account's encryption key to an attacker-controlled Key Vault key and then deleting the vault, all blobs in the account become inaccessible.\n\nNote that due to Azure's purge protection feature (, the Key Vault and key remain soft-deleted and recoverable within the retention period.\n\n!!! warning\n\n\tThis technique requires the <code>Key Vault Administrator</code> role on your Azure subscription in addition to any other roles (e.g. <code>Contributor</code>). Without it, the detonation will fail with a 403 error when attempting to delete the Key Vault key.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create an Azure Storage Account with a system-assigned managed identity\n- Create an Azure Key Vault without purge protection\n- Grant the storage account the \"Key Vault Crypto Service Encryption User\" role on the Key Vault\n- Create multiple storage containers in the account\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Create a number of blobs in the containers with random content and file extensions\n- Enable purge protection on the Key Vault (generates MICROSOFT.KEYVAULT/VAULTS/WRITE activity log event)\n- Create an RSA 2048 key in the Key Vault\n- Update the storage account encryption settings to use the Customer-Managed Key from Key Vault\n- Soft-delete the Key Vault key\n- Attempt to purge the key (fails due to purge protection, but generates a log event)\n- Soft-delete the Key Vault\n- Attempt to purge the Key Vault (fails due to purge protection, but generates a log event)\n\nReferences:\n\n- https://learn.microsoft.com/en-us/azure/storage/common/customer-managed-keys-overview\n- https://www.microsoft.com/en-us/security/blog/2025/08/27/storm-0501s-evolving-techniques-lead-to-cloud-based-ransomware/\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate azure.impact.blob-ransomware-service-storage-cmk\n```\n## Detection\n\n\nYou can detect this ransomware activity by monitoring for:\n\n1. Storage account encryption configuration changes (<code>MICROSOFT.STORAGE/STORAGEACCOUNTS/WRITE</code>) where <code>properties.requestbody.properties.encryption.keySource</code> == <code>Microsoft.Keyvault</code>.\n2. Key Vault key creation followed by deletion (<code>KeyCreate</code>, <code>KeyDelete</code>).\n3. Key Vault deletion (<code>MICROSOFT.KEYVAULT/VAULTS/DELETE</code>) after being linked to a storage account's encryption.\n\nSample Azure Activity log event for storage account encryption update:\n\n```json\n{\n  \"operationName\": \"MICROSOFT.STORAGE/STORAGEACCOUNTS/WRITE\",\n  \"category\": \"Administrative\",\n  \"resultType\": \"Success\",\n  \"properties\": {\n    \"entity\": \"/subscriptions/<subscription-id>/resourceGroups/<rg>/providers/Microsoft.Storage/storageAccounts/<storage-account-name>\",\n\t\"requestbody\": {\n\t\t\"properties\": {\n\t\t\t\"encryption\": {\n\t\t\t\t\"keySource\": \"Microsoft.Storage\",\n\t\t\t\t\"services\": {\n\t\t\t\t\t\"table\": {\n\t\t\t\t\t\t\"keyType\": \"Service\"\n\t\t\t\t\t},\n\t\t\t\t\t\"queue\": {\n\t\t\t\t\t\t\"keyType\": \"Service\"\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t},\n\t}\n  }\n}\n```\n\nSample Azure Activity log event for Key Vault deletion:\n\n```json\n{\n  \"operationName\": \"MICROSOFT.KEYVAULT/VAULTS/DELETE\",\n  \"category\": \"Administrative\",\n  \"resultType\": \"Success\",\n  \"properties\": {\n    \"entity\": \"/subscriptions/<subscription-id>/resourceGroups/<rg>/providers/Microsoft.KeyVault/vaults/<vault-name>\"\n  }\n}\n```\n\nSample Key Vault audit event for key deletion:\n\n```json\n{\n  \"operationName\": \"KeyDelete\",\n  \"category\": \"AuditEvent\",\n  \"resultType\": \"Success\",\n  \"properties\": {\n    \"entity\": \"/subscriptions/<subscription-id>/resourceGroups/<rg>/providers/Microsoft.KeyVault/vaults/<vault-name>/keys/<key-name>\"\n  }\n}\n```\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "004ee856cff3ca011a35d4aa67a23c5a9f6079803a1f5ab0e3c50ac05512d585",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

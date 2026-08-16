@@ -1,0 +1,12 @@
+[
+  {
+    "instance_type": "Lindorm",
+    "engine_type": "LCOLUMN",
+    "data_base_name": "default",
+    "table_name": "customer_profile",
+    "column_name": "id_card",
+    "rule_name": "身份证号",
+    "is_sensitive": true,
+    "scan_time": "2026-01-01T00:10:00Z"
+  }
+]

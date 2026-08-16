@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:gcp.discovery.download-instance-metadata",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:gcp.discovery.download-instance-metadata",
+    "kind": "executable_attack_technique",
+    "platform": "GCP",
+    "technique": "gcp.discovery.download-instance-metadata",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.discovery.download-instance-metadata.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.discovery.download-instance-metadata.md",
+    "review_score": 13,
+    "independence_group": "stratus_red_team:stratus:gcp.discovery.download-instance-metadata",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.discovery.download-instance-metadata.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.discovery.download-instance-metadata.md",
+      "member_sha256": "3c94f0f1985ce1f65a989b3604393a64f8c6ded2dd1f543ecbaf3853671660b9",
+      "bytes": 2101,
+      "content_kind": "md",
+      "text": "---\ntitle: Read GCE Instance Metadata via the Compute API\n---\n\n# Read GCE Instance Metadata via the Compute API\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: GCP\n\n## Mappings\n\n- MITRE ATT&CK\n    - Discovery\n\n\n\n## Description\n\n\nReads the metadata of a GCE instance via the Compute Engine API, simulating an attacker\nwho has obtained a service account token and uses it to enumerate running instances and\nharvest secrets embedded in instance metadata fields such as <code>startup-script</code>.\n\nBootstrap scripts that install software, configure databases, or pull secrets from\nenvironment variables are a common source of plaintext credentials in GCP environments.\nUnlike the instance metadata server (169.254.169.254) which is only reachable from\nwithin the VM, the Compute API can be queried remotely by any identity with the\n<code>compute.instances.get</code> permission.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create a GCE instance with a simulated <code>startup-script</code> metadata value\n  containing embedded credentials\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Enumerate instances in the zone via the Compute API\n- Fetch the full instance resource including all metadata fields\n- Log the <code>startup-script</code> value if present\n\nReferences:\n\n- https://cloud.google.com/compute/docs/metadata/overview\n- https://cloud.google.com/compute/docs/reference/rest/v1/instances/get\n- https://github.com/six2dez/pentest-book/blob/fef2fe741876d7bd6552f93ca10998fbfa7070c7/enumeration/cloud/gcp.md#attacks\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate gcp.discovery.download-instance-metadata\n```\n## Detection\n\n\nIdentify unexpected reads of instance metadata via the Compute API by monitoring for\n<code>compute.instances.get</code> and <code>compute.instances.list</code> events in GCP\nData Access audit logs originating from identities that do not normally perform Compute\nEngine management operations.\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "9302287628c50af1933c67c025fe6d42d04d70a64adcd67319e343381a47b494",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

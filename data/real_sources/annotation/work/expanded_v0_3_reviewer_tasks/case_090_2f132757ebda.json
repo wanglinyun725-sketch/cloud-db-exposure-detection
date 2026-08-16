@@ -1,0 +1,131 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "stratus:aws.exfiltration.ec2-share-ami",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.exfiltration.ec2-share-ami.json",
+        "sha256": "8cdf5b8bedb2c3f08c1ac45a6eba6204928c66e9561728641bcd8469b1c4d7b2"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:aws.exfiltration.ec2-share-ami",
+    "kind": "executable_attack_technique",
+    "platform": "AWS",
+    "technique": "aws.exfiltration.ec2-share-ami",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.ec2-share-ami.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.ec2-share-ami.md",
+    "review_score": 3,
+    "independence_group": "stratus_red_team:stratus:aws.exfiltration.ec2-share-ami",
+    "runtime_observations_in_packet": 1,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label",
+    "runtime_evidence_origin": "upstream Stratus documentation: real detonation in a test AWS environment using Grimoire, anonymized with LogLicker",
+    "runtime_environment": "real_isolated_test_cloud_detonation"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.ec2-share-ami.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.exfiltration.ec2-share-ami.md",
+      "member_sha256": "da0ea5013f9941d43478d737598a59dd986d5b18f01f12ea562883f4f96cea3c",
+      "bytes": 3365,
+      "content_kind": "md",
+      "text": "---\ntitle: Exfiltrate an AMI by Sharing It\n---\n\n# Exfiltrate an AMI by Sharing It\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: AWS\n\n## Mappings\n\n- MITRE ATT&CK\n    - Exfiltration\n\n\n\n## Description\n\n\nExfiltrates an AMI by sharing it with an external AWS account.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create an AMI\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Share the AMI with an external, fictitious AWS account\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate aws.exfiltration.ec2-share-ami\n```\n## Detection\n\n\nThrough CloudTrail's <code>ModifyImageAttribute</code> event, when <code>requestParameters.launchPermission</code> shows\nthat the AMI was shared with a new or unknown AWS account, such as:\n\n<pre><code>\"requestParameters\": {\n  \"launchPermission\": {\n    \"add\": {\n\t  \"items\": [{ \"userId\": \"012345678901\" }]\n    }\n  },\n  \"attributeType\": \"launchPermission\",\n  \"imageId\": \"ami-0b87ea1d007078d18\"\n}</code></pre>\n\nAn attacker can also make an AMI completely public. In this case, the <code>item</code> entry\nwill look like <code>{\"groups\":\"all\"}</code>.\n\n\n\n## Detonation logs <span class=\"smallcaps w3-badge w3-light-green w3-round w3-text-sand\">new!</span>\n\nThe following CloudTrail events are generated when this technique is detonated[^1]:\n\n\n- `ec2:ModifyImageAttribute`\n\n\n??? \"View raw detonation logs\"\n\n    ```json hl_lines=\"6\"\n\n    [\n\t   {\n\t      \"awsRegion\": \"me-south-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"1f00bcfa-e050-4c2e-b99b-768ebe3a3dd3\",\n\t      \"eventName\": \"ModifyImageAttribute\",\n\t      \"eventSource\": \"ec2.amazonaws.com\",\n\t      \"eventTime\": \"2024-08-01T12:25:57Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": false,\n\t      \"recipientAccountId\": \"118238665043\",\n\t      \"requestID\": \"dd81ae39-a261-4e85-87a4-01fe22abc602\",\n\t      \"requestParameters\": {\n\t         \"attributeType\": \"launchPermission\",\n\t         \"imageId\": \"ami-de1fbCab6ccB03e6D\",\n\t         \"launchPermission\": {\n\t            \"add\": {\n\t               \"items\": [\n\t                  {\n\t                     \"userId\": \"846424999548\"\n\t                  }\n\t               ]\n\t            }\n\t         }\n\t      },\n\t      \"responseElements\": {\n\t         \"_return\": true,\n\t         \"requestId\": \"dd81ae39-a261-4e85-87a4-01fe22abc602\"\n\t      },\n\t      \"sourceIPAddress\": \"253.19.58.252\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"ec2.me-south-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_a532baf6-7731-4c0f-b089-48508276f787\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA40XZ2OQU8R4QKTAC\",\n\t         \"accountId\": \"118238665043\",\n\t         \"arn\": \"arn:aws:iam::118238665043:user/christophe\",\n\t         \"principalId\": \"AIDAYO61EC4B4W5G6BXN\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   }\n\t]\n    ```\n\n[^1]: These logs have been gathered from a real detonation of this technique in a test environment using [Grimoire](https://github.com/DataDog/grimoire), and anonymized using [LogLicker](https://github.com/Permiso-io-tools/LogLicker).\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [
+    {
+      "instance_id": "instance-b36c72e16fa470622f78",
+      "environment_kind": "stratus_grimoire_detonation",
+      "platform": "AWS",
+      "log_profile": "cloudtrail_detonation",
+      "observations": [
+        {
+          "observation_id": "obs-b997c2eb9d24e7eeb9dff0d5",
+          "candidate_id": "stratus:aws.exfiltration.ec2-share-ami",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-08-01T12:25:57Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "ModifyImageAttribute",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::118238665043:user/christophe",
+          "source_ip": "253.19.58.252",
+          "account_id": "118238665043",
+          "region": "me-south-1r",
+          "event_status": "Success",
+          "request": {
+            "attributeType": "launchPermission",
+            "imageId": "ami-de1fbCab6ccB03e6D",
+            "launchPermission": {
+              "add": {
+                "items": [
+                  {
+                    "userId": "846424999548"
+                  }
+                ]
+              }
+            }
+          },
+          "response": {
+            "_return": true,
+            "requestId": "dd81ae39-a261-4e85-87a4-01fe22abc602"
+          },
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.exfiltration.ec2-share-ami.json",
+            "member_sha256": "8cdf5b8bedb2c3f08c1ac45a6eba6204928c66e9561728641bcd8469b1c4d7b2",
+            "record_index": 0,
+            "event_id": "1f00bcfa-e050-4c2e-b99b-768ebe3a3dd3"
+          },
+          "path_label": null,
+          "evidence_state": null
+        }
+      ],
+      "observation_count": 1,
+      "selection_origin": "all events copied from the matching pinned upstream detonation-log member; no event or label generated"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "84f83ccf6a6226c59bd970ae40f7b75782ff7b0be8a578f55b08b4ab9b7661ee",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

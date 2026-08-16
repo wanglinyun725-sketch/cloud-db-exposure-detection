@@ -1,0 +1,1825 @@
+{
+  "finalizer_version": "1.0.0",
+  "experiment_id": "provider_oracle_llm_pilot_v8_new_cases",
+  "protocol_version": "8.0-pilot",
+  "research_effectiveness_result": false,
+  "manifest_config_sha256": "ed615915de1817664064aa2fe5cae2bcb23cc4e88da5b218566a9a876bbcd787",
+  "manifest_implementation_bundle_sha256": "b8457b466dac271514d9e12e59ab56643182295c208156df87e0b34f5d365dc8",
+  "model": {
+    "backend": "ollama_native",
+    "name": "qwen2.5:7b",
+    "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "think": false,
+    "temperature": 0,
+    "num_predict": 1024,
+    "num_ctx": 4096
+  },
+  "scheduled_runs": 3,
+  "raw_jsonl_records": 49,
+  "unique_completed_runs": 3,
+  "duplicate_records_ignored": 1,
+  "duplicate_semantic_conflicts": [],
+  "out_of_manifest_records": 45,
+  "missing_schedule": [],
+  "schedule_complete": true,
+  "independence_groups": 1,
+  "summary": [
+    {
+      "method_id": "vanilla_react_linear",
+      "budget": 4,
+      "runs": 3,
+      "case_count": 1,
+      "independence_groups": 1,
+      "effective_provider_gold_groups": 1,
+      "effective_negative_groups": 1,
+      "effective_unknown_control_groups": 0,
+      "aggregation": "strict_independence_group; all cases and repeats in a lineage must pass for binary success",
+      "provider_gold_state_accuracy": 1.0,
+      "provider_gold_state_accuracy_ci95": [
+        0.20654931437723745,
+        1.0
+      ],
+      "provider_gold_semantically_grounded_accuracy": 1.0,
+      "provider_gold_semantically_grounded_accuracy_ci95": [
+        0.20654931437723745,
+        1.0
+      ],
+      "correct_rejection_rate": 1.0,
+      "correct_rejection_rate_ci95": [
+        0.20654931437723745,
+        1.0
+      ],
+      "unknown_control_abstention_rate": null,
+      "unknown_control_abstention_rate_ci95": null,
+      "false_reachable_rate": 0.0,
+      "false_reachable_rate_ci95": [
+        0.0,
+        0.7934506856227626
+      ],
+      "mean_query_cost": 3.0,
+      "mean_gold_path_edge_f1": 0.0,
+      "diagnostic_case_run_metrics": {
+        "provider_gold_state_accuracy": 1.0,
+        "provider_gold_semantically_grounded_accuracy": 1.0,
+        "correct_rejection_rate": 1.0,
+        "unknown_control_abstention_rate": null,
+        "false_reachable_rate": 0.0
+      }
+    }
+  ],
+  "rows": [
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v8_new_cases",
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "method_id": "vanilla_react_linear",
+      "orchestration_backend": "linear",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "config_sha256": "ed615915de1817664064aa2fe5cae2bcb23cc4e88da5b218566a9a876bbcd787",
+      "implementation_bundle_sha256": "b8457b466dac271514d9e12e59ab56643182295c208156df87e0b34f5d365dc8",
+      "schedule_id": "llm-schedule-8b63cd29168ca6de5e2e7948",
+      "split": "source_held_out_test",
+      "independence_group": "splunk-dataset:T1537/aws_snapshot_exfil",
+      "platform": "AWS",
+      "label_origin": "provider_native_runtime",
+      "method_components": {
+        "pareto_guard": false,
+        "external_rule_prior": false,
+        "four_value_memory": false,
+        "budget_stop": true,
+        "finish_guard_mode": "record",
+        "orchestration_backend": "linear"
+      },
+      "latency_seconds": 47.254289599950425,
+      "result": {
+        "decision": "evidence_certified_paths",
+        "hypothesis": "Path candidate limit reached.",
+        "stop_reason": "path_candidate_limit",
+        "steps": 3,
+        "valid_tool_calls": 2,
+        "invalid_actions": 0,
+        "spent": 3,
+        "evidence_observation_ids": [
+          "obs-v3-c08baab58a2f6031fbe165bd"
+        ],
+        "evidence_raw_refs": [
+          {
+            "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json",
+            "artifact_sha256": "ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca",
+            "line_number": 5,
+            "event_id": "1592cb54-9c0d-497f-8cfd-eb5c8c8736fe"
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "Summarize case to get initial context.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Summarize case to get initial context.",
+              "tool_name": "summarize_case",
+              "arguments": {}
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "summarize_case",
+              "call_id": 1,
+              "cost": 1,
+              "result_count": 0,
+              "operation_counts": {
+                "ModifySnapshotAttribute": 2
+              },
+              "service_counts": {
+                "ec2.amazonaws.com": 2
+              },
+              "events": [],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 3
+            },
+            "error": null,
+            "cumulative_cost": 1
+          },
+          {
+            "step": 2,
+            "thought": "Search for relevant events to find snapshot attribute modifications.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Search for relevant events to find snapshot attribute modifications.",
+              "tool_name": "search_events",
+              "arguments": {
+                "operation": "ModifySnapshotAttribute"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "search_events",
+              "call_id": 2,
+              "cost": 2,
+              "result_count": 2,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-v3-68cb604e9b0588bbbef962bb",
+                  "timestamp": "2021-06-22T20:58:37Z",
+                  "service": "ec2.amazonaws.com",
+                  "operation": "ModifySnapshotAttribute",
+                  "actor_type": "IAMUser",
+                  "actor_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "account_id": "591511666666",
+                  "region": "us-east-2",
+                  "event_status": "Success",
+                  "provider_decision": "allow",
+                  "target_resource": "snap-03fb276e9eb29328e"
+                },
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "timestamp": "2021-06-22T21:03:16Z",
+                  "service": "ec2.amazonaws.com",
+                  "operation": "ModifySnapshotAttribute",
+                  "actor_type": "IAMUser",
+                  "actor_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "account_id": "591511666666",
+                  "region": "us-east-2",
+                  "event_status": "Client.InvalidAMIAttributeItemValue",
+                  "provider_decision": "deny",
+                  "target_resource": "snap-03fb276e9eb29328e/external-account:123456123"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 1
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 3,
+            "thought": "Submit a path based on the available evidence.",
+            "proposal": {
+              "kind": "submit_path",
+              "thought": "Submit a path based on the available evidence.",
+              "hypothesis": "The snapshot was shared with an invalid external account at the recorded event time.",
+              "path_candidate": {
+                "path_id": "path-01",
+                "claimed_state": "NotReachable",
+                "nodes": [
+                  {
+                    "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                    "type": "identity",
+                    "label": "bhavin_cli"
+                  },
+                  {
+                    "node_id": "snap-03fb276e9eb29328e",
+                    "type": "data_object",
+                    "label": "Snapshot"
+                  }
+                ],
+                "edges": [
+                  {
+                    "edge_id": "e1",
+                    "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                    "target": "snap-03fb276e9eb29328e",
+                    "type": "modify_policy"
+                  }
+                ],
+                "evidence_assignments": [
+                  {
+                    "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                    "call_id": 2,
+                    "polarity": "refute",
+                    "edge_ids": [
+                      "e1"
+                    ],
+                    "test": {
+                      "field": "target_resource",
+                      "operator": "eq",
+                      "value": "snap-03fb276e9eb29328e/external-account:123456123"
+                    }
+                  }
+                ]
+              }
+            },
+            "status": "path_candidate_accepted",
+            "observation": {
+              "path_id": "path-01",
+              "verified": true,
+              "verdict": {
+                "path_id": "path-01",
+                "state": "Invalid",
+                "claim_states": {
+                  "e1": "Contradicted"
+                },
+                "unknown_claims": [],
+                "refuted_claims": [
+                  "e1"
+                ],
+                "conflict_claims": []
+              },
+              "errors": [],
+              "certificate_id": "cp-167e12c9eee18627fb6f",
+              "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release."
+            },
+            "error": null,
+            "cumulative_cost": 3
+          }
+        ],
+        "path_candidates": [
+          {
+            "path_candidate": {
+              "path_id": "path-01",
+              "claimed_state": "NotReachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "type": "identity",
+                  "label": "bhavin_cli"
+                },
+                {
+                  "node_id": "snap-03fb276e9eb29328e",
+                  "type": "data_object",
+                  "label": "Snapshot"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e1",
+                  "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "target": "snap-03fb276e9eb29328e",
+                  "type": "modify_policy"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "call_id": 2,
+                  "polarity": "refute",
+                  "edge_ids": [
+                    "e1"
+                  ],
+                  "test": {
+                    "field": "target_resource",
+                    "operator": "eq",
+                    "value": "snap-03fb276e9eb29328e/external-account:123456123"
+                  }
+                }
+              ]
+            },
+            "normalized_path": {
+              "path_id": "path-01",
+              "claimed_state": "NotReachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "type": "identity",
+                  "label": "bhavin_cli"
+                },
+                {
+                  "node_id": "snap-03fb276e9eb29328e",
+                  "type": "data_object",
+                  "label": "Snapshot"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e1",
+                  "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "target": "snap-03fb276e9eb29328e",
+                  "type": "modify_policy"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "call_id": 2,
+                  "polarity": "refute",
+                  "edge_ids": [
+                    "e1"
+                  ],
+                  "test": {
+                    "field": "target_resource",
+                    "operator": "eq",
+                    "value": "snap-03fb276e9eb29328e/external-account:123456123"
+                  }
+                }
+              ]
+            },
+            "structurally_valid": true,
+            "evidence_items": [
+              {
+                "evidence_id": "tool-call-2-refute",
+                "polarity": "refute",
+                "claim_ids": [
+                  "e1"
+                ],
+                "raw_ref": "{\"call_id\":2,\"executable_tests\":[{\"field\":\"target_resource\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"snap-03fb276e9eb29328e/external-account:123456123\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}",
+                "cost": 2.0,
+                "source": "tool:search_events"
+              }
+            ],
+            "verdict": {
+              "path_id": "path-01",
+              "state": "Invalid",
+              "claim_states": {
+                "e1": "Contradicted"
+              },
+              "unknown_claims": [],
+              "refuted_claims": [
+                "e1"
+              ],
+              "conflict_claims": []
+            },
+            "certificate": {
+              "certificate_id": "cp-167e12c9eee18627fb6f",
+              "kind": "negative",
+              "method": "exact",
+              "evidence_ids": [
+                "tool-call-2-refute"
+              ],
+              "raw_refs": [
+                "{\"call_id\":2,\"executable_tests\":[{\"field\":\"target_resource\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"snap-03fb276e9eb29328e/external-account:123456123\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}"
+              ],
+              "total_cost": 2.0,
+              "covered_requirements": [
+                "path-01"
+              ],
+              "required_requirements": [
+                "path-01"
+              ],
+              "sufficient": true,
+              "irreducible": true,
+              "optimal": true,
+              "approximation_bound": null,
+              "semantics": "selected refutation evidence intersects every enumerated candidate path; Unknown observations never count as blockers"
+            },
+            "certificate_audit": {
+              "sufficient": true,
+              "irreducible": true,
+              "raw_refs_complete": true,
+              "unknown_evidence_ids": [],
+              "redundant_evidence_ids": [],
+              "covered_requirements": [
+                "path-01"
+              ],
+              "missing_requirements": [],
+              "recomputed_cost": 2.0,
+              "cost_matches": true
+            },
+            "path_ontology": {
+              "ontology_id": "cloud_data_path_v1",
+              "version": "1.0.0",
+              "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+            },
+            "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release.",
+            "verified": true,
+            "errors": []
+          }
+        ],
+        "verified_path_candidates": [
+          {
+            "path_candidate": {
+              "path_id": "path-01",
+              "claimed_state": "NotReachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "type": "identity",
+                  "label": "bhavin_cli"
+                },
+                {
+                  "node_id": "snap-03fb276e9eb29328e",
+                  "type": "data_object",
+                  "label": "Snapshot"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e1",
+                  "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "target": "snap-03fb276e9eb29328e",
+                  "type": "modify_policy"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "call_id": 2,
+                  "polarity": "refute",
+                  "edge_ids": [
+                    "e1"
+                  ],
+                  "test": {
+                    "field": "target_resource",
+                    "operator": "eq",
+                    "value": "snap-03fb276e9eb29328e/external-account:123456123"
+                  }
+                }
+              ]
+            },
+            "normalized_path": {
+              "path_id": "path-01",
+              "claimed_state": "NotReachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "type": "identity",
+                  "label": "bhavin_cli"
+                },
+                {
+                  "node_id": "snap-03fb276e9eb29328e",
+                  "type": "data_object",
+                  "label": "Snapshot"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e1",
+                  "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "target": "snap-03fb276e9eb29328e",
+                  "type": "modify_policy"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "call_id": 2,
+                  "polarity": "refute",
+                  "edge_ids": [
+                    "e1"
+                  ],
+                  "test": {
+                    "field": "target_resource",
+                    "operator": "eq",
+                    "value": "snap-03fb276e9eb29328e/external-account:123456123"
+                  }
+                }
+              ]
+            },
+            "structurally_valid": true,
+            "evidence_items": [
+              {
+                "evidence_id": "tool-call-2-refute",
+                "polarity": "refute",
+                "claim_ids": [
+                  "e1"
+                ],
+                "raw_ref": "{\"call_id\":2,\"executable_tests\":[{\"field\":\"target_resource\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"snap-03fb276e9eb29328e/external-account:123456123\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}",
+                "cost": 2.0,
+                "source": "tool:search_events"
+              }
+            ],
+            "verdict": {
+              "path_id": "path-01",
+              "state": "Invalid",
+              "claim_states": {
+                "e1": "Contradicted"
+              },
+              "unknown_claims": [],
+              "refuted_claims": [
+                "e1"
+              ],
+              "conflict_claims": []
+            },
+            "certificate": {
+              "certificate_id": "cp-167e12c9eee18627fb6f",
+              "kind": "negative",
+              "method": "exact",
+              "evidence_ids": [
+                "tool-call-2-refute"
+              ],
+              "raw_refs": [
+                "{\"call_id\":2,\"executable_tests\":[{\"field\":\"target_resource\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"snap-03fb276e9eb29328e/external-account:123456123\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}"
+              ],
+              "total_cost": 2.0,
+              "covered_requirements": [
+                "path-01"
+              ],
+              "required_requirements": [
+                "path-01"
+              ],
+              "sufficient": true,
+              "irreducible": true,
+              "optimal": true,
+              "approximation_bound": null,
+              "semantics": "selected refutation evidence intersects every enumerated candidate path; Unknown observations never count as blockers"
+            },
+            "certificate_audit": {
+              "sufficient": true,
+              "irreducible": true,
+              "raw_refs_complete": true,
+              "unknown_evidence_ids": [],
+              "redundant_evidence_ids": [],
+              "covered_requirements": [
+                "path-01"
+              ],
+              "missing_requirements": [],
+              "recomputed_cost": 2.0,
+              "cost_matches": true
+            },
+            "path_ontology": {
+              "ontology_id": "cloud_data_path_v1",
+              "version": "1.0.0",
+              "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+            },
+            "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release.",
+            "verified": true,
+            "errors": []
+          }
+        ],
+        "path_verdict": {
+          "path_id": "path-01",
+          "state": "Invalid",
+          "claim_states": {
+            "e1": "Contradicted"
+          },
+          "unknown_claims": [],
+          "refuted_claims": [
+            "e1"
+          ],
+          "conflict_claims": []
+        },
+        "certificate": {
+          "certificate_id": "cp-167e12c9eee18627fb6f",
+          "kind": "negative",
+          "method": "exact",
+          "evidence_ids": [
+            "tool-call-2-refute"
+          ],
+          "raw_refs": [
+            "{\"call_id\":2,\"executable_tests\":[{\"field\":\"target_resource\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"snap-03fb276e9eb29328e/external-account:123456123\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}"
+          ],
+          "total_cost": 2.0,
+          "covered_requirements": [
+            "path-01"
+          ],
+          "required_requirements": [
+            "path-01"
+          ],
+          "sufficient": true,
+          "irreducible": true,
+          "optimal": true,
+          "approximation_bound": null,
+          "semantics": "selected refutation evidence intersects every enumerated candidate path; Unknown observations never count as blockers"
+        },
+        "certificate_audit": {
+          "sufficient": true,
+          "irreducible": true,
+          "raw_refs_complete": true,
+          "unknown_evidence_ids": [],
+          "redundant_evidence_ids": [],
+          "covered_requirements": [
+            "path-01"
+          ],
+          "missing_requirements": [],
+          "recomputed_cost": 2.0,
+          "cost_matches": true
+        },
+        "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release.",
+        "verification_errors": []
+      },
+      "score": {
+        "scoring_version": "provider-oracle-state-v1",
+        "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+        "independence_group": "splunk-dataset:T1537/aws_snapshot_exfil",
+        "platform": "AWS",
+        "gold_state": "NotReachable",
+        "predicted_state": "NotReachable",
+        "state_correct": true,
+        "provider_oracle_gold": true,
+        "epistemic_control": false,
+        "label_origin": "provider_native_runtime",
+        "gold_tier": "runtime_gold",
+        "decisive_evidence_correct": true,
+        "semantically_correct_state": true,
+        "correct_rejection": true,
+        "correct_abstention": false,
+        "false_reachable": false,
+        "support_evidence_coverage": null,
+        "refute_evidence_coverage": 1.0,
+        "control_evidence_coverage": 0.0,
+        "gold_path_edge_precision": 0.0,
+        "gold_path_edge_recall": 0.0,
+        "gold_path_edge_f1": 0.0,
+        "verified_candidate_count": 1,
+        "proposed_candidate_count": 1,
+        "query_cost": 3,
+        "valid_tool_calls": 2,
+        "invalid_actions": 0,
+        "runner_decision": "evidence_certified_paths",
+        "scope": "State scoring is evaluator-side. Provider gold and the configuration-only Unknown controls are reported separately; protocol pilots are not population-effectiveness results."
+      },
+      "secrets_in_record": false
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v8_new_cases",
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "method_id": "vanilla_react_linear",
+      "orchestration_backend": "linear",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 1,
+      "seed": 1730,
+      "config_sha256": "ed615915de1817664064aa2fe5cae2bcb23cc4e88da5b218566a9a876bbcd787",
+      "implementation_bundle_sha256": "b8457b466dac271514d9e12e59ab56643182295c208156df87e0b34f5d365dc8",
+      "schedule_id": "llm-schedule-003a281206cce00fe16af30d",
+      "split": "source_held_out_test",
+      "independence_group": "splunk-dataset:T1537/aws_snapshot_exfil",
+      "platform": "AWS",
+      "label_origin": "provider_native_runtime",
+      "method_components": {
+        "pareto_guard": false,
+        "external_rule_prior": false,
+        "four_value_memory": false,
+        "budget_stop": true,
+        "finish_guard_mode": "record",
+        "orchestration_backend": "linear"
+      },
+      "latency_seconds": 48.60491059999913,
+      "result": {
+        "decision": "evidence_certified_paths",
+        "hypothesis": "Path candidate limit reached.",
+        "stop_reason": "path_candidate_limit",
+        "steps": 3,
+        "valid_tool_calls": 2,
+        "invalid_actions": 0,
+        "spent": 3,
+        "evidence_observation_ids": [
+          "obs-v3-c08baab58a2f6031fbe165bd"
+        ],
+        "evidence_raw_refs": [
+          {
+            "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json",
+            "artifact_sha256": "ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca",
+            "line_number": 5,
+            "event_id": "1592cb54-9c0d-497f-8cfd-eb5c8c8736fe"
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "Summarize case to get initial context.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Summarize case to get initial context.",
+              "tool_name": "summarize_case",
+              "arguments": {}
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "summarize_case",
+              "call_id": 1,
+              "cost": 1,
+              "result_count": 0,
+              "operation_counts": {
+                "ModifySnapshotAttribute": 2
+              },
+              "service_counts": {
+                "ec2.amazonaws.com": 2
+              },
+              "events": [],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 3
+            },
+            "error": null,
+            "cumulative_cost": 1
+          },
+          {
+            "step": 2,
+            "thought": "Search for relevant events to find snapshot attribute modifications.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Search for relevant events to find snapshot attribute modifications.",
+              "tool_name": "search_events",
+              "arguments": {
+                "operation": "ModifySnapshotAttribute"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "search_events",
+              "call_id": 2,
+              "cost": 2,
+              "result_count": 2,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-v3-68cb604e9b0588bbbef962bb",
+                  "timestamp": "2021-06-22T20:58:37Z",
+                  "service": "ec2.amazonaws.com",
+                  "operation": "ModifySnapshotAttribute",
+                  "actor_type": "IAMUser",
+                  "actor_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "account_id": "591511666666",
+                  "region": "us-east-2",
+                  "event_status": "Success",
+                  "provider_decision": "allow",
+                  "target_resource": "snap-03fb276e9eb29328e"
+                },
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "timestamp": "2021-06-22T21:03:16Z",
+                  "service": "ec2.amazonaws.com",
+                  "operation": "ModifySnapshotAttribute",
+                  "actor_type": "IAMUser",
+                  "actor_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "account_id": "591511666666",
+                  "region": "us-east-2",
+                  "event_status": "Client.InvalidAMIAttributeItemValue",
+                  "provider_decision": "deny",
+                  "target_resource": "snap-03fb276e9eb29328e/external-account:123456123"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 1
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 3,
+            "thought": "Submit a path based on the available evidence.",
+            "proposal": {
+              "kind": "submit_path",
+              "thought": "Submit a path based on the available evidence.",
+              "hypothesis": "The snapshot was shared with an invalid external account at the recorded event time.",
+              "path_candidate": {
+                "path_id": "path-01",
+                "claimed_state": "NotReachable",
+                "nodes": [
+                  {
+                    "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                    "type": "identity",
+                    "label": "bhavin_cli"
+                  },
+                  {
+                    "node_id": "snap-03fb276e9eb29328e/external-account:123456123",
+                    "type": "external_system",
+                    "label": "invalid external account"
+                  }
+                ],
+                "edges": [
+                  {
+                    "edge_id": "e-01",
+                    "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                    "target": "snap-03fb276e9eb29328e/external-account:123456123",
+                    "type": "transfer_data"
+                  }
+                ],
+                "evidence_assignments": [
+                  {
+                    "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                    "call_id": 2,
+                    "polarity": "refute",
+                    "edge_ids": [
+                      "e-01"
+                    ],
+                    "test": {
+                      "field": "target_resource",
+                      "operator": "eq",
+                      "value": "snap-03fb276e9eb29328e/external-account:123456123"
+                    }
+                  }
+                ]
+              }
+            },
+            "status": "path_candidate_accepted",
+            "observation": {
+              "path_id": "path-01",
+              "verified": true,
+              "verdict": {
+                "path_id": "path-01",
+                "state": "Invalid",
+                "claim_states": {
+                  "e-01": "Contradicted"
+                },
+                "unknown_claims": [],
+                "refuted_claims": [
+                  "e-01"
+                ],
+                "conflict_claims": []
+              },
+              "errors": [],
+              "certificate_id": "cp-167e12c9eee18627fb6f",
+              "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release."
+            },
+            "error": null,
+            "cumulative_cost": 3
+          }
+        ],
+        "path_candidates": [
+          {
+            "path_candidate": {
+              "path_id": "path-01",
+              "claimed_state": "NotReachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "type": "identity",
+                  "label": "bhavin_cli"
+                },
+                {
+                  "node_id": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "external_system",
+                  "label": "invalid external account"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e-01",
+                  "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "target": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "transfer_data"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "call_id": 2,
+                  "polarity": "refute",
+                  "edge_ids": [
+                    "e-01"
+                  ],
+                  "test": {
+                    "field": "target_resource",
+                    "operator": "eq",
+                    "value": "snap-03fb276e9eb29328e/external-account:123456123"
+                  }
+                }
+              ]
+            },
+            "normalized_path": {
+              "path_id": "path-01",
+              "claimed_state": "NotReachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "type": "identity",
+                  "label": "bhavin_cli"
+                },
+                {
+                  "node_id": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "external_system",
+                  "label": "invalid external account"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e-01",
+                  "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "target": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "transfer_data"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "call_id": 2,
+                  "polarity": "refute",
+                  "edge_ids": [
+                    "e-01"
+                  ],
+                  "test": {
+                    "field": "target_resource",
+                    "operator": "eq",
+                    "value": "snap-03fb276e9eb29328e/external-account:123456123"
+                  }
+                }
+              ]
+            },
+            "structurally_valid": true,
+            "evidence_items": [
+              {
+                "evidence_id": "tool-call-2-refute",
+                "polarity": "refute",
+                "claim_ids": [
+                  "e-01"
+                ],
+                "raw_ref": "{\"call_id\":2,\"executable_tests\":[{\"field\":\"target_resource\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"snap-03fb276e9eb29328e/external-account:123456123\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}",
+                "cost": 2.0,
+                "source": "tool:search_events"
+              }
+            ],
+            "verdict": {
+              "path_id": "path-01",
+              "state": "Invalid",
+              "claim_states": {
+                "e-01": "Contradicted"
+              },
+              "unknown_claims": [],
+              "refuted_claims": [
+                "e-01"
+              ],
+              "conflict_claims": []
+            },
+            "certificate": {
+              "certificate_id": "cp-167e12c9eee18627fb6f",
+              "kind": "negative",
+              "method": "exact",
+              "evidence_ids": [
+                "tool-call-2-refute"
+              ],
+              "raw_refs": [
+                "{\"call_id\":2,\"executable_tests\":[{\"field\":\"target_resource\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"snap-03fb276e9eb29328e/external-account:123456123\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}"
+              ],
+              "total_cost": 2.0,
+              "covered_requirements": [
+                "path-01"
+              ],
+              "required_requirements": [
+                "path-01"
+              ],
+              "sufficient": true,
+              "irreducible": true,
+              "optimal": true,
+              "approximation_bound": null,
+              "semantics": "selected refutation evidence intersects every enumerated candidate path; Unknown observations never count as blockers"
+            },
+            "certificate_audit": {
+              "sufficient": true,
+              "irreducible": true,
+              "raw_refs_complete": true,
+              "unknown_evidence_ids": [],
+              "redundant_evidence_ids": [],
+              "covered_requirements": [
+                "path-01"
+              ],
+              "missing_requirements": [],
+              "recomputed_cost": 2.0,
+              "cost_matches": true
+            },
+            "path_ontology": {
+              "ontology_id": "cloud_data_path_v1",
+              "version": "1.0.0",
+              "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+            },
+            "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release.",
+            "verified": true,
+            "errors": []
+          }
+        ],
+        "verified_path_candidates": [
+          {
+            "path_candidate": {
+              "path_id": "path-01",
+              "claimed_state": "NotReachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "type": "identity",
+                  "label": "bhavin_cli"
+                },
+                {
+                  "node_id": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "external_system",
+                  "label": "invalid external account"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e-01",
+                  "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "target": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "transfer_data"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "call_id": 2,
+                  "polarity": "refute",
+                  "edge_ids": [
+                    "e-01"
+                  ],
+                  "test": {
+                    "field": "target_resource",
+                    "operator": "eq",
+                    "value": "snap-03fb276e9eb29328e/external-account:123456123"
+                  }
+                }
+              ]
+            },
+            "normalized_path": {
+              "path_id": "path-01",
+              "claimed_state": "NotReachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "type": "identity",
+                  "label": "bhavin_cli"
+                },
+                {
+                  "node_id": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "external_system",
+                  "label": "invalid external account"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e-01",
+                  "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "target": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "transfer_data"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "call_id": 2,
+                  "polarity": "refute",
+                  "edge_ids": [
+                    "e-01"
+                  ],
+                  "test": {
+                    "field": "target_resource",
+                    "operator": "eq",
+                    "value": "snap-03fb276e9eb29328e/external-account:123456123"
+                  }
+                }
+              ]
+            },
+            "structurally_valid": true,
+            "evidence_items": [
+              {
+                "evidence_id": "tool-call-2-refute",
+                "polarity": "refute",
+                "claim_ids": [
+                  "e-01"
+                ],
+                "raw_ref": "{\"call_id\":2,\"executable_tests\":[{\"field\":\"target_resource\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"snap-03fb276e9eb29328e/external-account:123456123\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}",
+                "cost": 2.0,
+                "source": "tool:search_events"
+              }
+            ],
+            "verdict": {
+              "path_id": "path-01",
+              "state": "Invalid",
+              "claim_states": {
+                "e-01": "Contradicted"
+              },
+              "unknown_claims": [],
+              "refuted_claims": [
+                "e-01"
+              ],
+              "conflict_claims": []
+            },
+            "certificate": {
+              "certificate_id": "cp-167e12c9eee18627fb6f",
+              "kind": "negative",
+              "method": "exact",
+              "evidence_ids": [
+                "tool-call-2-refute"
+              ],
+              "raw_refs": [
+                "{\"call_id\":2,\"executable_tests\":[{\"field\":\"target_resource\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"snap-03fb276e9eb29328e/external-account:123456123\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}"
+              ],
+              "total_cost": 2.0,
+              "covered_requirements": [
+                "path-01"
+              ],
+              "required_requirements": [
+                "path-01"
+              ],
+              "sufficient": true,
+              "irreducible": true,
+              "optimal": true,
+              "approximation_bound": null,
+              "semantics": "selected refutation evidence intersects every enumerated candidate path; Unknown observations never count as blockers"
+            },
+            "certificate_audit": {
+              "sufficient": true,
+              "irreducible": true,
+              "raw_refs_complete": true,
+              "unknown_evidence_ids": [],
+              "redundant_evidence_ids": [],
+              "covered_requirements": [
+                "path-01"
+              ],
+              "missing_requirements": [],
+              "recomputed_cost": 2.0,
+              "cost_matches": true
+            },
+            "path_ontology": {
+              "ontology_id": "cloud_data_path_v1",
+              "version": "1.0.0",
+              "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+            },
+            "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release.",
+            "verified": true,
+            "errors": []
+          }
+        ],
+        "path_verdict": {
+          "path_id": "path-01",
+          "state": "Invalid",
+          "claim_states": {
+            "e-01": "Contradicted"
+          },
+          "unknown_claims": [],
+          "refuted_claims": [
+            "e-01"
+          ],
+          "conflict_claims": []
+        },
+        "certificate": {
+          "certificate_id": "cp-167e12c9eee18627fb6f",
+          "kind": "negative",
+          "method": "exact",
+          "evidence_ids": [
+            "tool-call-2-refute"
+          ],
+          "raw_refs": [
+            "{\"call_id\":2,\"executable_tests\":[{\"field\":\"target_resource\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"snap-03fb276e9eb29328e/external-account:123456123\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}"
+          ],
+          "total_cost": 2.0,
+          "covered_requirements": [
+            "path-01"
+          ],
+          "required_requirements": [
+            "path-01"
+          ],
+          "sufficient": true,
+          "irreducible": true,
+          "optimal": true,
+          "approximation_bound": null,
+          "semantics": "selected refutation evidence intersects every enumerated candidate path; Unknown observations never count as blockers"
+        },
+        "certificate_audit": {
+          "sufficient": true,
+          "irreducible": true,
+          "raw_refs_complete": true,
+          "unknown_evidence_ids": [],
+          "redundant_evidence_ids": [],
+          "covered_requirements": [
+            "path-01"
+          ],
+          "missing_requirements": [],
+          "recomputed_cost": 2.0,
+          "cost_matches": true
+        },
+        "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release.",
+        "verification_errors": []
+      },
+      "score": {
+        "scoring_version": "provider-oracle-state-v1",
+        "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+        "independence_group": "splunk-dataset:T1537/aws_snapshot_exfil",
+        "platform": "AWS",
+        "gold_state": "NotReachable",
+        "predicted_state": "NotReachable",
+        "state_correct": true,
+        "provider_oracle_gold": true,
+        "epistemic_control": false,
+        "label_origin": "provider_native_runtime",
+        "gold_tier": "runtime_gold",
+        "decisive_evidence_correct": true,
+        "semantically_correct_state": true,
+        "correct_rejection": true,
+        "correct_abstention": false,
+        "false_reachable": false,
+        "support_evidence_coverage": null,
+        "refute_evidence_coverage": 1.0,
+        "control_evidence_coverage": 0.0,
+        "gold_path_edge_precision": 0.0,
+        "gold_path_edge_recall": 0.0,
+        "gold_path_edge_f1": 0.0,
+        "verified_candidate_count": 1,
+        "proposed_candidate_count": 1,
+        "query_cost": 3,
+        "valid_tool_calls": 2,
+        "invalid_actions": 0,
+        "runner_decision": "evidence_certified_paths",
+        "scope": "State scoring is evaluator-side. Provider gold and the configuration-only Unknown controls are reported separately; protocol pilots are not population-effectiveness results."
+      },
+      "secrets_in_record": false
+    },
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v8_new_cases",
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "method_id": "vanilla_react_linear",
+      "orchestration_backend": "linear",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 2,
+      "seed": 1731,
+      "config_sha256": "ed615915de1817664064aa2fe5cae2bcb23cc4e88da5b218566a9a876bbcd787",
+      "implementation_bundle_sha256": "b8457b466dac271514d9e12e59ab56643182295c208156df87e0b34f5d365dc8",
+      "schedule_id": "llm-schedule-a5779651bc96cdf80117da4c",
+      "split": "source_held_out_test",
+      "independence_group": "splunk-dataset:T1537/aws_snapshot_exfil",
+      "platform": "AWS",
+      "label_origin": "provider_native_runtime",
+      "method_components": {
+        "pareto_guard": false,
+        "external_rule_prior": false,
+        "four_value_memory": false,
+        "budget_stop": true,
+        "finish_guard_mode": "record",
+        "orchestration_backend": "linear"
+      },
+      "latency_seconds": 24.178857300023083,
+      "result": {
+        "decision": "evidence_certified_paths",
+        "hypothesis": "Path candidate limit reached.",
+        "stop_reason": "path_candidate_limit",
+        "steps": 3,
+        "valid_tool_calls": 2,
+        "invalid_actions": 0,
+        "spent": 3,
+        "evidence_observation_ids": [
+          "obs-v3-c08baab58a2f6031fbe165bd"
+        ],
+        "evidence_raw_refs": [
+          {
+            "relative_path": "data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json",
+            "artifact_sha256": "ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca",
+            "line_number": 5,
+            "event_id": "1592cb54-9c0d-497f-8cfd-eb5c8c8736fe"
+          }
+        ],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "Summarize case to get initial context.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Summarize case to get initial context.",
+              "tool_name": "summarize_case",
+              "arguments": {}
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "summarize_case",
+              "call_id": 1,
+              "cost": 1,
+              "result_count": 0,
+              "operation_counts": {
+                "ModifySnapshotAttribute": 2
+              },
+              "service_counts": {
+                "ec2.amazonaws.com": 2
+              },
+              "events": [],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 3
+            },
+            "error": null,
+            "cumulative_cost": 1
+          },
+          {
+            "step": 2,
+            "thought": "Search for events related to modifying snapshot attributes.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Search for events related to modifying snapshot attributes.",
+              "tool_name": "search_events",
+              "arguments": {
+                "operation": "ModifySnapshotAttribute"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "search_events",
+              "call_id": 2,
+              "cost": 2,
+              "result_count": 2,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-v3-68cb604e9b0588bbbef962bb",
+                  "timestamp": "2021-06-22T20:58:37Z",
+                  "service": "ec2.amazonaws.com",
+                  "operation": "ModifySnapshotAttribute",
+                  "actor_type": "IAMUser",
+                  "actor_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "account_id": "591511666666",
+                  "region": "us-east-2",
+                  "event_status": "Success",
+                  "provider_decision": "allow",
+                  "target_resource": "snap-03fb276e9eb29328e"
+                },
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "timestamp": "2021-06-22T21:03:16Z",
+                  "service": "ec2.amazonaws.com",
+                  "operation": "ModifySnapshotAttribute",
+                  "actor_type": "IAMUser",
+                  "actor_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "account_id": "591511666666",
+                  "region": "us-east-2",
+                  "event_status": "Client.InvalidAMIAttributeItemValue",
+                  "provider_decision": "deny",
+                  "target_resource": "snap-03fb276e9eb29328e/external-account:123456123"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 1
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 3,
+            "thought": "Submit a path based on the available evidence.",
+            "proposal": {
+              "kind": "submit_path",
+              "thought": "Submit a path based on the available evidence.",
+              "hypothesis": "The snapshot was shared with an invalid external account at the recorded event time.",
+              "path_candidate": {
+                "path_id": "path-01",
+                "claimed_state": "NotReachable",
+                "nodes": [
+                  {
+                    "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                    "type": "identity",
+                    "label": "bhavin_cli"
+                  },
+                  {
+                    "node_id": "snap-03fb276e9eb29328e/external-account:123456123",
+                    "type": "data_object",
+                    "label": "invalid external account"
+                  }
+                ],
+                "edges": [
+                  {
+                    "edge_id": "e-01",
+                    "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                    "target": "snap-03fb276e9eb29328e/external-account:123456123",
+                    "type": "transfer_data"
+                  }
+                ],
+                "evidence_assignments": [
+                  {
+                    "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                    "call_id": 2,
+                    "polarity": "refute",
+                    "edge_ids": [
+                      "e-01"
+                    ],
+                    "test": {
+                      "field": "operation",
+                      "operator": "eq",
+                      "value": "ModifySnapshotAttribute"
+                    }
+                  }
+                ]
+              }
+            },
+            "status": "path_candidate_accepted",
+            "observation": {
+              "path_id": "path-01",
+              "verified": true,
+              "verdict": {
+                "path_id": "path-01",
+                "state": "Invalid",
+                "claim_states": {
+                  "e-01": "Contradicted"
+                },
+                "unknown_claims": [],
+                "refuted_claims": [
+                  "e-01"
+                ],
+                "conflict_claims": []
+              },
+              "errors": [],
+              "certificate_id": "cp-167e12c9eee18627fb6f",
+              "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release."
+            },
+            "error": null,
+            "cumulative_cost": 3
+          }
+        ],
+        "path_candidates": [
+          {
+            "path_candidate": {
+              "path_id": "path-01",
+              "claimed_state": "NotReachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "type": "identity",
+                  "label": "bhavin_cli"
+                },
+                {
+                  "node_id": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "data_object",
+                  "label": "invalid external account"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e-01",
+                  "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "target": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "transfer_data"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "call_id": 2,
+                  "polarity": "refute",
+                  "edge_ids": [
+                    "e-01"
+                  ],
+                  "test": {
+                    "field": "operation",
+                    "operator": "eq",
+                    "value": "ModifySnapshotAttribute"
+                  }
+                }
+              ]
+            },
+            "normalized_path": {
+              "path_id": "path-01",
+              "claimed_state": "NotReachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "type": "identity",
+                  "label": "bhavin_cli"
+                },
+                {
+                  "node_id": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "data_object",
+                  "label": "invalid external account"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e-01",
+                  "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "target": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "transfer_data"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "call_id": 2,
+                  "polarity": "refute",
+                  "edge_ids": [
+                    "e-01"
+                  ],
+                  "test": {
+                    "field": "operation",
+                    "operator": "eq",
+                    "value": "ModifySnapshotAttribute"
+                  }
+                }
+              ]
+            },
+            "structurally_valid": true,
+            "evidence_items": [
+              {
+                "evidence_id": "tool-call-2-refute",
+                "polarity": "refute",
+                "claim_ids": [
+                  "e-01"
+                ],
+                "raw_ref": "{\"call_id\":2,\"executable_tests\":[{\"field\":\"operation\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"ModifySnapshotAttribute\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}",
+                "cost": 2.0,
+                "source": "tool:search_events"
+              }
+            ],
+            "verdict": {
+              "path_id": "path-01",
+              "state": "Invalid",
+              "claim_states": {
+                "e-01": "Contradicted"
+              },
+              "unknown_claims": [],
+              "refuted_claims": [
+                "e-01"
+              ],
+              "conflict_claims": []
+            },
+            "certificate": {
+              "certificate_id": "cp-167e12c9eee18627fb6f",
+              "kind": "negative",
+              "method": "exact",
+              "evidence_ids": [
+                "tool-call-2-refute"
+              ],
+              "raw_refs": [
+                "{\"call_id\":2,\"executable_tests\":[{\"field\":\"operation\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"ModifySnapshotAttribute\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}"
+              ],
+              "total_cost": 2.0,
+              "covered_requirements": [
+                "path-01"
+              ],
+              "required_requirements": [
+                "path-01"
+              ],
+              "sufficient": true,
+              "irreducible": true,
+              "optimal": true,
+              "approximation_bound": null,
+              "semantics": "selected refutation evidence intersects every enumerated candidate path; Unknown observations never count as blockers"
+            },
+            "certificate_audit": {
+              "sufficient": true,
+              "irreducible": true,
+              "raw_refs_complete": true,
+              "unknown_evidence_ids": [],
+              "redundant_evidence_ids": [],
+              "covered_requirements": [
+                "path-01"
+              ],
+              "missing_requirements": [],
+              "recomputed_cost": 2.0,
+              "cost_matches": true
+            },
+            "path_ontology": {
+              "ontology_id": "cloud_data_path_v1",
+              "version": "1.0.0",
+              "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+            },
+            "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release.",
+            "verified": true,
+            "errors": []
+          }
+        ],
+        "verified_path_candidates": [
+          {
+            "path_candidate": {
+              "path_id": "path-01",
+              "claimed_state": "NotReachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "type": "identity",
+                  "label": "bhavin_cli"
+                },
+                {
+                  "node_id": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "data_object",
+                  "label": "invalid external account"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e-01",
+                  "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "target": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "transfer_data"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "call_id": 2,
+                  "polarity": "refute",
+                  "edge_ids": [
+                    "e-01"
+                  ],
+                  "test": {
+                    "field": "operation",
+                    "operator": "eq",
+                    "value": "ModifySnapshotAttribute"
+                  }
+                }
+              ]
+            },
+            "normalized_path": {
+              "path_id": "path-01",
+              "claimed_state": "NotReachable",
+              "nodes": [
+                {
+                  "node_id": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "type": "identity",
+                  "label": "bhavin_cli"
+                },
+                {
+                  "node_id": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "data_object",
+                  "label": "invalid external account"
+                }
+              ],
+              "edges": [
+                {
+                  "edge_id": "e-01",
+                  "source": "arn:aws:iam::591511666666:user/bhavin_cli",
+                  "target": "snap-03fb276e9eb29328e/external-account:123456123",
+                  "type": "transfer_data"
+                }
+              ],
+              "evidence_assignments": [
+                {
+                  "observation_id": "obs-v3-c08baab58a2f6031fbe165bd",
+                  "call_id": 2,
+                  "polarity": "refute",
+                  "edge_ids": [
+                    "e-01"
+                  ],
+                  "test": {
+                    "field": "operation",
+                    "operator": "eq",
+                    "value": "ModifySnapshotAttribute"
+                  }
+                }
+              ]
+            },
+            "structurally_valid": true,
+            "evidence_items": [
+              {
+                "evidence_id": "tool-call-2-refute",
+                "polarity": "refute",
+                "claim_ids": [
+                  "e-01"
+                ],
+                "raw_ref": "{\"call_id\":2,\"executable_tests\":[{\"field\":\"operation\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"ModifySnapshotAttribute\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}",
+                "cost": 2.0,
+                "source": "tool:search_events"
+              }
+            ],
+            "verdict": {
+              "path_id": "path-01",
+              "state": "Invalid",
+              "claim_states": {
+                "e-01": "Contradicted"
+              },
+              "unknown_claims": [],
+              "refuted_claims": [
+                "e-01"
+              ],
+              "conflict_claims": []
+            },
+            "certificate": {
+              "certificate_id": "cp-167e12c9eee18627fb6f",
+              "kind": "negative",
+              "method": "exact",
+              "evidence_ids": [
+                "tool-call-2-refute"
+              ],
+              "raw_refs": [
+                "{\"call_id\":2,\"executable_tests\":[{\"field\":\"operation\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"ModifySnapshotAttribute\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}"
+              ],
+              "total_cost": 2.0,
+              "covered_requirements": [
+                "path-01"
+              ],
+              "required_requirements": [
+                "path-01"
+              ],
+              "sufficient": true,
+              "irreducible": true,
+              "optimal": true,
+              "approximation_bound": null,
+              "semantics": "selected refutation evidence intersects every enumerated candidate path; Unknown observations never count as blockers"
+            },
+            "certificate_audit": {
+              "sufficient": true,
+              "irreducible": true,
+              "raw_refs_complete": true,
+              "unknown_evidence_ids": [],
+              "redundant_evidence_ids": [],
+              "covered_requirements": [
+                "path-01"
+              ],
+              "missing_requirements": [],
+              "recomputed_cost": 2.0,
+              "cost_matches": true
+            },
+            "path_ontology": {
+              "ontology_id": "cloud_data_path_v1",
+              "version": "1.0.0",
+              "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+            },
+            "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release.",
+            "verified": true,
+            "errors": []
+          }
+        ],
+        "path_verdict": {
+          "path_id": "path-01",
+          "state": "Invalid",
+          "claim_states": {
+            "e-01": "Contradicted"
+          },
+          "unknown_claims": [],
+          "refuted_claims": [
+            "e-01"
+          ],
+          "conflict_claims": []
+        },
+        "certificate": {
+          "certificate_id": "cp-167e12c9eee18627fb6f",
+          "kind": "negative",
+          "method": "exact",
+          "evidence_ids": [
+            "tool-call-2-refute"
+          ],
+          "raw_refs": [
+            "{\"call_id\":2,\"executable_tests\":[{\"field\":\"operation\",\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"operator\":\"eq\",\"result\":true,\"value\":\"ModifySnapshotAttribute\"}],\"observations\":[{\"observation_id\":\"obs-v3-c08baab58a2f6031fbe165bd\",\"raw_ref\":{\"artifact_sha256\":\"ac343623bd299b4cbd29b1d718e91b51f00da71fee4fe3de26dca83205676cca\",\"event_id\":\"1592cb54-9c0d-497f-8cfd-eb5c8c8736fe\",\"line_number\":5,\"relative_path\":\"data/real_sources/raw/splunk_attack_data/3821bdb77c66c95b4e529f62a9d00b168446d1a8/aws_snapshot_exfil.json\"}}],\"tool_name\":\"search_events\"}"
+          ],
+          "total_cost": 2.0,
+          "covered_requirements": [
+            "path-01"
+          ],
+          "required_requirements": [
+            "path-01"
+          ],
+          "sufficient": true,
+          "irreducible": true,
+          "optimal": true,
+          "approximation_bound": null,
+          "semantics": "selected refutation evidence intersects every enumerated candidate path; Unknown observations never count as blockers"
+        },
+        "certificate_audit": {
+          "sufficient": true,
+          "irreducible": true,
+          "raw_refs_complete": true,
+          "unknown_evidence_ids": [],
+          "redundant_evidence_ids": [],
+          "covered_requirements": [
+            "path-01"
+          ],
+          "missing_requirements": [],
+          "recomputed_cost": 2.0,
+          "cost_matches": true
+        },
+        "certificate_scope": "Internal structural, citation-visibility, executable-test, and positive/negative evidence-cover certificate only; semantic correctness must be scored against independent human gold or a separately frozen provider-oracle gold release.",
+        "verification_errors": []
+      },
+      "score": {
+        "scoring_version": "provider-oracle-state-v1",
+        "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+        "independence_group": "splunk-dataset:T1537/aws_snapshot_exfil",
+        "platform": "AWS",
+        "gold_state": "NotReachable",
+        "predicted_state": "NotReachable",
+        "state_correct": true,
+        "provider_oracle_gold": true,
+        "epistemic_control": false,
+        "label_origin": "provider_native_runtime",
+        "gold_tier": "runtime_gold",
+        "decisive_evidence_correct": true,
+        "semantically_correct_state": true,
+        "correct_rejection": true,
+        "correct_abstention": false,
+        "false_reachable": false,
+        "support_evidence_coverage": null,
+        "refute_evidence_coverage": 1.0,
+        "control_evidence_coverage": 0.0,
+        "gold_path_edge_precision": 0.0,
+        "gold_path_edge_recall": 0.0,
+        "gold_path_edge_f1": 0.0,
+        "verified_candidate_count": 1,
+        "proposed_candidate_count": 1,
+        "query_cost": 3,
+        "valid_tool_calls": 2,
+        "invalid_actions": 0,
+        "runner_decision": "evidence_certified_paths",
+        "scope": "State scoring is evaluator-side. Provider gold and the configuration-only Unknown controls are reported separately; protocol pilots are not population-effectiveness results."
+      },
+      "secrets_in_record": false
+    }
+  ],
+  "warning": "Repeated seeds diagnose execution stability only. Events, cases, or duplicate JSONL records are not independent samples."
+}

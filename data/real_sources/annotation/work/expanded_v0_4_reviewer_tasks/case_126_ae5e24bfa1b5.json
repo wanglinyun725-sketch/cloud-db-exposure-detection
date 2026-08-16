@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:k8s.credential-access.dump-secrets",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:k8s.credential-access.dump-secrets",
+    "kind": "executable_attack_technique",
+    "platform": "kubernetes",
+    "technique": "k8s.credential-access.dump-secrets",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.credential-access.dump-secrets.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.credential-access.dump-secrets.md",
+    "review_score": 20,
+    "independence_group": "stratus_red_team:stratus:k8s.credential-access.dump-secrets",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.credential-access.dump-secrets.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/kubernetes/k8s.credential-access.dump-secrets.md",
+      "member_sha256": "b8af434a712dbeb6e6d6f9083933c193a01a167022060a572e87af99865b33f4",
+      "bytes": 1690,
+      "content_kind": "md",
+      "text": "---\ntitle: Dump All Secrets\n---\n\n# Dump All Secrets\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: Kubernetes\n\n## Mappings\n\n- MITRE ATT&CK\n    - Credential Access\n\n\n\n## Description\n\n\nDumps all Secrets from a Kubernetes cluster.\nThis allow an attacker with the right permissions to trivially access all secrets in the cluster.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>: None\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Dump secrets using the **LIST /api/v1/secrets** API\n- This returns all secrets in the K8s clusters, no matter their namespace\n\nReferences:\n\n- https://darkbit.io/blog/the-power-of-kubernetes-rbac-list\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate k8s.credential-access.dump-secrets\n```\n## Detection\n\n\nUsing Kubernetes API server audit logs. In particular, look for **list secrets** requests that are not performed\nfor a specific namespace (i.e., that apply to all namespaces).\n\nSample event (shortened):\n\n```json\n{\n  \"apiVersion\": \"audit.k8s.io/v1\",\n  \"stage\": \"ResponseComplete\",\n  \"kind\": \"Event\",\n  \"level\": \"Metadata\",\n  \"requestURI\": \"/api/v1/secrets?limit=500\",\n  \"attributes\": {\n    \"objectRef\": {\n      \"resource\": \"secrets\",\n      \"apiVersion\": \"v1\"\n    },\n    \"http\": {\n      \"url_details\": {\n        \"path\": \"/api/v1/secrets\",\n        \"queryString\": {\n          \"limit\": \"500\"\n        }\n      },\n      \"method\": \"list\"\n    }\n  }\n}\n```\n\nSome built-in Kubernetes components might need to be excluded from such a detection:\n\n- namespace-controller\n- kube-state-metrics\n- apiserver\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "9b89cbcfe6e56b3d92d4e56a3f4516903c4831f0e2cd8ae1aa4066f32bd59339",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

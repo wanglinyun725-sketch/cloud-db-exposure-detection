@@ -1,0 +1,52 @@
+{
+  "candidate_id": "cloud-incident:aws:00080",
+  "independence_group": "reliability-record:d3490875adbff086dc0969884e29d3225086caed8d3ee500c8411feedff74d5a",
+  "independence_group_basis": "source_record_sha256",
+  "source": {
+    "source_id": "cloud_incident_reports_2016_2024",
+    "doi": "10.5281/zenodo.14010282",
+    "version": "record-14010282-v1",
+    "license": "CC-BY-4.0"
+  },
+  "vendor": "AWS",
+  "service_hint": "Amazon DynamoDB (N. California)",
+  "year": "2020",
+  "data_relevance_facets": [
+    "nosql"
+  ],
+  "security_term_hits": [],
+  "report_text": "11:22 AM PDT Between 10:22 AM and 10:33 AM PDT, and between 10:47 AM and 11:06 AM PDT, we experienced elevated failure rates for some Amazon DynamoDB requests in the US-WEST-1 Region. The issue has been resolved and the service is operating normally.",
+  "raw_ref": {
+    "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+    "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+    "member_path": "2_clean_data/aws.csv",
+    "record_index": 80,
+    "record_sha256": "d3490875adbff086dc0969884e29d3225086caed8d3ee500c8411feedff74d5a"
+  },
+  "workflow_version": "0.1",
+  "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "source_context_fields": [
+    "candidate_id",
+    "data_relevance_facets",
+    "independence_group",
+    "independence_group_basis",
+    "raw_ref",
+    "report_text",
+    "security_term_hits",
+    "service_hint",
+    "source",
+    "vendor",
+    "year"
+  ],
+  "source_context_sha256": "2cd88777e46dddf76ded663bfb2f74ac33be6cd6b69f82125d18b6a06fa43a4c",
+  "screening": {
+    "cloud_data_relevant": null,
+    "non_attack_confirmed": null,
+    "usable_as_negative_control": null,
+    "rationale": null
+  }
+}

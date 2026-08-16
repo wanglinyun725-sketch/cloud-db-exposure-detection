@@ -1,0 +1,210 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "relationship--64d9fee3-d0c8-40e5-b295-d43ec719bb81",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "mitre_attack_stix",
+    "upstream_url": "https://github.com/mitre-attack/attack-stix-data",
+    "version_or_commit": "a6c366439edee3a87b79cf90dc0b93f5d7975956",
+    "license": "MITRE ATT&CK research-development-commercial license with attribution",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/mitre_attack_stix/a6c366439edee3a87b79cf90dc0b93f5d7975956/enterprise-attack.json",
+        "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "relationship--64d9fee3-d0c8-40e5-b295-d43ec719bb81",
+    "kind": "procedure_relationship",
+    "source_object_id": "tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+    "source_object_type": "tool",
+    "source_name": "Pacu",
+    "technique_object_id": "attack-pattern--8565825b-21c8-4518-b75e-cbc4c717a156",
+    "technique_id": "T1619",
+    "technique_name": "Cloud Storage Object Discovery",
+    "platforms": [
+      "IaaS"
+    ],
+    "raw_ref": "enterprise-attack.json#object=relationship--64d9fee3-d0c8-40e5-b295-d43ec719bb81",
+    "review_score": 9,
+    "independence_group": "mitre-source-object:tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1619"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "enterprise-attack.json#object=relationship--64d9fee3-d0c8-40e5-b295-d43ec719bb81",
+      "object_id": "relationship--64d9fee3-d0c8-40e5-b295-d43ec719bb81",
+      "canonical_object_sha256": "5f5a3e160b6962cf8a6cffd807bcabca30dc1c47101727eb21943c87e0c1b18b",
+      "structured_object": {
+        "type": "relationship",
+        "spec_version": "2.1",
+        "id": "relationship--64d9fee3-d0c8-40e5-b295-d43ec719bb81",
+        "created": "2023-09-28T13:25:34.246Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "GitHub Pacu",
+            "description": "Rhino Security Labs. (2019, August 22). Pacu. Retrieved October 17, 2019.",
+            "url": "https://github.com/RhinoSecurityLabs/pacu"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-04-29T14:23:06.062Z",
+        "description": "[Pacu](https://attack.mitre.org/software/S1091) can enumerate AWS storage services, such as S3 buckets and Elastic Block Store volumes.(Citation: GitHub Pacu)",
+        "relationship_type": "uses",
+        "source_ref": "tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+        "target_ref": "attack-pattern--8565825b-21c8-4518-b75e-cbc4c717a156",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_deprecated": false,
+        "x_mitre_attack_spec_version": "3.3.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+      "object_id": "tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+      "canonical_object_sha256": "fe640ba38d51f0df68f006e12c140b34d6eb489e08781f4d367d8bd46cdff6e7",
+      "structured_object": {
+        "modified": "2023-10-19T12:18:43.123Z",
+        "name": "Pacu",
+        "description": "Pacu is an open-source AWS exploitation framework. The tool is written in Python and publicly available on GitHub.(Citation: GitHub Pacu)",
+        "x_mitre_platforms": [
+          "IaaS"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_version": "1.0",
+        "x_mitre_contributors": [
+          "Thanabodi Phrakhun, @naikordian"
+        ],
+        "x_mitre_aliases": [
+          "Pacu"
+        ],
+        "type": "tool",
+        "spec_version": "2.1",
+        "id": "tool--1b3b8f96-43b1-4460-8e02-1f53d7802fb9",
+        "created": "2023-09-28T13:21:49.652Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/software/S1091",
+            "external_id": "S1091"
+          },
+          {
+            "source_name": "GitHub Pacu",
+            "description": "Rhino Security Labs. (2019, August 22). Pacu. Retrieved October 17, 2019.",
+            "url": "https://github.com/RhinoSecurityLabs/pacu"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "x_mitre_attack_spec_version": "3.2.0",
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    },
+    {
+      "raw_ref": "enterprise-attack.json#object=attack-pattern--8565825b-21c8-4518-b75e-cbc4c717a156",
+      "object_id": "attack-pattern--8565825b-21c8-4518-b75e-cbc4c717a156",
+      "canonical_object_sha256": "e6b6f211c97a1dd1e46ab68a8d2a29baf0a0a82897ecdb0e486badf0d2956d31",
+      "structured_object": {
+        "type": "attack-pattern",
+        "spec_version": "2.1",
+        "id": "attack-pattern--8565825b-21c8-4518-b75e-cbc4c717a156",
+        "created": "2021-10-01T17:58:26.445Z",
+        "created_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "revoked": false,
+        "external_references": [
+          {
+            "source_name": "mitre-attack",
+            "url": "https://attack.mitre.org/techniques/T1619",
+            "external_id": "T1619"
+          },
+          {
+            "source_name": "ListObjectsV2",
+            "description": "Amazon - ListObjectsV2. Retrieved October 4, 2021.",
+            "url": "https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html"
+          },
+          {
+            "source_name": "List Blobs",
+            "description": "Microsoft - List Blobs. (n.d.). Retrieved October 4, 2021.",
+            "url": "https://docs.microsoft.com/en-us/rest/api/storageservices/list-blobs"
+          }
+        ],
+        "object_marking_refs": [
+          "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+        ],
+        "modified": "2026-05-12T15:12:00.685Z",
+        "name": "Cloud Storage Object Discovery",
+        "description": "Adversaries may enumerate objects in cloud storage infrastructure. Adversaries may use this information during automated discovery to shape follow-on behaviors, including requesting all or specific objects from cloud storage.  Similar to [File and Directory Discovery](https://attack.mitre.org/techniques/T1083) on a local host, after identifying available storage services (i.e. [Cloud Infrastructure Discovery](https://attack.mitre.org/techniques/T1580)) adversaries may access the contents/objects stored in cloud infrastructure.\n\nCloud service providers offer APIs allowing users to enumerate objects stored within cloud storage. Examples include ListObjectsV2 in AWS (Citation: ListObjectsV2) and List Blobs in Azure(Citation: List Blobs) .",
+        "kill_chain_phases": [
+          {
+            "kill_chain_name": "mitre-attack",
+            "phase_name": "discovery"
+          }
+        ],
+        "x_mitre_attack_spec_version": "3.3.0",
+        "x_mitre_contributors": [
+          "Regina Elwell",
+          "Isif Ibrahima, Mandiant"
+        ],
+        "x_mitre_deprecated": false,
+        "x_mitre_domains": [
+          "enterprise-attack"
+        ],
+        "x_mitre_is_subtechnique": false,
+        "x_mitre_modified_by_ref": "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "x_mitre_platforms": [
+          "IaaS"
+        ],
+        "x_mitre_version": "1.0"
+      },
+      "copy_policy": "structured object copied from pinned STIX bundle"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "41ef861ffdb6f09464a3f9c582a193ff3f65b7e12c5d155f623385ddd9eaf516",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

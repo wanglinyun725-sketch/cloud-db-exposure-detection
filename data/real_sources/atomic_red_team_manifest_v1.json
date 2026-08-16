@@ -1,0 +1,254 @@
+{
+  "manifest_version": "1.0.0",
+  "policy": {
+    "sample_generation": false,
+    "label_generation": false,
+    "attack_execution": false,
+    "raw_artifacts_immutable": true,
+    "selection": "official atomics/T*/T*.yaml files containing at least one AWS, Azure, GCP, or Azure AD supported_platforms entry",
+    "repository_yaml_files_scanned": 340,
+    "cloud_yaml_files_selected": 27
+  },
+  "source": {
+    "source_id": "atomic_red_team",
+    "publisher": "Red Canary",
+    "repository": "redcanaryco/atomic-red-team",
+    "upstream_url": "https://github.com/redcanaryco/atomic-red-team",
+    "commit": "1ba1dd8d9ce6f74700f7aec2e60de5632f667f03",
+    "license": "MIT",
+    "artifacts": [
+      {
+        "name": "repository-tree.json",
+        "upstream_path": "$git-tree",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/repository-tree.json",
+        "url": "https://api.github.com/repos/redcanaryco/atomic-red-team/git/trees/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03?recursive=1",
+        "bytes": 84110,
+        "sha256": "0651fe95cd3024ec7292284b7952b77b438045963232d33c4f50a7a6c3cdb962"
+      },
+      {
+        "name": "LICENSE.txt",
+        "upstream_path": "LICENSE.txt",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/LICENSE.txt",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/LICENSE.txt",
+        "bytes": 1078,
+        "sha256": "65af6027045d23175366eab50e460ab3ee7790e591cb84cc32c78ac63a4c90e1"
+      },
+      {
+        "name": "atomics/T1078.004/T1078.004.yaml",
+        "upstream_path": "atomics/T1078.004/T1078.004.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1078.004/T1078.004.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1078.004/T1078.004.yaml",
+        "bytes": 7908,
+        "sha256": "8b6e4fea03b597989f425dedb1a9d0118d00fa7836f5254c2c399ea4209a32ec"
+      },
+      {
+        "name": "atomics/T1082/T1082.yaml",
+        "upstream_path": "atomics/T1082/T1082.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1082/T1082.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1082/T1082.yaml",
+        "bytes": 26980,
+        "sha256": "eb66e45b8f218aa15296c168413df9c55b1ae0528bbd371d2df56b81c4807f8c"
+      },
+      {
+        "name": "atomics/T1098.001/T1098.001.yaml",
+        "upstream_path": "atomics/T1098.001/T1098.001.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1098.001/T1098.001.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1098.001/T1098.001.yaml",
+        "bytes": 9453,
+        "sha256": "cfd5917c37e8c83a757db96eda8bfc4fbede6bb348a8493f782e6e2b91a42107"
+      },
+      {
+        "name": "atomics/T1098.003/T1098.003.yaml",
+        "upstream_path": "atomics/T1098.003/T1098.003.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1098.003/T1098.003.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1098.003/T1098.003.yaml",
+        "bytes": 5360,
+        "sha256": "cd6d4f36454fd4d1eaf888b70d764488c24c73811542e628f278a5b6daefe429"
+      },
+      {
+        "name": "atomics/T1098/T1098.yaml",
+        "upstream_path": "atomics/T1098/T1098.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1098/T1098.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1098/T1098.yaml",
+        "bytes": 52744,
+        "sha256": "b442cf848cc421593a09500bc82ab65418b903204db5a3376043c6ac50ba9dd5"
+      },
+      {
+        "name": "atomics/T1110.001/T1110.001.yaml",
+        "upstream_path": "atomics/T1110.001/T1110.001.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1110.001/T1110.001.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1110.001/T1110.001.yaml",
+        "bytes": 14615,
+        "sha256": "3ad2bea971ce8a01a142d037dce050cf08cf919226d9b56b354d8074eb6236d2"
+      },
+      {
+        "name": "atomics/T1110.003/T1110.003.yaml",
+        "upstream_path": "atomics/T1110.003/T1110.003.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1110.003/T1110.003.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1110.003/T1110.003.yaml",
+        "bytes": 15382,
+        "sha256": "177520bba9099804c714c44fe9c59397bd81e5862a0bb6a5d126a3f608287d0d"
+      },
+      {
+        "name": "atomics/T1136.003/T1136.003.yaml",
+        "upstream_path": "atomics/T1136.003/T1136.003.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1136.003/T1136.003.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1136.003/T1136.003.yaml",
+        "bytes": 5693,
+        "sha256": "be13a80fee773e2fed9ef277668d63206b2a182121e669250078a94cb4d90200"
+      },
+      {
+        "name": "atomics/T1201/T1201.yaml",
+        "upstream_path": "atomics/T1201/T1201.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1201/T1201.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1201/T1201.yaml",
+        "bytes": 5544,
+        "sha256": "7c9e956221b0416f15a0645c352d8d6c6a4d8edddb64e53fb1c4d25da3c41d0c"
+      },
+      {
+        "name": "atomics/T1484.002/T1484.002.yaml",
+        "upstream_path": "atomics/T1484.002/T1484.002.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1484.002/T1484.002.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1484.002/T1484.002.yaml",
+        "bytes": 3424,
+        "sha256": "a276fb5fb8b3fbde00212efb7f94852f41876e484ce2f47ba07132b88f9334e7"
+      },
+      {
+        "name": "atomics/T1485/T1485.yaml",
+        "upstream_path": "atomics/T1485/T1485.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1485/T1485.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1485/T1485.yaml",
+        "bytes": 6841,
+        "sha256": "dec58f0061250f6573532a24b952809a5feb21494dc36fb8a22002a4020cd005"
+      },
+      {
+        "name": "atomics/T1526/T1526.yaml",
+        "upstream_path": "atomics/T1526/T1526.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1526/T1526.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1526/T1526.yaml",
+        "bytes": 6067,
+        "sha256": "a710ccc11644725ecf5fb0d642c1703e2970cd648986585a2a14319ce5f324f9"
+      },
+      {
+        "name": "atomics/T1528/T1528.yaml",
+        "upstream_path": "atomics/T1528/T1528.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1528/T1528.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1528/T1528.yaml",
+        "bytes": 13531,
+        "sha256": "bba9bd309d8373c2646522a1810a042dc88779b83114f77283dbc323a9c9aba3"
+      },
+      {
+        "name": "atomics/T1530/T1530.yaml",
+        "upstream_path": "atomics/T1530/T1530.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1530/T1530.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1530/T1530.yaml",
+        "bytes": 6831,
+        "sha256": "df22df2c3d49fe3772016acf9123e8905e8cff22cb1c12a27039c3d7b3798198"
+      },
+      {
+        "name": "atomics/T1531/T1531.yaml",
+        "upstream_path": "atomics/T1531/T1531.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1531/T1531.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1531/T1531.yaml",
+        "bytes": 9115,
+        "sha256": "4209178ba7266d4a045a2168109bad8cf1f6ef5b9e64180cadb76eb2cd24daa6"
+      },
+      {
+        "name": "atomics/T1552.005/T1552.005.yaml",
+        "upstream_path": "atomics/T1552.005/T1552.005.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1552.005/T1552.005.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1552.005/T1552.005.yaml",
+        "bytes": 5717,
+        "sha256": "1961a243e13701ab60e794fdb1f0abb7a0d2b251cbdd71c2396114273ed45e24"
+      },
+      {
+        "name": "atomics/T1552/T1552.yaml",
+        "upstream_path": "atomics/T1552/T1552.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1552/T1552.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1552/T1552.yaml",
+        "bytes": 3440,
+        "sha256": "2438af42a165a5a5ecac32ed44c02932ff7c7eef2f628b7e9a46991117db0b8d"
+      },
+      {
+        "name": "atomics/T1555.006/T1555.006.yaml",
+        "upstream_path": "atomics/T1555.006/T1555.006.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1555.006/T1555.006.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1555.006/T1555.006.yaml",
+        "bytes": 2824,
+        "sha256": "9ed384c866a5d98ccf80cc0048530ad10a8c849c90d46a27b15f0287d79e440c"
+      },
+      {
+        "name": "atomics/T1578.001/T1578.001.yaml",
+        "upstream_path": "atomics/T1578.001/T1578.001.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1578.001/T1578.001.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1578.001/T1578.001.yaml",
+        "bytes": 5795,
+        "sha256": "d2a1ab4e1f56a0d0a7ff86be5592104d4402dfddae604d34954ee580580860fe"
+      },
+      {
+        "name": "atomics/T1578.002/T1578.002.yaml",
+        "upstream_path": "atomics/T1578.002/T1578.002.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1578.002/T1578.002.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1578.002/T1578.002.yaml",
+        "bytes": 4307,
+        "sha256": "c1f2581de2470764695095f32bdb4bcdf58cf188967028a8412ee3f5eda2c64f"
+      },
+      {
+        "name": "atomics/T1580/T1580.yaml",
+        "upstream_path": "atomics/T1580/T1580.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1580/T1580.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1580/T1580.yaml",
+        "bytes": 4665,
+        "sha256": "99bb06cf17b4feaa26d86d003ad0d66fe5401fbdbd4d323f77ede1f94a5355d1"
+      },
+      {
+        "name": "atomics/T1606.002/T1606.002.yaml",
+        "upstream_path": "atomics/T1606.002/T1606.002.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1606.002/T1606.002.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1606.002/T1606.002.yaml",
+        "bytes": 1758,
+        "sha256": "e15c35b15844f8de0e5b2f88727a8c3e039d2faf02af026ba590374593a51a9d"
+      },
+      {
+        "name": "atomics/T1619/T1619.yaml",
+        "upstream_path": "atomics/T1619/T1619.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1619/T1619.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1619/T1619.yaml",
+        "bytes": 12358,
+        "sha256": "827ebe700a96da7edb248f8f28bfabcf98a6e2a80d3b37e61b4d602db135e836"
+      },
+      {
+        "name": "atomics/T1648/T1648.yaml",
+        "upstream_path": "atomics/T1648/T1648.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1648/T1648.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1648/T1648.yaml",
+        "bytes": 2847,
+        "sha256": "62932ef0d1e9ae85bc5c48edd30fea167d80342f3d67840598048952e91d8626"
+      },
+      {
+        "name": "atomics/T1651/T1651.yaml",
+        "upstream_path": "atomics/T1651/T1651.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1651/T1651.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1651/T1651.yaml",
+        "bytes": 2394,
+        "sha256": "7dabb1f56021eec8e12ed47bc14f425bae20dc3cb83d2539a5149c027465e3bb"
+      },
+      {
+        "name": "atomics/T1685.002/T1685.002.yaml",
+        "upstream_path": "atomics/T1685.002/T1685.002.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1685.002/T1685.002.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1685.002/T1685.002.yaml",
+        "bytes": 23760,
+        "sha256": "334dacde660f796e8423f803291c91f08f851080e2cd61119d8afd7e1c88052c"
+      },
+      {
+        "name": "atomics/T1685/T1685.yaml",
+        "upstream_path": "atomics/T1685/T1685.yaml",
+        "relative_path": "data/real_sources/raw/atomic_red_team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1685/T1685.yaml",
+        "url": "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/1ba1dd8d9ce6f74700f7aec2e60de5632f667f03/atomics/T1685/T1685.yaml",
+        "bytes": 94072,
+        "sha256": "ece96e579e6d0fb0599abb9e4bcadfb031e9c1e6f86e4f45494990521e065319"
+      }
+    ]
+  }
+}

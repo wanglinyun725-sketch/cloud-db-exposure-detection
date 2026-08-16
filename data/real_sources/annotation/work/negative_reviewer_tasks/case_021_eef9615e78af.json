@@ -1,0 +1,52 @@
+{
+  "candidate_id": "cloud-incident:gcp:00000",
+  "independence_group": "reliability-record:1d2a0c8a526d657adf8b790064d4f47a4d2bdf48ffd99755f6b1e35777908b5c",
+  "independence_group_basis": "source_record_sha256",
+  "source": {
+    "source_id": "cloud_incident_reports_2016_2024",
+    "doi": "10.5281/zenodo.14010282",
+    "version": "record-14010282-v1",
+    "license": "CC-BY-4.0"
+  },
+  "vendor": "GCP",
+  "service_hint": "Cloud Spanner",
+  "year": null,
+  "data_relevance_facets": [
+    "spanner"
+  ],
+  "security_term_hits": [],
+  "report_text": "[{'affected_locations': None, 'created': '2020-01-09T03:10:49Z', 'modified': '2020-01-09T03:10:49Z', 'status': None, 'text': 'The issue with Cloud Spanner, where customers are unable to change node count for instances in multi-region configuration \"nam3\", has been resolved for all affected users as of Wednesday, 2020-01-08 19:08 US/Pacific.\\n\\nWe thank you for your patience while we\\'ve worked on resolving the issue.', 'when': '2020-01-09T03:10:49Z'} {'affected_locations': None, 'created': '2020-01-09T02:47:03Z', 'modified': '2020-01-09T02:47:03Z', 'status': None, 'text': 'Description: Mitigation work is currently underway by our engineering team.\\n\\nWe do not have an ETA for mitigation at this point.\\n\\nWe will provide more information by Wednesday, 2020-01-08 20:39 US/Pacific.\\n\\nDiagnosis: Cannot change node count for instances running in NA nam3 multi-region configuration.\\n\\nWorkaround: No workaround is available at the moment.', 'when': '2020-01-09T02:47:03Z'} {'affected_locations': None, 'created': '2020-01-09T01:57:41Z', 'modified': '2020-01-09T01:57:41Z', 'status': None, 'text': 'Description: We are experiencing an issue with Cloud Spanner beginning at Wednesday, 2020-01-08 17:37 US/Pacific.\\n\\nSymptoms: \\n\\nCustomers that have instances running in North America multi-region configuration \"nam3\" may experience errors when attempting to either increase or reduce node count. \\n\\nThe issue is not affecting the running instances.\\n\\nOur engineering team continues to investigate the issue.\\n\\nWe will provide an update by Wednesday, 2020-01-08 18:56 US/Pacific with current details.\\n\\nWe apologize to all who are affected by the disruption.\\n\\nDiagnosis: Cannot change node count for instances running in NA nam3 multi-region configuration.\\n\\nWorkaround: No workaround is available at the moment.', 'when': '2020-01-09T01:57:41Z'} {'affected_locations': None, 'created': '2020-01-09T01:55:43Z', 'modified': '2020-01-09T01:55:43Z', 'status': None, 'text': 'Description: We are experiencing an issue with Cloud Spanner beginning at Wednesday, 2020-01-08 17:37 US/Pacific.\\n\\nSymptoms: \\n\\nCustomers that have instances running in North America multi-region configuration \"nam3\" may experience errors when attempting to either increase or reduce node count. \\n\\nThe issue is not affecting the running instances.\\n\\nOur engineering team continues to investigate the issue.\\n\\nWe will provide an update by Wednesday, 2020-01-08 18:56 US/Pacific with current details.\\n\\nWe apologize to all who are affected by the disruption.', 'when': '2020-01-09T01:55:43Z'}]",
+  "raw_ref": {
+    "archive_relative_path": "data/real_sources/raw/cloud_incident_reports_2016_2024/record-14010282-v1/data.zip",
+    "archive_sha256": "31b4ff81f78252b6c027019fbd4c1c625ba0c0b9097395216559f64930c5ddbe",
+    "member_path": "2_clean_data/gcp.csv",
+    "record_index": 0,
+    "record_sha256": "1d2a0c8a526d657adf8b790064d4f47a4d2bdf48ffd99755f6b1e35777908b5c"
+  },
+  "workflow_version": "0.1",
+  "packet_sha256": "6755680d4c154a86a2fb02999df0daec44c3488b65343d9fef997ab0d794a84a",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "source_context_fields": [
+    "candidate_id",
+    "data_relevance_facets",
+    "independence_group",
+    "independence_group_basis",
+    "raw_ref",
+    "report_text",
+    "security_term_hits",
+    "service_hint",
+    "source",
+    "vendor",
+    "year"
+  ],
+  "source_context_sha256": "7b39704c02124eed8ee747912328f80958379f46ec0d1466f2dfdc773300c03f",
+  "screening": {
+    "cloud_data_relevant": null,
+    "non_attack_confirmed": null,
+    "usable_as_negative_control": null,
+    "rationale": null
+  }
+}

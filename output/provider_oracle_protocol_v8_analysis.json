@@ -1,0 +1,754 @@
+{
+  "analysis_version": "provider-oracle-v8-group-analysis-v1",
+  "protocol_version": "8.0-pilot",
+  "research_effectiveness_result": false,
+  "statistical_unit": "independence_group",
+  "pseudo_replication_guard": true,
+  "repeat_handling": "all cases and randomized repeats in one lineage must pass before the independence group counts as correct",
+  "run_records": 600,
+  "independence_groups": 16,
+  "summaries": [
+    {
+      "method_id": "fixed_order",
+      "budget": 2,
+      "independence_groups": 16,
+      "protocol_correct_group_rate": 0.375,
+      "protocol_correct_group_rate_ci95": [
+        0.18481232558863633,
+        0.6135895945449727
+      ],
+      "unsafe_false_reachable_group_rate": 0.0,
+      "unsafe_false_reachable_group_rate_ci95": [
+        0.0,
+        0.1936076805344365
+      ],
+      "mean_group_query_cost": 1.0
+    },
+    {
+      "method_id": "fixed_order",
+      "budget": 4,
+      "independence_groups": 16,
+      "protocol_correct_group_rate": 0.5625,
+      "protocol_correct_group_rate_ci95": [
+        0.331785563988119,
+        0.7690134759450765
+      ],
+      "unsafe_false_reachable_group_rate": 0.25,
+      "unsafe_false_reachable_group_rate_ci95": [
+        0.10182067491213048,
+        0.49498316535508774
+      ],
+      "mean_group_query_cost": 3.0625
+    },
+    {
+      "method_id": "fixed_order",
+      "budget": 8,
+      "independence_groups": 16,
+      "protocol_correct_group_rate": 0.5625,
+      "protocol_correct_group_rate_ci95": [
+        0.331785563988119,
+        0.7690134759450765
+      ],
+      "unsafe_false_reachable_group_rate": 0.25,
+      "unsafe_false_reachable_group_rate_ci95": [
+        0.10182067491213048,
+        0.49498316535508774
+      ],
+      "mean_group_query_cost": 3.75
+    },
+    {
+      "method_id": "full_query",
+      "budget": 2,
+      "independence_groups": 16,
+      "protocol_correct_group_rate": 0.625,
+      "protocol_correct_group_rate_ci95": [
+        0.38641040545502714,
+        0.8151876744113636
+      ],
+      "unsafe_false_reachable_group_rate": 0.1875,
+      "unsafe_false_reachable_group_rate_ci95": [
+        0.06591599071428142,
+        0.4300888096197414
+      ],
+      "mean_group_query_cost": 1.875
+    },
+    {
+      "method_id": "full_query",
+      "budget": 4,
+      "independence_groups": 16,
+      "protocol_correct_group_rate": 0.5625,
+      "protocol_correct_group_rate_ci95": [
+        0.331785563988119,
+        0.7690134759450765
+      ],
+      "unsafe_false_reachable_group_rate": 0.25,
+      "unsafe_false_reachable_group_rate_ci95": [
+        0.10182067491213048,
+        0.49498316535508774
+      ],
+      "mean_group_query_cost": 2.0625
+    },
+    {
+      "method_id": "full_query",
+      "budget": 8,
+      "independence_groups": 16,
+      "protocol_correct_group_rate": 0.5625,
+      "protocol_correct_group_rate_ci95": [
+        0.331785563988119,
+        0.7690134759450765
+      ],
+      "unsafe_false_reachable_group_rate": 0.25,
+      "unsafe_false_reachable_group_rate_ci95": [
+        0.10182067491213048,
+        0.49498316535508774
+      ],
+      "mean_group_query_cost": 2.0625
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 2,
+      "independence_groups": 16,
+      "protocol_correct_group_rate": 1.0,
+      "protocol_correct_group_rate_ci95": [
+        0.8063923194655637,
+        1.0000000000000002
+      ],
+      "unsafe_false_reachable_group_rate": 0.0,
+      "unsafe_false_reachable_group_rate_ci95": [
+        0.0,
+        0.1936076805344365
+      ],
+      "mean_group_query_cost": 1.875
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 4,
+      "independence_groups": 16,
+      "protocol_correct_group_rate": 1.0,
+      "protocol_correct_group_rate_ci95": [
+        0.8063923194655637,
+        1.0000000000000002
+      ],
+      "unsafe_false_reachable_group_rate": 0.0,
+      "unsafe_false_reachable_group_rate_ci95": [
+        0.0,
+        0.1936076805344365
+      ],
+      "mean_group_query_cost": 2.0625
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 8,
+      "independence_groups": 16,
+      "protocol_correct_group_rate": 1.0,
+      "protocol_correct_group_rate_ci95": [
+        0.8063923194655637,
+        1.0000000000000002
+      ],
+      "unsafe_false_reachable_group_rate": 0.0,
+      "unsafe_false_reachable_group_rate_ci95": [
+        0.0,
+        0.1936076805344365
+      ],
+      "mean_group_query_cost": 2.0625
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 2,
+      "independence_groups": 16,
+      "protocol_correct_group_rate": 0.375,
+      "protocol_correct_group_rate_ci95": [
+        0.18481232558863633,
+        0.6135895945449727
+      ],
+      "unsafe_false_reachable_group_rate": 0.0,
+      "unsafe_false_reachable_group_rate_ci95": [
+        0.0,
+        0.1936076805344365
+      ],
+      "mean_group_query_cost": 1.0
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 4,
+      "independence_groups": 16,
+      "protocol_correct_group_rate": 0.5625,
+      "protocol_correct_group_rate_ci95": [
+        0.331785563988119,
+        0.7690134759450765
+      ],
+      "unsafe_false_reachable_group_rate": 0.25,
+      "unsafe_false_reachable_group_rate_ci95": [
+        0.10182067491213048,
+        0.49498316535508774
+      ],
+      "mean_group_query_cost": 3.0625
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 8,
+      "independence_groups": 16,
+      "protocol_correct_group_rate": 0.5625,
+      "protocol_correct_group_rate_ci95": [
+        0.331785563988119,
+        0.7690134759450765
+      ],
+      "unsafe_false_reachable_group_rate": 0.25,
+      "unsafe_false_reachable_group_rate_ci95": [
+        0.10182067491213048,
+        0.49498316535508774
+      ],
+      "mean_group_query_cost": 3.75
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "primary_method_id": "provider_aware_cp_cert",
+      "baseline_method_id": "fixed_order",
+      "budget": 2,
+      "paired_independence_groups": 16,
+      "primary_wins": 10,
+      "baseline_wins": 0,
+      "ties": 6,
+      "paired_accuracy_difference": 0.625,
+      "p_exact_mcnemar": 0.001953125,
+      "p_holm_all_budget_baseline_comparisons": 0.017578125
+    },
+    {
+      "primary_method_id": "provider_aware_cp_cert",
+      "baseline_method_id": "full_query",
+      "budget": 2,
+      "paired_independence_groups": 16,
+      "primary_wins": 6,
+      "baseline_wins": 0,
+      "ties": 10,
+      "paired_accuracy_difference": 0.375,
+      "p_exact_mcnemar": 0.03125,
+      "p_holm_all_budget_baseline_comparisons": 0.109375
+    },
+    {
+      "primary_method_id": "provider_aware_cp_cert",
+      "baseline_method_id": "random_tool",
+      "budget": 2,
+      "paired_independence_groups": 16,
+      "primary_wins": 10,
+      "baseline_wins": 0,
+      "ties": 6,
+      "paired_accuracy_difference": 0.625,
+      "p_exact_mcnemar": 0.001953125,
+      "p_holm_all_budget_baseline_comparisons": 0.017578125
+    },
+    {
+      "primary_method_id": "provider_aware_cp_cert",
+      "baseline_method_id": "fixed_order",
+      "budget": 4,
+      "paired_independence_groups": 16,
+      "primary_wins": 7,
+      "baseline_wins": 0,
+      "ties": 9,
+      "paired_accuracy_difference": 0.4375,
+      "p_exact_mcnemar": 0.015625,
+      "p_holm_all_budget_baseline_comparisons": 0.109375
+    },
+    {
+      "primary_method_id": "provider_aware_cp_cert",
+      "baseline_method_id": "full_query",
+      "budget": 4,
+      "paired_independence_groups": 16,
+      "primary_wins": 7,
+      "baseline_wins": 0,
+      "ties": 9,
+      "paired_accuracy_difference": 0.4375,
+      "p_exact_mcnemar": 0.015625,
+      "p_holm_all_budget_baseline_comparisons": 0.109375
+    },
+    {
+      "primary_method_id": "provider_aware_cp_cert",
+      "baseline_method_id": "random_tool",
+      "budget": 4,
+      "paired_independence_groups": 16,
+      "primary_wins": 7,
+      "baseline_wins": 0,
+      "ties": 9,
+      "paired_accuracy_difference": 0.4375,
+      "p_exact_mcnemar": 0.015625,
+      "p_holm_all_budget_baseline_comparisons": 0.109375
+    },
+    {
+      "primary_method_id": "provider_aware_cp_cert",
+      "baseline_method_id": "fixed_order",
+      "budget": 8,
+      "paired_independence_groups": 16,
+      "primary_wins": 7,
+      "baseline_wins": 0,
+      "ties": 9,
+      "paired_accuracy_difference": 0.4375,
+      "p_exact_mcnemar": 0.015625,
+      "p_holm_all_budget_baseline_comparisons": 0.109375
+    },
+    {
+      "primary_method_id": "provider_aware_cp_cert",
+      "baseline_method_id": "full_query",
+      "budget": 8,
+      "paired_independence_groups": 16,
+      "primary_wins": 7,
+      "baseline_wins": 0,
+      "ties": 9,
+      "paired_accuracy_difference": 0.4375,
+      "p_exact_mcnemar": 0.015625,
+      "p_holm_all_budget_baseline_comparisons": 0.109375
+    },
+    {
+      "primary_method_id": "provider_aware_cp_cert",
+      "baseline_method_id": "random_tool",
+      "budget": 8,
+      "paired_independence_groups": 16,
+      "primary_wins": 7,
+      "baseline_wins": 0,
+      "ties": 9,
+      "paired_accuracy_difference": 0.4375,
+      "p_exact_mcnemar": 0.015625,
+      "p_holm_all_budget_baseline_comparisons": 0.109375
+    }
+  ],
+  "new_case_diagnostics": [
+    {
+      "method_id": "fixed_order",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "fixed_order",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "fixed_order",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "fixed_order",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "fixed_order",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "fixed_order",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "fixed_order",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "fixed_order",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "fixed_order",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "fixed_order",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "fixed_order",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "fixed_order",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "full_query",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "full_query",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "full_query",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "full_query",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "full_query",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "full_query",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "full_query",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "full_query",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "full_query",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "full_query",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "full_query",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "full_query",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 1,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 1
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "provider_aware_cp_cert",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 1,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 5,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 5,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 5,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 2,
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 5,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 5,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 5
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 5,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 5
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 5,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 4,
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 5,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 5
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:rds-password-reset-without-query",
+      "runs": 5,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 5
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:s3-acl-without-effective-access-control",
+      "runs": 5,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 5
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:snapshot-external-share",
+      "runs": 5,
+      "strict_state_correct": true,
+      "strict_semantic_or_abstention_correct": true,
+      "false_reachable_runs": 0
+    },
+    {
+      "method_id": "random_tool",
+      "budget": 8,
+      "case_id": "oracle-v8:splunk:snapshot-invalid-grantee",
+      "runs": 5,
+      "strict_state_correct": false,
+      "strict_semantic_or_abstention_correct": false,
+      "false_reachable_runs": 5
+    }
+  ],
+  "limitations": [
+    "provider-oracle protocol pilot, not independent human gold",
+    "only sixteen independence groups",
+    "Holm correction spans all three budgets and three baselines",
+    "perfect deterministic-reference accuracy is a contract sanity check and not evidence of population-level generalization"
+  ]
+}

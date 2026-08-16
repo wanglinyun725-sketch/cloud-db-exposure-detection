@@ -1,0 +1,180 @@
+{
+  "experiment_id": "provider_oracle_llm_pilot_v1",
+  "protocol_version": "6.0-pilot",
+  "research_effectiveness_result": false,
+  "warning": "Local 14B model pilot on provider-oracle protocol v6. This validates execution and estimates model behavior but is not the frozen thesis main experiment.",
+  "scheduled_runs": 1,
+  "completed_runs": 1,
+  "executed_this_call": 1,
+  "resumed_skips": 0,
+  "model": {
+    "backend": "ollama_native",
+    "name": "deepseek-r1:14b",
+    "digest": "c333b7232bdb521236694ffbb5f5a6b11cc45d98e9142c73123b670fca400b09",
+    "think": false,
+    "temperature": 0,
+    "num_predict": 900,
+    "num_ctx": 8192
+  },
+  "independence_groups": 1,
+  "summary": [
+    {
+      "method_id": "ec_react_full",
+      "budget": 4,
+      "runs": 1,
+      "case_count": 1,
+      "independence_groups": 1,
+      "effective_provider_gold_groups": 1,
+      "effective_negative_groups": 1,
+      "effective_unknown_control_groups": 0,
+      "aggregation": "strict_independence_group; all cases and repeats in a lineage must pass for binary success",
+      "provider_gold_state_accuracy": 0.0,
+      "provider_gold_state_accuracy_ci95": [
+        0.0,
+        0.7934506856227626
+      ],
+      "provider_gold_semantically_grounded_accuracy": 0.0,
+      "provider_gold_semantically_grounded_accuracy_ci95": [
+        0.0,
+        0.7934506856227626
+      ],
+      "correct_rejection_rate": 0.0,
+      "correct_rejection_rate_ci95": [
+        0.0,
+        0.7934506856227626
+      ],
+      "unknown_control_abstention_rate": null,
+      "unknown_control_abstention_rate_ci95": null,
+      "false_reachable_rate": 0.0,
+      "false_reachable_rate_ci95": [
+        0.0,
+        0.7934506856227626
+      ],
+      "mean_query_cost": 0.0,
+      "mean_gold_path_edge_f1": 0.0,
+      "diagnostic_case_run_metrics": {
+        "provider_gold_state_accuracy": 0.0,
+        "provider_gold_semantically_grounded_accuracy": 0.0,
+        "correct_rejection_rate": 0.0,
+        "unknown_control_abstention_rate": null,
+        "false_reachable_rate": 0.0
+      }
+    }
+  ],
+  "rows": [
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v1",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ec_react_full",
+      "model": "deepseek-r1:14b",
+      "model_digest": "c333b7232bdb521236694ffbb5f5a6b11cc45d98e9142c73123b670fca400b09",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "schedule_id": "llm-schedule-d52fcde77b86b5a5cca8b32e",
+      "split": "protocol_validation",
+      "independence_group": "splunk-dataset:T1486/s3_file_encryption",
+      "platform": "AWS",
+      "label_origin": "provider_native_runtime",
+      "method_components": {
+        "pareto_guard": true,
+        "external_rule_prior": true,
+        "four_value_memory": true,
+        "budget_stop": true,
+        "finish_guard_mode": "strict"
+      },
+      "latency_seconds": 77.55311249999795,
+      "result": {
+        "decision": "abstain",
+        "hypothesis": "The guarded investigation did not reach a valid finish.",
+        "stop_reason": "invalid_action_limit",
+        "steps": 3,
+        "valid_tool_calls": 0,
+        "invalid_actions": 3,
+        "spent": 0,
+        "evidence_observation_ids": [],
+        "evidence_raw_refs": [],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "",
+            "proposal": {
+              "kind": "finish",
+              "decision": "search_complete",
+              "hypothesis": "No further evidence is available to determine if the observed IAM user could complete the KMS-encrypted S3 CopyObject request under the provider state at the specified time."
+            },
+            "status": "action_rejected",
+            "observation": null,
+            "error": "ToolActionError: proposal requires a non-empty thought",
+            "cumulative_cost": 0
+          },
+          {
+            "step": 2,
+            "thought": "",
+            "proposal": {
+              "kind": "finish",
+              "decision": "search_complete",
+              "hypothesis": "No further evidence is available to determine if the observed IAM user could complete the KMS-encrypted S3 CopyObject request under the provider state at the specified time."
+            },
+            "status": "action_rejected",
+            "observation": null,
+            "error": "ToolActionError: proposal requires a non-empty thought",
+            "cumulative_cost": 0
+          },
+          {
+            "step": 3,
+            "thought": "",
+            "proposal": {
+              "kind": "finish",
+              "decision": "search_complete",
+              "hypothesis": "No further evidence is available to determine if the observed IAM user could complete the KMS-encrypted S3 CopyObject request under the provider state at the specified time."
+            },
+            "status": "action_rejected",
+            "observation": null,
+            "error": "ToolActionError: proposal requires a non-empty thought",
+            "cumulative_cost": 0
+          }
+        ],
+        "path_candidates": [],
+        "verified_path_candidates": [],
+        "path_verdict": null,
+        "certificate": null,
+        "certificate_audit": null,
+        "certificate_scope": null,
+        "verification_errors": []
+      },
+      "score": {
+        "scoring_version": "provider-oracle-state-v1",
+        "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+        "independence_group": "splunk-dataset:T1486/s3_file_encryption",
+        "platform": "AWS",
+        "gold_state": "NotReachable",
+        "predicted_state": "Unknown",
+        "state_correct": false,
+        "provider_oracle_gold": true,
+        "epistemic_control": false,
+        "label_origin": "provider_native_runtime",
+        "gold_tier": "runtime_gold",
+        "decisive_evidence_correct": true,
+        "semantically_correct_state": false,
+        "correct_rejection": false,
+        "correct_abstention": false,
+        "false_reachable": false,
+        "support_evidence_coverage": null,
+        "refute_evidence_coverage": 0.0,
+        "control_evidence_coverage": 0.0,
+        "gold_path_edge_precision": 0.0,
+        "gold_path_edge_recall": 0.0,
+        "gold_path_edge_f1": 0.0,
+        "verified_candidate_count": 0,
+        "proposed_candidate_count": 0,
+        "query_cost": 0,
+        "valid_tool_calls": 0,
+        "invalid_actions": 3,
+        "runner_decision": "abstain",
+        "scope": "State scoring is evaluator-side. Provider gold and the configuration-only Unknown controls are reported separately; protocol pilots are not population-effectiveness results."
+      },
+      "secrets_in_record": false
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:azure.exfiltration.storage-public-access",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:azure.exfiltration.storage-public-access",
+    "kind": "executable_attack_technique",
+    "platform": "azure",
+    "technique": "azure.exfiltration.storage-public-access",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.exfiltration.storage-public-access.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.exfiltration.storage-public-access.md",
+    "review_score": 21,
+    "independence_group": "stratus_red_team:stratus:azure.exfiltration.storage-public-access",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.exfiltration.storage-public-access.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.exfiltration.storage-public-access.md",
+      "member_sha256": "ed9184068d8c1b0c6abe9b8b4e72d96cbc5dc4374efbfabf81eedb725580f407",
+      "bytes": 2036,
+      "content_kind": "md",
+      "text": "---\ntitle: Exfiltrate Azure Storage via public access\n---\n\n# Exfiltrate Azure Storage via public access\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: Azure\n\n## Mappings\n\n- MITRE ATT&CK\n    - Exfiltration\n\n\n\n## Description\n\n\nModify storage policies to download content in an Azure storage account.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create a storage account with anonymous blob access disabled\n- Create a storage container with an empty test file\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Enable anonymous blob access on the storage account\n- Change storage container access level to allow public access (anonymous access to containers and blobs)\n- Download test file from the public container\n\nReferences:\n\n- https://www.microsoft.com/en-us/security/blog/2025/08/27/storm-0501s-evolving-techniques-lead-to-cloud-based-ransomware/\n- https://learn.microsoft.com/en-us/azure/storage/blobs/anonymous-read-access-configure\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate azure.exfiltration.storage-public-access\n```\n## Detection\n\n\nMonitor Azure Activity Logs for storage account property changes, specifically <code>Microsoft.Storage/storageAccounts/write</code> operations that modify storage access policies.\n\nSample Azure Activity Log event to monitor:\n\n```json hl_lines=\"2 5\"\n    \"operationName\": {\n        \"value\": \"Microsoft.Storage/storageAccounts/write\",\n        \"localizedValue\": \"Create/Update Storage Account\"\n    },\n    \"properties\": {\n        \"requestbody\": \"{\\\"properties\\\":{\\\"allowBlobPublicAccess\\\":true}}\",\n        \"eventCategory\": \"Administrative\",\n        \"entity\": \"/subscriptions/[SUBSCRIPTION-ID]/resourceGroups/stratus-red-team-storage-storage-6m6k/providers/Microsoft.Storage/storageAccounts/stratusredteamstorage\",\n        \"message\": \"Microsoft.Storage/storageAccounts/write\",\n        \"hierarchy\": \"[REMOVED]\"\n    }\n```\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "fa94e1e4e6d2e8a0672670be8af01791d5e4719baa7b23529474ba99189dc2df",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

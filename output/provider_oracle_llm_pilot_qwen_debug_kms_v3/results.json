@@ -1,0 +1,266 @@
+{
+  "experiment_id": "provider_oracle_llm_pilot_v2",
+  "protocol_version": "7.0-pilot",
+  "research_effectiveness_result": false,
+  "warning": "Local 7B model behavior pilot on provider-oracle protocol v7. This validates execution and estimates model behavior but is not the frozen thesis main experiment.",
+  "scheduled_runs": 1,
+  "completed_runs": 1,
+  "executed_this_call": 1,
+  "resumed_skips": 0,
+  "model": {
+    "backend": "ollama_native",
+    "name": "qwen2.5:7b",
+    "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "think": false,
+    "temperature": 0,
+    "num_predict": 1024,
+    "num_ctx": 4096
+  },
+  "independence_groups": 1,
+  "summary": [
+    {
+      "method_id": "ec_react_full",
+      "budget": 4,
+      "runs": 1,
+      "case_count": 1,
+      "independence_groups": 1,
+      "effective_provider_gold_groups": 1,
+      "effective_negative_groups": 1,
+      "effective_unknown_control_groups": 0,
+      "aggregation": "strict_independence_group; all cases and repeats in a lineage must pass for binary success",
+      "provider_gold_state_accuracy": 0.0,
+      "provider_gold_state_accuracy_ci95": [
+        0.0,
+        0.7934506856227626
+      ],
+      "provider_gold_semantically_grounded_accuracy": 0.0,
+      "provider_gold_semantically_grounded_accuracy_ci95": [
+        0.0,
+        0.7934506856227626
+      ],
+      "correct_rejection_rate": 0.0,
+      "correct_rejection_rate_ci95": [
+        0.0,
+        0.7934506856227626
+      ],
+      "unknown_control_abstention_rate": null,
+      "unknown_control_abstention_rate_ci95": null,
+      "false_reachable_rate": 0.0,
+      "false_reachable_rate_ci95": [
+        0.0,
+        0.7934506856227626
+      ],
+      "mean_query_cost": 3.0,
+      "mean_gold_path_edge_f1": 0.0,
+      "diagnostic_case_run_metrics": {
+        "provider_gold_state_accuracy": 0.0,
+        "provider_gold_semantically_grounded_accuracy": 0.0,
+        "correct_rejection_rate": 0.0,
+        "unknown_control_abstention_rate": null,
+        "false_reachable_rate": 0.0
+      }
+    }
+  ],
+  "rows": [
+    {
+      "experiment_id": "provider_oracle_llm_pilot_v2",
+      "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+      "method_id": "ec_react_full",
+      "model": "qwen2.5:7b",
+      "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "budget": 4,
+      "repeat": 0,
+      "seed": 1729,
+      "schedule_id": "llm-schedule-dca8e4a52e9f4182b0acd1e6",
+      "split": "source_held_out_test",
+      "independence_group": "splunk-dataset:T1486/s3_file_encryption",
+      "platform": "AWS",
+      "label_origin": "provider_native_runtime",
+      "method_components": {
+        "pareto_guard": true,
+        "external_rule_prior": true,
+        "four_value_memory": true,
+        "budget_stop": true,
+        "finish_guard_mode": "strict"
+      },
+      "latency_seconds": 21.438912200042978,
+      "result": {
+        "decision": "abstain",
+        "hypothesis": "The guarded investigation did not reach a valid finish.",
+        "stop_reason": "invalid_action_limit",
+        "steps": 5,
+        "valid_tool_calls": 2,
+        "invalid_actions": 3,
+        "spent": 3,
+        "evidence_observation_ids": [],
+        "evidence_raw_refs": [],
+        "trace": [
+          {
+            "step": 1,
+            "thought": "Summarize case to understand context.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Summarize case to understand context.",
+              "tool_name": "summarize_case",
+              "arguments": {}
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "summarize_case",
+              "call_id": 1,
+              "cost": 1,
+              "result_count": 0,
+              "operation_counts": {
+                "CopyObject": 2
+              },
+              "service_counts": {
+                "s3.amazonaws.com": 2
+              },
+              "events": [],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 3
+            },
+            "error": null,
+            "cumulative_cost": 1
+          },
+          {
+            "step": 2,
+            "thought": "Search for CopyObject events to find relevant permissions.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Search for CopyObject events to find relevant permissions.",
+              "tool_name": "search_events",
+              "arguments": {
+                "operation": "CopyObject"
+              }
+            },
+            "status": "tool_executed",
+            "observation": {
+              "tool": "search_events",
+              "call_id": 2,
+              "cost": 2,
+              "result_count": 2,
+              "operation_counts": null,
+              "service_counts": null,
+              "events": [
+                {
+                  "observation_id": "obs-v3-65307689f866a00cea0ebc7f",
+                  "timestamp": "2021-01-11T12:40:10Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "CopyObject",
+                  "actor_type": "IAMUser",
+                  "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "account_id": "111111111111",
+                  "region": "us-west-2",
+                  "event_status": "KMS.KMSInvalidStateException"
+                },
+                {
+                  "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949",
+                  "timestamp": "2021-01-11T12:40:47Z",
+                  "service": "s3.amazonaws.com",
+                  "operation": "CopyObject",
+                  "actor_type": "IAMUser",
+                  "actor_id": "arn:aws:iam::111111111111:user/patrick_cli",
+                  "account_id": "111111111111",
+                  "region": "us-west-2",
+                  "event_status": "Success"
+                }
+              ],
+              "results_truncated_in_policy_view": false,
+              "remaining_budget": 1
+            },
+            "error": null,
+            "cumulative_cost": 3
+          },
+          {
+            "step": 3,
+            "thought": "Investigate the IAM user's permissions related to KMS-encrypted S3 operations.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Investigate the IAM user's permissions related to KMS-encrypted S3 operations.",
+              "tool_name": "get_event_detail",
+              "arguments": {
+                "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949"
+              }
+            },
+            "status": "action_rejected",
+            "observation": null,
+            "error": "ToolActionError: ranked action is outside the current Pareto frontier",
+            "cumulative_cost": 3
+          },
+          {
+            "step": 4,
+            "thought": "Examine the detailed event for further context.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Examine the detailed event for further context.",
+              "tool_name": "get_event_detail",
+              "arguments": {
+                "observation_id": "obs-v3-fdbbdb0b165e7190feb4a949"
+              }
+            },
+            "status": "action_rejected",
+            "observation": null,
+            "error": "ToolActionError: ranked action is outside the current Pareto frontier",
+            "cumulative_cost": 3
+          },
+          {
+            "step": 5,
+            "thought": "Use actor timeline to explore the IAM user's activities.",
+            "proposal": {
+              "kind": "tool",
+              "thought": "Use actor timeline to explore the IAM user's activities.",
+              "tool_name": "actor_timeline",
+              "arguments": {
+                "actor_id": "arn:aws:iam::111111111111:user/patrick_cli"
+              }
+            },
+            "status": "action_rejected",
+            "observation": null,
+            "error": "ToolActionError: ranked action is outside the current Pareto frontier",
+            "cumulative_cost": 3
+          }
+        ],
+        "path_candidates": [],
+        "verified_path_candidates": [],
+        "path_verdict": null,
+        "certificate": null,
+        "certificate_audit": null,
+        "certificate_scope": null,
+        "verification_errors": []
+      },
+      "score": {
+        "scoring_version": "provider-oracle-state-v1",
+        "case_id": "oracle-v5:splunk:s3-kms-pending-deletion",
+        "independence_group": "splunk-dataset:T1486/s3_file_encryption",
+        "platform": "AWS",
+        "gold_state": "NotReachable",
+        "predicted_state": "Unknown",
+        "state_correct": false,
+        "provider_oracle_gold": true,
+        "epistemic_control": false,
+        "label_origin": "provider_native_runtime",
+        "gold_tier": "runtime_gold",
+        "decisive_evidence_correct": true,
+        "semantically_correct_state": false,
+        "correct_rejection": false,
+        "correct_abstention": false,
+        "false_reachable": false,
+        "support_evidence_coverage": null,
+        "refute_evidence_coverage": 0.0,
+        "control_evidence_coverage": 0.0,
+        "gold_path_edge_precision": 0.0,
+        "gold_path_edge_recall": 0.0,
+        "gold_path_edge_f1": 0.0,
+        "verified_candidate_count": 0,
+        "proposed_candidate_count": 0,
+        "query_cost": 3,
+        "valid_tool_calls": 2,
+        "invalid_actions": 3,
+        "runner_decision": "abstain",
+        "scope": "State scoring is evaluator-side. Provider gold and the configuration-only Unknown controls are reported separately; protocol pilots are not population-effectiveness results."
+      },
+      "secrets_in_record": false
+    }
+  ]
+}

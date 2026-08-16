@@ -1,0 +1,1073 @@
+{
+  "bundle_version": "0.1",
+  "assignment_id": "reviewer-3ce62e6341c65e20",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "assignment_header": {
+    "assignment_version": "0.1",
+    "assignment_id": "reviewer-3ce62e6341c65e20",
+    "role": "reviewer",
+    "annotator_id": "annotator_02",
+    "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+    "policy": {
+      "source_labels_copied": 0,
+      "other_annotator_labels_visible": 0,
+      "human_attestation_required": true
+    }
+  },
+  "assignment_header_sha256": "ea19fc886fd7c1025aab2796793884d35c77b9bd6934bbe9e97bfc6717c8cc8d",
+  "case_count": 150,
+  "entries": [
+    {
+      "ordinal": 1,
+      "identity_field": "case_id",
+      "item_id": "splunk:datasets/attack_techniques/T1098.001/azure_ad_federated_identity_credential",
+      "file": "case_001_81e8e218cbf9.json",
+      "source_context_sha256": "c7e673c40a8173e50f4778a50d8e9698a5fd4d9e694cb5d01b208559ce4a534c"
+    },
+    {
+      "ordinal": 2,
+      "identity_field": "case_id",
+      "item_id": "splunk:datasets/attack_techniques/T1110.002/aws_rds_password_reset",
+      "file": "case_002_aed0b76340fa.json",
+      "source_context_sha256": "394fbb3864bd28233db4a96e6b1bdf2772aa7e97a155142995fb90846fce8991"
+    },
+    {
+      "ordinal": 3,
+      "identity_field": "case_id",
+      "item_id": "splunk:datasets/attack_techniques/T1119/aws_exfil_datasync",
+      "file": "case_003_5e668e5c23fe.json",
+      "source_context_sha256": "df467d0c8a26e625179d1e34fb778559fc96455e479b125680866bccfa84449f"
+    },
+    {
+      "ordinal": 4,
+      "identity_field": "case_id",
+      "item_id": "splunk:datasets/attack_techniques/T1486/s3_file_encryption",
+      "file": "case_004_ddd82144eef1.json",
+      "source_context_sha256": "1149100877e272fd2f639cabcbab15762207948a1ef3a516e7349b61f551c769"
+    },
+    {
+      "ordinal": 5,
+      "identity_field": "case_id",
+      "item_id": "splunk:datasets/attack_techniques/T1490/aws_bucket_version",
+      "file": "case_005_e2a0e723f974.json",
+      "source_context_sha256": "c0f9e3d1e102bf5db21b4bfd59b82f3fa01febc8e304cf39f33470d972b4315b"
+    },
+    {
+      "ordinal": 6,
+      "identity_field": "case_id",
+      "item_id": "splunk:datasets/attack_techniques/T1530/aws_exfil_high_no_getobject",
+      "file": "case_006_e36a3af28de0.json",
+      "source_context_sha256": "9b43d694b49908b1b4dc817a4f00166755abfa0f9ff1ccddadd2fb1dfc478c3e"
+    },
+    {
+      "ordinal": 7,
+      "identity_field": "case_id",
+      "item_id": "splunk:datasets/attack_techniques/T1530/aws_s3_public_bucket",
+      "file": "case_007_390ec8e2a8ac.json",
+      "source_context_sha256": "5f4694b9f70da645c456c80a1fc95a90469d698962caa1c45b39310c1d86a12f"
+    },
+    {
+      "ordinal": 8,
+      "identity_field": "case_id",
+      "item_id": "splunk:datasets/attack_techniques/T1537/aws_exfil_risk_events",
+      "file": "case_008_6460ad28ab22.json",
+      "source_context_sha256": "1c1f5ed1dd8dabeea9eb526ee3e250afcc09c33386b010694070449a1763ea27"
+    },
+    {
+      "ordinal": 9,
+      "identity_field": "case_id",
+      "item_id": "splunk:datasets/attack_techniques/T1537/aws_snapshot_exfil",
+      "file": "case_009_13e2921a4dd2.json",
+      "source_context_sha256": "83451268d1a1e4b1473dcf1f0ab946d6f0dfedefe808a25ba119f9f4d8d5c3a4"
+    },
+    {
+      "ordinal": 10,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:aws:archive_collected_data",
+      "file": "case_010_9f3cb11c2a60.json",
+      "source_context_sha256": "6b4bbff2ca70213058be3dd698c65bda57cfc3a9d66b474ceb6bfbccf3518d4b"
+    },
+    {
+      "ordinal": 11,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:aws:automated_collection",
+      "file": "case_011_ae6fac4a9f9a.json",
+      "source_context_sha256": "f9f29f02672eee3a5cd98e67340f24ed65094e5370e6bbca73fb1c9f231e29b5"
+    },
+    {
+      "ordinal": 12,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:aws:automated_exfiltration",
+      "file": "case_012_6fbcde318350.json",
+      "source_context_sha256": "0ef1f9c18accc53de3ef0493c6900e08f22caf5dd0113d060da4fdd4dcdd0ddc"
+    },
+    {
+      "ordinal": 13,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:aws:credentials_from_password_stores",
+      "file": "case_013_f9dbe3c4de87.json",
+      "source_context_sha256": "887989b72597243895a15c7a4b1f19f70a2657b365ca9a594907d0b820a8d51f"
+    },
+    {
+      "ordinal": 14,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:aws:data_destruction",
+      "file": "case_014_0f6d002ac72d.json",
+      "source_context_sha256": "ec7b0acba4057b607aecac28d0fab0e08d8cefc07db83501a05e117f465596ac"
+    },
+    {
+      "ordinal": 15,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:aws:data_encrypted_for_impact",
+      "file": "case_015_81f1983e1f52.json",
+      "source_context_sha256": "c82f9aa00e1bea04681152f9f0dbda6e9158a29013e3730b6692e929e092d30c"
+    },
+    {
+      "ordinal": 16,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:aws:data_manipulation",
+      "file": "case_016_cb2e422aa009.json",
+      "source_context_sha256": "c5230c62714be8f9804443e4123f9f628cae5bcabd1f48fcb56097bd75824fa6"
+    },
+    {
+      "ordinal": 17,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:aws:data_staged",
+      "file": "case_017_35ec0ea9884c.json",
+      "source_context_sha256": "fa793a67ab851925c78e49e3f6e67e70c205cb637075087d2f21888eb5fbf21c"
+    },
+    {
+      "ordinal": 18,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:aws:inhibit_system_recovery",
+      "file": "case_018_56f0f370d4d0.json",
+      "source_context_sha256": "dbb041a3b395d1497c38f15413716221be37e22164ccfc994990122febfadddf"
+    },
+    {
+      "ordinal": 19,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:aws:scheduled_transfer",
+      "file": "case_019_35f566bdfcf7.json",
+      "source_context_sha256": "2256d84f3a4c1597116d916a2062f060c92f8fecea79c18f06058d69e5f91653"
+    },
+    {
+      "ordinal": 20,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:aws:steal_application_access_token",
+      "file": "case_020_22a482fa4a87.json",
+      "source_context_sha256": "2b07a4eab275d4d95c2009f84bfd831dbbfd7ea99643b5a88edda8181457cdd2"
+    },
+    {
+      "ordinal": 21,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:aws:unsecured_credentials",
+      "file": "case_021_34b7d1f59ff4.json",
+      "source_context_sha256": "f6f8df01b5878558a34d3f8849e0777b2fb258ba6b5be1252dce07c5a3faf8af"
+    },
+    {
+      "ordinal": 22,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:azure:archive_collected_data",
+      "file": "case_022_8dcd94b71313.json",
+      "source_context_sha256": "df1562ab244a85a0fe260fe227d201406c395ebd9092ec85068956a637c982b2"
+    },
+    {
+      "ordinal": 23,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:azure:automated_collection",
+      "file": "case_023_42eeac583e86.json",
+      "source_context_sha256": "56a7604c3799898e750a45136645f5583a5e0540fa671705e0bb555834d0cdbb"
+    },
+    {
+      "ordinal": 24,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:azure:automated_exfiltration",
+      "file": "case_024_5ead32fa73cd.json",
+      "source_context_sha256": "fd66919cd74b022e1991ebf58d194bbdfdc2cca7d65a2bc2418bde3473bc79ed"
+    },
+    {
+      "ordinal": 25,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:azure:credentials_from_password_stores",
+      "file": "case_025_f8e1124d45a9.json",
+      "source_context_sha256": "a6e4325d97577c6ea792801f1c3259df7b1af37dee9d546b48422cc64132d873"
+    },
+    {
+      "ordinal": 26,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:azure:data_destruction",
+      "file": "case_026_1a272f96e9a8.json",
+      "source_context_sha256": "6d8e18af8aac4e3a9cca0e626422bcfbcd034200b41329bc40a0f31a95468705"
+    },
+    {
+      "ordinal": 27,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:azure:data_encrypted_for_impact",
+      "file": "case_027_9d5121dfc3c0.json",
+      "source_context_sha256": "eecae27fcab6e2ad0fe12f60964da785651c37d81c59d837377d45e3e0a25d0a"
+    },
+    {
+      "ordinal": 28,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:azure:data_manipulation",
+      "file": "case_028_418320d37ec2.json",
+      "source_context_sha256": "9a6982ab4f392719c19c82e5577668cfe17814edd15ebcf67089ea7e1d3f84d2"
+    },
+    {
+      "ordinal": 29,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:azure:data_staged",
+      "file": "case_029_3809b8b4fd1e.json",
+      "source_context_sha256": "2d8fd68a2a7ef4c63a848c552a229896d4928c7d7a8ec389bd0ce1b014e2f9e0"
+    },
+    {
+      "ordinal": 30,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:azure:inhibit_system_recovery",
+      "file": "case_030_33402f941498.json",
+      "source_context_sha256": "f81348b04eb38865f8187d233d815abd8b5f6231d991889fe48292742441cc37"
+    },
+    {
+      "ordinal": 31,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:azure:scheduled_transfer",
+      "file": "case_031_7bfefa221a5f.json",
+      "source_context_sha256": "dd5f784100923fd6ada99db4c18766f6b4b3040abdc55062154b8938c7df79f3"
+    },
+    {
+      "ordinal": 32,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:azure:steal_application_access_token",
+      "file": "case_032_b71ca8222f43.json",
+      "source_context_sha256": "3c496e44343949c417d314d8512464f72fc7aad49656a368ac27f059e909a580"
+    },
+    {
+      "ordinal": 33,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:azure:unsecured_credentials",
+      "file": "case_033_e319b31e365a.json",
+      "source_context_sha256": "b256f02510a58c1aba1f8ead3f654ea3ed36637515b8b0c931b1011c173cbb8e"
+    },
+    {
+      "ordinal": 34,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:gcp:archive_collected_data",
+      "file": "case_034_76087ae1ade3.json",
+      "source_context_sha256": "ccf4bd6ec42dbd3b17323fd35536d5686ba0852aa67b16f9dd64fd99f4414e77"
+    },
+    {
+      "ordinal": 35,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:gcp:automated_collection",
+      "file": "case_035_4e940c15f034.json",
+      "source_context_sha256": "5935c1c11c5958ab23ae4e99213443ffba800b858c8d4b2e087720f747847b47"
+    },
+    {
+      "ordinal": 36,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:gcp:automated_exfiltration",
+      "file": "case_036_7635a41c7bcf.json",
+      "source_context_sha256": "554d9af5b07aa02659a868a43552a9b6adcb6c5b3d5fd6ec507cba8e535ab072"
+    },
+    {
+      "ordinal": 37,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:gcp:credentials_from_password_stores",
+      "file": "case_037_87038744e049.json",
+      "source_context_sha256": "a84282cd10205013c11fc6e16da5929eb06b0e0fc0892e853a17ae1100c51508"
+    },
+    {
+      "ordinal": 38,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:gcp:data_destruction",
+      "file": "case_038_595433f51be3.json",
+      "source_context_sha256": "d3681eb8eb9d7ba3d06caed8b41f6f60383e0acf008defad8ffb944127c7ebcc"
+    },
+    {
+      "ordinal": 39,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:gcp:data_encrypted_for_impact",
+      "file": "case_039_23d8e3d54526.json",
+      "source_context_sha256": "747335049d47a3b1537c2442a75e1b209cea34cfe68a9e3aff0ffc862c93d2fd"
+    },
+    {
+      "ordinal": 40,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:gcp:data_manipulation",
+      "file": "case_040_2ad541b50f7c.json",
+      "source_context_sha256": "8617d39a3a24ee56910df556ba146edfcf38c348e1061661028653aef88d74f1"
+    },
+    {
+      "ordinal": 41,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:gcp:data_staged",
+      "file": "case_041_781d0f14bab8.json",
+      "source_context_sha256": "e2b4fbb078c6911a90071994255cf40415669cc2fcabcb4553153401e977f7ff"
+    },
+    {
+      "ordinal": 42,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:gcp:inhibit_system_recovery",
+      "file": "case_042_33bd86309f85.json",
+      "source_context_sha256": "6d038f74b464a4ccbad3ed93b1c0106d196c3219a7c6fac40413ae32678822a2"
+    },
+    {
+      "ordinal": 43,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:gcp:scheduled_transfer",
+      "file": "case_043_35231846d139.json",
+      "source_context_sha256": "6e8cb7437e01e02476c4aa4b76e0f7d843194180d6bb0a7c1034345af2260666"
+    },
+    {
+      "ordinal": 44,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:gcp:steal_application_access_token",
+      "file": "case_044_7adfca5c2d01.json",
+      "source_context_sha256": "e20f06350db1c914208447b847dce3b210df5623a81fbdf1a404bfaeba7cecdf"
+    },
+    {
+      "ordinal": 45,
+      "identity_field": "case_id",
+      "item_id": "crosscloud:gcp:unsecured_credentials",
+      "file": "case_045_716b24cb07c5.json",
+      "source_context_sha256": "8d9dee3d3c9b19ea1670b4f9a4628964f2a1df42f2ddd03f8a00d13f9b5e86b0"
+    },
+    {
+      "ordinal": 46,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:agentcore_identity_confusion",
+      "file": "case_046_9bc985878512.json",
+      "source_context_sha256": "08e465966ec6cbedc7fa2f2811dbeedbc7db9d6c3243d4c6e43584a1d29c71cd"
+    },
+    {
+      "ordinal": 47,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:beanstalk_secrets",
+      "file": "case_047_49a410a92622.json",
+      "source_context_sha256": "719de375958ced2461a76005ecc000b339098a58d4740b1e81b86a8ab44a1b89"
+    },
+    {
+      "ordinal": 48,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:bedrock_agent_hijacking",
+      "file": "case_048_0fbd36e176c9.json",
+      "source_context_sha256": "1be22ed2e5d0e901bd8592ec868dc3bfece1091aa6e56759d35e19958a13fb8f"
+    },
+    {
+      "ordinal": 49,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:cloud_breach_s3",
+      "file": "case_049_f6d410b005ee.json",
+      "source_context_sha256": "7c79f26e3671288bdab8d6dc47f7fb9a3439a8635d4be17e19fe7e7ba45d9745"
+    },
+    {
+      "ordinal": 50,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:codebuild_secrets",
+      "file": "case_050_f8d94bc1ee02.json",
+      "source_context_sha256": "5a63ec02ed5a6c84f3d999bb6dea4fd0fdc55c8688895789d5c0f8df358f512b"
+    },
+    {
+      "ordinal": 51,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:data_secrets",
+      "file": "case_051_99e4059ac16b.json",
+      "source_context_sha256": "f4afd3ba2ffa58ce0e86365311c981558e6c32718439172dee1214dd13ff0c6c"
+    },
+    {
+      "ordinal": 52,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:detection_evasion",
+      "file": "case_052_17ce0d96a05c.json",
+      "source_context_sha256": "2c9f5e1847afb1fe1b94cf34121cebd9e05cfcf39efde265de750bd8c0a0aeee"
+    },
+    {
+      "ordinal": 53,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:ec2_ssrf",
+      "file": "case_053_289802bfc170.json",
+      "source_context_sha256": "702874b7d3f931f4685f48e85a9b2edf9e02c9b3597b5b0d4493cd25a522fdab"
+    },
+    {
+      "ordinal": 54,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:ecs_efs_attack",
+      "file": "case_054_d330c3141ac4.json",
+      "source_context_sha256": "8c5154764635cc93a2e9d88a1c992e203fe51d868cb0e14d7d7a220ea565f261"
+    },
+    {
+      "ordinal": 55,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:ecs_privesc_evade_protection",
+      "file": "case_055_d34153ca41e6.json",
+      "source_context_sha256": "4302b4336a672d014875d0c476add5aab8f92366f24b4dbfcb2ad9820c38d47e"
+    },
+    {
+      "ordinal": 56,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:federated_console_takeover",
+      "file": "case_056_14575228cb26.json",
+      "source_context_sha256": "1d9c7ff429093ad35e299bf4605f37a9cf1c15e1918f064283de4c3cf4870275"
+    },
+    {
+      "ordinal": 57,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:glue_privesc",
+      "file": "case_057_8b8021d69058.json",
+      "source_context_sha256": "1b66ddaa2aa1b46f2eb59c15c37dcf4a0be38cbde1f1a96524ca3cc684a58019"
+    },
+    {
+      "ordinal": 58,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:iam_enum_basics",
+      "file": "case_058_e0a43301fbdf.json",
+      "source_context_sha256": "50dc59c4a2ed19a11c5c9083cd9c446facba93e363b7258bcadb15438fee4521"
+    },
+    {
+      "ordinal": 59,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:iam_privesc_by_key_rotation",
+      "file": "case_059_bac40d308068.json",
+      "source_context_sha256": "235ab4ba9a5bb141b2214aa2da14142e4bc48d81f338b2b8eb3f30988de84971"
+    },
+    {
+      "ordinal": 60,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:iam_privesc_by_rollback",
+      "file": "case_060_daf7c693c830.json",
+      "source_context_sha256": "e478b872f1de38406fb9b6542b9d88a116670182485700661d6a6348ef7e7c5c"
+    },
+    {
+      "ordinal": 61,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:lambda_privesc",
+      "file": "case_061_277a26576b60.json",
+      "source_context_sha256": "283109ab2f5298544b9257046d041bf10a3b73022c2b6dd1294ee64aff94c728"
+    },
+    {
+      "ordinal": 62,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:rce_web_app",
+      "file": "case_062_9c6ac1064766.json",
+      "source_context_sha256": "5137fb3b9be671b2a46c607d6dd43e7b157ed85b7eca891fedc086316f89b3ff"
+    },
+    {
+      "ordinal": 63,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:rds_snapshot",
+      "file": "case_063_5a2820b40658.json",
+      "source_context_sha256": "5f649480f6eed8c37bb2c9bd20de91ac5ab51d133a6f8bc0700cda4edc8ee584"
+    },
+    {
+      "ordinal": 64,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:s3_version_rollback_via_cfn",
+      "file": "case_064_058d982bc5f4.json",
+      "source_context_sha256": "3a10b454c720d9a97d44c26aec930bc0cdd0f6ecbf212693de6e1dc07580c55d"
+    },
+    {
+      "ordinal": 65,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:secrets_in_the_cloud",
+      "file": "case_065_f036df67ffef.json",
+      "source_context_sha256": "d6cd3534cfe8adc01f9fdbaa19ab3d9c64cf21926a8e6e82453963c87a87e6e7"
+    },
+    {
+      "ordinal": 66,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:sns_secrets",
+      "file": "case_066_37414461ad07.json",
+      "source_context_sha256": "b82d442497e0860df84f4308a65c307333f857575ec7290b4927e2159d0b2567"
+    },
+    {
+      "ordinal": 67,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:sqs_flag_shop",
+      "file": "case_067_1c2b5e481ea8.json",
+      "source_context_sha256": "1b42ab89ef267d8f750e1570883f131db3153dd8c2c411335b43aea7aca974f7"
+    },
+    {
+      "ordinal": 68,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:vpc_peering_overexposed",
+      "file": "case_068_72f07924f943.json",
+      "source_context_sha256": "c4790acceb2f661e79655070bc89fcdd20143eb88daae220e9ebe4b03a7fc6ef"
+    },
+    {
+      "ordinal": 69,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:vulnerable_cognito",
+      "file": "case_069_2532ca0b4030.json",
+      "source_context_sha256": "1ff7f2f82c2170ce609f03e834df569cb3d1cf50a56a29648fb34e0db75a0ec7"
+    },
+    {
+      "ordinal": 70,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:aws:vulnerable_lambda",
+      "file": "case_070_4e3e7d62eed9.json",
+      "source_context_sha256": "cc947c7c03504d1d772fe2d4c9615f7ea8f87eaa54bac452ffcf7b944eae245c"
+    },
+    {
+      "ordinal": 71,
+      "identity_field": "case_id",
+      "item_id": "cloudgoat:azure:datafactory_secret_theft",
+      "file": "case_071_7d3f39cf6d36.json",
+      "source_context_sha256": "15c7a11f995f2c04985ee7702c4c6df499e6ca7c9a5c9dd5b17879fa75cfca1b"
+    },
+    {
+      "ordinal": 72,
+      "identity_field": "case_id",
+      "item_id": "cloudfoxable:aws:Backwards",
+      "file": "case_072_a06773330186.json",
+      "source_context_sha256": "e7c45908932e045c8db5a38432c7dc5bfaa57e343bd024e28661cdf150fb160e"
+    },
+    {
+      "ordinal": 73,
+      "identity_field": "case_id",
+      "item_id": "cloudfoxable:aws:Double Tap",
+      "file": "case_073_bf932882275b.json",
+      "source_context_sha256": "3b2e8d689534048f4570c480816703d766cc8cdd8376a1c121db68c7f9588b61"
+    },
+    {
+      "ordinal": 74,
+      "identity_field": "case_id",
+      "item_id": "cloudfoxable:aws:It's a secret",
+      "file": "case_074_7bc4e6c94ac2.json",
+      "source_context_sha256": "cb3829f5fb17a50f2bd6b02746e40f6ab7b5c0f501681a2d34bd73d2e082d3fe"
+    },
+    {
+      "ordinal": 75,
+      "identity_field": "case_id",
+      "item_id": "cloudfoxable:aws:It's another secret",
+      "file": "case_075_48ef679bb5ac.json",
+      "source_context_sha256": "dd323aea54cb431668750bdb0a9ec2a6eebc1f375a6c421323cc9eaebca5ce25"
+    },
+    {
+      "ordinal": 76,
+      "identity_field": "case_id",
+      "item_id": "cloudfoxable:aws:Needles",
+      "file": "case_076_cfb77fdeb531.json",
+      "source_context_sha256": "7f9c49c11590f30872dd34e1bded4983e24bb4ed281833295e9a53ff325d2d4d"
+    },
+    {
+      "ordinal": 77,
+      "identity_field": "case_id",
+      "item_id": "cloudfoxable:aws:Pain",
+      "file": "case_077_d20273e50cd2.json",
+      "source_context_sha256": "55625f62085801332910b998fb9187a6df2b9ca180da26c85729acdd9d38b27e"
+    },
+    {
+      "ordinal": 78,
+      "identity_field": "case_id",
+      "item_id": "cloudfoxable:aws:Search 1",
+      "file": "case_078_a95bc28a29a0.json",
+      "source_context_sha256": "7f499d604204d7fd6dc4832a334a0e58ef9d61c762606ba355b8cc9109bdc0e9"
+    },
+    {
+      "ordinal": 79,
+      "identity_field": "case_id",
+      "item_id": "cloudfoxable:aws:Trust me",
+      "file": "case_079_31240242cfd4.json",
+      "source_context_sha256": "f277b94166a3425f1d8b1c66be6c2d701021cadae246fd7f8ffc490baabc7f21"
+    },
+    {
+      "ordinal": 80,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.credential-access.ec2-get-password-data",
+      "file": "case_080_6656ee274d5d.json",
+      "source_context_sha256": "19b9a5eedbc8444658ffa0d9fb719f70e2bd6b50d49834089c4aef84571fc71b"
+    },
+    {
+      "ordinal": 81,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.credential-access.ec2-steal-instance-credentials",
+      "file": "case_081_8dc3cc7713cc.json",
+      "source_context_sha256": "9d460cf89e622ec79183ce417520eee8a0b6a78f410928ee2890f519148a1cdc"
+    },
+    {
+      "ordinal": 82,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.credential-access.secretsmanager-batch-retrieve-secrets",
+      "file": "case_082_40b4c3950d8f.json",
+      "source_context_sha256": "04e979760a1f86a61b60e4550ba08027547093432e2c55b9df5c18aa2f879bbd"
+    },
+    {
+      "ordinal": 83,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+      "file": "case_083_e9fafce06fe7.json",
+      "source_context_sha256": "2c2486616fb81defe84530d450a415677bd390613acabbd56d22b20b9c457635"
+    },
+    {
+      "ordinal": 84,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.credential-access.ssm-retrieve-securestring-parameters",
+      "file": "case_084_cdaf24b052dc.json",
+      "source_context_sha256": "79860398e1629c60ef749028e7297a74613ffffc643dc67d74af284099b9dd7c"
+    },
+    {
+      "ordinal": 85,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+      "file": "case_085_cdd5bdc802a8.json",
+      "source_context_sha256": "84f4d3b25d97070bf344d28054b2a2de77d6ddefba5554420a87c8452915b6c5"
+    },
+    {
+      "ordinal": 86,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.defense-evasion.cloudtrail-lifecycle-rule",
+      "file": "case_086_ab2404584726.json",
+      "source_context_sha256": "a6fb0bbe31fe6784cce41d910e8391f5ee9b637fbf4c2dd1b832a107d9b63b7d"
+    },
+    {
+      "ordinal": 87,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.defense-evasion.dns-delete-logs",
+      "file": "case_087_634e258881c2.json",
+      "source_context_sha256": "10757ba8295faa70b976fc525a4ce29b9a9e24fe3072de953f78e28b80d091ff"
+    },
+    {
+      "ordinal": 88,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.discovery.ec2-download-user-data",
+      "file": "case_088_c33f87eb5b5e.json",
+      "source_context_sha256": "eba7f8d01826a2c46c1487c06c3bd8c7f0d961df0517fad135d9a47be85acda6"
+    },
+    {
+      "ordinal": 89,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.discovery.ec2-enumerate-from-instance",
+      "file": "case_089_26d17c3a05f5.json",
+      "source_context_sha256": "5ba245277daced4601ab7e202d57a2e729366177f78cfdf4ff747ea6c9847520"
+    },
+    {
+      "ordinal": 90,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.exfiltration.ec2-share-ami",
+      "file": "case_090_2f132757ebda.json",
+      "source_context_sha256": "84f83ccf6a6226c59bd970ae40f7b75782ff7b0be8a578f55b08b4ab9b7661ee"
+    },
+    {
+      "ordinal": 91,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.exfiltration.ec2-share-ebs-snapshot",
+      "file": "case_091_979587fe5277.json",
+      "source_context_sha256": "48d1e28603f7ea899393b215ff61860f4d07d808b611bc01f875609644522c0d"
+    },
+    {
+      "ordinal": 92,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.exfiltration.rds-share-snapshot",
+      "file": "case_092_5c27f717ed81.json",
+      "source_context_sha256": "3ed714d33a6dd6263342ecb981534b2d91b62b6faf2a339f779d4919c9c151c3"
+    },
+    {
+      "ordinal": 93,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.exfiltration.s3-backdoor-bucket-policy",
+      "file": "case_093_2da97602b234.json",
+      "source_context_sha256": "79dcc41f30e632075b4ec2502643e649aeec47825ca71e5ac170fa3ff5825f58"
+    },
+    {
+      "ordinal": 94,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.impact.s3-ransomware-batch-deletion",
+      "file": "case_094_486502b1d452.json",
+      "source_context_sha256": "7d817819cad0f823f639628cb70e512e0bcd7813befbf49cf3c7388026b75f64"
+    },
+    {
+      "ordinal": 95,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.impact.s3-ransomware-client-side-encryption",
+      "file": "case_095_c2ba304343a8.json",
+      "source_context_sha256": "016bdd0772136953e33ab720e2b4dae1ddc34d785c931c946f8fdea1c7e51cf1"
+    },
+    {
+      "ordinal": 96,
+      "identity_field": "case_id",
+      "item_id": "stratus:aws.impact.s3-ransomware-individual-deletion",
+      "file": "case_096_e1552d39f492.json",
+      "source_context_sha256": "de813abf4ba9e7cdab82413f48e577c17b22a1dd14939adb7b095089122850c4"
+    },
+    {
+      "ordinal": 97,
+      "identity_field": "case_id",
+      "item_id": "stratus:azure.credential-access.app-service-publishing-credentials",
+      "file": "case_097_c5352cfce9a9.json",
+      "source_context_sha256": "9e9f6de0d92876310b23200a9e3bd9e1e849cef0150e43a7f973fd854dd4e70c"
+    },
+    {
+      "ordinal": 98,
+      "identity_field": "case_id",
+      "item_id": "stratus:azure.exfiltration.disk-export",
+      "file": "case_098_c133db360cd0.json",
+      "source_context_sha256": "9738905ce2bef191e8760a9e37722edf67a9e06e365acf07113c5c071e97a204"
+    },
+    {
+      "ordinal": 99,
+      "identity_field": "case_id",
+      "item_id": "stratus:azure.exfiltration.storage-public-access",
+      "file": "case_099_5f64eaa5cbe4.json",
+      "source_context_sha256": "fa94e1e4e6d2e8a0672670be8af01791d5e4719baa7b23529474ba99189dc2df"
+    },
+    {
+      "ordinal": 100,
+      "identity_field": "case_id",
+      "item_id": "stratus:azure.exfiltration.storage-sas-export",
+      "file": "case_100_371ec5abd3cb.json",
+      "source_context_sha256": "3881ca50505d7083336337a0becb7ad7276be95af6ffc6cb018a5e47455c46c0"
+    },
+    {
+      "ordinal": 101,
+      "identity_field": "case_id",
+      "item_id": "stratus:azure.impact.blob-ransomware-client-encryption-scope",
+      "file": "case_101_49ff3245ff35.json",
+      "source_context_sha256": "e281194b7b2b7ea624ab80f1123e32c794dbe58d27cf7d1a90c7b0e9dd4b2b64"
+    },
+    {
+      "ordinal": 102,
+      "identity_field": "case_id",
+      "item_id": "stratus:azure.impact.blob-ransomware-cpek",
+      "file": "case_102_9716d53afabc.json",
+      "source_context_sha256": "104a474b02e61257733a1af895d3a80c1c06bae9da5b0f49805fa27181996a91"
+    },
+    {
+      "ordinal": 103,
+      "identity_field": "case_id",
+      "item_id": "stratus:azure.impact.blob-ransomware-individual-file-deletion",
+      "file": "case_103_c2350d3ec364.json",
+      "source_context_sha256": "105d7e546ee3304c83ab3367342fcf4cb454684588ff4519d217b8b45b081857"
+    },
+    {
+      "ordinal": 104,
+      "identity_field": "case_id",
+      "item_id": "stratus:azure.impact.blob-ransomware-service-storage-cmk",
+      "file": "case_104_d165b73fabdb.json",
+      "source_context_sha256": "004ee856cff3ca011a35d4aa67a23c5a9f6079803a1f5ab0e3c50ac05512d585"
+    },
+    {
+      "ordinal": 105,
+      "identity_field": "case_id",
+      "item_id": "stratus:azure.impact.resource-lock",
+      "file": "case_105_e3e5700083c9.json",
+      "source_context_sha256": "eca04901fb1a816621ffa86bd20853dc930350c36450c7c0ba129bd71ecc757f"
+    },
+    {
+      "ordinal": 106,
+      "identity_field": "case_id",
+      "item_id": "stratus:azure.persistence.backdoor-managed-identity-fic",
+      "file": "case_106_b405fc1511f0.json",
+      "source_context_sha256": "58c74e6c911175a9c9ab28d7974e1fb284f6d844dd074241573668b2b9338ae2"
+    },
+    {
+      "ordinal": 107,
+      "identity_field": "case_id",
+      "item_id": "stratus:entra-id.persistence.backdoor-application",
+      "file": "case_107_70023dbaee92.json",
+      "source_context_sha256": "491d3a068682159ff318bd5b09857933144d52ee6527489298ae0665d49ff6f9"
+    },
+    {
+      "ordinal": 108,
+      "identity_field": "case_id",
+      "item_id": "stratus:entra-id.persistence.backdoor-application-fic",
+      "file": "case_108_8cef4e4dc20c.json",
+      "source_context_sha256": "a4dcd32cead09602a759dd5160853866565977a799d399d63f986a01d2c3c748"
+    },
+    {
+      "ordinal": 109,
+      "identity_field": "case_id",
+      "item_id": "stratus:entra-id.persistence.backdoor-application-sp",
+      "file": "case_109_29f8b3bb75a0.json",
+      "source_context_sha256": "b1f2b687a0bc0868d4989d7f6ef581ca9664d19c195d2e1c9e2bc580b170bdef"
+    },
+    {
+      "ordinal": 110,
+      "identity_field": "case_id",
+      "item_id": "stratus:entra-id.persistence.new-application",
+      "file": "case_110_78403d2ae10b.json",
+      "source_context_sha256": "74fbf51197838e7771f9593957adeb9a4942a0e263a0dff03ebeb43984788ada"
+    },
+    {
+      "ordinal": 111,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.credential-access.secretmanager-retrieve-secrets",
+      "file": "case_111_0037a23c3c8c.json",
+      "source_context_sha256": "71fb53642651e33aff2e46df889318fc3255e435ee575161ad0f3753ddd68ece"
+    },
+    {
+      "ordinal": 112,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.defense-evasion.delete-logging-sink",
+      "file": "case_112_895c1f6114d0.json",
+      "source_context_sha256": "d91d34171abb1b4aa35d6ceec3cfb8750278a963772804f5779d28443b624ca5"
+    },
+    {
+      "ordinal": 113,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.defense-evasion.disable-audit-logs",
+      "file": "case_113_73caca2f5cad.json",
+      "source_context_sha256": "3a1865b64ffef721aa39e7772f72ca58817915a7615cd5b1035b163187f229d7"
+    },
+    {
+      "ordinal": 114,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.defense-evasion.disable-logging-sink",
+      "file": "case_114_4ce4ec518790.json",
+      "source_context_sha256": "ee98a011e0b841c48b1d5e11a02fdf547eeaf24e9dd7393ab34c40a19384986e"
+    },
+    {
+      "ordinal": 115,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.defense-evasion.reduce-sink-log-retention",
+      "file": "case_115_9c5cc6c0198f.json",
+      "source_context_sha256": "c1aa98bf5ca87f796fefa0a7557e6130463d27530420f01fcfb117ccf668918e"
+    },
+    {
+      "ordinal": 116,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.defense-evasion.remove-vpc-flow-logs",
+      "file": "case_116_33508ec20106.json",
+      "source_context_sha256": "ab4a3ed8b823faab618462f6b64144f51c4390b6f358d50170860ad2fe9cab87"
+    },
+    {
+      "ordinal": 117,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.discovery.download-instance-metadata",
+      "file": "case_117_5b6a45ac640f.json",
+      "source_context_sha256": "9302287628c50af1933c67c025fe6d42d04d70a64adcd67319e343381a47b494"
+    },
+    {
+      "ordinal": 118,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.discovery.enumerate-permissions",
+      "file": "case_118_18ba3273dc99.json",
+      "source_context_sha256": "8cd4054c74acf2c09106acb1babf413cbe119cd4f576c17efc281d5d332f6a30"
+    },
+    {
+      "ordinal": 119,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.execution.modify-vertex-notebook-startup",
+      "file": "case_119_140f1363c272.json",
+      "source_context_sha256": "f947ed27dde191ee6599940e1d61bbc2c51518ddef95c2c4cf9f03dcae681200"
+    },
+    {
+      "ordinal": 120,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.exfiltration.share-compute-disk",
+      "file": "case_120_9d140798f977.json",
+      "source_context_sha256": "c80977aa3d14c4cd819c73942e1c8c4aaeee19d07eba951676d2be0548faf7d4"
+    },
+    {
+      "ordinal": 121,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.exfiltration.share-compute-image",
+      "file": "case_121_9f81b8597952.json",
+      "source_context_sha256": "5fb36f4210cb093225da90da0aa633c2cd2df48a04ab88f92f7efb1153594c9f"
+    },
+    {
+      "ordinal": 122,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.exfiltration.share-compute-snapshot",
+      "file": "case_122_f3f719d24b08.json",
+      "source_context_sha256": "ca8023a435b981c35c313f4aa45ac9e6b3c6cc33bd53abf4fe7b62877cefaf9d"
+    },
+    {
+      "ordinal": 123,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.impact.gcs-ransomware-client-side-encryption",
+      "file": "case_123_fb63d7490b24.json",
+      "source_context_sha256": "07837ecfc13a1f298c6293a14c17feebd878964d42b719d6473eae0dbc35ee12"
+    },
+    {
+      "ordinal": 124,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.impact.gcs-ransomware-individual-deletion",
+      "file": "case_124_41b9dfab9263.json",
+      "source_context_sha256": "dd14e26b1810178ebc90bce3bbb3a40a0f42901969e3c2d9b031a51e290b87f8"
+    },
+    {
+      "ordinal": 125,
+      "identity_field": "case_id",
+      "item_id": "stratus:gcp.initial-access.use-compute-sa-outside-gcp",
+      "file": "case_125_f2053d2ca687.json",
+      "source_context_sha256": "44ddc48cecf89c811d46dbae112a5b139ff0aee6232ea62d7a714a61aea469bf"
+    },
+    {
+      "ordinal": 126,
+      "identity_field": "case_id",
+      "item_id": "stratus:k8s.credential-access.dump-secrets",
+      "file": "case_126_ae5e24bfa1b5.json",
+      "source_context_sha256": "9b89cbcfe6e56b3d92d4e56a3f4516903c4831f0e2cd8ae1aa4066f32bd59339"
+    },
+    {
+      "ordinal": 127,
+      "identity_field": "case_id",
+      "item_id": "stratus:k8s.credential-access.steal-serviceaccount-token",
+      "file": "case_127_2e32a53fdf27.json",
+      "source_context_sha256": "8510312798f66af582bbcbf3bef57437aa4514a4c876a23edfabe463dfc92a1c"
+    },
+    {
+      "ordinal": 128,
+      "identity_field": "case_id",
+      "item_id": "stratus:k8s.persistence.create-admin-clusterrole",
+      "file": "case_128_b6cbe93fc2b1.json",
+      "source_context_sha256": "6269f49771abf98082ed916ace92da0fe96db093478be83c81ef3db3b39c3520"
+    },
+    {
+      "ordinal": 129,
+      "identity_field": "case_id",
+      "item_id": "stratus:k8s.persistence.create-client-certificate",
+      "file": "case_129_74553617cfab.json",
+      "source_context_sha256": "63af98b0af03a8ccb70eb04c026f5973be71cb750924a2f459ad0ea271d975d0"
+    },
+    {
+      "ordinal": 130,
+      "identity_field": "case_id",
+      "item_id": "stratus:k8s.privilege-escalation.nodes-proxy",
+      "file": "case_130_e97175367517.json",
+      "source_context_sha256": "d1dadf55b2ffeea5395cfd33c57aed12c920671037db9d79dddedf45712742a5"
+    },
+    {
+      "ordinal": 131,
+      "identity_field": "case_id",
+      "item_id": "relationship--7e7151b1-8407-4cac-a843-f2605fb25377",
+      "file": "case_131_fa7d57336a35.json",
+      "source_context_sha256": "b91dc8fc1b6786c0f705f7d7b2ff128391a159c6192bcd2b644453de3964f87f"
+    },
+    {
+      "ordinal": 132,
+      "identity_field": "case_id",
+      "item_id": "relationship--68929916-ab9f-4078-b959-e500f8cab3b8",
+      "file": "case_132_6ba524e5b038.json",
+      "source_context_sha256": "2323b25a07a74d56a628d96a0e1776a7c1c30f48172be68f9aa382ed840fe1b4"
+    },
+    {
+      "ordinal": 133,
+      "identity_field": "case_id",
+      "item_id": "relationship--bb3c2843-b51f-4cfd-8189-0312337b8eb3",
+      "file": "case_133_5b214b508675.json",
+      "source_context_sha256": "f9da011fac213aa67e74b27836836ad17f59a109b2ea5a13ac037e7e96e98770"
+    },
+    {
+      "ordinal": 134,
+      "identity_field": "case_id",
+      "item_id": "relationship--2cf91706-674a-4ae0-8a4c-0d8d43eb6e1a",
+      "file": "case_134_bc52c8cac3c9.json",
+      "source_context_sha256": "449428e552bbce78848f5899d53c13b46f9e658124d67dfb7b10d103d59708ae"
+    },
+    {
+      "ordinal": 135,
+      "identity_field": "case_id",
+      "item_id": "relationship--ee1effa5-b256-4a6a-b7da-2d9066d7dccd",
+      "file": "case_135_7bf296cacd6a.json",
+      "source_context_sha256": "9dd0a48113605b8b781c5c317632494ccfdf59744b95a91063d3f6d53205ead5"
+    },
+    {
+      "ordinal": 136,
+      "identity_field": "case_id",
+      "item_id": "relationship--35589283-3028-444b-94d1-9b64ae6d8487",
+      "file": "case_136_33b42be826b3.json",
+      "source_context_sha256": "308490ba24b239ed4dc1ca195a7fbbb644466d6667db144200a76a6789bc03ea"
+    },
+    {
+      "ordinal": 137,
+      "identity_field": "case_id",
+      "item_id": "relationship--2286eded-7606-46df-a469-c5240f21ed75",
+      "file": "case_137_f7da3196eb82.json",
+      "source_context_sha256": "77d1c35a29962ac1c279d3e3d44d94125313e30434395ad03391970707f5b0f1"
+    },
+    {
+      "ordinal": 138,
+      "identity_field": "case_id",
+      "item_id": "relationship--529460a7-ddd1-406c-bbef-ae2ec4eb4c02",
+      "file": "case_138_8d3215667afb.json",
+      "source_context_sha256": "deaa1dd009255e6f59d0f87013a21613774db15ea518cb5fbaebfa4d88490b6c"
+    },
+    {
+      "ordinal": 139,
+      "identity_field": "case_id",
+      "item_id": "relationship--abbf5417-5112-424d-85f4-e4622675b319",
+      "file": "case_139_9fad89207562.json",
+      "source_context_sha256": "054030a71c5bdc590430f1b2785763026088eb4a8a8c628b00b3a925a7cb7c48"
+    },
+    {
+      "ordinal": 140,
+      "identity_field": "case_id",
+      "item_id": "relationship--1ae24ad1-8730-4a38-8d68-dd57b335b9b4",
+      "file": "case_140_b86557e177b1.json",
+      "source_context_sha256": "34ef72d280274eb2ec11de79097815e6f401059a7283d3ac84e461e981fc0690"
+    },
+    {
+      "ordinal": 141,
+      "identity_field": "case_id",
+      "item_id": "relationship--d4fa4797-aec0-419b-83d8-8b06ea3ac06d",
+      "file": "case_141_f96bfc224f1f.json",
+      "source_context_sha256": "27ab80f71b83d0c916a4eb311f25034e116418cd5323b8cabb538e75912465e8"
+    },
+    {
+      "ordinal": 142,
+      "identity_field": "case_id",
+      "item_id": "relationship--1cfc5611-b428-4fce-8b8d-f591523c9d9c",
+      "file": "case_142_5848e0e7d230.json",
+      "source_context_sha256": "306fa8eb9f6109a658b72611742b9e93a574ede8b2a7d7cecf1ad5f87a864dbd"
+    },
+    {
+      "ordinal": 143,
+      "identity_field": "case_id",
+      "item_id": "relationship--3d4490e3-d3fe-4c2e-8c41-69ebbf8d060e",
+      "file": "case_143_6fa06d427274.json",
+      "source_context_sha256": "0d703d6e7309a13b8dceba3892756c8581bd780f7388553ee01541e0a80715e2"
+    },
+    {
+      "ordinal": 144,
+      "identity_field": "case_id",
+      "item_id": "relationship--6c83315d-c8b5-4ab8-b345-3c79b11d690a",
+      "file": "case_144_80296cef19e5.json",
+      "source_context_sha256": "2f793ac22de95d76baa8b8a9fb1f1fd2ab9eb05f511bdb65cda6cd7ad13639da"
+    },
+    {
+      "ordinal": 145,
+      "identity_field": "case_id",
+      "item_id": "relationship--9558b7a7-f58b-4b6f-a1f5-8a7cdab03279",
+      "file": "case_145_60670218e90d.json",
+      "source_context_sha256": "4c4f84f78b3d9fa98f62dae8df5038ef22c54929b79a09717b812e9ac4665133"
+    },
+    {
+      "ordinal": 146,
+      "identity_field": "case_id",
+      "item_id": "relationship--b1c49faa-0b6f-4a0e-85da-5ab8ddeab2ce",
+      "file": "case_146_bfad50cc5960.json",
+      "source_context_sha256": "1f3d9db3a6f462ed9625c51c6141258f00b9356ecef0c75aa3d7b645a0af48c6"
+    },
+    {
+      "ordinal": 147,
+      "identity_field": "case_id",
+      "item_id": "relationship--dcd5b361-b86b-47c7-8ce8-85918e00a224",
+      "file": "case_147_4b4c141ff260.json",
+      "source_context_sha256": "01ea6235aedd86a3cab32982afd004e061dac45da86241187a12df570049e0cd"
+    },
+    {
+      "ordinal": 148,
+      "identity_field": "case_id",
+      "item_id": "relationship--64d9fee3-d0c8-40e5-b295-d43ec719bb81",
+      "file": "case_148_f1c808f4b715.json",
+      "source_context_sha256": "41ef861ffdb6f09464a3f9c582a193ff3f65b7e12c5d155f623385ddd9eaf516"
+    },
+    {
+      "ordinal": 149,
+      "identity_field": "case_id",
+      "item_id": "relationship--804f7690-6bf2-41dc-a6d2-59c3d4394ce5",
+      "file": "case_149_cb2a0795c0d7.json",
+      "source_context_sha256": "e2463f883566e24332fe9adb6160017f2003970131066763effd3bd9f04c2e99"
+    },
+    {
+      "ordinal": 150,
+      "identity_field": "case_id",
+      "item_id": "relationship--dc10559e-6a98-4a5f-abcd-adff67bfb1cd",
+      "file": "case_150_c564d685ecdc.json",
+      "source_context_sha256": "cb77607f44f47866e703c92550638be27d6b6605ed86c807518ef082d4d730c6"
+    }
+  ]
+}

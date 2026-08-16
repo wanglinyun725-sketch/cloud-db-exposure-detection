@@ -1,0 +1,75 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "007629a9fcfb4b4279cd342c28235e011000e525558e6f83b730d8ca50dc1c93",
+  "case_id": "stratus:gcp.defense-evasion.disable-audit-logs",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:gcp.defense-evasion.disable-audit-logs",
+    "kind": "executable_attack_technique",
+    "platform": "GCP",
+    "technique": "gcp.defense-evasion.disable-audit-logs",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.defense-evasion.disable-audit-logs.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.defense-evasion.disable-audit-logs.md",
+    "review_score": 26,
+    "independence_group": "stratus-technique:T1562",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1562"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.defense-evasion.disable-audit-logs.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.defense-evasion.disable-audit-logs.md",
+      "member_sha256": "2672ea588e5f2e279e46d547c41b375674af49333e6576d4f2b549da93ca0e67",
+      "bytes": 1974,
+      "content_kind": "md",
+      "text": "---\ntitle: Disable Data Access Audit Logs for a GCP Service\n---\n\n# Disable Data Access Audit Logs for a GCP Service\n\n\n\n\nPlatform: GCP\n\n## Mappings\n\n- MITRE ATT&CK\n    - Defense Evasion\n\n\n\n## Description\n\n\nRemoves the Data Access audit log configuration for Cloud Storage from the project\nIAM policy. Data Access audit logs record data access operations such as reads and\nwrites to GCS objects. Disabling them reduces an attacker's visibility footprint in\nCloud Logging.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Snapshot the current project IAM policy (including any pre-existing audit config\n  for <code>storage.googleapis.com</code>) so it can be restored on revert\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Set a DATA_READ and DATA_WRITE <code>auditConfig</code> entry for\n  <code>storage.googleapis.com</code> (overwriting any existing config)\n- Remove the <code>auditConfig</code> entry for <code>storage.googleapis.com</code> from the\n  project IAM policy via the Cloud Resource Manager API\n\nRevert:\n\n- Restore the exact <code>auditConfig</code> that existed before detonation (including\n  any custom log types or exempted members), or leave the config absent if it was\n  not present before\n\nReferences:\n\n- https://cloud.google.com/logging/docs/audit/configure-data-access\n- https://cloud.google.com/resource-manager/reference/rest/v3/projects/setIamPolicy\n- https://attack.mitre.org/techniques/T1562/008/\n- https://redcanary.com/threat-detection-report/trends/cloud-attacks/\n- https://www.sysdig.com/blog/suspicious-activity-gcp-audit-logs\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate gcp.defense-evasion.disable-audit-logs\n```\n## Detection\n\n\nIdentify when Data Access audit log configuration is removed from the project IAM policy\nby monitoring for <code>SetIamPolicy</code> events in GCP Admin Activity audit logs where\nthe request removes or reduces <code>auditConfigs</code> entries.\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "3a1865b64ffef721aa39e7772f72ca58817915a7615cd5b1035b163187f229d7",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

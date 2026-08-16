@@ -1,0 +1,75 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "stratus:aws.impact.s3-ransomware-individual-deletion",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:aws.impact.s3-ransomware-individual-deletion",
+    "kind": "executable_attack_technique",
+    "platform": "AWS",
+    "technique": "aws.impact.s3-ransomware-individual-deletion",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.impact.s3-ransomware-individual-deletion.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.impact.s3-ransomware-individual-deletion.md",
+    "review_score": 40,
+    "independence_group": "stratus-technique:T1485.A003",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [
+      "T1485.A003"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.impact.s3-ransomware-individual-deletion.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.impact.s3-ransomware-individual-deletion.md",
+      "member_sha256": "db96af39662617152eab656a5d4ee98c82eba0e86d2bf7eb51dc84bce3beb481",
+      "bytes": 3952,
+      "content_kind": "md",
+      "text": "---\ntitle: S3 Ransomware through individual file deletion\n---\n\n# S3 Ransomware through individual file deletion\n\n\n\n\nPlatform: AWS\n\n## Mappings\n\n- MITRE ATT&CK\n    - Impact\n\n\n- Threat Technique Catalog for AWS:\n  \n    - [Data Destruction: S3 Object and Bucket Deletion](https://aws-samples.github.io/threat-technique-catalog-for-aws/Techniques/T1485.A003.html) (T1485.A003)\n  \n\n\n## Description\n\n\nSimulates S3 ransomware activity that empties a bucket through individual file deletion, then uploads a ransom note.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create an S3 bucket, with versioning enabled\n- Create a number of files in the bucket, with random content and extensions\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- List all available objects and their versions in the bucket\n- Delete all objects in the bucket one by one, using [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)\n- Upload a ransom note to the bucket\n\nNote: The attack does not need to disable versioning, which does not protect against ransomware. This attack removes all versions of the objects in the bucket.\n\nReferences:\n\n- [The anatomy of a ransomware event targeting S3 (re:Inforce, 2022)](https://d1.awsstatic.com/events/aws-reinforce-2022/TDR431_The-anatomy-of-a-ransomware-event-targeting-data-residing-in-Amazon-S3.pdf)\n- [The anatomy of ransomware event targeting data residing in Amazon S3 (AWS Security Blog)](https://aws.amazon.com/blogs/security/anatomy-of-a-ransomware-event-targeting-data-in-amazon-s3/)\n- [Ransomware in the cloud](https://invictus-ir.medium.com/ransomware-in-the-cloud-7f14805bbe82)\n- https://www.firemon.com/what-you-need-to-know-about-ransomware-in-aws/\n- https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/\n- https://www.invictus-ir.com/news/ransomware-in-the-cloud\n- https://dfir.ch/posts/aws_ransomware/\n- https://unit42.paloaltonetworks.com/large-scale-cloud-extortion-operation/\n- https://unit42.paloaltonetworks.com/shinyhunters-ransomware-extortion/\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate aws.impact.s3-ransomware-individual-deletion\n```\n## Detection\n\n\nYou can detect ransomware activity by identifying abnormal patterns of objects being downloaded or deleted in the bucket.\nIn general, this can be done through [CloudTrail S3 data events](https://docs.aws.amazon.com/AmazonS3/latest/userguide/cloudtrail-logging-s3-info.html#cloudtrail-object-level-tracking) (<code>DeleteObject</code>, <code>DeleteObjects</code>, <code>GetObject</code>),\n[CloudWatch metrics](https://docs.aws.amazon.com/AmazonS3/latest/userguide/metrics-dimensions.html#s3-request-cloudwatch-metrics) (<code>NumberOfObjects</code>),\nor [GuardDuty findings](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_finding-types-active.html) (<code>[Exfiltration:S3/AnomalousBehavior](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_finding-types-s3.html#exfiltration-s3-anomalousbehavior)</code>, <code>[Impact:S3/AnomalousBehavior.Delete](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_finding-types-s3.html#impact-s3-anomalousbehavior-delete)</code>).\n\nSample CloudTrail event <code>DeleteObject</code>, shortened for readability:\n\n```json hl_lines=\"3 8 10\"\n{\n  \"eventSource\": \"s3.amazonaws.com\",\n  \"eventName\": \"DeleteObject\",\n  \"eventCategory\": \"Data\",\n  \"managementEvent\": false,\n  \"readOnly\": false,\n  \"requestParameters\": {\n    \"bucketName\": \"target-bucket\",\n    \"Host\": \"target-bucket.s3.us-east-1.amazonaws.com\",\n    \"key\": \"target-object-key\",\n    \"x-id\": \"DeleteObject\"\n  },\n  \"resources\": [\n    {\n      \"type\": \"AWS::S3::Object\",\n      \"ARN\": \"arn:aws:s3:::target-bucket/target-object-key\"\n    },\n    {\n      \"accountId\": \"012345678901\",\n      \"type\": \"AWS::S3::Bucket\",\n      \"ARN\": \"arn:aws:s3:::target-bucket\"\n    }\n  ],\n  \"eventType\": \"AwsApiCall\",\n  \"recipientAccountId\": \"012345678901\"\n}\n```\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "de813abf4ba9e7cdab82413f48e577c17b22a1dd14939adb7b095089122850c4",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

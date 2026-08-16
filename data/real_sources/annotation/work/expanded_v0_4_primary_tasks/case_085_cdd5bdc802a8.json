@@ -1,0 +1,156 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.defense-evasion.cloudtrail-event-selectors.json",
+        "sha256": "121ba0fac48a3f705d527f0794e3572681130706edeebe03c668120ba1c4b7c1"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+    "kind": "executable_attack_technique",
+    "platform": "AWS",
+    "technique": "aws.defense-evasion.cloudtrail-event-selectors",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.defense-evasion.cloudtrail-event-selectors.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.defense-evasion.cloudtrail-event-selectors.md",
+    "review_score": 6,
+    "independence_group": "stratus-technique:T1562.008",
+    "runtime_observations_in_packet": 1,
+    "mapped_technique_ids": [
+      "T1562.008"
+    ],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label",
+    "runtime_evidence_origin": "upstream Stratus documentation: real detonation in a test AWS environment using Grimoire, anonymized with LogLicker",
+    "runtime_environment": "real_isolated_test_cloud_detonation"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.defense-evasion.cloudtrail-event-selectors.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.defense-evasion.cloudtrail-event-selectors.md",
+      "member_sha256": "62ad0010fe755ab0f52f6e2734a4a4ef5204a4fa6132efed463150c748c42f90",
+      "bytes": 4287,
+      "content_kind": "md",
+      "text": "---\ntitle: Disable CloudTrail Logging Through Event Selectors\n---\n\n# Disable CloudTrail Logging Through Event Selectors\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: AWS\n\n## Mappings\n\n- MITRE ATT&CK\n    - Defense Evasion\n\n\n- Threat Technique Catalog for AWS:\n  \n    - [Impair Defenses: Disable Cloud Logs](https://aws-samples.github.io/threat-technique-catalog-for-aws/Techniques/T1562.008.html) (T1562.008)\n  \n\n\n## Description\n\n\nDisrupt CloudTrail Logging by creating an event selector on the Trail, filtering out all management events.\n\nReference: https://github.com/RhinoSecurityLabs/Cloud-Security-Research/tree/master/AWS/cloudtrail_guardduty_bypass\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create a CloudTrail trail\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Create a CloudTrail event selector to disable management events, through cloudtrail:PutEventSelectors\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate aws.defense-evasion.cloudtrail-event-selectors\n```\n## Detection\n\n\nIdentify when event selectors of a CloudTrail trail are updated, through CloudTrail's <code>PutEventSelectors</code> event.\n\n\n\n## Detonation logs <span class=\"smallcaps w3-badge w3-light-green w3-round w3-text-sand\">new!</span>\n\nThe following CloudTrail events are generated when this technique is detonated[^1]:\n\n\n- `cloudtrail:PutEventSelectors`\n\n\n??? \"View raw detonation logs\"\n\n    ```json hl_lines=\"6\"\n\n    [\n\t   {\n\t      \"awsRegion\": \"cn-northsouth-2r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"c2a89408-340a-42f0-8ace-75d9f5769393\",\n\t      \"eventName\": \"PutEventSelectors\",\n\t      \"eventSource\": \"cloudtrail.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:50:02Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.10\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": false,\n\t      \"recipientAccountId\": \"958312252124\",\n\t      \"requestID\": \"5176273c-0497-47e9-8f4c-840b62e7fc9a\",\n\t      \"requestParameters\": {\n\t         \"eventSelectors\": [\n\t            {\n\t               \"dataResources\": [\n\t                  {\n\t                     \"type\": \"AWS::S3::Object\",\n\t                     \"values\": []\n\t                  },\n\t                  {\n\t                     \"type\": \"AWS::Lambda::Function\",\n\t                     \"values\": []\n\t                  }\n\t               ],\n\t               \"excludeManagementEventSources\": [],\n\t               \"includeManagementEvents\": false,\n\t               \"readWriteType\": \"ReadOnly\"\n\t            }\n\t         ],\n\t         \"trailName\": \"stratus-red-team-ctes-trail-khlvciwdor\"\n\t      },\n\t      \"responseElements\": {\n\t         \"eventSelectors\": [\n\t            {\n\t               \"dataResources\": [\n\t                  {\n\t                     \"type\": \"AWS::S3::Object\",\n\t                     \"values\": []\n\t                  },\n\t                  {\n\t                     \"type\": \"AWS::Lambda::Function\",\n\t                     \"values\": []\n\t                  }\n\t               ],\n\t               \"excludeManagementEventSources\": [],\n\t               \"includeManagementEvents\": false,\n\t               \"readWriteType\": \"ReadOnly\"\n\t            }\n\t         ],\n\t         \"trailARN\": \"arn:aws:cloudtrail:cn-northsouth-2r:958312252124:trail/stratus-red-team-ctes-trail-khlvciwdor\"\n\t      },\n\t      \"sourceIPAddress\": \"221.254.191.250\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"cloudtrail.cn-northsouth-2r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_ce507fbd-078a-4e4c-975d-d80cb80df469\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA2I0BSXU5LNRWIN0K\",\n\t         \"accountId\": \"958312252124\",\n\t         \"arn\": \"arn:aws:iam::958312252124:user/christophe\",\n\t         \"principalId\": \"AIDA3JXGLTFY4HTLVVO7\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   }\n\t]\n    ```\n\n[^1]: These logs have been gathered from a real detonation of this technique in a test environment using [Grimoire](https://github.com/DataDog/grimoire), and anonymized using [LogLicker](https://github.com/Permiso-io-tools/LogLicker).\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [
+    {
+      "instance_id": "instance-e9e6c76389abad6f9f98",
+      "environment_kind": "stratus_grimoire_detonation",
+      "platform": "AWS",
+      "log_profile": "cloudtrail_detonation",
+      "observations": [
+        {
+          "observation_id": "obs-599996cc66fec028d2d5c612",
+          "candidate_id": "stratus:aws.defense-evasion.cloudtrail-event-selectors",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:50:02Z",
+          "service": "cloudtrail.amazonaws.com",
+          "operation": "PutEventSelectors",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::958312252124:user/christophe",
+          "source_ip": "221.254.191.250",
+          "account_id": "958312252124",
+          "region": "cn-northsouth-2r",
+          "event_status": "Success",
+          "request": {
+            "eventSelectors": [
+              {
+                "dataResources": [
+                  {
+                    "type": "AWS::S3::Object",
+                    "values": []
+                  },
+                  {
+                    "type": "AWS::Lambda::Function",
+                    "values": []
+                  }
+                ],
+                "excludeManagementEventSources": [],
+                "includeManagementEvents": false,
+                "readWriteType": "ReadOnly"
+              }
+            ],
+            "trailName": "stratus-red-team-ctes-trail-khlvciwdor"
+          },
+          "response": {
+            "eventSelectors": [
+              {
+                "dataResources": [
+                  {
+                    "type": "AWS::S3::Object",
+                    "values": []
+                  },
+                  {
+                    "type": "AWS::Lambda::Function",
+                    "values": []
+                  }
+                ],
+                "excludeManagementEventSources": [],
+                "includeManagementEvents": false,
+                "readWriteType": "ReadOnly"
+              }
+            ],
+            "trailARN": "arn:aws:cloudtrail:cn-northsouth-2r:958312252124:trail/stratus-red-team-ctes-trail-khlvciwdor"
+          },
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.defense-evasion.cloudtrail-event-selectors.json",
+            "member_sha256": "121ba0fac48a3f705d527f0794e3572681130706edeebe03c668120ba1c4b7c1",
+            "record_index": 0,
+            "event_id": "c2a89408-340a-42f0-8ace-75d9f5769393"
+          },
+          "path_label": null,
+          "evidence_state": null
+        }
+      ],
+      "observation_count": 1,
+      "selection_origin": "all events copied from the matching pinned upstream detonation-log member; no event or label generated"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "84f4d3b25d97070bf344d28054b2a2de77d6ddefba5554420a87c8452915b6c5",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

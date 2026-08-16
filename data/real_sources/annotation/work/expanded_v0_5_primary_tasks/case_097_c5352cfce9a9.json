@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "302769ba038fda16713414a302646b482f6e0b9454a34a9344228f19b05401cc",
+  "case_id": "stratus:azure.credential-access.app-service-publishing-credentials",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:azure.credential-access.app-service-publishing-credentials",
+    "kind": "executable_attack_technique",
+    "platform": "azure",
+    "technique": "azure.credential-access.app-service-publishing-credentials",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.credential-access.app-service-publishing-credentials.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.credential-access.app-service-publishing-credentials.md",
+    "review_score": 4,
+    "independence_group": "stratus_red_team:stratus:azure.credential-access.app-service-publishing-credentials",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.credential-access.app-service-publishing-credentials.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/azure/azure.credential-access.app-service-publishing-credentials.md",
+      "member_sha256": "de7339ab35fd61ca3e9275ab67b8a9a5877bb3367e8aa7df1d0719b1c7c006ff",
+      "bytes": 2807,
+      "content_kind": "md",
+      "text": "---\ntitle: Retrieve App Service Publishing Credentials\n---\n\n# Retrieve App Service Publishing Credentials\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: Azure\n\n## Mappings\n\n- MITRE ATT&CK\n    - Credential Access\n\n\n\n## Description\n\n\nRetrieves the publishing profile of an Azure App Service (Web App), which contains FTP and Web Deploy credentials in cleartext.\n\nAn attacker with read-or-higher access to an App Service can call the `publishxml` ARM action to download the publishing profile, without needing access to any Key Vault or secret store. The returned XML document contains `userName` and `userPWD` attributes that grant direct FTP and Web Deploy access to the application host. These credentials can then be used for lateral movement or to deploy malicious code to the running application.\n\nThis technique was observed in the STORM-2949 intrusion, where the threat actor harvested App Service publishing credentials to move from a compromised identity into application hosts.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create an Azure App Service (Linux Web App) in the West US 2 region\n\nNote: This technique deploys to West US 2 rather than West US. App Service plan quota in smaller regions such as West US is frequently 0, which causes the deployment to fail. Larger regions like West US 2 have more spare capacity.\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Call the `listPublishingProfileXMLWithSecrets` action on the App Service to retrieve the publishing profile containing FTP and Web Deploy credentials\n\nReferences:\n\n- https://www.microsoft.com/en-us/security/blog/2026/05/18/storm-2949-turned-compromised-identity-into-cloud-wide-breach/\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate azure.credential-access.app-service-publishing-credentials\n```\n## Detection\n\n\nIdentify the <code>Microsoft.Web/sites/publishxml/action</code> operation in Azure Activity logs.\n\nSample event (redacted for clarity):\n\n```json hl_lines=\"6\"\n{\n  \"resourceId\": \"/SUBSCRIPTIONS/<your-subscription-id>/RESOURCEGROUPS/STRATUS-RED-TEAM-ASP-CRED-RG/PROVIDERS/MICROSOFT.WEB/SITES/SRT-ASP-CRED\",\n  \"evt\": {\n    \"category\": \"Administrative\",\n    \"outcome\": \"Success\",\n    \"name\": \"MICROSOFT.WEB/SITES/PUBLISHXML/ACTION\"\n  },\n  \"level\": \"Information\",\n  \"properties\": {\n    \"message\": \"Microsoft.Web/sites/publishxml/action\",\n    \"eventCategory\": \"Administrative\",\n    \"entity\": \"/subscriptions/<your-subscription-id>/resourceGroups/stratus-red-team-asp-cred-rg/providers/Microsoft.Web/sites/srt-asp-cred\"\n  }\n}\n```\n\nNote that this operation is logged even when the App Service has only basic (publishing) authentication disabled.\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "9e9f6de0d92876310b23200a9e3bd9e1e849cef0150e43a7f973fd854dd4e70c",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

@@ -1,0 +1,73 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:gcp.exfiltration.share-compute-snapshot",
+  "role": "reviewer",
+  "annotator_id": "annotator_02",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "C",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:gcp.exfiltration.share-compute-snapshot",
+    "kind": "executable_attack_technique",
+    "platform": "GCP",
+    "technique": "gcp.exfiltration.share-compute-snapshot",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.exfiltration.share-compute-snapshot.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.exfiltration.share-compute-snapshot.md",
+    "review_score": 28,
+    "independence_group": "stratus_red_team:stratus:gcp.exfiltration.share-compute-snapshot",
+    "runtime_observations_in_packet": 0,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.exfiltration.share-compute-snapshot.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/GCP/gcp.exfiltration.share-compute-snapshot.md",
+      "member_sha256": "b488985b4f79b48378ec416e5ca1e9773340e702e4d702f3449792bdac9f3af3",
+      "bytes": 2757,
+      "content_kind": "md",
+      "text": "---\ntitle: Exfiltrate Compute Disk by sharing a snapshot\n---\n\n# Exfiltrate Compute Disk by sharing a snapshot\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: GCP\n\n## Mappings\n\n- MITRE ATT&CK\n    - Exfiltration\n\n\n\n## Description\n\n\nExfiltrates a Compute Disk by sharing a snapshot with a fictitious attacker account.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create a Compute Disk and a Snapshot\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Set the IAM policy of the snapshot so that the attacker account has permissions to access it\n\n!!! note\n\n\tSince the target email must exist for this attack simulation to work, Stratus Red Team grants the role to stratusredteam@gmail.com by default.\n\tThis is a real Google account, owned by Stratus Red Team maintainers and that is not used for any other purpose than this attack simulation. However, you can override\n\tthis behavior by setting the environment variable <code>STRATUS_RED_TEAM_ATTACKER_EMAIL</code>, for instance:\n\n\t```bash\n\texport STRATUS_RED_TEAM_ATTACKER_EMAIL=\"your-own-gmail-account@gmail.com\"\n\tstratus detonate gcp.exfiltration.share-compute-snapshot\n\t```\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate gcp.exfiltration.share-compute-snapshot\n```\n## Detection\n\n\nYou can detect when someone changes the IAM policy of a Compute Snapshot, using the GCP Admin Activity audit logs event <code>v1.compute.snapshots.setIamPolicy</code>. Here's a sample event, shortened for clarity:\n\n```json hl_lines=\"18 20 25\"\"\n{\n  \"protoPayload\": {\n    \"@type\": \"type.googleapis.com/google.cloud.audit.AuditLog\",\n    \"authenticationInfo\": {\n      \"principalEmail\": \"user-sharing-the-snapshot@domain.tld\",\n      \"principalSubject\": \"user:user-sharing-the-snapshot@domain.tld\"\n    },\n    \"requestMetadata\": {\n      \"callerIp\": \"34.33.32.31\",\n      \"callerSuppliedUserAgent\": \"google-cloud-sdk gcloud/...\"\n    },\n    \"resourceName\": \"projects/victim-project/global/snapshots/stratus-red-team-victim-snapshot\",\n    \"request\": {\n      \"policy\": {\n        \"version\": \"3\",\n        \"bindings\": [\n          {\n            \"role\": \"roles/owner\",\n            \"members\": [\n              \"user:attacker@gmail.com\"\n            ]\n          }\n        ]\n      },\n      \"@type\": \"type.googleapis.com/compute.snapshots.setIamPolicy\"\n    }\n  }\n}\n```\n\nBased on these events, detection strategies may include:\n\n- Alerting when the IAM policy of a Compute Snapshot is changed, especially if such a sharing mechanism is not part of your normal operations. Sample GCP Logs Explorer query:\n\n```sql\nprotoPayload.methodName=\"v1.compute.snapshots.setIamPolicy\"\n```\n\n\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "ca8023a435b981c35c313f4aa45ac9e6b3c6cc33bd53abf4fe7b62877cefaf9d",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}

@@ -1,0 +1,686 @@
+{
+  "workflow_version": "0.1",
+  "packet_sha256": "ec5c0b24b7292522084391ee78937f5f2a7b67412e48866cdb4aa4cba3dd68cf",
+  "case_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+  "role": "primary",
+  "annotator_id": "annotator_01",
+  "human_attestation": false,
+  "completed_at": null,
+  "path_ontology": {
+    "ontology_id": "cloud_data_path_v1",
+    "version": "1.0.0",
+    "sha256": "4f0cd3b97393781e9cce1a93c7047bb45ce2eddcb62d9392ebc6cbf5c6f2e13e"
+  },
+  "source": {
+    "source_id": "stratus_red_team",
+    "upstream_url": "https://github.com/DataDog/stratus-red-team",
+    "version_or_commit": "52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0",
+    "license": "Apache-2.0",
+    "provenance_level": "B",
+    "raw_artifacts": [
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+        "sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480"
+      },
+      {
+        "raw_ref": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+        "sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301"
+      }
+    ]
+  },
+  "candidate_metadata": {
+    "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+    "kind": "executable_attack_technique",
+    "platform": "AWS",
+    "technique": "aws.credential-access.secretsmanager-retrieve-secrets",
+    "documentation_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.credential-access.secretsmanager-retrieve-secrets.md",
+    "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.credential-access.secretsmanager-retrieve-secrets.md",
+    "review_score": 40,
+    "independence_group": "stratus_red_team:stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+    "runtime_observations_in_packet": 21,
+    "mapped_technique_ids": [],
+    "routing_origin": "deterministic keyword/metadata routing of pinned upstream material; not a label",
+    "runtime_evidence_origin": "upstream Stratus documentation: real detonation in a test AWS environment using Grimoire, anonymized with LogLicker",
+    "runtime_environment": "real_isolated_test_cloud_detonation"
+  },
+  "source_materials": [
+    {
+      "raw_ref": "snapshot.zip#stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.credential-access.secretsmanager-retrieve-secrets.md",
+      "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/attack-techniques/AWS/aws.credential-access.secretsmanager-retrieve-secrets.md",
+      "member_sha256": "b396bb3406f29a3ccec8d12b650954b67850978ed4ce2dbdec49e533cf7ebd37",
+      "bytes": 30208,
+      "content_kind": "md",
+      "text": "---\ntitle: Retrieve a High Number of Secrets Manager secrets\n---\n\n# Retrieve a High Number of Secrets Manager secrets\n\n\n <span class=\"smallcaps w3-badge w3-blue w3-round w3-text-white\" title=\"This attack technique can be detonated multiple times\">idempotent</span> \n\nPlatform: AWS\n\n## Mappings\n\n- MITRE ATT&CK\n    - Credential Access\n\n\n\n## Description\n\n\nRetrieves a high number of Secrets Manager secrets, through secretsmanager:GetSecretValue.\n\n<span style=\"font-variant: small-caps;\">Warm-up</span>:\n\n- Create multiple secrets in Secrets Manager\n\n<span style=\"font-variant: small-caps;\">Detonation</span>:\n\n- Enumerate the secrets through secretsmanager:ListSecrets\n- Retrieve each secret value, one by one through secretsmanager:GetSecretValue\n\nReferences:\n\n- https://permiso.io/blog/lucr-3-scattered-spider-getting-saas-y-in-the-cloud\n- https://unit42.paloaltonetworks.com/muddled-libra-evolution-to-cloud/\n\n\n## Instructions\n\n```bash title=\"Detonate with Stratus Red Team\"\nstratus detonate aws.credential-access.secretsmanager-retrieve-secrets\n```\n## Detection\n\n\nIdentify principals retrieving a high number of secrets, through CloudTrail's GetSecretValue event.\n\nThe following may be use to tune the detection, or validate findings:\n\n- Principals who do not usually call secretsmanager:GetSecretValue\n- Attempts to call GetSecretValue resulting in access denied errors\n\n\n## Detonation logs <span class=\"smallcaps w3-badge w3-light-green w3-round w3-text-sand\">new!</span>\n\nThe following CloudTrail events are generated when this technique is detonated[^1]:\n\n\n- `secretsmanager:GetSecretValue`\n\n- `secretsmanager:ListSecrets`\n\n\n??? \"View raw detonation logs\"\n\n    ```json hl_lines=\"6 39 72 105 138 171 204 237 270 303 336 377 410 443 476 509 542 575 608 641 674\"\n\n    [\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"b9c3d881-1e77-426c-abd3-5ca20d903380\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:52Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"c4fff253-825a-4828-adac-7f789f6975f3\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-18-4Rzn83\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"c63dd227-42e0-4934-8b29-52f4e583d54e\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:52Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"df133663-cdb1-4ea8-b795-eddf0152e16c\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-17-JF56OW\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"0985f4e9-9263-423a-a499-fdd330c973c1\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:51Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"cf234c05-2c74-49e5-b632-5898071d4f86\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-2-WNXFB1\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"25b97ad2-f713-4a29-af76-659e736629aa\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:51Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"52b87720-e08a-4fd4-8daa-ad70f983ce68\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-14-3JB2S0\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"2d81c956-58c3-4336-ae4e-c0b9f2b96113\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:51Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"999b3685-f5e1-4008-9cc8-b83121ab679e\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-9-BHrKxX\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"853be248-0703-49a6-ba35-256dfbac47ab\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:51Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"6f25a056-21bc-4dc0-b19f-ebd556481158\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-7-WNXFB1\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"da3b695c-bf67-4648-af49-2bdfee197c14\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:51Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"9d284480-aa0c-4629-ad39-a99aa008322b\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-8-jLR7H1\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"8d045085-7bad-401a-9a04-4feba3f1073e\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:49Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"a34ac8a9-1314-42b5-abf7-1fde8260e136\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-12-DyLJjP\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"a9b70c0d-d32d-41e7-8356-2be543095478\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:49Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"84c979ef-40a9-42d6-844c-a472d4d6a2ba\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-10-DyLJjP\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"dbff1b29-c7fb-4fe4-b5ed-24e8794b77fe\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:49Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"6d9c4644-a87b-46fa-b76f-2cc62f8f6f64\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-15-SAZN9Q\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"0451b1de-e314-437f-a18d-827565e02bc9\",\n\t      \"eventName\": \"ListSecrets\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:48Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"818f243c-bb6b-43b1-9701-5180eecc90d2\",\n\t      \"requestParameters\": {\n\t         \"filters\": [\n\t            {\n\t               \"key\": \"tag-key\",\n\t               \"values\": [\n\t                  \"StratusRedTeam\"\n\t               ]\n\t            }\n\t         ],\n\t         \"maxResults\": 100\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"99207de2-f8ea-4160-bbe8-22cb14da3a26\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:48Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"3f6c8311-bc51-43cf-88b8-5e51f424c1fd\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-4-Rma50d\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"d92519e6-b907-4d3a-abb4-d63c9feaee52\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:48Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"b1c6113d-e471-456d-9841-c094e4b47618\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-19-fXrpF0\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"e20f1d5b-f2fa-470f-8d33-8aa43ddb6a23\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:48Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"6604143b-2af2-49d6-90bf-1520228a658a\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-1-fXrpF0\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"bd52f504-dd75-46cb-a14e-e447612ea736\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:51Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"ad14aa03-62ac-4e31-afbb-5bdd640e051e\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-0-28bajb\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"2e8dca5a-4e30-4feb-91bd-8a09cd1067a5\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:50Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"12e83f12-234a-4ed6-a8a2-49b68a54abde\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-16-JcCztd\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"304c3bc6-5daa-4405-bbee-e6c65d276c20\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:50Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"45167e35-4642-41ae-bb82-0c431ce5dd24\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-13-MNjL4W\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"43ebe9e4-8a82-4bd2-b5bc-bf9585c53bca\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:50Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"a3376683-89a2-4a39-b490-adeed0bd02c1\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-6-JcCztd\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"a05794ec-3c4c-43f6-b302-cce3f6abf05e\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:50Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"de58de72-13f4-4f0e-8b23-2f25717ca82b\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-5-fyShdO\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"c9efcd4d-a04b-4abe-8fb4-2d954bcfda77\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:50Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"c686956f-fd49-433d-bdc7-c2fe91012036\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-3-DyLJjP\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   },\n\t   {\n\t      \"awsRegion\": \"cn-centraleast-1r\",\n\t      \"eventCategory\": \"Management\",\n\t      \"eventID\": \"879e946f-b912-44e3-9d82-a84ad0b06668\",\n\t      \"eventName\": \"GetSecretValue\",\n\t      \"eventSource\": \"secretsmanager.amazonaws.com\",\n\t      \"eventTime\": \"2024-07-31T12:36:49Z\",\n\t      \"eventType\": \"AwsApiCall\",\n\t      \"eventVersion\": \"1.09\",\n\t      \"managementEvent\": true,\n\t      \"readOnly\": true,\n\t      \"recipientAccountId\": \"903144391865\",\n\t      \"requestID\": \"7ab119ac-f938-4bcc-86e8-9917493ace97\",\n\t      \"requestParameters\": {\n\t         \"secretId\": \"arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-11-OyGWSO\"\n\t      },\n\t      \"responseElements\": null,\n\t      \"sourceIPAddress\": \"253.201.144.253\",\n\t      \"tlsDetails\": {\n\t         \"cipherSuite\": \"TLS_AES_128_GCM_SHA256\",\n\t         \"clientProvidedHostHeader\": \"secretsmanager.cn-centraleast-1r.amazonaws.com\",\n\t         \"tlsVersion\": \"TLSv1.3\"\n\t      },\n\t      \"userAgent\": \"stratus-red-team_10e7edf3-5063-4eba-8842-68f83bb52d65\",\n\t      \"userIdentity\": {\n\t         \"accessKeyId\": \"AKIA1JMTHE9ZMZMWG0MG\",\n\t         \"accountId\": \"903144391865\",\n\t         \"arn\": \"arn:aws:iam::903144391865:user/christophe\",\n\t         \"principalId\": \"AIDA45XCCHPPLELFTIIM\",\n\t         \"type\": \"IAMUser\",\n\t         \"userName\": \"christophe\"\n\t      }\n\t   }\n\t]\n    ```\n\n[^1]: These logs have been gathered from a real detonation of this technique in a test environment using [Grimoire](https://github.com/DataDog/grimoire), and anonymized using [LogLicker](https://github.com/Permiso-io-tools/LogLicker).\n",
+      "copy_policy": "decoded upstream bytes; no generated content"
+    }
+  ],
+  "runtime_instances": [
+    {
+      "instance_id": "instance-8111a8c6907ac5c47d1b",
+      "environment_kind": "stratus_grimoire_detonation",
+      "platform": "AWS",
+      "log_profile": "cloudtrail_detonation",
+      "observations": [
+        {
+          "observation_id": "obs-cf5240f8d51bda88b9f403af",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:52Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-18-4Rzn83"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 0,
+            "event_id": "b9c3d881-1e77-426c-abd3-5ca20d903380"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-71be50be4c39fccb031401a3",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:52Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-17-JF56OW"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 1,
+            "event_id": "c63dd227-42e0-4934-8b29-52f4e583d54e"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-88494f0b5d1e49bb529b340e",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:51Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-2-WNXFB1"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 2,
+            "event_id": "0985f4e9-9263-423a-a499-fdd330c973c1"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-d04c33d4626105af0855ca0f",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:51Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-14-3JB2S0"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 3,
+            "event_id": "25b97ad2-f713-4a29-af76-659e736629aa"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-398f254e1d0dd5de9f8a76db",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:51Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-9-BHrKxX"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 4,
+            "event_id": "2d81c956-58c3-4336-ae4e-c0b9f2b96113"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-84a3b5580f625736a5d3b28c",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:51Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-7-WNXFB1"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 5,
+            "event_id": "853be248-0703-49a6-ba35-256dfbac47ab"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-8f4c6a9bebf56a20e37bffac",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:51Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-8-jLR7H1"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 6,
+            "event_id": "da3b695c-bf67-4648-af49-2bdfee197c14"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-0bfcc1d1ec76ecd9aeb5cd59",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:49Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-12-DyLJjP"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 7,
+            "event_id": "8d045085-7bad-401a-9a04-4feba3f1073e"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-d475acc9f7e215ee5b7b1489",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:49Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-10-DyLJjP"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 8,
+            "event_id": "a9b70c0d-d32d-41e7-8356-2be543095478"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-453073e9e30a922011cce5a5",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:49Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-15-SAZN9Q"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 9,
+            "event_id": "dbff1b29-c7fb-4fe4-b5ed-24e8794b77fe"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-9b76e94ff23976532dfe625b",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:48Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "ListSecrets",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "filters": [
+              {
+                "key": "tag-key",
+                "values": [
+                  "StratusRedTeam"
+                ]
+              }
+            ],
+            "maxResults": 100
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 10,
+            "event_id": "0451b1de-e314-437f-a18d-827565e02bc9"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-97e6319d77dc287c0b99cb2a",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:48Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-4-Rma50d"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 11,
+            "event_id": "99207de2-f8ea-4160-bbe8-22cb14da3a26"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-fe5bc114dcd10945ed771b74",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:48Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-19-fXrpF0"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 12,
+            "event_id": "d92519e6-b907-4d3a-abb4-d63c9feaee52"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-1af42abcf123e5637911aa72",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:48Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-1-fXrpF0"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 13,
+            "event_id": "e20f1d5b-f2fa-470f-8d33-8aa43ddb6a23"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-b340471d139ac55c25a395a3",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:51Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-0-28bajb"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 14,
+            "event_id": "bd52f504-dd75-46cb-a14e-e447612ea736"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-3e5801dcc71d389db7a53e56",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:50Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-16-JcCztd"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 15,
+            "event_id": "2e8dca5a-4e30-4feb-91bd-8a09cd1067a5"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-b58b689be576b64d9e135ccf",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:50Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-13-MNjL4W"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 16,
+            "event_id": "304c3bc6-5daa-4405-bbee-e6c65d276c20"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-77749244513dfdffc321183e",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:50Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-6-JcCztd"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 17,
+            "event_id": "43ebe9e4-8a82-4bd2-b5bc-bf9585c53bca"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-11af2ff63473c3218d3000d6",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:50Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-5-fyShdO"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 18,
+            "event_id": "a05794ec-3c4c-43f6-b302-cce3f6abf05e"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-8f5754f6699087857e4b45eb",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:50Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-3-DyLJjP"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 19,
+            "event_id": "c9efcd4d-a04b-4abe-8fb4-2d954bcfda77"
+          },
+          "path_label": null,
+          "evidence_state": null
+        },
+        {
+          "observation_id": "obs-f99b124adababa842cf404f5",
+          "candidate_id": "stratus:aws.credential-access.secretsmanager-retrieve-secrets",
+          "schema": "aws_cloudtrail",
+          "timestamp": "2024-07-31T12:36:49Z",
+          "service": "secretsmanager.amazonaws.com",
+          "operation": "GetSecretValue",
+          "actor_type": "IAMUser",
+          "actor_id": "arn:aws:iam::903144391865:user/christophe",
+          "source_ip": "253.201.144.253",
+          "account_id": "903144391865",
+          "region": "cn-centraleast-1r",
+          "event_status": "Success",
+          "request": {
+            "secretId": "arn:aws:secretsmanager:cn-centraleast-1r:903144391865:secret:stratus-red-team-retrieve-secret-11-OyGWSO"
+          },
+          "response": null,
+          "raw_ref": {
+            "archive_relative_path": "data/real_sources/raw/stratus_red_team/52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/snapshot.zip",
+            "archive_sha256": "fa2ad67871887a55f226f875a9c339b7e12987b83aa5a951631ce9f5036d0480",
+            "member_path": "stratus-red-team-52db2f8bbbc85ca7c4292f0035180fc4fa8bfdb0/docs/detonation-logs/aws.credential-access.secretsmanager-retrieve-secrets.json",
+            "member_sha256": "a489639c688c33ee4f3040313207de1858d404a300ef08298758fc4dfa62f301",
+            "record_index": 20,
+            "event_id": "879e946f-b912-44e3-9d82-a84ad0b06668"
+          },
+          "path_label": null,
+          "evidence_state": null
+        }
+      ],
+      "observation_count": 21,
+      "selection_origin": "all events copied from the matching pinned upstream detonation-log member; no event or label generated"
+    }
+  ],
+  "source_context_fields": [
+    "candidate_metadata",
+    "runtime_instances",
+    "source",
+    "source_materials"
+  ],
+  "source_context_sha256": "2c2486616fb81defe84530d450a415677bd390613acabbd56d22b20b9c457635",
+  "admission_screen": {
+    "external_or_low_privilege_entry_defined": null,
+    "multi_step_path_present": null,
+    "cloud_data_target_present": null,
+    "critical_edges_have_raw_evidence": null,
+    "not_a_near_duplicate": null,
+    "decision": null,
+    "rationale": null
+  },
+  "nodes": [],
+  "edges": [],
+  "path_labels": [],
+  "tool_tasks": [],
+  "instance_labels": []
+}
